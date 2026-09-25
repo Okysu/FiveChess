@@ -1,23 +1,21 @@
 /**
  * Batch art generation.
- *   npm run gen:art -- [--only=card,enemy,...] [--ids=r_,e1_] [--limit=N] [--concurrency=6] [--force] [--dry]
+ *   npm run gen:art -- [--only=card,enemy,...] [--ids=r_,e1_] [--limit=N] [--concurrency=6] [--model=gpt-image-2.5-flare] [--force] [--dry]
  * Reads content data (art.subject) + static job lists, calls the image API (edits with a style ref),
  * post-processes (chroma-key fallback, resize, webp), writes assets/manifest.json and a log.
  * Build-time only; the API key is read from .env and never bundled.
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import crypto from 'node:crypto';
 import sharp from 'sharp';
 import { generate } from './api';
 import { CUTOUT_MAGENTA } from './style';
 import type { ArtJob } from './jobs';
 import { buildJobs } from './alljobs';
+import { ASSETS, jobHash as hash, outFile, openManifest, modelSource, type ManifestEntry } from './manifest';
 
-const ASSETS = 'assets';
 const RAW = '.cache/art_raw';
 const LOG = '.cache/art/gen.log';
-const MANIFEST = path.join(ASSETS, 'manifest.json');
 
 const args = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, '').split('='); return [k!, v ?? 'true']; }));
 const only = args.only ? new Set(args.only.split(',')) : null;
@@ -27,34 +25,24 @@ const concurrency = Number(args.concurrency ?? 6);
 const force = args.force === 'true';
 const dry = args.dry === 'true';
 const qualityOverride = args.quality as ArtJob['quality'] | undefined;
+const model = args.model ?? process.env.ASSET_GEN_MODEL ?? 'gpt-image-2';
+/** gpt-image-2 honours background:transparent; the 2.5 models answer with flat JPEG */
+const NATIVE_ALPHA = (m: string) => !/2\.5/.test(m);
 
 fs.mkdirSync(RAW, { recursive: true });
 fs.mkdirSync(path.dirname(LOG), { recursive: true });
 const log = (s: string) => { const line = `[${new Date().toISOString()}] ${s}`; console.log(line); fs.appendFileSync(LOG, line + '\n'); };
 
-interface ManifestEntry {
-  id: string; path: string; category: string; source_type: 'ai_generated' | 'free_asset' | 'edited_free_asset' | 'procedural';
-  source: string; license: string; prompt?: string; reference?: string; postprocess: string; hash?: string; qa?: string;
-}
-const manifest: { generated: string; assets: ManifestEntry[] } = fs.existsSync(MANIFEST)
-  ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) : { generated: '', assets: [] };
-const byPath = new Map(manifest.assets.map((a) => [a.path, a]));
+const { byPath, isDone, save: saveManifest } = openManifest();
 
 const jobs = buildJobs();
 
 // ───────────── filter ─────────────
-const hash = (j: ArtJob) => crypto.createHash('sha1').update(`${j.prompt}|${j.size}|${j.transparent}|${j.ref ?? ''}|${j.px}`).digest('hex').slice(0, 12);
-const outFile = (j: ArtJob) => `${j.out}.webp`;
 
 let todo = jobs.filter((j) => (!only || only.has(j.category)) && (!idPrefixes || idPrefixes.some((p) => j.id.startsWith(p))));
-todo = todo.filter((j) => {
-  if (force) return true;
-  const f = path.join(ASSETS, outFile(j));
-  const m = byPath.get(outFile(j));
-  return !(fs.existsSync(f) && m && m.hash === hash(j));
-});
+todo = todo.filter((j) => force || !isDone(j));
 todo = todo.slice(0, limit);
-log(`jobs total=${jobs.length} todo=${todo.length} concurrency=${concurrency}${dry ? ' (dry)' : ''}`);
+log(`jobs total=${jobs.length} todo=${todo.length} concurrency=${concurrency} model=${model}${dry ? ' (dry)' : ''}`);
 if (dry) { for (const j of todo.slice(0, 40)) console.log(j.category, j.id, j.size, j.transparent ? 'alpha' : ''); process.exit(0); }
 
 // ───────────── post-processing ─────────────
@@ -127,19 +115,24 @@ async function runJob(j: ArtJob) {
       const prompt = refUsable
         ? `Create a completely new illustration in exactly the same painting style, brushwork and lighting as the reference image, with an entirely different subject and composition. ${j.prompt}`
         : j.prompt;
-      raw = await generate({ prompt, size: j.size, quality, transparent: j.transparent, ref: refUsable ? j.ref : undefined });
-      if (j.transparent) {
+      if (j.transparent && !NATIVE_ALPHA(model)) {
+        // this model returns flat JPEG (white or a painted checkerboard): paint on magenta and key it out
+        const kp = prompt.replace(/isolated[^.]*transparent background[^.]*\./gi, '') + ' ' + CUTOUT_MAGENTA;
+        raw = await chromaKey(await generate({ model, prompt: kp, size: j.size, quality, ref: refUsable ? j.ref : undefined }), [255, 0, 255]);
+        magenta = true;
+      } else raw = await generate({ model, prompt, size: j.size, quality, transparent: j.transparent, ref: refUsable ? j.ref : undefined });
+      if (j.transparent && !magenta) {
         const st = await alphaStats(raw);
         if (st.coverage > 0.97) {
           // transparency ignored → regenerate on magenta and key it out
           log(`${j.id}: opaque result, retrying with magenta key`);
           const kp = j.prompt.replace(/isolated[^.]*transparent background[^.]*\./gi, '') + ' ' + CUTOUT_MAGENTA;
-          const m = await generate({ prompt: kp, size: j.size, quality, transparent: false });
+          const m = await generate({ model, prompt: kp, size: j.size, quality, transparent: false, ref: refUsable ? j.ref : undefined });
           raw = await chromaKey(m, [255, 0, 255]);
           magenta = true;
         }
       }
-      log(`ok ${j.category} ${j.id} ${(Date.now() - t) / 1000}s${attempt ? ` (retry ${attempt})` : ''}`);
+      log(`ok ${j.category} ${j.id} ${(Date.now() - t) / 1000}s ${model}${attempt ? ` (retry ${attempt})` : ''}`);
     } catch (e) {
       log(`FAIL ${j.id} attempt ${attempt + 1}: ${(e as Error).message}`);
       await new Promise((r) => setTimeout(r, 3000 * (attempt + 1)));
@@ -149,7 +142,7 @@ async function runJob(j: ArtJob) {
   fs.writeFileSync(rawPath, raw);
   const { post, qa } = await finish({ ...j, magentaSubject: magenta }, raw);
   const entry: ManifestEntry = {
-    id: j.id, path: outFile(j), category: j.category, source_type: 'ai_generated', source: 'gpt-image-2 via hjmai.yby.zone (project key)',
+    id: j.id, path: outFile(j), category: j.category, source_type: 'ai_generated', source: modelSource(model),
     license: 'Generated for this project; no third-party material', prompt: j.prompt, reference: j.ref, postprocess: post, hash: hash(j), qa,
   };
   byPath.set(entry.path, entry);
@@ -158,16 +151,6 @@ async function runJob(j: ArtJob) {
 
 let done = 0, failed = 0, idx = 0;
 let lastSave = Date.now();
-function saveManifest() {
-  // merge with the on-disk manifest so parallel generator processes don't drop each other's entries
-  try {
-    const disk = JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) as typeof manifest;
-    for (const a of disk.assets ?? []) if (!byPath.has(a.path)) byPath.set(a.path, a);
-  } catch { /* first write */ }
-  manifest.generated = new Date().toISOString();
-  manifest.assets = [...byPath.values()].sort((a, b) => a.path.localeCompare(b.path));
-  fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 1));
-}
 async function worker() {
   while (idx < todo.length) {
     const j = todo[idx++]!;

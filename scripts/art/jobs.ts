@@ -14,6 +14,8 @@ export interface ArtJob {
   px: number;
   quality?: 'low' | 'medium' | 'high';
   magentaSubject?: boolean;
+  /** short subject line, used to pack small items into one sprite-sheet request (atlas.ts) */
+  subject?: string;
 }
 
 const bg = (id: string, prompt: string, out = `backgrounds/${id}`): ArtJob => ({
@@ -42,6 +44,7 @@ export const BACKGROUNDS: ArtJob[] = [
 
 const icon = (id: string, symbol: string, tint: string, out = `ui/icons/${id}`): ArtJob => ({
   id, category: 'icon', out, size: '1024x1024', transparent: true, prompt: iconPrompt(symbol, tint), px: 192, quality: 'medium',
+  subject: `round medallion, symbol: ${symbol} in ${tint}`,
 });
 
 export const ICONS: ArtJob[] = [

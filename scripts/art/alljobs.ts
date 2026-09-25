@@ -40,11 +40,11 @@ export function buildJobs(): ArtJob[] {
   const OBJECT = 'A single magical artifact object, centered, whole object visible, isolated on a fully transparent background, no hands, no scenery.';
   for (const r of c.relics.values()) {
     jobs.push({ id: r.id, category: 'relic', out: `ui/relics/${r.id}`, size: '1024x1024', transparent: true,
-      prompt: `${r.art.subject}. ${OBJECT} ${r.faction ? FACTION_TONE[r.faction] : ''} ${STYLE_LOCK}`, ref: REF('wb_card'), px: 256 });
+      prompt: `${r.art.subject}. ${OBJECT} ${r.faction ? FACTION_TONE[r.faction] : ''} ${STYLE_LOCK}`, ref: REF('wb_card'), px: 256, subject: r.art.subject });
   }
   for (const p of c.potions.values()) {
     jobs.push({ id: p.id, category: 'potion', out: `ui/potions/${p.id}`, size: '1024x1024', transparent: true,
-      prompt: `${p.art.subject}. ${OBJECT} ${STYLE_LOCK}`, ref: REF('wb_card'), px: 256 });
+      prompt: `${p.art.subject}. ${OBJECT} ${STYLE_LOCK}`, ref: REF('wb_card'), px: 256, subject: p.art.subject });
   }
   for (const ev of c.events.values()) {
     const act = Math.min(...ev.acts, 3);

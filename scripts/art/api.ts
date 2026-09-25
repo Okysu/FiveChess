@@ -11,7 +11,7 @@ const KEY = process.env.ASSET_GEN_API_KEY;
 const MODEL = process.env.ASSET_GEN_MODEL ?? 'gpt-image-2';
 
 export type Size = '1024x1024' | '1024x1536' | '1536x1024';
-export interface GenOpts { prompt: string; size: Size; quality?: 'low' | 'medium' | 'high'; transparent?: boolean; ref?: string | string[] }
+export interface GenOpts { prompt: string; size: Size; quality?: 'low' | 'medium' | 'high'; transparent?: boolean; ref?: string | string[]; model?: string }
 
 function need() {
   if (!KEY) throw new Error('ASSET_GEN_API_KEY missing — put it in .env (see .env.example)');
@@ -35,7 +35,7 @@ async function generateOnce(o: GenOpts): Promise<Buffer> {
   let res: Response;
   if (o.ref) {
     const fd = new FormData();
-    fd.append('model', MODEL);
+    fd.append('model', o.model ?? MODEL);
     fd.append('prompt', o.prompt);
     fd.append('size', o.size);
     fd.append('quality', o.quality ?? 'medium');
@@ -44,16 +44,23 @@ async function generateOnce(o: GenOpts): Promise<Buffer> {
     for (const r of refs) fd.append(refs.length > 1 ? 'image[]' : 'image', new Blob([fs.readFileSync(r)], { type: 'image/png' }), 'ref.png');
     res = await fetch(`${BASE}/images/edits`, { method: 'POST', headers: { Authorization: `Bearer ${KEY}` }, body: fd, signal: timeout });
   } else {
-    const body: Record<string, unknown> = { model: MODEL, prompt: o.prompt, size: o.size, quality: o.quality ?? 'medium', n: 1 };
+    const body: Record<string, unknown> = { model: o.model ?? MODEL, prompt: o.prompt, size: o.size, quality: o.quality ?? 'medium', n: 1 };
     if (o.transparent) body.background = 'transparent';
     res = await fetch(`${BASE}/images/generations`, {
       method: 'POST', headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: timeout,
     });
   }
   const txt = await res.text();
-  let j: { data?: { b64_json?: string }[]; error?: { message?: string } };
+  let j: { data?: { b64_json?: string; url?: string }[]; error?: { message?: string } };
   try { j = JSON.parse(txt); } catch { throw new Error(`HTTP ${res.status}: ${txt.slice(0, 200)}`); }
   const b64 = j.data?.[0]?.b64_json;
-  if (!res.ok || !b64) throw new Error(`HTTP ${res.status}: ${j.error?.message ?? txt.slice(0, 200)}`);
-  return Buffer.from(b64, 'base64');
+  if (res.ok && b64) return Buffer.from(b64, 'base64');
+  // some models (gpt-image-2.5-*) answer with a hosted URL instead of inline base64
+  const url = j.data?.[0]?.url;
+  if (res.ok && url) {
+    const img = await fetch(url, { signal: AbortSignal.timeout(5 * 60_000) });
+    if (!img.ok) throw new Error(`image download HTTP ${img.status}`);
+    return Buffer.from(await img.arrayBuffer());
+  }
+  throw new Error(`HTTP ${res.status}: ${j.error?.message ?? txt.slice(0, 200)}`);
 }
