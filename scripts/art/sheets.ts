@@ -25,6 +25,7 @@ const maxCalls = args['max-calls'] ? Number(args['max-calls']) : Infinity;
 const dry = args.dry === 'true';
 const NATIVE_ALPHA = !/2\.5/.test(model);
 const RAW = '.cache/art_raw/sheets';
+const RUN = Date.now().toString(36);
 const LOG = '.cache/art/gen.log';
 fs.mkdirSync(RAW, { recursive: true });
 const log = (s: string) => { const line = `[${new Date().toISOString()}] ${s}`; console.log(line); fs.appendFileSync(LOG, line + '\n'); };
@@ -86,7 +87,8 @@ function sheetPrompt(items: ArtJob[], L: Layout) {
 
 interface Comp { x0: number; y0: number; x1: number; y1: number; area: number; cx: number; cy: number }
 
-async function components(buf: Buffer): Promise<{ comps: Comp[]; w: number; h: number }> {
+interface Labels { comps: Comp[]; w: number; h: number; S: number; gw: number; label: Int32Array }
+async function components(buf: Buffer): Promise<Labels> {
   const { data, info } = await sharp(buf).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const S = 4, gw = Math.ceil(info.width / S), gh = Math.ceil(info.height / S);
   const mask = new Uint8Array(gw * gh);
@@ -94,6 +96,7 @@ async function components(buf: Buffer): Promise<{ comps: Comp[]; w: number; h: n
     if (data[(y * info.width + x) * 4 + 3]! > 40) mask[(y / S) * gw + x / S] = 1;
   }
   const seen = new Uint8Array(gw * gh);
+  const label = new Int32Array(gw * gh); // component index + 1 per downsampled pixel
   const comps: Comp[] = [];
   const stack: number[] = [];
   for (let i = 0; i < mask.length; i++) {
@@ -103,6 +106,7 @@ async function components(buf: Buffer): Promise<{ comps: Comp[]; w: number; h: n
     while (stack.length) {
       const k = stack.pop()!;
       const x = k % gw, y = (k / gw) | 0;
+      label[k] = comps.length + 1;
       area++; sx += x; sy += y;
       if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
       for (const n of [k - 1, k + 1, k - gw, k + gw]) {
@@ -113,20 +117,34 @@ async function components(buf: Buffer): Promise<{ comps: Comp[]; w: number; h: n
     }
     comps.push({ x0: x0 * S, y0: y0 * S, x1: (x1 + 1) * S, y1: (y1 + 1) * S, area: area * S * S, cx: (sx / area) * S, cy: (sy / area) * S });
   }
-  return { comps, w: info.width, h: info.height };
+  return { comps, w: info.width, h: info.height, S, gw, label };
+}
+
+/** rows = pieces whose vertical centres are within half a piece height; then left to right */
+function readingOrder(cs: Comp[]): Comp[] {
+  const rows: Comp[][] = [];
+  for (const c of [...cs].sort((a, b) => a.cy - b.cy)) {
+    const row = rows.find((r) => Math.abs(r[0]!.cy - c.cy) < (r[0]!.y1 - r[0]!.y0) / 2);
+    if (row) row.push(c); else rows.push([c]);
+  }
+  return rows.flatMap((r) => r.sort((a, b) => a.cx - b.cx));
 }
 
 /** cutouts: group components by the cell holding their (or their nearest big neighbour's) centroid */
 async function sliceCutouts(buf: Buffer, L: Layout, n: number): Promise<(Buffer | null)[]> {
-  const { comps, w, h } = await components(buf);
+  const { comps, w, h, S, gw, label } = await components(buf);
+  const owner = new Int32Array(comps.length).fill(-1); // comp index -> cell
   const cw = w / L.cols, ch = h / L.rows, bigArea = cw * ch * 0.02;
   const big = comps.filter((c) => c.area > bigArea);
-  const cells: Comp[][] = Array.from({ length: L.cols * L.rows }, () => []);
+  // exactly n big pieces: trust the model's reading order even if it ignored the grid (e.g. one long row)
+  const order: Comp[] = big.length === n ? readingOrder(big) : [];
+  const cells: Comp[][] = Array.from({ length: Math.max(L.cols * L.rows, n) }, () => []);
   for (const c of comps) {
     const ref = c.area > bigArea ? c : [...big].sort((a, b) => Math.hypot(a.cx - c.cx, a.cy - c.cy) - Math.hypot(b.cx - c.cx, b.cy - c.cy))[0];
     if (!ref) continue;
-    const col = Math.min(L.cols - 1, Math.floor(ref.cx / cw)), row = Math.min(L.rows - 1, Math.floor(ref.cy / ch));
-    cells[row * L.cols + col]!.push(c);
+    const idx = order.length ? order.indexOf(ref) : Math.min(L.rows - 1, Math.floor(ref.cy / ch)) * L.cols + Math.min(L.cols - 1, Math.floor(ref.cx / cw));
+    cells[idx]!.push(c);
+    owner[comps.indexOf(c)] = idx;
   }
   const out: (Buffer | null)[] = [];
   for (let i = 0; i < n; i++) {
@@ -134,8 +152,15 @@ async function sliceCutouts(buf: Buffer, L: Layout, n: number): Promise<(Buffer 
     if (!cs.some((c) => c.area > bigArea)) { out.push(null); continue; }
     const x0 = Math.max(0, Math.min(...cs.map((c) => c.x0)) - 6), y0 = Math.max(0, Math.min(...cs.map((c) => c.y0)) - 6);
     const x1 = Math.min(w, Math.max(...cs.map((c) => c.x1)) + 6), y1 = Math.min(h, Math.max(...cs.map((c) => c.y1)) + 6);
-    if (x1 - x0 > cw * 1.3 || y1 - y0 > ch * 1.3) { out.push(null); continue; } // two items fused
-    out.push(await sharp(buf).extract({ left: x0, top: y0, width: x1 - x0, height: y1 - y0 }).png().toBuffer());
+    // two items fused (when the reading order is trusted, a piece may span a whole column of the grid)
+    if (!order.length && (x1 - x0 > cw * 1.3 || y1 - y0 > ch * 1.3)) { out.push(null); continue; }
+    // clear pixels that belong to a neighbour's shapes (spears, ribbons reaching into this crop)
+    const { data, info } = await sharp(buf).extract({ left: x0, top: y0, width: x1 - x0, height: y1 - y0 }).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    for (let y = 0; y < info.height; y++) for (let x = 0; x < info.width; x++) {
+      const l = label[(((y + y0) / S) | 0) * gw + (((x + x0) / S) | 0)]!;
+      if (l > 0 && owner[l - 1] !== i) data[(y * info.width + x) * 4 + 3] = 0;
+    }
+    out.push(await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } }).trim({ threshold: 1 }).png().toBuffer());
   }
   return out;
 }
@@ -197,11 +222,18 @@ async function chromaKey(buf: Buffer): Promise<Buffer> {
 // ───────────── run ─────────────
 
 let calls = 0;
-async function runSheet(items: ArtJob[], si: number) {
-  const L = LAYOUT[items[0]!.category]!;
-  const tag = `${items[0]!.category}/${items[0]!.group ?? '-'}#${si}`;
+/** a partial sheet asks for a grid that fits its item count (4 enemies → 4x1), so cells stay meaningful */
+function fit(L: Layout, n: number): Layout {
+  if (n >= L.cols * L.rows) return L;
+  const cols = Math.min(L.cols, n);
+  return { ...L, cols, rows: Math.ceil(n / cols) };
+}
+
+async function runSheet(items: ArtJob[], si: number, rawFile?: string, tagOverride?: string) {
+  const L = rawFile ? LAYOUT[items[0]!.category]! : fit(LAYOUT[items[0]!.category]!, items.length);
+  const tag = tagOverride ?? (rawFile ? `${items[0]!.category}/${items[0]!.group ?? '-'}#${si}` : `${items[0]!.category}/${items[0]!.group ?? '-'}#${RUN}-${si}`);
   const t = Date.now();
-  let raw: Buffer | null = null;
+  let raw: Buffer | null = rawFile ? fs.readFileSync(rawFile) : null;
   for (let attempt = 0; attempt <= 2 && !raw; attempt++) {
     try {
       calls++;
@@ -213,8 +245,7 @@ async function runSheet(items: ArtJob[], si: number) {
     }
   }
   if (!raw) return 0;
-  const rawName = path.join(RAW, `${tag.replace(/[/#]/g, '_')}.png`);
-  fs.writeFileSync(rawName, raw);
+  if (!rawFile) fs.writeFileSync(path.join(RAW, `${tag.replace(/[/#]/g, '_')}.png`), raw);
   if (L.cutout && !NATIVE_ALPHA) raw = await chromaKey(raw);
   const pieces = L.cutout ? await sliceCutouts(raw, L, items.length) : await slicePanels(raw, L, items.length);
   let ok = 0;
@@ -237,9 +268,42 @@ async function runSheet(items: ArtJob[], si: number) {
   return ok;
 }
 
+// --reslice=<raw sheet png>:<id,id,...> re-cuts an already generated sheet (no API call)
+if (args.reslice) {
+  const [file, ids] = args.reslice.split(':');
+  const all = buildJobs();
+  const items = ids!.split(',').map((id) => all.find((j) => j.id === id)!).filter(Boolean);
+  const n = await runSheet(items, 0, file);
+  save();
+  log(`reslice ${file}: ${n}/${items.length}`);
+  process.exit(0);
+}
+
+// --reslice-all: re-cut every complete cutout sheet recorded in the manifest (after slicer fixes; no API calls)
+if (args['reslice-all']) {
+  const all = new Map(buildJobs().map((j) => [j.id, j]));
+  const bySheet = new Map<string, { cell: number; id: string }[]>();
+  for (const e of byPath.values()) {
+    const m = /^\[sprite sheet (\S+) cell (\d+)\]/.exec(e.prompt ?? '');
+    if (m && LAYOUT[e.category]?.cutout) bySheet.set(m[1]!, [...(bySheet.get(m[1]!) ?? []), { cell: Number(m[2]), id: e.id }]);
+  }
+  let n = 0, sheetsDone = 0;
+  for (const [tag, cells] of bySheet) {
+    const file = path.join(RAW, `${tag.replace(/[/#]/g, '_')}.png`);
+    cells.sort((a, b) => a.cell - b.cell);
+    if (!fs.existsSync(file) || cells.some((c, i) => c.cell !== i + 1)) continue; // incomplete: skip
+    const items = cells.map((c) => all.get(c.id)!).filter(Boolean);
+    n += await runSheet(items, 0, file, tag);
+    sheetsDone++;
+  }
+  save();
+  log(`reslice-all: ${n} items from ${sheetsDone} sheets`);
+  process.exit(0);
+}
+
 let idx = 0, total = 0;
 await Promise.all(Array.from({ length: concurrency }, async () => {
-  while (idx < run.length) { const k = idx++; total += await runSheet(run[k]!, k).catch((e) => { log(`ERR sheet #${k} ${(e as Error).message}`); return 0; }); }
+  while (idx < run.length) { const k = idx++; const n = await runSheet(run[k]!, k).catch((e) => { log(`ERR sheet #${k} ${(e as Error).message}`); return 0; }); total += n; }
 }));
 save();
 log(`sheets finished: ${total}/${run.reduce((a, s) => a + s.length, 0)} items in ${calls} API calls`);

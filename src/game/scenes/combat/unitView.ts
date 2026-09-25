@@ -120,7 +120,7 @@ export class UnitView extends Container {
   }
 
   /** top-left/bottom geometry helpers for attached UI */
-  get topY() { return this.mode === 'token' ? -TOKEN_H / 2 : this.mode === 'figure' ? -130 : -190; }
+  get topY() { return this.mode === 'token' ? -TOKEN_H / 2 : this.mode === 'figure' ? -84 : -190; } // figure: body.y 60 − 138px art
   get bottomY() { return this.mode === 'token' ? TOKEN_H / 2 : this.mode === 'figure' ? 60 : 120; }
 
   sync(s: CombatState, u: Unit) {
@@ -272,12 +272,14 @@ export class UnitView extends Container {
         tx.position.set(0, 16);
         c.addChild(tx);
       }
-      c.position.set(i * 58, 0);
+      // figures sit one slot apart with no headroom: their intents stack down the side facing the player
+      if (this.mode === 'figure') c.position.set(0, i * 62); else c.position.set(i * 58, 0);
       this.intentBox.addChild(c);
     });
     const w = types.length * 58;
     if (this.mode === 'boss') this.intentBox.position.set(-w / 2 + 29, -250);
-    else this.intentBox.position.set(-w / 2 + 29 - (this.mode === 'figure' ? 40 : 0), this.topY - 40);
+    else if (this.mode === 'figure') this.intentBox.position.set(-this.bw / 2 - 26, -54 - (types.length - 1) * 31);
+    else this.intentBox.position.set(-w / 2 + 29, this.topY - 40);
     (this.intentBox as Container & { preview?: typeof pv }).preview = pv;
   }
 
