@@ -22,6 +22,7 @@ export class HandView extends Container {
   onHover?: (v: CardView | null) => void;
   onPress?: (v: CardView, e: FederatedPointerEvent) => void;
   onRightClick?: (v: CardView) => void;
+  onEmptyPress?: () => void;
   /** set by scene while a card is dragged/selected */
   frozen: CardView | null = null;
 
@@ -32,7 +33,7 @@ export class HandView extends Container {
     this.hit.on('pointerout', () => this.setHover(null));
     this.hit.on('pointerdown', (e: FederatedPointerEvent) => {
       const v = this.cardAt(e.global);
-      if (!v) return;
+      if (!v) { this.onEmptyPress?.(); return; }
       if (e.button === 2) { this.onRightClick?.(v); return; }
       this.onPress?.(v, e);
     });

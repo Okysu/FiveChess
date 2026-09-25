@@ -90,7 +90,18 @@ export class UnitView extends Container {
       const isBoss = this.mode === 'boss';
       const key = u.origin === 'enemy' ? K.enemy(u.def, c.enemies.get(u.def)?.tier === 'boss') : K.hero(u.def);
       const targetH = this.mode === 'figure' ? 185 : isBoss ? 330 : 300;
+      // placeholder until the figure art exists: a framed print block, bottom-anchored like the art
       const ph = new Container();
+      const pw = this.mode === 'figure' ? 140 : 200, phh = this.mode === 'figure' ? 170 : 260;
+      const phArt = uiCover('art_placeholder', pw - 20, phh - 20);
+      phArt.position.set(-pw / 2 + 10, -phh + 10);
+      const phFrame = nine('token_frame', pw, phh);
+      phFrame.position.set(-pw / 2, -phh);
+      const phName = new Text({ text: u.origin === 'enemy' ? (c.enemies.get(u.def)?.name ?? '') : (c.commanders.get(u.def)?.name ?? c.lieutenants.get(u.def)?.name ?? ''), style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: WB.white, stroke: { color: WB.ink, width: 5 } } });
+      phName.anchor.set(0.5);
+      phName.position.set(0, -phh / 2);
+      ph.addChild(phArt, phFrame, phName);
+      this.body.addChild(ph);
       assets.with(key, (t) => {
         const s = new Sprite(t);
         s.anchor.set(0.5, 1);

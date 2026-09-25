@@ -126,12 +126,20 @@ export class CombatScene extends Scene {
     const bgHit = hitRect(-400, -200, 2720, 1480);
     this.addChildAt(bgHit, 0);
     bgHit.on('globalpointermove', (e) => this.onMove(e));
-    this.on('pointerup', (e) => this.onUp(e));
-    bgHit.on('pointerupoutside', (e) => this.onUp(e));
+    // release is read from the window: the scene is passive (receives no events itself) and a drag
+    // can end anywhere — over a unit, a button, or outside the canvas
+    this.windowUp = (ev: PointerEvent) => {
+      const r = G.app.canvas.getBoundingClientRect();
+      const gx = (ev.clientX - r.left) * (G.app.screen.width / r.width);
+      const gy = (ev.clientY - r.top) * (G.app.screen.height / r.height);
+      void this.onUp({ global: { x: gx, y: gy }, button: ev.button } as unknown as FederatedPointerEvent);
+    };
+    window.addEventListener('pointerup', this.windowUp);
     bgHit.on('pointerdown', (e) => this.onBackgroundDown(e));
     this.hand.onPress = (v, e) => this.onCardPress(v, e);
     this.hand.onHover = (v) => this.onCardHover(v);
     this.hand.onRightClick = (v) => inspectCard(v.cardId, v.up);
+    this.hand.onEmptyPress = () => { if (this.selected || this.targeting) { this.cancelTargeting(); this.clearSelection(); } };
     this.popKeys = G.pushKeys((e) => this.onKeyDown(e));
 
     // initial views
@@ -149,6 +157,7 @@ export class CombatScene extends Scene {
   }
 
   override exit() {
+    if (this.windowUp) window.removeEventListener('pointerup', this.windowUp);
     this.popKeys?.();
     hideTip();
   }
@@ -511,6 +520,7 @@ export class CombatScene extends Scene {
   }
 
   private attackDragging = false;
+  private windowUp?: (ev: PointerEvent) => void;
   private attackStart = { x: 0, y: 0 };
 
   private onCardTap(v: CardView) {
@@ -534,8 +544,9 @@ export class CombatScene extends Scene {
     this.hand.layout(true);
     sfx('click');
     const def = cardDef(card);
-    if (def.type === 'unit') for (const sg of this.slotGfx) this.drawSlot(sg.g, 'player', sg.row, emptySlots(this.s, 'player', sg.row).includes(sg.slot) ? 'drop' : 'full');
+    if (def.type === 'unit') { for (const sg of this.slotGfx) this.drawSlot(sg.g, 'player', sg.row, emptySlots(this.s, 'player', sg.row).includes(sg.slot) ? 'drop' : 'full'); toast('点击空阵位放置随从 · 点空白处取消', 0xf0e4cc, 760); }
     else if (cardTargets(this.s, 'player', def)) this.startCardTargeting(v, card, true);
+    else if (info.playable || inWindow) toast('再点一次此牌打出（或拖到战场）· 点空白处取消', 0xf0e4cc, 760);
   }
 
   private clearSelection() {
@@ -829,8 +840,9 @@ export class CombatScene extends Scene {
 
   private onBackgroundDown(e: FederatedPointerEvent) {
     if (e.button === 2) { this.cancelTargeting(); this.clearSelection(); return; }
+    if (this.dragging) return;
     // tap on an empty slot while a unit card is selected
-    if (this.selected && !this.dragging) {
+    if (this.selected) {
       const p = G.toDesign(e.global.x, e.global.y);
       const card = this.s.hand.find((c) => c.uid === this.selected!.cardUid);
       if (card && cardDef(card).type === 'unit') {
@@ -838,6 +850,8 @@ export class CombatScene extends Scene {
         if (sl && emptySlots(this.s, 'player', sl.row).includes(sl.slot)) { void this.playCard(this.selected, card, null, sl); return; }
       }
     }
+    // any other click on empty space drops the current selection / aim
+    if (this.selected || this.targeting) { this.cancelTargeting(); this.clearSelection(); }
   }
 
   private onKeyDown(e: KeyboardEvent): boolean {

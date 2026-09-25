@@ -20,7 +20,7 @@ export class ScrollBox extends Container {
     this.content.mask = this.maskG;
     const hit = hitRect(0, 0, vw, vh);
     this.addChildAt(hit, 0);
-    this.eventMode = 'passive';
+    this.eventMode = 'static';
     this.on('wheel', (e: FederatedWheelEvent) => { this.scrollBy(this.horizontal ? e.deltaY + e.deltaX : e.deltaY); });
     this.on('pointerdown', (e: FederatedPointerEvent) => { this.dragging = true; this.moved = 0; this.dragStart = this.horizontal ? e.global.x : e.global.y; this.startPos = this.offset; });
     hit.on('globalpointermove', (e: FederatedPointerEvent) => {
