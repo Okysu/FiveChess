@@ -17,7 +17,7 @@ for (const a of generated) {
   m.set(a.category, (m.get(a.category) ?? 0) + 1);
   byModel.set(model, m);
 }
-const CAT: Record<string, string> = { card: '卡牌插画', hero: '主帅与副将立绘', enemy: '敌人立绘', boss: '首领立绘', relic: '遗物', potion: '丹药', event: '事件插图', background: '背景', icon: '图标', ui: '界面贴图', effect: '特效粒子', fate: '天命牌' };
+const CAT: Record<string, string> = { card: '卡牌插画', hero: '主帅与副将立绘', enemy: '敌人立绘', boss: '首领立绘', relic: '遗物', potion: '丹药', event: '事件插图', audio: '音效与音乐', background: '背景', icon: '图标', ui: '界面贴图', effect: '特效粒子', fate: '天命牌' };
 
 const third = manifest.assets.filter((a) => a.source_type === 'free_asset' || a.source_type === 'edited_free_asset');
 const thirdGroups = new Map<string, Entry[]>();
@@ -37,9 +37,9 @@ const FONTS = [
 const sections: { title: string; lines: string[] }[] = [
   { title: '制作', lines: ['《命阙》规则引擎、全部内容（卡牌、敌人、事件、遗物）、界面与演出：本项目原创。'] },
   {
-    title: '美术（AI 生成，统一木版年画风格）',
+    title: '美术与音频（AI 生成，统一木版年画风格）',
     lines: [
-      `共 ${generated.length} 张，按《美术风格圣经》的提示词与风格参考图生成，逐张记录于 assets/manifest.json。`,
+      `共 ${generated.length} 项（图像按《美术风格圣经》的提示词与风格参考图生成），逐项记录于 assets/manifest.json。`,
       ...[...byModel].map(([model, cats]) => `${model}：${[...cats].map(([k, n]) => `${CAT[k] ?? k} ${n}`).join('，')}`),
     ],
   },

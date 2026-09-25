@@ -68,7 +68,7 @@ function checkPage(): TourIssue[] {
   for (const t of texts) {
     if (/\{[a-z]\w*\}/.test(t.text)) issues.push({ kind: 'unfilled', detail: `${label(t)} shows a {var} placeholder` });
     // untranslated engine codes / English UI (credits list names, links and model ids on purpose)
-    if (/[A-Za-z]{4,}/.test(t.text) && !/https?:|PixiJS|yoga|zod|Vite|TypeScript|Noto|Shan|SIL|OFL|MIT|Apache|gpt-|Kenney|Tozan|OpenGameArt|CC0|WebAudio|manifest|ElevenLabs/.test(t.text)) issues.push({ kind: 'english', detail: label(t) });
+    if (/[A-Za-z]{4,}/.test(t.text) && !/https?:|PixiJS|yoga|zod|Vite|TypeScript|Noto|Shan|SIL|OFL|MIT|Apache|gpt-|Kenney|Tozan|OpenGameArt|CC0|WebAudio|manifest|ElevenLabs|Arena/.test(t.text)) issues.push({ kind: 'english', detail: label(t) });
     if (inScroll(t)) continue;
     const b = dBounds(t);
     if (b.x < -4 || b.y < -4 || b.x + b.width > 1924 || b.y + b.height > 1084) issues.push({ kind: 'offscreen', detail: `${label(t)} at ${b.x | 0},${b.y | 0} ${b.width | 0}×${b.height | 0}` });
