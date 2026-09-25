@@ -1,0 +1,2847 @@
+[
+  {
+    "faction": "Y",
+    "id": "y_basic_strike",
+    "name": "星芒",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "text": "造成{d}点伤害。",
+    "vars": {
+      "d": 6
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 9
+      }
+    },
+    "flavor": "星光落在刃上，便不再是光。",
+    "art": {
+      "subject": "a young astrologer in gilded robes thrusting a slim bronze gnomon like a spear, a thin beam of starlight streaking from its tip across a dark sky"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_basic_guard",
+    "name": "星幕",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "text": "获得{a}点[护甲]。",
+    "vars": {
+      "a": 5
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "effects": [
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 8
+      }
+    },
+    "flavor": "把夜空披在身上，刀剑也要迷路。",
+    "art": {
+      "subject": "a robed figure raising one sleeve as a translucent curtain of constellations unfurls in front of them, faint golden light on the fabric"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_xj_balance",
+    "name": "天衡",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "Y"
+      ]
+    },
+    "keywords": [
+      "judge"
+    ],
+    "target": "enemy",
+    "text": "[判定]：{sun}{thunder}阳纹——造成{d}点伤害；{moon}{mountain}阴纹——获得{a}点[护甲]并抽{c}张牌。",
+    "vars": {
+      "d": 10,
+      "a": 6,
+      "c": 1
+    },
+    "varKinds": {
+      "d": "attack",
+      "a": "armor",
+      "c": "other"
+    },
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "yang": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "target",
+              "attack": true
+            }
+          ],
+          "yin": [
+            {
+              "op": "armor",
+              "amount": "$a",
+              "target": "commander"
+            },
+            {
+              "op": "draw",
+              "n": "$c"
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 14,
+        "a": 8
+      }
+    },
+    "flavor": "天平两端，一端是剑，一端是盾。司天监只负责看清砝码。",
+    "art": {
+      "subject": "an old court astronomer holding a golden balance scale whose two pans glow with a sun sigil and a crescent moon sigil, night observatory behind him"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_xj_pluck",
+    "name": "截命签",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "text": "收取{n}张[命签]。抽{c}张牌。",
+    "vars": {
+      "n": 1,
+      "c": 1
+    },
+    "varKinds": {
+      "n": "other",
+      "c": "other"
+    },
+    "effects": [
+      {
+        "op": "sign",
+        "n": "$n"
+      },
+      {
+        "op": "draw",
+        "n": "$c"
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "keywords": [
+        "retain"
+      ],
+      "text": "[藏锋]。收取{n}张[命签]。抽{c}张牌。"
+    },
+    "flavor": "命书翻到这一页之前，先把它折个角。",
+    "art": {
+      "subject": "long elegant fingers plucking a single glowing bamboo fortune slip out of a bronze cylinder filled with slips, golden dust rising"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_xj_ruler",
+    "name": "量天尺",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "Y"
+      ]
+    },
+    "keywords": [
+      "judge"
+    ],
+    "target": "enemy",
+    "text": "[判定]：点数≥8——造成{d}点伤害；点数≤7——造成{e}点伤害并收取{n}张[命签]。",
+    "vars": {
+      "d": 11,
+      "e": 5,
+      "n": 1
+    },
+    "varKinds": {
+      "d": "attack",
+      "e": "attack",
+      "n": "other"
+    },
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "high": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "target",
+              "attack": true
+            }
+          ],
+          "low": [
+            {
+              "op": "damage",
+              "amount": "$e",
+              "target": "target",
+              "attack": true
+            },
+            {
+              "op": "sign",
+              "n": "$n"
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 14,
+        "e": 7
+      }
+    },
+    "flavor": "天有多高，尺子就有多长；尺子有多长，就能量出多重的罪。",
+    "art": {
+      "subject": "a long jade measuring rod engraved with star marks swinging down in an arc, leaving a trail of numbered golden notches in the air"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_ywj_hex",
+    "name": "卦煞",
+    "type": "delay",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "text": "[延时]{t}：[判定]：{sun}{thunder}阳纹——造成{d}点伤害；{moon}{mountain}阴纹——造成{e}点伤害并施加{w}层[虚弱]。",
+    "vars": {
+      "t": 1,
+      "d": 11,
+      "e": 4,
+      "w": 2
+    },
+    "varKinds": {
+      "t": "other",
+      "d": "damage",
+      "e": "damage",
+      "w": "other"
+    },
+    "delay": {
+      "turns": 1,
+      "on": "enemy",
+      "branches": {
+        "yang": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "damage",
+            "amount": "$e",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": "$w",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "vars": {
+        "d": 15,
+        "e": 6
+      }
+    },
+    "flavor": "“今夜别出门。”他收了钱，没说为什么。",
+    "art": {
+      "subject": "a hexagram of six broken and unbroken ink bars hovering over a hunched demon, faintly crackling with golden sparks before it falls"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_ywj_coins",
+    "name": "落卦钱",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "target": "enemy",
+    "text": "造成{d}点伤害。目标身上每有1张[延时]牌，额外造成{e}点伤害。",
+    "vars": {
+      "d": 4,
+      "e": 4
+    },
+    "varKinds": {
+      "d": "attack",
+      "e": "attack"
+    },
+    "effects": [
+      {
+        "op": "damage",
+        "amount": {
+          "add": [
+            "$d",
+            {
+              "mul": [
+                {
+                  "count": "delays",
+                  "of": "target"
+                },
+                "$e"
+              ]
+            }
+          ]
+        },
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 6,
+        "e": 5
+      }
+    },
+    "flavor": "三枚铜钱落地，卦就成了。剩下的只是时间。",
+    "art": {
+      "subject": "three square-holed bronze coins spinning through the air toward a shadowy foe, each trailing a thin golden thread tied to hanging talismans"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_ywj_ward",
+    "name": "避凶符",
+    "type": "delay",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "text": "挂载时，被挂载者获得{a}点[护甲]。[延时]{t}：[判定]：{sun}{thunder}阳纹——抽{c}张牌；{moon}{mountain}阴纹——被挂载者获得{b}点[护甲]。",
+    "vars": {
+      "a": 4,
+      "t": 1,
+      "c": 2,
+      "b": 7
+    },
+    "varKinds": {
+      "a": "armor",
+      "t": "other",
+      "c": "other",
+      "b": "armor"
+    },
+    "effects": [
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "target"
+      }
+    ],
+    "delay": {
+      "turns": 1,
+      "on": "friendly",
+      "branches": {
+        "yang": [
+          {
+            "op": "draw",
+            "n": "$c"
+          }
+        ],
+        "yin": [
+          {
+            "op": "armor",
+            "amount": "$b",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "vars": {
+        "a": 6,
+        "b": 9
+      }
+    },
+    "flavor": "趋吉容易，避凶难。他只卖难的那种。",
+    "art": {
+      "subject": "a yellow paper talisman with red brush strokes pinned to the shoulder of a soldier, a faint golden dome forming around him"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "tk_y_remnant",
+    "name": "残卦",
+    "type": "delay",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "keywords": [
+      "ethereal",
+      "delay",
+      "judge"
+    ],
+    "text": "[浮光]。[延时]{t}：[判定]：{sun}{thunder}阳纹——造成{d}点伤害；{moon}{mountain}阴纹——施加{w}层[虚弱]与{v}层[易伤]。",
+    "vars": {
+      "t": 1,
+      "d": 5,
+      "w": 1,
+      "v": 1
+    },
+    "varKinds": {
+      "t": "other",
+      "d": "damage",
+      "w": "other",
+      "v": "other"
+    },
+    "delay": {
+      "turns": 1,
+      "on": "enemy",
+      "branches": {
+        "yang": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": "$w",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "vulnerable",
+            "amount": "$v",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "vars": {
+        "d": 7
+      }
+    },
+    "flavor": "没算完的卦，也会自己找上门。",
+    "art": {
+      "subject": "half of a burnt divination tortoise shell floating in the dark, glowing cracks spreading across it like lightning"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "tk_y_moon_sprout",
+    "name": "月苗",
+    "type": "unit",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[滋长]{g}。",
+    "vars": {
+      "g": 1
+    },
+    "varKinds": {
+      "g": "other"
+    },
+    "unit": {
+      "atk": 1,
+      "hp": 2,
+      "growth": 1
+    },
+    "upgrade": {
+      "unit": {
+        "atk": 2,
+        "hp": 2
+      }
+    },
+    "flavor": "只在月纹翻开的那一刻破土。",
+    "art": {
+      "subject": "a tiny luminous sprout with crescent-shaped leaves pushing out of dark soil under pale moonlight"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_star_acolyte",
+    "name": "观星童子",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "text": "[远射]。[起势]：[观星]{n}。",
+    "vars": {
+      "n": 2
+    },
+    "varKinds": {
+      "n": "other"
+    },
+    "unit": {
+      "atk": 1,
+      "hp": 2,
+      "keywords": [
+        "ranged"
+      ],
+      "prefersBack": true
+    },
+    "effects": [
+      {
+        "op": "stargaze",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 3
+      },
+      "unit": {
+        "atk": 2
+      }
+    },
+    "flavor": "师父说，数星星数到第一千颗，就能看见命书的边。",
+    "art": {
+      "subject": "a small child in oversized golden astronomer robes standing on tiptoe on a rooftop, pointing a tiny brass telescope at a swirl of stars"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_coin_diviner",
+    "name": "铜钱卦师",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 2,
+      "c": [
+        "Y"
+      ]
+    },
+    "text": "[天契]{sun}：对一个随机敌人造成{d}点伤害。[天契]{mountain}：你的主帅获得{a}点[护甲]。",
+    "vars": {
+      "d": 3,
+      "a": 4
+    },
+    "varKinds": {
+      "d": "damage",
+      "a": "armor"
+    },
+    "unit": {
+      "atk": 2,
+      "hp": 4,
+      "triggers": [
+        {
+          "on": "judged",
+          "suit": "sun",
+          "effects": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "randomEnemy"
+            }
+          ]
+        },
+        {
+          "on": "judged",
+          "suit": "mountain",
+          "effects": [
+            {
+              "op": "armor",
+              "amount": "$a",
+              "target": "commander"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "d": 4,
+        "a": 5
+      },
+      "unit": {
+        "atk": 3,
+        "hp": 4
+      }
+    },
+    "flavor": "正面是日，背面是山，他从不押中间。",
+    "art": {
+      "subject": "a lean street diviner in patched robes flicking a large bronze coin high into the air with his thumb, sun and mountain glyphs glinting on its faces"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_array_diviner",
+    "name": "布卦师",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 2
+    },
+    "text": "[起势]：对一个随机敌人挂载一张[延时]牌「残卦」。",
+    "unit": {
+      "atk": 2,
+      "hp": 3
+    },
+    "effects": [
+      {
+        "op": "delay",
+        "card": "tk_y_remnant",
+        "target": "randomEnemy"
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[起势]：对随机敌人挂载两张[延时]牌「残卦」（可能是同一个敌人）。",
+      "effects": [
+        {
+          "op": "delay",
+          "card": "tk_y_remnant",
+          "target": "randomEnemy"
+        },
+        {
+          "op": "delay",
+          "card": "tk_y_remnant",
+          "target": "randomEnemy"
+        }
+      ]
+    },
+    "flavor": "他布下的卦，比他本人先到。",
+    "art": {
+      "subject": "a masked diviner kneeling on a stone floor, flinging burning tortoise shell fragments that curve through the air toward distant enemies"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_cast_lots",
+    "name": "掷筮",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "judge"
+    ],
+    "target": "enemy",
+    "text": "[判定]：{sun}{thunder}阳纹——造成{d}点伤害；{moon}{mountain}阴纹——造成{e}点伤害并抽{c}张牌。",
+    "vars": {
+      "d": 9,
+      "e": 4,
+      "c": 1
+    },
+    "varKinds": {
+      "d": "attack",
+      "e": "attack",
+      "c": "other"
+    },
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "yang": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "target",
+              "attack": true
+            }
+          ],
+          "yin": [
+            {
+              "op": "damage",
+              "amount": "$e",
+              "target": "target",
+              "attack": true
+            },
+            {
+              "op": "draw",
+              "n": "$c"
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 12,
+        "e": 6
+      }
+    },
+    "flavor": "蓍草五十根，用四十九。剩下那一根，是留给变数的。",
+    "art": {
+      "subject": "a bundle of yarrow stalks scattering across a lacquered table, one stalk flying off and turning into a golden bolt aimed at a monster"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_star_reading",
+    "name": "夜观星象",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 0
+    },
+    "text": "[观星]{n}。抽{c}张牌。",
+    "vars": {
+      "n": 3,
+      "c": 1
+    },
+    "varKinds": {
+      "n": "other",
+      "c": "other"
+    },
+    "effects": [
+      {
+        "op": "stargaze",
+        "n": "$n"
+      },
+      {
+        "op": "draw",
+        "n": "$c"
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "keywords": [
+        "innate"
+      ],
+      "text": "[本命]。[观星]{n}。抽{c}张牌。"
+    },
+    "flavor": "星子不会说谎，只会换个顺序。",
+    "art": {
+      "subject": "an astrologer lying on the roof of a pagoda at night, hands framing a cluster of stars as if rearranging them, the stars trailing faint lines between his fingers"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_pluck_sign",
+    "name": "拈签",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "text": "收取{n}张[命签]。获得{a}点[护甲]。",
+    "vars": {
+      "n": 1,
+      "a": 5
+    },
+    "varKinds": {
+      "n": "other",
+      "a": "armor"
+    },
+    "effects": [
+      {
+        "op": "sign",
+        "n": "$n"
+      },
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 8
+      }
+    },
+    "flavor": "签在手里，命就还没落地。",
+    "art": {
+      "subject": "a young woman in a temple courtyard shaking a bronze cylinder until one glowing slip jumps out, a shimmering shield of light forming behind her"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_point_star",
+    "name": "点星",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "judge"
+    ],
+    "target": "enemy",
+    "text": "[判定]：{sun}{thunder}阳纹——造成等于判定牌点数的伤害；{moon}{mountain}阴纹——获得等于判定牌点数的[护甲]。",
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "yang": [
+            {
+              "op": "damage",
+              "amount": {
+                "count": "judgeRank"
+              },
+              "target": "target",
+              "attack": true
+            }
+          ],
+          "yin": [
+            {
+              "op": "armor",
+              "amount": {
+                "count": "judgeRank"
+              },
+              "target": "commander"
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "vars": {
+        "b": 3
+      },
+      "text": "[判定]：{sun}{thunder}阳纹——造成等于判定牌点数+{b}的伤害；{moon}{mountain}阴纹——获得等于判定牌点数+{b}的[护甲]。",
+      "effects": [
+        {
+          "op": "judge",
+          "branches": {
+            "yang": [
+              {
+                "op": "damage",
+                "amount": {
+                  "add": [
+                    {
+                      "count": "judgeRank"
+                    },
+                    "$b"
+                  ]
+                },
+                "target": "target",
+                "attack": true
+              }
+            ],
+            "yin": [
+              {
+                "op": "armor",
+                "amount": {
+                  "add": [
+                    {
+                      "count": "judgeRank"
+                    },
+                    "$b"
+                  ]
+                },
+                "target": "commander"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "flavor": "天上有几颗星，这一击就有几分力。",
+    "art": {
+      "subject": "a fingertip touching a star in the night sky, the star flaring and dropping straight down as a spear of numbered golden light"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_summon_sun",
+    "name": "引日",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "target": "enemy",
+    "text": "造成{d}点伤害。将{n}张点数为{r}的{sun}日纹牌洗入天命牌堆。",
+    "vars": {
+      "d": 6,
+      "n": 2,
+      "r": 10
+    },
+    "varKinds": {
+      "d": "attack",
+      "n": "other",
+      "r": "other"
+    },
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      },
+      {
+        "op": "fateAdd",
+        "suit": "sun",
+        "rank": 10,
+        "n": 2,
+        "where": "shuffle"
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "vars": {
+        "d": 7
+      },
+      "text": "造成{d}点伤害。将一张点数为{r}的{sun}日纹牌置于天命牌堆顶，再将一张洗入天命牌堆。",
+      "effects": [
+        {
+          "op": "damage",
+          "amount": "$d",
+          "target": "target",
+          "attack": true
+        },
+        {
+          "op": "fateAdd",
+          "suit": "sun",
+          "rank": 10,
+          "n": 1,
+          "where": "shuffle"
+        },
+        {
+          "op": "fateAdd",
+          "suit": "sun",
+          "rank": 10,
+          "n": 1,
+          "where": "top"
+        }
+      ]
+    },
+    "flavor": "命书第一卷，写满了征伐。多抄几页，也无人察觉。",
+    "art": {
+      "subject": "a priest raising a bronze mirror to catch the rising sun, a blazing disc of light splitting off and slamming into an enemy while glowing cards scatter around"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_mountain_seal",
+    "name": "镇山符",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "text": "获得{a}点[护甲]。将{n}张点数为{r}的{mountain}山纹牌洗入天命牌堆。",
+    "vars": {
+      "a": 6,
+      "n": 2,
+      "r": 9
+    },
+    "varKinds": {
+      "a": "armor",
+      "n": "other",
+      "r": "other"
+    },
+    "effects": [
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      },
+      {
+        "op": "fateAdd",
+        "suit": "mountain",
+        "rank": 9,
+        "n": 2,
+        "where": "shuffle"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 9
+      }
+    },
+    "flavor": "把山写进命里，命就不容易动了。",
+    "art": {
+      "subject": "a heavy stone talisman carved with a mountain glyph slamming into the ground before a guardian, rock ridges rising up like a wall"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_urging_talisman",
+    "name": "催命符",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "Y"
+      ]
+    },
+    "target": "enemy",
+    "text": "造成{d}点伤害。若目标身上有[延时]牌，施加{v}层[易伤]。",
+    "vars": {
+      "d": 7,
+      "v": 2
+    },
+    "varKinds": {
+      "d": "attack",
+      "v": "other"
+    },
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      },
+      {
+        "op": "if",
+        "cond": {
+          "gt": [
+            {
+              "count": "delays",
+              "of": "target"
+            },
+            0
+          ]
+        },
+        "then": [
+          {
+            "op": "status",
+            "status": "vulnerable",
+            "amount": "$v",
+            "target": "target"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 9,
+        "v": 3
+      }
+    },
+    "flavor": "卦已经挂上了，差的只是一声催。",
+    "art": {
+      "subject": "a crimson-ink talisman slapped onto the back of a monster already wrapped in glowing hexagram chains, the chains tightening"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_star_veil",
+    "name": "星遁",
+    "type": "response",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "response",
+      "judge"
+    ],
+    "text": "[应]：[判定]：{sun}{thunder}阳纹——获得{a}点[护甲]；{moon}{mountain}阴纹——获得{b}点[护甲]并收取{n}张[命签]。",
+    "vars": {
+      "a": 9,
+      "b": 5,
+      "n": 1
+    },
+    "varKinds": {
+      "a": "armor",
+      "b": "armor",
+      "n": "other"
+    },
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "yang": [
+            {
+              "op": "armor",
+              "amount": "$a",
+              "target": "commander"
+            }
+          ],
+          "yin": [
+            {
+              "op": "armor",
+              "amount": "$b",
+              "target": "commander"
+            },
+            {
+              "op": "sign",
+              "n": "$n"
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 12,
+        "b": 7
+      }
+    },
+    "flavor": "刀落下时，他站在昨夜的星位上。",
+    "art": {
+      "subject": "a blade slicing through a figure that dissolves into a scatter of golden star points, reforming a step to the side"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_reap_fate",
+    "name": "收命",
+    "type": "response",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "response"
+    ],
+    "text": "[应]：收取{n}张[命签]，[观星]{m}，获得{a}点[护甲]。",
+    "vars": {
+      "n": 1,
+      "m": 2,
+      "a": 4
+    },
+    "varKinds": {
+      "n": "other",
+      "m": "other",
+      "a": "armor"
+    },
+    "effects": [
+      {
+        "op": "sign",
+        "n": "$n"
+      },
+      {
+        "op": "stargaze",
+        "n": "$m"
+      },
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "keywords": [
+        "response",
+        "retain"
+      ],
+      "text": "[藏锋]。[应]：收取{n}张[命签]，[观星]{m}，获得{a}点[护甲]。"
+    },
+    "flavor": "敌人出手的那一瞬，命书翻得最快。",
+    "art": {
+      "subject": "a hand snatching a glowing card out of a swirling stream of fate cards mid-battle, while an enemy blade is frozen mid-swing"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_hanging_star",
+    "name": "悬星",
+    "type": "delay",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "text": "[延时]{t}：[判定]：{sun}{thunder}阳纹——造成{d}点伤害；{moon}{mountain}阴纹——造成{e}点伤害。",
+    "vars": {
+      "t": 1,
+      "d": 12,
+      "e": 6
+    },
+    "varKinds": {
+      "t": "other",
+      "d": "damage",
+      "e": "damage"
+    },
+    "delay": {
+      "turns": 1,
+      "on": "enemy",
+      "branches": {
+        "yang": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "damage",
+            "amount": "$e",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "vars": {
+        "d": 16,
+        "e": 8
+      }
+    },
+    "flavor": "那颗星一直挂在他头顶。他抬头的那天，它落了。",
+    "art": {
+      "subject": "a single sharp star hanging by a golden thread above the head of an unaware ogre, the thread fraying"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_eclipse_hex",
+    "name": "蚀月咒",
+    "type": "delay",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "text": "[延时]{t}：[判定]：{sun}{thunder}阳纹——造成{d}点伤害；{moon}{mountain}阴纹——施加{v}层[易伤]与{w}层[虚弱]。",
+    "vars": {
+      "t": 1,
+      "d": 8,
+      "v": 2,
+      "w": 2
+    },
+    "varKinds": {
+      "t": "other",
+      "d": "damage",
+      "v": "other",
+      "w": "other"
+    },
+    "delay": {
+      "turns": 1,
+      "on": "enemy",
+      "branches": {
+        "yang": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "status",
+            "status": "vulnerable",
+            "amount": "$v",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": "$w",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "vars": {
+        "d": 11,
+        "v": 3,
+        "w": 3
+      }
+    },
+    "flavor": "月亮缺的那一块，被咒进了你的骨头里。",
+    "art": {
+      "subject": "a dark crescent moon being eaten by shadow above a hunched warrior, cold silver light draining out of his armor"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_amulet",
+    "name": "护命符",
+    "type": "delay",
+    "rarity": "common",
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "text": "挂载时，被挂载者获得{a}点[护甲]。[延时]{t}：[判定]：{sun}{thunder}阳纹——被挂载者获得{g}层[灵障]；{moon}{mountain}阴纹——被挂载者恢复{h}点生命。",
+    "vars": {
+      "a": 4,
+      "t": 1,
+      "g": 1,
+      "h": 6
+    },
+    "varKinds": {
+      "a": "armor",
+      "t": "other",
+      "g": "other",
+      "h": "heal"
+    },
+    "effects": [
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "target"
+      }
+    ],
+    "delay": {
+      "turns": 1,
+      "on": "friendly",
+      "branches": {
+        "yang": [
+          {
+            "op": "ward",
+            "amount": "$g",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "heal",
+            "amount": "$h",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "vars": {
+        "a": 6,
+        "h": 9
+      }
+    },
+    "flavor": "符纸会烧完，但烧完之前，谁也动不了你。",
+    "art": {
+      "subject": "a golden amulet on a red cord hanging around the neck of a wounded soldier, emitting a soft protective halo"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_chain_divination",
+    "name": "连环卦",
+    "type": "delay",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "Y"
+      ]
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "text": "[延时]{t}：[判定]：{sun}{thunder}阳纹——造成{d}点伤害；{moon}{mountain}阴纹——造成{e}点伤害，并对其挂载一张「残卦」。",
+    "vars": {
+      "t": 1,
+      "d": 10,
+      "e": 4
+    },
+    "varKinds": {
+      "t": "other",
+      "d": "damage",
+      "e": "damage"
+    },
+    "delay": {
+      "turns": 1,
+      "on": "enemy",
+      "branches": {
+        "yang": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "damage",
+            "amount": "$e",
+            "target": "target"
+          },
+          {
+            "op": "delay",
+            "card": "tk_y_remnant",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "vars": {
+        "d": 13,
+        "e": 6
+      }
+    },
+    "flavor": "一卦不应，便再起一卦。他有的是耐心。",
+    "art": {
+      "subject": "a chain of interlocking bronze hexagram plates coiling around a beast, one plate cracking open to reveal another beneath"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_moon_scribe",
+    "name": "月下侍书",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "Y"
+      ]
+    },
+    "text": "[起势]：将{n}张点数为{r}的{moon}月纹牌洗入天命牌堆。[天契]{moon}：抽{c}张牌。",
+    "vars": {
+      "n": 2,
+      "r": 5,
+      "c": 1
+    },
+    "varKinds": {
+      "n": "other",
+      "r": "other",
+      "c": "other"
+    },
+    "unit": {
+      "atk": 1,
+      "hp": 4,
+      "prefersBack": true,
+      "triggers": [
+        {
+          "on": "judged",
+          "suit": "moon",
+          "effects": [
+            {
+              "op": "draw",
+              "n": "$c"
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "op": "fateAdd",
+        "suit": "moon",
+        "rank": 5,
+        "n": 2,
+        "where": "shuffle"
+      }
+    ],
+    "upgrade": {
+      "unit": {
+        "atk": 2,
+        "hp": 5
+      }
+    },
+    "flavor": "她只在月下抄书。白天抄的字，第二天都会不见。",
+    "art": {
+      "subject": "a quiet scribe girl kneeling at a low desk under a full moon, copying glowing characters that drift up off the page like fireflies"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_sign_keeper",
+    "name": "执签客",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 3,
+      "c": [
+        "Y"
+      ]
+    },
+    "text": "[起势]：收取{n}张[命签]。每当你[改判]后，对一个随机敌人造成{d}点伤害。",
+    "vars": {
+      "n": 1,
+      "d": 5
+    },
+    "varKinds": {
+      "n": "other",
+      "d": "damage"
+    },
+    "unit": {
+      "atk": 3,
+      "hp": 4,
+      "triggers": [
+        {
+          "on": "rejudged",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "randomEnemy"
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "op": "sign",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[远射]。[起势]：收取{n}张[命签]。每当你[改判]后，对一个随机敌人造成{d}点伤害。",
+      "unit": {
+        "keywords": [
+          "ranged"
+        ],
+        "prefersBack": true
+      }
+    },
+    "flavor": "他替人换命，按张收钱。换下来的那张，他会亲手送到仇家门口。",
+    "art": {
+      "subject": "a tall swordsman in a wide straw hat holding a fan of glowing fortune slips between his fingers, one slip turning into a thrown blade"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_thunder_herald",
+    "name": "雷部行者",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 3,
+      "c": [
+        "Y"
+      ]
+    },
+    "text": "[起势]：将{n}张点数为{r}的{thunder}雷纹牌洗入天命牌堆。[天契]{thunder}：对所有敌人造成{d}点伤害。",
+    "vars": {
+      "n": 2,
+      "r": 11,
+      "d": 3
+    },
+    "varKinds": {
+      "n": "other",
+      "r": "other",
+      "d": "damage"
+    },
+    "unit": {
+      "atk": 3,
+      "hp": 4,
+      "triggers": [
+        {
+          "on": "judged",
+          "suit": "thunder",
+          "effects": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "allEnemies"
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "op": "fateAdd",
+        "suit": "thunder",
+        "rank": 11,
+        "n": 2,
+        "where": "shuffle"
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[疾行]。[起势]：将{n}张点数为{r}的{thunder}雷纹牌洗入天命牌堆。[天契]{thunder}：对所有敌人造成{d}点伤害。",
+      "unit": {
+        "keywords": [
+          "haste"
+        ]
+      }
+    },
+    "flavor": "雷部的差役，腰里别着一卷写满罪名的命书。",
+    "art": {
+      "subject": "a wiry messenger with drum-shaped lightning rings on his back sprinting forward, violet lightning crackling from his heels"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_thunder_verdict",
+    "name": "雷霆判词",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "Y"
+      ]
+    },
+    "keywords": [
+      "judge"
+    ],
+    "target": "enemy",
+    "text": "[判定]：{thunder}雷纹——造成{d}点伤害并使其[眩晕]；{sun}日纹——造成{d}点伤害；{moon}{mountain}阴纹——造成{e}点伤害并获得{a}点[护甲]。",
+    "vars": {
+      "d": 16,
+      "e": 7,
+      "a": 6
+    },
+    "varKinds": {
+      "d": "attack",
+      "e": "attack",
+      "a": "armor"
+    },
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "thunder": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "target",
+              "attack": true
+            },
+            {
+              "op": "status",
+              "status": "stun",
+              "amount": 1,
+              "target": "target"
+            }
+          ],
+          "sun": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "target",
+              "attack": true
+            }
+          ],
+          "yin": [
+            {
+              "op": "damage",
+              "amount": "$e",
+              "target": "target",
+              "attack": true
+            },
+            {
+              "op": "armor",
+              "amount": "$a",
+              "target": "commander"
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 20,
+        "e": 9
+      }
+    },
+    "flavor": "判词只有一个字，由天来念。",
+    "art": {
+      "subject": "a massive column of violet lightning striking down onto a demon from a scroll unrolled across the storm clouds"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_nine_ranks",
+    "name": "九星断",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2
+    },
+    "keywords": [
+      "judge"
+    ],
+    "target": "enemy",
+    "text": "[判定]：点数1–4——造成{a}点伤害并收取{n}张[命签]；点数5–9——造成{b}点伤害；点数10–13——造成{c}点伤害并抽{m}张牌。",
+    "vars": {
+      "a": 6,
+      "b": 12,
+      "c": 16,
+      "n": 1,
+      "m": 1
+    },
+    "varKinds": {
+      "a": "attack",
+      "b": "attack",
+      "c": "attack",
+      "n": "other",
+      "m": "other"
+    },
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "ranks": [
+            {
+              "min": 1,
+              "max": 4,
+              "effects": [
+                {
+                  "op": "damage",
+                  "amount": "$a",
+                  "target": "target",
+                  "attack": true
+                },
+                {
+                  "op": "sign",
+                  "n": "$n"
+                }
+              ]
+            },
+            {
+              "min": 5,
+              "max": 9,
+              "effects": [
+                {
+                  "op": "damage",
+                  "amount": "$b",
+                  "target": "target",
+                  "attack": true
+                }
+              ]
+            },
+            {
+              "min": 10,
+              "max": 13,
+              "effects": [
+                {
+                  "op": "damage",
+                  "amount": "$c",
+                  "target": "target",
+                  "attack": true
+                },
+                {
+                  "op": "draw",
+                  "n": "$m"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 8,
+        "b": 15,
+        "c": 20
+      }
+    },
+    "flavor": "九颗星排成一列，一颗比一颗亮，一颗比一颗凶。",
+    "art": {
+      "subject": "nine stars descending in a vertical line of increasing brightness toward a kneeling warlord, the last one blinding white"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_blazing_noon",
+    "name": "日曜当空",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "Y"
+      ]
+    },
+    "target": "enemy",
+    "text": "造成{d}点伤害。本回合每出现过一次{sun}日纹判定，额外造成{e}点伤害。",
+    "vars": {
+      "d": 5,
+      "e": 5
+    },
+    "varKinds": {
+      "d": "attack",
+      "e": "attack"
+    },
+    "effects": [
+      {
+        "op": "damage",
+        "amount": {
+          "add": [
+            "$d",
+            {
+              "mul": [
+                {
+                  "count": "judgesThisTurn",
+                  "suit": "sun"
+                },
+                "$e"
+              ]
+            }
+          ]
+        },
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 7,
+        "e": 6
+      }
+    },
+    "flavor": "日头越毒，这一剑越亮。",
+    "art": {
+      "subject": "a swordswoman raising a blade straight up toward a blazing noon sun, the sunlight pooling along the edge until it drips like molten gold"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_heaven_net",
+    "name": "天罗",
+    "type": "delay",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "Y"
+      ]
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "text": "[延时]{t}：[判定]：{sun}{thunder}阳纹——造成{d}点伤害；{moon}{mountain}阴纹——造成{e}点伤害并施加{f}层[冰冻]。",
+    "vars": {
+      "t": 2,
+      "d": 26,
+      "e": 12,
+      "f": 1
+    },
+    "varKinds": {
+      "t": "other",
+      "d": "damage",
+      "e": "damage",
+      "f": "other"
+    },
+    "delay": {
+      "turns": 2,
+      "on": "enemy",
+      "branches": {
+        "yang": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "damage",
+            "amount": "$e",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "freeze",
+            "amount": "$f",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "qualitative": true,
+      "vars": {
+        "t": 1
+      },
+      "delay": {
+        "turns": 1
+      }
+    },
+    "flavor": "网是早就织好的，只等天色一暗。",
+    "art": {
+      "subject": "an enormous net of golden star-threads slowly lowering from the night sky over a battlefield, a giant beast looking up too late"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_falling_star",
+    "name": "星陨",
+    "type": "delay",
+    "rarity": "rare",
+    "cost": {
+      "g": 2
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "text": "[延时]{t}：[判定]：点数1–5——造成{a}点伤害；点数6–10——造成{b}点伤害；点数11–13——造成{c}点伤害，再对所有敌人造成{s}点伤害。",
+    "vars": {
+      "t": 1,
+      "a": 7,
+      "b": 13,
+      "c": 18,
+      "s": 6
+    },
+    "varKinds": {
+      "t": "other",
+      "a": "damage",
+      "b": "damage",
+      "c": "damage",
+      "s": "damage"
+    },
+    "delay": {
+      "turns": 1,
+      "on": "enemy",
+      "branches": {
+        "ranks": [
+          {
+            "min": 1,
+            "max": 5,
+            "effects": [
+              {
+                "op": "damage",
+                "amount": "$a",
+                "target": "target"
+              }
+            ]
+          },
+          {
+            "min": 6,
+            "max": 10,
+            "effects": [
+              {
+                "op": "damage",
+                "amount": "$b",
+                "target": "target"
+              }
+            ]
+          },
+          {
+            "min": 11,
+            "max": 13,
+            "effects": [
+              {
+                "op": "damage",
+                "amount": "$c",
+                "target": "target"
+              },
+              {
+                "op": "damage",
+                "amount": "$s",
+                "target": "allEnemies"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "vars": {
+        "a": 9,
+        "b": 16,
+        "c": 22,
+        "s": 8
+      }
+    },
+    "flavor": "它从命书的边缘掉下来，砸在谁头上，全凭点数。",
+    "art": {
+      "subject": "a burning meteor with a numbered golden tail plunging toward an enemy camp, the ground below already glowing"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_shift_star",
+    "name": "移星换位",
+    "type": "response",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "Y"
+      ]
+    },
+    "keywords": [
+      "response",
+      "judge"
+    ],
+    "windowOnly": true,
+    "text": "[应]：[判定]：{sun}{thunder}阳纹——取消该行动；{moon}{mountain}阴纹——获得{a}点[护甲]并收取{n}张[命签]。",
+    "vars": {
+      "a": 7,
+      "n": 1
+    },
+    "varKinds": {
+      "a": "armor",
+      "n": "other"
+    },
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "yang": [
+            {
+              "op": "cancel"
+            }
+          ],
+          "yin": [
+            {
+              "op": "armor",
+              "amount": "$a",
+              "target": "commander"
+            },
+            {
+              "op": "sign",
+              "n": "$n"
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "cost": {
+        "g": 1
+      },
+      "vars": {
+        "a": 9
+      }
+    },
+    "flavor": "敌人的刀没有变慢，只是那一刻的星位变了。",
+    "art": {
+      "subject": "an astrologer sweeping his sleeve across the sky, two constellations swapping places while an enemy strike freezes and scatters into light"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_bronze_mirror",
+    "name": "司辰铜镜",
+    "type": "equip",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "Y"
+      ]
+    },
+    "text": "每当你[改判]后，抽{c}张牌。",
+    "vars": {
+      "c": 1,
+      "a": 4
+    },
+    "varKinds": {
+      "c": "other",
+      "a": "armor"
+    },
+    "equip": {
+      "slot": "treasure",
+      "triggers": [
+        {
+          "on": "rejudged",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "draw",
+              "n": "$c"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "qualitative": true,
+      "text": "每当你[改判]后，抽{c}张牌并获得{a}点[护甲]。",
+      "equip": {
+        "triggers": [
+          {
+            "on": "rejudged",
+            "who": "friendly",
+            "effects": [
+              {
+                "op": "draw",
+                "n": "$c"
+              },
+              {
+                "op": "armor",
+                "amount": "$a",
+                "target": "commander"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "flavor": "镜里照出的，永远是下一刻的你。",
+    "art": {
+      "subject": "an ornate round bronze mirror on a stand, its surface showing a slightly different version of the room with a card being swapped in a hand"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_observatory",
+    "name": "观星台",
+    "type": "field",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "Y"
+      ]
+    },
+    "text": "我方回合开始时，[观星]{n}。你的判定点数+{r}。",
+    "vars": {
+      "n": 2,
+      "r": 2
+    },
+    "varKinds": {
+      "n": "other",
+      "r": "other"
+    },
+    "field": {
+      "triggers": [
+        {
+          "on": "turnStart",
+          "effects": [
+            {
+              "op": "stargaze",
+              "n": "$n"
+            }
+          ]
+        }
+      ],
+      "modifiers": [
+        {
+          "stat": "judgeRank",
+          "amount": 2
+        }
+      ]
+    },
+    "upgrade": {
+      "qualitative": true,
+      "cost": {
+        "g": 2
+      },
+      "vars": {
+        "n": 3
+      }
+    },
+    "flavor": "台高九丈，离天近了，命也就近了。",
+    "art": {
+      "subject": "a tall tiered stone observatory tower under a sky thick with stars, armillary spheres turning on its top terrace, golden lanterns along the stairs"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_fate_bailiff",
+    "name": "悬命鬼差",
+    "type": "unit",
+    "rarity": "epic",
+    "cost": {
+      "g": 4,
+      "c": [
+        "Y"
+      ]
+    },
+    "text": "[起势]：对每个敌人各挂载一张[延时]牌「残卦」。",
+    "unit": {
+      "atk": 3,
+      "hp": 5
+    },
+    "effects": [
+      {
+        "op": "forEach",
+        "sel": "allEnemies",
+        "effects": [
+          {
+            "op": "delay",
+            "card": "tk_y_remnant",
+            "target": "it"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[坚守]。[起势]：对每个敌人各挂载一张[延时]牌「残卦」。",
+      "unit": {
+        "keywords": [
+          "taunt"
+        ],
+        "hp": 6
+      }
+    },
+    "flavor": "他腰间的铃铛一响，名册上就多一行字。",
+    "art": {
+      "subject": "a gaunt underworld bailiff in black and white robes holding a ledger and a brush, glowing talismans flying out from the ledger toward several enemies"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_myriad_return",
+    "name": "万象归一",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "Y"
+      ]
+    },
+    "text": "对所有敌人造成{d}点伤害；每个敌人身上每有1张[延时]牌，便额外受到{e}点伤害。",
+    "vars": {
+      "d": 4,
+      "e": 6
+    },
+    "varKinds": {
+      "d": "damage",
+      "e": "damage"
+    },
+    "effects": [
+      {
+        "op": "forEach",
+        "sel": "allEnemies",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": {
+              "add": [
+                "$d",
+                {
+                  "mul": [
+                    {
+                      "count": "delays",
+                      "of": "it"
+                    },
+                    "$e"
+                  ]
+                }
+              ]
+            },
+            "target": "it"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 6,
+        "e": 8
+      }
+    },
+    "flavor": "所有悬着的卦，在这一刻同时落地。",
+    "art": {
+      "subject": "dozens of hovering hexagram talismans over a battlefield collapsing inward at once, each one bursting into a pillar of golden light on the enemies below"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_nine_palace",
+    "name": "九宫锁",
+    "type": "delay",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "Y"
+      ]
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "text": "[延时]{t}：[判定]：{sun}{thunder}阳纹——使其[眩晕]并造成{d}点伤害；{moon}{mountain}阴纹——施加{f}层[冰冻]与{w}层[虚弱]。",
+    "vars": {
+      "t": 1,
+      "d": 10,
+      "f": 2,
+      "w": 2
+    },
+    "varKinds": {
+      "t": "other",
+      "d": "damage",
+      "f": "other",
+      "w": "other"
+    },
+    "delay": {
+      "turns": 1,
+      "on": "enemy",
+      "branches": {
+        "yang": [
+          {
+            "op": "status",
+            "status": "stun",
+            "amount": 1,
+            "target": "target"
+          },
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "status",
+            "status": "freeze",
+            "amount": "$f",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": "$w",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "qualitative": true,
+      "cost": {
+        "g": 2
+      },
+      "vars": {
+        "d": 14
+      }
+    },
+    "flavor": "九宫一合，连时间都走不出去。",
+    "art": {
+      "subject": "a glowing three-by-three grid of golden sigils snapping shut around a massive armored enemy like a cage, frost and sparks at the seams"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_heavens_rebuke",
+    "name": "天谴",
+    "type": "response",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "Y"
+      ]
+    },
+    "keywords": [
+      "response",
+      "judge"
+    ],
+    "windowOnly": true,
+    "text": "[应]：[判定]：{sun}{thunder}阳纹——对宣告行动的敌人造成{d}点伤害并使其[眩晕]；{moon}{mountain}阴纹——对其造成{e}点伤害，你获得{a}点[护甲]。",
+    "vars": {
+      "d": 14,
+      "e": 7,
+      "a": 7
+    },
+    "varKinds": {
+      "d": "damage",
+      "e": "damage",
+      "a": "armor"
+    },
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "yang": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "declaredActor"
+            },
+            {
+              "op": "status",
+              "status": "stun",
+              "amount": 1,
+              "target": "declaredActor"
+            }
+          ],
+          "yin": [
+            {
+              "op": "damage",
+              "amount": "$e",
+              "target": "declaredActor"
+            },
+            {
+              "op": "armor",
+              "amount": "$a",
+              "target": "commander"
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 18,
+        "e": 9,
+        "a": 9
+      }
+    },
+    "flavor": "你抬手的时候，天也抬了手。",
+    "art": {
+      "subject": "an enemy warrior mid-lunge being struck from above by a giant hand of golden light emerging from the clouds"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_armillary_sphere",
+    "name": "浑天星盘",
+    "type": "equip",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "Y"
+      ]
+    },
+    "text": "你的判定点数+{r}。[命签]上限+{s}。我方回合开始时，若你没有[命签]，收取{n}张[命签]。",
+    "vars": {
+      "r": 2,
+      "s": 1,
+      "n": 1
+    },
+    "varKinds": {
+      "r": "other",
+      "s": "other",
+      "n": "other"
+    },
+    "equip": {
+      "slot": "treasure",
+      "modifiers": [
+        {
+          "stat": "judgeRank",
+          "amount": 2
+        },
+        {
+          "stat": "signCap",
+          "amount": 1
+        }
+      ],
+      "triggers": [
+        {
+          "on": "turnStart",
+          "if": {
+            "eq": [
+              {
+                "count": "signs"
+              },
+              0
+            ]
+          },
+          "effects": [
+            {
+              "op": "sign",
+              "n": "$n"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "r": 3
+      },
+      "equip": {
+        "modifiers": [
+          {
+            "stat": "judgeRank",
+            "amount": 3
+          },
+          {
+            "stat": "signCap",
+            "amount": 1
+          }
+        ]
+      }
+    },
+    "flavor": "星盘转一圈，就是人间的一年。",
+    "art": {
+      "subject": "a floating golden armillary sphere with nested rotating rings studded with tiny stars, hovering beside a commander’s shoulder"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_celestial_array",
+    "name": "周天星斗",
+    "type": "field",
+    "rarity": "epic",
+    "cost": {
+      "g": 3,
+      "c": [
+        "Y"
+      ]
+    },
+    "text": "[天契]{sun}：对一个随机敌人造成{d}点伤害。[天契]{thunder}：对所有敌人造成{e}点伤害。[天契]{moon}：抽{c}张牌。[天契]{mountain}：获得{a}点[护甲]。",
+    "vars": {
+      "d": 5,
+      "e": 2,
+      "c": 1,
+      "a": 5
+    },
+    "varKinds": {
+      "d": "damage",
+      "e": "damage",
+      "c": "other",
+      "a": "armor"
+    },
+    "field": {
+      "triggers": [
+        {
+          "on": "judged",
+          "suit": "sun",
+          "effects": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "randomEnemy"
+            }
+          ]
+        },
+        {
+          "on": "judged",
+          "suit": "thunder",
+          "effects": [
+            {
+              "op": "damage",
+              "amount": "$e",
+              "target": "allEnemies"
+            }
+          ]
+        },
+        {
+          "on": "judged",
+          "suit": "moon",
+          "effects": [
+            {
+              "op": "draw",
+              "n": "$c"
+            }
+          ]
+        },
+        {
+          "on": "judged",
+          "suit": "mountain",
+          "effects": [
+            {
+              "op": "armor",
+              "amount": "$a",
+              "target": "commander"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "d": 7,
+        "e": 3,
+        "a": 7
+      }
+    },
+    "flavor": "周天三百六十五度，每一度都站着一颗星，每一颗星都听他的。",
+    "art": {
+      "subject": "a vast circular star map glowing on the ground of a battlefield, four quadrants burning with sun, lightning, moon and mountain light"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_grand_augur",
+    "name": "太卜令",
+    "type": "unit",
+    "rarity": "legendary",
+    "cost": {
+      "g": 4,
+      "c": [
+        "Y",
+        "Y"
+      ]
+    },
+    "text": "[远射]。[起势]：收取{n}张[命签]。你的判定点数+{r}。每当你[改判]后，对所有敌人造成{d}点伤害。",
+    "vars": {
+      "n": 2,
+      "r": 2,
+      "d": 4
+    },
+    "varKinds": {
+      "n": "other",
+      "r": "other",
+      "d": "damage"
+    },
+    "unit": {
+      "atk": 3,
+      "hp": 6,
+      "keywords": [
+        "ranged"
+      ],
+      "prefersBack": true,
+      "modifiers": [
+        {
+          "stat": "judgeRank",
+          "amount": 2,
+          "who": "friendly"
+        }
+      ],
+      "triggers": [
+        {
+          "on": "rejudged",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "allEnemies"
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "op": "sign",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[远射]、[灵障]。[起势]：收取{n}张[命签]。你的判定点数+{r}。每当你[改判]后，对所有敌人造成{d}点伤害。",
+      "unit": {
+        "atk": 4,
+        "hp": 6,
+        "ward": 1
+      }
+    },
+    "flavor": "“天命？我替天子读了四十年天命。它每一次都在等我点头。”",
+    "art": {
+      "subject": "an imposing elderly grand diviner in layered gold and black court robes, seated before a floating ring of fortune slips, one hand raised as lightning gathers above"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_one_thought",
+    "name": "一念天机",
+    "type": "tactic",
+    "rarity": "legendary",
+    "cost": {
+      "g": "X",
+      "c": [
+        "Y"
+      ]
+    },
+    "keywords": [
+      "judge"
+    ],
+    "text": "[观星]{X}，然后进行{X}次[判定]：{sun}{thunder}阳纹——对一个随机敌人造成{d}点伤害；{moon}{mountain}阴纹——获得{a}点[护甲]。",
+    "vars": {
+      "d": 7,
+      "a": 5
+    },
+    "varKinds": {
+      "d": "damage",
+      "a": "armor"
+    },
+    "effects": [
+      {
+        "op": "if",
+        "cond": {
+          "gt": [
+            "$x",
+            0
+          ]
+        },
+        "then": [
+          {
+            "op": "stargaze",
+            "n": "$x"
+          }
+        ]
+      },
+      {
+        "op": "repeat",
+        "times": "$x",
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "damage",
+                  "amount": "$d",
+                  "target": "randomEnemy"
+                }
+              ],
+              "yin": [
+                {
+                  "op": "armor",
+                  "amount": "$a",
+                  "target": "commander"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[观星]{X}+1，然后进行{X}+1次[判定]：{sun}{thunder}阳纹——对一个随机敌人造成{d}点伤害；{moon}{mountain}阴纹——获得{a}点[护甲]。",
+      "effects": [
+        {
+          "op": "stargaze",
+          "n": {
+            "add": [
+              "$x",
+              1
+            ]
+          }
+        },
+        {
+          "op": "repeat",
+          "times": {
+            "add": [
+              "$x",
+              1
+            ]
+          },
+          "effects": [
+            {
+              "op": "judge",
+              "branches": {
+                "yang": [
+                  {
+                    "op": "damage",
+                    "amount": "$d",
+                    "target": "randomEnemy"
+                  }
+                ],
+                "yin": [
+                  {
+                    "op": "armor",
+                    "amount": "$a",
+                    "target": "commander"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "flavor": "天机不在星上，在看星的人一念之间。",
+    "art": {
+      "subject": "a lone figure standing at the center of a spiral of hundreds of floating fate cards, eyes closed, the cards flipping face up one after another in a wave of golden light"
+    }
+  },
+  {
+    "faction": "Y",
+    "id": "y_inexorable_fate",
+    "name": "天命难违",
+    "type": "delay",
+    "rarity": "legendary",
+    "cost": {
+      "g": 3,
+      "c": [
+        "Y",
+        "Y"
+      ]
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "text": "[延时]{t}：[判定]：{sun}{thunder}阳纹——造成{d}点伤害；{moon}{mountain}阴纹——造成{e}点伤害并使其[眩晕]。",
+    "vars": {
+      "t": 3,
+      "d": 45,
+      "e": 24
+    },
+    "varKinds": {
+      "t": "other",
+      "d": "damage",
+      "e": "damage"
+    },
+    "delay": {
+      "turns": 3,
+      "on": "enemy",
+      "branches": {
+        "yang": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "damage",
+            "amount": "$e",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "stun",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "qualitative": true,
+      "vars": {
+        "t": 2
+      },
+      "delay": {
+        "turns": 2
+      }
+    },
+    "flavor": "写下的那一刻就已经发生了。剩下的三天，只是让你慢慢明白。",
+    "art": {
+      "subject": "a colossal brush of starlight writing a single burning character in the sky above a giant demon king, who stares upward as the ink begins to drip down toward him"
+    }
+  }
+]

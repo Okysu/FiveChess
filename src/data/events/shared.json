@@ -1,0 +1,300 @@
+[
+  {
+    "id": "ev_tongdao_ke",
+    "title": "同道客",
+    "acts": [1, 2, 3],
+    "text": "篝火旁坐着另一个执命者。他的衣甲比你的更破，眼神比你的更倦，腰间挂着一串已经翻开过的命签。“我往上走，你往下走，”他拨着火，“在命阙里遇见活人不容易。交换点东西吧——反正带着走不完的路，东西也是累赘。”",
+    "options": [
+      {
+        "text": "和他交换一张牌",
+        "hint": "变化 1 张牌 · 升级 1 张牌",
+        "effects": [ { "op": "transformCard", "n": 1, "mode": "choose" }, { "op": "upgradeCard", "n": 1, "mode": "random" } ],
+        "outcome": "你们各自抽出一张牌推过火堆。他的牌上沾着你没去过的地方的尘土。临走前他还替你磨了磨另一张牌的锋口：“别死得太早。”"
+      },
+      {
+        "text": "向他打听前路",
+        "hint": "预览天命 · 获得 20 金",
+        "effects": [ { "op": "fate", "action": "preview", "n": 3 }, { "op": "gold", "n": 20 } ],
+        "outcome": "他在灰上画了一幅歪歪扭扭的地图，把前面几处凶吉都指给你看。末了还把几枚用不上的铜钱丢给你：“往下走，钱越来越没用。”"
+      },
+      {
+        "text": "【柳絮】借他的脸一用",
+        "requires": { "commander": "p_liuxu" },
+        "hint": "复制 1 张牌 · 移除 1 张牌",
+        "effects": [ { "op": "duplicateCard", "n": 1 }, { "op": "removeCard", "n": 1, "mode": "choose" } ],
+        "outcome": "你看了他一夜，天亮时已学会了他的眉眼和他的招式。千面客没有自己的脸，只能向路过的人借。你把借来的一招留下，把一段自己不想要的旧样子丢进了火里。"
+      },
+      {
+        "text": "趁他睡着，取走他的命签",
+        "hint": "获得 1 件普通遗物 · 获得 1 张诅咒",
+        "effects": [ { "op": "addRelic", "tier": "common" }, { "op": "addCard", "pool": { "type": "curse" } } ],
+        "outcome": "你悄悄解下那串命签。他在梦里皱了皱眉，却没有醒。你走出很远才敢回头，火堆已经熄了，他的身影也不见了——只有那份被你偷走的厄运，沉甸甸地跟了上来。"
+      }
+    ],
+    "art": { "subject": "two weary travelers sitting on opposite sides of a small campfire in a dark cavern, one in battered armor with a string of fortune cards at his waist, sparks rising between them" }
+  },
+  {
+    "id": "ev_yunyou_danshi",
+    "title": "云游丹师",
+    "acts": [1, 2, 3],
+    "text": "一个背着药葫芦的道人在路边支起小炉，炉上炖着一锅冒泡的丹液，颜色一会儿红一会儿青。“贫道游历命阙，专收奇症，”他笑眯眯地打量你，“你这身伤、这副命格，都是好药引。要不要试试贫道新炼的丹？头三颗不要钱——当然，后果也不包。”",
+    "options": [
+      {
+        "text": "试一颗新丹",
+        "hint": "50%：获得 5 最大生命；50%：失去 6 生命",
+        "effects": [ { "op": "chance", "p": 0.5, "then": [ { "op": "maxHp", "n": 5 } ], "else": [ { "op": "hp", "n": -6 } ] } ],
+        "outcome": "丹丸入口，苦得你眼泪直流。道人盯着你的脸色，在小本子上认真记了一笔。你究竟是好了还是坏了，他比你先知道。"
+      },
+      {
+        "text": "买几颗成丹",
+        "requires": { "gold": 40 },
+        "hint": "支付 40 金 · 获得 2 瓶随机丹药",
+        "effects": [ { "op": "gold", "n": -40 }, { "op": "addPotion" }, { "op": "addPotion" } ],
+        "outcome": "道人从葫芦里倒出两颗，用荷叶包好。“这两颗炼过百遍，”他说，“稳当。”"
+      },
+      {
+        "text": "给他当药引",
+        "hint": "失去 5 最大生命 · 获得 75 金 · 获得 1 瓶随机丹药",
+        "effects": [ { "op": "maxHp", "n": -5 }, { "op": "gold", "n": 75 }, { "op": "addPotion" } ],
+        "outcome": "道人取了你一碗血、几根头发，还有一段你说不清是什么的东西。他付钱很爽快，还多送一瓶丹：“用你自己炼的，你用着最顺手。”"
+      }
+    ],
+    "art": { "subject": "a wandering Taoist alchemist with a gourd on his back tending a small clay furnace by a mountain path, a bubbling pot shifting between red and green, smiling at an approaching traveler" }
+  },
+  {
+    "id": "ev_mingtu_dufang",
+    "title": "命途赌坊",
+    "acts": [1, 2, 3],
+    "text": "不知从哪一层开始，命阙里多了一间赌坊。门口挂着幽弈坊的招牌，厅中人声鼎沸，赌客大半是鬼。赌的不是钱，是命数：押日赢雷，押月赢山，庄家翻开天命牌，一局定生死。荷官向你抛了个眼色：“执命者来赌，庄家让三分。”",
+    "options": [
+      {
+        "text": "押上一半的金子",
+        "requires": { "gold": 50 },
+        "hint": "支付 50 金 · 55%：获得 110 金",
+        "effects": [ { "op": "gold", "n": -50 }, { "op": "chance", "p": 0.55, "then": [ { "op": "gold", "n": 110 } ] } ],
+        "outcome": "荷官翻开一张天命牌，满堂的鬼都探过头来。那张牌的命纹，决定了你今晚是走着出去还是爬着出去。"
+      },
+      {
+        "text": "押上一件遗物",
+        "hint": "失去 1 件随机遗物 · 50%：获得 2 件罕见遗物",
+        "effects": [ { "op": "loseRelic", "mode": "random" }, { "op": "chance", "p": 0.5, "then": [ { "op": "addRelic", "tier": "uncommon" }, { "op": "addRelic", "tier": "uncommon" } ] } ],
+        "outcome": "你把遗物推上赌桌，它在灯下闪着光。满堂寂静，只有天命牌翻开时那一声轻响。"
+      },
+      {
+        "text": "【幽弈坊】认出荷官的手法",
+        "requires": { "faction": "P" },
+        "hint": "获得 90 金 · 天命牌堆中 1 张牌改换命纹",
+        "effects": [ { "op": "gold", "n": 90 }, { "op": "fate", "action": "changeSuit", "n": 1 } ],
+        "outcome": "荷官的袖口里藏着一张命签，这手法你在坊里练过三年。你隔着赌桌冲她一笑，她脸色一白，悄悄把赢来的钱推到你面前，还替你改了一页命。"
+      },
+      {
+        "text": "只看不赌",
+        "effects": [],
+        "outcome": "你看了一夜。有鬼赢回了自己的名字，有鬼输掉了最后一口气。你走出赌坊时天还没亮，命阙里本来也没有天亮。"
+      }
+    ],
+    "art": { "subject": "a lantern-lit gambling hall packed with ghostly patrons crowded around a table, a smiling female dealer in purple silks flipping over a large fortune card while spectators lean in" }
+  },
+  {
+    "id": "ev_canpo_guanxingtai",
+    "title": "残破的观星台",
+    "acts": [1, 2, 3],
+    "text": "一座观星台斜插在岩壁上，浑仪断了一根环，铜针却还在转。台上散落着几张天命牌，都是前人留下的。观星台是执命者的驿站——在这里，人可以短暂地触摸自己的天命牌堆，删一页，添一页，改一页。只是这座台子坏了，每一次动手，都要付出比寻常更多的代价。",
+    "options": [
+      {
+        "text": "删去一页凶签",
+        "hint": "失去 5 生命 · 从天命牌堆移除 2 张牌",
+        "effects": [ { "op": "hp", "n": -5 }, { "op": "fate", "action": "remove", "n": 2 } ],
+        "outcome": "浑仪吱呀作响，铜针划破了你的指尖。你的血滴在两页残签上，它们便化作灰烬，从你的命里剥落了。"
+      },
+      {
+        "text": "添入一页吉签",
+        "requires": { "gold": 45 },
+        "hint": "支付 45 金 · 天命牌堆加入 1 张日纹 13 与 1 张山纹 13",
+        "effects": [ { "op": "gold", "n": -45 }, { "op": "fate", "action": "add", "suit": "sun", "rank": 13 }, { "op": "fate", "action": "add", "suit": "mountain", "rank": 13 } ],
+        "outcome": "你把金子投进浑仪的铜盘，换来两页崭新的命签。一页炽如烈日，一页沉如山岳，都是上上之数。"
+      },
+      {
+        "text": "改写三页的命纹",
+        "hint": "失去 8 生命 · 天命牌堆中 3 张牌改换命纹",
+        "effects": [ { "op": "hp", "n": -8 }, { "op": "fate", "action": "changeSuit", "n": 3 } ],
+        "outcome": "你握住断了的环，强行把它扳回原位。命纹在你的注视下一一翻转，残破的浑仪最后发出一声哀鸣，彻底停转了。"
+      },
+      {
+        "text": "修好浑仪再走",
+        "hint": "支付 25 金 · 预览天命",
+        "requires": { "gold": 25 },
+        "effects": [ { "op": "gold", "n": -25 }, { "op": "fate", "action": "preview", "n": 3 } ],
+        "outcome": "你花了些钱、费了些工夫，把断环接上。浑仪重新转动，映出前方几处路口的模样。你没有动自己的命，但给后来者留了一座好台。"
+      }
+    ],
+    "art": { "subject": "a ruined astronomical observatory platform jutting out from a cliff face, a broken bronze armillary sphere with one ring snapped, scattered fortune cards on the stone floor, a faint starry glow overhead" }
+  },
+  {
+    "id": "ev_suye_zhi_ying",
+    "title": "宿业之影",
+    "acts": [1, 2, 3],
+    "text": "你的影子忽然停下了，而你还在往前走。它站在原地，慢慢长出了自己的五官——那是一张很像你、却更苍老的脸。“你欠下的，我都替你背着，”它说，“背不动了。今天要么你接回去，要么你拿别的东西来抵。”影子的脚下，拖着一串锁链。",
+    "options": [
+      {
+        "text": "用血抵债",
+        "hint": "失去 10 生命 · 移除 1 张诅咒",
+        "requires": { "deckHas": { "type": "curse" } },
+        "effects": [ { "op": "hp", "n": -10 }, { "op": "removeCard", "n": 1, "mode": "choose", "filter": { "type": "curse" } } ],
+        "outcome": "影子吸了你的血，锁链松开了一环。它看起来年轻了一些，又重新伏回你的脚下。你身上少了一桩旧业。"
+      },
+      {
+        "text": "用金抵债",
+        "hint": "支付 70 金 · 移除 1 张牌",
+        "requires": { "gold": 70 },
+        "effects": [ { "op": "gold", "n": -70 }, { "op": "removeCard", "n": 1, "mode": "choose" } ],
+        "outcome": "金子落进影子里，像落进一口深井，连回声都没有。影子掂了掂，勉强点了点头，替你卸下了一件累赘。"
+      },
+      {
+        "text": "把锁链接过来",
+        "hint": "获得诅咒「宿业」 · 获得 1 件罕见遗物",
+        "effects": [ { "op": "addCard", "card": "cu_suye" }, { "op": "addRelic", "tier": "uncommon" } ],
+        "outcome": "锁链冰冷地缠上你的手腕。影子如释重负，从怀里掏出一件东西交给你——那是它背债时攒下的利息。它说：“往后，就辛苦你了。”"
+      },
+      {
+        "text": "【万木庭】让它在土里安歇",
+        "requires": { "faction": "G" },
+        "hint": "移除 1 张牌 · 恢复 10 生命",
+        "effects": [ { "op": "removeCard", "n": 1, "mode": "choose" }, { "op": "hp", "n": 10 } ],
+        "outcome": "你在地上种下一粒种子，让影子躺在新芽旁边。万木庭的人都知道，业力也是养分。影子睡着了，锁链化作了根须，扎进泥土深处。"
+      }
+    ],
+    "art": { "subject": "a traveler looking back at their own shadow which has stopped and risen from the ground to form an older face, heavy chains trailing from the shadow's feet across a dim stone passage" }
+  },
+  {
+    "id": "ev_fei_yi",
+    "title": "废驿",
+    "acts": [1, 2, 3],
+    "text": "一座驿站孤零零地立在命阙的岔道上，门匾掉了一半，只剩一个“驿”字。屋里的灶台还温着，床铺叠得整整齐齐，墙上钉着一排木牌，写着历代投宿者的名字。最后一块木牌是空的，旁边挂着一支笔。驿站没有主人，或者说，每个投宿的人都是它的主人。",
+    "options": [
+      {
+        "text": "好好睡一觉",
+        "hint": "恢复 30% 生命",
+        "effects": [ { "op": "hpPct", "pct": 30 } ],
+        "outcome": "你睡得很沉，没有做梦。醒来时灶上多了一碗热粥，不知是谁煮的。你喝了，身上的伤也好了大半。"
+      },
+      {
+        "text": "在灯下磨砺技艺",
+        "hint": "升级 2 张牌 · 失去 4 生命",
+        "effects": [ { "op": "upgradeCard", "n": 2, "mode": "choose" }, { "op": "hp", "n": -4 } ],
+        "outcome": "你借着油灯把招式一遍遍过了一整夜。天快亮时，有两招终于通透了，手上却磨出了血泡。"
+      },
+      {
+        "text": "在空木牌上写下自己的名字",
+        "hint": "获得 5 最大生命 · 获得 1 张诅咒",
+        "effects": [ { "op": "maxHp", "n": 5 }, { "op": "addCard", "pool": { "type": "curse" } } ],
+        "outcome": "你写下名字，墙上立刻多了一块新的空木牌。驿站把你当成了主人，也把上一任主人未尽的心事交给了你。"
+      },
+      {
+        "text": "【镇岳门】加固驿站的门墙",
+        "requires": { "faction": "B" },
+        "hint": "恢复 15% 生命 · 升级 1 张牌",
+        "effects": [ { "op": "hpPct", "pct": 15 }, { "op": "upgradeCard", "n": 1, "mode": "choose" } ],
+        "outcome": "你搬石砌墙，把破了的门重新堵严实。镇岳门的规矩：借住一夜，留一面墙。干完活，你睡得格外安稳，醒来后连手上的招式都更扎实了。"
+      }
+    ],
+    "art": { "subject": "an abandoned waystation at a fork in a dark underground road, a half-fallen signboard, warm embers glowing in a clay stove, a row of wooden name plaques on the wall ending with one blank plaque and a hanging brush" }
+  },
+  {
+    "id": "ev_piaoling_mingqian",
+    "title": "一页飘零",
+    "acts": [1, 2, 3],
+    "text": "一页命书残片在风里打着旋，飘到你面前停住了，悬在半空一动不动。它看起来很旧，四角卷曲，上面的命纹已经模糊得分辨不出。你伸手想碰它，它却往后退了一寸，又停住，像是在等你开口。有人说，每一页飘零的残片都在找一个愿意收留它的人。",
+    "options": [
+      {
+        "text": "收留它",
+        "hint": "天命牌堆加入 1 张随机牌 · 获得 4 最大生命",
+        "effects": [ { "op": "fate", "action": "add", "n": 1 }, { "op": "maxHp", "n": 4 } ],
+        "outcome": "你摊开手掌，残片落进来，轻轻颤了一下，钻进了你的天命里。你感到一股微弱但真实的暖意——有什么东西终于有了归处。"
+      },
+      {
+        "text": "为它描上雷纹",
+        "hint": "失去 4 生命 · 天命牌堆加入 1 张雷纹 13",
+        "effects": [ { "op": "hp", "n": -4 }, { "op": "fate", "action": "add", "suit": "thunder", "rank": 13 } ],
+        "outcome": "你咬破指尖，在残片上描出一道雷纹。纸面噼啪作响，模糊的字迹一下子清晰起来——那是一道天罚之命，锋利而决断，从此归你驱使。"
+      },
+      {
+        "text": "撕碎它",
+        "hint": "从天命牌堆移除 1 张牌 · 获得 25 金",
+        "effects": [ { "op": "fate", "action": "remove", "n": 1 }, { "op": "gold", "n": 25 } ],
+        "outcome": "残片碎成纸屑，和你命里的一页一同散去。纸屑落地变成了几枚铜钱。命书撕成的碎片，原来也能买东西。"
+      }
+    ],
+    "art": { "subject": "a single ancient torn page with curled corners hovering motionless in the air of a dark stone corridor, faint worn symbols on its surface, a traveler's hand reaching toward it" }
+  },
+  {
+    "id": "ev_qianmian_jing",
+    "title": "千面池",
+    "acts": [1, 2, 3],
+    "text": "一方水池，池面倒映的不是一张脸，而是千百张——你在里面看见了你本可能成为的每一个人：屠夫、书生、帝王、乞丐。据说把手伸进池里，可以从另一个自己那里换来一样东西，但换来的永远不会完全合身。池边的石头上坐着一只青蛙，吞吐着涟漪。",
+    "options": [
+      {
+        "text": "换掉两段不合适的招式",
+        "hint": "变化 2 张牌",
+        "effects": [ { "op": "transformCard", "n": 2, "mode": "choose" } ],
+        "outcome": "你把两张牌沉进池底，池中的某个你把另外两张推了上来。它们带着陌生的手感，却意外地顺手。"
+      },
+      {
+        "text": "向帝王的你讨一件东西",
+        "hint": "失去 8 生命 · 获得 1 件罕见遗物",
+        "effects": [ { "op": "hp", "n": -8 }, { "op": "addRelic", "tier": "uncommon" } ],
+        "outcome": "帝王的你冷冷看着你，最后还是解下一件饰物丢进水里，同时让池水在你手臂上割了一刀：“这是朕的，也是你的。”"
+      },
+      {
+        "text": "【柳絮】找到自己原本的那张脸",
+        "requires": { "commander": "p_liuxu" },
+        "hint": "获得 1 件事件遗物 · 移除 1 张牌",
+        "effects": [ { "op": "addRelic", "tier": "event" }, { "op": "removeCard", "n": 1, "mode": "choose" }, { "op": "flag", "key": "liuxu_found_face" } ],
+        "outcome": "千百张脸里，只有一张是模糊的——那是命书划掉你名字时一并抹去的本来面目。你伸手摸了摸它，指尖沾上一点真实的温度。不必戴回去，知道它还在就够了。"
+      },
+      {
+        "text": "【夜昙】在池中投毒",
+        "requires": { "commander": "p_yetan" },
+        "hint": "从 3 张紫色稀有牌中选 1 张 · 获得 1 张诅咒",
+        "effects": [ { "op": "addCard", "pool": { "faction": "P", "rarity": "rare" }, "choose": 3 }, { "op": "addCard", "pool": { "type": "curse" } } ],
+        "outcome": "你滴下一滴昙花毒。池中千百个你同时捂住喉咙，唯有杀手的那个你冲你点头，递来一招。其余的你沉入池底，怨气却缠上了你的指尖。"
+      }
+    ],
+    "art": { "subject": "a still pool reflecting hundreds of different faces instead of one, a butcher, a scholar, an emperor, a beggar, a frog sitting on a mossy stone at its edge, a traveler kneeling to reach into the water" }
+  },
+  {
+    "id": "ev_hanchuan_baidu",
+    "title": "寒川摆渡",
+    "acts": [1, 2, 3],
+    "text": "一条黑色的河横在路前，水面漂着薄冰。岸边系着一条小舟，摆渡人裹着厚厚的斗篷，看不清面容。“过河要付船钱，”他说，“金子也行，记忆也行，命也行。河那边的路近些，这边的路远些——你若不急，也可以绕。”冰下有影子游过，像是没付够船钱的人。",
+    "options": [
+      {
+        "text": "付金子",
+        "requires": { "gold": 35 },
+        "hint": "支付 35 金 · 恢复 12 生命",
+        "effects": [ { "op": "gold", "n": -35 }, { "op": "hp", "n": 12 } ],
+        "outcome": "船行得很稳。摆渡人递来一碗热酒，你喝下，寒意尽散。到了对岸，你回头看，河上已经没有船了。"
+      },
+      {
+        "text": "付一段记忆",
+        "hint": "随机移除 1 张牌 · 天命牌堆中 1 张牌改换命纹",
+        "effects": [ { "op": "removeCard", "n": 1, "mode": "random" }, { "op": "fate", "action": "changeSuit", "n": 1 } ],
+        "outcome": "摆渡人伸手在你额前一抹，某段往事就沉进了河里。你不记得失去了什么，只觉得命里有一处悄悄换了颜色。"
+      },
+      {
+        "text": "【素弦】为他弹一曲作船资",
+        "requires": { "commander": "b_suxian" },
+        "hint": "从 3 张玄色稀有/史诗牌中选 1 张",
+        "effects": [ { "op": "addCard", "pool": { "faction": "B", "rarity": ["rare", "epic"] }, "choose": 3 } ],
+        "outcome": "你在船头抚琴，弹的是寒川的调子。摆渡人听着听着，摘下兜帽——他是你少年时的乡人，冻死在那年的雪里。“寒川的琴，”他说，“还是这么冷。”下船时，他把一段旧曲谱塞进你手中。"
+      },
+      {
+        "text": "绕路",
+        "hint": "失去 7 生命",
+        "effects": [ { "op": "hp", "n": -7 }],
+        "outcome": "你沿着河岸走了很久很久，冻得手脚发麻，终于找到一处浅滩涉水而过。摆渡人远远地看着你，没有说话。"
+      }
+    ],
+    "art": { "subject": "a hooded ferryman in a heavy cloak standing beside a small boat moored on a black river covered in thin ice, dark shapes drifting beneath the frozen surface, a traveler approaching the shore" }
+  }
+]

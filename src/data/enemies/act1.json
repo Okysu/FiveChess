@@ -1,0 +1,2428 @@
+[
+  {
+    "id": "e1_bone_spear",
+    "name": "骸骨枪卒",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      18,
+      22
+    ],
+    "atk": 6,
+    "row": "front",
+    "moves": {
+      "thrust": {
+        "name": "突刺",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "brace": {
+        "name": "列枪",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 6,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "thrust",
+        "thrust",
+        "brace"
+      ],
+      "start": "random"
+    },
+    "lore": "残碑林最常见的守墓骸骨。生前替人守陵，死后仍守着一块连名字都没留下的碑，见活人便刺。",
+    "art": {
+      "subject": "a skeletal spearman in rotted lamellar armor lunging forward with a chipped spear, mist curling between broken gravestones under cold moonlight"
+    }
+  },
+  {
+    "id": "e1_rust_shield",
+    "name": "锈盾残兵",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      28,
+      32
+    ],
+    "atk": 4,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "moves": {
+      "bash": {
+        "name": "盾击",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      },
+      "cover": {
+        "name": "掩护",
+        "intent": [
+          "defend"
+        ],
+        "target": "ally",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 6,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "bash": 2,
+        "cover": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "锈甲将军麾下的残兵，盾比人结实。它们记不得为谁而战，只记得“不许后退”这一条军令。",
+    "art": {
+      "subject": "a hollow-eyed undead soldier crouched behind a huge rust-eaten tower shield, bracing against impact, dead leaves swirling at his feet in overcast light"
+    }
+  },
+  {
+    "id": "e1_grave_archer",
+    "name": "墓园弓手",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      14,
+      17
+    ],
+    "atk": 5,
+    "row": "back",
+    "keywords": [
+      "ranged"
+    ],
+    "moves": {
+      "shoot": {
+        "name": "冷箭",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "heart": {
+        "name": "穿心",
+        "intent": [
+          "attack"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 8
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "shoot": 3,
+        "heart": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "蹲在碑顶的骸骨弓手。弓弦是坟头草搓的，箭却总能绕过盾阵，找到活人的心口。",
+    "art": {
+      "subject": "a skeletal archer crouched atop a leaning tombstone drawing a bow strung with twisted grass, one eye socket glowing faintly in dusk fog"
+    }
+  },
+  {
+    "id": "e1_crow",
+    "name": "啄名鸦",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      12,
+      14
+    ],
+    "atk": 4,
+    "row": "back",
+    "keywords": [
+      "ranged"
+    ],
+    "moves": {
+      "peck": {
+        "name": "啄目",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "steal": {
+        "name": "衔名",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "create",
+            "card": "st_dazed",
+            "n": 1,
+            "to": "discard"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "peck",
+        "steal",
+        "peck"
+      ],
+      "start": "random"
+    },
+    "lore": "专啄碑上名字的乌鸦。被它衔走一个字的人，会在某个清晨突然想不起自己要去哪里。",
+    "art": {
+      "subject": "a ragged black crow perched on a weathered stone tablet, a glowing carved character clamped in its beak, feathers ruffled by cold wind"
+    }
+  },
+  {
+    "id": "e1_ghost_lamp",
+    "name": "引魂灯",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      15,
+      18
+    ],
+    "atk": 0,
+    "row": "back",
+    "moves": {
+      "rekindle": {
+        "name": "续灯",
+        "intent": [
+          "heal"
+        ],
+        "target": "allyLowest",
+        "effects": [
+          {
+            "op": "heal",
+            "amount": 7,
+            "target": "target"
+          }
+        ]
+      },
+      "will_o": {
+        "name": "鬼火",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 3,
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": 2,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "rules": [
+        {
+          "if": {
+            "alive": {
+              "side": "friendly",
+              "kind": "character",
+              "where": {
+                "lt": [
+                  {
+                    "count": "hp",
+                    "of": "it"
+                  },
+                  {
+                    "mul": [
+                      {
+                        "count": "maxHp",
+                        "of": "it"
+                      },
+                      0.5
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "move": "rekindle"
+        }
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "will_o": 2,
+          "rekindle": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "lore": "为亡魂引路的灯笼，如今只为残碑林里的怪物续命。先灭灯，否则你砍下的每一刀都会被它慢慢补回去。",
+    "art": {
+      "subject": "a floating paper lantern with a pale ghostly flame inside, faint spirit hands cupping it, drifting between gravestones at night"
+    }
+  },
+  {
+    "id": "e1_grave_robber",
+    "name": "盗墓客",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      22,
+      26
+    ],
+    "atk": 6,
+    "row": "front",
+    "passives": [
+      {
+        "on": "cardSacrificed",
+        "who": "enemy",
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 1,
+            "target": "self"
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "pry": {
+        "name": "撬棺",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "stash": {
+        "name": "揣宝",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 7,
+            "target": "self"
+          }
+        ]
+      },
+      "dirt": {
+        "name": "扬土",
+        "intent": [
+          "debuff",
+          "defend"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 2,
+            "target": "target"
+          },
+          {
+            "op": "armor",
+            "amount": 8,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "rules": [
+        {
+          "if": {
+            "lt": [
+              {
+                "count": "hp"
+              },
+              {
+                "mul": [
+                  {
+                    "count": "maxHp"
+                  },
+                  0.5
+                ]
+              }
+            ]
+          },
+          "move": "dirt",
+          "once": true
+        }
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "pry",
+          "pry",
+          "stash"
+        ]
+      }
+    },
+    "lore": "“源”的味道他闻得出来。你每献出一张牌，他眼睛就红一分，下手也更狠一分——那都是他想撬走的陪葬。",
+    "art": {
+      "subject": "a gaunt grave robber in a mud-caked cloak gripping a crowbar, eyes gleaming greedily in lantern light beside an opened coffin"
+    }
+  },
+  {
+    "id": "e1_paper_maker",
+    "name": "扎纸匠",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      18,
+      22
+    ],
+    "atk": 0,
+    "row": "back",
+    "moves": {
+      "fold": {
+        "name": "扎纸",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e1m_paper_doll",
+            "n": 1
+          }
+        ]
+      },
+      "dot": {
+        "name": "点睛",
+        "intent": [
+          "buff"
+        ],
+        "effects": [
+          {
+            "op": "buff",
+            "target": "otherFriendlyUnits",
+            "atk": 1
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "fold",
+        "dot",
+        "fold"
+      ]
+    },
+    "lore": "给死人扎纸人的手艺人，扎着扎着把自己也扎进了纸里。纸人不点睛不会动，点了睛便不认得主人。",
+    "art": {
+      "subject": "an old craftsman made half of paper kneeling over a paper effigy, dabbing a red dot of ink into its blank eye, paper scraps swirling around"
+    }
+  },
+  {
+    "id": "e1_fox_kit",
+    "name": "狐仔",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      13,
+      16
+    ],
+    "atk": 5,
+    "row": "front",
+    "keywords": [
+      "stealth"
+    ],
+    "moves": {
+      "pounce": {
+        "name": "扑咬",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "mimic": {
+        "name": "学舌",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "pounce": 3,
+        "mimic": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "噬名狐母的崽子，躲在碑后学人说话。在它先动手之前，你连它藏在哪块碑后都看不见。",
+    "art": {
+      "subject": "a small grey fox with too-human eyes peeking from behind a cracked gravestone, tail curled, a wisp of blue flame at its ear tip"
+    }
+  },
+  {
+    "id": "e1_grudge_stele",
+    "name": "怨碑",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      30,
+      36
+    ],
+    "atk": 3,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "passives": [
+      {
+        "on": "cardDiscarded",
+        "who": "enemy",
+        "effects": [
+          {
+            "op": "heal",
+            "amount": 2,
+            "target": "self"
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "loom": {
+        "name": "压顶",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "grudge": {
+        "name": "刻怨",
+        "intent": [
+          "buff"
+        ],
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 1,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "loom",
+        "loom",
+        "grudge"
+      ]
+    },
+    "lore": "刻满怨言的石碑，以被弃置的念头为食。你每弃掉一张牌，它就恢复2点生命——手里别攥着不用的东西。",
+    "art": {
+      "subject": "a leaning stone stele covered in angry scratched characters that ooze dark smoke, its base cracked open like a mouth, ominous overcast sky"
+    }
+  },
+  {
+    "id": "e1_tomb_beast",
+    "name": "镇墓石兽",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      38,
+      44
+    ],
+    "atk": 7,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "thorns": 2,
+    "moves": {
+      "bite": {
+        "name": "石牙",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "slumber": {
+        "name": "蛰伏",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 10,
+            "target": "self"
+          }
+        ]
+      },
+      "quake": {
+        "name": "撼地",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 11
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "bite",
+        "slumber",
+        "quake"
+      ]
+    },
+    "lore": "蹲在陵前的石兽，背上长着棘刺般的碎石。它蛰伏一回合，下一回合必然撼地——留好余烬，等它扑来。",
+    "art": {
+      "subject": "a hulking stone guardian lion with jagged rock spines along its back, rearing to slam its forepaws down, dust and pebbles erupting around it"
+    }
+  },
+  {
+    "id": "e1_mourner",
+    "name": "哭碑女",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      16,
+      20
+    ],
+    "atk": 0,
+    "row": "back",
+    "moves": {
+      "ask": {
+        "name": "问碑",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "damage",
+                  "amount": 7,
+                  "target": "enemyCommander"
+                }
+              ],
+              "yin": [
+                {
+                  "op": "heal",
+                  "amount": 5,
+                  "target": "allFriendly"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "wail": {
+        "name": "恸哭",
+        "intent": [
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 1,
+            "target": "allEnemies"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "ask": 2,
+        "wail": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "每夜对着无名碑哭问“是不是你”的女子。碑若答“是”，她便替亡夫报仇；答“否”，她便替旁人续命。",
+    "art": {
+      "subject": "a pale woman in white mourning robes kneeling with her forehead pressed to a blank tombstone, tears glowing faintly, a fate card hovering above"
+    }
+  },
+  {
+    "id": "e1_blind_seer",
+    "name": "算命瞎子",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      15,
+      18
+    ],
+    "atk": 0,
+    "row": "back",
+    "moves": {
+      "read": {
+        "name": "断命",
+        "intent": [
+          "debuff",
+          "judge"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "delay",
+            "card": "ec_a_carve_name",
+            "target": "target",
+            "turns": 2
+          }
+        ]
+      },
+      "feel": {
+        "name": "摸骨",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "stargaze",
+            "n": 3
+          }
+        ]
+      },
+      "tap": {
+        "name": "敲杖",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 4,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "read",
+        "feel",
+        "tap"
+      ]
+    },
+    "lore": "瞎了眼却看得见命牌。他先给你挂一道“刻名”，再伸手去摸天命牌堆，把阴纹一张张翻到最上面。",
+    "art": {
+      "subject": "a blind fortune teller with clouded eyes and a bamboo cane, one hand raised as fate cards rearrange themselves in the air before him"
+    }
+  },
+  {
+    "id": "e1_wild_dog",
+    "name": "啃骨野犬",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      12,
+      15
+    ],
+    "atk": 3,
+    "row": "front",
+    "moves": {
+      "tear": {
+        "name": "撕咬",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "times": 2
+          }
+        ]
+      },
+      "howl": {
+        "name": "嚎叫",
+        "intent": [
+          "buff"
+        ],
+        "effects": [
+          {
+            "op": "buff",
+            "target": "otherFriendlyUnits",
+            "atk": 2,
+            "until": "turn"
+          }
+        ]
+      },
+      "frenzy": {
+        "name": "疯噬",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "times": 3
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "rules": [
+        {
+          "if": {
+            "lt": [
+              {
+                "count": "hp"
+              },
+              {
+                "mul": [
+                  {
+                    "count": "maxHp"
+                  },
+                  0.5
+                ]
+              }
+            ]
+          },
+          "move": "frenzy",
+          "once": true
+        }
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "tear": 3,
+          "howl": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "lore": "在碑林里啃了三百年骨头的野狗，瘦得只剩牙。一只嚎叫，其余的当回合便更凶；受了伤反而一口接一口，不死不休。",
+    "art": {
+      "subject": "an emaciated feral dog with exposed ribs snarling over a scattered pile of old bones, hackles raised, grey mist behind"
+    }
+  },
+  {
+    "id": "e1_rust_crossbow",
+    "name": "锈弩手",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      16,
+      19
+    ],
+    "atk": 5,
+    "row": "back",
+    "keywords": [
+      "ranged"
+    ],
+    "moves": {
+      "crank": {
+        "name": "绞弦",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 4,
+            "target": "self"
+          }
+        ]
+      },
+      "pierce": {
+        "name": "贯甲矢",
+        "intent": [
+          "attack"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 12
+          }
+        ]
+      },
+      "shoot": {
+        "name": "平射",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "crank",
+        "pierce",
+        "shoot"
+      ],
+      "start": "random"
+    },
+    "lore": "绞一回合弦，射一支能贯穿三层甲的弩矢。弦声一紧，就是该留余烬的时候。",
+    "art": {
+      "subject": "an undead crossbowman in corroded armor cranking a heavy siege crossbow, the bolt tip gleaming, dusk light through bare trees"
+    }
+  },
+  {
+    "id": "e1_ink_wraith",
+    "name": "墨魂",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      20,
+      25
+    ],
+    "atk": 3,
+    "row": "front",
+    "moves": {
+      "copy": {
+        "name": "摹写",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": {
+              "add": [
+                2,
+                {
+                  "mul": [
+                    {
+                      "count": "cardsPlayed"
+                    },
+                    2
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "smear": {
+        "name": "涂字",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "create",
+            "card": "st_dazed",
+            "n": 1,
+            "to": "draw"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "copy",
+        "copy",
+        "smear"
+      ]
+    },
+    "lore": "碑文拓片里生出的墨鬼，照着你出过的每一招临摹。摹写伤害为2加你本回合打出牌数的两倍——少打牌，多献牌。",
+    "art": {
+      "subject": "a humanoid figure made of flowing black ink mirroring a warrior's stance, brushstroke limbs dripping onto a stone rubbing sheet"
+    }
+  },
+  {
+    "id": "e1_incense_ghost",
+    "name": "残香鬼",
+    "act": 1,
+    "tier": "normal",
+    "hp": [
+      16,
+      20
+    ],
+    "atk": 2,
+    "row": "front",
+    "moves": {
+      "incense": {
+        "name": "香尽",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": {
+              "max": [
+                0,
+                {
+                  "sub": [
+                    15,
+                    {
+                      "mul": [
+                        {
+                          "count": "cardsPlayed"
+                        },
+                        3
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "linger": {
+        "name": "余烟",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "status",
+            "status": "vulnerable",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "incense",
+        "incense",
+        "linger"
+      ]
+    },
+    "lore": "一炷没烧完的香化成的鬼。香尽伤害为15减你本回合打出牌数的三倍：你出手越快，它燃得越短；你若迟疑，它便烧成一场火。",
+    "art": {
+      "subject": "a ghost formed from curling incense smoke rising from a half-burnt joss stick, its face flaring orange at the glowing tip"
+    }
+  },
+  {
+    "id": "e1m_paper_doll",
+    "name": "纸人",
+    "act": 1,
+    "tier": "minion",
+    "hp": [
+      6,
+      7
+    ],
+    "atk": 3,
+    "row": "front",
+    "moves": {
+      "flutter": {
+        "name": "扑",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "flutter"
+      ]
+    },
+    "lore": "扎纸匠手里扎出的纸人，一碰就破，可点了睛的纸人总是比你想象的多。",
+    "art": {
+      "subject": "a paper effigy servant with a painted smile and red-dotted eyes lurching forward, its paper robes rustling in the wind"
+    }
+  },
+  {
+    "id": "e1m_blank_stele",
+    "name": "无字碑",
+    "act": 1,
+    "tier": "minion",
+    "hp": [
+      12,
+      14
+    ],
+    "atk": 0,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "moves": {
+      "guard": {
+        "name": "护主",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 5,
+            "target": "commander"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "guard"
+      ]
+    },
+    "lore": "碑魇从地下拔起的无字碑。只要它还立着，碑魇身上就总有一层石皮。",
+    "art": {
+      "subject": "a smooth blank stone stele rising from cracked earth, faint grey aura connecting it to a looming shadow behind"
+    }
+  },
+  {
+    "id": "e1m_rust_soldier",
+    "name": "锈甲亲兵",
+    "act": 1,
+    "tier": "minion",
+    "hp": [
+      10,
+      12
+    ],
+    "atk": 3,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "moves": {
+      "jab": {
+        "name": "突刺",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "guard": {
+        "name": "护将",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 5,
+            "target": "commander"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "jab": 2,
+        "guard": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "锈甲将军的亲兵，死后仍排成横列挡在将军身前。它们的甲比刀锈得更快。",
+    "art": {
+      "subject": "an undead bodyguard in corroded plate armor with a notched spear, standing at attention before a tattered banner"
+    }
+  },
+  {
+    "id": "e1m_fox_shade",
+    "name": "狐影",
+    "act": 1,
+    "tier": "minion",
+    "hp": [
+      7,
+      8
+    ],
+    "atk": 3,
+    "row": "front",
+    "keywords": [
+      "stealth"
+    ],
+    "moves": {
+      "nip": {
+        "name": "啮",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "lure": {
+        "name": "诱",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "status",
+            "status": "vulnerable",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "nip": 2,
+        "lure": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "狐母分出的影子，没有实体，只有牙齿。它不咬你，谁也看不见它。",
+    "art": {
+      "subject": "a translucent blue fox silhouette flickering like a candle flame, only its white fangs fully solid, slinking through fog"
+    }
+  },
+  {
+    "id": "e1m_bone_shard",
+    "name": "碎骸",
+    "act": 1,
+    "tier": "minion",
+    "hp": [
+      9,
+      11
+    ],
+    "atk": 4,
+    "row": "front",
+    "moves": {
+      "rattle": {
+        "name": "骨刺",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "rattle"
+      ]
+    },
+    "lore": "百骸聚崩散后爬出的碎骨，各自只记得一点点仇恨，却足够让它们成群扑向最近的活人。",
+    "art": {
+      "subject": "a small skittering cluster of fused bones with sharp rib-like spikes, crawling across grave dirt toward the viewer"
+    }
+  },
+  {
+    "id": "e1_headsman",
+    "name": "断头刽子手",
+    "act": 1,
+    "tier": "elite",
+    "hp": [
+      82,
+      82
+    ],
+    "atk": 7,
+    "row": "commander",
+    "moves": {
+      "chop": {
+        "name": "砍",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "raise": {
+        "name": "举刀",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 8,
+            "target": "self"
+          }
+        ]
+      },
+      "behead": {
+        "name": "斩首",
+        "intent": [
+          "attack"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 20
+          }
+        ]
+      },
+      "bloodlust": {
+        "name": "嗜血",
+        "intent": [
+          "buff",
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 3,
+            "target": "self"
+          },
+          {
+            "op": "armor",
+            "amount": 10,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "rules": [
+        {
+          "if": {
+            "lt": [
+              {
+                "count": "hp"
+              },
+              {
+                "mul": [
+                  {
+                    "count": "maxHp"
+                  },
+                  0.5
+                ]
+              }
+            ]
+          },
+          "move": "bloodlust",
+          "once": true
+        }
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "chop",
+          "raise",
+          "behead"
+        ]
+      }
+    },
+    "lore": "刑场废弃后，刽子手仍每日磨刀。他举刀的那一回合，就是在告诉你下一刀要落在哪里——若不在敌方回合用余烬应对，便只能硬吃这一斩。",
+    "dialogue": {
+      "intro": "跪下。刀快，不疼。",
+      "defeat": "……这一刀……终于……砍偏了。"
+    },
+    "art": {
+      "subject": "a towering masked executioner raising a massive notched broadsword overhead with both hands, blood-red sash, execution platform in stormy light"
+    }
+  },
+  {
+    "id": "e1_stele_warden",
+    "name": "守碑人",
+    "act": 1,
+    "tier": "elite",
+    "hp": [
+      100,
+      100
+    ],
+    "atk": 6,
+    "row": "commander",
+    "deck": [
+      "ec_a_carve_name",
+      "ec_a_carve_name",
+      "ec_a_stele_guard",
+      "ec_a_moon_script",
+      "ec_a_ink_blot",
+      "ec_a_erase_mark"
+    ],
+    "energy": {
+      "start": 1,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "tend": {
+        "name": "拂碑",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "staff": {
+        "name": "杖击",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "seal": {
+        "name": "封碑",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 10,
+            "target": "self"
+          }
+        ]
+      },
+      "prophecy": {
+        "name": "碑谶",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "damage",
+                  "amount": 10,
+                  "target": "enemyCommander"
+                }
+              ],
+              "yin": [
+                {
+                  "op": "heal",
+                  "amount": 8,
+                  "target": "self"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "tend"
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "staff",
+          "tend",
+          "prophecy",
+          "seal",
+          "tend"
+        ]
+      }
+    },
+    "lore": "替残碑林扫了三百年碑的老人，手里的牌都是碑文拓片。他会把“刻名”挂在你身上，再用“抹字”追打身负延时之人。",
+    "dialogue": {
+      "intro": "来扫墓的？还是来立碑的？",
+      "defeat": "碑……总得有人扫……"
+    },
+    "art": {
+      "subject": "a stooped old grave keeper in patched grey robes holding a straw broom and a sheaf of stone rubbings, lantern at his hip, rows of steles behind"
+    }
+  },
+  {
+    "id": "e1_rust_captain",
+    "name": "锈旗校尉",
+    "act": 1,
+    "tier": "elite",
+    "hp": [
+      108,
+      108
+    ],
+    "atk": 7,
+    "row": "commander",
+    "deck": [
+      "ec_a_war_drum",
+      "ec_a_muster",
+      "ec_a_shield_wall",
+      "ec_a_iron_rain",
+      "ec_a_rust_halberd",
+      "ec_a_court_martial"
+    ],
+    "energy": {
+      "start": 1,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "order": {
+        "name": "传令",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "lance": {
+        "name": "旗枪",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "banner": {
+        "name": "举旗",
+        "intent": [
+          "buff"
+        ],
+        "effects": [
+          {
+            "op": "buff",
+            "target": "friendlyUnits",
+            "atk": 2,
+            "until": "turn"
+          }
+        ]
+      },
+      "rally": {
+        "name": "点卯",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e1m_rust_soldier",
+            "n": 1
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "rally"
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "order",
+          "lance",
+          "banner",
+          "order",
+          "rally"
+        ]
+      }
+    },
+    "lore": "锈甲将军的旧部，扛着一面烂成布条的军旗。他举旗的那回合，身前的亲兵个个攻击力+2——先拆旗下的兵，还是直取校尉，由你决定。",
+    "dialogue": {
+      "intro": "列阵——！",
+      "defeat": "旗……不能倒……"
+    },
+    "art": {
+      "subject": "an undead officer in rusted scale armor planting a shredded war banner into the ground, shouting orders, soldiers forming up behind in fog"
+    }
+  },
+  {
+    "id": "e1_bone_heap",
+    "name": "百骸聚",
+    "act": 1,
+    "tier": "elite",
+    "hp": [
+      84,
+      90
+    ],
+    "atk": 8,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "moves": {
+      "slam": {
+        "name": "砸",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "sweep": {
+        "name": "横扫",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 6,
+            "target": "allEnemies"
+          }
+        ]
+      },
+      "absorb": {
+        "name": "聚骸",
+        "intent": [
+          "heal"
+        ],
+        "effects": [
+          {
+            "op": "heal",
+            "amount": 6,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "slam",
+        "sweep",
+        "slam",
+        "absorb"
+      ]
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "骸散",
+        "text": "（骨骼崩散的碎响里，有人在笑）",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e1m_bone_shard",
+            "n": 2
+          }
+        ],
+        "atk": 10,
+        "ai": {
+          "type": "cycle",
+          "sequence": [
+            "slam",
+            "sweep",
+            "slam",
+            "absorb"
+          ]
+        }
+      }
+    ],
+    "lore": "无主骸骨在碑林低处聚成的肉山。打到一半，它会崩散出两具碎骸——留好群伤，别让碎骨围上来。",
+    "art": {
+      "subject": "a towering mound of fused skeletons forming a hunched giant, dozens of skulls along its arms, grinding forward through a sunken graveyard"
+    }
+  },
+  {
+    "id": "e1_boss_blank_stele",
+    "name": "碑魇·无字",
+    "act": 1,
+    "tier": "boss",
+    "hp": [
+      220,
+      220
+    ],
+    "atk": 10,
+    "row": "commander",
+    "deck": [
+      "ec_a_carve_name",
+      "ec_a_carve_name",
+      "ec_a_blank_verdict",
+      "ec_a_blank_verdict",
+      "ec_a_stele_guard",
+      "ec_a_erase_mark",
+      "ec_a_erase_mark",
+      "ec_a_moon_script",
+      "ec_a_ink_blot"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 3,
+      "max": 6
+    },
+    "moves": {
+      "rub": {
+        "name": "拓印",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "press": {
+        "name": "无字之压",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "ask": {
+        "name": "问碑",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "damage",
+                  "amount": 14,
+                  "target": "enemyCommander"
+                }
+              ],
+              "yin": [
+                {
+                  "op": "armor",
+                  "amount": 12,
+                  "target": "self"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "raise": {
+        "name": "立碑",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e1m_blank_stele",
+            "n": 1
+          }
+        ]
+      },
+      "erase": {
+        "name": "抹名",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 6,
+            "target": "target"
+          },
+          {
+            "op": "create",
+            "card": "st_dazed",
+            "n": 2,
+            "to": "draw"
+          },
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      },
+      "engrave": {
+        "name": "刻命",
+        "intent": [
+          "debuff",
+          "judge"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "delay",
+            "card": "ec_a_carve_name",
+            "target": "target",
+            "turns": 1
+          }
+        ]
+      },
+      "topple": {
+        "name": "碑倾",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "times": 2
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "raise",
+        "rub"
+      ],
+      "rules": [
+        {
+          "if": {
+            "and": [
+              {
+                "eq": [
+                  {
+                    "count": "units",
+                    "side": "friendly"
+                  },
+                  0
+                ]
+              },
+              {
+                "chance": 0.5
+              }
+            ]
+          },
+          "move": "raise"
+        }
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "press",
+          "rub",
+          "ask",
+          "erase",
+          "rub",
+          "topple"
+        ]
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "字尽碑崩",
+        "text": "你的名字……我替你刻上。",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e1m_blank_stele",
+            "n": 2
+          },
+          {
+            "op": "fateAdd",
+            "suit": "moon",
+            "rank": 2,
+            "n": 3,
+            "where": "shuffle"
+          }
+        ],
+        "atk": 11,
+        "ai": {
+          "type": "cycle",
+          "sequence": [
+            "engrave",
+            "topple",
+            "rub",
+            "ask",
+            "topple",
+            "rub",
+            "erase"
+          ]
+        }
+      }
+    ],
+    "lore": "残碑林深处有一块从未刻过字的碑。三百年来，所有被命书遗忘的名字都流到它脚下，却没有一个肯留在它身上——于是它学会了去抢。碑魇以拓片为牌：它把“刻名”挂在你身上，再逼天命牌堆翻出阴纹。无字碑立着时它有石皮护身；它碎裂过半时，会往天命牌堆里掺入三张月纹，让每一次判定都更像它的判词。",
+    "dialogue": {
+      "intro": "……你有名字。给我。",
+      "phase": "碑裂了，字就该落下来了。落在你身上。",
+      "defeat": "原来……无字……也是一种名字……"
+    },
+    "art": {
+      "subject": "a colossal blank stone stele with a vaguely human silhouette of shadow pouring from its cracks, long ink-black arms reaching out, fate cards orbiting it under a sickly moon"
+    }
+  },
+  {
+    "id": "e1_boss_rust_general",
+    "name": "锈甲将军",
+    "act": 1,
+    "tier": "boss",
+    "hp": [
+      230,
+      230
+    ],
+    "atk": 9,
+    "row": "commander",
+    "deck": [
+      "ec_a_rust_halberd",
+      "ec_a_war_drum",
+      "ec_a_muster",
+      "ec_a_iron_rain",
+      "ec_a_court_martial",
+      "ec_a_court_martial",
+      "ec_a_shield_wall",
+      "ec_a_ink_blot"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 3,
+      "max": 6
+    },
+    "moves": {
+      "command": {
+        "name": "军令",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "cleave": {
+        "name": "锈刀斩",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "charge": {
+        "name": "踏阵",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 18
+          },
+          {
+            "op": "create",
+            "card": "st_wound",
+            "n": 1,
+            "to": "discard"
+          }
+        ]
+      },
+      "muster": {
+        "name": "点卯",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e1m_rust_soldier",
+            "n": 1
+          }
+        ]
+      },
+      "drill": {
+        "name": "军令判定",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "status",
+                  "status": "might",
+                  "amount": 1,
+                  "target": "allFriendly"
+                }
+              ],
+              "yin": [
+                {
+                  "op": "armor",
+                  "amount": 15,
+                  "target": "self"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "twin": {
+        "name": "连环斩",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "times": 2
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "muster",
+        "command"
+      ],
+      "rules": [
+        {
+          "if": {
+            "eq": [
+              {
+                "count": "units",
+                "side": "friendly"
+              },
+              0
+            ]
+          },
+          "move": "muster"
+        }
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "cleave",
+          "command",
+          "drill",
+          "charge",
+          "cleave",
+          "command"
+        ]
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "卸甲死战",
+        "text": "甲锈了，骨头还没锈！",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e1m_rust_soldier",
+            "n": 2
+          },
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 1,
+            "target": "self"
+          }
+        ],
+        "atk": 10,
+        "ai": {
+          "type": "script",
+          "rules": [
+            {
+              "if": {
+                "eq": [
+                  {
+                    "count": "units",
+                    "side": "friendly"
+                  },
+                  0
+                ]
+              },
+              "move": "muster"
+            }
+          ],
+          "then": {
+            "type": "cycle",
+            "sequence": [
+              "twin",
+              "command",
+              "charge",
+              "drill",
+              "twin",
+              "command"
+            ]
+          }
+        }
+      }
+    ],
+    "lore": "命书上写他“战死于残碑林”，于是他就一直战下去。三百年间他的部下锈成了铁屑，他的甲锈进了骨头，可军令从未撤回。锈甲将军以军令为牌：锈戟加重他的每一击，“军法”延时悬在你头上等一张小点数。他踏阵之前必先整军——那一回合，你该想好把余烬留给谁。",
+    "dialogue": {
+      "intro": "何人闯营！报上名来——罢了，死人不必有名。",
+      "phase": "传我将令：此战无退！",
+      "defeat": "……鸣金……收兵……"
+    },
+    "art": {
+      "subject": "a gigantic armored general whose plate armor has rusted into his skeletal body, wielding a corroded glaive, standing before ranks of undead soldiers under a blood-orange sky"
+    }
+  },
+  {
+    "id": "e1_boss_fox_mother",
+    "name": "噬名狐母",
+    "act": 1,
+    "tier": "boss",
+    "hp": [
+      205,
+      205
+    ],
+    "atk": 8,
+    "row": "commander",
+    "deck": [
+      "ec_a_fox_fire",
+      "ec_a_fox_fire",
+      "ec_a_charm",
+      "ec_a_fox_pact",
+      "ec_a_fox_pact",
+      "ec_a_three_tails",
+      "ec_a_three_tails",
+      "ec_a_name_feast"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "bewitch": {
+        "name": "狐媚",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "claw": {
+        "name": "撕名",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "create",
+            "card": "st_dazed",
+            "n": 1,
+            "to": "discard"
+          }
+        ]
+      },
+      "devour": {
+        "name": "噬名",
+        "intent": [
+          "attack",
+          "heal"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": "$atk",
+            "target": "target",
+            "attack": true
+          },
+          {
+            "op": "heal",
+            "amount": {
+              "count": "lastDamage"
+            },
+            "target": "self"
+          }
+        ]
+      },
+      "shades": {
+        "name": "分影",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e1m_fox_shade",
+            "n": 2
+          }
+        ]
+      },
+      "tails": {
+        "name": "三尾问卜",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "sun": [
+                {
+                  "op": "damage",
+                  "amount": 10,
+                  "target": "enemyCommander"
+                }
+              ],
+              "thunder": [
+                {
+                  "op": "summon",
+                  "unit": "e1m_fox_shade",
+                  "n": 1
+                }
+              ],
+              "moon": [
+                {
+                  "op": "heal",
+                  "amount": 12,
+                  "target": "self"
+                }
+              ],
+              "mountain": [
+                {
+                  "op": "armor",
+                  "amount": 14,
+                  "target": "self"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "pact": {
+        "name": "结契",
+        "intent": [
+          "debuff",
+          "judge"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "delay",
+            "card": "ec_a_fox_pact",
+            "target": "target",
+            "turns": 2
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "shades",
+        "bewitch"
+      ],
+      "rules": [
+        {
+          "if": {
+            "and": [
+              {
+                "eq": [
+                  {
+                    "count": "units",
+                    "side": "friendly"
+                  },
+                  0
+                ]
+              },
+              {
+                "chance": 0.5
+              }
+            ]
+          },
+          "move": "shades"
+        }
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "claw": 3,
+          "bewitch": 3,
+          "devour": 2,
+          "tails": 2,
+          "pact": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "九尾现形",
+        "text": "名字真香……再给我几个。",
+        "effects": [
+          {
+            "op": "addKeyword",
+            "target": "self",
+            "keyword": "lifesteal"
+          },
+          {
+            "op": "summon",
+            "unit": "e1m_fox_shade",
+            "n": 2
+          }
+        ],
+        "atk": 10,
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "devour": 3,
+            "bewitch": 3,
+            "claw": 2,
+            "tails": 1,
+            "pact": 2
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "碑林里所有被抹去的名字，有一半进了她的肚子。狐母以名为食，吃下一个名字，便多长一分人形。她的狐影在出手前无从捉摸，“狐契”在月下生效，三尾问卜时四种命纹各有去处。当她吃得够多，第九条尾巴便会显形——从此她的每一口都在为自己续命。",
+    "dialogue": {
+      "intro": "好香的名字……让姐姐尝一口，就一口。",
+      "phase": "再饿下去，姐姐就要吃掉整本命书了。",
+      "defeat": "我……我叫什么来着……"
+    },
+    "art": {
+      "subject": "an elegant fox-woman in layered silk robes reclining on a broken tomb, nine translucent tails fanning behind her, glowing name-characters dissolving into her mouth under blue fox-fire"
+    }
+  }
+]

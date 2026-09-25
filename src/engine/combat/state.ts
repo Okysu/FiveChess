@@ -14,6 +14,8 @@ export interface CardInst {
   /** created with 浮光+燃尽 semantics */
   fleeting?: boolean;
   free?: boolean;
+  /** response card kept in hand through the enemy turn */
+  held?: boolean;
 }
 
 export interface FateCard { suit: Suit; rank: number; id: number; omen?: boolean }
@@ -67,6 +69,8 @@ export interface Unit {
   ai?: AIState;
   phase?: number;
   pendingPhase?: number;
+  /** statuses applied during the owner's own turn skip their first end-of-turn decay */
+  fresh?: Partial<Record<StatusId, boolean>>;
 }
 
 export interface EquipInst { uid: number; card: string; up: boolean; durability: number; atkBonus: number; rangeBonus: number; ts: number }
@@ -141,7 +145,7 @@ export type Task =
   | { k: 'chain'; stage: 'window' | 'resolve' | 'after'; links: ChainLink[]; passes: number; origin: Side; resolvedBase?: ChainLink };
 
 export type PhaseName =
-  | 'combatStart' | 'playerTurnStart' | 'playerDraw' | 'playerTurnEnd' | 'enemyTurnStart' | 'enemyActions' | 'enemyTurnEnd';
+  | 'combatStart' | 'playerTurnStart' | 'playerDraw' | 'playerTurnEnd' | 'playerCleanup' | 'enemyTurnStart' | 'enemyActions' | 'enemyTurnEnd';
 
 export interface PendingTrigger { effects: Effect[]; ctx: Ctx; side: Side; ts: number; label: string }
 

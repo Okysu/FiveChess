@@ -1,0 +1,391 @@
+[
+  {
+    "id": "ev_wuzi_bei",
+    "title": "无字碑",
+    "acts": [1],
+    "text": "残碑林深处立着一块碑，碑面光洁如镜，一个字也没有。守林的老鸦说，这是给“还没死的人”预留的——命书上写到哪一行，碑上便显出哪一行。你凑近时，碑面泛起一层薄雾，隐约是你的轮廓。碑脚放着一柄生锈的刻刀，刀柄被无数只手磨得发亮。",
+    "options": [
+      {
+        "text": "以血为墨，刻下自己的名字",
+        "hint": "失去 7 生命 · 从 3 张本色稀有牌中选 1 张",
+        "requires": { "hpAbove": 7 },
+        "effects": [ { "op": "hp", "n": -7 }, { "op": "addCard", "pool": { "rarity": "rare", "faction": "own" }, "choose": 3 } ],
+        "outcome": "刀锋每划一笔，你都觉得有什么从身体里被抽走。名字刻成的那一刻，碑面浮出半行字，随即隐去。你记住了那半行——它在你手中化作一张牌。"
+      },
+      {
+        "text": "刻下一个陌生人的名字",
+        "hint": "50%：获得 1 件普通遗物；50%：获得诅咒「宿业」",
+        "effects": [ { "op": "chance", "p": 0.5, "then": [ { "op": "addRelic", "tier": "common" } ], "else": [ { "op": "addCard", "card": "cu_suye" } ] } ],
+        "outcome": "你随手刻下一个不知从哪里听来的名字。碑面沉默片刻，裂开一道细缝，吐出一样东西。至于那是谢礼还是报应，要等你走远了才知道。"
+      },
+      {
+        "text": "把碑面上的雾擦掉",
+        "hint": "移除牌组中 1 张牌",
+        "effects": [ { "op": "removeCard", "n": 1, "mode": "choose" } ],
+        "outcome": "你用袖口擦去雾气，也擦掉了一段本不该属于你的记忆。碑面重新空白，你却觉得身上轻了一些。"
+      },
+      {
+        "text": "【霍烬】刻下断焰军的番号",
+        "requires": { "commander": "r_huojin" },
+        "hint": "失去 4 生命 · 升级 2 张牌",
+        "effects": [ { "op": "hp", "n": -4 }, { "op": "upgradeCard", "n": 2, "mode": "choose" }, { "op": "flag", "key": "huojin_carved_legion" } ],
+        "outcome": "三千人的番号，你一个字一个字刻完，刀刃崩了七处。碑面终于浮出一行：“断焰军，殁于渊城之火。”你盯着“殁”字看了很久，没有说话。"
+      }
+    ],
+    "art": { "subject": "a towering blank stone stele in a misty graveyard forest, a lone warrior reaching toward its mirror-smooth surface where a faint silhouette appears, a rusted carving knife lying at its base" }
+  },
+  {
+    "id": "ev_gu_gua_tan",
+    "title": "骨卦摊",
+    "acts": [1],
+    "text": "碑林的岔路口支着一张卦摊，摊主是一具披着青布衫的骸骨，指骨间夹着三枚铜钱。它的下颌骨咔嗒作响：“客官，命书残页，一页一卦。算得准不收钱——当然，从来没人算不准。”摊上摆着一摞泛黄的牌，每一张都是天命牌堆里掉出来的残页。",
+    "options": [
+      {
+        "text": "付钱，请它替你撕掉几页凶签",
+        "requires": { "gold": 40 },
+        "hint": "支付 40 金 · 从天命牌堆移除 2 张牌",
+        "effects": [ { "op": "gold", "n": -40 }, { "op": "fate", "action": "remove", "n": 2 } ],
+        "outcome": "骸骨收了钱，从你的命里抽出两页，凑到鬼火上烧了。纸灰飘起来，拼成两个你不认识的字。“不必认得，”它说，“认得了反倒要回来。”"
+      },
+      {
+        "text": "和它赌一卦",
+        "hint": "50%：获得 60 金；50%：失去 8 生命",
+        "effects": [ { "op": "chance", "p": 0.5, "then": [ { "op": "gold", "n": 60 } ], "else": [ { "op": "hp", "n": -8 } ] } ],
+        "outcome": "三枚铜钱抛起，落在碑石上转个不停。骸骨笑得骨节乱响：“你看，我说过，从来没人算不准。”"
+      },
+      {
+        "text": "【燕无咎】替它算一卦",
+        "requires": { "commander": "y_yanwujiu" },
+        "hint": "天命牌堆中 2 张牌改换命纹 · 获得 30 金",
+        "effects": [ { "op": "fate", "action": "changeSuit", "n": 2 }, { "op": "gold", "n": 30 } ],
+        "outcome": "你接过铜钱，只抛了一次。“你死于三百年前的一个雨夜，”你说，“但你的卦要到今天才应验。”骸骨愣住，把钱和两页残签一并推给你，收摊走了。"
+      },
+      {
+        "text": "不算了，赶路",
+        "effects": [],
+        "outcome": "你从卦摊前走过。身后传来铜钱落地的声响，骸骨自言自语：“不算，也是一卦。”"
+      }
+    ],
+    "art": { "subject": "a skeleton fortune teller in a faded blue robe sitting behind a small wooden stall at a forest crossroads, three bronze coins between its finger bones, yellowed cards stacked beside a floating ghost flame" }
+  },
+  {
+    "id": "ev_xiujia_canbing",
+    "title": "锈甲残兵",
+    "acts": [1],
+    "text": "雾里传来整齐的脚步声。一队锈甲兵从碑间走过，甲片早已与骨头长在一起，枪尖上挂着褪色的军旗。他们在你面前停下，领头的伍长抬起空洞的面甲：“口令。”你不知道口令。他们也不知道——命书只写了他们要一直行军，没写行军到哪里去。",
+    "options": [
+      {
+        "text": "拔刀，让他们安息",
+        "hint": "进行一场战斗 · 胜利获得精英奖励",
+        "effects": [ { "op": "fight", "encounter": "sandbox", "reward": "elite" } ],
+        "outcome": "伍长点了点头，像是等这一刻很久了。“列阵。”锈甲兵齐齐转身，枪尖对准了你。"
+      },
+      {
+        "text": "交出一道“军令”，让他们继续前行",
+        "hint": "移除 1 张牌 · 获得 1 件普通遗物",
+        "effects": [ { "op": "removeCard", "n": 1, "mode": "choose" }, { "op": "addRelic", "tier": "common" } ],
+        "outcome": "你撕下一张牌递给伍长。他郑重收下，像接过一道真正的将令，然后从怀里掏出一件东西还你——那是他们守了三百年的辎重。队伍重新迈步，消失在雾里。"
+      },
+      {
+        "text": "【霍烬】报上你的名号",
+        "requires": { "commander": "r_huojin" },
+        "hint": "失去 5 生命 · 从 3 张赤色稀有/史诗牌中选 1 张",
+        "effects": [ { "op": "hp", "n": -5 }, { "op": "addCard", "pool": { "faction": "R", "rarity": ["rare", "epic"] }, "choose": 3 } ],
+        "outcome": "“断焰将军，霍烬。”锈甲兵齐刷刷跪倒，甲片碎了一地。伍长声音发颤：“将军……渊城那一夜，我们等的令，您始终没下。”他们化作火星，扑进你的刀鞘，烫得你掌心起泡。"
+      },
+      {
+        "text": "绕路避开",
+        "effects": [],
+        "outcome": "你贴着碑影走远。身后的脚步声没有停，也永远不会停。"
+      }
+    ],
+    "art": { "subject": "a column of skeletal soldiers in rusted armor fused to their bones marching through fog between broken steles, a tattered war banner on a spear, their leader halting and raising an empty visor toward the viewer" }
+  },
+  {
+    "id": "ev_humu_qingjian",
+    "title": "狐母的请柬",
+    "acts": [1],
+    "text": "一只白狐衔来一张请柬，放在你脚边便跑了。柬上没有字，只有一股香气，闻着像你最想念的那个人。循香走去，碑林里竟有一座灯火通明的宅院，门匾写着“食名居”。院里宾客满座，每个人都笑着，可你叫不出任何一个人的名字——他们自己也叫不出。",
+    "options": [
+      {
+        "text": "入席",
+        "next": "feast",
+        "effects": [],
+        "outcome": "一位面容模糊的侍女引你入座。主位空着，桌上的菜肴冒着热气，每一道都有名字，却没有一道你能读出来。"
+      },
+      {
+        "text": "【柳絮】换一张脸赴宴",
+        "requires": { "commander": "p_liuxu" },
+        "hint": "获得 1 件事件遗物",
+        "effects": [ { "op": "addRelic", "tier": "event" } ],
+        "outcome": "你戴着别人的脸坐到主位旁。狐母凑近嗅了嗅，眉头皱起：“你……没有名字可吃。”你笑：“我的名字早被命书划掉了，夫人。”她大笑，赠你一件旧物，送你出门。"
+      },
+      {
+        "text": "撕掉请柬",
+        "effects": [],
+        "outcome": "请柬碎成白色的狐毛，随风散了。宅院的灯火一盏盏熄灭，你听见有人在身后轻轻叹气。"
+      }
+    ],
+    "pages": [
+      {
+        "id": "feast",
+        "text": "主位上不知何时坐了一位华服女子，九条尾巴在身后铺开如屏。她举杯向你：“远客难得。按规矩，入席要留下一个名字，离席时再带走一道菜。”她身边的宾客纷纷点头，嘴里咀嚼着什么，脸上只剩一片光滑。",
+        "options": [
+          {
+            "text": "留下两个“名字”",
+            "hint": "移除 2 张牌 · 失去 3 最大生命",
+            "effects": [ { "op": "removeCard", "n": 2, "mode": "choose" }, { "op": "maxHp", "n": -3 } ],
+            "outcome": "你说出两个名字，它们从你的牌里挣脱，落进狐母的酒杯。她一饮而尽，满意地眯起眼。你离席时，觉得自己轻了，也薄了。"
+          },
+          {
+            "text": "吃下那道菜",
+            "hint": "获得 6 最大生命 · 获得 1 张诅咒",
+            "effects": [ { "op": "maxHp", "n": 6 }, { "op": "addCard", "pool": { "type": "curse" } } ],
+            "outcome": "菜肴入口即化，暖意流遍全身。直到出了门你才想起——那道菜的名字，是某个人的一生。它在你胃里轻轻翻了个身。"
+          },
+          {
+            "text": "掀桌",
+            "hint": "进行一场战斗",
+            "effects": [ { "op": "fight", "encounter": "sandbox", "reward": "normal" } ],
+            "outcome": "杯盘碎了一地。宾客们齐齐转过没有五官的脸，狐母却只是托着腮：“有趣。那便让我的孩子们陪你玩玩。”"
+          }
+        ]
+      }
+    ],
+    "art": { "subject": "a lantern-lit manor hidden among grave steles at night, a nine-tailed fox woman in splendid robes raising a wine cup at the head of a banquet table, faceless guests seated around her" }
+  },
+  {
+    "id": "ev_tabei_ren",
+    "title": "拓碑人",
+    "acts": [1],
+    "text": "一个佝偻的老人蹲在碑前，用墨团一下一下拍着宣纸。他已经拓了几千张，每一张都卷好了背在身上，压得腰弯成一张弓。“碑文就是命，”他头也不抬，“碑会风化，命会走样，得趁早拓下来。你要是愿意，拿钱来换；你要是不愿意，替我拍几下也成。”",
+    "options": [
+      {
+        "text": "买一卷拓片",
+        "requires": { "gold": 55 },
+        "hint": "支付 55 金 · 从 3 张稀有牌中选 1 张",
+        "effects": [ { "op": "gold", "n": -55 }, { "op": "addCard", "pool": { "rarity": "rare", "faction": "own" }, "choose": 3 } ],
+        "outcome": "老人从背上抽出一卷，展开时墨迹还在游动，像一条尚未写完的命。你卷起它，墨痕便渗进了你的手里。"
+      },
+      {
+        "text": "替他拓一整夜",
+        "hint": "失去 6 生命 · 随机升级 2 张牌",
+        "effects": [ { "op": "hp", "n": -6 }, { "op": "upgradeCard", "n": 2, "mode": "random" } ],
+        "outcome": "墨团拍到天亮，你的手臂已抬不起来。老人把一张拓片塞给你：“你拓出来的，比我拓的清楚。”你低头一看，那是你自己的招式。"
+      },
+      {
+        "text": "【玄机子】校订拓片上的错字",
+        "requires": { "commander": "y_xuanji" },
+        "hint": "天命牌堆中 3 张牌改换命纹",
+        "effects": [ { "op": "fate", "action": "changeSuit", "n": 3 } ],
+        "outcome": "你一眼认出这是命书原文——当年在司天监，你曾在一页残卷上见过同样的笔迹。碑文风化了几处，你一一补正。补完才发觉，你补的不是碑，是自己的命数。"
+      },
+      {
+        "text": "问他为何要拓",
+        "effects": [ { "op": "gold", "n": 15 } ],
+        "outcome": "老人停下手：“命书撕了，总得有人记着原来写的是什么。”他摸出几枚铜钱塞给你，“拿去，替我记着你自己的那一页。”"
+      }
+    ],
+    "art": { "subject": "a hunched old man crouching before a weathered stone stele, pressing an ink pad onto rice paper, hundreds of rolled rubbings bundled on his bent back, dawn light filtering through mist" }
+  },
+  {
+    "id": "ev_yuhuo_chi",
+    "title": "余火池",
+    "acts": [1],
+    "text": "一方石池里没有水，盛满了暗红的余烬，火光在灰下缓缓呼吸。池边刻着焚阳宗的古训：“薪尽火传。”据说当年宗门弟子战死于此，魂魄不肯熄灭，便沉在池底，等一个肯伸手的人。池中央有东西在发亮，像一颗仍在跳动的心。",
+    "options": [
+      {
+        "text": "把手伸进余烬",
+        "requires": { "hpAbove": 15 },
+        "hint": "失去 12 生命 · 余烬上限 +1",
+        "effects": [ { "op": "hp", "n": -12 }, { "op": "emberCap", "n": 1 } ],
+        "outcome": "剧痛之后是奇异的平静。你握住那颗发亮的东西，它顺着你的血脉爬上来，在胸口安了家。从此每个回合结束，你都能多留一点火。"
+      },
+      {
+        "text": "舀一捧灰装进瓶里",
+        "hint": "获得 1 瓶随机丹药",
+        "effects": [ { "op": "addPotion" } ],
+        "outcome": "灰在瓶中翻滚，渐渐凝成一粒赤红的丹丸。你塞好瓶口，池底传来一声低低的叹息。"
+      },
+      {
+        "text": "【离鸢】以身为薪",
+        "requires": { "commander": "r_liyuan" },
+        "hint": "失去 4 最大生命 · 从 3 张赤色【献】牌中选 1 张",
+        "effects": [ { "op": "maxHp", "n": -4 }, { "op": "addCard", "pool": { "faction": "R", "keyword": "offering" }, "choose": 3 } ],
+        "outcome": "你跪在池边，把一缕魂火献进去。池底的火苗认出了朱雀祭司的气息，纷纷升起，绕你三匝。师姐当年就是这样把自己烧成了灯——你终于明白她为何笑着走进火里。"
+      },
+      {
+        "text": "在池边默立片刻",
+        "effects": [ { "op": "hp", "n": 6 } ],
+        "outcome": "余烬的暖意驱散了碑林的阴寒。你站了一会儿，伤口不那么疼了。"
+      }
+    ],
+    "art": { "subject": "a square stone basin filled with glowing crimson embers in a ruined courtyard, a bright heart-shaped light pulsing at its center, a figure kneeling at the rim with one hand outstretched over the heat" }
+  },
+  {
+    "id": "ev_wuming_zhong",
+    "title": "无名冢",
+    "acts": [1],
+    "text": "这片坟没有碑，只有一个个隆起的土包，密密麻麻排到天边。命书被撕裂那天，有一整页的人名落进了虚空——他们死了，却没人记得他们活过。土包上偶尔冒出几茎白花，花瓣上有模糊的字迹，风一吹就散了。",
+    "options": [
+      {
+        "text": "掘开一座坟",
+        "hint": "60%：获得 80 金；40%：获得诅咒「宿业」",
+        "effects": [ { "op": "chance", "p": 0.6, "then": [ { "op": "gold", "n": 80 } ], "else": [ { "op": "addCard", "card": "cu_suye" } ] } ],
+        "outcome": "土很松，像是有人刚翻过。你挖出了东西——也许是陪葬的钱财，也许是坟主人没来得及还完的债。无论哪样，它现在都归你了。"
+      },
+      {
+        "text": "为他们立一块木牌",
+        "hint": "失去 5 生命 · 移除 1 张牌 · 获得 5 最大生命",
+        "effects": [ { "op": "hp", "n": -5 }, { "op": "removeCard", "n": 1, "mode": "choose" }, { "op": "maxHp", "n": 5 } ],
+        "outcome": "你削了一块木牌插在坟前，写下“有人来过”。白花一齐转向你，花瓣上的字迹清晰了一瞬。你觉得某种沉重的东西被他们接走了。"
+      },
+      {
+        "text": "【阿苍】在一座坟前停下",
+        "requires": { "commander": "g_acang" },
+        "hint": "移除 2 张牌 · 获得 4 最大生命",
+        "effects": [ { "op": "removeCard", "n": 2, "mode": "choose" }, { "op": "maxHp", "n": 4 } ],
+        "outcome": "你认得这座坟。第七世的你埋在这里，死于一场无名的瘟疫，没人收尸。你蹲下来，把那一世没说完的话说给土听。起身时，你把两段旧业留在了坟里。"
+      },
+      {
+        "text": "默默走过",
+        "effects": [],
+        "outcome": "你不去看那些白花。可走出很远，还觉得有无数双眼睛望着你的背。"
+      }
+    ],
+    "art": { "subject": "an endless field of unmarked burial mounds under a pale sky, thin white flowers sprouting from the earth with faint glowing script on their petals, a lone traveler standing among them" }
+  },
+  {
+    "id": "ev_mingpai_yu",
+    "title": "命牌雨",
+    "acts": [1],
+    "text": "天上裂开一道缝，纸片簌簌落下——是命书的残页。它们打着旋儿飘落，有的燃着金边，有的凝着霜，有的闪着电光，有的沉得像石头。落地的残页很快被泥土吞没，只有你伸手接住的那些，会留在你的天命里。",
+    "options": [
+      {
+        "text": "接住燃着金边的残页",
+        "hint": "天命牌堆加入 2 张日纹 13",
+        "effects": [ { "op": "fate", "action": "add", "suit": "sun", "rank": 13, "n": 2 } ],
+        "outcome": "残页落在掌心，烫得像一块刚出炉的铁。上面写着某位帝王的登基之日。显赫之命，从此混进了你的判定。"
+      },
+      {
+        "text": "接住沉如石头的残页",
+        "hint": "天命牌堆加入 2 张山纹 13",
+        "effects": [ { "op": "fate", "action": "add", "suit": "mountain", "rank": 13, "n": 2 } ],
+        "outcome": "你几乎托不住它。那是一座山的命，写着它要站多久、要压住什么。你把它收进天命，脚下的地似乎稳了一些。"
+      },
+      {
+        "text": "张开双臂，接住尽可能多的残页",
+        "hint": "天命牌堆加入 4 张随机牌 · 失去 5 生命",
+        "effects": [ { "op": "fate", "action": "add", "n": 4 }, { "op": "hp", "n": -5 } ],
+        "outcome": "残页割破了你的手臂，你却不肯松手。它们各有各的命纹，挤进你的天命里吵作一团。往后翻开哪一张，谁也说不准。"
+      },
+      {
+        "text": "撑起衣襟挡住它们",
+        "hint": "从天命牌堆移除 1 张牌",
+        "effects": [ { "op": "fate", "action": "remove", "n": 1 } ],
+        "outcome": "你用衣襟挡雨，却发现衣襟上沾走了一页原本属于你的命。它在布料上慢慢褪色，变成一块寻常的污渍。"
+      }
+    ],
+    "art": { "subject": "torn pages of an enormous book falling from a crack in the night sky over a stone forest, some pages edged with gold fire, some frosted, some crackling with lightning, a figure reaching up to catch them" }
+  },
+  {
+    "id": "ev_shouling_ren",
+    "title": "守陵人",
+    "acts": [1],
+    "text": "碑林边缘有一间草庐，守陵人正就着油灯数一串算珠。他数的是死人：每有一个名字从碑上风化消失，他便拨一颗珠子。“三百年了，”他说，“拨到最后一颗，这片林子就彻底空了。”他看了看你，眼神里有点怜悯，“你身上的死气不重，还能换点东西。”",
+    "options": [
+      {
+        "text": "把几年的阳寿卖给他",
+        "hint": "失去 6 最大生命 · 获得 110 金",
+        "effects": [ { "op": "maxHp", "n": -6 }, { "op": "gold", "n": 110 } ],
+        "outcome": "他拨了一颗珠子，算盘上多了一格空位。你胸口一凉，钱袋却沉了下去。“放心，”他说，“这几年本来也不一定轮得到你。”"
+      },
+      {
+        "text": "向他买一副伤药",
+        "requires": { "gold": 30 },
+        "hint": "支付 30 金 · 恢复 25% 生命",
+        "effects": [ { "op": "gold", "n": -30 }, { "op": "hpPct", "pct": 25 } ],
+        "outcome": "药是用坟头的白花熬的，苦得人发抖。但伤口确实在愈合——死人的花，治活人的病，他说这叫物尽其用。"
+      },
+      {
+        "text": "【石韫】与他叙旧",
+        "requires": { "commander": "b_shiyun" },
+        "hint": "获得 1 件罕见遗物",
+        "effects": [ { "op": "addRelic", "tier": "uncommon" } ],
+        "outcome": "“山君，您老了。”“你倒没变。”三百年前你们一同守过一座山，山塌时他死在你怀里，命书却把他写成了守陵人。他把一样东西交给你：“这是当年那座山剩下的，您收好。”"
+      },
+      {
+        "text": "替他拨一颗珠子",
+        "effects": [ { "op": "upgradeCard", "n": 1, "mode": "random" } ],
+        "outcome": "你拨动珠子，远处一块碑上的名字悄然消失。守陵人点点头：“你心软，手却稳。”他在你的一张牌上吹了口气，墨迹变得更深了。"
+      }
+    ],
+    "art": { "subject": "an old grave keeper in a thatched hut counting beads on an abacus by oil lamplight, rows of pale steles visible through the open doorway behind him, a visitor standing at the threshold" }
+  },
+  {
+    "id": "ev_yaqun_daoming",
+    "title": "盗名鸦",
+    "acts": [1],
+    "text": "一群黑鸦停满了枯枝，每只嘴里都叼着一张小纸片。它们是碑林的清道夫，专啄碑上风化的字，也啄活人身上松动的记忆。你刚停下脚步，一只老鸦就落在你肩上，歪着头看你的行囊，像在估价。",
+    "options": [
+      {
+        "text": "任它们啄走一段记忆",
+        "hint": "随机移除 1 张牌 · 获得 45 金",
+        "effects": [ { "op": "removeCard", "n": 1, "mode": "random" }, { "op": "gold", "n": 45 } ],
+        "outcome": "老鸦叼走了什么，你想不起来了。作为交换，鸦群从窝里扒出几枚锈钱丢给你——都是从死人身上啄来的。"
+      },
+      {
+        "text": "追回被它们叼走的东西",
+        "hint": "进行一场战斗",
+        "effects": [ { "op": "fight", "encounter": "sandbox", "reward": "normal" } ],
+        "outcome": "你一挥手，鸦群轰然飞起，在空中聚成一团黑影。黑影落地，化作几个披着鸦羽的人形。"
+      },
+      {
+        "text": "【夜昙】吹一声口哨",
+        "requires": { "commander": "p_yetan" },
+        "hint": "获得 1 件事件遗物 · 获得 1 瓶随机丹药",
+        "effects": [ { "op": "addRelic", "tier": "event" }, { "op": "addPotion" } ],
+        "outcome": "幽弈坊的哨音，鸦群一听便知。它们落满你的双臂，把叼来的东西一一呈上。当年你就是在鸦巢里被捡到的——坊主说，夜里开的花，只有乌鸦肯守。"
+      },
+      {
+        "text": "赶走它们",
+        "effects": [ { "op": "hp", "n": -3 } ],
+        "outcome": "鸦群散开时，老鸦在你手背上啄了一口，留下一道细细的血痕。“嘎，”它说，像是在记账。"
+      }
+    ],
+    "art": { "subject": "a flock of black crows perched on dead branches above crumbling steles, each holding a tiny slip of paper in its beak, an old crow landing on a traveler's shoulder" }
+  },
+  {
+    "id": "ev_duanjian_zhong",
+    "title": "断剑冢",
+    "acts": [1],
+    "text": "一座小丘上插满了断剑，剑柄朝天，像一片铁铸的麦田。每一柄剑都曾属于一位执命者，他们走进命阙，没有走出去，剑便被命书送到这里。风穿过剑丛，发出长短不一的哀鸣。有几柄剑的刃口还亮着，仿佛主人刚刚松手。",
+    "options": [
+      {
+        "text": "拔出最亮的那一柄",
+        "hint": "40%：从 3 张稀有/史诗装备牌中选 1 张；60%：失去 10 生命",
+        "effects": [ { "op": "chance", "p": 0.4, "then": [ { "op": "addCard", "pool": { "type": "equip", "rarity": ["rare", "epic"] }, "choose": 3 } ], "else": [ { "op": "hp", "n": -10 } ] } ],
+        "outcome": "你握住剑柄用力一拔。剑身里残存的执念猛地涌上来——它要么认你为新主，要么把你当成仇敌。"
+      },
+      {
+        "text": "用自己的兵刃与剑丛共鸣",
+        "hint": "变化 1 张牌 · 升级 1 张牌",
+        "effects": [ { "op": "transformCard", "n": 1, "mode": "choose" }, { "op": "upgradeCard", "n": 1, "mode": "choose" } ],
+        "outcome": "你拔刀出鞘，剑丛齐鸣。一道旧日的剑意落进你的牌中，把它冲刷成另一种模样；另一道则留下来，磨利了你的锋口。"
+      },
+      {
+        "text": "【焚阳宗】熔一柄断剑为薪",
+        "requires": { "faction": "R" },
+        "hint": "失去 5 生命 · 获得 1 件普通遗物 · 获得 1 张诅咒",
+        "effects": [ { "op": "hp", "n": -5 }, { "op": "addRelic", "tier": "common" }, { "op": "addCard", "pool": { "type": "curse" } } ],
+        "outcome": "焚阳宗的火能熔铁，也能熔执念。断剑在你掌中化为铁水，凝成一件新物。但剑主的不甘没有烧尽，它顺着铁水钻进了你的牌组。"
+      },
+      {
+        "text": "向剑冢行礼离开",
+        "effects": [],
+        "outcome": "你抱拳一礼。风停了片刻，剑鸣也停了片刻，像是回礼。"
+      }
+    ],
+    "art": { "subject": "a small hill densely planted with broken swords hilt-up like a field of iron wheat, wind sweeping through them, a few blades still gleaming, a lone warrior gripping one hilt at the summit" }
+  }
+]

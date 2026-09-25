@@ -1,0 +1,118 @@
+[
+  {
+    "id": "rl_thousand_mech_box",
+    "name": "千机匣",
+    "tier": "boss",
+    "ruleChanging": true,
+    "text": "回合结束时，你不再弃置手牌。手牌上限-3。",
+    "flavor": "千机傀儡师的匣子。放进去的东西，一件也拿不出来。",
+    "modifiers": [{ "stat": "retainHand", "amount": 1 }, { "stat": "handLimit", "amount": -3 }],
+    "art": { "subject": "an intricate puppeteer's lacquered box with dozens of tiny drawers and gears, silk strings trailing from it, violet light" }
+  },
+  {
+    "id": "rl_guttering_lamp",
+    "name": "残烛金灯",
+    "tier": "boss",
+    "ruleChanging": true,
+    "text": "每回合开始时，获得1枚本回合的[源]。每回合少抽1张牌。",
+    "flavor": "灯油只够照亮手边，照不到远处。",
+    "modifiers": [{ "stat": "draw", "amount": -1 }],
+    "triggers": [{ "on": "turnStart", "effects": [{ "op": "energy", "n": 1 }] }],
+    "art": { "subject": "an ornate golden oil lamp with a single guttering flame, bright at the wick but darkness closing in around it" }
+  },
+  {
+    "id": "rl_drowned_king_seal",
+    "name": "沉渊王印",
+    "tier": "boss",
+    "ruleChanging": true,
+    "text": "每回合开始时，获得1枚本回合的[源]。你无法在营地休息恢复生命。",
+    "flavor": "溺王殷的印。拿着它的人，再也睡不安稳。",
+    "run": [{ "rule": "noHealAtRest" }],
+    "triggers": [{ "on": "turnStart", "effects": [{ "op": "energy", "n": 1 }] }],
+    "art": { "subject": "a heavy jade royal seal covered in barnacles and dripping black water, a drowned dragon carved on top, eerie green glow" }
+  },
+  {
+    "id": "rl_arbiter_brush",
+    "name": "司命朱笔",
+    "tier": "boss",
+    "text": "每回合开始时，获得1枚本回合的[源]。所有敌人攻击力+1。",
+    "flavor": "朱笔一勾，你多得一分，天下也多恨你一分。",
+    "modifiers": [{ "stat": "atk", "amount": 1, "who": "enemy" }],
+    "triggers": [{ "on": "turnStart", "effects": [{ "op": "energy", "n": 1 }] }],
+    "art": { "subject": "a long calligraphy brush with a vermilion-soaked tip, dripping red ink that glows like blood, over a floating open ledger" }
+  },
+  {
+    "id": "rl_torn_fate_book",
+    "name": "裂命之书",
+    "tier": "boss",
+    "ruleChanging": true,
+    "text": "战斗开始时，获得2枚主帅主色的[源]。每回合可献牌为源的次数-1（通常即不能献牌）。",
+    "flavor": "撕下两页换来的力量，再也不能用别的东西去换。",
+    "modifiers": [{ "stat": "sacrifices", "amount": -1 }],
+    "triggers": [{ "on": "combatStart", "effects": [{ "op": "gainSource", "n": 2, "color": "best" }] }],
+    "art": { "subject": "a thick ancient book split down the spine, two pages torn out and burning into glowing orbs of colored light" }
+  },
+  {
+    "id": "rl_scribe_child_ink",
+    "name": "执笔童子墨",
+    "tier": "boss",
+    "ruleChanging": true,
+    "text": "[命签]上限+2。每回合开始时，获得1张[命签]。每回合少抽1张牌。",
+    "flavor": "童子研的墨，写什么都会成真——只是写得很慢。",
+    "modifiers": [{ "stat": "signCap", "amount": 2 }, { "stat": "draw", "amount": -1 }],
+    "triggers": [{ "on": "turnStart", "effects": [{ "op": "sign", "n": 1 }] }],
+    "art": { "subject": "a small ink stick shaped like a sleeping child scribe, grinding in an ink stone that reflects a sky full of stars" }
+  },
+  {
+    "id": "rl_golden_crow_shadow",
+    "name": "金乌之影",
+    "tier": "boss",
+    "faction": "R",
+    "ruleChanging": true,
+    "text": "所有角色的[灼烧]不再衰减。战斗开始时，对所有敌人施加4层[灼烧]，对你的主帅施加2层[灼烧]。",
+    "flavor": "三足金乌落下的影子，连执命者也一并烧着。",
+    "modifiers": [{ "stat": "burnKeep", "amount": 1, "who": "all" }],
+    "triggers": [{ "on": "combatStart", "effects": [
+      { "op": "status", "status": "burn", "amount": 4, "target": "allEnemies" },
+      { "op": "status", "status": "burn", "amount": 2, "target": "commander" }
+    ] }],
+    "art": { "subject": "the black silhouette of a three-legged crow cast across burning ground, its shadow itself made of flickering flames" }
+  },
+  {
+    "id": "rl_mountain_heart",
+    "name": "镇岳山心",
+    "tier": "boss",
+    "ruleChanging": true,
+    "text": "你的[应]牌费用-1。[余烬]上限+2。你的[源]上限-3。",
+    "flavor": "山心不动，所以山外的一切都来得及。",
+    "modifiers": [
+      { "stat": "cost", "amount": -1, "filter": { "keyword": "response" } },
+      { "stat": "emberCap", "amount": 2 },
+      { "stat": "maxSources", "amount": -3 }
+    ],
+    "art": { "subject": "a glowing blue crystal heart embedded inside a split boulder, slow pulses of light rippling through the stone" }
+  },
+  {
+    "id": "rl_name_eater_tail",
+    "name": "噬名狐尾",
+    "tier": "boss",
+    "text": "每回合开始时，获得1枚本回合的[源]。你的主帅受到的伤害+1。",
+    "flavor": "狐母吃掉的名字都在尾巴里。它们会在你受伤时一起叫出声。",
+    "modifiers": [{ "stat": "damageTaken", "amount": 1, "who": "commander" }],
+    "triggers": [{ "on": "turnStart", "effects": [{ "op": "energy", "n": 1 }] }],
+    "art": { "subject": "a single luxurious silver fox tail with faint ghostly faces shimmering within its fur, coiled on a dark altar" }
+  },
+  {
+    "id": "rl_mother_tree_seed",
+    "name": "母树之种",
+    "tier": "boss",
+    "faction": "G",
+    "text": "每当友方单位入场，使其获得[滋长]1。拾取时，最大生命-10。",
+    "flavor": "种下它的人，要把自己的一部分也埋进土里。",
+    "onPickup": [{ "op": "maxHp", "n": -10 }],
+    "triggers": [
+      { "on": "unitSummoned", "who": "friendly", "effects": [{ "op": "addKeyword", "target": "eventTarget", "keyword": "growth", "value": 1 }] }
+    ],
+    "art": { "subject": "a huge glowing seed cracked open with a tiny world tree sprouting from it, roots curling around a drop of blood" }
+  }
+]

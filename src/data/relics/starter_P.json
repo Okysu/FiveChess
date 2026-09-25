@@ -1,0 +1,23 @@
+[
+  {
+    "id": "rl_start_yetan",
+    "name": "昙香囊",
+    "tier": "starter",
+    "faction": "P",
+    "text": "敌人受到的[中毒]伤害+1。",
+    "flavor": "香囊里装的不是花，是花谢之后剩下的东西。",
+    "modifiers": [{ "stat": "poisonDamage", "amount": 1, "who": "enemy" }],
+    "art": { "subject": "a small embroidered violet sachet tied with black cord, a withered white night flower peeking out, faint green vapor seeping from the seams" }
+  },
+  {
+    "id": "rl_start_liuxu",
+    "name": "柳絮扇",
+    "tier": "starter",
+    "faction": "P",
+    "text": "你的手牌上限+2。战斗开始时，抽2张牌。",
+    "flavor": "扇面上的人，每次打开都不一样。",
+    "modifiers": [{ "stat": "handLimit", "amount": 2 }],
+    "triggers": [{ "on": "combatStart", "effects": [{ "op": "draw", "n": 2 }] }],
+    "art": { "subject": "a half-open folding fan painted with a faceless woman beneath willow branches, catkins seeming to drift off the paper, soft lamplight" }
+  }
+]

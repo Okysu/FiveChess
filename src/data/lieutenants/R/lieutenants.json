@@ -1,0 +1,72 @@
+[
+  {
+    "id": "lt_r_xiheng",
+    "name": "羲衡",
+    "title": "晷火司辰",
+    "faction": "R",
+    "skill": {
+      "id": "sk_lt_r_xiheng",
+      "name": "日曜",
+      "type": "passive",
+      "text": "每当一次判定结果为{sun}日纹：对随机敌人施加3层[灼烧]；若你装备着武器，武器攻击力+1。",
+      "triggers": [{ "on": "judged", "suit": "sun", "effects": [
+        { "op": "status", "status": "burn", "amount": 3, "target": "randomEnemy" },
+        { "op": "weapon", "atk": 1 }
+      ] }]
+    },
+    "lore": "焚阳宗派驻观星阁的司辰官，负责以日晷校准宗门的出兵吉时。命书撕裂后日晷的影子开始乱走，他便干脆跟着影子走进了命阙。他说：日纹翻开的那一刻，是天也站在火这一边。",
+    "art": { "subject": "a composed middle-aged scholar-official in red and gold robes standing beside a bronze sundial whose gnomon casts a shadow of fire, one hand raised to the sun" }
+  },
+  {
+    "id": "lt_r_sutu",
+    "name": "苏荼",
+    "title": "焚林猎户",
+    "faction": "R",
+    "skill": {
+      "id": "sk_lt_r_sutu",
+      "name": "燎原",
+      "type": "passive",
+      "text": "每当一个友方单位死亡，对随机敌人施加3层[灼烧]。",
+      "triggers": [{ "on": "unitDied", "who": "friendly", "effects": [
+        { "op": "status", "status": "burn", "amount": 3, "target": "randomEnemy" }
+      ] }]
+    },
+    "lore": "山里的猎户，懂得放一把火让旧林倒下、新苗长出。她相信死去的东西都会化作灰，灰里自然会长出下一季。在万木庭的人看来她是个疯子，在焚阳宗的人看来她是个农夫。",
+    "art": { "subject": "a wiry huntress with a torch in one hand and a short bow on her back, standing at the edge of a controlled forest burn, green shoots visible in the ash at her feet" }
+  },
+  {
+    "id": "lt_r_mojin",
+    "name": "墨烬",
+    "title": "焚书客",
+    "faction": "R",
+    "skill": {
+      "id": "sk_lt_r_mojin",
+      "name": "焚卷",
+      "type": "passive",
+      "text": "每当你弃置一张牌，对随机敌人施加1层[灼烧]；每当你燃尽一张牌，对随机敌人造成2点伤害。",
+      "triggers": [
+        { "on": "cardDiscarded", "effects": [{ "op": "status", "status": "burn", "amount": 1, "target": "randomEnemy" }] },
+        { "on": "cardExhausted", "effects": [{ "op": "damage", "amount": 2, "target": "randomEnemy" }] }
+      ]
+    },
+    "lore": "幽弈坊的前任抄经人，因为抄到一页不该存在的命书，被逐出坊门。从此他读一页烧一页，说字烧了才不会骗人。他随身的书箱永远是空的，箱底却总有温热的灰。",
+    "art": { "subject": "a thin scholar in dark purple robes with scorched sleeves, holding an open book whose pages curl into flame as he reads, ash drifting around him" }
+  },
+  {
+    "id": "lt_r_tiezheng",
+    "name": "铁铮",
+    "title": "熔铠匠",
+    "faction": "R",
+    "skill": {
+      "id": "sk_lt_r_tiezheng",
+      "name": "熔甲",
+      "type": "passive",
+      "text": "每当主帅的[护甲]被击破，对造成伤害的敌人施加4层[灼烧]。",
+      "triggers": [{ "on": "armorBroken", "effects": [
+        { "op": "status", "status": "burn", "amount": 4, "target": "eventSource" }
+      ] }]
+    },
+    "lore": "给镇岳门打了半辈子铠甲的铁匠。他的甲从不求挡住一切，只求被打碎的那一刻，碎片还烫得够让敌人记住。镇岳门嫌他的甲太凶，焚阳宗嫌他的甲太厚，他两边都不在乎。",
+    "art": { "subject": "a broad-shouldered armorsmith in a heavy leather apron holding up a breastplate whose cracks glow molten red, forge fire behind him" }
+  }
+]

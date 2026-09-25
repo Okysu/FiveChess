@@ -1,0 +1,77 @@
+[
+  {
+    "id": "lt_p_jiangshu",
+    "name": "绛书",
+    "title": "焚卷书生",
+    "faction": "P",
+    "skill": {
+      "id": "sk_lt_p_jiangshu",
+      "name": "焚卷",
+      "type": "passive",
+      "text": "每当你弃置一张牌，对一名随机敌人造成1点伤害。每当你燃尽一张牌，对一名随机敌人施加2层[灼烧]。",
+      "triggers": [
+        { "on": "cardDiscarded", "effects": [{ "op": "damage", "amount": 1, "target": "randomEnemy" }] },
+        { "on": "cardExhausted", "effects": [{ "op": "status", "status": "burn", "amount": 2, "target": "randomEnemy" }] }
+      ]
+    },
+    "lore": "落第十次的书生，把写满文章的纸一页页烧给命书，火里竟浮出他人的命数。从此他以烧书为术，每一页灰烬都落在仇家身上。",
+    "art": { "subject": "a thin scholar in a faded violet robe tossing burning pages into the air, each page curling into crimson fire birds, ink-stained fingers, night wind" }
+  },
+  {
+    "id": "lt_p_shenfu",
+    "name": "沈伏",
+    "title": "藏机客",
+    "faction": "P",
+    "skill": {
+      "id": "sk_lt_p_shenfu",
+      "name": "伏机",
+      "type": "passive",
+      "text": "你的[余烬]上限+1。每回合你第一次打出[应]牌后，抽1张牌。",
+      "modifiers": [{ "stat": "emberCap", "amount": 1 }],
+      "triggers": [{ "on": "responsePlayed", "limit": "turn", "effects": [{ "op": "draw", "n": 1 }] }]
+    },
+    "lore": "镇岳门出身的守将，被幽弈坊骗走了一整座关隘，却也学会了骗术里最要紧的一条：先让对方出手。他从此只在别人落子之后才动。",
+    "art": { "subject": "a stern armored man in dark blue plate with a violet cloak, sitting perfectly still behind a raised shield while arrows freeze in the air before him" }
+  },
+  {
+    "id": "lt_p_gugu",
+    "name": "阿蛊",
+    "title": "蛊巢养娘",
+    "faction": "P",
+    "skill": {
+      "id": "sk_lt_p_gugu",
+      "name": "蛊巢",
+      "type": "passive",
+      "text": "你的单位造成伤害后，对受伤者施加1层[中毒]。你的回合开始时，将一张[浮光]的「蛊卵」加入手牌。",
+      "triggers": [
+        {
+          "on": "dealtDamage",
+          "who": "friendly",
+          "if": { "isUnit": "eventSource" },
+          "effects": [{ "op": "status", "status": "poison", "amount": 1, "target": "eventTarget" }]
+        },
+        { "on": "turnStart", "effects": [{ "op": "create", "card": "tk_p_gu_egg", "to": "hand", "fleeting": true }] }
+      ]
+    },
+    "lore": "万木庭的采药女，误入蛊窟三天三夜，出来时满身是虫却毫发无伤。她说那些虫只是饿了，而她恰好会种它们爱吃的东西。",
+    "art": { "subject": "a barefoot young woman in green and violet wraps kneeling in a mossy grove, cupping a nest of glowing insect eggs, beetles crawling calmly along her arms" }
+  },
+  {
+    "id": "lt_p_qianshu",
+    "name": "钱九",
+    "title": "千术先生",
+    "faction": "P",
+    "skill": {
+      "id": "sk_lt_p_qianshu",
+      "name": "千术",
+      "type": "passive",
+      "text": "每当你[改判]，抽1张牌。每回合你第一次弃置牌后，收1张[命签]。",
+      "triggers": [
+        { "on": "rejudged", "who": "friendly", "effects": [{ "op": "draw", "n": 1 }] },
+        { "on": "cardDiscarded", "limit": "turn", "effects": [{ "op": "sign", "n": 1 }] }
+      ]
+    },
+    "lore": "观星阁弃徒，占卜术学了一半就被逐出山门，却在赌坊里把另一半补全了。他说天命牌和骨牌没什么两样，都是看谁的袖子更深。",
+    "art": { "subject": "a sly middle-aged man in gold-trimmed violet robes shuffling glowing star-marked cards between his fingers, one card hidden up his sleeve, gambling hall lanterns" }
+  }
+]

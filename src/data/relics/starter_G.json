@@ -1,0 +1,29 @@
+[
+  {
+    "id": "rl_start_qingsi",
+    "name": "万灵种囊",
+    "tier": "starter",
+    "faction": "G",
+    "text": "你的回合开始时，若你拥有至少3个友方单位，抽1张牌。",
+    "flavor": "囊里的种子会自己数人头，人够了，就吐一粒出来。",
+    "triggers": [{
+      "on": "turnStart",
+      "if": { "gte": [{ "count": "units", "side": "friendly" }, 3] },
+      "effects": [{ "op": "draw", "n": 1 }]
+    }],
+    "art": { "subject": "a small embroidered pouch of green silk bulging with glowing seeds, a few tiny sprouts poking out of its drawstring mouth, resting on moss" }
+  },
+  {
+    "id": "rl_start_acang",
+    "name": "山鬼骨笛",
+    "tier": "starter",
+    "faction": "G",
+    "text": "战斗开始时，召唤一个「山魅」。每回合第一次有友方单位死亡时，抽1张牌。",
+    "flavor": "吹的是山里死去的风，唤回的是山里没走远的魂。",
+    "triggers": [
+      { "on": "combatStart", "effects": [{ "op": "summon", "unit": "tk_g_mountain_wraith" }] },
+      { "on": "unitDied", "who": "friendly", "limit": "turn", "effects": [{ "op": "draw", "n": 1 }] }
+    ],
+    "art": { "subject": "a bone flute carved from a deer antler, wrapped with a strand of red cord and dried fig leaves, pale green mist curling from its finger holes" }
+  }
+]

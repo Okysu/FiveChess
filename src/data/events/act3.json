@@ -1,0 +1,387 @@
+[
+  {
+    "id": "ev_zhibi_tongzi",
+    "title": "执笔童子的功课",
+    "acts": [3],
+    "text": "星殿的回廊里，一个梳着双髻的童子伏在案上，正对着一页残稿发愁。他手里的笔比他人还高，笔尖滴着星光。“先生出门前留了功课，”他委屈地说，“要我把这一行补完，可我不知道这个人该怎么死。”他把残稿推给你，那一行写的，是你的名字。",
+    "options": [
+      {
+        "text": "接过笔，自己来写",
+        "next": "write",
+        "effects": [],
+        "outcome": "笔很重，重得像一座山。童子睁大眼睛看着你，小声说：“先生说过，执命者都是这样的。”"
+      },
+      {
+        "text": "【玄机子】问他先生去了哪里",
+        "requires": { "commander": "y_xuanji" },
+        "hint": "天命牌堆移除 2 张牌 · 天命牌堆中 2 张牌改换命纹",
+        "effects": [ { "op": "fate", "action": "remove", "n": 2 }, { "op": "fate", "action": "changeSuit", "n": 2 }, { "op": "flag", "key": "xuanji_knows_siming" } ],
+        "outcome": "“先生去命书之心修订装订线了。”童子掰着手指，“他说有个司天监的小官，三百年前偷看了命书，害得书页撕了——先生要去补。”你沉默良久。那个小官，是你。你替他改完功课，顺手改了自己的几页。"
+      },
+      {
+        "text": "替他把那一行撕掉",
+        "hint": "失去 8 生命 · 移除 2 张牌",
+        "effects": [ { "op": "hp", "n": -8 }, { "op": "removeCard", "n": 2, "mode": "choose" } ],
+        "outcome": "纸撕开的声音像骨头断裂。童子吓得哭起来，你却觉得肩上轻了许多。那一行消失了，连同你身上两处多余的累赘。"
+      }
+    ],
+    "pages": [
+      {
+        "id": "write",
+        "text": "笔尖悬在纸上，星光一滴滴坠落。你能写的只有一行，写下去便成定数。童子托着腮提醒你：“先生说，命书上的字，写得越狠，应得越快；写得越长，走得越稳。”窗外，一颗星无声地坠进了殿前的铜灯里。",
+        "options": [
+          {
+            "text": "写：“此人当胜。”",
+            "hint": "获得 1 张本色传说牌（三选一）· 获得诅咒「宿业」",
+            "effects": [ { "op": "addCard", "pool": { "rarity": "legendary", "faction": "own" }, "choose": 3 }, { "op": "addCard", "card": "cu_suye" } ],
+            "outcome": "四个字落下，纸面燃起金火。童子拍手叫好，又忽然捂住嘴：“可是……写了胜，就得有人替你败。”那个人的宿业，已经记在了你的账上。"
+          },
+          {
+            "text": "写：“此人当久。”",
+            "hint": "获得 10 最大生命",
+            "effects": [ { "op": "maxHp", "n": 10 } ],
+            "outcome": "字迹沉稳，一笔一画都像在砌墙。你感到一股绵长的力气从脚底升起。童子认真地把它抄进了功课簿。"
+          },
+          {
+            "text": "什么也不写，把笔还给他",
+            "hint": "升级 2 张牌",
+            "effects": [ { "op": "upgradeCard", "n": 2, "mode": "choose" } ],
+            "outcome": "童子接过笔，愣愣地看着你：“你不想要？”你摇头。命不是写出来的，是走出来的。他若有所思，把一滴星光点在你的牌上作谢礼。"
+          }
+        ]
+      }
+    ],
+    "art": { "subject": "a small child scribe with twin hair buns bent over a desk in a starlit palace corridor, holding a writing brush taller than himself dripping starlight onto a page, a falling star visible through a window behind" }
+  },
+  {
+    "id": "ev_zhuixing_deng",
+    "title": "坠星灯",
+    "acts": [3],
+    "text": "星殿的长廊两侧挂满了铜灯，每一盏里都燃着一颗坠落的星。有的星还很亮，有的只剩一点余火，奄奄一息。司命在每盏灯下都贴了签条：某年某月，某星坠，某人殁。你数了数，这条长廊上的灯，比天上剩下的星还要多。",
+    "options": [
+      {
+        "text": "取下一盏最亮的灯",
+        "hint": "失去 10 生命 · 获得 1 件稀有遗物",
+        "effects": [ { "op": "hp", "n": -10 }, { "op": "addRelic", "tier": "rare" } ],
+        "outcome": "灯盏烫得你掌心焦黑。灯里的星认出了陌生人，拼命挣扎，最后渐渐安静下来，缩进灯芯里，照着你前行。"
+      },
+      {
+        "text": "把将熄的星吹旺",
+        "hint": "失去 4 最大生命 · 恢复全部生命的 40%",
+        "effects": [ { "op": "maxHp", "n": -4 }, { "op": "hpPct", "pct": 40 } ],
+        "outcome": "你俯身对着一盏将熄的灯吹气，把自己的一缕生气渡了进去。星火重新亮起来，签条上的字淡了一些。那颗星的光暖融融地照在你身上。"
+      },
+      {
+        "text": "读一读签条",
+        "hint": "预览天命",
+        "effects": [ { "op": "fate", "action": "preview", "n": 3 } ],
+        "outcome": "签条上的年份越往后越近，最后几盏的日期，还没有到来。你看着那几个未来的日子，把它们一一记住。"
+      },
+      {
+        "text": "【离鸢】认出其中一盏",
+        "requires": { "commander": "r_liyuan" },
+        "hint": "从 3 张赤色史诗/传说牌中选 1 张",
+        "effects": [ { "op": "addCard", "pool": { "faction": "R", "rarity": ["epic", "legendary"] }, "choose": 3 } ],
+        "outcome": "签条上写着：“朱雀星坠，焚阳宗祭司离鹤殁。”是师姐。原来她烧成的灯，一直挂在这里。灯里的火看见你，温柔地跳了一下，然后自己离开灯芯，落进了你的掌心。"
+      }
+    ],
+    "art": { "subject": "a long palace corridor lined with bronze lanterns each holding a fallen burning star, paper labels hanging beneath each lamp, some stars blazing and some nearly extinguished, a figure reaching up to one lamp" }
+  },
+  {
+    "id": "ev_tiangou_canyue",
+    "title": "被啃过的月",
+    "acts": [3],
+    "text": "星殿外的天空挂着半个月亮，缺口参差不齐，像是被什么咬过。地上散落着碎裂的月光，一片片像瓷片，踩上去嘎吱作响。远处传来沉重的喘息——星蚀天狗吃饱了在打盹。月的碎片里藏着许多命数，只是都缺了一角。",
+    "options": [
+      {
+        "text": "拾起月光碎片",
+        "hint": "天命牌堆加入 3 张月纹 1 · 获得 60 金",
+        "effects": [ { "op": "fate", "action": "add", "suit": "moon", "rank": 1, "n": 3 }, { "op": "gold", "n": 60 } ],
+        "outcome": "碎片在你怀里叮当作响，有的能换钱，有的溜进了你的天命——点数很小，却都是月纹。缺了角的命，也还是命。"
+      },
+      {
+        "text": "趁天狗打盹，割下它的一撮毛",
+        "hint": "40%：获得 1 件稀有遗物；60%：进行一场战斗（精英奖励）",
+        "effects": [ { "op": "chance", "p": 0.4, "then": [ { "op": "addRelic", "tier": "rare" } ], "else": [ { "op": "fight", "encounter": "sandbox", "reward": "elite" } ] } ],
+        "outcome": "你屏住呼吸靠近那团巨大的黑影。它的毛像夜色一样又冷又滑，刀锋落下的一刻，你听见它的喘息停了一拍。"
+      },
+      {
+        "text": "把碎月补回天上",
+        "hint": "失去 8 生命 · 从天命牌堆移除 3 张牌",
+        "effects": [ { "op": "hp", "n": -8 }, { "op": "fate", "action": "remove", "n": 3 } ],
+        "outcome": "你一片片把碎月抛回天上，手被割得血迹斑斑。缺口补上了一小块，而你命里那几页残缺的签，也随着月光一起飞走了。"
+      }
+    ],
+    "art": { "subject": "a half-eaten moon with jagged bite marks hanging over a celestial palace, shards of moonlight scattered on the ground like porcelain, a colossal shadowy dog sleeping on a distant ridge" }
+  },
+  {
+    "id": "ev_siming_shujia",
+    "title": "司命的书架",
+    "acts": [3],
+    "text": "书架高得看不见顶，一排排竹简、帛书、纸卷挤在一起，每一卷都是一个人的一生。有些卷轴自己在架子上翻动，发出沙沙的声响；有些已经合上了，系着黑绳。你找到了写着自己名字的那一卷——它比别人的都薄，而且，后半卷是空白的。",
+    "options": [
+      {
+        "text": "读完已写下的前半卷",
+        "next": "read",
+        "effects": [],
+        "outcome": "你解开系绳。字迹密密麻麻，从你出生那天写起。你一行行往下读，越读越冷。"
+      },
+      {
+        "text": "带走一卷别人的命",
+        "hint": "获得 1 件稀有遗物 · 获得 1 张诅咒",
+        "effects": [ { "op": "addRelic", "tier": "rare" }, { "op": "addCard", "pool": { "type": "curse" } } ],
+        "outcome": "你随手抽出一卷黑绳系着的书，揣进怀里。那个人已经死了，他的命却还有剩余的分量——一半是馈赠，一半是负累。"
+      },
+      {
+        "text": "【燕无咎】在空白处落下一个“缓”字",
+        "requires": { "commander": "y_yanwujiu" },
+        "hint": "天命牌堆加入 2 张日纹 13 · 升级 1 张牌",
+        "effects": [ { "op": "fate", "action": "add", "suit": "sun", "rank": 13, "n": 2 }, { "op": "upgradeCard", "n": 1, "mode": "choose" } ],
+        "outcome": "你卜了一辈子的卦，只求过一件事：让该来的晚一点来。这个字你练过千遍。它落在空白处，后面的纸页便往后推了推，推出了一段多余的、明亮的光阴。"
+      }
+    ],
+    "pages": [
+      {
+        "id": "read",
+        "text": "前半卷写着你走过的每一步，分毫不差，连你在残碑林多看了哪块碑、在沉渊城回了几次头都记着。你这才明白，你以为的选择，大多早已写好。只有几处字迹潦草，像是执笔者犹豫过——那是你违逆了命书的时刻。卷末有一行小字：此后未定。",
+        "options": [
+          {
+            "text": "把潦草的那几处描清楚",
+            "hint": "升级 3 张牌 · 失去 6 生命",
+            "effects": [ { "op": "upgradeCard", "n": 3, "mode": "choose" }, { "op": "hp", "n": -6 } ],
+            "outcome": "你一笔一笔描过那些违逆命数的瞬间，把它们变成确凿的字。每描一处，你的手就更稳一分，心口却被笔锋划开一道细口。"
+          },
+          {
+            "text": "撕下前半卷",
+            "hint": "移除 2 张牌 · 失去 5 最大生命",
+            "effects": [ { "op": "removeCard", "n": 2, "mode": "choose" }, { "op": "maxHp", "n": -5 } ],
+            "outcome": "你撕下写满的那一半，扔进灯火里。过去的你化作飞灰，只剩下空白的后半卷——轻，也更单薄。"
+          }
+        ]
+      }
+    ],
+    "art": { "subject": "towering bookshelves vanishing into darkness in a celestial library, bamboo scrolls and silk rolls turning their own pages, a traveler holding an unusually thin scroll whose latter half is blank" }
+  },
+  {
+    "id": "ev_xingtu_qiju",
+    "title": "星图棋局",
+    "acts": [3],
+    "text": "殿中央铺着一张巨大的棋盘，棋子是一颗颗星辰，棋盘是整片夜空。对面坐着一个看不清面目的对手，他的衣袍上缀满星斗。“一局定输赢，”他说，“你赢了，我这盘上的星随你挑；你输了，把你命里的一颗星留下。”他已经执黑落下了第一子。",
+    "options": [
+      {
+        "text": "押上金银，对弈一局",
+        "requires": { "gold": 60 },
+        "hint": "支付 60 金 · 45%：获得 1 件稀有遗物并返还 120 金",
+        "effects": [ { "op": "gold", "n": -60 }, { "op": "chance", "p": 0.45, "then": [ { "op": "addRelic", "tier": "rare" }, { "op": "gold", "n": 120 } ] } ],
+        "outcome": "星子一颗颗落下，棋盘上的银河缓缓改道。你下到最后一手时，额上已满是汗水。输赢就在这一子之间。"
+      },
+      {
+        "text": "押上一颗命星",
+        "hint": "失去 8 最大生命 · 从 3 张本色传说牌中选 1 张",
+        "effects": [ { "op": "maxHp", "n": -8 }, { "op": "addCard", "pool": { "rarity": "legendary", "faction": "own" }, "choose": 3 } ],
+        "outcome": "你没有等输赢，直接把自己的一颗星推到棋盘中央。对手微微一怔，随即笑了：“痛快。”他把你想要的那颗星拈起来，放进你手里。"
+      },
+      {
+        "text": "【燕无咎】让十年前的自己先落子",
+        "requires": { "commander": "y_yanwujiu" },
+        "hint": "获得 1 件稀有遗物",
+        "effects": [ { "op": "addRelic", "tier": "rare" } ],
+        "outcome": "十年前你在院中摆过一局残棋，布下一手延时的杀招，至今未发。今日你只需把那局棋原样摆上。对手看了半晌，推枰认输：“这一手，你等了十年？”"
+      },
+      {
+        "text": "观棋不语",
+        "hint": "预览天命",
+        "effects": [ { "op": "fate", "action": "preview", "n": 3 } ],
+        "outcome": "你站在一旁，看星子自行落下。棋局推演到后半，你隐约看见了自己接下来要走的几步。"
+      }
+    ],
+    "art": { "subject": "an immense go board spread across the night sky inside a celestial hall, stars serving as stones, a faceless opponent in a star-embroidered robe placing a black stone, a challenger seated across" }
+  },
+  {
+    "id": "ev_mingwen_jing",
+    "title": "命纹井",
+    "acts": [3],
+    "text": "星殿后院有一口四角井，井壁的四面各刻着一种命纹：东面日纹，南面雷纹，西面月纹，北面山纹。井水清得见底，底下沉着无数天命牌，全被泡得褪了色。传说司命当年就是在这口井里给命书的四卷上色——舀哪一面的水，你的命就染上哪一卷的颜色。",
+    "options": [
+      {
+        "text": "舀东面的水",
+        "hint": "失去 6 生命 · 天命牌堆中 3 张牌改为日纹",
+        "effects": [ { "op": "hp", "n": -6 }, { "op": "fate", "action": "changeSuit", "suit": "sun", "n": 3 } ],
+        "outcome": "井水在瓢中燃成金色，烫得你松手。染过的命签透着显赫与征伐的气息，翻开时会亮得刺眼。"
+      },
+      {
+        "text": "舀南面的水",
+        "hint": "失去 6 生命 · 天命牌堆中 3 张牌改为雷纹",
+        "effects": [ { "op": "hp", "n": -6 }, { "op": "fate", "action": "changeSuit", "suit": "thunder", "n": 3 } ],
+        "outcome": "水面炸开一串细小的电花，麻痹了你的手臂。你的命里多了几道骤变与决断，像压在云后的雷。"
+      },
+      {
+        "text": "舀西面的水",
+        "hint": "失去 6 生命 · 天命牌堆中 3 张牌改为月纹",
+        "effects": [ { "op": "hp", "n": -6 }, { "op": "fate", "action": "changeSuit", "suit": "moon", "n": 3 } ],
+        "outcome": "井水冷得像一段旧情，在瓢里轻轻打转。染过的命签变得安静、柔韧，懂得隐忍，也懂得归藏。"
+      },
+      {
+        "text": "舀北面的水",
+        "hint": "失去 6 生命 · 天命牌堆中 3 张牌改为山纹",
+        "effects": [ { "op": "hp", "n": -6 }, { "op": "fate", "action": "changeSuit", "suit": "mountain", "n": 3 } ],
+        "outcome": "井水沉得几乎舀不动，里面像是盛着一整座山。你的命从此多了几分沉稳，翻开时压得住阵脚。"
+      }
+    ],
+    "art": { "subject": "a square stone well in a moonlit courtyard with a different engraved emblem on each of its four inner walls, sun, lightning, moon and mountain, faded cards resting at the bottom of crystal-clear water, a ladle held above it" }
+  },
+  {
+    "id": "ev_wuming_zhi",
+    "title": "无名之执的低语",
+    "acts": [3],
+    "text": "你在星殿的一处死角停下，因为墙上有一片影子不属于任何人。它没有形状，没有名字，却在说话。它说它是被命书漏写的那一个，是司命笔下唯一的空白；它说它知道命书之心的真正模样，知道司命为何一直在修补，从不书写。“我可以借你一些力量，”它说，“只要你记得我。”",
+    "options": [
+      {
+        "text": "答应记住它",
+        "hint": "获得 1 件首领遗物 · 获得诅咒「宿业」 · 获得 1 张诅咒",
+        "effects": [ { "op": "addRelic", "tier": "boss" }, { "op": "addCard", "card": "cu_suye" }, { "op": "addCard", "pool": { "type": "curse" } }, { "op": "flag", "key": "nameless_remembered" } ],
+        "outcome": "影子贴上了你的影子，两者合为一体。你得到了一件本不该出现在这里的东西，也得到了它三百年来独自承受的沉重。它在你耳边轻笑：“到了书心，我们再见。”"
+      },
+      {
+        "text": "问它一个问题",
+        "hint": "失去 5 生命 · 预览天命 · 从天命牌堆移除 1 张牌",
+        "effects": [ { "op": "hp", "n": -5 }, { "op": "fate", "action": "preview", "n": 3 }, { "op": "fate", "action": "remove", "n": 1 } ],
+        "outcome": "“命书撕裂那天，到底发生了什么？”影子沉默了很久。“有人想看，”它终于说，“有人不想被看。书就撕了。”它从你的命里拿走一页作为报酬，然后消散了。"
+      },
+      {
+        "text": "不理会它",
+        "effects": [],
+        "outcome": "你从墙前走过。那片影子没有跟来，只是在你身后低低地说了一声：“所有人都这样。”"
+      }
+    ],
+    "art": { "subject": "a shapeless dark shadow cast on the wall of a starlit palace corner with no figure to cast it, a traveler pausing beside it with lamplight flickering, the shadow seeming to lean toward them" }
+  },
+  {
+    "id": "ev_xingchen_lu",
+    "title": "星尘炉",
+    "acts": [3],
+    "text": "一座高炉立在星殿的偏院，炉膛里烧的不是炭，是一捧捧星尘。司命用它来锻打命书的书钉，炉边还散落着几枚半成品，钉身刻满细密的命纹。炉火无人看管，却从未熄灭。一旁的铁砧上留着一把锤子，锤柄上缠着褪色的红绳。",
+    "options": [
+      {
+        "text": "把牌投进炉火里锻打",
+        "hint": "失去 12 生命 · 升级 3 张牌",
+        "requires": { "hpAbove": 12 },
+        "effects": [ { "op": "hp", "n": -12 }, { "op": "upgradeCard", "n": 3, "mode": "choose" } ],
+        "outcome": "炉火舔上你的手臂，你咬着牙抡锤。每一锤落下，星尘便渗进牌里一分。三张牌出炉时通体明亮，你的手臂却被灼得起了一层层水泡。"
+      },
+      {
+        "text": "拾起一枚半成品书钉",
+        "hint": "支付 30 金 · 获得 1 件罕见遗物",
+        "requires": { "gold": 30 },
+        "effects": [ { "op": "gold", "n": -30 }, { "op": "addRelic", "tier": "uncommon" } ],
+        "outcome": "你把钱放在铁砧上，像是向缺席的匠人付账。书钉在掌中沉甸甸的，钉住了什么，你暂时还不知道。"
+      },
+      {
+        "text": "【霍烬】以断焰重铸兵刃",
+        "requires": { "commander": "r_huojin" },
+        "hint": "失去 6 生命 · 从 3 张赤色装备牌中选 1 张（已升级）",
+        "effects": [ { "op": "hp", "n": -6 }, { "op": "addCard", "pool": { "faction": "R", "type": "equip" }, "choose": 3, "upgraded": true } ],
+        "outcome": "你把断焰刀的残刃投进星尘里。刀在炉中发出一声长啸，像三千将士同时出鞘。锤落百下，你重铸的不只是刀——那一夜的火，终于在星辰里淬成了钢。"
+      },
+      {
+        "text": "【镇岳门】以护甲承锤",
+        "requires": { "faction": "B" },
+        "hint": "失去 5 生命 · 获得 7 最大生命",
+        "effects": [ { "op": "hp", "n": -5 }, { "op": "maxHp", "n": 7 } ],
+        "outcome": "镇岳门的弟子不锻刀，锻自己。你赤膊站在铁砧前，让星尘锤落在肩背上。每一锤都疼进骨头里，每一锤也都把骨头锻得更硬。"
+      }
+    ],
+    "art": { "subject": "a tall furnace in a celestial courtyard burning with glittering stardust instead of coal, half-forged ornate nails scattered around its base, an anvil with a hammer wrapped in faded red cord glowing in the firelight" }
+  },
+  {
+    "id": "ev_sitianjian_yishu",
+    "title": "司天监的遗书",
+    "acts": [3],
+    "text": "角落的书案上压着一封信，信封上是凡间司天监的官印。信是写给“后来者”的：“某年某月，我于观星台窥见命书一角，惊觉天下命数皆有人执笔。我将此事奏报朝廷，当夜星辰倒悬，命书自裂。若你读到此信，说明我没能走回去。”信末没有署名，只画了一只眼睛。",
+    "options": [
+      {
+        "text": "照着信中的星图观星",
+        "hint": "预览天命 · 天命牌堆中 2 张牌改换命纹",
+        "effects": [ { "op": "fate", "action": "preview", "n": 3 }, { "op": "fate", "action": "changeSuit", "n": 2 } ],
+        "outcome": "信里夹着一幅手绘星图，标着命书的缝隙。你按图索骥，从缝隙里看见自己命中的几处关节，顺手拨正了两处。"
+      },
+      {
+        "text": "【玄机子】把信收进怀里",
+        "requires": { "commander": "y_xuanji" },
+        "hint": "获得 1 件事件遗物 · 从 3 张金色稀有/史诗牌中选 1 张",
+        "effects": [ { "op": "addRelic", "tier": "event" }, { "op": "addCard", "pool": { "faction": "Y", "rarity": ["rare", "epic"] }, "choose": 3 } ],
+        "outcome": "字是你的字。你不记得写过这封信——或者说，写信的是另一个你，另一次轮回里没能走回去的你。你把信叠好，那只眼睛在纸上眨了一下。这一次，你要走回去。"
+      },
+      {
+        "text": "烧掉它",
+        "hint": "移除 1 张牌 · 获得 4 最大生命",
+        "effects": [ { "op": "removeCard", "n": 1, "mode": "choose" }, { "op": "maxHp", "n": 4 } ],
+        "outcome": "有些秘密不该留给后来者。纸烧得很慢，那只眼睛最后才化成灰。你觉得自己卸下了一份不属于你的愧疚。"
+      }
+    ],
+    "art": { "subject": "a sealed letter bearing an official observatory seal resting on a dusty desk in a corner of a celestial hall, a hand-drawn star chart slipping out, a single drawn eye on the last page, candlelight" }
+  },
+  {
+    "id": "ev_xingdian_gumu",
+    "title": "穿殿古木",
+    "acts": [3],
+    "text": "一株古木从星殿的地砖下拱出来，顶破了穹顶，枝叶伸进了星空。它的年轮里夹着星光，树皮上结满了果子——每一颗都是一个尚未出世的魂。星殿本是司命的书斋，容不得凡间草木；可它就这样长了进来，谁也拿它没办法。树根下有一圈新翻的土。",
+    "options": [
+      {
+        "text": "摘一颗星果吃下",
+        "hint": "恢复 20 生命 · 获得 1 张诅咒",
+        "effects": [ { "op": "hp", "n": 20 }, { "op": "addCard", "pool": { "type": "curse" } } ],
+        "outcome": "果子清甜，暖意从喉咙一路淌下去。可你隐约听见一声婴孩的啼哭，从你肚里传来，又渐渐消失了。"
+      },
+      {
+        "text": "【青姒】唤醒树中的孩子",
+        "requires": { "commander": "g_qingsi" },
+        "hint": "从 3 张青色史诗/传说牌中选 1 张 · 恢复 10 生命",
+        "effects": [ { "op": "addCard", "pool": { "faction": "G", "rarity": ["epic", "legendary"] }, "choose": 3 }, { "op": "hp", "n": 10 } ],
+        "outcome": "这是你的长女，三百年前追着坠星跑进命阙，再没回来。她没有迷路——她在这里扎了根，一直长到星空里，等你来接。树梢低垂下来，轻轻碰了碰你的额头。"
+      },
+      {
+        "text": "【阿苍】把自己埋进树根",
+        "requires": { "commander": "g_acang" },
+        "hint": "失去 10 生命 · 移除 1 张牌 · 获得 6 最大生命",
+        "effects": [ { "op": "hp", "n": -10 }, { "op": "removeCard", "n": 1, "mode": "choose" }, { "op": "maxHp", "n": 6 } ],
+        "outcome": "山鬼死过太多次，早已懂得如何死得恰到好处。你躺进树根下那圈新土，让古木的根须穿过你的身体。一夜过去，你从土里重新长出来，比从前更高，也忘了一件早该忘的事。"
+      },
+      {
+        "text": "在树下歇一歇",
+        "effects": [ { "op": "hpPct", "pct": 15 } ],
+        "outcome": "树荫里有星光落下，像细雨。你靠着树干睡了一会儿，醒来时身上的伤轻了些。"
+      }
+    ],
+    "art": { "subject": "an ancient tree bursting through the marble floor and domed ceiling of a celestial palace, branches spreading into the starry sky, glowing fruit hanging from its boughs, freshly turned earth circling its roots" }
+  },
+  {
+    "id": "ev_hanjiang_diaoyu",
+    "title": "垂钓星河",
+    "acts": [3],
+    "text": "星殿的栏杆外就是银河。一个披蓑衣的老翁坐在栏杆上，把钓线垂进星河里，钓起的都是一颗颗湿漉漉的星子。他身边的鱼篓已经满了，星光从篓缝里漏出来。“年轻人，”他说，“星河里什么都能钓上来——你丢了什么，就钓什么。”",
+    "options": [
+      {
+        "text": "借他的竿钓一竿",
+        "hint": "50%：获得 1 件稀有遗物；50%：天命牌堆加入 2 张随机牌",
+        "effects": [ { "op": "chance", "p": 0.5, "then": [ { "op": "addRelic", "tier": "rare" } ], "else": [ { "op": "fate", "action": "add", "n": 2 } ] } ],
+        "outcome": "钓线一沉，你用力一扬，星河里溅起一片银光。钓上来的东西在线头挣扎——是宝物还是几页漂流的残命，要看你运气。"
+      },
+      {
+        "text": "买下他的鱼篓",
+        "requires": { "gold": 80 },
+        "hint": "支付 80 金 · 获得 2 瓶随机丹药 · 恢复 15 生命",
+        "effects": [ { "op": "gold", "n": -80 }, { "op": "addPotion" }, { "op": "addPotion" }, { "op": "hp", "n": 15 } ],
+        "outcome": "老翁把鱼篓递给你，里头的星子还在扑腾。你挑出几颗凝成丹丸，剩下的煮了一锅汤。汤的味道像你小时候的某个夏夜。"
+      },
+      {
+        "text": "【素弦】问他可曾钓起一把琴",
+        "requires": { "flag": "suxian_found_master" },
+        "hint": "获得 1 件稀有遗物 · 升级 2 张牌",
+        "effects": [ { "op": "addRelic", "tier": "rare" }, { "op": "upgradeCard", "n": 2, "mode": "choose" } ],
+        "outcome": "老翁眯起眼：“寒川的琴？前些日子漂过去一把，弦上结着霜。”他从篓底摸出一截断弦——是师父的。你把它接在自己的琴上，琴声从此多了一分冰下的回响。"
+      }
+    ],
+    "art": { "subject": "an old fisherman in a straw raincoat sitting on a marble balustrade, casting his line into a flowing river of stars, a wicker basket overflowing with glowing star-fish beside him" }
+  }
+]

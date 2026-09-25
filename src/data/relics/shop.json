@@ -1,0 +1,59 @@
+[
+  {
+    "id": "rl_iron_abacus",
+    "name": "掌柜的铁算盘",
+    "tier": "shop",
+    "text": "商店中所有商品价格降低20%。",
+    "flavor": "珠子是铁的，拨起来响，砍价也响。",
+    "run": [{ "rule": "shopDiscount", "pct": 20 }],
+    "art": { "subject": "a heavy black iron abacus with worn beads, a merchant's hand flicking one bead, coins scattered on a counter" }
+  },
+  {
+    "id": "rl_nine_turn_gourd",
+    "name": "九转药葫",
+    "tier": "shop",
+    "text": "丹药栏位+2。",
+    "flavor": "葫芦里九道弯，每道弯藏一颗丹。",
+    "run": [{ "rule": "potionSlots", "n": 2 }],
+    "art": { "subject": "a large lacquered medicine gourd with nine carved spiral bands, a red cord and small pill bottles hanging from it" }
+  },
+  {
+    "id": "rl_auction_gavel",
+    "name": "地宫拍卖槌",
+    "tier": "shop",
+    "text": "每击败一名精英，额外获得1件遗物。",
+    "flavor": "地下的拍卖行只收一种货：从强者身上扒下来的。",
+    "run": [{ "rule": "eliteRelicExtra" }],
+    "art": { "subject": "a carved dark wooden auction gavel resting on a bronze sound block, shadowy bidders' masks in the background" }
+  },
+  {
+    "id": "rl_artisan_chest",
+    "name": "百工宝匣",
+    "tier": "shop",
+    "ruleChanging": true,
+    "text": "战斗奖励中的卡牌均已升级。",
+    "flavor": "匣中百件器物，件件都经过第二道工。",
+    "run": [{ "rule": "upgradeRewards" }],
+    "art": { "subject": "an open craftsman's treasure chest filled with tiny finely worked tools and gleaming finished trinkets, warm workshop light" }
+  },
+  {
+    "id": "rl_cleansing_basin",
+    "name": "净业铜盆",
+    "tier": "shop",
+    "text": "商店移除卡牌的价格降低50%。",
+    "flavor": "洗手的水倒掉，业也就少了一点。",
+    "run": [{ "rule": "removeCostDiscount", "pct": 50 }],
+    "art": { "subject": "a shallow bronze washbasin filled with clear water, a single ink-stained card dissolving into it, soft light" }
+  },
+  {
+    "id": "rl_storyteller_block",
+    "name": "说书人醒木",
+    "tier": "shop",
+    "text": "战斗开始时，从抽牌堆中选择1张牌加入手牌。",
+    "flavor": "啪的一声，故事就翻到了你想听的那一回。",
+    "triggers": [
+      { "on": "combatStart", "effects": [{ "op": "fetch", "from": "draw", "mode": "choose", "n": 1 }] }
+    ],
+    "art": { "subject": "a polished rectangular wooden gavel block of a storyteller slammed on a table, a folding fan beside it, teahouse lamplight" }
+  }
+]

@@ -1,0 +1,537 @@
+[
+  {
+    "id": "ec_b_vermilion_verdict", "name": "朱批", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "target": "enemy",
+    "text": "造成{d}点伤害，施加{w}层[虚弱]。",
+    "vars": { "d": 10, "w": 1 }, "varKinds": { "d": "attack", "w": "other" },
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "status", "status": "weak", "amount": "$w", "target": "target" }
+    ],
+    "flavor": "朱笔一落，便是铁案。",
+    "art": { "subject": "a vermilion brush slashing a bold red mark across a judgment scroll, droplets of red ink flying like sparks under lantern light" }
+  },
+  {
+    "id": "ec_b_star_edict", "name": "星诏", "faction": "N", "type": "delay", "rarity": "special", "pool": false,
+    "cost": { "g": 2 }, "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：阴纹——受到{d}点伤害；阳纹——受到{e}点伤害。",
+    "vars": { "t": 2, "d": 20, "e": 6 }, "varKinds": { "d": "damage", "e": "damage" },
+    "delay": { "turns": 2, "on": "enemy", "branches": {
+      "yin": [{ "op": "damage", "amount": "$d", "target": "target" }],
+      "yang": [{ "op": "damage", "amount": "$e", "target": "target" }]
+    } },
+    "flavor": "诏书自星上来，不容辩驳。",
+    "art": { "subject": "a golden imperial edict scroll unrolling in midair, its characters made of burning stars, hovering ominously over a kneeling silhouette" }
+  },
+  {
+    "id": "ec_b_hush_court", "name": "肃静", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "己方主帅获得{a}点[护甲]，对敌方主帅施加{w}层[虚弱]。",
+    "vars": { "a": 10, "w": 2 }, "varKinds": { "a": "armor", "w": "other" },
+    "effects": [
+      { "op": "armor", "amount": "$a", "target": "commander" },
+      { "op": "status", "status": "weak", "amount": "$w", "target": "enemyCommander" }
+    ],
+    "flavor": "堂上无声，唯闻落笔。",
+    "art": { "subject": "a lacquered gavel block striking a stone bench, a shockwave of silence rippling outward and dimming every lantern in the hall" }
+  },
+  {
+    "id": "ec_b_case_file", "name": "卷宗", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "收{n}张[命签]，己方主帅获得{a}点[护甲]。",
+    "vars": { "n": 1, "a": 6 }, "varKinds": { "a": "armor", "n": "other" },
+    "effects": [
+      { "op": "sign", "n": "$n" },
+      { "op": "armor", "amount": "$a", "target": "commander" }
+    ],
+    "flavor": "每一桩旧案，都压着一张命牌。",
+    "art": { "subject": "a thick bound case file falling open on a desk, a single glowing fate card slipping out from between its pages" }
+  },
+  {
+    "id": "ec_b_summon_bailiff", "name": "传唤", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "召唤{n}名殿前力士。",
+    "vars": { "n": 1 },
+    "effects": [{ "op": "summon", "unit": "e3_court_bailiff", "n": "$n" }],
+    "flavor": "“带上来。”",
+    "art": { "subject": "a heavy court door bursting open as a burly talisman-faced guard strides through, staff in hand, torchlight behind him" }
+  },
+  {
+    "id": "ec_b_everlamp", "name": "长明灯", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "召唤{n}盏长明灯。",
+    "vars": { "n": 1 },
+    "effects": [{ "op": "summon", "unit": "e3_everlamp", "n": "$n" }],
+    "flavor": "灯不灭，人不亡。",
+    "art": { "subject": "a tall bronze temple lamp standing alone, its flame steady and golden, a halo of warm light pushing back the surrounding darkness" }
+  },
+  {
+    "id": "ec_b_lamp_oil", "name": "添油", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "target": "friendly",
+    "text": "为一个友方角色恢复{h}点生命，并施加{r}层[再生]。",
+    "vars": { "h": 16, "r": 3 }, "varKinds": { "h": "heal", "r": "other" },
+    "effects": [
+      { "op": "heal", "amount": "$h", "target": "target" },
+      { "op": "status", "status": "regen", "amount": "$r", "target": "target" }
+    ],
+    "flavor": "油是灯的血。",
+    "art": { "subject": "a thin stream of glowing golden oil pouring from a long spout into a flickering lamp, the flame swelling bright" }
+  },
+  {
+    "id": "ec_b_wick_flare", "name": "灯花爆", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "对所有敌方角色造成{d}点伤害，并施加{b}层[灼烧]。",
+    "vars": { "d": 5, "b": 2 }, "varKinds": { "d": "damage", "b": "burn" },
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "allEnemies" },
+      { "op": "status", "status": "burn", "amount": "$b", "target": "allEnemies" }
+    ],
+    "flavor": "灯花一爆，喜事将近——对灯而言。",
+    "art": { "subject": "a lamp wick bursting into a blossom of sparks that scatter outward across a dark hall like burning petals" }
+  },
+  {
+    "id": "ec_b_lamp_shade", "name": "灯罩", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "所有友方角色获得{n}层[灵障]。",
+    "vars": { "n": 1 },
+    "effects": [{ "op": "ward", "amount": "$n", "target": "allFriendly" }],
+    "flavor": "薄纱一层，风雨不侵。",
+    "art": { "subject": "translucent paper lamp shades unfolding around a group of figures, each glowing like a protective lantern bubble" }
+  },
+  {
+    "id": "ec_b_dim_hall", "name": "暗堂", "faction": "N", "type": "field", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "持续{t}回合：友方角色受到的伤害-{r}。",
+    "vars": { "t": 3, "r": 2 },
+    "field": { "duration": 3, "modifiers": [{ "stat": "damageTaken", "amount": -2, "who": "friendly" }] },
+    "flavor": "灯下最暗。",
+    "art": { "subject": "a vast dim temple hall lit only by rows of tiny lamps, shadows pooling thick between pillars, a hush over everything" }
+  },
+  {
+    "id": "ec_b_eclipse_claw", "name": "蚀月爪", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "target": "enemy",
+    "text": "造成{d}点伤害。若目标有[虚弱]，再造成{d}点伤害。",
+    "vars": { "d": 8 }, "varKinds": { "d": "attack" },
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "if", "cond": { "hasStatus": { "of": "target", "status": "weak" } }, "then": [
+        { "op": "damage", "amount": "$d", "target": "target", "attack": true }
+      ] }
+    ],
+    "flavor": "月缺一角，便是它的爪印。",
+    "art": { "subject": "a huge shadowy claw raking across a full moon, leaving three dark gashes as moonlight bleeds from the wounds" }
+  },
+  {
+    "id": "ec_b_swallow_light", "name": "吞光", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "对敌方主帅施加{w}层[虚弱]，己方主帅恢复{h}点生命。",
+    "vars": { "w": 2, "h": 12 }, "varKinds": { "h": "heal", "w": "other" },
+    "effects": [
+      { "op": "status", "status": "weak", "amount": "$w", "target": "enemyCommander" },
+      { "op": "heal", "amount": "$h", "target": "commander" }
+    ],
+    "flavor": "光被咽下去时，是温的。",
+    "art": { "subject": "a dark maw inhaling streams of lantern light from the room, the lamps guttering out one by one" }
+  },
+  {
+    "id": "ec_b_black_sun", "name": "黑日", "faction": "N", "type": "field", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "持续{t}回合：敌方角色受到的治疗-{h}，获得[护甲]时-{a}。",
+    "vars": { "t": 3, "h": 4, "a": 2 },
+    "field": { "duration": 3, "modifiers": [
+      { "stat": "healing", "amount": -4, "who": "enemy" },
+      { "stat": "armorGain", "amount": -2, "who": "enemy" }
+    ] },
+    "flavor": "天狗吞日，万物无影，亦无暖。",
+    "art": { "subject": "a black sun ringed by a thin white corona hanging over a darkened landscape, cold grey light and no shadows anywhere" }
+  },
+  {
+    "id": "ec_b_moon_devour", "name": "月蚀", "faction": "N", "type": "delay", "rarity": "special", "pool": false,
+    "cost": { "g": 2 }, "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：阴纹——受到{d}点伤害并获得{v}层[易伤]；阳纹——受到{e}点伤害。",
+    "vars": { "t": 2, "d": 20, "v": 2, "e": 8 }, "varKinds": { "d": "damage", "e": "damage", "v": "other" },
+    "delay": { "turns": 2, "on": "enemy", "branches": {
+      "yin": [
+        { "op": "damage", "amount": "$d", "target": "target" },
+        { "op": "status", "status": "vulnerable", "amount": "$v", "target": "target" }
+      ],
+      "yang": [{ "op": "damage", "amount": "$e", "target": "target" }]
+    } },
+    "flavor": "月亮一寸一寸被咬去，你也是。",
+    "art": { "subject": "a crescent of shadow slowly creeping over a pale moon above a lone figure, whose own shadow is being devoured at the same pace" }
+  },
+  {
+    "id": "ec_b_tengu_howl", "name": "天狗吠", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "召唤{n}只天狗崽，所有友方单位获得{m}层[锋锐]。",
+    "vars": { "n": 1, "m": 1 },
+    "effects": [
+      { "op": "summon", "unit": "e3_tengu_cub", "n": "$n" },
+      { "op": "status", "status": "might", "amount": "$m", "target": "friendlyUnits" }
+    ],
+    "flavor": "一犬吠形，百犬吠声。",
+    "art": { "subject": "a great shadow hound howling at an eclipsed sky while smaller black pups scramble out of the darkness at its feet" }
+  },
+  {
+    "id": "ec_b_starless_night", "name": "无星夜", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "[观星]{n}，收{s}张[命签]。",
+    "vars": { "n": 3, "s": 1 },
+    "effects": [
+      { "op": "stargaze", "n": "$n" },
+      { "op": "sign", "n": "$s" }
+    ],
+    "flavor": "星都被吃光的夜里，只有它看得清命牌。",
+    "art": { "subject": "a completely starless night sky with a single pair of glowing eyes studying a spread of fate cards floating in the dark" }
+  },
+  {
+    "id": "ec_b_blot_out", "name": "涂改", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 }, "target": "enemyUnit",
+    "text": "将一个敌方单位涂改为{a}/{h}的墨团。",
+    "vars": { "a": 0, "h": 4 },
+    "effects": [{ "op": "transform", "target": "target", "into": "e3_ink_blot" }],
+    "flavor": "写错了，涂掉便是。",
+    "art": { "subject": "a giant brush stroke of black ink smearing over a painted warrior on a scroll, the figure dissolving into a shapeless blot" }
+  },
+  {
+    "id": "ec_b_scribble", "name": "乱笔", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "将{n}张恍惚洗入敌方牌库。",
+    "vars": { "n": 2 },
+    "effects": [{ "op": "create", "card": "st_dazed", "n": "$n", "to": "draw" }],
+    "flavor": "童子的字，连先生也认不出。",
+    "art": { "subject": "wild scribbled brush strokes spiraling across a stack of pages, making the characters swim and blur" }
+  },
+  {
+    "id": "ec_b_red_circle", "name": "朱圈", "faction": "N", "type": "delay", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：点数≥{hi}——受到{e}点伤害；点数≤{lo}——受到{d}点伤害，并将{n}张伤口置入敌方弃牌堆。",
+    "vars": { "t": 1, "hi": 8, "lo": 7, "e": 6, "d": 16, "n": 1 }, "varKinds": { "d": "damage", "e": "damage" },
+    "delay": { "turns": 1, "on": "enemy", "branches": {
+      "high": [{ "op": "damage", "amount": "$e", "target": "target" }],
+      "low": [
+        { "op": "damage", "amount": "$d", "target": "target" },
+        { "op": "create", "card": "st_wound", "n": "$n", "to": "discard" }
+      ]
+    } },
+    "flavor": "名字上画了圈，便是勾了。",
+    "art": { "subject": "a bold vermilion circle drawn around a single name in a ledger of fates, the ink still wet and glistening" }
+  },
+  {
+    "id": "ec_b_turn_page", "name": "翻页", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "召唤{n}只墨精。",
+    "vars": { "n": 2 },
+    "effects": [{ "op": "summon", "unit": "e3_ink_imp", "n": "$n" }],
+    "flavor": "翻过一页，墨点便跳了出来。",
+    "art": { "subject": "a page of a huge book being turned, tiny ink imps tumbling out from the fold and scampering across the paper" }
+  },
+  {
+    "id": "ec_b_flying_white", "name": "飞白", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "target": "enemy",
+    "text": "造成{d}点伤害{n}次。",
+    "vars": { "d": 5, "n": 2 }, "varKinds": { "d": "attack", "n": "other" },
+    "effects": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true, "times": "$n" }],
+    "flavor": "笔枯而势不断。",
+    "art": { "subject": "a dry-brush calligraphy stroke whipping through the air in two streaks, white gaps in the ink flashing like blades" }
+  },
+  {
+    "id": "ec_b_inkstone", "name": "洗砚", "faction": "N", "type": "equip", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "己方回合开始时，己方主帅获得{a}点[护甲]。",
+    "vars": { "a": 8 }, "varKinds": { "a": "armor" },
+    "equip": { "slot": "treasure", "triggers": [
+      { "on": "turnStart", "effects": [{ "op": "armor", "amount": "$a", "target": "commander" }] }
+    ] },
+    "flavor": "砚是先生留下的，洗了三百年，墨痕还在。",
+    "art": { "subject": "an ancient carved inkstone with a pool of dark water, a faint star reflected in it, resting on a scholar's desk" }
+  },
+  {
+    "id": "ec_b_golden_plume", "name": "金羽", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "target": "enemy",
+    "text": "造成{d}点伤害，施加{b}层[灼烧]。",
+    "vars": { "d": 8, "b": 3 }, "varKinds": { "d": "attack", "b": "burn" },
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "status", "status": "burn", "amount": "$b", "target": "target" }
+    ],
+    "flavor": "一根羽毛，便是一寸烈日。",
+    "art": { "subject": "a single golden feather streaking down like a meteor, trailing fire, about to pierce the ground" }
+  },
+  {
+    "id": "ec_b_corona", "name": "日冕", "faction": "N", "type": "field", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "持续{t}回合：敌方角色受到的[灼烧]伤害+{x}；己方回合开始时，对敌方主帅施加{b}层[灼烧]。",
+    "vars": { "t": 3, "x": 3, "b": 3 }, "varKinds": { "b": "burn" },
+    "field": { "duration": 3,
+      "modifiers": [{ "stat": "burnDamage", "amount": 3, "who": "enemy" }],
+      "triggers": [{ "on": "turnStart", "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "enemyCommander" }] }]
+    },
+    "flavor": "太阳的外衣，比太阳更烫。",
+    "art": { "subject": "a vast ring of solar corona filling the sky above a scorched hall, flaring tendrils of plasma licking down toward the floor" }
+  },
+  {
+    "id": "ec_b_scorch", "name": "炙烤", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "target": "enemy",
+    "text": "施加{b}层[灼烧]。",
+    "vars": { "b": 7 }, "varKinds": { "b": "burn" },
+    "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "target" }],
+    "flavor": "无处可躲的正午。",
+    "art": { "subject": "a figure caught in a column of blinding sunlight, heat haze warping the air, the ground cracking beneath their feet" }
+  },
+  {
+    "id": "ec_b_tripod_stomp", "name": "三足踏", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "对所有敌方前阵单位造成{d}点伤害，并施加{b}层[灼烧]。",
+    "vars": { "d": 10, "b": 2 }, "varKinds": { "d": "damage", "b": "burn" },
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "enemyFront" },
+      { "op": "status", "status": "burn", "amount": "$b", "target": "enemyFront" }
+    ],
+    "flavor": "三足落地，地皮焦了三层。",
+    "art": { "subject": "three enormous flaming bird talons slamming down in a row, shockwaves of fire rolling outward across a stone floor" }
+  },
+  {
+    "id": "ec_b_dawn_omen", "name": "晨兆", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "keywords": ["judge"],
+    "text": "[判定]：{sun}日纹——对敌方主帅造成{d}点伤害；{thunder}雷纹——对敌方主帅施加{b}层[灼烧]；阴纹——己方主帅获得{a}点[护甲]。",
+    "vars": { "d": 16, "b": 6, "a": 10 }, "varKinds": { "d": "damage", "b": "burn", "a": "armor" },
+    "effects": [
+      { "op": "judge", "branches": {
+        "sun": [{ "op": "damage", "amount": "$d", "target": "enemyCommander" }],
+        "thunder": [{ "op": "status", "status": "burn", "amount": "$b", "target": "enemyCommander" }],
+        "yin": [{ "op": "armor", "amount": "$a", "target": "commander" }]
+      } }
+    ],
+    "flavor": "天未亮，命已定。",
+    "art": { "subject": "a fate card flipping in midair against a blood-orange dawn, its face showing a blazing sun sigil, rays fanning out behind it" }
+  },
+  {
+    "id": "ec_b_ash_wings", "name": "灰羽", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "己方主帅获得{a}点[护甲]，并清除其所有减益。",
+    "vars": { "a": 14 }, "varKinds": { "a": "armor" },
+    "effects": [
+      { "op": "armor", "amount": "$a", "target": "commander" },
+      { "op": "cleanse", "what": "debuffs", "target": "commander" }
+    ],
+    "flavor": "烧过的羽毛，不怕再烧一次。",
+    "art": { "subject": "great wings of grey ash folding around a burning core, flakes drifting away, the fire inside calm and protected" }
+  },
+  {
+    "id": "ec_b_fate_quill", "name": "命笔", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "target": "enemy",
+    "text": "造成{d}点伤害，收{n}张[命签]。",
+    "vars": { "d": 10, "n": 1 }, "varKinds": { "d": "attack", "n": "other" },
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "sign", "n": "$n" }
+    ],
+    "flavor": "笔尖所指，即是命数。",
+    "art": { "subject": "a brush of pure starlight flicking a single stroke through the air, the stroke hardening into a glowing fate card" }
+  },
+  {
+    "id": "ec_b_rewrite_fate", "name": "改命", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "[观星]{n}，然后将{m}张点数为{r}的{mountain}山纹牌置于天命牌堆顶。",
+    "vars": { "n": 4, "m": 1, "r": 1 },
+    "effects": [
+      { "op": "stargaze", "n": "$n" },
+      { "op": "fateAdd", "suit": "mountain", "rank": 1, "n": 1, "where": "top" }
+    ],
+    "flavor": "他改过千万人的命，从不留痕。",
+    "art": { "subject": "long elegant fingers rearranging a fan of glowing fate cards, placing a heavy stone-grey card on top of the deck" }
+  },
+  {
+    "id": "ec_b_heaven_decree", "name": "天命诏", "faction": "N", "type": "delay", "rarity": "special", "pool": false,
+    "cost": { "g": 2 }, "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：点数≤{lo}——受到{d}点伤害并获得{w}层[虚弱]；点数≥{hi}——受到{e}点伤害。",
+    "vars": { "t": 2, "lo": 7, "hi": 8, "d": 24, "w": 2, "e": 8 }, "varKinds": { "d": "damage", "e": "damage", "w": "other" },
+    "delay": { "turns": 2, "on": "enemy", "branches": {
+      "low": [
+        { "op": "damage", "amount": "$d", "target": "target" },
+        { "op": "status", "status": "weak", "amount": "$w", "target": "target" }
+      ],
+      "high": [{ "op": "damage", "amount": "$e", "target": "target" }]
+    } },
+    "flavor": "天命有常，不为你存，不为你亡。",
+    "art": { "subject": "a colossal scroll descending from a starry void, sealed with a glowing celestial seal, its shadow falling over a tiny figure below" }
+  },
+  {
+    "id": "ec_b_call_guard", "name": "墨卫听令", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "召唤{n}名墨卫。",
+    "vars": { "n": 1 },
+    "effects": [{ "op": "summon", "unit": "e4_ink_guard", "n": "$n" }],
+    "flavor": "命书的脊骨，也是它的门。",
+    "art": { "subject": "the spine of a colossal book splitting open as a tall ink sentinel steps out, gripping an iron binding awl, golden thread trailing from its shoulders" }
+  },
+  {
+    "id": "ec_b_star_ink", "name": "星墨", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "对所有敌方角色造成{d}点伤害，并施加{w}层[虚弱]。",
+    "vars": { "d": 7, "w": 1 }, "varKinds": { "d": "damage", "w": "other" },
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "allEnemies" },
+      { "op": "status", "status": "weak", "amount": "$w", "target": "allEnemies" }
+    ],
+    "flavor": "以星为墨，一滴便是一夜。",
+    "art": { "subject": "a splash of ink full of tiny stars spreading across the battlefield like a night sky spilled from a jar" }
+  },
+  {
+    "id": "ec_b_close_book", "name": "合卷", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "将{n}张恍惚置入敌方手牌。",
+    "vars": { "n": 2 },
+    "effects": [{ "op": "create", "card": "st_dazed", "n": "$n", "to": "hand" }],
+    "flavor": "书一合上，便什么也看不清了。",
+    "art": { "subject": "two massive book covers slamming shut, a burst of loose pages and dust exploding outward from between them" }
+  },
+  {
+    "id": "ec_b_still_hour", "name": "停时", "faction": "N", "type": "field", "rarity": "special", "pool": false,
+    "cost": { "g": 3 },
+    "text": "持续{t}回合：敌方每回合少抽{n}张牌，[余烬]上限-{e}。",
+    "vars": { "t": 2, "n": 1, "e": 1 },
+    "field": { "duration": 2, "modifiers": [
+      { "stat": "draw", "amount": -1, "who": "enemy" },
+      { "stat": "emberCap", "amount": -1, "who": "enemy" }
+    ] },
+    "flavor": "命书之心，时间停在装订线上。",
+    "art": { "subject": "falling grains of sand frozen in midair above a cracked hourglass, drifting pages and embers suspended motionless around it" }
+  },
+  {
+    "id": "ec_b_fixed_number", "name": "定数", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "己方主帅获得{a}点[护甲]；若本回合已进行过[判定]，改为获得{b}点。",
+    "vars": { "a": 10, "b": 22 }, "varKinds": { "a": "armor", "b": "armor" },
+    "effects": [
+      { "op": "if", "cond": { "gt": [{ "count": "judgesThisTurn" }, 0] },
+        "then": [{ "op": "armor", "amount": "$b", "target": "commander" }],
+        "else": [{ "op": "armor", "amount": "$a", "target": "commander" }] }
+    ],
+    "flavor": "已翻开的牌，便是定数。",
+    "art": { "subject": "a fate card pinned to a stone tablet by a golden brush, radiating a steady protective light" }
+  },
+  {
+    "id": "ec_b_last_line", "name": "末行", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 3 }, "target": "enemy",
+    "text": "造成{d}点伤害，己方每有一张[命签]，伤害+{e}。",
+    "vars": { "d": 12, "e": 8 }, "varKinds": { "d": "attack", "e": "damage" },
+    "effects": [
+      { "op": "damage", "amount": { "add": ["$d", { "mul": [{ "count": "signs" }, "$e"] }] }, "target": "target", "attack": true }
+    ],
+    "flavor": "最后一行，他写了三百年也没写完。",
+    "art": { "subject": "the final line of an enormous book glowing white-hot, the characters lifting off the page and lancing forward as beams of starlight" }
+  },
+  {
+    "id": "ec_b_binding_thread", "name": "缝命线", "faction": "N", "type": "delay", "rarity": "special", "pool": false,
+    "cost": { "g": 2 }, "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：阴纹——受到{d}点伤害并[眩晕]；阳纹——获得{w}层[虚弱]。",
+    "vars": { "t": 2, "d": 20, "w": 2 }, "varKinds": { "d": "damage", "w": "other" },
+    "delay": { "turns": 2, "on": "enemy", "branches": {
+      "yin": [
+        { "op": "damage", "amount": "$d", "target": "target" },
+        { "op": "status", "status": "stun", "amount": 1, "target": "target" }
+      ],
+      "yang": [{ "op": "status", "status": "weak", "amount": "$w", "target": "target" }]
+    } },
+    "flavor": "一针一线，把你缝进书里。",
+    "art": { "subject": "a glowing golden needle trailing thread, stitching a struggling silhouette into the spine of a giant book" }
+  },
+  {
+    "id": "ec_b_echo_strike", "name": "回响", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "target": "enemy",
+    "text": "造成{d}点伤害；敌方场上每有一个单位，伤害+{e}。",
+    "vars": { "d": 8, "e": 3 }, "varKinds": { "d": "attack", "e": "damage" },
+    "effects": [
+      { "op": "damage", "amount": { "add": ["$d", { "mul": [{ "count": "units", "side": "enemy" }, "$e"] }] }, "target": "target", "attack": true }
+    ],
+    "flavor": "你带来的人越多，回声越响。",
+    "art": { "subject": "a single strike echoing outward as a series of fading afterimages, each echo landing harder than the last" }
+  },
+  {
+    "id": "ec_b_mirror_shard", "name": "镜片", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "己方主帅获得{m}层[锋锐]，再获得等同于敌方主帅[锋锐]层数的[锋锐]。",
+    "vars": { "m": 2 },
+    "effects": [
+      { "op": "status", "status": "might", "amount": { "add": ["$m", { "count": "status", "status": "might", "of": "enemyCommander" }] }, "target": "commander" }
+    ],
+    "flavor": "镜子里的刀，和你的一样快。",
+    "art": { "subject": "a jagged shard of mirror reflecting a raised blade, the reflection's blade glinting sharper than the original" }
+  },
+  {
+    "id": "ec_b_clinging", "name": "执念", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 2 },
+    "text": "对敌方主帅造成{d}点伤害，己方主帅恢复等同于其因此失去的生命。",
+    "vars": { "d": 12 }, "varKinds": { "d": "attack" },
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "enemyCommander", "attack": true },
+      { "op": "heal", "amount": { "count": "lastDamage" }, "target": "commander" }
+    ],
+    "flavor": "抓住了，就不放。",
+    "art": { "subject": "an ink-black hand clamping around a glowing thread of life, drawing its light back into a shadowy wrist" }
+  },
+  {
+    "id": "ec_b_hollow_self", "name": "空我", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "己方主帅获得等同于敌方主帅[护甲]+{a}点的[护甲]。",
+    "vars": { "a": 8 }, "varKinds": { "a": "armor" },
+    "effects": [
+      { "op": "armor", "amount": { "add": [{ "count": "armor", "of": "enemyCommander" }, "$a"] }, "target": "commander" }
+    ],
+    "flavor": "你的甲，也是它的甲。",
+    "art": { "subject": "a hollow suit of armor assembling itself piece by piece out of reflected light, empty inside" }
+  },
+  {
+    "id": "ec_b_old_wish", "name": "旧愿", "faction": "N", "type": "delay", "rarity": "special", "pool": false,
+    "cost": { "g": 2 }, "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：阴纹——受到{d}点伤害，并将{n}张伤口置入敌方弃牌堆；阳纹——受到{e}点伤害。",
+    "vars": { "t": 2, "d": 22, "n": 1, "e": 10 }, "varKinds": { "d": "damage", "e": "damage" },
+    "delay": { "turns": 2, "on": "enemy", "branches": {
+      "yin": [
+        { "op": "damage", "amount": "$d", "target": "target" },
+        { "op": "create", "card": "st_wound", "n": "$n", "to": "discard" }
+      ],
+      "yang": [{ "op": "damage", "amount": "$e", "target": "target" }]
+    } },
+    "flavor": "当年许下的愿，如今来讨债了。",
+    "art": { "subject": "a faded paper wish-lantern drifting back down from the night sky, its old handwriting now glowing an angry red" }
+  },
+  {
+    "id": "ec_b_regret", "name": "悔", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "将{n}张伤口洗入敌方牌库。",
+    "vars": { "n": 2 },
+    "effects": [{ "op": "create", "card": "st_wound", "n": "$n", "to": "draw" }],
+    "flavor": "每一个“如果当初”，都是一道新伤。",
+    "art": { "subject": "old scars glowing faintly on an outstretched palm, each scar shaped like a half-remembered moment" }
+  },
+  {
+    "id": "ec_b_unlet_go", "name": "不放", "faction": "N", "type": "tactic", "rarity": "special", "pool": false,
+    "cost": { "g": 1 },
+    "text": "对攻击力最高的敌方单位施加{f}层[冰冻]与{w}层[虚弱]。",
+    "vars": { "f": 1, "w": 2 },
+    "effects": [
+      { "op": "status", "status": "freeze", "amount": "$f", "target": { "side": "enemy", "pick": "highestAtk" } },
+      { "op": "status", "status": "weak", "amount": "$w", "target": { "side": "enemy", "pick": "highestAtk" } }
+    ],
+    "flavor": "最锋利的那把刀，被握得最紧。",
+    "art": { "subject": "ink-black fingers wrapping tightly around a warrior's raised sword arm, frost spreading from the grip" }
+  },
+  {
+    "id": "ec_b_toll_bell", "name": "更漏", "faction": "N", "type": "delay", "rarity": "special", "pool": false,
+    "cost": { "g": 1 }, "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：阴纹——受到{d}点伤害并获得{v}层[易伤]；阳纹——受到{e}点伤害。",
+    "vars": { "t": 2, "d": 16, "v": 1, "e": 4 }, "varKinds": { "d": "damage", "e": "damage", "v": "other" },
+    "delay": { "turns": 2, "on": "enemy", "branches": {
+      "yin": [
+        { "op": "damage", "amount": "$d", "target": "target" },
+        { "op": "status", "status": "vulnerable", "amount": "$v", "target": "target" }
+      ],
+      "yang": [{ "op": "damage", "amount": "$e", "target": "target" }]
+    } },
+    "flavor": "漏尽钟鸣，命数到头。",
+    "art": { "subject": "a bronze water clock dripping its last drop, a phantom bell ringing above it, rings of sound closing around a small figure" }
+  }
+]

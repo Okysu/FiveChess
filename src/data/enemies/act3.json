@@ -1,0 +1,791 @@
+[
+  {
+    "id": "e3_lamp_warden",
+    "name": "守檠灯奴",
+    "act": 3,
+    "tier": "normal",
+    "hp": [64, 72],
+    "atk": 10,
+    "row": "front",
+    "keywords": ["taunt"],
+    "thorns": 4,
+    "moves": {
+      "strike": { "name": "灯杖击", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] },
+      "raise": { "name": "擎灯", "intent": ["defend"], "target": "none", "effects": [
+        { "op": "armor", "amount": 12, "target": "self" },
+        { "op": "armor", "amount": 6, "target": "otherFriendlyUnits" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["raise", "strike", "strike"], "start": "random" },
+    "lore": "星殿的长明灯须有人擎着。它们原是误入书斋的凡人，灯油一滴滴渗进骨缝，便再也放不下手里的灯檠。",
+    "art": { "subject": "a gaunt servant in tattered scholar robes holding a tall bronze lamp-stand like a halberd, a captive star burning in the lamp cage above its head, cold blue light casting long shadows across a library floor" }
+  },
+  {
+    "id": "e3_fallen_lamp",
+    "name": "坠星灯",
+    "act": 3,
+    "tier": "normal",
+    "hp": [34, 40],
+    "atk": 9,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "beam": { "name": "星芒", "intent": ["attack"], "target": "commander", "effects": [{ "op": "attack", "target": "target" }] },
+      "kindle": { "name": "引火", "intent": ["debuff"], "target": "commander", "effects": [
+        { "op": "status", "status": "burn", "amount": 5, "target": "target" },
+        { "op": "create", "card": "st_burn_scar", "to": "discard" }
+      ] },
+      "brighten": { "name": "添焰", "intent": ["buff"], "target": "ally", "effects": [
+        { "op": "status", "status": "might", "amount": 3, "target": "target" }
+      ] }
+    },
+    "ai": { "type": "weighted", "weights": { "beam": 2, "kindle": 2, "brighten": 1 }, "noRepeat": 1 },
+    "lore": "司命以星为墨，写尽一颗便摘下来悬在梁上作灯。坠星仍记得自己曾在天上，于是把每个仰头看它的人，都当作要烧穿的夜。",
+    "art": { "subject": "a hanging paper lantern holding a fallen star, its paper skin cracked and glowing white-hot, drifting beneath dark rafters of an endless library, embers raining from its base" }
+  },
+  {
+    "id": "e3_ink_clerk",
+    "name": "誊命书吏",
+    "act": 3,
+    "tier": "normal",
+    "hp": [38, 44],
+    "atk": 8,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "copy": { "name": "誊改", "intent": ["judge", "buff"], "target": "none", "effects": [
+        { "op": "stargaze", "n": 3 },
+        { "op": "sign", "n": 1 }
+      ] },
+      "verdict": { "name": "批命", "intent": ["attack", "judge"], "target": "commander", "effects": [
+        { "op": "judge", "target": "target", "branches": {
+          "yin": [
+            { "op": "damage", "amount": 14, "target": "target", "attack": true },
+            { "op": "status", "status": "weak", "amount": 2, "target": "target" }
+          ],
+          "yang": [{ "op": "damage", "amount": 5, "target": "target", "attack": true }]
+        } }
+      ] },
+      "quill": { "name": "朱笔", "intent": ["attack"], "target": "commander", "effects": [{ "op": "attack", "target": "target" }] }
+    },
+    "ai": { "type": "script", "first": ["copy"], "then": { "type": "cycle", "sequence": ["verdict", "quill", "copy"] } },
+    "lore": "书吏的职责是把命书誊抄一遍。三百年无人校对，它们便按自己的喜好改——笔下每一个凶字，都曾是别人的吉日。",
+    "art": { "subject": "a hunched clerk with an ink-stained face and elongated fingers, copying a glowing scroll at a floating desk, a vermilion brush poised mid-stroke, candlelight flickering on stacked ledgers" }
+  },
+  {
+    "id": "e3_eclipse_hound",
+    "name": "蚀光犬",
+    "act": 3,
+    "tier": "normal",
+    "hp": [44, 50],
+    "atk": 7,
+    "row": "front",
+    "moves": {
+      "bite": { "name": "连噬", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target", "times": 2 }] },
+      "maul": { "name": "撕咬", "intent": ["attack", "debuff"], "effects": [
+        { "op": "attack", "target": "target" },
+        { "op": "create", "card": "st_wound", "to": "discard" }
+      ] },
+      "howl": { "name": "噬光", "intent": ["buff", "defend"], "target": "none", "effects": [
+        { "op": "status", "status": "might", "amount": 3, "target": "self" },
+        { "op": "armor", "amount": 6, "target": "self" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["bite", "howl", "maul"], "start": "random" },
+    "lore": "天狗吞月时漏下的碎影，落地便成了犬。它们靠啃食灯光长大，每咬下一口光，獠牙就更利一分。",
+    "art": { "subject": "a lean black hound made of shadow with a crescent of stolen moonlight glowing in its jaws, crouched low on marble tiles, eyes like dim coins, wisps of darkness trailing from its fur" }
+  },
+  {
+    "id": "e3_armillary_guard",
+    "name": "浑仪卫",
+    "act": 3,
+    "tier": "normal",
+    "hp": [72, 80],
+    "atk": 11,
+    "row": "front",
+    "keywords": ["taunt"],
+    "ward": 1,
+    "modifiers": [{ "stat": "judgeRank", "amount": -3, "who": "enemy" }],
+    "passives": [
+      { "on": "judged", "who": "enemy", "effects": [
+        { "op": "armor", "amount": 5, "target": "self" },
+        { "op": "status", "status": "might", "amount": 1, "target": "self" }
+      ] }
+    ],
+    "moves": {
+      "grind": { "name": "轨碾", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] },
+      "turn": { "name": "周天转", "intent": ["defend"], "target": "none", "effects": [{ "op": "armor", "amount": 16, "target": "self" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["grind", "turn", "grind"] },
+    "lore": "司命推算星轨用的浑天仪，被命阙的乱数搅得停不下来。它仍在推演——谁在它面前翻开命牌，点数便被铜环拨慢三分。",
+    "art": { "subject": "a towering bronze armillary sphere walking on three clawed legs, its concentric rings spinning with engraved constellations, a star-core pulsing at the center, planted in a guarding stance" }
+  },
+  {
+    "id": "e3_brush_assassin",
+    "name": "断笔刺客",
+    "act": 3,
+    "tier": "normal",
+    "hp": [36, 42],
+    "atk": 13,
+    "row": "back",
+    "keywords": ["stealth", "leap"],
+    "moves": {
+      "stab": { "name": "点睛", "intent": ["attack"], "target": "commander", "effects": [{ "op": "attack", "target": "target" }] },
+      "hide": { "name": "藏墨", "intent": ["buff"], "target": "none", "effects": [
+        { "op": "addKeyword", "keyword": "stealth", "target": "self" },
+        { "op": "status", "status": "might", "amount": 2, "target": "self" }
+      ] },
+      "venom": { "name": "毒墨", "intent": ["attack", "debuff"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 6, "target": "target", "attack": true },
+        { "op": "status", "status": "poison", "amount": 3, "target": "target" },
+        { "op": "create", "card": "st_toxin", "to": "discard" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["stab", "hide", "venom", "hide"] },
+    "lore": "被司命折断的笔杆也有怨气。它们藏在书架的阴影里，专挑执笔之人的眉心点下去——就像当年点下一个人的死期。",
+    "art": { "subject": "a slender assassin whose body is a snapped calligraphy brush, bristles dripping black ink like a blade, crouching on top of a bookshelf in deep shadow, only a thin gleam of the tip visible" }
+  },
+  {
+    "id": "e3_page_moth",
+    "name": "蠹书蛾",
+    "act": 3,
+    "tier": "normal",
+    "hp": [30, 36],
+    "atk": 8,
+    "row": "back",
+    "keywords": ["ranged"],
+    "modifiers": [{ "stat": "handLimit", "amount": -3, "who": "enemy" }],
+    "passives": [
+      { "on": "opponentTurnStart", "effects": [{ "op": "counter", "amount": { "mul": [{ "count": "counter" }, -1] } }] },
+      { "on": "cardDrawn", "who": "enemy", "effects": [
+        { "op": "counter", "amount": 1 },
+        { "op": "if", "cond": { "gt": [{ "count": "counter" }, 6] }, "then": [{ "op": "damage", "amount": 4, "target": "enemyCommander" }] }
+      ] }
+    ],
+    "moves": {
+      "nibble": { "name": "蛀字", "intent": ["debuff"], "target": "commander", "effects": [
+        { "op": "create", "card": "st_dazed", "to": "hand" },
+        { "op": "damage", "amount": 4, "target": "target" }
+      ] },
+      "flutter": { "name": "磷粉", "intent": ["attack", "debuff"], "target": "commander", "effects": [
+        { "op": "attack", "target": "target" },
+        { "op": "status", "status": "weak", "amount": 1, "target": "target" }
+      ] }
+    },
+    "ai": { "type": "weighted", "weights": { "nibble": 1, "flutter": 2 }, "noRepeat": 1 },
+    "lore": "蠹虫啃了三百年命书，肚里装满别人的命数。它最恨贪多的读者：你手里攥的牌越多，它越要从指缝间啃掉几页。",
+    "art": { "subject": "a large pale moth with wings made of torn manuscript pages covered in faded characters, hovering above an open book, glittering dust falling from its wings in lamplight" }
+  },
+  {
+    "id": "e3_star_broom",
+    "name": "拂星帚灵",
+    "act": 3,
+    "tier": "normal",
+    "hp": [58, 66],
+    "atk": 9,
+    "row": "front",
+    "passives": [
+      { "on": "unitSummoned", "who": "enemy", "effects": [{ "op": "status", "status": "might", "amount": 1, "target": "self" }] }
+    ],
+    "moves": {
+      "sweep": { "name": "横扫", "intent": ["attack"], "effects": [
+        { "op": "attack", "target": "target" },
+        { "op": "damage", "amount": 5, "target": "enemyUnits", "attack": true }
+      ] },
+      "dust": { "name": "扬尘", "intent": ["debuff", "defend"], "target": "none", "effects": [
+        { "op": "status", "status": "weak", "amount": 1, "target": "enemyUnits" },
+        { "op": "armor", "amount": 8, "target": "self" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["sweep", "dust", "sweep"] },
+    "lore": "司命嫌书案上星屑太多，扎了一把帚来扫。帚灵至今恪尽职守：凡是挤满案面的东西，一律扫落。",
+    "art": { "subject": "a living broom spirit with a bundle of silver straw bristles for a body and a small lantern face, mid-swing sweeping a spray of glittering stardust across a stone floor" }
+  },
+  {
+    "id": "e3_lamp_maid",
+    "name": "添油侍",
+    "act": 3,
+    "tier": "normal",
+    "hp": [34, 40],
+    "atk": 6,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "oil": { "name": "添油", "intent": ["heal"], "target": "allyLowest", "effects": [
+        { "op": "heal", "amount": 16, "target": "target" },
+        { "op": "status", "status": "regen", "amount": 3, "target": "target" }
+      ] },
+      "shade": { "name": "护罩", "intent": ["buff"], "target": "ally", "effects": [{ "op": "ward", "amount": 1, "target": "target" }] },
+      "flick": { "name": "弹芯", "intent": ["attack"], "target": "commander", "effects": [{ "op": "attack", "target": "target" }] }
+    },
+    "ai": { "type": "weighted", "weights": { "oil": 2, "shade": 2, "flick": 1 }, "noRepeat": 1 },
+    "lore": "侍女一生只做一件事：灯暗了便添油。她早已分不清灯与人，看见谁的光弱了，便把油倒进谁的伤口里。",
+    "art": { "subject": "a pale serving maid in layered grey silk carrying a long-spouted oil jug, pouring a thin stream of glowing oil, her face serene and blank, faint halo of lamplight around her" }
+  },
+  {
+    "id": "e3_star_shepherd",
+    "name": "牧星人",
+    "act": 3,
+    "tier": "normal",
+    "hp": [40, 46],
+    "atk": 7,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "call": { "name": "牧星", "intent": ["summon"], "target": "none", "effects": [{ "op": "summon", "unit": "e3_star_mote", "n": 2 }] },
+      "chain": { "name": "星链", "intent": ["buff"], "target": "none", "effects": [{ "op": "buff", "atk": 2, "target": "otherFriendlyUnits" }] },
+      "crook": { "name": "杖击", "intent": ["attack"], "target": "commander", "effects": [{ "op": "attack", "target": "target" }] }
+    },
+    "ai": { "type": "script", "first": ["call"], "then": { "type": "cycle", "sequence": ["crook", "chain", "call"] } },
+    "lore": "牧星人赶着坠落的星屑在书斋里游荡，像赶一群走失的羊。他不记得星辰原本该挂在哪里，只记得不能让它们落单。",
+    "art": { "subject": "a tall robed shepherd with a hooked crook of braided starlight, herding a cluster of floating glowing motes, standing in a dim hall of shelves, his face hidden under a wide straw hat" }
+  },
+  {
+    "id": "e3_star_mote",
+    "name": "星屑",
+    "act": 3,
+    "tier": "minion",
+    "hp": [16, 18],
+    "atk": 6,
+    "row": "front",
+    "passives": [
+      { "on": "death", "effects": [{ "op": "damage", "amount": 4, "target": "enemyCommander" }] }
+    ],
+    "moves": {
+      "flare": { "name": "撞星", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["flare"] },
+    "lore": "从星图上抖落的一粒碎光。它撞向谁，便在谁身上炸开，仿佛这样就能回到天上。",
+    "art": { "subject": "a small crackling orb of starlight with a faint mischievous face, trailing sparks, hurtling forward through darkness" }
+  },
+  {
+    "id": "e3_ink_golem",
+    "name": "积墨傀",
+    "act": 3,
+    "tier": "normal",
+    "hp": [70, 78],
+    "atk": 8,
+    "row": "front",
+    "moves": {
+      "soak": { "name": "渗墨", "intent": ["buff", "defend"], "target": "none", "effects": [
+        { "op": "addKeyword", "keyword": "growth", "value": 3, "target": "self" },
+        { "op": "armor", "amount": 8, "target": "self" }
+      ] },
+      "pound": { "name": "墨拳", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["soak", "pound", "pound"] },
+    "lore": "砚池里积了三百年的残墨，被一滴星血点活。它每站一刻便吸饱一分，拖得越久，越像一座压下来的墨山。",
+    "art": { "subject": "a hulking golem of thick glistening black ink rising from a cracked inkstone, its fists dripping, a single red star-drop glowing in its chest, ink pooling around its feet" }
+  },
+  {
+    "id": "e3_hour_bell",
+    "name": "司辰钟",
+    "act": 3,
+    "tier": "normal",
+    "hp": [42, 48],
+    "atk": 8,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "toll": { "name": "报时", "intent": ["debuff", "judge"], "target": "commander", "effects": [{ "op": "delay", "card": "ec_b_toll_bell", "target": "target" }] },
+      "chime": { "name": "余响", "intent": ["attack"], "target": "none", "effects": [{ "op": "damage", "amount": 5, "target": "allEnemies" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["toll", "chime", "chime"] },
+    "lore": "星殿的钟不报昼夜，只报死期。钟声落定时，天命牌会替你翻开——翻到阴面的人，便永远停在那一刻。",
+    "art": { "subject": "an ancient bronze bell hovering in the air, engraved with a ring of zodiac mansions, a clapper shaped like a skeletal hand, visible sound ripples spreading through dusty air" }
+  },
+  {
+    "id": "e3_star_diviner",
+    "name": "占星童子",
+    "act": 3,
+    "tier": "normal",
+    "hp": [36, 42],
+    "atk": 8,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "seed": { "name": "布星", "intent": ["judge", "debuff"], "target": "none", "effects": [
+        { "op": "fateAdd", "suit": "moon", "rank": 3, "where": "top" },
+        { "op": "fateAdd", "suit": "mountain", "rank": 2, "where": "top" }
+      ] },
+      "strike": { "name": "天谴", "intent": ["attack", "judge"], "target": "commander", "effects": [
+        { "op": "judge", "target": "target", "branches": {
+          "yin": [{ "op": "damage", "amount": 16, "target": "target", "attack": true }],
+          "yang": [{ "op": "armor", "amount": 8, "target": "self" }]
+        } }
+      ] },
+      "flick": { "name": "星针", "intent": ["attack"], "target": "commander", "effects": [{ "op": "attack", "target": "target" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["seed", "strike", "flick"] },
+    "lore": "司命座下最小的学徒，只学会了一件事：把阴面的命牌悄悄码在最上头。它不懂祸福，只觉得看人抽到凶签很好玩。",
+    "art": { "subject": "a small child acolyte in oversized star-embroidered robes, grinning slyly while slipping a glowing card onto the top of a floating deck, a tiny astrolabe hanging from its belt" }
+  },
+  {
+    "id": "e3_meteor_knight",
+    "name": "陨星骑",
+    "act": 3,
+    "tier": "normal",
+    "hp": [84, 92],
+    "atk": 12,
+    "row": "front",
+    "moves": {
+      "trample": { "name": "践踏", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] },
+      "brace": { "name": "引星", "intent": ["defend", "buff"], "target": "none", "effects": [{ "op": "armor", "amount": 14, "target": "self" }] },
+      "fall": { "name": "星陨", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target", "amount": 30 }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["trample", "brace", "fall"] },
+    "lore": "骑士曾守望天河，坠落时连人带马熔进了一颗陨星。他每隔几息便要把那颗星重新举起、砸下——那是他唯一记得的冲锋。",
+    "art": { "subject": "an armored knight fused with a molten meteorite, his horse half-stone and half-flame, lifting a blazing star overhead with both arms, cracks of magma glowing through his plate" }
+  },
+  {
+    "id": "e3_bronze_mirror",
+    "name": "照命铜镜",
+    "act": 3,
+    "tier": "normal",
+    "hp": [58, 64],
+    "atk": 7,
+    "row": "front",
+    "keywords": ["taunt"],
+    "ward": 2,
+    "passives": [
+      { "on": "damaged", "effects": [{ "op": "damage", "amount": 3, "target": "enemyCommander" }] }
+    ],
+    "moves": {
+      "glare": { "name": "照影", "intent": ["attack", "debuff"], "effects": [
+        { "op": "attack", "target": "target" },
+        { "op": "status", "status": "vulnerable", "amount": 1, "target": "target" }
+      ] },
+      "reflect": { "name": "回光", "intent": ["defend"], "target": "none", "effects": [
+        { "op": "ward", "amount": 1, "target": "self" },
+        { "op": "armor", "amount": 10, "target": "self" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["glare", "reflect"] },
+    "lore": "镜中照的不是容貌，是命数。谁朝它挥刀，刀光便原样落回谁的命里——出手越急，照回来的越多。",
+    "art": { "subject": "a large round bronze mirror standing on carved lion feet, its polished face showing a distorted reflection of the viewer, a rim of engraved stars, light bouncing off it in sharp beams" }
+  },
+  {
+    "id": "e3_frost_hare",
+    "name": "霜魄兔",
+    "act": 3,
+    "tier": "normal",
+    "hp": [34, 40],
+    "atk": 8,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "frost": { "name": "捣霜", "intent": ["debuff"], "target": "highestAtk", "effects": [
+        { "op": "status", "status": "freeze", "amount": 1, "target": "target" },
+        { "op": "create", "card": "st_frost", "to": "draw" }
+      ] },
+      "bolt": { "name": "寒魄", "intent": ["attack"], "target": "commander", "effects": [{ "op": "attack", "target": "target" }] }
+    },
+    "ai": { "type": "weighted", "weights": { "frost": 2, "bolt": 3 }, "noRepeat": 1 },
+    "lore": "月宫的兔子捣的从来不是药，是霜。它从月纹命牌里跌进星殿，每一杵落下，便有人的手脚冻在原地。",
+    "art": { "subject": "a white jade hare standing upright with a mortar and pestle, pounding glittering frost, icy mist spilling over the rim, a pale crescent moon glowing behind it" }
+  },
+  {
+    "id": "e3_tengu_cub",
+    "name": "天狗崽",
+    "act": 3,
+    "tier": "minion",
+    "hp": [30, 34],
+    "atk": 9,
+    "row": "front",
+    "moves": {
+      "bite": { "name": "啃咬", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] },
+      "gnaw": { "name": "磨牙", "intent": ["attack", "debuff"], "effects": [
+        { "op": "attack", "target": "target" },
+        { "op": "status", "status": "weak", "amount": 1, "target": "target" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["bite", "gnaw"], "start": "random" },
+    "lore": "星蚀天狗的幼崽，牙还没长齐，却已学会对着灯火龇牙。它们跟在母亲身后，捡食漏下的月光。",
+    "art": { "subject": "a scrappy black pup with oversized glowing fangs and a shadowy tail, snarling at a candle flame, fur bristling with darkness" }
+  },
+  {
+    "id": "e3_ink_imp",
+    "name": "墨精",
+    "act": 3,
+    "tier": "minion",
+    "hp": [22, 26],
+    "atk": 6,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "splash": { "name": "溅墨", "intent": ["attack"], "target": "commander", "effects": [{ "op": "attack", "target": "target" }] },
+      "smear": { "name": "污页", "intent": ["debuff"], "target": "commander", "effects": [
+        { "op": "create", "card": "st_dazed", "to": "draw" },
+        { "op": "status", "status": "weak", "amount": 1, "target": "target" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["smear", "splash"], "start": "random" },
+    "lore": "执笔童子甩笔时溅出的墨点，落地便会跑。它们最喜欢往人的书页上蹦，留下一串洗不掉的脚印。",
+    "art": { "subject": "a tiny impish blob of ink with stubby legs and huge white eyes, leaping mid-air and leaving splattered footprints on a sheet of paper" }
+  },
+  {
+    "id": "e3_sun_crow",
+    "name": "余晖鸦",
+    "act": 3,
+    "tier": "minion",
+    "hp": [24, 28],
+    "atk": 7,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "peck": { "name": "灼啄", "intent": ["attack", "debuff"], "target": "commander", "effects": [
+        { "op": "attack", "target": "target" },
+        { "op": "status", "status": "burn", "amount": 3, "target": "target" }
+      ] },
+      "glide": { "name": "鼓焰", "intent": ["buff"], "target": "ally", "effects": [{ "op": "status", "status": "might", "amount": 2, "target": "target" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["peck", "peck", "glide"] },
+    "lore": "金乌之影振翅时抖落的余晖，化作一只只火鸦。它们不懂落山，只会一直烧到自己熄灭为止。",
+    "art": { "subject": "a small crow formed of dusk-colored flame, wings spread wide, embers peeling from its feathers as it dives" }
+  },
+  {
+    "id": "e3_court_bailiff",
+    "name": "殿前力士",
+    "act": 3,
+    "tier": "minion",
+    "hp": [44, 50],
+    "atk": 10,
+    "row": "front",
+    "keywords": ["taunt"],
+    "moves": {
+      "club": { "name": "杖责", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] },
+      "guard": { "name": "护驾", "intent": ["defend"], "target": "none", "effects": [
+        { "op": "armor", "amount": 12, "target": "commander" },
+        { "op": "armor", "amount": 6, "target": "self" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["club", "guard"] },
+    "lore": "司天监的力士，面上贴着一张写满罪名的黄纸。他们不识字，也不必识字——监正指向谁，棍棒就落向谁。",
+    "art": { "subject": "a burly court guard with a yellow talisman pasted over his face, gripping a heavy lacquered staff across his chest, standing firm before a judge's bench" }
+  },
+  {
+    "id": "e3_everlamp",
+    "name": "长明灯",
+    "act": 3,
+    "tier": "minion",
+    "hp": [18, 20],
+    "atk": 0,
+    "row": "front",
+    "keywords": ["taunt"],
+    "moves": {
+      "glow": { "name": "续明", "intent": ["heal"], "target": "none", "effects": [{ "op": "heal", "amount": 6, "target": "commander" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["glow"] },
+    "lore": "燃灯尼亲手点起的灯，灯油是她一段段烧掉的旧念。灯阵在前，她便退在光里，刀剑近不得身。",
+    "art": { "subject": "a tall bronze temple lamp standing alone on a lotus base, its flame steady and golden, a halo of warm light pushing back the darkness" }
+  },
+  {
+    "id": "e3_ink_blot",
+    "name": "墨团",
+    "act": 3,
+    "tier": "minion",
+    "hp": [4, 4],
+    "atk": 0,
+    "row": "front",
+    "moves": {
+      "seep": { "name": "洇散", "intent": ["sleep"], "target": "none", "effects": [] }
+    },
+    "ai": { "type": "cycle", "sequence": ["seep"] },
+    "lore": "被执笔童子一笔涂掉的东西。它原本有名字、有来历，如今只剩一团慢慢洇开的墨，什么也不是。",
+    "art": { "subject": "a shapeless blob of spreading black ink on parchment, faint outlines of a lost figure still visible inside it" }
+  },
+  {
+    "id": "e3_star_judge",
+    "name": "司天监正",
+    "act": 3,
+    "tier": "elite",
+    "hp": [230, 230],
+    "atk": 12,
+    "row": "commander",
+    "deck": ["ec_b_vermilion_verdict", "ec_b_vermilion_verdict", "ec_b_star_edict", "ec_b_hush_court", "ec_b_case_file", "ec_b_summon_bailiff"],
+    "energy": { "start": 1, "perTurn": 2, "max": 4 },
+    "passives": [
+      { "on": "responsePlayed", "who": "enemy", "effects": [{ "op": "status", "status": "might", "amount": 1, "target": "self" }] }
+    ],
+    "moves": {
+      "hearing": { "name": "升堂", "intent": ["cast"], "target": "none", "effects": [{ "op": "script", "id": "bossCast" }] },
+      "gavel": { "name": "惊堂", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] },
+      "sentence": { "name": "定谳", "intent": ["attack", "judge"], "target": "commander", "effects": [
+        { "op": "judge", "target": "target", "branches": {
+          "low": [{ "op": "damage", "amount": 24, "target": "target", "attack": true }],
+          "high": [{ "op": "damage", "amount": 10, "target": "target", "attack": true }]
+        } }
+      ] }
+    },
+    "ai": {
+      "type": "script",
+      "first": ["hearing"],
+      "rules": [{ "if": { "lt": [{ "count": "hp" }, { "mul": [{ "count": "maxHp" }, 0.5] }] }, "move": "sentence", "once": true }],
+      "then": { "type": "cycle", "sequence": ["gavel", "hearing", "sentence", "hearing"] }
+    },
+    "lore": "司天监正掌管星殿刑名，一生只做判官，从不问案情。他的笏板上刻着一句话：“命已写定，何须再审。”咆哮公堂者，罪加一等。",
+    "dialogue": { "intro": "堂下何人？命书上写你今日当死，可有异议？", "defeat": "……此案……须得重审……" },
+    "art": { "subject": "a stern astronomer-magistrate in black and gold court robes seated behind a floating bench of star charts, raising an ivory tablet engraved with judgment, lanterns of captive stars hanging above" }
+  },
+  {
+    "id": "e3_ink_leviathan",
+    "name": "墨螭",
+    "act": 3,
+    "tier": "elite",
+    "hp": [250, 250],
+    "atk": 13,
+    "row": "commander",
+    "passives": [
+      { "on": "turnStart", "effects": [{ "op": "status", "status": "might", "amount": 1, "target": "self" }] }
+    ],
+    "moves": {
+      "bite": { "name": "螭吻", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] },
+      "blot": { "name": "泼墨", "intent": ["debuff"], "target": "commander", "effects": [
+        { "op": "create", "card": "st_dazed", "n": 2, "to": "draw" },
+        { "op": "status", "status": "weak", "amount": 2, "target": "target" }
+      ] },
+      "coil": { "name": "盘墨", "intent": ["defend", "summon"], "target": "none", "effects": [
+        { "op": "armor", "amount": 20, "target": "self" },
+        { "op": "summon", "unit": "e3_ink_imp", "n": 1 }
+      ] },
+      "tide": { "name": "墨潮", "intent": ["attack"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 22, "target": "target", "attack": true },
+        { "op": "damage", "amount": 6, "target": "enemyUnits" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["bite", "blot", "coil", "tide"] },
+    "lore": "砚池深处盘着一条墨色的螭。它喝了太多写坏的命数，身上每片鳞都是一个被涂黑的名字，每涨一次潮，便又抹去一行。",
+    "dialogue": { "intro": "（墨池翻涌，一行行字迹在水面上溶化。）", "defeat": "（墨潮退去，池底露出无数个被涂黑的名字。）" },
+    "art": { "subject": "a hornless serpentine dragon of liquid black ink coiling up from a vast inkstone pool, scales shaped like blotted characters, a tidal wave of ink rising behind it" }
+  },
+  {
+    "id": "e3_lamp_abbess",
+    "name": "燃灯尼",
+    "act": 3,
+    "tier": "elite",
+    "hp": [210, 210],
+    "atk": 10,
+    "row": "commander",
+    "deck": ["ec_b_everlamp", "ec_b_everlamp", "ec_b_lamp_oil", "ec_b_wick_flare", "ec_b_wick_flare", "ec_b_lamp_shade", "ec_b_dim_hall"],
+    "energy": { "start": 2, "perTurn": 1, "max": 4 },
+    "modifiers": [
+      { "stat": "damageTaken", "amount": -3, "who": "self", "if": { "gt": [{ "count": "units", "side": "friendly" }, 0] } }
+    ],
+    "moves": {
+      "light": { "name": "点灯", "intent": ["cast"], "target": "none", "effects": [{ "op": "script", "id": "bossCast" }] },
+      "glow": { "name": "佛光", "intent": ["heal"], "target": "allyLowest", "effects": [
+        { "op": "heal", "amount": 14, "target": "target" },
+        { "op": "status", "status": "regen", "amount": 3, "target": "target" }
+      ] },
+      "blaze": { "name": "焚心灯", "intent": ["attack", "debuff"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 18, "target": "target", "attack": true },
+        { "op": "status", "status": "burn", "amount": 5, "target": "target" },
+        { "op": "create", "card": "st_burn_scar", "to": "discard" }
+      ] },
+      "flick": { "name": "灯芯", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["light", "flick", "glow", "light", "blaze"] },
+    "lore": "燃灯尼守着星殿最后一座灯阵，灯芯是她自己的心火。灯阵不灭，她便刀枪难入；可每点一盏灯，都烧去她一段念想。",
+    "dialogue": { "intro": "施主，灯还亮着，你便过不去。", "defeat": "灯……灭了。原来黑也不过如此。" },
+    "art": { "subject": "a serene bald nun in ash-grey robes seated in lotus pose, surrounded by a ring of floating oil lamps, a small flame burning above her own heart, warm light against a dark hall" }
+  },
+  {
+    "id": "e3_star_toad",
+    "name": "吞星蟾",
+    "act": 3,
+    "tier": "elite",
+    "hp": [240, 240],
+    "atk": 12,
+    "row": "commander",
+    "passives": [
+      { "on": "judged", "who": "enemy", "effects": [
+        { "op": "status", "status": "might", "amount": 1, "target": "self" },
+        { "op": "armor", "amount": 5, "target": "self" }
+      ] }
+    ],
+    "moves": {
+      "tongue": { "name": "长舌", "intent": ["attack", "debuff"], "effects": [
+        { "op": "attack", "target": "target" },
+        { "op": "status", "status": "weak", "amount": 2, "target": "target" }
+      ] },
+      "swallow": { "name": "吞星", "intent": ["judge", "heal"], "target": "none", "effects": [
+        { "op": "sign", "n": 2 },
+        { "op": "heal", "amount": 12, "target": "self" }
+      ] },
+      "bloat": { "name": "鼓腹", "intent": ["defend", "buff"], "target": "none", "effects": [
+        { "op": "armor", "amount": 24, "target": "self" },
+        { "op": "status", "status": "might", "amount": 2, "target": "self" }
+      ] },
+      "belch": { "name": "吐月", "intent": ["attack", "debuff"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 26, "target": "target", "attack": true },
+        { "op": "fateAdd", "suit": "moon", "rank": 1, "n": 2, "where": "shuffle" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["tongue", "swallow", "bloat", "belch"] },
+    "lore": "月宫里那只蟾，据说吞过一整颗星。它蹲在星殿的井口，谁翻命牌翻得勤，它便张口去接——吞下的天机都化作它腹中的冷光。",
+    "dialogue": { "intro": "（井口传来一声闷响，一只肚腹透着星光的巨蟾缓缓睁眼。）", "defeat": "（巨蟾吐出一口冷光，天命牌如雨般洒落。）" },
+    "art": { "subject": "an enormous three-legged toad squatting on the rim of a stone well, its translucent belly glowing with swallowed stars, long tongue unrolling toward the viewer" }
+  },
+  {
+    "id": "e3_eclipse_tengu",
+    "name": "星蚀天狗",
+    "act": 3,
+    "tier": "boss",
+    "hp": [520, 520],
+    "atk": 12,
+    "row": "commander",
+    "deck": ["ec_b_eclipse_claw", "ec_b_eclipse_claw", "ec_b_eclipse_claw", "ec_b_swallow_light", "ec_b_black_sun", "ec_b_moon_devour", "ec_b_tengu_howl", "ec_b_starless_night"],
+    "energy": { "start": 1, "perTurn": 2, "max": 4 },
+    "passives": [
+      { "on": "healed", "who": "enemy", "effects": [{ "op": "status", "status": "might", "amount": 1, "target": "self" }] }
+    ],
+    "moves": {
+      "hunt": { "name": "逐月", "intent": ["cast"], "target": "none", "effects": [{ "op": "script", "id": "bossCast" }] },
+      "rend": { "name": "裂空爪", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target", "times": 2 }] },
+      "crouch": { "name": "伏身", "intent": ["defend", "buff"], "target": "none", "effects": [
+        { "op": "armor", "amount": 20, "target": "self" },
+        { "op": "status", "status": "might", "amount": 2, "target": "self" }
+      ] },
+      "devour": { "name": "天狗食日", "intent": ["attack", "debuff"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 28, "target": "target", "attack": true },
+        { "op": "status", "status": "weak", "amount": 2, "target": "target" }
+      ] },
+      "night": { "name": "永夜", "intent": ["debuff", "judge"], "target": "commander", "effects": [
+        { "op": "status", "status": "vulnerable", "amount": 2, "target": "target" },
+        { "op": "fateAdd", "suit": "moon", "rank": 1, "n": 2, "where": "top" }
+      ] },
+      "swallow_sky": { "name": "吞天", "intent": ["attack"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 34, "target": "target", "attack": true }
+      ] }
+    },
+    "ai": { "type": "script", "first": ["hunt"], "then": { "type": "cycle", "sequence": ["rend", "crouch", "devour", "hunt"] } },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "全蚀",
+        "text": "天狗食日——你们见过天黑透的样子吗？",
+        "atk": 14,
+        "effects": [
+          { "op": "summon", "unit": "e3_tengu_cub", "n": 2 },
+          { "op": "status", "status": "might", "amount": 2, "target": "self" },
+          { "op": "stargaze", "n": 5 }
+        ],
+        "ai": { "type": "script", "first": ["night"], "then": { "type": "cycle", "sequence": ["rend", "hunt", "swallow_sky", "rend", "hunt", "night"] } },
+        "art": { "subject": "the colossal shadow-hound now fully black, a ring of corona fire around its silhouette like a total eclipse, jaws closing over a dying sun" }
+      }
+    ],
+    "lore": "古人说日食月食，是天狗吞了天上的光。星蚀天狗原是司命看守星灯的犬，命书撕裂那夜，它趁乱吞下了半座星殿的灯火，从此再也吃不饱。它憎恶一切发亮的东西：灯、星、刀光，还有执命者眼里不肯熄灭的那点念头。被它咬过的命数都会缺去一角，像再也圆不回来的月。",
+    "dialogue": {
+      "intro": "月亮……太亮了。星殿里的灯，也太亮了。你眼睛里那一点，也是。",
+      "phase": "天狗食日——你们见过天黑透的样子吗？",
+      "defeat": "呜……月光……原来月光，是凉的……"
+    },
+    "art": { "subject": "a colossal black celestial hound with a gaping maw full of swallowed starlight, perched on the broken dome of a star-lit library, a half-eaten moon glowing between its teeth" }
+  },
+  {
+    "id": "e3_brush_child",
+    "name": "执笔童子",
+    "act": 3,
+    "tier": "boss",
+    "hp": [480, 480],
+    "atk": 10,
+    "row": "commander",
+    "deck": ["ec_b_blot_out", "ec_b_scribble", "ec_b_scribble", "ec_b_red_circle", "ec_b_red_circle", "ec_b_turn_page", "ec_b_flying_white", "ec_b_flying_white", "ec_b_inkstone"],
+    "energy": { "start": 2, "perTurn": 2, "max": 5 },
+    "passives": [
+      { "on": "cardPlayed", "who": "enemy", "if": { "combo": 6 }, "effects": [{ "op": "damage", "amount": 3, "target": "enemyCommander" }] }
+    ],
+    "moves": {
+      "write": { "name": "落笔", "intent": ["cast"], "target": "none", "effects": [{ "op": "script", "id": "bossCast" }] },
+      "poke": { "name": "笔锋", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target", "times": 2 }] },
+      "margin": { "name": "批注", "intent": ["attack", "debuff"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 8, "target": "target", "attack": true },
+        { "op": "create", "card": "st_dazed", "to": "hand" },
+        { "op": "create", "card": "st_wound", "to": "draw" }
+      ] },
+      "erase": { "name": "抹去", "intent": ["attack"], "target": "highestAtk", "effects": [
+        { "op": "damage", "amount": 22, "target": "target", "attack": true }
+      ] },
+      "wild": { "name": "狂草", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target", "times": 3 }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["write", "poke", "margin", "write", "erase"] },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "狂草",
+        "text": "写不下了……那就写在你身上！",
+        "atk": 12,
+        "effects": [
+          { "op": "summon", "unit": "e3_ink_imp", "n": 2 },
+          { "op": "ward", "amount": 2, "target": "self" }
+        ],
+        "ai": { "type": "script", "first": ["wild"], "then": { "type": "cycle", "sequence": ["write", "poke", "erase", "write", "wild", "margin"] } },
+        "art": { "subject": "the brush boy spinning in a storm of flung ink, hair wild, brush slashing wide arcs of black calligraphy through the air, pages tearing around him" }
+      }
+    ],
+    "lore": "执笔童子是司命的书童，替先生研墨、晾纸、誊抄残页。先生搁笔三百年，童子便独自写了三百年——他记不全先生的字，只好照着自己的心意涂涂改改。在他眼里，闯进书斋的执命者不过是一个写错的字：要么抹掉，要么在旁边批一句“此人当死”。他手里那支笔，据说是命书的第一支笔。",
+    "dialogue": {
+      "intro": "先生说，写错的字要涂掉。你——就是写错的那一个。",
+      "phase": "写不下了……那就写在你身上！",
+      "defeat": "先生……我把笔……弄丢了……"
+    },
+    "art": { "subject": "a small boy in an oversized scholar's robe sitting cross-legged atop a mountain of scrolls, gripping a brush taller than himself, ink smeared on his cheeks, glaring down with eerie calm" }
+  },
+  {
+    "id": "e3_sunbird_shadow",
+    "name": "三足金乌之影",
+    "act": 3,
+    "tier": "boss",
+    "hp": [540, 540],
+    "atk": 12,
+    "row": "commander",
+    "deck": ["ec_b_golden_plume", "ec_b_golden_plume", "ec_b_corona", "ec_b_scorch", "ec_b_scorch", "ec_b_tripod_stomp", "ec_b_dawn_omen", "ec_b_ash_wings"],
+    "energy": { "start": 1, "perTurn": 2, "max": 5 },
+    "modifiers": [{ "stat": "burnDamage", "amount": -3, "who": "self" }],
+    "moves": {
+      "rise": { "name": "升阳", "intent": ["cast"], "target": "none", "effects": [{ "op": "script", "id": "bossCast" }] },
+      "peck": { "name": "金喙", "intent": ["attack", "debuff"], "effects": [
+        { "op": "attack", "target": "target" },
+        { "op": "status", "status": "burn", "amount": 3, "target": "target" }
+      ] },
+      "omen": { "name": "日兆", "intent": ["judge", "attack"], "target": "none", "effects": [
+        { "op": "judge", "branches": {
+          "sun": [{ "op": "status", "status": "burn", "amount": 8, "target": "enemyCommander" }],
+          "thunder": [{ "op": "damage", "amount": 14, "target": "enemyCommander", "attack": true }],
+          "yin": [{ "op": "armor", "amount": 12, "target": "self" }]
+        } }
+      ] },
+      "noon": { "name": "正午", "intent": ["attack", "debuff"], "target": "none", "effects": [
+        { "op": "damage", "amount": 10, "target": "allEnemies" },
+        { "op": "status", "status": "burn", "amount": 3, "target": "allEnemies" }
+      ] },
+      "sunfall": { "name": "坠日", "intent": ["attack", "debuff"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 32, "target": "target", "attack": true },
+        { "op": "status", "status": "burn", "amount": 6, "target": "target" }
+      ] }
+    },
+    "ai": { "type": "script", "first": ["rise"], "then": { "type": "cycle", "sequence": ["peck", "omen", "rise", "noon"] } },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "孤阳",
+        "text": "十个太阳……只剩我一个了。那就由我，烧尽这一整片天！",
+        "atk": 14,
+        "effects": [
+          { "op": "field", "card": "ec_b_corona" },
+          { "op": "summon", "unit": "e3_sun_crow", "n": 2 },
+          { "op": "status", "status": "might", "amount": 2, "target": "self" }
+        ],
+        "ai": { "type": "script", "first": ["rise"], "then": { "type": "cycle", "sequence": ["peck", "sunfall", "rise", "noon", "omen"] } },
+        "art": { "subject": "the three-legged crow's shadow blazing into a pure white sun, wings spanning the whole dome, the library below bleached of all shadow, feathers falling as burning gold" }
+      }
+    ],
+    "lore": "上古十日并出，九只金乌被一张弓射落。剩下那只的影子逃进了命书，藏在日纹那一卷里，靠焚烧别人的命数取暖。命书撕裂后，它栖在星殿穹顶，把整座书斋照得没有一处阴影。它恨弓，恨箭，更恨黄昏——因为它知道，自己终有一天也会落山。",
+    "dialogue": {
+      "intro": "你们仰头看星，却忘了是谁把天空照亮。",
+      "phase": "十个太阳……只剩我一个了。那就由我，烧尽这一整片天！",
+      "defeat": "……又是一支箭吗……不，是黄昏。原来我也会落山。"
+    },
+    "art": { "subject": "the silhouette of a giant three-legged crow wreathed in golden fire, perched atop the apex of a star-domed hall, a blazing sun disk behind its spread wings, the floor below cast in harsh light" }
+  }
+]

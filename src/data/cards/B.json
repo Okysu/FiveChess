@@ -1,0 +1,644 @@
+[
+  {
+    "id": "b_basic_strike", "name": "镇山掌", "faction": "B", "type": "tactic", "rarity": "basic", "pool": false,
+    "cost": { "g": 1 },
+    "text": "造成{d}点伤害。",
+    "vars": { "d": 6 }, "varKinds": { "d": "attack" },
+    "target": "enemy",
+    "effects": [ { "op": "damage", "amount": "$d", "target": "target", "attack": true } ],
+    "upgrade": { "vars": { "d": 9 } },
+    "flavor": "掌落如山，不求快，只求重。",
+    "art": { "subject": "a stern martial monk in dark blue robes thrusting an open palm forward, a faint ripple of mountain-shaped force bursting from the palm, dust lifting from a stone courtyard" }
+  },
+  {
+    "id": "b_basic_guard", "name": "玄甲诀", "faction": "B", "type": "tactic", "rarity": "basic", "pool": false,
+    "cost": { "g": 1 },
+    "text": "获得{a}点[护甲]。",
+    "vars": { "a": 5 }, "varKinds": { "a": "armor" },
+    "effects": [ { "op": "armor", "amount": "$a", "target": "commander" } ],
+    "upgrade": { "vars": { "a": 8 } },
+    "flavor": "甲不在身，在心。",
+    "art": { "subject": "a disciple standing in a horse stance with crossed forearms, translucent slate-blue plates of qi armor forming around his body, cold morning light from the side" }
+  },
+
+  {
+    "id": "b_layered_peaks", "name": "叠嶂", "faction": "B", "type": "tactic", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "获得{a}点[护甲]。若你已有[护甲]，再获得{b}点[护甲]。",
+    "vars": { "a": 8, "b": 4 }, "varKinds": { "a": "armor", "b": "armor" },
+    "effects": [
+      { "op": "if", "cond": { "gt": [ { "count": "armor", "of": "commander" }, 0 ] }, "then": [ { "op": "armor", "amount": "$b", "target": "commander" } ] },
+      { "op": "armor", "amount": "$a", "target": "commander" }
+    ],
+    "upgrade": { "vars": { "a": 10, "b": 5 } },
+    "flavor": "一重山外一重山。",
+    "art": { "subject": "layer upon layer of dark mountain ridges rising behind a lone guardian like stacked shields, mist pooling between the peaks, pale dawn light on the ridgelines" }
+  },
+  {
+    "id": "b_body_slam", "name": "撼岳", "faction": "B", "type": "tactic", "rarity": "common",
+    "cost": { "g": 0, "c": ["B"] },
+    "text": "造成等同于你[护甲]值的伤害。",
+    "target": "enemy",
+    "effects": [ { "op": "damage", "amount": { "count": "armor", "of": "commander" }, "target": "target", "attack": true } ],
+    "upgrade": { "keywords": ["retain"], "text": "[藏锋]。造成等同于你[护甲]值的伤害。", "qualitative": true },
+    "flavor": "我不动，你撞上来，便是我在出手。",
+    "art": { "subject": "a heavily armored warrior charging shoulder-first into a hulking foe, the plates of his armor glowing slate-blue at the moment of impact, shards of stone exploding outward" }
+  },
+  {
+    "id": "b_frost_palm", "name": "凝霜掌", "faction": "B", "type": "tactic", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "造成{d}点伤害；若目标为单位，施加{f}层[冰冻]。",
+    "vars": { "d": 4, "f": 1 }, "varKinds": { "d": "attack" },
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "if", "cond": { "isUnit": "target" }, "then": [ { "op": "status", "status": "freeze", "amount": "$f", "target": "target" } ] }
+    ],
+    "upgrade": { "vars": { "d": 7 } },
+    "flavor": "掌心一点寒，敌身三尺冰。",
+    "art": { "subject": "a pale-robed martial artist pressing a frost-rimed palm against an enemy's chest, ice crystals spreading across the foe's armor in a fern pattern, breath fogging in the cold air" }
+  },
+  {
+    "id": "b_shatter_ice", "name": "碎冰", "faction": "B", "type": "tactic", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "造成{d}点伤害。若目标处于[冰冻]，改为造成{e}点伤害并移除其[冰冻]。",
+    "vars": { "d": 8, "e": 18 }, "varKinds": { "d": "attack", "e": "attack" },
+    "target": "enemy",
+    "effects": [
+      { "op": "if", "cond": { "hasStatus": { "of": "target", "status": "freeze" } },
+        "then": [ { "op": "damage", "amount": "$e", "target": "target", "attack": true }, { "op": "cleanse", "target": "target", "what": "freeze" } ],
+        "else": [ { "op": "damage", "amount": "$d", "target": "target", "attack": true } ] }
+    ],
+    "upgrade": {
+      "vars": { "d": 9, "e": 20 },
+      "text": "造成{d}点伤害。若目标处于[冰冻]，改为造成{e}点伤害。",
+      "effects": [
+        { "op": "if", "cond": { "hasStatus": { "of": "target", "status": "freeze" } },
+          "then": [ { "op": "damage", "amount": "$e", "target": "target", "attack": true } ],
+          "else": [ { "op": "damage", "amount": "$d", "target": "target", "attack": true } ] }
+      ],
+      "qualitative": true
+    },
+    "flavor": "冰封千日，碎只一瞬。",
+    "art": { "subject": "a heavy staff crashing down onto an enemy encased in blue ice, the ice splintering into a burst of glittering shards, low angle with cold backlight" }
+  },
+  {
+    "id": "b_north_wind", "name": "朔风", "faction": "B", "type": "tactic", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "对所有敌人造成{d}点伤害并施加{w}层[虚弱]。",
+    "vars": { "d": 4, "w": 1 }, "varKinds": { "d": "damage" },
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "allEnemies" },
+      { "op": "status", "status": "weak", "amount": "$w", "target": "allEnemies" }
+    ],
+    "upgrade": { "vars": { "d": 6, "w": 2 } },
+    "flavor": "北风过处，刀也握不稳。",
+    "art": { "subject": "a howling northern gale sweeping snow across a battlefield, silhouettes of soldiers bending and shielding their faces, a robed figure standing unmoved at the center with sleeves billowing" }
+  },
+  {
+    "id": "b_still_breath", "name": "调息", "faction": "B", "type": "tactic", "rarity": "common",
+    "cost": { "g": 0, "c": ["B"] },
+    "text": "抽{n}张牌。本场战斗你的[余烬]上限+{e}。[燃尽]。",
+    "vars": { "n": 1, "e": 1 },
+    "keywords": ["exhaust"],
+    "effects": [ { "op": "draw", "n": "$n" }, { "op": "emberCap", "n": "$e" } ],
+    "upgrade": { "keywords": [], "text": "抽{n}张牌。本场战斗你的[余烬]上限+{e}。", "qualitative": true },
+    "flavor": "火不必烧旺，只要不灭。",
+    "art": { "subject": "a meditating disciple seated on a cold stone ledge, a few glowing embers orbiting slowly around her cupped hands, snow falling softly in the dark background" }
+  },
+  {
+    "id": "b_stone_sentinel", "name": "守关石卒", "faction": "B", "type": "unit", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "[坚守]。",
+    "unit": { "atk": 1, "hp": 6, "keywords": ["taunt"] },
+    "upgrade": { "unit": { "atk": 2, "hp": 8 } },
+    "flavor": "关在人在。",
+    "art": { "subject": "a stocky soldier in rough stone-plated armor planting a tall rectangular shield in a mountain pass, full body, feet braced, wind tugging at a tattered banner behind him" }
+  },
+  {
+    "id": "b_thorn_guard", "name": "荆盾卫", "faction": "B", "type": "unit", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "[坚守]，[棘刺]{t}。",
+    "vars": { "t": 2 }, "varKinds": { "t": "damage" },
+    "unit": { "atk": 1, "hp": 5, "keywords": ["taunt"], "thorns": 2 },
+    "upgrade": { "vars": { "t": 4 }, "unit": { "thorns": 4 } },
+    "flavor": "撞我的盾，先问问盾上的刺。",
+    "art": { "subject": "a guard crouched behind a round iron shield studded with long black spikes, half body, eyes narrowed over the rim, sparks glancing off the spikes" }
+  },
+  {
+    "id": "b_mountain_brave", "name": "镇岳力士", "faction": "B", "type": "unit", "rarity": "common",
+    "cost": { "g": 2, "c": ["B"] },
+    "text": "[坚守]。[起势]：你的主帅获得{a}点[护甲]。",
+    "vars": { "a": 5 }, "varKinds": { "a": "armor" },
+    "unit": { "atk": 3, "hp": 4, "keywords": ["taunt"] },
+    "effects": [ { "op": "armor", "amount": "$a", "target": "commander" } ],
+    "upgrade": { "vars": { "a": 7 }, "unit": { "hp": 5 } },
+    "flavor": "镇岳门的力士，一人抵得一道城墙。",
+    "art": { "subject": "a towering bare-armed strongman in dark blue sash raising a massive stone slab overhead as a shield, full body, muscles taut, dust falling from the slab" }
+  },
+  {
+    "id": "b_cold_pool_spirit", "name": "寒潭灵", "faction": "B", "type": "unit", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "[起势]：对一个随机敌方单位施加{f}层[冰冻]。",
+    "vars": { "f": 1 },
+    "unit": { "atk": 1, "hp": 3, "prefersBack": true },
+    "effects": [ { "op": "status", "status": "freeze", "amount": "$f", "target": "randomEnemyUnit" } ],
+    "upgrade": {
+      "text": "[起势]：对一个随机敌方单位施加{f}层[冰冻]。[遗志]：对一个随机敌方单位施加{f}层[冰冻]。",
+      "unit": { "triggers": [ { "on": "death", "effects": [ { "op": "status", "status": "freeze", "amount": "$f", "target": "randomEnemyUnit" } ] } ] },
+      "qualitative": true
+    },
+    "flavor": "潭底千年不化的寒气，化作了一个小小的影子。",
+    "art": { "subject": "a small translucent water spirit rising from a black mountain pool, its body like flowing ice with glowing pale eyes, frost spreading across the water around it" }
+  },
+  {
+    "id": "b_raise_shield", "name": "举盾", "faction": "B", "type": "response", "rarity": "common",
+    "cost": { "g": 0, "c": ["B"] },
+    "text": "[应]：获得{a}点[护甲]。",
+    "vars": { "a": 6 }, "varKinds": { "a": "armor" },
+    "keywords": ["response"],
+    "effects": [ { "op": "armor", "amount": "$a", "target": "commander" } ],
+    "upgrade": { "vars": { "a": 7 }, "keywords": ["response", "retain"], "text": "[藏锋]。[应]：获得{a}点[护甲]。", "qualitative": true },
+    "flavor": "来得及。",
+    "art": { "subject": "a soldier snapping a heavy shield up just as an arrow strikes it, splinters flying, close framing on the shield and his determined eyes" }
+  },
+  {
+    "id": "b_whirl_palm", "name": "回风掌", "faction": "B", "type": "response", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "[藏锋]。[应]：获得{a}点[护甲]；若在应对中打出，再对宣告行动的敌人造成{d}点伤害。",
+    "vars": { "a": 5, "d": 6 }, "varKinds": { "a": "armor", "d": "attack" },
+    "keywords": ["response", "retain"],
+    "effects": [
+      { "op": "armor", "amount": "$a", "target": "commander" },
+      { "op": "if", "cond": { "inWindow": true }, "then": [ { "op": "damage", "amount": "$d", "target": "declaredActor", "attack": true } ] }
+    ],
+    "upgrade": { "vars": { "a": 7, "d": 8 } },
+    "flavor": "风从哪里来，便送回哪里去。",
+    "art": { "subject": "a martial artist spinning to deflect an incoming blade with a swirling palm, a visible spiral of wind throwing the attacker off balance, dynamic diagonal composition" }
+  },
+  {
+    "id": "b_cold_glare", "name": "凛眸", "faction": "B", "type": "response", "rarity": "common",
+    "cost": { "g": 0, "c": ["B"] },
+    "text": "[藏锋]。[应]：对一个敌人施加{w}层[虚弱]。",
+    "vars": { "w": 2 },
+    "keywords": ["response", "retain"],
+    "target": "enemy",
+    "effects": [ { "op": "status", "status": "weak", "amount": "$w", "target": "target" } ],
+    "upgrade": {
+      "target": "none",
+      "text": "[藏锋]。[应]：对所有敌人施加{w}层[虚弱]。",
+      "effects": [ { "op": "status", "status": "weak", "amount": "$w", "target": "allEnemies" } ],
+      "qualitative": true
+    },
+    "flavor": "被她看一眼，手里的刀就重了三分。",
+    "art": { "subject": "a close-up of a woman's icy pale eyes beneath a dark hood, frost forming on her lashes, reflected in her pupils a hesitant warrior lowering his blade" }
+  },
+  {
+    "id": "b_frost_soul", "name": "冰魄", "faction": "B", "type": "response", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "[藏锋]。[应]：对一个敌人造成{d}点伤害并施加{f}层[冰冻]；若在应对中打出，额外施加{h}层[冰冻]。",
+    "vars": { "d": 3, "f": 1, "h": 1 }, "varKinds": { "d": "damage" },
+    "keywords": ["response", "retain"],
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target" },
+      { "op": "status", "status": "freeze", "amount": "$f", "target": "target" },
+      { "op": "if", "cond": { "inWindow": true }, "then": [ { "op": "status", "status": "freeze", "amount": "$h", "target": "target" } ] }
+    ],
+    "upgrade": { "vars": { "d": 6 } },
+    "flavor": "魄散则形凝。",
+    "art": { "subject": "a glowing shard of blue ice spirit-light piercing a charging beast, the beast's limbs freezing mid-stride, frozen mist trailing behind the shard" }
+  },
+  {
+    "id": "b_frost_seal", "name": "霜封", "faction": "B", "type": "delay", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "[延时]1：[判定]阴纹——施加{f}层[冰冻]；阳纹——施加{w}层[虚弱]。",
+    "vars": { "f": 1, "w": 2 },
+    "keywords": ["delay", "judge"],
+    "delay": {
+      "turns": 1, "on": "enemy",
+      "branches": {
+        "yin": [ { "op": "status", "status": "freeze", "amount": "$f", "target": "target" } ],
+        "yang": [ { "op": "status", "status": "weak", "amount": "$w", "target": "target" } ]
+      }
+    },
+    "upgrade": { "cost": { "g": 0, "c": ["B"] } },
+    "flavor": "符上的霜，要等天意落笔才肯结冰。",
+    "art": { "subject": "a paper talisman covered in frost sigils pinned to an enemy's back, thin white frost creeping outward from it across the dark armor, a fate card faintly glowing above" }
+  },
+  {
+    "id": "b_quake_mail", "name": "震岳铠", "faction": "B", "type": "equip", "rarity": "common",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "装备时，获得{a}点[护甲]。你的[护甲]被击破时，对来源造成{d}点伤害。",
+    "vars": { "a": 5, "d": 8 }, "varKinds": { "a": "armor", "d": "damage" },
+    "equip": {
+      "slot": "armor",
+      "triggers": [ { "on": "armorBroken", "effects": [ { "op": "damage", "amount": "$d", "target": "eventSource" } ] } ]
+    },
+    "effects": [ { "op": "armor", "amount": "$a", "target": "commander" } ],
+    "upgrade": {
+      "vars": { "d": 6 },
+      "text": "装备时，获得{a}点[护甲]。你的[护甲]被击破时，对所有敌人造成{d}点伤害。",
+      "equip": { "triggers": [ { "on": "armorBroken", "effects": [ { "op": "damage", "amount": "$d", "target": "allEnemies" } ] } ] },
+      "qualitative": true
+    },
+    "flavor": "铠甲碎时，山会还手。",
+    "art": { "subject": "a suit of dark lamellar armor engraved with mountain patterns displayed on a stand, faint seismic cracks of blue light running through the plates, dust hovering in the air around it" }
+  },
+
+  {
+    "id": "b_frost_archer", "name": "霜弦弩手", "faction": "B", "type": "unit", "rarity": "rare",
+    "cost": { "g": 2, "c": ["B"] },
+    "text": "[远射]。攻击单位时，对其施加{f}层[冰冻]。",
+    "vars": { "f": 1 },
+    "unit": {
+      "atk": 2, "hp": 3, "keywords": ["ranged"], "prefersBack": true,
+      "triggers": [ { "on": "attacking", "if": { "isUnit": "eventTarget" }, "effects": [ { "op": "status", "status": "freeze", "amount": "$f", "target": "eventTarget" } ] } ]
+    },
+    "upgrade": {
+      "text": "[远射]，[连斩]。攻击单位时，对其施加{f}层[冰冻]。",
+      "unit": { "keywords": ["ranged", "twinStrike"] },
+      "qualitative": true
+    },
+    "flavor": "弦上结霜，箭出无声。",
+    "art": { "subject": "a crossbowwoman kneeling on a snowy rampart aiming a crossbow strung with a glittering frost string, the loaded bolt tipped with ice, breath misting, cold blue moonlight" }
+  },
+  {
+    "id": "b_bell_monk", "name": "晨钟武僧", "faction": "B", "type": "unit", "rarity": "rare",
+    "cost": { "g": 2, "c": ["B"] },
+    "text": "[坚守]。每当你在应对中打出牌，对一个随机敌人造成{d}点伤害。",
+    "vars": { "d": 4 }, "varKinds": { "d": "damage" },
+    "unit": {
+      "atk": 2, "hp": 5, "keywords": ["taunt"],
+      "triggers": [ { "on": "responsePlayed", "effects": [ { "op": "damage", "amount": "$d", "target": "randomEnemy" } ] } ]
+    },
+    "upgrade": { "vars": { "d": 6 }, "unit": { "hp": 6 } },
+    "flavor": "敌动一下，钟响一声。",
+    "art": { "subject": "a shaven-headed warrior monk standing before a great bronze bell, striking it with his elbow, visible rings of sound rippling outward, full body in a wide stance" }
+  },
+  {
+    "id": "b_armor_smith", "name": "炼甲师", "faction": "B", "type": "unit", "rarity": "rare",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "[起势]：你的主帅获得{t}层[坚韧]。",
+    "vars": { "t": 2 },
+    "unit": { "atk": 1, "hp": 3, "prefersBack": true },
+    "effects": [ { "op": "status", "status": "tenacity", "amount": "$t", "target": "commander" } ],
+    "upgrade": { "vars": { "t": 3 } },
+    "flavor": "好甲不在厚，在于每一片都记得挨过的打。",
+    "art": { "subject": "an old armorsmith with soot-dark forearms hammering a glowing blue-hot armor plate on an anvil, sparks flying, half body lit by the forge" }
+  },
+  {
+    "id": "b_ranges", "name": "重峦", "faction": "B", "type": "tactic", "rarity": "rare",
+    "cost": { "g": 2, "c": ["B"] },
+    "text": "获得等同于你当前[护甲]值的[护甲]。",
+    "effects": [ { "op": "armor", "amount": { "count": "armor", "of": "commander" }, "target": "commander" } ],
+    "upgrade": { "cost": { "g": 1, "c": ["B"] } },
+    "flavor": "山后有山，甲外有甲。",
+    "art": { "subject": "a warrior's slate-blue qi armor duplicating itself into a second translucent shell around him, like a mountain range reflected in still water, symmetrical composition" }
+  },
+  {
+    "id": "b_quake_hammer", "name": "震岳锤", "faction": "B", "type": "tactic", "rarity": "rare",
+    "cost": { "g": 2, "c": ["B"] },
+    "text": "造成{d}点伤害并施加[眩晕]。",
+    "vars": { "d": 9 }, "varKinds": { "d": "attack" },
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "status", "status": "stun", "amount": 1, "target": "target" }
+    ],
+    "upgrade": { "vars": { "d": 13 } },
+    "flavor": "一锤下去，对面连自己要做什么都忘了。",
+    "art": { "subject": "a massive stone-headed war hammer slamming into the ground beside a staggering enemy, a shockwave ring cracking the earth, stars of dizziness flickering around the foe's head" }
+  },
+  {
+    "id": "b_sever_pulse", "name": "截脉", "faction": "B", "type": "response", "rarity": "rare",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "[藏锋]。仅限应对：取消该行动。",
+    "keywords": ["response", "retain"],
+    "windowOnly": true,
+    "effects": [ { "op": "cancel" } ],
+    "upgrade": { "cost": { "g": 0, "c": ["B"] } },
+    "flavor": "两指点在腕脉上，那一刀便再也落不下来。",
+    "art": { "subject": "two fingers striking precisely at the wrist of an attacker mid-swing, the blade frozen inches from its target, close-up with a thin ripple of blue light at the point of contact" }
+  },
+  {
+    "id": "b_lead_mountain", "name": "引岳", "faction": "B", "type": "response", "rarity": "rare",
+    "cost": { "g": 0, "c": ["B"] },
+    "text": "[藏锋]。仅限应对：将该行动的目标改为你生命值最高的[坚守]单位，该单位获得{a}点[护甲]。",
+    "vars": { "a": 6 }, "varKinds": { "a": "armor" },
+    "keywords": ["response", "retain"],
+    "windowOnly": true,
+    "effects": [
+      { "op": "redirect", "to": { "side": "friendly", "where": { "hasKeyword": { "of": "it", "keyword": "taunt" } }, "pick": "highestHp" } },
+      { "op": "armor", "amount": "$a", "target": { "side": "friendly", "where": { "hasKeyword": { "of": "it", "keyword": "taunt" } }, "pick": "highestHp" } }
+    ],
+    "upgrade": {
+      "vars": { "a": 8 },
+      "target": "friendly",
+      "text": "[藏锋]。仅限应对：将该行动的目标改为一个友方角色，其获得{a}点[护甲]。",
+      "effects": [
+        { "op": "redirect", "to": "target" },
+        { "op": "armor", "amount": "$a", "target": "target" }
+      ],
+      "qualitative": true
+    },
+    "flavor": "来势再猛，也要先过山门。",
+    "art": { "subject": "a stone guardian stepping sideways into the path of a spear thrust meant for a robed woman behind it, the spear point skidding off its chest in a shower of sparks" }
+  },
+  {
+    "id": "b_late_strike", "name": "后发先至", "faction": "B", "type": "response", "rarity": "rare",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "[藏锋]。[应]：获得{a}点[护甲]；若在应对中打出，再对宣告行动的敌人造成等同于你[护甲]值的伤害。",
+    "vars": { "a": 4 }, "varKinds": { "a": "armor" },
+    "keywords": ["response", "retain"],
+    "effects": [
+      { "op": "armor", "amount": "$a", "target": "commander" },
+      { "op": "if", "cond": { "inWindow": true }, "then": [ { "op": "damage", "amount": { "count": "armor", "of": "commander" }, "target": "declaredActor", "attack": true } ] }
+    ],
+    "upgrade": { "vars": { "a": 7 } },
+    "flavor": "他出手在先，我到得却比他早。",
+    "art": { "subject": "an armored master catching an enemy's blade on his forearm plate while his other fist lands squarely on the attacker's jaw, both motions caught in the same frozen instant" }
+  },
+  {
+    "id": "b_mountain_talisman", "name": "镇山符", "faction": "B", "type": "delay", "rarity": "rare",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "挂在一个友方角色身上。[延时]1：[判定]{mountain}山纹——其获得{m}点[护甲]；其余——其获得{a}点[护甲]。",
+    "vars": { "m": 20, "a": 9 }, "varKinds": { "m": "armor", "a": "armor" },
+    "keywords": ["delay", "judge"],
+    "delay": {
+      "turns": 1, "on": "friendly",
+      "branches": {
+        "mountain": [ { "op": "armor", "amount": "$m", "target": "target" } ],
+        "moon": [ { "op": "armor", "amount": "$a", "target": "target" } ],
+        "yang": [ { "op": "armor", "amount": "$a", "target": "target" } ]
+      }
+    },
+    "upgrade": {
+      "vars": { "n": 1 },
+      "text": "挂在一个友方角色身上。[延时]1：[判定]{mountain}山纹——其获得{m}点[护甲]；其余——其获得{a}点[护甲]。然后你抽{n}张牌。",
+      "delay": {
+        "branches": {
+          "mountain": [ { "op": "armor", "amount": "$m", "target": "target" } ],
+          "moon": [ { "op": "armor", "amount": "$a", "target": "target" } ],
+          "yang": [ { "op": "armor", "amount": "$a", "target": "target" } ],
+          "always": [ { "op": "draw", "n": "$n" } ]
+        }
+      },
+      "qualitative": true
+    },
+    "flavor": "符上画的是山。命里若也有山，便稳了。",
+    "art": { "subject": "a yellowed talisman bearing a brushed mountain glyph pasted onto a warrior's breastplate, the glyph glowing green-gold as a translucent mountain rises behind him" }
+  },
+  {
+    "id": "b_mountain_gate", "name": "镇岳山门", "faction": "B", "type": "field", "rarity": "rare",
+    "cost": { "g": 2, "c": ["B"] },
+    "text": "我方回合开始时，至多保留{k}点[护甲]。",
+    "vars": { "k": 10 }, "varKinds": { "k": "armor" },
+    "field": { "modifiers": [ { "stat": "armorKeep", "amount": 10 } ] },
+    "upgrade": { "vars": { "k": 15 }, "field": { "modifiers": [ { "stat": "armorKeep", "amount": 15 } ] } },
+    "flavor": "山门三百年未曾开过，也未曾破过。",
+    "art": { "subject": "a colossal stone gate carved into a cliff face with two guardian reliefs, heavy doors shut, snow on the lintel, tiny figures on the steps for scale" }
+  },
+  {
+    "id": "b_tortoise_mount", "name": "负碑玄龟", "faction": "B", "type": "equip", "rarity": "rare",
+    "cost": { "g": 2, "c": ["B"] },
+    "text": "防御坐骑：你的主帅深度+1。我方回合结束时，你的主帅获得{a}点[护甲]。",
+    "vars": { "a": 4 }, "varKinds": { "a": "armor" },
+    "equip": {
+      "slot": "mount", "mount": "defense",
+      "triggers": [ { "on": "turnEnd", "effects": [ { "op": "armor", "amount": "$a", "target": "commander" } ] } ]
+    },
+    "upgrade": {
+      "text": "防御坐骑：你的主帅深度+1。我方回合结束时，你的主帅与所有[坚守]单位获得{a}点[护甲]。",
+      "equip": {
+        "triggers": [ { "on": "turnEnd", "effects": [
+          { "op": "armor", "amount": "$a", "target": "commander" },
+          { "op": "armor", "amount": "$a", "target": { "side": "friendly", "where": { "hasKeyword": { "of": "it", "keyword": "taunt" } } } }
+        ] } ]
+      },
+      "qualitative": true
+    },
+    "flavor": "它背上驮的碑，刻着镇岳门历代门主的名字。",
+    "art": { "subject": "a giant black tortoise with a carved stone stele on its shell, a rider seated in front of the stele, plodding through shallow river mist, side view" }
+  },
+
+  {
+    "id": "b_glacier_colossus", "name": "冰川巨像", "faction": "B", "type": "unit", "rarity": "epic",
+    "cost": { "g": 4, "c": ["B", "B"] },
+    "text": "[坚守]。[起势]：对所有敌方单位施加{f}层[冰冻]。",
+    "vars": { "f": 1 },
+    "unit": { "atk": 5, "hp": 9, "keywords": ["taunt"] },
+    "effects": [ { "op": "status", "status": "freeze", "amount": "$f", "target": "enemyUnits" } ],
+    "upgrade": {
+      "text": "[坚守]。[起势]：对所有敌人施加{f}层[冰冻]。",
+      "effects": [ { "op": "status", "status": "freeze", "amount": "$f", "target": "allEnemies" } ],
+      "qualitative": true
+    },
+    "flavor": "它醒来的那一步，整条河都停了。",
+    "art": { "subject": "a colossal humanoid of ancient blue glacier ice stepping out of a frozen waterfall, full body, frost spreading from its footfall across the ground, tiny warriors fleeing at its feet" }
+  },
+  {
+    "id": "b_ember_sage", "name": "守烬真人", "faction": "B", "type": "unit", "rarity": "epic",
+    "cost": { "g": 2, "c": ["B", "B"] },
+    "text": "你的[余烬]上限+{e}。每回合你首次在应对中打出牌后，抽{n}张牌。",
+    "vars": { "e": 1, "n": 1 },
+    "unit": {
+      "atk": 2, "hp": 6, "prefersBack": true,
+      "modifiers": [ { "stat": "emberCap", "amount": 1 } ],
+      "triggers": [ { "on": "responsePlayed", "limit": "turn", "effects": [ { "op": "draw", "n": "$n" } ] } ]
+    },
+    "upgrade": {
+      "text": "你的[余烬]上限+{e}。每当你在应对中打出牌，抽{n}张牌。",
+      "unit": { "triggers": [ { "on": "responsePlayed", "effects": [ { "op": "draw", "n": "$n" } ] } ] },
+      "qualitative": true
+    },
+    "flavor": "他守的不是火，是火熄之后仍愿意亮着的那一点。",
+    "art": { "subject": "an elderly Taoist in layered grey-blue robes holding a small brass brazier with three steady embers, seated cross-legged on a floating stone, calm half-smile, dark background" }
+  },
+  {
+    "id": "b_mountain_wrath", "name": "山君怒", "faction": "B", "type": "tactic", "rarity": "epic",
+    "cost": { "g": 2, "c": ["B", "B"] },
+    "text": "对所有敌人造成等同于你[护甲]值一半的伤害。",
+    "effects": [ { "op": "damage", "amount": { "div": [ { "count": "armor", "of": "commander" }, 2 ] }, "target": "allEnemies" } ],
+    "upgrade": { "cost": { "g": 1, "c": ["B", "B"] } },
+    "flavor": "山不常怒。怒则万物伏。",
+    "art": { "subject": "a warrior in massive stone armor slamming both fists into the ground, a radiating wave of shattered rock and blue force rolling outward and knocking back a line of enemies" }
+  },
+  {
+    "id": "b_mirror_return", "name": "以彼之道", "faction": "B", "type": "response", "rarity": "epic",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "[藏锋]。仅限应对：取消该行动；若其为攻击，对宣告行动的敌人造成等同于其攻击力{m}倍的伤害。",
+    "vars": { "m": 2 },
+    "keywords": ["response", "retain"],
+    "windowOnly": true,
+    "effects": [
+      { "op": "if", "cond": { "declared": "attack" }, "then": [
+        { "op": "damage", "amount": { "mul": [ { "count": "atk", "of": "declaredActor" }, "$m" ] }, "target": "declaredActor" }
+      ] },
+      { "op": "cancel" }
+    ],
+    "upgrade": { "cost": { "g": 0, "c": ["B"] } },
+    "flavor": "你的力气，你自己收着。",
+    "art": { "subject": "a calm swordswoman turning an enemy's own spear back into him with a circular parry, the spear's force visualized as a reversed arc of blue light, dramatic side lighting" }
+  },
+  {
+    "id": "b_frozen_river", "name": "寒川封冻", "faction": "B", "type": "field", "rarity": "epic",
+    "cost": { "g": 2, "c": ["B", "B"] },
+    "text": "持续{n}回合。处于[冰冻]的敌人受到的伤害+{d}。敌方回合开始时，对攻击力最高的敌方单位施加{f}层[冰冻]。",
+    "vars": { "n": 3, "d": 3, "f": 1 }, "varKinds": { "d": "damage" },
+    "field": {
+      "duration": 3,
+      "modifiers": [ { "stat": "damageTaken", "amount": 3, "who": "enemy", "if": { "hasStatus": { "of": "target", "status": "freeze" } } } ],
+      "triggers": [ { "on": "opponentTurnStart", "effects": [ { "op": "status", "status": "freeze", "amount": "$f", "target": { "side": "enemy", "pick": "highestAtk" } } ] } ]
+    },
+    "upgrade": {
+      "vars": { "d": 5 },
+      "field": { "modifiers": [ { "stat": "damageTaken", "amount": 5, "who": "enemy", "if": { "hasStatus": { "of": "target", "status": "freeze" } } } ] }
+    },
+    "flavor": "寒川一夜冻结，封住的不只是水。",
+    "art": { "subject": "a wide frozen river valley at night with enemy soldiers trapped knee-deep in the ice, a lone zither player seated on a rock at the bank, aurora-blue light over the ice" }
+  },
+  {
+    "id": "b_gathered_feathers", "name": "积羽沉舟", "faction": "B", "type": "tactic", "rarity": "epic",
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "造成{d}点伤害。本场战斗你每在应对中打出过一张牌，此伤害+{e}。",
+    "vars": { "d": 6, "e": 3 }, "varKinds": { "d": "attack" },
+    "target": "enemy",
+    "effects": [ { "op": "damage", "amount": { "add": [ "$d", { "mul": [ { "count": "responsesThisCombat" }, "$e" ] } ] }, "target": "target", "attack": true } ],
+    "upgrade": { "vars": { "d": 8, "e": 4 } },
+    "flavor": "每一次后手，都是压在船上的一根羽毛。",
+    "art": { "subject": "countless pale feathers drifting down and piling onto a war boat until it cracks and sinks into black water, a stoic armored figure watching from the shore" }
+  },
+
+  {
+    "id": "b_xuanwu", "name": "玄武", "faction": "B", "type": "unit", "rarity": "legendary",
+    "cost": { "g": 5, "c": ["B", "B"] },
+    "text": "[坚守]，[棘刺]{t}。存活时，我方回合开始时保留全部[护甲]。",
+    "vars": { "t": 3 }, "varKinds": { "t": "damage" },
+    "unit": { "atk": 5, "hp": 12, "keywords": ["taunt"], "thorns": 3, "modifiers": [ { "stat": "armorKeep", "amount": 999 } ] },
+    "upgrade": { "vars": { "t": 5 }, "unit": { "atk": 6, "hp": 15, "thorns": 5 } },
+    "flavor": "北方之神，负山而眠。它醒着的时候，什么都不会被带走。",
+    "art": { "subject": "the divine Black Tortoise entwined with a great serpent, its shell a jagged dark mountain range, standing guard in swirling northern mist, full body, faint starlight on the shell" }
+  },
+  {
+    "id": "b_silent_world", "name": "万籁俱寂", "faction": "B", "type": "response", "rarity": "legendary",
+    "cost": { "g": 2, "c": ["B", "B"] },
+    "text": "[藏锋]，[燃尽]。仅限应对：取消该行动，并对所有敌人施加{f}层[冰冻]。",
+    "vars": { "f": 1 },
+    "keywords": ["response", "retain", "exhaust"],
+    "windowOnly": true,
+    "effects": [
+      { "op": "cancel" },
+      { "op": "status", "status": "freeze", "amount": "$f", "target": "allEnemies" }
+    ],
+    "upgrade": { "keywords": ["response", "retain"], "text": "[藏锋]。仅限应对：取消该行动，并对所有敌人施加{f}层[冰冻]。", "qualitative": true },
+    "flavor": "琴弦断了最后一根。天地一同屏住了呼吸。",
+    "art": { "subject": "a woman in white seated at a zither with one snapped string curling in the air, an entire battlefield of charging enemies frozen motionless in pale ice around her, total stillness, falling snow" }
+  },
+  {
+    "id": "b_still_mirror", "name": "止水心镜", "faction": "B", "type": "equip", "rarity": "legendary",
+    "cost": { "g": 2, "c": ["B", "B"] },
+    "text": "你的[余烬]上限+{e}。每回合你首次在应对中打出牌后，重置{r}枚[源]。",
+    "vars": { "e": 1, "r": 1 },
+    "equip": {
+      "slot": "treasure",
+      "modifiers": [ { "stat": "emberCap", "amount": 1 } ],
+      "triggers": [ { "on": "responsePlayed", "limit": "turn", "effects": [ { "op": "refresh", "n": "$r" } ] } ]
+    },
+    "upgrade": { "vars": { "e": 2 }, "equip": { "modifiers": [ { "stat": "emberCap", "amount": 2 } ] } },
+    "flavor": "心如止水，照见来势；来势照见，便已应了。",
+    "art": { "subject": "a round bronze mirror whose surface is perfectly still water, reflecting a sword strike a moment before it happens, held in pale hands, soft cold light" }
+  },
+
+  {
+    "id": "tk_b_rock", "name": "山岩", "faction": "B", "type": "unit", "rarity": "token", "pool": false,
+    "cost": { "g": 0 },
+    "text": "[坚守]。",
+    "unit": { "atk": 0, "hp": 5, "keywords": ["taunt"] },
+    "upgrade": { "unit": { "hp": 7 } },
+    "flavor": "山上掉下来的一块，也是山。",
+    "art": { "subject": "a large mossy boulder etched with a faint guardian rune, sitting squarely on a battlefield, subtle blue glow in the rune, low angle" }
+  },
+  {
+    "id": "tk_b_echo", "name": "余音", "faction": "B", "type": "response", "rarity": "token", "pool": false,
+    "cost": { "g": 0 },
+    "text": "[浮光]。[应]：获得{a}点[护甲]。",
+    "vars": { "a": 3 }, "varKinds": { "a": "armor" },
+    "keywords": ["response", "ethereal"],
+    "effects": [ { "op": "armor", "amount": "$a", "target": "commander" } ],
+    "upgrade": { "vars": { "a": 5 } },
+    "flavor": "弦已停，音未绝。",
+    "art": { "subject": "a faint shimmering ripple of sound lingering in cold air above a zither string, forming a thin translucent shield shape, minimal composition" }
+  },
+
+  {
+    "id": "b_sig_raise_rock", "name": "立岩", "faction": "B", "type": "tactic", "rarity": "basic", "pool": false,
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "召唤一个「山岩」（[坚守]）。你的主帅获得{a}点[护甲]。",
+    "vars": { "a": 4 }, "varKinds": { "a": "armor" },
+    "effects": [
+      { "op": "summon", "unit": "tk_b_rock" },
+      { "op": "armor", "amount": "$a", "target": "commander" }
+    ],
+    "upgrade": {
+      "text": "召唤两个「山岩」（[坚守]）。你的主帅获得{a}点[护甲]。",
+      "effects": [
+        { "op": "summon", "unit": "tk_b_rock", "n": 2 },
+        { "op": "armor", "amount": "$a", "target": "commander" }
+      ],
+      "qualitative": true
+    },
+    "flavor": "山君抬手，地上便长出一道墙。",
+    "art": { "subject": "a broad-shouldered mountain lord raising one hand as a jagged pillar of dark rock erupts from the earth in front of him, debris suspended in the air" }
+  },
+  {
+    "id": "b_sig_mountain_fist", "name": "岳压", "faction": "B", "type": "tactic", "rarity": "basic", "pool": false,
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "造成{d}点伤害，再造成等同于你[护甲]值一半的伤害。",
+    "vars": { "d": 4 }, "varKinds": { "d": "attack" },
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "damage", "amount": { "div": [ { "count": "armor", "of": "commander" }, 2 ] }, "target": "target", "attack": true }
+    ],
+    "upgrade": { "vars": { "d": 7 } },
+    "flavor": "拳头不重，重的是拳后那座山。",
+    "art": { "subject": "a stone-armored fist driving downward onto a foe, the translucent silhouette of a whole mountain pressing down behind the fist, ground cracking beneath the enemy" }
+  },
+  {
+    "id": "b_sig_pluck_string", "name": "拨弦", "faction": "B", "type": "response", "rarity": "basic", "pool": false,
+    "cost": { "g": 0, "c": ["B"] },
+    "text": "[藏锋]。[应]：获得{a}点[护甲]；若在应对中打出，对宣告行动的敌人施加{w}层[虚弱]。",
+    "vars": { "a": 4, "w": 1 }, "varKinds": { "a": "armor" },
+    "keywords": ["response", "retain"],
+    "effects": [
+      { "op": "armor", "amount": "$a", "target": "commander" },
+      { "op": "if", "cond": { "inWindow": true }, "then": [ { "op": "status", "status": "weak", "amount": "$w", "target": "declaredActor" } ] }
+    ],
+    "upgrade": { "vars": { "a": 6 } },
+    "flavor": "一声清响，刀势便偏了半寸。",
+    "art": { "subject": "slender fingers plucking a single zither string, a crescent of pale sound energy leaping off the string toward the viewer, frost forming on the instrument's wood" }
+  },
+  {
+    "id": "b_sig_cold_river", "name": "寒川引", "faction": "B", "type": "tactic", "rarity": "basic", "pool": false,
+    "cost": { "g": 1, "c": ["B"] },
+    "text": "造成{d}点伤害。从牌库中随机将一张[应]牌置入手牌。",
+    "vars": { "d": 5 }, "varKinds": { "d": "attack" },
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "fetch", "from": "draw", "mode": "random", "n": 1, "filter": { "keyword": "response" } }
+    ],
+    "upgrade": {
+      "vars": { "d": 6 },
+      "text": "造成{d}点伤害。从牌库中选择一张[应]牌置入手牌。",
+      "effects": [
+        { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+        { "op": "fetch", "from": "draw", "mode": "choose", "n": 1, "filter": { "keyword": "response" } }
+      ],
+      "qualitative": true
+    },
+    "flavor": "引一段寒川入曲，曲里便藏了刀。",
+    "art": { "subject": "a zither player drawing a ribbon of freezing river water through the air with a sweep of her hand, the ribbon hardening into an icy blade that strikes a distant foe" }
+  }
+]

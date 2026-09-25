@@ -1,0 +1,73 @@
+[
+  {
+    "id": "lt_g_jinling",
+    "name": "烬苓",
+    "title": "焚林药师",
+    "faction": "G",
+    "skill": {
+      "id": "lt_g_jinling_s",
+      "name": "野火逢春",
+      "type": "passive",
+      "text": "每当一个友方单位死亡，随机一个敌人获得2层[灼烧]。",
+      "triggers": [{ "on": "unitDied", "who": "friendly", "effects": [{ "op": "status", "status": "burn", "amount": 2, "target": "randomEnemy" }] }]
+    },
+    "lore": "她是万木庭里唯一被准许点火的人。烧荒不是毁林，是让种子醒过来——死去的草木化作火，火化作灰，灰里再长出新的。焚阳宗的人第一次见她烧山，以为遇到了同道；她只是笑，说火是借来的，林子要还的。",
+    "art": { "subject": "a young herbalist woman with soot-marked cheeks holding a smoldering bundle of herbs, embers drifting from it onto charred ground where green shoots are already sprouting" }
+  },
+  {
+    "id": "lt_g_panweng",
+    "name": "磐翁",
+    "title": "石根老叟",
+    "faction": "G",
+    "skill": {
+      "id": "lt_g_panweng_s",
+      "name": "盘根错节",
+      "type": "passive",
+      "text": "每当主帅获得[护甲]，所有具有[坚守]的友方单位获得2点[护甲]。",
+      "triggers": [{
+        "on": "armorGained",
+        "effects": [{
+          "op": "armor",
+          "amount": 2,
+          "target": { "side": "friendly", "where": { "hasKeyword": { "of": "it", "keyword": "taunt" } } }
+        }]
+      }]
+    },
+    "lore": "一棵长在镇岳门山门石缝里的老榕，根把整座石阶都抱住了。门中弟子几次想把它挖走，最后发现，是它在撑着那段石阶。后来它化成了人形，拄着拐杖，还是喜欢待在石头边上。",
+    "art": { "subject": "a stooped old man whose legs merge into thick roots gripping a cracked stone stairway, leaning on a staff of petrified wood, grey mountain mist behind" }
+  },
+  {
+    "id": "lt_g_hegu",
+    "name": "禾姑",
+    "title": "司农女官",
+    "faction": "G",
+    "skill": {
+      "id": "lt_g_hegu_s",
+      "name": "应时而生",
+      "type": "passive",
+      "text": "每当一次判定结果为{moon}月纹，召唤一个「灵苗」。每当判定点数不低于10，随机一个友方单位获得[滋长]1。",
+      "triggers": [
+        { "on": "judged", "suit": "moon", "effects": [{ "op": "summon", "unit": "tk_g_sprout" }] },
+        { "on": "judged", "if": { "rank": { "min": 10 } }, "effects": [{ "op": "addKeyword", "target": "randomFriendlyUnit", "keyword": "growth", "value": 1 }] }
+      ]
+    },
+    "lore": "她原是观星阁里管历书的女官，专给皇家算农时。有一年她算错了一场霜，半郡的稻子冻死在田里。她辞了官，赤脚下地，发誓再不从天上看收成，只从土里看。",
+    "art": { "subject": "a woman in simple hemp clothes with a bamboo almanac tied at her waist, standing barefoot in a moonlit rice paddy, holding up a stalk of grain against a crescent moon" }
+  },
+  {
+    "id": "lt_g_ahui",
+    "name": "阿虺",
+    "title": "养蛊巫女",
+    "faction": "G",
+    "skill": {
+      "id": "lt_g_ahui_s",
+      "name": "放蛊",
+      "type": "active",
+      "text": "花费1源：将2张[浮光]的「蛊瓮」加入手牌（打出后召唤一只[遗志]时施加[中毒]的「蛊虫」）。",
+      "cost": { "g": 1 },
+      "effects": [{ "op": "create", "card": "tk_g_gu_jar", "n": 2, "to": "hand", "fleeting": true }]
+    },
+    "lore": "南疆深谷里的巫女，自小与百虫同眠。她的蛊从不害无辜，只是一旦放出去，便认准了一个仇家，至死方休。幽弈坊的人出重金请她，她只收了一坛酒，说虫子们爱喝。",
+    "art": { "subject": "a barefoot young shaman woman in dark indigo layered garments with silver ornaments, a jade-green centipede coiled around her wrist, clay jars at her feet in a misty ravine" }
+  }
+]

@@ -1,0 +1,88 @@
+[
+  {
+    "id": "g_qingsi",
+    "name": "青姒",
+    "title": "万木灵母",
+    "faction": "G",
+    "hp": 70,
+    "sources": ["G", "G", "N"],
+    "deck": [
+      "g_basic_strike", "g_basic_strike", "g_basic_strike", "g_basic_strike",
+      "g_basic_guard", "g_basic_guard", "g_basic_guard", "g_basic_guard",
+      "g_sig_sow", "g_sig_sow", "g_sig_spirit_drum"
+    ],
+    "relic": "rl_start_qingsi",
+    "skills": [
+      {
+        "id": "g_qingsi_p",
+        "name": "万灵归心",
+        "type": "passive",
+        "text": "战斗开始时，召唤1个「灵苗」。你拥有至少4个友方单位时，所有友方单位+1攻击。",
+        "triggers": [{ "on": "combatStart", "effects": [{ "op": "summon", "unit": "tk_g_sprout" }] }],
+        "modifiers": [{ "stat": "atk", "amount": 1, "who": "friendlyUnits", "if": { "gte": [{ "count": "units", "side": "friendly" }, 4] } }]
+      },
+      {
+        "id": "g_qingsi_a",
+        "name": "灵母低语",
+        "type": "active",
+        "text": "花费1源：召唤1个「灵苗」；若你已拥有至少5个友方单位，改为抽1张牌。",
+        "cost": { "g": 1 },
+        "effects": [{
+          "op": "if",
+          "cond": { "gte": [{ "count": "units", "side": "friendly" }, 5] },
+          "then": [{ "op": "draw", "n": 1 }],
+          "else": [{ "op": "summon", "unit": "tk_g_sprout" }]
+        }]
+      }
+    ],
+    "lore": "万木庭当代灵母，据说是建木落下的一片叶子化成的人形。林中每一株新生的灵苗都认得她的声音。命书上写着建木将在她这一代枯死，万木庭随之星散。青姒不信，也不等——她带着满袖种子走进命阙，要在枯字旁边，种出一个新的字来。",
+    "ending": "命书之心没有土，只有一行行凝固的字。青姒在「建木枯」三个字旁跪下，没有提笔，而是把袖中最后一粒种子按进了纸缝。灵苗们围上来，一个个把自己的光喂给那粒种子。它发了芽，根须钻进命书的装订线，把撕裂的残页一页页缝了回去。后来的人说，命阙那一年开了花；万木庭的弟子则说，建木并没有死，只是换了个地方生长——它如今长在命书里，每一页都多了一圈年轮。至于灵母，有人在最高的枝头见过她，也有人说，她就是那片新长出来的叶子。",
+    "art": { "subject": "a tall serene woman in flowing green and jade robes with long hair woven with leaves and small blossoms, standing barefoot on a giant root, arms open as dozens of glowing sapling spirits gather around her feet, fireflies drifting in warm light" }
+  },
+  {
+    "id": "g_acang",
+    "name": "阿苍",
+    "title": "山鬼",
+    "faction": "G",
+    "hp": 78,
+    "sources": ["G", "G", "N"],
+    "deck": [
+      "g_basic_strike", "g_basic_strike", "g_basic_strike", "g_basic_strike",
+      "g_basic_guard", "g_basic_guard", "g_basic_guard", "g_basic_guard",
+      "g_sig_moss_stag", "g_sig_moss_stag", "g_sig_withering"
+    ],
+    "relic": "rl_start_acang",
+    "skills": [
+      {
+        "id": "g_acang_p",
+        "name": "枯荣相生",
+        "type": "passive",
+        "text": "每当一个友方单位死亡，随机一个友方单位获得+1/+1。",
+        "triggers": [{ "on": "unitDied", "who": "friendly", "effects": [{ "op": "buff", "target": "randomFriendlyUnit", "atk": 1, "hp": 1 }] }]
+      },
+      {
+        "id": "g_acang_l",
+        "name": "借形还魂",
+        "type": "limited",
+        "text": "限定技：选择一个友方单位，召唤一个「山魅」，其攻击力与生命值等于该单位的攻击力与生命上限各+2；然后消灭该单位。",
+        "target": "friendlyUnit",
+        "effects": [{
+          "op": "if",
+          "cond": { "emptySlot": { "side": "friendly" } },
+          "then": [
+            {
+              "op": "summon",
+              "unit": "tk_g_mountain_wraith",
+              "atk": { "add": [{ "count": "atk", "of": "target" }, 2] },
+              "hp": { "add": [{ "count": "maxHp", "of": "target" }, 2] }
+            },
+            { "op": "kill", "target": "target" }
+          ]
+        }]
+      }
+    ],
+    "lore": "楚地深山里的山鬼，骑赤豹，披薜荔，死过很多次。每一次，命书都把他写回山里，让他再活一遍——不许老，不许散，不许真正离开。阿苍早已记不清第一次死是为了谁。他走进命阙，只想找到写着自己名字的那一页，亲手添上一个“终”字。",
+    "ending": "那一页比阿苍想的要薄。上面密密麻麻写满了“复生”，一行压着一行，墨迹新旧不一，像山里一层叠一层的落叶。他本想把“终”字写上去，笔尖悬了很久，最后却把整页撕了下来，埋进命书之心的尘土里。纸烂成泥，泥里长出一棵小小的苍树。阿苍在树下坐了一夜，天亮时发现自己的手第一次有了皱纹。他笑了——原来他要的不是死，而是能老。后来山里的采药人偶尔会遇见一个白发老人，骑着一头走不快的老豹，他说自己叫阿苍，只是个守山的。",
+    "art": { "subject": "a wild-haired mountain spirit man wrapped in fig vines and moss, a bark mask pushed up on his head, riding a lean red leopard along a misty cliff path, holding a bone flute, ghostly green wisps circling him" }
+  }
+]

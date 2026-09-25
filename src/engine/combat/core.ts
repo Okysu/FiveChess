@@ -297,6 +297,7 @@ export function applyStatus(s: CombatState, tgtUid: number, st: StatusId, amount
   if (st !== 'might' && total < 0) total = 0;
   if (total === 0) delete t.statuses[st];
   else t.statuses[st] = total;
+  if (amount > 0 && s.active === t.side && (st === 'freeze' || st === 'vulnerable' || st === 'weak')) (t.fresh ??= {})[st] = true;
   emit(s, { t: 'status', target: t.uid, status: st, delta: total - before, total });
   if (amount > 0) fire(s, 'statusApplied', { subject: t.uid, side: t.side, source: srcUid, amount, status: st });
 }
@@ -322,7 +323,7 @@ export function isRangedAttacker(s: CombatState, a: Unit): boolean {
   return hasKw(s, a, 'ranged');
 }
 
-export function performAttack(s: CombatState, attackerUid: number, targetUid: number, amountOverride?: number, times = 1) {
+export function performAttack(s: CombatState, attackerUid: number, targetUid: number, amountOverride?: number, times = 1, consume = true) {
   const a = unit(s, attackerUid);
   const t = unit(s, targetUid);
   if (!alive(a) || !alive(t)) return;
@@ -338,7 +339,7 @@ export function performAttack(s: CombatState, attackerUid: number, targetUid: nu
     if (!ranged && t.kind === 'unit' && tAtk > 0) dealDamage(s, t.uid, a.uid, tAtk, 'retaliate');
     if (!ranged && t.thorns > 0 && !t.silenced) dealDamage(s, t.uid, a.uid, t.thorns, 'thorns');
   }
-  a.attacks += 1;
+  if (consume) a.attacks += 1;
   a.stealth = false;
   // weapon wear
   if (a.kind === 'commander') {
@@ -690,7 +691,7 @@ function execEffect(s: CombatState, task: FxTask, eff: AnyEffect) {
     case 'attack': {
       const a = select(s, eff.attacker ?? 'self', ctx)[0];
       const t = select(s, eff.target, ctx)[0];
-      if (a && t) performAttack(s, a.uid, t.uid, eff.amount === undefined ? undefined : V(eff.amount), eff.times === undefined ? 1 : V(eff.times));
+      if (a && t) performAttack(s, a.uid, t.uid, eff.amount === undefined ? undefined : V(eff.amount), eff.times === undefined ? 1 : V(eff.times), false);
       return;
     }
     case 'heal': for (const t of select(s, eff.target, ctx)) heal(s, t.uid, V(eff.amount), src); return;
@@ -1087,8 +1088,6 @@ function finishCard(s: CombatState, ctx: Ctx, forceExhaust: boolean) {
     else if (def.type === 'delay') {/* returns to discard when the delay resolves */}
     s.cardsPlayedThisTurn += 1;
     s.stats.cardsPlayed += 1;
-    s.nextCardCostMod = 0;
-    for (const h of s.hand) if (h.costModUntil === 'played') { h.costMod = 0; h.costModUntil = undefined; }
   }
   emit(s, { t: 'cardDone', card, to });
   fire(s, 'cardPlayed', { side: ctx.side, card, target: ctx.target });
@@ -1364,6 +1363,8 @@ function resolveLink(s: CombatState, task: ChainTask, link: ChainLink) {
       if (!alive(u)) return;
       const mv = enemyMoves(u)[link.move];
       if (!mv) return;
+      if ((u.statuses.stun ?? 0) > 0) { delete u.statuses.stun; u.stunImmune = 2; emit(s, { t: 'status', target: u.uid, status: 'stun', delta: -1, total: 0 }); emit(s, { t: 'stunned', uid: u.uid }); return; }
+      if ((u.statuses.freeze ?? 0) > 0 && mv.intent.includes('attack')) { emit(s, { t: 'frozen', uid: u.uid }); return; }
       pushFx(s, mv.effects, { side: u.side, source: u.uid, kind: 'move', target: link.target, vars: { atk: atkOf(s, u) } });
       return;
     }
@@ -1401,6 +1402,7 @@ function answerResponse(s: CombatState, a: import('./state').PlayerAction): stri
   s.pending = null; s.pendingCtx = null;
   const x = need.x ? plan.length - need.c.length : 0;
   paySources(s, plan);
+  s.nextCardCostMod = 0;
   s.hand.splice(s.hand.indexOf(card), 1);
   s.limbo.push(card);
   task.links.push({ kind: 'card', side: 'player', card, target, slot: null, x, inWindow: true });
@@ -1444,6 +1446,11 @@ function stepPhase(s: CombatState, name: import('./state').PhaseName) {
       return;
     }
     case 'playerTurnEnd': {
+      s.tasks.push({ k: 'phase', name: 'playerCleanup' });
+      endOfTurn(s, 'player');
+      return;
+    }
+    case 'playerCleanup': {
       // embers
       const cap = emberCap(s);
       s.sources = s.sources.filter((x) => !x.temp);
@@ -1461,13 +1468,13 @@ function stepPhase(s: CombatState, name: import('./state').PhaseName) {
         const kws = d.keywords ?? [];
         if (kws.includes('ethereal') || c.fleeting) { exhaustCard(s, c); continue; }
         if (kws.includes('retain') || retainAll) continue;
+        if (isResponse(d)) { c.held = true; continue; }
         discardCard(s, c);
       }
       for (const c of [...s.hand, ...s.draw, ...s.discard]) if (c.costModUntil === 'turn') { c.costMod = 0; c.costModUntil = undefined; }
       for (const c of s.hand) if (c.free) c.free = undefined;
       s.nextCardCostMod = 0;
       s.tasks.push({ k: 'phase', name: 'enemyTurnStart' });
-      endOfTurn(s, 'player');
       return;
     }
     case 'enemyTurnStart': {
@@ -1488,6 +1495,7 @@ function stepPhase(s: CombatState, name: import('./state').PhaseName) {
       s.tasks.push({ k: 'phase', name: 'playerTurnStart' });
       endOfTurn(s, 'enemy');
       for (const src of s.sources) src.ready = false;
+      for (const c of [...s.hand]) if (c.held) { c.held = undefined; discardCard(s, c); }
       for (const u of unitsOf(s, 'enemy', true)) rollIntent(s, u);
       return;
     }
@@ -1498,7 +1506,7 @@ function advanceEnemies(s: CombatState) {
   const sd = s.sides.enemy;
   for (let j = 0; j < BACK; j++) {
     const u = unit(s, sd.back[j]);
-    if (!alive(u) || hasKw(s, u, 'ranged')) continue;
+    if (!alive(u) || u.origin !== 'enemy' || hasKw(s, u, 'ranged')) continue;
     const def = content().enemy(u.def);
     if (def.row === 'back') continue;
     const free = emptySlots(s, 'enemy', 'front');
@@ -1585,7 +1593,10 @@ function endOfTurn(s: CombatState, side: Side) {
     if (r > 0 && alive(u)) { heal(s, u.uid, r); decStatus(s, u, 'regen'); }
   }
   for (const u of chars) {
-    for (const st of ['freeze', 'vulnerable', 'weak'] as StatusId[]) if ((u.statuses[st] ?? 0) > 0) decStatus(s, u, st);
+    for (const st of ['freeze', 'vulnerable', 'weak'] as StatusId[]) {
+      if (u.fresh?.[st]) { delete u.fresh[st]; continue; }
+      if ((u.statuses[st] ?? 0) > 0) decStatus(s, u, st);
+    }
     if (u.stunImmune > 0) u.stunImmune -= 1;
     if (u.tempAtk) { u.tempAtk = 0; emit(s, { t: 'stats', target: u.uid, atk: atkOf(s, u), hp: u.hp, maxHp: maxHpOf(s, u) }); }
   }

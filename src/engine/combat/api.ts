@@ -151,7 +151,7 @@ export interface PlayableInfo {
 export function playableInfo(s: CombatState, card: CardInst): PlayableInfo {
   const def = cardDef(card);
   const info: PlayableInfo = { uid: card.uid, playable: false, targets: null };
-  if (def.unplayable || def.type === 'status' || def.type === 'curse') { info.reason = 'unplayable'; return info; }
+  if (def.unplayable) { info.reason = 'unplayable'; return info; }
   if (def.windowOnly) { info.reason = 'window'; return info; }
   const plan = planPayment(s, effectiveCost(s, card), card);
   info.payment = plan ?? undefined;
@@ -185,6 +185,7 @@ function playCard(s: CombatState, uid: number, target: number | null, slot: { ro
   const plan = info.payment!;
   const x = need.x ? plan.length - need.c.length : 0;
   paySources(s, plan);
+  s.nextCardCostMod = 0;
   s.hand.splice(s.hand.indexOf(card), 1);
   s.limbo.push(card);
   emit(s, { t: 'play', side: 'player', card, target });

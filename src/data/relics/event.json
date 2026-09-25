@@ -1,0 +1,105 @@
+[
+  {
+    "id": "rl_page_star",
+    "name": "残页·星卷",
+    "tier": "event",
+    "faction": "Y",
+    "text": "每场战斗你第一次打出延时牌时，立即进行一次[判定]：阳纹——对随机敌人造成8点伤害；阴纹——获得8点[护甲]。",
+    "flavor": "星卷不写命数，只写命数来临之前的那一瞬。",
+    "triggers": [
+      {
+        "on": "cardPlayed",
+        "limit": "combat",
+        "if": { "eventCard": { "type": "delay" } },
+        "effects": [{ "op": "judge", "branches": {
+          "yang": [{ "op": "damage", "amount": 8, "target": "randomEnemy" }],
+          "yin": [{ "op": "armor", "amount": 8, "target": "commander" }]
+        } }]
+      }
+    ],
+    "art": { "subject": "a torn scroll page covered in tiny dotted constellations, one star flaring bright as it falls off the page" }
+  },
+  {
+    "id": "rl_fox_mother_pompom",
+    "name": "狐母的绒球",
+    "tier": "event",
+    "text": "战斗开始时，获得4层[再生]。",
+    "flavor": "她给你的时候笑得很温柔。你最好别问是谁的毛。",
+    "triggers": [
+      { "on": "combatStart", "effects": [{ "op": "status", "status": "regen", "amount": 4, "target": "commander" }] }
+    ],
+    "art": { "subject": "a soft round ball of white fox fur tied with a red bell string, faintly glowing warm pink, on a mossy stone" }
+  },
+  {
+    "id": "rl_drowned_gold_crown",
+    "name": "溺王的金冠",
+    "tier": "event",
+    "text": "你的主帅造成的攻击伤害+2。每回合开始时，失去1点生命。",
+    "flavor": "冠很重。戴着它的人，每天都在往下沉一点。",
+    "modifiers": [{ "stat": "attackDamage", "amount": 2, "who": "commander" }],
+    "triggers": [
+      { "on": "turnStart", "effects": [{ "op": "loseHp", "amount": 1, "target": "commander" }] }
+    ],
+    "art": { "subject": "a tall golden king's crown half sunk in black water, water streaming from its jewels, reflection distorted" }
+  },
+  {
+    "id": "rl_arbiter_ink_remnant",
+    "name": "司命遗墨",
+    "tier": "event",
+    "ruleChanging": true,
+    "text": "拾取时，向天命牌堆加入2张{sun}日纹13与2张{mountain}山纹13。",
+    "flavor": "司命写错的几笔，被你偷偷描了回去。",
+    "onPickup": [
+      { "op": "fate", "action": "add", "suit": "sun", "rank": 13, "n": 2 },
+      { "op": "fate", "action": "add", "suit": "mountain", "rank": 13, "n": 2 }
+    ],
+    "art": { "subject": "a dried pool of luminous gold ink on an ancient desk, four fresh cards painted from it, a brush left mid-stroke" }
+  },
+  {
+    "id": "rl_twin_judge_coin",
+    "name": "双生判官的铜钱",
+    "tier": "event",
+    "text": "每当你[改判]，对随机敌人造成5点伤害。",
+    "flavor": "正面判生，反面判死。它从来只落在侧面。",
+    "triggers": [
+      { "on": "rejudged", "who": "friendly", "effects": [{ "op": "damage", "amount": 5, "target": "randomEnemy" }] }
+    ],
+    "art": { "subject": "an old bronze coin spinning on its edge, one face with a smiling judge and the other a frowning judge, dim courtroom" }
+  },
+  {
+    "id": "rl_gravekeeper_spade",
+    "name": "守墓人的铁铲",
+    "tier": "event",
+    "text": "每当一个敌方单位死亡，战斗后额外获得3金。",
+    "flavor": "埋人的活，总得有人收钱。",
+    "triggers": [
+      { "on": "unitDied", "who": "enemy", "effects": [{ "op": "gold", "n": 3 }] }
+    ],
+    "art": { "subject": "a worn iron grave spade planted in fresh earth beside a leaning tombstone, a few coins glinting in the dirt" }
+  },
+  {
+    "id": "rl_defiance_pact",
+    "name": "逆命之契",
+    "tier": "event",
+    "ruleChanging": true,
+    "text": "每回合可以额外献牌为源1次。每当你献牌为源，失去2点生命。",
+    "flavor": "契约上写着：多给你一次，也多收你一次。",
+    "modifiers": [{ "stat": "sacrifices", "amount": 1 }],
+    "triggers": [
+      { "on": "cardSacrificed", "effects": [{ "op": "loseHp", "amount": 2, "target": "commander" }] }
+    ],
+    "art": { "subject": "a scroll contract signed in blood with a burning thumbprint, dark red wax seal cracking open, smoke curling" }
+  },
+  {
+    "id": "rl_royal_court_key",
+    "name": "王庭钥匙",
+    "tier": "event",
+    "text": "拾取时，获得1件随机稀有遗物，并将1张「宿业」加入牌组。",
+    "flavor": "地下王庭的宝库只有一扇门，门后还站着看守的东西。",
+    "onPickup": [
+      { "op": "addRelic", "tier": "rare" },
+      { "op": "addCard", "card": "cu_suye" }
+    ],
+    "art": { "subject": "a large ornate bronze key with a crown-shaped bow, a faint dark aura clinging to its teeth, on a velvet cushion" }
+  }
+]

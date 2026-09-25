@@ -1,0 +1,19 @@
+[
+  {
+    "id": "rl_start_shiyun", "name": "山君石心", "tier": "starter", "faction": "B",
+    "text": "战斗开始时，获得6点[护甲]与1层[坚韧]。",
+    "flavor": "从护山大阵阵眼里取出的一块石头，摸上去是温的。",
+    "triggers": [ { "on": "combatStart", "effects": [
+      { "op": "armor", "amount": 6, "target": "commander" },
+      { "op": "status", "status": "tenacity", "amount": 1, "target": "commander" }
+    ] } ],
+    "art": { "subject": "a fist-sized grey stone shaped like a heart with a faint mountain vein pattern glowing warm blue inside, resting on a folded dark cloth" }
+  },
+  {
+    "id": "rl_start_suxian", "name": "冰蚕弦", "tier": "starter", "faction": "B",
+    "text": "每当你在应对中打出牌，获得3点[护甲]。",
+    "flavor": "冰蚕吐的丝，弹一声，寒三分。",
+    "triggers": [ { "on": "responsePlayed", "effects": [ { "op": "armor", "amount": 3, "target": "commander" } ] } ],
+    "art": { "subject": "a coil of translucent silk string spun by an ice silkworm, glittering with frost, the small pale silkworm resting on the coil, close-up on dark wood" }
+  }
+]

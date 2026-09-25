@@ -1,0 +1,219 @@
+[
+  {
+    "id": "rl_echo_mirror",
+    "name": "回光铜镜",
+    "tier": "uncommon",
+    "faction": "B",
+    "ruleChanging": true,
+    "text": "你的[应]牌费用-1。",
+    "flavor": "镜中人总比你快半步出手。",
+    "modifiers": [{ "stat": "cost", "amount": -1, "filter": { "keyword": "response" } }],
+    "art": { "subject": "a round bronze mirror with a coiled dragon back, its surface showing a hand already raised to block, dim blue light" }
+  },
+  {
+    "id": "rl_star_abacus",
+    "name": "星轨算筹",
+    "tier": "uncommon",
+    "faction": "Y",
+    "ruleChanging": true,
+    "text": "你方[判定]的点数+2（至多13，用于高低与点数段结算）。以敌方为对象的判定不受影响。",
+    "flavor": "观星阁的算筹多刻了两道。多出来的，是人意。",
+    "modifiers": [{ "stat": "judgeRank", "amount": 2 }],
+    "art": { "subject": "a bundle of golden counting rods engraved with star orbits, laid in a pattern on a dark star chart, gentle gold glow" }
+  },
+  {
+    "id": "rl_sign_tube",
+    "name": "金阁签筒",
+    "tier": "uncommon",
+    "ruleChanging": true,
+    "text": "[命签]上限+1。每当你[改判]，抽1张牌。",
+    "flavor": "签筒摇三下，落出来的那支，替你把天意换掉。",
+    "modifiers": [{ "stat": "signCap", "amount": 1 }],
+    "triggers": [
+      { "on": "rejudged", "who": "friendly", "effects": [{ "op": "draw", "n": 1 }] }
+    ],
+    "art": { "subject": "a gilded bamboo fortune-stick cylinder tilted mid-shake, one stick leaping out glowing with starlight" }
+  },
+  {
+    "id": "rl_sunblade_tassel",
+    "name": "焚阳刀穗",
+    "tier": "uncommon",
+    "faction": "R",
+    "ruleChanging": true,
+    "text": "你的主帅具有[奇袭]（武器攻击无视深度与[坚守]）。",
+    "flavor": "刀穗一扬，火从阵缝里钻进去。",
+    "modifiers": [{ "stat": "keyword", "keyword": "leap", "who": "commander" }],
+    "art": { "subject": "a long crimson silk sword tassel with a flame-shaped jade bead, whipping through the air trailing sparks" }
+  },
+  {
+    "id": "rl_mountain_banner",
+    "name": "镇岳阵旗",
+    "tier": "uncommon",
+    "ruleChanging": true,
+    "text": "我方前阵单位具有[坚守]。",
+    "flavor": "旗插在哪里，哪里就是山门。",
+    "modifiers": [{ "stat": "keyword", "keyword": "taunt", "who": "friendlyUnits", "if": { "inRow": { "of": "target", "row": "front" } } }],
+    "art": { "subject": "a tattered dark blue war banner embroidered with a mountain emblem planted in rocky ground, wind whipping it" }
+  },
+  {
+    "id": "rl_rebirth_seedbag",
+    "name": "轮回种囊",
+    "tier": "uncommon",
+    "faction": "G",
+    "text": "每当友方单位死亡，随机一个友方单位获得+2/+1。",
+    "flavor": "落叶不是死，是把力气交给下一棵。",
+    "triggers": [
+      { "on": "unitDied", "who": "friendly", "effects": [{ "op": "buff", "target": "randomFriendlyUnit", "atk": 2, "hp": 1 }] }
+    ],
+    "art": { "subject": "a small linen seed pouch spilling glowing green seeds onto dark soil where tiny sprouts are rising" }
+  },
+  {
+    "id": "rl_broken_blade_manual",
+    "name": "断刃残谱",
+    "tier": "uncommon",
+    "text": "每当你装备一件装备，获得1层[锋锐]。",
+    "flavor": "谱上只剩起手式。够了。",
+    "triggers": [
+      { "on": "equipped", "who": "friendly", "effects": [{ "op": "status", "status": "might", "amount": 1, "target": "commander" }] }
+    ],
+    "art": { "subject": "a torn martial arts manual with ink drawings of sword stances, a broken blade tip lying on its open pages" }
+  },
+  {
+    "id": "rl_endgame_board",
+    "name": "幽弈残局",
+    "tier": "uncommon",
+    "faction": "P",
+    "text": "每当你弃置一张牌（包括回合结束时的弃牌），对随机敌人施加1层[中毒]。",
+    "flavor": "弃子不是输，是把毒藏进对方的棋路。",
+    "triggers": [
+      { "on": "cardDiscarded", "effects": [{ "op": "status", "status": "poison", "amount": 1, "target": "randomEnemy" }] }
+    ],
+    "art": { "subject": "a go board mid-game with violet and black stones, faint green venom seeping from the captured stones, candlelit" }
+  },
+  {
+    "id": "rl_linked_buckle",
+    "name": "连环扣",
+    "tier": "uncommon",
+    "text": "每回合你打出第5张牌时，获得1枚本回合的[源]并抽1张牌。",
+    "flavor": "五个环扣在一起，才解得开。",
+    "triggers": [
+      { "on": "cardPlayed", "if": { "combo": 5 }, "limit": "turn", "effects": [{ "op": "energy", "n": 1 }, { "op": "draw", "n": 1 }] }
+    ],
+    "art": { "subject": "five interlocking silver rings forming a chain puzzle, glowing faintly where they link, on a dark velvet cloth" }
+  },
+  {
+    "id": "rl_frost_cicada",
+    "name": "冰魄玉蝉",
+    "tier": "uncommon",
+    "text": "每当你的主帅[护甲]被击破，对造成伤害者施加2层[冰冻]。",
+    "flavor": "玉蝉含在口中，寒气便从伤口里反扑出去。",
+    "triggers": [
+      { "on": "armorBroken", "effects": [{ "op": "status", "status": "freeze", "amount": 2, "target": "eventSource" }] }
+    ],
+    "art": { "subject": "a translucent pale jade cicada carving covered in frost crystals, cold vapor rising from its wings" }
+  },
+  {
+    "id": "rl_abyss_stairs",
+    "name": "命阙石阶",
+    "tier": "uncommon",
+    "ruleChanging": true,
+    "text": "揭示地图上的所有节点。",
+    "flavor": "向下的台阶，每一级都刻着下一级的名字。",
+    "run": [{ "rule": "mapReveal" }],
+    "art": { "subject": "a single carved stone stair step engraved with a tiny map of descending floors, lit from below by faint gold" }
+  },
+  {
+    "id": "rl_dynasty_seal",
+    "name": "王朝残玺",
+    "tier": "uncommon",
+    "ruleChanging": true,
+    "text": "卡牌奖励多提供1个选项。",
+    "flavor": "盖了印的诏书，总会多给一条出路。",
+    "run": [{ "rule": "extraCardChoice", "n": 1 }],
+    "art": { "subject": "a cracked imperial jade seal with a coiled beast handle, a corner broken off, red cinnabar on its base" }
+  },
+  {
+    "id": "rl_blood_jade_ring",
+    "name": "血玉扳指",
+    "tier": "uncommon",
+    "text": "每当你的主帅发动攻击，恢复2点生命。",
+    "flavor": "扳指勒进指节，每拉一次弓，就还你一口血。",
+    "triggers": [
+      { "on": "attacking", "effects": [{ "op": "heal", "amount": 2, "target": "commander" }] }
+    ],
+    "art": { "subject": "a deep red blood jade archer's thumb ring with swirling veins, on a gloved thumb drawing a bowstring" }
+  },
+  {
+    "id": "rl_tomb_beast_horn",
+    "name": "镇墓兽角",
+    "tier": "uncommon",
+    "text": "每当你的主帅受到攻击，对攻击者造成3点伤害。",
+    "flavor": "它守过一座王陵。现在它守着你。",
+    "triggers": [
+      { "on": "attacked", "effects": [{ "op": "damage", "amount": 3, "target": "eventSource" }] }
+    ],
+    "art": { "subject": "a single curved horn broken from a stone tomb guardian beast, carved with snarling patterns, dust and dim torchlight" }
+  },
+  {
+    "id": "rl_abyss_pearl",
+    "name": "沉渊夜明珠",
+    "tier": "uncommon",
+    "text": "每当你的弃牌堆洗入抽牌堆，获得1枚本回合的[源]。",
+    "flavor": "沉渊城的珠子，越是转回原处，越亮。",
+    "triggers": [
+      { "on": "shuffled", "effects": [{ "op": "energy", "n": 1 }] }
+    ],
+    "art": { "subject": "a luminous pearl glowing pale blue at the bottom of dark water, drowned palace ruins faint behind it" }
+  },
+  {
+    "id": "rl_bronze_fate_dial",
+    "name": "青铜命盘",
+    "tier": "uncommon",
+    "text": "每回合开始时，[观星]2。",
+    "flavor": "盘上的指针不是指向天，是指向下一张牌。",
+    "triggers": [
+      { "on": "turnStart", "effects": [{ "op": "stargaze", "n": 2 }] }
+    ],
+    "art": { "subject": "an ancient bronze divination disc with concentric rings of star symbols and a spoon-shaped pointer, lit by candle" }
+  },
+  {
+    "id": "rl_ledger_of_depths",
+    "name": "地宫账簿",
+    "tier": "uncommon",
+    "text": "获得的金币+25%。",
+    "flavor": "地下王国的账，一笔都没算错过。",
+    "run": [{ "rule": "goldBonus", "pct": 25 }],
+    "art": { "subject": "a thick mildewed account book open to pages of neat columns, a brass abacus beside it, lantern light underground" }
+  },
+  {
+    "id": "rl_cold_pool_whetstone",
+    "name": "寒潭磨剑石",
+    "tier": "uncommon",
+    "text": "战斗开始时，获得2层[锋锐]。",
+    "flavor": "石头在潭底泡了三百年，磨出的刃不沾血。",
+    "triggers": [
+      { "on": "combatStart", "effects": [{ "op": "status", "status": "might", "amount": 2, "target": "commander" }] }
+    ],
+    "art": { "subject": "a smooth dark whetstone half submerged in an icy pool, a sword edge gleaming as it is drawn across it" }
+  },
+  {
+    "id": "rl_spring_jade_pot",
+    "name": "灵泉玉壶",
+    "tier": "uncommon",
+    "text": "敌方回合开始时，你每有1枚[余烬]，获得2点[护甲]。",
+    "flavor": "壶里的水不多，留着的都是救命的。",
+    "triggers": [
+      { "on": "opponentTurnStart", "effects": [{ "op": "armor", "amount": { "mul": [{ "count": "embers" }, 2] }, "target": "commander" }] }
+    ],
+    "art": { "subject": "a small white jade teapot with spring water glowing inside, steam rising, a few glowing ember-like coals beside it" }
+  },
+  {
+    "id": "rl_mendicant_bowl",
+    "name": "行脚铜钵",
+    "tier": "uncommon",
+    "text": "拾取时，从牌组中移除2张牌。",
+    "flavor": "行脚僧的钵里只装一顿饭。多余的，都得放下。",
+    "onPickup": [{ "op": "removeCard", "n": 2, "mode": "choose" }],
+    "art": { "subject": "a battered copper alms bowl held in weathered hands, empty, on a dusty mountain road at dusk" }
+  }
+]

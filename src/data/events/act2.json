@@ -1,0 +1,403 @@
+[
+  {
+    "id": "ev_niwang_chaoyan",
+    "title": "溺王的朝宴",
+    "acts": [2],
+    "text": "沉渊城的正殿泡在齐腰深的湖水里，殿柱缠满水草。百官列班而立，衣冠整齐，面色青白，嘴角不断冒出气泡。丹墀之上，一位头戴冕旒的君王向你抬手：“远道而来的执命者，寡人殷，此城之主。今日朝会，你可有所奏？”水面下，有什么东西绕着你的脚踝游了一圈。",
+    "options": [
+      {
+        "text": "跪拜，献上贡物",
+        "next": "tribute",
+        "effects": [],
+        "outcome": "你依礼下拜。百官齐声唱喏，声音在水里闷闷地回荡。殷王微微颔首：“呈上来。”"
+      },
+      {
+        "text": "【霍烬】直视他的眼睛",
+        "requires": { "commander": "r_huojin" },
+        "next": "confess",
+        "effects": [],
+        "outcome": "殷王的冕旒轻轻晃动。“霍将军，”他的声音忽然变得很轻，“你终于来了。”百官不再冒泡，整座大殿静得像一口井。"
+      },
+      {
+        "text": "拒绝朝拜，转身离开",
+        "hint": "失去 8 生命",
+        "effects": [ { "op": "hp", "n": -8 } ],
+        "outcome": "你转身的一瞬，湖水骤然收紧，像一只手攥住了你。你挣扎着出了殿门，呛了好几口冰冷的水。身后传来殷王的笑声：“无妨，寡人有的是时间。”"
+      }
+    ],
+    "pages": [
+      {
+        "id": "tribute",
+        "text": "内侍捧着玉盘走下丹墀，停在你面前。盘中已经放着许多东西：一枚发锈的虎符，一绺女子的青丝，一颗仍在微弱跳动的心。“溺王只收最珍贵之物，”内侍的眼珠浮肿发白，“贡物越重，赏赐越厚。”",
+        "options": [
+          {
+            "text": "献上一件遗物",
+            "hint": "失去 1 件随机遗物 · 获得 1 件稀有遗物",
+            "effects": [ { "op": "loseRelic", "mode": "random" }, { "op": "addRelic", "tier": "rare" } ],
+            "outcome": "遗物落进玉盘，没入水中不见了。殷王满意地抚掌，一件沉甸甸的赏赐随潮水漂到你手边——上面还残留着这座王城最后的体温。"
+          },
+          {
+            "text": "献上一段血气",
+            "hint": "失去 7 最大生命 · 从 3 张本色史诗牌中选 1 张",
+            "effects": [ { "op": "maxHp", "n": -7 }, { "op": "addCard", "pool": { "rarity": "epic", "faction": "own" }, "choose": 3 } ],
+            "outcome": "你割开手腕，血在水中晕成一朵花，被内侍小心收进盘里。殷王闭目品味良久，赐你一道旧日的诏书，墨迹至今未干。"
+          },
+          {
+            "text": "盘里什么也不放",
+            "hint": "失去 25 金",
+            "effects": [ { "op": "gold", "n": -25 } ],
+            "outcome": "内侍等了很久，最后从你的钱袋里自己取了些。“空手上殿，是要罚的。”他说，语气里并无恶意，仿佛只是在执行一条早已无人记得的律令。"
+          }
+        ]
+      },
+      {
+        "id": "confess",
+        "text": "三百年前，殷都陷落之夜，奉命焚城的是断焰军。你站在城楼上看着火海，等来的不是凯旋诏书，而是命书的一行字：此城当沉。火还没灭，湖水就漫了上来。殷王慢慢走下丹墀，冕旒下是一张年轻得过分的脸。“寡人不怪你，”他说，“寡人只想知道——那道焚城令，是谁写的？”",
+        "options": [
+          {
+            "text": "告诉他：是命书写的",
+            "hint": "获得 1 件稀有遗物 · 获得诅咒「宿业」",
+            "effects": [ { "op": "addRelic", "tier": "rare" }, { "op": "addCard", "card": "cu_suye" }, { "op": "flag", "key": "huojin_met_yin" } ],
+            "outcome": "殷王沉默良久，摘下冕旒放进你手里：“那便替寡人去问问写命的人。”他的身影化作一串气泡升上水面。那夜的火与水，从此压在你的肩上。"
+          },
+          {
+            "text": "告诉他：是我下的令",
+            "hint": "失去 12 生命 · 升级 3 张牌",
+            "effects": [ { "op": "hp", "n": -12 }, { "op": "upgradeCard", "n": 3, "mode": "choose" }, { "op": "flag", "key": "huojin_met_yin" } ],
+            "outcome": "殷王一掌拍在你胸口，湖水灌进肺里。你没有躲。他收回手，眼中的恨意散了：“敢认，便还是个将军。”他退回丹墀，大殿里的百官一个接一个地闭上了眼睛。"
+          }
+        ]
+      }
+    ],
+    "art": { "subject": "a drowned throne hall submerged waist-deep in dark lake water, pale ministers in court robes standing in rows with bubbles rising from their lips, a young king in a beaded crown raising his hand from the throne" }
+  },
+  {
+    "id": "ev_shuixia_shiji",
+    "title": "水下集市",
+    "acts": [2],
+    "text": "沉渊城的长街在湖底延伸，两侧店铺的灯笼照样亮着，只是火苗是蓝的。鱼群在摊位间穿梭，摊主们用手势讨价还价。这里什么都卖：一个时辰的呼吸、一句没说出口的话、半张天命牌。有个摊主向你招手，他的摊子上堆满了从执命者尸体上捞来的旧物。",
+    "options": [
+      {
+        "text": "买一瓶来历不明的丹药",
+        "requires": { "gold": 25 },
+        "hint": "支付 25 金 · 获得 1 瓶随机丹药",
+        "effects": [ { "op": "gold", "n": -25 }, { "op": "addPotion" } ],
+        "outcome": "瓶子上的标签泡烂了，看不清写的是什么。摊主拍着胸脯比划：好东西，死人用过的都说好。"
+      },
+      {
+        "text": "买一卷执命者的遗稿",
+        "requires": { "gold": 90 },
+        "hint": "支付 90 金 · 从 3 张本色稀有/史诗牌中选 1 张",
+        "effects": [ { "op": "gold", "n": -90 }, { "op": "addCard", "pool": { "rarity": ["rare", "epic"], "faction": "own" }, "choose": 3 } ],
+        "outcome": "遗稿的主人在最后一页写着：“若有人拾到此卷，替我走完剩下的路。”你把它收好，笔迹在你指间微微发烫。"
+      },
+      {
+        "text": "卖掉一件遗物",
+        "hint": "选择失去 1 件遗物 · 获得 140 金",
+        "effects": [ { "op": "loseRelic", "mode": "choose" }, { "op": "gold", "n": 140 } ],
+        "outcome": "摊主捧着你的遗物端详半晌，眼里放出贪婪的光，爽快地付了钱。你走出很远，回头看见他把那件东西供在了摊位最高处。"
+      },
+      {
+        "text": "只是逛逛",
+        "effects": [],
+        "outcome": "你在长街上走了一遍。蓝色的灯火映着你的脸，让你看起来和这里的居民没什么两样。"
+      }
+    ],
+    "art": { "subject": "an underwater market street in a sunken city, shop lanterns burning with blue flames, schools of fish drifting between stalls piled with strange relics, a merchant beckoning from beneath a rotted awning" }
+  },
+  {
+    "id": "ev_qianji_gongfang",
+    "title": "千机工坊",
+    "acts": [2],
+    "text": "工坊里挂满了半成品的傀儡，有的缺一条臂，有的缺半张脸，全都睁着眼。工作台上摊着一张图纸，画的是一个人——细看竟是你自己，关节处都标好了尺寸。一个声音从梁上传来：“别紧张，千机先生只是喜欢收集好材料。他出门了，东西你可以随便用，只要留下点什么。”",
+    "options": [
+      {
+        "text": "换上一截傀儡的手臂",
+        "hint": "失去 6 最大生命 · 获得 1 件罕见遗物 · 升级 1 张牌",
+        "effects": [ { "op": "maxHp", "n": -6 }, { "op": "addRelic", "tier": "uncommon" }, { "op": "upgradeCard", "n": 1, "mode": "choose" } ],
+        "outcome": "机括咬合的一瞬你几乎叫出声。可新手臂比原来的更稳、更快，指节里还藏着一件小机关。只是夜里，它偶尔会自己动。"
+      },
+      {
+        "text": "拆掉工台上的旧零件带走",
+        "hint": "变化 2 张牌",
+        "effects": [ { "op": "transformCard", "n": 2, "mode": "choose" } ],
+        "outcome": "你拆下几个精巧的齿轮，塞进自己的牌里。牌面上的图案扭动起来，重新拼成了别的样子。"
+      },
+      {
+        "text": "【青姒】解开傀儡里的木灵",
+        "requires": { "commander": "g_qingsi" },
+        "hint": "从 3 张青色稀有/史诗随从牌中选 1 张 · 移除 1 张牌",
+        "effects": [ { "op": "addCard", "pool": { "faction": "G", "type": "unit", "rarity": ["rare", "epic"] }, "choose": 3 }, { "op": "removeCard", "n": 1, "mode": "choose" } ],
+        "outcome": "傀儡的骨架是槐木做的，木心里还困着一只不肯睡去的小灵。它认出了母亲的气息，从木纹里钻出来扑进你怀中。你拆了傀儡，把它带走——万木庭的孩子，不该被做成别人的手脚。"
+      },
+      {
+        "text": "撕掉那张画着你的图纸",
+        "hint": "进行一场战斗",
+        "effects": [ { "op": "fight", "encounter": "sandbox", "reward": "normal" } ],
+        "outcome": "图纸刚一撕开，满屋的傀儡同时转过头来。梁上的声音叹了口气：“你看，我就说他会生气。”"
+      }
+    ],
+    "art": { "subject": "a cluttered puppet workshop with dozens of half-finished wooden marionettes hanging from the ceiling with open eyes, a workbench blueprint of a human figure under a dangling lamp, gears scattered everywhere" }
+  },
+  {
+    "id": "ev_shuangsheng_panguan",
+    "title": "双生判官",
+    "acts": [2],
+    "text": "一座水中公堂，两张判案并排而设。左边的判官执朱笔，右边的判官执墨笔，二人容貌一模一样，却从不看对方一眼。“生前的罪，”左判官道，“死后的功，”右判官道，“今日一并审过。你可选一位来判你——另一位便会恨你一辈子。”",
+    "options": [
+      {
+        "text": "请执朱笔者判",
+        "hint": "失去 8 生命 · 升级 2 张牌",
+        "effects": [ { "op": "hp", "n": -8 }, { "op": "upgradeCard", "n": 2, "mode": "choose" } ],
+        "outcome": "朱笔在你额上一点，罚你受了一记杖刑。“罪已抵过，”他说，“你的手从此干净些了。”右判官在一旁冷笑，墨笔折成了两截。"
+      },
+      {
+        "text": "请执墨笔者判",
+        "hint": "获得 1 张诅咒 · 从 3 张本色稀有牌中选 1 张",
+        "effects": [ { "op": "addCard", "pool": { "type": "curse" } }, { "op": "addCard", "pool": { "rarity": "rare", "faction": "own" }, "choose": 3 } ],
+        "outcome": "墨笔记下你的功，赏你一样东西。可左判官盯着你，朱笔悬在半空，一滴红墨落在你的牌组里，洇开成一块洗不掉的斑。"
+      },
+      {
+        "text": "请二位改判你的命数",
+        "hint": "天命牌堆中 2 张牌改换命纹 · 失去 4 生命",
+        "effects": [ { "op": "fate", "action": "changeSuit", "n": 2 }, { "op": "hp", "n": -4 } ],
+        "outcome": "二人第一次同时抬起头，互相看了一眼。朱笔与墨笔同时落下，在你的天命里改了两个字。公堂的水在这一刻变得滚烫，又迅速冷却。"
+      },
+      {
+        "text": "【柳絮】换上两张脸，同时受审",
+        "requires": { "commander": "p_liuxu" },
+        "hint": "移除 2 张牌 · 获得 40 金",
+        "effects": [ { "op": "removeCard", "n": 2, "mode": "choose" }, { "op": "gold", "n": 40 } ],
+        "outcome": "左边的你认罪，右边的你领功，两位判官各审各的，各判各的，谁也没发现堂下站的是同一个人。你把两份判决都丢在了公堂上，连同两段不想要的过去。"
+      }
+    ],
+    "art": { "subject": "an underwater courtroom with two identical judges seated side by side at separate benches, one holding a vermilion brush and the other a black ink brush, a defendant standing between them in drifting lake water" }
+  },
+  {
+    "id": "ev_hushang_qinsheng",
+    "title": "湖上琴声",
+    "acts": [2],
+    "text": "沉渊城上方的湖面结着一层薄冰，冰下有琴声传来，清冷得像雪落在弦上。循声望去，冰面下坐着一个抱琴的女子，长发在水中散开，指尖一拨，冰面便裂开一道细纹。她似乎在等人，已经等了很久，琴曲总在同一个地方断掉。",
+    "options": [
+      {
+        "text": "凿开冰面，拉她上来",
+        "hint": "50%：获得 1 件罕见遗物；50%：失去 10 生命",
+        "effects": [ { "op": "chance", "p": 0.5, "then": [ { "op": "addRelic", "tier": "uncommon" } ], "else": [ { "op": "hp", "n": -10 } ] } ],
+        "outcome": "冰层碎开，寒气扑面而来。你伸手进水里，碰到的究竟是她的手，还是一截冻透的琴弦，要等你拉上来才知道。"
+      },
+      {
+        "text": "在冰面上坐下，听完这一曲",
+        "hint": "恢复 30% 生命 · 获得 1 张诅咒",
+        "effects": [ { "op": "hpPct", "pct": 30 }, { "op": "addCard", "pool": { "type": "curse" } } ],
+        "outcome": "琴声在断处停了很久，你以为它不会再响了。可它又响了起来，接着往下弹，弹得你伤口都愈合了。只是那段曲子，此后常在你脑中回响，驱之不去。"
+      },
+      {
+        "text": "【素弦】替她续上那一段",
+        "requires": { "commander": "b_suxian" },
+        "hint": "获得 1 件事件遗物 · 升级 1 张牌",
+        "effects": [ { "op": "addRelic", "tier": "event" }, { "op": "upgradeCard", "n": 1, "mode": "choose" }, { "op": "flag", "key": "suxian_found_master" } ],
+        "outcome": "那是《寒川引》，师父只教到一半就沉了湖。你盘膝坐下，接着冰下的琴音弹完后半阙。冰下的女子抬起头，笑着松开了琴。琴身浮上冰面，弦上还结着她的霜。"
+      },
+      {
+        "text": "塞住耳朵离开",
+        "effects": [],
+        "outcome": "你捂着耳朵快步走过冰面。琴声没有追来，只在你身后又一次断在了同一个地方。"
+      }
+    ],
+    "art": { "subject": "a woman with long drifting hair playing a guqin beneath a thin sheet of lake ice, cracks spreading across the frozen surface from her strings, a traveler kneeling on the ice above looking down" }
+  },
+  {
+    "id": "ev_chen_zhong",
+    "title": "沉钟",
+    "acts": [2],
+    "text": "城中央的钟楼塌了，那口铜钟沉在湖底的淤泥里，一半埋着，一半露着。钟身上铸满了命纹，日、雷、月、山四种纹样交错盘绕。据说殷都陷落前，这口钟每敲一下，城中便有一人的命数被重新校准。如今它已沉默三百年，钟锤还悬在旁边的断梁上。",
+    "options": [
+      {
+        "text": "敲响它",
+        "hint": "失去 6 生命 · 从天命牌堆移除 3 张牌",
+        "effects": [ { "op": "hp", "n": -6 }, { "op": "fate", "action": "remove", "n": 3 } ],
+        "outcome": "钟声在水里传得很远很慢，像一道迟到了三百年的号令。你的天命被震落了几页，飘进淤泥里。你的耳朵流出血来，好几天都嗡嗡作响。"
+      },
+      {
+        "text": "拓下钟上的山纹",
+        "hint": "天命牌堆中 3 张牌改为山纹",
+        "effects": [ { "op": "fate", "action": "changeSuit", "suit": "mountain", "n": 3 } ],
+        "outcome": "山纹厚重、沉默，被水泡了三百年仍然清晰。你把它拓进自己的命里，从此翻开的天命，多了几分镇压与长久。"
+      },
+      {
+        "text": "【石韫】把钟扛出淤泥",
+        "requires": { "commander": "b_shiyun" },
+        "hint": "失去 10 生命 · 获得 8 最大生命",
+        "effects": [ { "op": "hp", "n": -10 }, { "op": "maxHp", "n": 8 } ],
+        "outcome": "你弯腰，肩膀抵住钟沿，一寸一寸把它从三百年的淤泥里扛了出来。脊骨咯咯作响，像当年扛住那座将塌的山。钟终于立起时，你觉得自己也更结实了。"
+      },
+      {
+        "text": "刮下一些铜锈",
+        "effects": [ { "op": "gold", "n": 35 } ],
+        "outcome": "命纹铜锈是上好的药引，识货的人会出好价钱。你刮了一小包，钟身发出一声低低的颤鸣，像在抗议。"
+      }
+    ],
+    "art": { "subject": "a colossal bronze bell half-buried in silt at the bottom of a lake, its surface covered in intertwined sun, lightning, moon and mountain engravings, a broken wooden beam holding a striker above it, shafts of dim light from above" }
+  },
+  {
+    "id": "ev_niwang_duilie",
+    "title": "溺亡者的队列",
+    "acts": [2],
+    "text": "一条长长的队伍从城门排到湖心，全是溺死的人。他们手里捏着一张空白的纸，默默等着。队首是一张空桌，没有人坐。有个少年告诉你，他们在等命书上的人来给他们填上名字，填上了名字就能投胎。“三百年了，”他说，“没人来。”",
+    "options": [
+      {
+        "text": "带走一个愿意追随你的亡魂",
+        "requires": { "noLieutenant": true },
+        "hint": "获得 1 位副将 · 获得诅咒「宿业」",
+        "effects": [ { "op": "lieutenant" }, { "op": "addCard", "card": "cu_suye" } ],
+        "outcome": "你在少年的纸上写了一个字。纸燃起来，队伍里有一个身影走出来，向你单膝跪下。他愿意追随你——带着自己未了的宿业，一并追随。"
+      },
+      {
+        "text": "坐到空桌前，替他们填名字",
+        "hint": "失去 10 生命 · 移除 1 张牌 · 升级 1 张牌",
+        "effects": [ { "op": "hp", "n": -10 }, { "op": "removeCard", "n": 1, "mode": "choose" }, { "op": "upgradeCard", "n": 1, "mode": "choose" } ],
+        "outcome": "你一直写到指尖冻得失去知觉。每填好一个名字，就有一个人对你鞠躬，然后化作一缕气泡。队伍太长了，你没能写完。但最后一个离开的人，替你带走了一段沉重的过去。"
+      },
+      {
+        "text": "告诉他们不会有人来",
+        "effects": [ { "op": "gold", "n": 30 } ],
+        "outcome": "队伍没有散，只是更安静了。少年把兜里的铜钱都塞给你：“你说实话，就值这个价。”"
+      }
+    ],
+    "art": { "subject": "a long line of pale drowned souls holding blank sheets of paper stretching from a sunken city gate toward an empty desk in the middle of a lake, a young boy at the front looking up at a traveler" }
+  },
+  {
+    "id": "ev_duyao_pu",
+    "title": "蚀心药铺",
+    "acts": [2],
+    "text": "巷尾一间药铺，门口挂着幽弈坊的紫色灯笼。柜台后坐着个面色苍白的伙计，正在给药材分类——左边是治病的，右边是要命的，中间一格空着。“客官，”他头也不抬，“中间那格，是看人用的：同一味药，有人吃了活，有人吃了死。敢不敢试？”",
+    "options": [
+      {
+        "text": "吞下中间那格的药",
+        "hint": "50%：获得 7 最大生命；50%：失去 7 最大生命",
+        "effects": [ { "op": "chance", "p": 0.5, "then": [ { "op": "maxHp", "n": 7 } ], "else": [ { "op": "maxHp", "n": -7 } ] } ],
+        "outcome": "药丸入喉，先是一股寒气，再是一团火。你扶着柜台站了很久，直到伙计在账簿上画下一个记号——那记号是圈还是叉，你没看清。"
+      },
+      {
+        "text": "买两瓶右边的货",
+        "requires": { "gold": 45 },
+        "hint": "支付 45 金 · 获得 2 瓶随机丹药",
+        "effects": [ { "op": "gold", "n": -45 }, { "op": "addPotion" }, { "op": "addPotion" } ],
+        "outcome": "伙计用油纸把药瓶包好：“记着，要命的药，要用在该死的人身上。”"
+      },
+      {
+        "text": "【夜昙】报上坊主的暗号",
+        "requires": { "commander": "p_yetan" },
+        "hint": "从 3 张紫色稀有/史诗牌中选 1 张 · 获得 1 瓶随机丹药",
+        "effects": [ { "op": "addCard", "pool": { "faction": "P", "rarity": ["rare", "epic"] }, "choose": 3 }, { "op": "addPotion" } ],
+        "outcome": "伙计的手停住了：“夜昙师姐？坊里都说您叛出去了。”你没有解释，只是看着他。他打开暗格，取出一卷只传给坊中死士的毒经：“坊主说过，您若回来，这个给您。”"
+      },
+      {
+        "text": "离开",
+        "effects": [],
+        "outcome": "你刚出门，就听见伙计把那格药材倒进了炉子，一股甜香弥漫开来，引得整条巷子的鱼都翻了白肚。"
+      }
+    ],
+    "art": { "subject": "a narrow apothecary at the end of a sunken alley under a purple paper lantern, a pale clerk sorting herbs into three drawers behind a wooden counter, strange vials glowing faintly on the shelves" }
+  },
+  {
+    "id": "ev_jingzhong_ren",
+    "title": "镜中人",
+    "acts": [2],
+    "text": "殷王寝宫里立着一面铜镜，镜面蒙着水汽。你擦开一角，看见的不是自己的倒影，而是另一个你——站在另一条路的尽头，穿着不同的衣裳，手里握着不同的牌。那个你对你伸出手，嘴唇翕动，像是在说：换一换吧，你那条路太难走了。",
+    "options": [
+      {
+        "text": "和他交换两张牌",
+        "hint": "随机变化 2 张牌 · 获得 35 金",
+        "effects": [ { "op": "transformCard", "n": 2, "mode": "random" }, { "op": "gold", "n": 35 } ],
+        "outcome": "你们的手隔着镜面相触。两张牌从你掌心消失，镜中的你手里多了两张熟悉的牌；而你手里多出来的，是另一个人生的招式。他还附赠了一点零钱，像是找零。"
+      },
+      {
+        "text": "让他把你最得意的一招复刻一份",
+        "hint": "失去 6 生命 · 复制 1 张牌",
+        "effects": [ { "op": "hp", "n": -6 }, { "op": "duplicateCard", "n": 1 } ],
+        "outcome": "镜中的你照着你的样子挥出一招，一模一样，分毫不差。镜面裂了一道缝，那一招从缝里掉出来，落进你的牌组。镜子收了你一点血气作为代价。"
+      },
+      {
+        "text": "【燕无咎】看清他背后的日期",
+        "requires": { "commander": "y_yanwujiu" },
+        "hint": "失去 3 最大生命 · 升级 2 张牌 · 预览天命",
+        "effects": [ { "op": "maxHp", "n": -3 }, { "op": "upgradeCard", "n": 2, "mode": "choose" }, { "op": "fate", "action": "preview", "n": 3 } ],
+        "outcome": "镜中人的背后挂着一幅黄历，圈着一个日子。你认得那是你为自己卜出的死期——十年前卜的，一日未改。你笑了笑，向镜子借了几日：卜者最擅长的，就是让该来的晚一点来。"
+      },
+      {
+        "text": "打碎镜子",
+        "hint": "获得 1 张诅咒 · 获得 1 件普通遗物",
+        "effects": [ { "op": "addCard", "pool": { "type": "curse" } }, { "op": "addRelic", "tier": "common" } ],
+        "outcome": "镜子碎成千片，每一片里都有一个你在尖叫。碎片中躺着一件镜框上的饰物，你捡起它，也捡起了一片扎进掌心的不甘。"
+      }
+    ],
+    "art": { "subject": "a tall bronze mirror clouded with condensation in a drowned palace bedchamber, the reflection showing a differently dressed version of the viewer extending a hand from inside the glass" }
+  },
+  {
+    "id": "ev_wangcheng_kufang",
+    "title": "王城库房",
+    "acts": [2],
+    "text": "库房的门虚掩着，里面金光映着水光。一箱箱金锭码到屋顶，被水泡得发胀的账册漂在半空。门楣上有一行刻字：“国库之物，皆有主。”墙角坐着一具披甲的守库尸，膝上横着长刀，头垂着，像是睡着了。库房最深处，一个锦盒在黑暗中微微发亮。",
+    "options": [
+      {
+        "text": "抱走一箱金锭",
+        "hint": "获得 120 金 · 获得诅咒「宿业」",
+        "effects": [ { "op": "gold", "n": 120 }, { "op": "addCard", "card": "cu_suye" } ],
+        "outcome": "金锭沉得出奇，每一块底下都刻着一个人名——是当年被抄家充公的旧主。你把箱子扛出门，那些名字便一个个爬进了你的账上。"
+      },
+      {
+        "text": "悄悄取走深处的锦盒",
+        "hint": "50%：获得 1 件稀有遗物；50%：进行一场战斗（精英奖励）",
+        "effects": [ { "op": "chance", "p": 0.5, "then": [ { "op": "addRelic", "tier": "rare" } ], "else": [ { "op": "fight", "encounter": "sandbox", "reward": "elite" } ] } ],
+        "outcome": "你踮着脚绕过守库尸，指尖触到锦盒的一刻，屏住了呼吸。身后的甲片究竟有没有响，要等你回头才知道。"
+      },
+      {
+        "text": "【观星阁】翻阅漂浮的账册",
+        "requires": { "faction": "Y" },
+        "hint": "预览天命 · 从天命牌堆移除 2 张牌",
+        "effects": [ { "op": "fate", "action": "preview", "n": 3 }, { "op": "fate", "action": "remove", "n": 2 } ],
+        "outcome": "账册记的不是钱粮，是殷都每一户的命数盈亏。观星阁的人一看便懂：这是一份天命的底账。你照着账目把自己命里的两笔坏账勾销了。"
+      },
+      {
+        "text": "不碰任何东西",
+        "effects": [],
+        "outcome": "你在门口站了一会儿，退了出去。守库尸的头微微抬起了一点，又垂了下去。"
+      }
+    ],
+    "art": { "subject": "a flooded royal treasury with stacks of gold ingots reaching the ceiling and waterlogged ledgers floating in the water, an armored corpse guard slumped in a corner with a blade across its knees, a glowing brocade box in the dark depths" }
+  },
+  {
+    "id": "ev_shuiyue_tai",
+    "title": "水月台",
+    "acts": [2],
+    "text": "湖底有一座高台，台顶开着一口天井，一轮月影恰好落在井中央的水盘里。月影会动：它会缓缓漂向站在台上的人，照一照他的命。被月影照过的天命牌，据说会忘记自己原本的命纹，变成月的形状——隐忍、流转、归藏。台阶上刻着前人的留言：“莫贪月。”",
+    "options": [
+      {
+        "text": "让月影照遍全身",
+        "hint": "失去 5 生命 · 天命牌堆中 4 张牌改为月纹",
+        "effects": [ { "op": "hp", "n": -5 }, { "op": "fate", "action": "changeSuit", "suit": "moon", "n": 4 } ],
+        "outcome": "月光冷得刺骨，你的影子在地上变得很淡。你的天命里，几页残签悄悄改换了模样，从此多了几分归藏之意。"
+      },
+      {
+        "text": "只让它照一照掌心",
+        "hint": "天命牌堆加入 1 张月纹 7",
+        "effects": [ { "op": "fate", "action": "add", "suit": "moon", "rank": 7 } ],
+        "outcome": "月影在你掌心停留片刻，留下一枚淡淡的印记。它不大，也不显眼，但你知道，它总会在最需要的时候翻出来。"
+      },
+      {
+        "text": "舀一瓢月影带走",
+        "requires": { "gold": 50 },
+        "hint": "支付 50 金（台主要价）· 获得 1 件罕见遗物",
+        "effects": [ { "op": "gold", "n": -50 }, { "op": "addRelic", "tier": "uncommon" } ],
+        "outcome": "台下的老妪收了你的钱，把一只瓷瓢递给你：“舀一次，就一次。”月影被舀起的一刻，整座高台暗了下去。瓢里的光凝成了一件器物。"
+      },
+      {
+        "text": "莫贪月",
+        "effects": [],
+        "outcome": "你照着前人的话，没有上台。月影在水盘里转了一圈，像是有些失望。"
+      }
+    ],
+    "art": { "subject": "a tall stone platform at the bottom of a lake beneath an opening in the ceiling, a reflection of the full moon resting in a water basin at its center, pale moonlight spreading across carved stairs" }
+  }
+]

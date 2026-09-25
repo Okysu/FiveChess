@@ -1,0 +1,201 @@
+[
+  {
+    "id": "y_xuanji",
+    "name": "玄机子",
+    "title": "司天监",
+    "faction": "Y",
+    "hp": 68,
+    "sources": [
+      "Y",
+      "Y",
+      "N"
+    ],
+    "deck": [
+      "y_basic_strike",
+      "y_basic_strike",
+      "y_basic_strike",
+      "y_basic_strike",
+      "y_basic_guard",
+      "y_basic_guard",
+      "y_basic_guard",
+      "y_basic_guard",
+      "y_xj_balance",
+      "y_xj_pluck",
+      "y_xj_ruler"
+    ],
+    "relic": "rl_start_xuanji",
+    "skills": [
+      {
+        "id": "y_xuanji_sitian",
+        "name": "司天",
+        "type": "passive",
+        "text": "我方回合开始时，[观星]2。",
+        "triggers": [
+          {
+            "on": "turnStart",
+            "effects": [
+              {
+                "op": "stargaze",
+                "n": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "y_xuanji_awaken",
+        "name": "窥破天机",
+        "type": "awaken",
+        "text": "觉醒技：当你在一回合内完成第3次判定后觉醒，收取2张[命签]。此后此技能变为「天机在握」：[命签]上限+1；你的判定点数+2；每当你[改判]后，抽1张牌。",
+        "awaken": {
+          "on": "judged",
+          "who": "friendly",
+          "if": {
+            "gte": [
+              {
+                "count": "judgesThisTurn"
+              },
+              3
+            ]
+          },
+          "effects": [
+            {
+              "op": "sign",
+              "n": 2
+            }
+          ],
+          "becomes": {
+            "name": "天机在握",
+            "type": "passive",
+            "text": "[命签]上限+1。你的判定点数+2。每当你[改判]后，抽1张牌。",
+            "modifiers": [
+              {
+                "stat": "signCap",
+                "amount": 1
+              },
+              {
+                "stat": "judgeRank",
+                "amount": 2
+              }
+            ],
+            "triggers": [
+              {
+                "on": "rejudged",
+                "who": "friendly",
+                "effects": [
+                  {
+                    "op": "draw",
+                    "n": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "lore": "观星阁第七代司天监，三十年夜夜登台，替朝廷记下命书残页坠落的轨迹。某夜他在星图里看见了自己的死期，就写在命阙最深处的那一页上。他没有上报，只是把浑天仪拆成三截背在身后，独自下了塔——他想看看，自己能不能比天先落笔。",
+    "ending": "命书之心没有门，只有一张摊开的书页。玄机子认出了那行字：某年某月，司天监死于命阙。墨迹未干。他没有去擦，也没有去改，而是提笔在旁边添了一行小注：“此日，星位有误。”书页静了很久，然后那行字自己淡了下去。回到观星阁时，弟子们发现老师把三十年的星图全烧了。他说，从今往后观星阁只记一件事：天也会算错。有人问他那夜究竟看见了什么，他只是笑，说自己第一次看见星星在等人点头。",
+    "art": {
+      "subject": "an elderly court astronomer with a long white beard and gold-trimmed black robes, a disassembled armillary sphere strapped to his back, holding a glowing fortune slip up to a sky of falling stars"
+    }
+  },
+  {
+    "id": "y_yanwujiu",
+    "name": "燕无咎",
+    "title": "卜者",
+    "faction": "Y",
+    "hp": 74,
+    "sources": [
+      "Y",
+      "Y",
+      "N"
+    ],
+    "deck": [
+      "y_basic_strike",
+      "y_basic_strike",
+      "y_basic_strike",
+      "y_basic_strike",
+      "y_basic_guard",
+      "y_basic_guard",
+      "y_basic_guard",
+      "y_basic_guard",
+      "y_ywj_hex",
+      "y_ywj_coins",
+      "y_ywj_ward"
+    ],
+    "relic": "rl_start_yanwujiu",
+    "skills": [
+      {
+        "id": "y_yanwujiu_xuangua",
+        "name": "悬卦",
+        "type": "passive",
+        "text": "我方回合结束时，每个敌人身上每有1张[延时]牌，便受到2点伤害。",
+        "triggers": [
+          {
+            "on": "turnEnd",
+            "effects": [
+              {
+                "op": "forEach",
+                "sel": {
+                  "side": "enemy",
+                  "kind": "character",
+                  "where": {
+                    "gt": [
+                      {
+                        "count": "delays",
+                        "of": "it"
+                      },
+                      0
+                    ]
+                  }
+                },
+                "effects": [
+                  {
+                    "op": "damage",
+                    "amount": {
+                      "mul": [
+                        {
+                          "count": "delays",
+                          "of": "it"
+                        },
+                        2
+                      ]
+                    },
+                    "target": "it"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "y_yanwujiu_chengchen",
+        "name": "一卦成谶",
+        "type": "limited",
+        "text": "限定技：抽3张牌，然后本回合手牌中的[延时]牌费用-1。",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 3
+          },
+          {
+            "op": "costMod",
+            "scope": "hand",
+            "amount": -1,
+            "until": "turn",
+            "filter": {
+              "type": "delay"
+            }
+          }
+        ]
+      }
+    ],
+    "lore": "江湖卜者，一张布幡、三枚铜钱，从南走到北。他的卦从不当场应验，总要隔一夜、隔一场雨，所以没人找得到他退钱。有人说他卦卦皆准，唯独算不出自己从哪里来。直到某天，他在自己的卦里看见一座倒着长的塔。",
+    "ending": "他在命书之心摆了个摊，布幡插在司命的书页上，三枚铜钱排成一行。“给你算一卦？不准不要钱。”他的卦照旧没有当场应验。他收了摊，转身往上走，走了七天七夜，走到第一缕天光照进命阙的地方，身后才传来书页合拢的声音——很轻，像是谁终于认了命。燕无咎没有回头。他在出口的石头上刻了四个字：卦不过夜。后来江湖上再也没人见过他摆摊，只是每逢久旱逢雨的夜里，总有人在屋檐下捡到三枚铜钱。",
+    "art": {
+      "subject": "a lanky wandering fortune teller in a faded blue-grey robe and bamboo hat, a cloth banner on a pole over his shoulder, three bronze coins spinning above his open palm, talismans fluttering around him"
+    }
+  }
+]

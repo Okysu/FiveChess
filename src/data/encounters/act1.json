@@ -1,0 +1,557 @@
+[
+  {
+    "id": "enc1_spears",
+    "act": 1,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_bone_spear",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_bone_spear",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc1_crows",
+    "act": 1,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_crow",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e1_crow",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc1_shield_archer",
+    "act": 1,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_rust_shield",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_grave_archer",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_dogs",
+    "act": 1,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_wild_dog",
+        "row": "front",
+        "slot": 0
+      },
+      {
+        "id": "e1_wild_dog",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_wild_dog",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc1_lamp_spear",
+    "act": 1,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_bone_spear",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_ghost_lamp",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_robber",
+    "act": 1,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_grave_robber",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_crow",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_paper",
+    "act": 1,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_paper_maker",
+        "row": "back",
+        "slot": 1
+      },
+      {
+        "id": "e1m_paper_doll",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_tomb_guard",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_tomb_beast",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_grave_archer",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e1_grave_archer",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc1_ink_incense",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_ink_wraith",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_incense_ghost",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e1_crow",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_seer",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_bone_spear",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_bone_spear",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e1_blind_seer",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_mourning",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_rust_shield",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_fox_kit",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e1_mourner",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_paper_troupe",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_bone_spear",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_paper_maker",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e1_ghost_lamp",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc1_fox_den",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_fox_kit",
+        "row": "front",
+        "slot": 0
+      },
+      {
+        "id": "e1_fox_kit",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e1_wild_dog",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_grudge",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_grudge_stele",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_grave_robber",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e1_grave_archer",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_crossbows",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_rust_shield",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_rust_crossbow",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e1_rust_crossbow",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc1_graveyard",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_bone_spear",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_bone_spear",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e1_ghost_lamp",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e1_mourner",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc1_robbers",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_grave_robber",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_grave_robber",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e1_blind_seer",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_beast_lamp",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_tomb_beast",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_ghost_lamp",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_ink_rain",
+    "act": 1,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_ink_wraith",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_wild_dog",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e1_rust_crossbow",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_elite_headsman",
+    "act": 1,
+    "tier": "elite",
+    "tutorial": "response",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_headsman",
+        "row": "commander"
+      },
+      {
+        "id": "e1_bone_spear",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_elite_warden",
+    "act": 1,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_stele_warden",
+        "row": "commander"
+      },
+      {
+        "id": "e1_bone_spear",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_ghost_lamp",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_elite_rust_captain",
+    "act": 1,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_rust_captain",
+        "row": "commander"
+      },
+      {
+        "id": "e1m_rust_soldier",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_rust_crossbow",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_elite_bone_heap",
+    "act": 1,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_bone_heap",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_mourner",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_boss_blank_stele",
+    "act": 1,
+    "tier": "boss",
+    "tutorial": "judge",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_boss_blank_stele",
+        "row": "commander"
+      },
+      {
+        "id": "e1m_blank_stele",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_boss_rust_general",
+    "act": 1,
+    "tier": "boss",
+    "tutorial": "judge",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_boss_rust_general",
+        "row": "commander"
+      },
+      {
+        "id": "e1m_rust_soldier",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc1_boss_fox_mother",
+    "act": 1,
+    "tier": "boss",
+    "tutorial": "judge",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_boss_fox_mother",
+        "row": "commander"
+      }
+    ]
+  }
+]

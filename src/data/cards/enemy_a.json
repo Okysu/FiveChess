@@ -1,0 +1,395 @@
+[
+  {
+    "id": "ec_a_carve_name", "name": "刻名", "faction": "N", "type": "delay", "rarity": "special", "cost": { "g": 2 },
+    "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：阴纹——目标受到{d}点伤害。",
+    "vars": { "t": 2, "d": 10 }, "varKinds": { "t": "other", "d": "damage" },
+    "delay": { "turns": 2, "on": "enemy", "branches": { "yin": [{ "op": "damage", "amount": "$d", "target": "target" }] } },
+    "pool": false, "flavor": "碑上无字，便刻你的。",
+    "art": { "subject": "a spectral chisel hovering over a blank tombstone, carving a glowing name stroke by stroke while grey dust drifts down in moonlight" }
+  },
+  {
+    "id": "ec_a_blank_verdict", "name": "无字判", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "keywords": ["judge"],
+    "text": "[判定]：阳纹——对敌方主帅造成{d}点伤害；阴纹——你的主帅获得{a}点[护甲]。",
+    "vars": { "d": 9, "a": 8 }, "varKinds": { "d": "damage", "a": "armor" },
+    "target": "none",
+    "effects": [{ "op": "judge", "branches": {
+      "yang": [{ "op": "damage", "amount": "$d", "target": "enemyCommander" }],
+      "yin": [{ "op": "armor", "amount": "$a", "target": "commander" }]
+    } }],
+    "pool": false, "flavor": "无字之碑，判起人来最公平——谁都没有名字。",
+    "art": { "subject": "a towering blank stone tablet splitting a falling fate card in half with a crack of pale light, a lone figure recoiling below" }
+  },
+  {
+    "id": "ec_a_stele_guard", "name": "立碑", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 2 },
+    "text": "召唤{n}座无字碑。",
+    "vars": { "n": 1 }, "varKinds": { "n": "other" },
+    "target": "none",
+    "effects": [{ "op": "summon", "unit": "e1m_blank_stele", "n": "$n" }],
+    "pool": false, "flavor": "石头不会退，也不会疼。",
+    "art": { "subject": "a squat stone guardian statue with a cracked blank face planted among gravestones, moss on its shoulders, cold fog behind it" }
+  },
+  {
+    "id": "ec_a_ink_blot", "name": "泼墨", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "造成{d}点伤害，施加{w}层[虚弱]。",
+    "vars": { "d": 6, "w": 1 }, "varKinds": { "d": "damage", "w": "other" },
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target" },
+      { "op": "status", "status": "weak", "amount": "$w", "target": "target" }
+    ],
+    "pool": false, "flavor": "一团墨，便是一个人的一生被涂去。",
+    "art": { "subject": "a splash of black ink shaped like a grasping hand bursting across the air toward a warrior, droplets frozen mid-flight in dim light" }
+  },
+  {
+    "id": "ec_a_moon_script", "name": "月书", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "[观星]{n}，你的主帅获得{a}点[护甲]。",
+    "vars": { "n": 3, "a": 6 }, "varKinds": { "n": "other", "a": "armor" },
+    "target": "none",
+    "effects": [
+      { "op": "stargaze", "n": "$n" },
+      { "op": "armor", "amount": "$a", "target": "commander" }
+    ],
+    "pool": false, "flavor": "月光照在碑上，字便换了次序。",
+    "art": { "subject": "three fate cards floating in a column of cold moonlight above a stone tablet, slowly rotating as a veiled hand rearranges them" }
+  },
+  {
+    "id": "ec_a_erase_mark", "name": "抹字", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 2 },
+    "text": "造成{d}点伤害；若目标身上有[延时]牌，改为造成{e}点伤害。",
+    "vars": { "d": 7, "e": 14 }, "varKinds": { "d": "damage", "e": "damage" },
+    "target": "enemy",
+    "effects": [{ "op": "if", "cond": { "gt": [{ "count": "delays", "of": "target" }, 0] },
+      "then": [{ "op": "damage", "amount": "$e", "target": "target" }],
+      "else": [{ "op": "damage", "amount": "$d", "target": "target" }] }],
+    "pool": false, "flavor": "刻上去的名字，也最容易抹掉。",
+    "art": { "subject": "a grey stone thumb smearing a glowing inscription off a tomb face, the light tearing loose like smoke and striking a distant figure" }
+  },
+  {
+    "id": "ec_a_rust_halberd", "name": "锈戟", "faction": "N", "type": "equip", "rarity": "special", "cost": { "g": 2 },
+    "text": "装备（武器，耐久{n}）：你的主帅攻击伤害+{a}。",
+    "vars": { "a": 3, "n": 3 }, "varKinds": { "a": "attack", "n": "other" },
+    "equip": { "slot": "weapon", "atk": 0, "range": 1, "durability": 3, "modifiers": [{ "stat": "attackDamage", "amount": 3, "who": "commander" }] },
+    "pool": false, "flavor": "锈得越厉害，砍进去越难拔出来。",
+    "art": { "subject": "a massive rust-eaten halberd planted upright in a battlefield of broken shields, flakes of rust drifting in a dull orange dusk" }
+  },
+  {
+    "id": "ec_a_war_drum", "name": "催阵鼓", "faction": "N", "type": "field", "rarity": "special", "cost": { "g": 2 },
+    "text": "阵地，持续{t}回合：你方单位攻击力+{a}。",
+    "vars": { "t": 3, "a": 2 }, "varKinds": { "t": "other", "a": "attack" },
+    "field": { "duration": 3, "modifiers": [{ "stat": "atk", "amount": 2, "who": "friendlyUnits" }] },
+    "pool": false, "flavor": "鼓皮早就烂了，鼓声却一直在响。",
+    "art": { "subject": "a tattered war drum on a skeletal frame beating by itself in a misty graveyard, ghostly soldiers stirring in rows behind it" }
+  },
+  {
+    "id": "ec_a_muster", "name": "点兵", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "召唤{n}名锈甲亲兵。",
+    "vars": { "n": 1 }, "varKinds": { "n": "other" },
+    "target": "none",
+    "effects": [{ "op": "summon", "unit": "e1m_rust_soldier", "n": "$n" }],
+    "pool": false, "flavor": "“到！”——坟里有人应了一声。",
+    "art": { "subject": "a rusted armored soldier clawing up out of a grave mound, raising his shield toward a commander's banner in grey morning fog" }
+  },
+  {
+    "id": "ec_a_iron_rain", "name": "铁雨", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 2 },
+    "text": "对所有敌方角色造成{d}点伤害。",
+    "vars": { "d": 4 }, "varKinds": { "d": "damage" },
+    "target": "none",
+    "effects": [{ "op": "damage", "amount": "$d", "target": "allEnemies" }],
+    "pool": false, "flavor": "三百年前射出的箭，今天才落地。",
+    "art": { "subject": "a dense volley of rusted arrows arcing down from a storm-dark sky onto a battle line, shields raised, sparks where iron meets iron" }
+  },
+  {
+    "id": "ec_a_court_martial", "name": "军法", "faction": "N", "type": "delay", "rarity": "special", "cost": { "g": 1 },
+    "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：点数不大于{k}——目标受到{d}点伤害。",
+    "vars": { "t": 1, "k": 7, "d": 11 }, "varKinds": { "t": "other", "k": "other", "d": "damage" },
+    "delay": { "turns": 1, "on": "enemy", "branches": { "low": [{ "op": "damage", "amount": "$d", "target": "target" }] } },
+    "pool": false, "flavor": "军中无戏言，点数小者斩。",
+    "art": { "subject": "a rusted executioner's command token hanging over a kneeling silhouette, a fate card flipping in the air beside it, harsh torchlight" }
+  },
+  {
+    "id": "ec_a_shield_wall", "name": "列盾", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "你方所有角色获得{a}点[护甲]。",
+    "vars": { "a": 6 }, "varKinds": { "a": "armor" },
+    "target": "none",
+    "effects": [{ "op": "armor", "amount": "$a", "target": "allFriendly" }],
+    "pool": false, "flavor": "盾挨着盾，死人挨着死人。",
+    "art": { "subject": "a row of undead soldiers locking rust-pitted shields into a wall, bracing together under a hail of light, dust kicked up at their feet" }
+  },
+  {
+    "id": "ec_a_fox_fire", "name": "狐火", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "造成{d}点伤害，施加{b}层[灼烧]。",
+    "vars": { "d": 5, "b": 3 }, "varKinds": { "d": "damage", "b": "burn" },
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target" },
+      { "op": "status", "status": "burn", "amount": "$b", "target": "target" }
+    ],
+    "pool": false, "flavor": "青色的火，烧的不是皮肉，是记忆。",
+    "art": { "subject": "a swirl of pale blue fox-fire orbs spiraling around a startled traveler at night, reflections dancing on wet gravestones" }
+  },
+  {
+    "id": "ec_a_charm", "name": "魅惑", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "施加{w}层[虚弱]与{v}层[易伤]。",
+    "vars": { "w": 2, "v": 1 }, "varKinds": { "w": "other", "v": "other" },
+    "target": "enemy",
+    "effects": [
+      { "op": "status", "status": "weak", "amount": "$w", "target": "target" },
+      { "op": "status", "status": "vulnerable", "amount": "$v", "target": "target" }
+    ],
+    "pool": false, "flavor": "“你叫什么名字？”——千万别回答。",
+    "art": { "subject": "a beautiful woman's face half-hidden behind a silk fan, fox ears faintly visible in shadow, her gaze pulling a thread of light from a warrior's chest" }
+  },
+  {
+    "id": "ec_a_fox_pact", "name": "狐契", "faction": "N", "type": "delay", "rarity": "special", "cost": { "g": 1 },
+    "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：{moon}月纹——目标失去{d}点生命；{mountain}山纹——目标获得{w}层[虚弱]与{w}层[易伤]。",
+    "vars": { "t": 2, "d": 9, "w": 2 }, "varKinds": { "t": "other", "d": "damage", "w": "other" },
+    "delay": { "turns": 2, "on": "enemy", "branches": {
+      "moon": [{ "op": "loseHp", "amount": "$d", "target": "target" }],
+      "mountain": [
+        { "op": "status", "status": "weak", "amount": "$w", "target": "target" },
+        { "op": "status", "status": "vulnerable", "amount": "$w", "target": "target" }
+      ]
+    } },
+    "pool": false, "flavor": "契约写在月下，签名的是你的影子。",
+    "art": { "subject": "a paper contract sealed with a fox paw print floating under a crescent moon, its edges curling into blue flame" }
+  },
+  {
+    "id": "ec_a_three_tails", "name": "三尾卜", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "keywords": ["judge"],
+    "text": "[判定]：阳纹——召唤{n}只狐影；阴纹——你的主帅恢复{h}点生命。",
+    "vars": { "n": 1, "h": 10 }, "varKinds": { "n": "other", "h": "heal" },
+    "target": "none",
+    "effects": [{ "op": "judge", "branches": {
+      "yang": [{ "op": "summon", "unit": "e1m_fox_shade", "n": "$n" }],
+      "yin": [{ "op": "heal", "amount": "$h", "target": "commander" }]
+    } }],
+    "pool": false, "flavor": "三条尾巴各指一方，狐母只信最坏的那条。",
+    "art": { "subject": "three glowing fox tails fanning out behind a crouching fox spirit, each tail tip touching a floating fate card in a moonlit clearing" }
+  },
+  {
+    "id": "ec_a_name_feast", "name": "噬名宴", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 2 },
+    "text": "对敌方主帅造成{d}点伤害，你的主帅恢复等同于其失去生命值的生命。",
+    "vars": { "d": 8 }, "varKinds": { "d": "damage" },
+    "target": "none",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "enemyCommander" },
+      { "op": "heal", "amount": { "count": "lastDamage" }, "target": "commander" }
+    ],
+    "pool": false, "flavor": "名字入口即化，回味是那人的一生。",
+    "art": { "subject": "a fox spirit inhaling a ribbon of glowing written characters drawn out of a kneeling warrior's mouth, lantern light flickering" }
+  },
+  {
+    "id": "ec_a_tide_mark", "name": "潮痕", "faction": "N", "type": "delay", "rarity": "special", "cost": { "g": 2 },
+    "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：阴纹——目标受到{d}点伤害并获得{f}层[冰冻]。",
+    "vars": { "t": 2, "d": 14, "f": 1 }, "varKinds": { "t": "other", "d": "damage", "f": "other" },
+    "delay": { "turns": 2, "on": "enemy", "branches": { "yin": [
+      { "op": "damage", "amount": "$d", "target": "target" },
+      { "op": "status", "status": "freeze", "amount": "$f", "target": "target" }
+    ] } },
+    "pool": false, "flavor": "水涨到哪里，命就淹到哪里。",
+    "art": { "subject": "a dark waterline creeping up a warrior's armor, frost blooming where it touches, murky water rising in a drowned palace hall" }
+  },
+  {
+    "id": "ec_a_undertow", "name": "暗流", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "对一个敌方单位造成{d}点伤害并施加{f}层[冰冻]，然后将其移至后排。",
+    "vars": { "d": 6, "f": 1 }, "varKinds": { "d": "damage", "f": "other" },
+    "target": "enemyUnit",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target" },
+      { "op": "status", "status": "freeze", "amount": "$f", "target": "target" },
+      { "op": "move", "target": "target", "to": "back" }
+    ],
+    "pool": false, "flavor": "湖面平静，湖底有手。",
+    "art": { "subject": "a swirling black current dragging a soldier backward through waist-deep water, pale hands visible beneath the surface" }
+  },
+  {
+    "id": "ec_a_flood", "name": "水漫金殿", "faction": "N", "type": "field", "rarity": "special", "cost": { "g": 3 },
+    "text": "阵地，持续{t}回合：敌方角色受到的伤害+{a}。",
+    "vars": { "t": 3, "a": 2 }, "varKinds": { "t": "other", "a": "damage" },
+    "field": { "duration": 3, "modifiers": [{ "stat": "damageTaken", "amount": 2, "who": "enemy" }] },
+    "pool": false, "flavor": "金殿沉了三百年，水从未退过。",
+    "art": { "subject": "a golden throne hall flooding with green lake water pouring through shattered windows, floating banners and drifting lanterns" }
+  },
+  {
+    "id": "ec_a_drown_pull", "name": "溺拽", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "造成{d}点伤害；若目标处于[冰冻]，再造成{d}点伤害。",
+    "vars": { "d": 8 }, "varKinds": { "d": "damage" },
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target" },
+      { "op": "if", "cond": { "hasStatus": { "of": "target", "status": "freeze" } }, "then": [{ "op": "damage", "amount": "$d", "target": "target" }] }
+    ],
+    "pool": false, "flavor": "冻住的人最好拽，连挣扎都省了。",
+    "art": { "subject": "a bloated drowned hand bursting from icy water to seize a frozen warrior's ankle, cracks spreading across the ice" }
+  },
+  {
+    "id": "ec_a_coral_armor", "name": "珊瑚甲", "faction": "N", "type": "equip", "rarity": "special", "cost": { "g": 2 },
+    "text": "装备（防具）：你的回合开始时，你的主帅获得{a}点[护甲]。",
+    "vars": { "a": 8 }, "varKinds": { "a": "armor" },
+    "equip": { "slot": "armor", "triggers": [{ "on": "turnStart", "effects": [{ "op": "armor", "amount": "$a", "target": "commander" }] }] },
+    "pool": false, "flavor": "珊瑚一年长一分，这副甲长了三百年。",
+    "art": { "subject": "an ornate suit of armor grown from red and white coral branches standing on a sunken dais, small fish drifting through its gaps" }
+  },
+  {
+    "id": "ec_a_pearl_tribute", "name": "贡珠", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "你的主帅恢复{h}点生命并获得{r}层[再生]。",
+    "vars": { "h": 10, "r": 3 }, "varKinds": { "h": "heal", "r": "heal" },
+    "target": "none",
+    "effects": [
+      { "op": "heal", "amount": "$h", "target": "commander" },
+      { "op": "status", "status": "regen", "amount": "$r", "target": "commander" }
+    ],
+    "pool": false, "flavor": "溺死的臣子仍在进贡，贡品是自己的眼泪。",
+    "art": { "subject": "a kneeling drowned courtier offering a tray of luminous pearls upward, the pearls glowing softly in murky blue water" }
+  },
+  {
+    "id": "ec_a_silk_strings", "name": "牵丝", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "你方所有单位获得+{a}攻击力与{b}点[护甲]。",
+    "vars": { "a": 2, "b": 5 }, "varKinds": { "a": "attack", "b": "armor" },
+    "target": "none",
+    "effects": [
+      { "op": "buff", "target": "friendlyUnits", "atk": "$a" },
+      { "op": "armor", "amount": "$b", "target": "friendlyUnits" }
+    ],
+    "pool": false, "flavor": "丝一紧，木头也会咬牙。",
+    "art": { "subject": "glinting silver threads descending from darkness into the joints of several wooden puppets, jerking them into combat stances" }
+  },
+  {
+    "id": "ec_a_gear_ballista", "name": "机关弩台", "faction": "N", "type": "unit", "rarity": "special", "cost": { "g": 2 },
+    "text": "[远射]。你的回合开始时：对敌方主帅造成{d}点伤害。",
+    "vars": { "d": 4 }, "varKinds": { "d": "damage" },
+    "unit": { "atk": 0, "hp": 10, "keywords": ["ranged"], "prefersBack": true, "triggers": [{ "on": "turnStart", "effects": [{ "op": "damage", "amount": "$d", "target": "enemyCommander" }] }] },
+    "pool": false, "flavor": "它不需要人拉弦，只需要一个目标。",
+    "art": { "subject": "a clockwork crossbow turret of lacquered wood and brass gears on spider-like legs, a bolt ready to fire, gears glinting in lamplight" }
+  },
+  {
+    "id": "ec_a_gear_wall", "name": "机关木墙", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 2 },
+    "text": "召唤{n}面机关木墙（[坚守]，[棘刺]{th}）。",
+    "vars": { "n": 1, "th": 3 }, "varKinds": { "n": "other", "th": "damage" },
+    "target": "none",
+    "effects": [{ "op": "summon", "unit": "e2m_gear_wall", "n": "$n" }],
+    "pool": false, "flavor": "墙上的钉子都朝外，一根也没朝里。",
+    "art": { "subject": "a folding wall of interlocking wooden panels bristling with iron spikes, unfolding itself across a flooded corridor" }
+  },
+  {
+    "id": "ec_a_spare_parts", "name": "备件", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 2 },
+    "text": "召唤{n}具木傀，你方所有单位恢复{h}点生命。",
+    "vars": { "n": 1, "h": 8 }, "varKinds": { "n": "other", "h": "heal" },
+    "target": "none",
+    "effects": [
+      { "op": "summon", "unit": "e2m_puppet", "n": "$n" },
+      { "op": "heal", "amount": "$h", "target": "friendlyUnits" }
+    ],
+    "pool": false, "flavor": "手断了换手，头断了换头。",
+    "art": { "subject": "a workbench heaped with wooden limbs and heads, silk threads snapping them together into a new puppet that rises from the pile" }
+  },
+  {
+    "id": "ec_a_needle_rain", "name": "千针雨", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 2 },
+    "text": "对所有敌方角色造成{d}点伤害。",
+    "vars": { "d": 5 }, "varKinds": { "d": "damage" },
+    "target": "none",
+    "effects": [{ "op": "damage", "amount": "$d", "target": "allEnemies" }],
+    "pool": false, "flavor": "机括一响，满殿都是针。",
+    "art": { "subject": "hundreds of steel needles bursting from hidden slots in a lacquered wall, streaking across a dim hall like silver rain" }
+  },
+  {
+    "id": "ec_a_ledger_death", "name": "生死簿", "faction": "N", "type": "delay", "rarity": "special", "cost": { "g": 2 },
+    "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：点数{lo}至{hi}——目标失去{d}点生命；阴纹——目标获得{w}层[虚弱]。",
+    "vars": { "t": 3, "lo": 1, "hi": 5, "d": 18, "w": 2 }, "varKinds": { "t": "other", "lo": "other", "hi": "other", "d": "damage", "w": "other" },
+    "delay": { "turns": 3, "on": "enemy", "branches": {
+      "ranks": [{ "min": 1, "max": 5, "effects": [{ "op": "loseHp", "amount": "$d", "target": "target" }] }],
+      "yin": [{ "op": "status", "status": "weak", "amount": "$w", "target": "target" }]
+    } },
+    "pool": false, "flavor": "簿上有你的名字，旁边还空着一格。",
+    "art": { "subject": "an ancient ledger bound in black leather lying open on a judge's desk, a vermilion brush poised above a name as candlelight gutters" }
+  },
+  {
+    "id": "ec_a_yin_seal", "name": "阴判令", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 2 },
+    "keywords": ["judge"],
+    "text": "[判定]：阳纹——造成{d}点伤害并施加{v}层[易伤]；阴纹——你获得{n}枚[命签]。",
+    "vars": { "d": 10, "v": 2, "n": 1 }, "varKinds": { "d": "damage", "v": "other", "n": "other" },
+    "target": "enemy",
+    "effects": [{ "op": "judge", "branches": {
+      "yang": [
+        { "op": "damage", "amount": "$d", "target": "target" },
+        { "op": "status", "status": "vulnerable", "amount": "$v", "target": "target" }
+      ],
+      "yin": [{ "op": "sign", "n": "$n" }]
+    } }],
+    "pool": false, "flavor": "阴司的令牌是冷的，冷得烫手。",
+    "art": { "subject": "a black iron command token engraved with a crescent, thrown from the shadows and trailing violet sparks toward a startled figure" }
+  },
+  {
+    "id": "ec_a_yang_seal", "name": "阳判令", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "keywords": ["judge"],
+    "text": "[判定]：阳纹——你方所有角色恢复{h}点生命；阴纹——你方所有角色获得{a}点[护甲]。",
+    "vars": { "h": 8, "a": 8 }, "varKinds": { "h": "heal", "a": "armor" },
+    "target": "none",
+    "effects": [{ "op": "judge", "branches": {
+      "yang": [{ "op": "heal", "amount": "$h", "target": "allFriendly" }],
+      "yin": [{ "op": "armor", "amount": "$a", "target": "allFriendly" }]
+    } }],
+    "pool": false, "flavor": "阳司的令牌是暖的，暖得像一场骗局。",
+    "art": { "subject": "a gilded command token engraved with a sun rising above a judge's bench, radiating warm light over kneeling spectral clerks" }
+  },
+  {
+    "id": "ec_a_red_brush", "name": "朱笔勾魂", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 2 },
+    "text": "若目标敌方单位生命值不高于{n}，将其消灭；否则对其造成{d}点伤害。",
+    "vars": { "n": 10, "d": 8 }, "varKinds": { "n": "other", "d": "damage" },
+    "target": "enemyUnit",
+    "effects": [{ "op": "if", "cond": { "lte": [{ "count": "hp", "of": "target" }, "$n"] },
+      "then": [{ "op": "kill", "target": "target" }],
+      "else": [{ "op": "damage", "amount": "$d", "target": "target" }] }],
+    "pool": false, "flavor": "一勾，一个名字；一点，一条命。",
+    "art": { "subject": "a giant vermilion brush sweeping a single red stroke through the air, the stroke cutting through a soldier who dissolves into ink" }
+  },
+  {
+    "id": "ec_a_abyss_gaze", "name": "渊视", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "[观星]{n}，然后你获得{m}枚[命签]。",
+    "vars": { "n": 3, "m": 1 }, "varKinds": { "n": "other", "m": "other" },
+    "target": "none",
+    "effects": [
+      { "op": "stargaze", "n": "$n" },
+      { "op": "sign", "n": "$m" }
+    ],
+    "pool": false, "flavor": "湖底有一面镜子，照得见明天。",
+    "art": { "subject": "a huge pale eye opening at the bottom of a dark lake, fate cards drifting upward past it like fallen leaves" }
+  },
+  {
+    "id": "ec_a_demerit", "name": "记过", "faction": "N", "type": "delay", "rarity": "special", "cost": { "g": 1 },
+    "keywords": ["delay", "judge"],
+    "text": "[延时]{t}：[判定]：点数不大于{k}——目标受到{d}点伤害并获得{w}层[虚弱]。",
+    "vars": { "t": 2, "k": 7, "d": 12, "w": 1 }, "varKinds": { "t": "other", "k": "other", "d": "damage", "w": "other" },
+    "delay": { "turns": 2, "on": "enemy", "branches": { "low": [
+      { "op": "damage", "amount": "$d", "target": "target" },
+      { "op": "status", "status": "weak", "amount": "$w", "target": "target" }
+    ] } },
+    "pool": false, "flavor": "过记三笔，就该去堂上走一趟了。",
+    "art": { "subject": "a ghostly clerk inking a mark into a damp ledger by a green lantern, a faint chain of light reaching from the page to a distant figure" }
+  },
+  {
+    "id": "ec_a_tide_drums", "name": "潮鼓", "faction": "N", "type": "field", "rarity": "special", "cost": { "g": 2 },
+    "text": "阵地，持续{t}回合：你方的攻击伤害+{a}。",
+    "vars": { "t": 3, "a": 2 }, "varKinds": { "t": "other", "a": "attack" },
+    "field": { "duration": 3, "modifiers": [{ "stat": "attackDamage", "amount": 2, "who": "friendly" }] },
+    "pool": false, "flavor": "湖底擂鼓，湖面起浪。",
+    "art": { "subject": "a colossal barnacle-crusted drum on the lakebed struck by drowned soldiers, shockwaves rippling upward through green water" }
+  },
+  {
+    "id": "ec_a_mirror_flower", "name": "镜花", "faction": "N", "type": "tactic", "rarity": "special", "cost": { "g": 1 },
+    "text": "你的主帅获得{w}层[灵障]并恢复{h}点生命。",
+    "vars": { "w": 1, "h": 6 }, "varKinds": { "w": "other", "h": "heal" },
+    "target": "none",
+    "effects": [
+      { "op": "ward", "amount": "$w", "target": "commander" },
+      { "op": "heal", "amount": "$h", "target": "commander" }
+    ],
+    "pool": false, "flavor": "你砍中的，只是镜中花。",
+    "art": { "subject": "a translucent flower of mirror shards blooming in front of a pale woman, a sword strike shattering harmlessly against its petals" }
+  }
+]

@@ -1,0 +1,2582 @@
+[
+  {
+    "id": "e2_drowned_guard",
+    "name": "溺卒",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      34,
+      40
+    ],
+    "atk": 9,
+    "row": "front",
+    "moves": {
+      "thrust": {
+        "name": "锈枪",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "soak": {
+        "name": "浸甲",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 10,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "thrust",
+        "thrust",
+        "soak"
+      ],
+      "start": "random"
+    },
+    "lore": "沉渊城的守门卒，城沉时仍站在岗位上。三百年湖水泡胀了他的身躯，却没泡软他的枪。",
+    "art": {
+      "subject": "a bloated drowned palace guard in waterlogged lacquered armor thrusting a barnacle-crusted spear, bubbles rising in murky green water"
+    }
+  },
+  {
+    "id": "e2_coral_shield",
+    "name": "珊瑚盾卫",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      50,
+      56
+    ],
+    "atk": 6,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "thorns": 3,
+    "moves": {
+      "bash": {
+        "name": "礁击",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      },
+      "cover": {
+        "name": "珊瑚掩",
+        "intent": [
+          "defend"
+        ],
+        "target": "ally",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 10,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "bash": 2,
+        "cover": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "盾面上长满了珊瑚的卫士，近身砍它的人会被珊瑚枝划得遍体鳞伤。用远射或法术对付它更划算。",
+    "art": {
+      "subject": "an undead guard hunched behind a shield overgrown with sharp red coral branches, the coral also sprouting from his shoulders, deep blue water"
+    }
+  },
+  {
+    "id": "e2_eel_spearman",
+    "name": "鳗枪手",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      32,
+      38
+    ],
+    "atk": 5,
+    "row": "front",
+    "moves": {
+      "coil": {
+        "name": "绞刺",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "times": 2
+          }
+        ]
+      },
+      "numb": {
+        "name": "麻刺",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 8
+          },
+          {
+            "op": "status",
+            "status": "freeze",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "coil": 2,
+        "numb": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "半人半鳗的枪手，枪尖淬着电鳗的麻液。被刺中的人，下一回合连刀都举不起来。",
+    "art": {
+      "subject": "a sinuous eel-human hybrid warrior with slick dark skin coiling around a twin-pronged spear, faint electric sparks along the blade, underwater ruins"
+    }
+  },
+  {
+    "id": "e2_harpoon",
+    "name": "鱼叉手",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      26,
+      30
+    ],
+    "atk": 8,
+    "row": "back",
+    "keywords": [
+      "ranged"
+    ],
+    "moves": {
+      "hook": {
+        "name": "钩叉",
+        "intent": [
+          "attack"
+        ],
+        "target": "randomUnit",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "move",
+            "target": "target",
+            "to": "front"
+          }
+        ]
+      },
+      "throw": {
+        "name": "掷叉",
+        "intent": [
+          "attack"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 13
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "hook",
+        "throw"
+      ],
+      "start": "random"
+    },
+    "lore": "沉渊城的渔夫成了捕人的猎手。它的钩叉会把你后排的单位拖到前阵，掷叉则直取主帅。",
+    "art": {
+      "subject": "a drowned fisherman with lantern-lit eyes hurling a barbed harpoon trailing rope, standing on a sunken rooftop, dark water swirling"
+    }
+  },
+  {
+    "id": "e2_lantern_fish",
+    "name": "灯鱼",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      22,
+      26
+    ],
+    "atk": 0,
+    "row": "back",
+    "moves": {
+      "lure": {
+        "name": "诱光",
+        "intent": [
+          "heal"
+        ],
+        "target": "allyLowest",
+        "effects": [
+          {
+            "op": "heal",
+            "amount": 11,
+            "target": "target"
+          }
+        ]
+      },
+      "glow": {
+        "name": "幽光",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "status",
+            "status": "vulnerable",
+            "amount": 1,
+            "target": "target"
+          },
+          {
+            "op": "create",
+            "card": "st_dazed",
+            "n": 1,
+            "to": "discard"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "rules": [
+        {
+          "if": {
+            "alive": {
+              "side": "friendly",
+              "kind": "character",
+              "where": {
+                "lt": [
+                  {
+                    "count": "hp",
+                    "of": "it"
+                  },
+                  {
+                    "mul": [
+                      {
+                        "count": "maxHp",
+                        "of": "it"
+                      },
+                      0.5
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "move": "lure"
+        }
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "glow": 2,
+          "lure": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "lore": "额前挑着一盏幽灯的深渊鱼。灯光能让伤口愈合，也能让盯着它的人头晕目眩。",
+    "art": {
+      "subject": "a large deep-sea anglerfish with a glowing lantern lure on its forehead, drifting through the flooded hall of a sunken palace, light casting long shadows"
+    }
+  },
+  {
+    "id": "e2_tide_priest",
+    "name": "潮祭司",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      30,
+      34
+    ],
+    "atk": 0,
+    "row": "back",
+    "moves": {
+      "mark": {
+        "name": "涨潮",
+        "intent": [
+          "debuff",
+          "judge"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "delay",
+            "card": "ec_a_tide_mark",
+            "target": "target",
+            "turns": 2
+          }
+        ]
+      },
+      "divine": {
+        "name": "卜潮",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "damage",
+                  "amount": 10,
+                  "target": "enemyCommander"
+                }
+              ],
+              "yin": [
+                {
+                  "op": "armor",
+                  "amount": 8,
+                  "target": "allFriendly"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "mark",
+        "divine",
+        "divine"
+      ]
+    },
+    "lore": "向湖神献祭的祭司，如今向溺王献祭。他在你身上画下“潮痕”，两回合后判定——阴纹则潮水没顶。",
+    "art": {
+      "subject": "a robed tide priest with a headdress of shells raising a conch horn, rings of water spiraling upward from his feet in a submerged temple"
+    }
+  },
+  {
+    "id": "e2_silt_crawler",
+    "name": "淤泥爬虫",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      22,
+      26
+    ],
+    "atk": 7,
+    "row": "front",
+    "passives": [
+      {
+        "on": "death",
+        "effects": [
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": 3,
+            "target": "enemyCommander"
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "gnaw": {
+        "name": "啃噬",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "spit": {
+        "name": "吐淤",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": 2,
+            "target": "target"
+          },
+          {
+            "op": "create",
+            "card": "st_toxin",
+            "n": 1,
+            "to": "draw"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "gnaw",
+        "spit"
+      ],
+      "start": "random"
+    },
+    "lore": "湖底淤泥里钻出的多足虫，体内全是毒浆。杀死它时，毒浆会溅到你的主帅身上。",
+    "art": {
+      "subject": "a many-legged segmented crawler dripping black silt and green venom, rearing up from the muddy floor of a drowned street"
+    }
+  },
+  {
+    "id": "e2_bell_ringer",
+    "name": "敲钟溺童",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      24,
+      28
+    ],
+    "atk": 0,
+    "row": "back",
+    "keywords": [
+      "ranged"
+    ],
+    "moves": {
+      "chime": {
+        "name": "钟鸣",
+        "intent": [
+          "buff"
+        ],
+        "target": "ally",
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      },
+      "toll": {
+        "name": "丧钟",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 6,
+            "target": "allEnemies"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "chime",
+        "chime",
+        "toll"
+      ]
+    },
+    "lore": "城沉那天在钟楼敲钟报警的孩子，至今还在敲。每一声钟鸣都让一名同伴永久更凶，第三声便是丧钟。",
+    "art": {
+      "subject": "a small drowned child in a tattered robe striking a green bronze bell with a mallet, sound rings visible as ripples in dark water"
+    }
+  },
+  {
+    "id": "e2_water_clock",
+    "name": "漏刻鬼",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      34,
+      40
+    ],
+    "atk": 3,
+    "row": "front",
+    "moves": {
+      "drip": {
+        "name": "滴漏",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": {
+              "max": [
+                0,
+                {
+                  "sub": [
+                    20,
+                    {
+                      "mul": [
+                        {
+                          "count": "cardsPlayed"
+                        },
+                        4
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "still": {
+        "name": "停摆",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 12,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "drip",
+        "drip",
+        "still"
+      ]
+    },
+    "lore": "宫中报时的漏刻成了精。滴漏伤害为20减你本回合打出牌数的四倍——时间只惩罚犹豫的人。",
+    "art": {
+      "subject": "a creature built from a bronze water clock with a dripping vessel for a head, water streaming down its tiers, standing in a flooded courtyard"
+    }
+  },
+  {
+    "id": "e2_drowned_scholar",
+    "name": "溺死书生",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      26,
+      30
+    ],
+    "atk": 4,
+    "row": "back",
+    "keywords": [
+      "ranged"
+    ],
+    "moves": {
+      "copy": {
+        "name": "罚抄",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": {
+              "add": [
+                4,
+                {
+                  "count": "sources"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "ink": {
+        "name": "泼砚",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 2,
+            "target": "target"
+          },
+          {
+            "op": "create",
+            "card": "st_dazed",
+            "n": 1,
+            "to": "draw"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "copy",
+        "copy",
+        "ink"
+      ]
+    },
+    "lore": "进京赶考却沉在城里的书生。“笔墨纸砚，皆是你的源。”罚抄伤害为4加你拥有的[源]数——献得越多，罚得越重。",
+    "art": {
+      "subject": "a drowned young scholar in soaked robes flicking an inkstone, a stream of black ink lashing out like a whip, pages floating around him underwater"
+    }
+  },
+  {
+    "id": "e2_pearl_diver",
+    "name": "采珠鬼",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      26,
+      30
+    ],
+    "atk": 9,
+    "row": "front",
+    "keywords": [
+      "stealth"
+    ],
+    "moves": {
+      "snatch": {
+        "name": "夺珠",
+        "intent": [
+          "attack"
+        ],
+        "target": "lowestHp",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "dive": {
+        "name": "潜渊",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 8,
+            "target": "self"
+          },
+          {
+            "op": "addKeyword",
+            "target": "self",
+            "keyword": "stealth"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "snatch",
+        "snatch",
+        "dive"
+      ]
+    },
+    "lore": "潜在暗处专挑最虚弱者下手的采珠人。它出手之后才会现身，一潜入深水便再度隐匿。",
+    "art": {
+      "subject": "a lithe drowned pearl diver with a knife between her teeth gliding out of dark water, a string of stolen pearls at her waist"
+    }
+  },
+  {
+    "id": "e2_clerk_ghost",
+    "name": "录事鬼",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      24,
+      28
+    ],
+    "atk": 0,
+    "row": "back",
+    "moves": {
+      "record": {
+        "name": "记过",
+        "intent": [
+          "debuff",
+          "judge"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "delay",
+            "card": "ec_a_demerit",
+            "target": "target",
+            "turns": 2
+          }
+        ]
+      },
+      "annotate": {
+        "name": "朱批",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "sign",
+            "n": 1
+          },
+          {
+            "op": "stargaze",
+            "n": 3
+          }
+        ]
+      },
+      "brush": {
+        "name": "勾笔",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 7,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "record",
+        "annotate",
+        "brush"
+      ]
+    },
+    "lore": "双生判官座下的录事。它会收一枚[命签]藏在袖里，等你身上的“记过”翻牌时替你改判成小点数。",
+    "art": {
+      "subject": "a thin ghostly court clerk with a long ledger and a vermilion brush, a single fate card tucked into his sleeve, green lantern light"
+    }
+  },
+  {
+    "id": "e2_abyss_crab",
+    "name": "渊蟹",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      58,
+      66
+    ],
+    "atk": 7,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "moves": {
+      "pinch": {
+        "name": "双钳",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "times": 2
+          }
+        ]
+      },
+      "shell": {
+        "name": "缩壳",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "pinch",
+        "shell"
+      ],
+      "start": "random"
+    },
+    "lore": "壳比城墙还厚的巨蟹。缩壳时别浪费伤害——等它伸钳的那一回合再全力进攻。",
+    "art": {
+      "subject": "a massive armored crab with a shell encrusted by sunken roof tiles, pincers raised, blocking a flooded palace gate"
+    }
+  },
+  {
+    "id": "e2_ghost_courtesan",
+    "name": "水袖伶",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      28,
+      32
+    ],
+    "atk": 0,
+    "row": "back",
+    "moves": {
+      "sing": {
+        "name": "唱离",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 2,
+            "target": "target"
+          }
+        ]
+      },
+      "pull": {
+        "name": "牵袖",
+        "intent": [
+          "debuff"
+        ],
+        "target": "randomUnit",
+        "effects": [
+          {
+            "op": "status",
+            "status": "freeze",
+            "amount": 1,
+            "target": "target"
+          },
+          {
+            "op": "move",
+            "target": "target",
+            "to": "back"
+          }
+        ]
+      },
+      "veil": {
+        "name": "水袖遮",
+        "intent": [
+          "buff"
+        ],
+        "target": "ally",
+        "effects": [
+          {
+            "op": "ward",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "sing": 2,
+        "pull": 1,
+        "veil": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "沉城戏台上的名伶。水袖一甩，你前阵的单位便被冻住拽回后排；再一甩，同伴身前便多了一层[灵障]。",
+    "art": {
+      "subject": "a ghostly opera performer with impossibly long flowing water sleeves swirling around her, pale painted face, on a sunken stage lit by drowned lanterns"
+    }
+  },
+  {
+    "id": "e2_bell_guard",
+    "name": "铜钟力士",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      64,
+      72
+    ],
+    "atk": 10,
+    "row": "front",
+    "moves": {
+      "slam": {
+        "name": "钟击",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "raise": {
+        "name": "举钟",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 12,
+            "target": "self"
+          }
+        ]
+      },
+      "crash": {
+        "name": "覆钟",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 20
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "slam",
+        "raise",
+        "crash"
+      ]
+    },
+    "lore": "扛着整口铜钟的力士。举钟之后必是覆钟——那一击值得你留下全部余烬。",
+    "art": {
+      "subject": "a giant drowned strongman hoisting an enormous green-bronze temple bell overhead, about to bring it crashing down, water cascading from the bell"
+    }
+  },
+  {
+    "id": "e2_whirlpool",
+    "name": "漩涡灵",
+    "act": 2,
+    "tier": "normal",
+    "hp": [
+      24,
+      28
+    ],
+    "atk": 0,
+    "row": "back",
+    "moves": {
+      "spawn": {
+        "name": "生魄",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_water_wisp",
+            "n": 1
+          }
+        ]
+      },
+      "swirl": {
+        "name": "回旋",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "status",
+            "status": "freeze",
+            "amount": 1,
+            "target": "target"
+          },
+          {
+            "op": "create",
+            "card": "st_frost",
+            "n": 1,
+            "to": "discard"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "spawn",
+        "swirl",
+        "spawn"
+      ]
+    },
+    "lore": "湖底永不停歇的漩涡生出的灵。它不断把溺亡者的魂魄甩出来，先打散漩涡，水魄才会停止。",
+    "art": {
+      "subject": "a spiraling vortex of dark water with a faint face at its center, small glowing spirits being flung outward from its arms"
+    }
+  },
+  {
+    "id": "e2m_water_wisp",
+    "name": "水魄",
+    "act": 2,
+    "tier": "minion",
+    "hp": [
+      10,
+      12
+    ],
+    "atk": 5,
+    "row": "back",
+    "keywords": [
+      "ranged"
+    ],
+    "moves": {
+      "splash": {
+        "name": "泼溅",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "splash"
+      ]
+    },
+    "lore": "被漩涡甩出的溺魂残片，只剩一口想把人拖下水的怨气。漩涡不散，它们便源源不断。",
+    "art": {
+      "subject": "a small translucent water spirit shaped like a drowned child's face, trailing droplets, glowing faintly blue"
+    }
+  },
+  {
+    "id": "e2m_drowned_courtier",
+    "name": "溺臣",
+    "act": 2,
+    "tier": "minion",
+    "hp": [
+      24,
+      28
+    ],
+    "atk": 7,
+    "row": "front",
+    "moves": {
+      "stab": {
+        "name": "袖刃",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "kowtow": {
+        "name": "叩首",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 10,
+            "target": "commander"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "stab": 2,
+        "kowtow": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "溺王的朝臣，城沉三百年仍每日上朝。它们会跪着替君王挡下刀剑，袖中却藏着刃。",
+    "art": {
+      "subject": "a drowned court official in soaked ceremonial robes and a tall hat, kneeling with a hidden blade in his sleeve, murky water"
+    }
+  },
+  {
+    "id": "e2m_puppet",
+    "name": "木傀",
+    "act": 2,
+    "tier": "minion",
+    "hp": [
+      20,
+      24
+    ],
+    "atk": 6,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "moves": {
+      "strike": {
+        "name": "木拳",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "brace": {
+        "name": "合榫",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 6,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "weighted",
+      "weights": {
+        "strike": 2,
+        "brace": 1
+      },
+      "noRepeat": 1
+    },
+    "lore": "千机傀儡师的木傀，关节里塞满了湖泥。它们毁一具，傀儡师便多一层护甲。",
+    "art": {
+      "subject": "a crude wooden war puppet with lacquered joints and silk strings rising from its limbs, fists raised, in a flooded workshop"
+    }
+  },
+  {
+    "id": "e2m_puppet_blade",
+    "name": "刃傀",
+    "act": 2,
+    "tier": "minion",
+    "hp": [
+      26,
+      30
+    ],
+    "atk": 9,
+    "row": "front",
+    "keywords": [
+      "deathtouch"
+    ],
+    "moves": {
+      "cut": {
+        "name": "刃切",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "spin": {
+        "name": "旋刃",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 5,
+            "target": "enemyFront"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "cut",
+        "cut",
+        "spin"
+      ]
+    },
+    "lore": "双臂换成了刀的傀儡。刃上淬过断魂漆，挨上一刀的单位没有第二次机会。",
+    "art": {
+      "subject": "a slender lacquered puppet whose arms are long curved blades, spinning mid-air on silk threads, sparks flying"
+    }
+  },
+  {
+    "id": "e2m_gear_wall",
+    "name": "机关木墙",
+    "act": 2,
+    "tier": "minion",
+    "hp": [
+      16,
+      18
+    ],
+    "atk": 0,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "thorns": 3,
+    "moves": {
+      "fold": {
+        "name": "合板",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 6,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "fold"
+      ]
+    },
+    "lore": "千机傀儡师随手展开的折叠木墙，钉尖一律朝外。近身拆它的人，手上总要留几道口子。",
+    "art": {
+      "subject": "a folding wall of interlocking wooden panels bristling with iron spikes, unfolding itself across a flooded corridor"
+    }
+  },
+  {
+    "id": "e2m_yin_judge",
+    "name": "阴判",
+    "act": 2,
+    "tier": "minion",
+    "hp": [
+      90,
+      96
+    ],
+    "atk": 0,
+    "row": "back",
+    "moves": {
+      "ledger": {
+        "name": "勾簿",
+        "intent": [
+          "debuff",
+          "judge"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "delay",
+            "card": "ec_a_ledger_death",
+            "target": "target"
+          }
+        ]
+      },
+      "collect": {
+        "name": "收签",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "sign",
+            "n": 1
+          },
+          {
+            "op": "stargaze",
+            "n": 3
+          }
+        ]
+      },
+      "seize": {
+        "name": "拘魂",
+        "intent": [
+          "debuff"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 9,
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "ledger",
+        "collect",
+        "seize"
+      ]
+    },
+    "lore": "双生判官中执掌死簿的那一半。只要它还在，阳判受到的伤害便减少3点；它亲手勾下的生死簿，三回合后见分晓。",
+    "art": {
+      "subject": "a gaunt judge in black robes with a crescent-moon headdress holding an open ledger of the dead, face half in shadow, cold violet light"
+    }
+  },
+  {
+    "id": "e2m_coral_shard",
+    "name": "珊瑚碎刃",
+    "act": 2,
+    "tier": "minion",
+    "hp": [
+      14,
+      16
+    ],
+    "atk": 6,
+    "row": "front",
+    "thorns": 2,
+    "moves": {
+      "slash": {
+        "name": "碎枝",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "slash"
+      ]
+    },
+    "lore": "珊瑚巨像崩裂后的碎片，每一片都是锋利的枝杈，近身劈砍它的人也会被划伤。",
+    "art": {
+      "subject": "a jagged animate cluster of broken red coral scuttling across the lakebed on sharp branch-legs"
+    }
+  },
+  {
+    "id": "e2m_mirror_image",
+    "name": "镜影",
+    "act": 2,
+    "tier": "minion",
+    "hp": [
+      16,
+      18
+    ],
+    "atk": 7,
+    "row": "front",
+    "keywords": [
+      "stealth"
+    ],
+    "moves": {
+      "mimic": {
+        "name": "照影",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "mimic"
+      ]
+    },
+    "lore": "镜湖女妖从水面剪下的倒影。它出手之前，你分不清哪一个是真的。",
+    "art": {
+      "subject": "a rippling mirror-image of a pale woman stepping out of a still lake surface, her edges shimmering like reflected light"
+    }
+  },
+  {
+    "id": "e2m_eel",
+    "name": "幼鳗",
+    "act": 2,
+    "tier": "minion",
+    "hp": [
+      14,
+      16
+    ],
+    "atk": 4,
+    "row": "front",
+    "moves": {
+      "bite": {
+        "name": "缠咬",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "times": 2
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "bite"
+      ]
+    },
+    "lore": "鳗王唤来的子嗣，成群缠咬，咬住便不松口。一窝幼鳗往往比鳗王本身更难缠。",
+    "art": {
+      "subject": "a young black eel with crackling blue sparks along its fins, jaws open, darting through murky water"
+    }
+  },
+  {
+    "id": "e2_tide_general",
+    "name": "潮将·覆舟",
+    "act": 2,
+    "tier": "elite",
+    "hp": [
+      180,
+      180
+    ],
+    "atk": 10,
+    "row": "commander",
+    "deck": [
+      "ec_a_tide_mark",
+      "ec_a_undertow",
+      "ec_a_drown_pull",
+      "ec_a_coral_armor",
+      "ec_a_tide_drums",
+      "ec_a_pearl_tribute"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 1,
+      "max": 5
+    },
+    "moves": {
+      "command": {
+        "name": "潮令",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "halberd": {
+        "name": "横戟",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "capsize": {
+        "name": "覆舟",
+        "intent": [
+          "attack"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 22
+          }
+        ]
+      },
+      "call": {
+        "name": "召卒",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_drowned_courtier",
+            "n": 2
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "command"
+      ],
+      "rules": [
+        {
+          "if": {
+            "lt": [
+              {
+                "count": "hp"
+              },
+              {
+                "mul": [
+                  {
+                    "count": "maxHp"
+                  },
+                  0.5
+                ]
+              }
+            ]
+          },
+          "move": "call",
+          "once": true
+        }
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "halberd",
+          "command",
+          "capsize",
+          "command"
+        ]
+      }
+    },
+    "lore": "溺王麾下的水师统领，一戟能掀翻楼船。他用“暗流”把你的前排冻住拖走，再以“溺拽”追打冰冻之人；覆舟之前，先留好余烬。",
+    "dialogue": {
+      "intro": "上船的人，都要沉。",
+      "defeat": "潮……退了……"
+    },
+    "art": {
+      "subject": "a towering drowned admiral in barnacle-covered armor wielding a massive halberd, standing on the prow of a sunken warship, water churning around him"
+    }
+  },
+  {
+    "id": "e2_coral_colossus",
+    "name": "珊瑚巨像",
+    "act": 2,
+    "tier": "elite",
+    "hp": [
+      190,
+      196
+    ],
+    "atk": 12,
+    "row": "front",
+    "keywords": [
+      "taunt"
+    ],
+    "thorns": 4,
+    "moves": {
+      "crush": {
+        "name": "碾压",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "stomp": {
+        "name": "震礁",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 9,
+            "target": "allEnemies"
+          }
+        ]
+      },
+      "grow": {
+        "name": "生珊",
+        "intent": [
+          "defend",
+          "buff"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 16,
+            "target": "self"
+          },
+          {
+            "op": "buff",
+            "target": "self",
+            "hp": 6
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "crush",
+        "stomp",
+        "crush",
+        "grow"
+      ]
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "碎珊",
+        "text": "（珊瑚崩裂，碎枝如刃）",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_coral_shard",
+            "n": 2
+          }
+        ],
+        "atk": 14,
+        "ai": {
+          "type": "cycle",
+          "sequence": [
+            "crush",
+            "stomp",
+            "crush",
+            "grow"
+          ]
+        }
+      }
+    ],
+    "lore": "王宫前的珊瑚雕像在湖底活了过来，浑身棘刺，近战者自讨苦吃。打到一半它会崩出锋利的碎刃。",
+    "art": {
+      "subject": "a colossal humanoid statue grown entirely from red and white coral, jagged spines along its limbs, lumbering across a sunken plaza with fish scattering"
+    }
+  },
+  {
+    "id": "e2_mirror_witch",
+    "name": "镜湖女妖",
+    "act": 2,
+    "tier": "elite",
+    "hp": [
+      165,
+      165
+    ],
+    "atk": 9,
+    "row": "commander",
+    "deck": [
+      "ec_a_abyss_gaze",
+      "ec_a_abyss_gaze",
+      "ec_a_charm",
+      "ec_a_yin_seal",
+      "ec_a_mirror_flower",
+      "ec_a_tide_mark"
+    ],
+    "energy": {
+      "start": 1,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "reflect": {
+        "name": "镜花",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "sleeve": {
+        "name": "水袖",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      },
+      "gaze": {
+        "name": "照命",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "damage",
+                  "amount": 15,
+                  "target": "enemyCommander"
+                }
+              ],
+              "yin": [
+                {
+                  "op": "ward",
+                  "amount": 1,
+                  "target": "self"
+                },
+                {
+                  "op": "heal",
+                  "amount": 10,
+                  "target": "self"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "split": {
+        "name": "分镜",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_mirror_image",
+            "n": 2
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "split",
+        "reflect"
+      ],
+      "rules": [
+        {
+          "if": {
+            "and": [
+              {
+                "eq": [
+                  {
+                    "count": "units",
+                    "side": "friendly"
+                  },
+                  0
+                ]
+              },
+              {
+                "chance": 0.5
+              }
+            ]
+          },
+          "move": "split"
+        }
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "sleeve",
+          "reflect",
+          "gaze",
+          "reflect"
+        ]
+      }
+    },
+    "lore": "住在湖面倒影里的女妖，能照见天命牌堆的下一张。她先[观星]把牌理好，再收一枚[命签]等你判定——你的改判，她也会改回去。",
+    "dialogue": {
+      "intro": "看看水里——那才是你本来的样子。",
+      "defeat": "镜子……碎了……"
+    },
+    "art": {
+      "subject": "a pale woman standing on the still surface of a black lake, her reflection below moving independently, shards of mirror orbiting her"
+    }
+  },
+  {
+    "id": "e2_eel_king",
+    "name": "鳗王",
+    "act": 2,
+    "tier": "elite",
+    "hp": [
+      170,
+      176
+    ],
+    "atk": 9,
+    "row": "front",
+    "moves": {
+      "coil": {
+        "name": "缠绞",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "times": 2
+          }
+        ]
+      },
+      "shock": {
+        "name": "放电",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 7,
+            "target": "allEnemies"
+          },
+          {
+            "op": "status",
+            "status": "freeze",
+            "amount": 1,
+            "target": "randomEnemyUnit"
+          }
+        ]
+      },
+      "dive": {
+        "name": "沉渊",
+        "intent": [
+          "defend"
+        ],
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 18,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "coil",
+        "shock",
+        "dive"
+      ]
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "群鳗",
+        "text": "（湖水沸腾，无数鳗影翻涌而上）",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_eel",
+            "n": 2
+          }
+        ],
+        "atk": 11,
+        "ai": {
+          "type": "cycle",
+          "sequence": [
+            "coil",
+            "shock",
+            "coil",
+            "dive"
+          ]
+        }
+      }
+    ],
+    "lore": "沉渊城护城河里长了三百年的巨鳗。放电时会冻住你的单位，半血后唤来整窝幼鳗。",
+    "art": {
+      "subject": "an enormous black eel coiled around a collapsed city gate, electricity crackling along its fins, jaws wide open, murky green water lit by sparks"
+    }
+  },
+  {
+    "id": "e2_boss_drowned_king",
+    "name": "溺王·殷",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      370,
+      370
+    ],
+    "atk": 12,
+    "row": "commander",
+    "deck": [
+      "ec_a_tide_mark",
+      "ec_a_tide_mark",
+      "ec_a_flood",
+      "ec_a_undertow",
+      "ec_a_drown_pull",
+      "ec_a_drown_pull",
+      "ec_a_coral_armor",
+      "ec_a_pearl_tribute"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 3,
+      "max": 7
+    },
+    "moves": {
+      "decree": {
+        "name": "水诏",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "trident": {
+        "name": "覆舟戟",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "tsunami": {
+        "name": "倒灌",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 8,
+            "target": "allEnemies"
+          },
+          {
+            "op": "create",
+            "card": "st_frost",
+            "n": 1,
+            "to": "discard"
+          }
+        ]
+      },
+      "court": {
+        "name": "召朝",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_drowned_courtier",
+            "n": 2
+          }
+        ]
+      },
+      "tide": {
+        "name": "潮汐问",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "damage",
+                  "amount": 16,
+                  "target": "enemyCommander"
+                }
+              ],
+              "yin": [
+                {
+                  "op": "heal",
+                  "amount": 20,
+                  "target": "self"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "drown": {
+        "name": "溺毙",
+        "intent": [
+          "attack"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 26
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "court",
+        "decree"
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "trident",
+          "decree",
+          "tide",
+          "drown",
+          "decree",
+          "tsunami"
+        ]
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "水漫金殿",
+        "text": "朕的城沉了三百年——你也一起沉下来吧。",
+        "effects": [
+          {
+            "op": "field",
+            "card": "ec_a_flood"
+          },
+          {
+            "op": "summon",
+            "unit": "e2m_drowned_courtier",
+            "n": 2
+          }
+        ],
+        "atk": 14,
+        "ai": {
+          "type": "cycle",
+          "sequence": [
+            "tsunami",
+            "decree",
+            "drown",
+            "trident",
+            "decree",
+            "tide"
+          ]
+        }
+      }
+    ],
+    "lore": "命书上写着“殷王失德，城没于湖”。他不认这一行字，便让整座王城陪他一起沉下去，在湖底继续做他的王。溺王以水诏为牌：潮痕挂在你身上等一张阴纹，暗流把前阵冻住拖回后排，溺拽专追冰冻之人。每隔几回合他会举戟溺毙一人，值得你攒下全部余烬。血过半时金殿灌水——此后你受到的每一击都更重。",
+    "dialogue": {
+      "intro": "跪。朕的湖里，没有站着的人。",
+      "phase": "开闸！让水漫过金殿，漫过这行字！",
+      "defeat": "那一行……终究……没能改……"
+    },
+    "art": {
+      "subject": "a drowned king on a coral-crusted throne at the bottom of a lake, bloated regal robes billowing, a tarnished crown and trident, courtiers kneeling in the murk, shafts of pale light from above"
+    }
+  },
+  {
+    "id": "e2_boss_puppeteer",
+    "name": "千机傀儡师",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      320,
+      320
+    ],
+    "atk": 10,
+    "row": "commander",
+    "deck": [
+      "ec_a_gear_ballista",
+      "ec_a_gear_ballista",
+      "ec_a_gear_wall",
+      "ec_a_spare_parts",
+      "ec_a_spare_parts",
+      "ec_a_silk_strings",
+      "ec_a_silk_strings",
+      "ec_a_needle_rain"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 3,
+      "max": 7
+    },
+    "passives": [
+      {
+        "on": "unitDied",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 4,
+            "target": "self"
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "weave": {
+        "name": "千丝",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "lash": {
+        "name": "丝斩",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 6,
+            "times": 2
+          }
+        ]
+      },
+      "assemble": {
+        "name": "组傀",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_puppet",
+            "n": 2
+          }
+        ]
+      },
+      "tune": {
+        "name": "调弦",
+        "intent": [
+          "buff"
+        ],
+        "effects": [
+          {
+            "op": "buff",
+            "target": "friendlyUnits",
+            "atk": 2
+          },
+          {
+            "op": "armor",
+            "amount": 6,
+            "target": "friendlyUnits"
+          }
+        ]
+      },
+      "divine": {
+        "name": "机枢卜",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "summon",
+                  "unit": "e2m_puppet_blade",
+                  "n": 1
+                }
+              ],
+              "yin": [
+                {
+                  "op": "heal",
+                  "amount": 10,
+                  "target": "friendlyUnits"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "heart": {
+        "name": "心弦",
+        "intent": [
+          "attack"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 24
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "assemble",
+        "weave"
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "lash",
+          "weave",
+          "tune",
+          "divine",
+          "weave",
+          "assemble"
+        ]
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "千机尽出",
+        "text": "线断了？无妨——我还有一千根。",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_puppet",
+            "n": 2
+          },
+          {
+            "op": "summon",
+            "unit": "e2m_puppet_blade",
+            "n": 1
+          },
+          {
+            "op": "ward",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "atk": 12,
+        "ai": {
+          "type": "cycle",
+          "sequence": [
+            "heart",
+            "weave",
+            "lash",
+            "assemble",
+            "weave",
+            "tune"
+          ]
+        }
+      }
+    ],
+    "lore": "沉渊城的御用匠人，为溺王造了一千具替身，最后把自己也做成了傀儡。他坐在最深的暗处牵丝，前阵永远有新的木傀补上；每毁掉一具，他便获得4点护甲。机关弩台每回合向你射出冷箭，千针雨洒满全场。拆傀还是斩线——这是整场战斗的问题。",
+    "dialogue": {
+      "intro": "别动。你的关节，我还没量好尺寸。",
+      "phase": "都起来！一个不许躺着！",
+      "defeat": "原来……牵着我的……也是线……"
+    },
+    "art": {
+      "subject": "a masked puppeteer seated in shadow high above a flooded workshop, hundreds of glinting silk threads falling from his fingers to wooden war puppets below, lanterns swaying"
+    }
+  },
+  {
+    "id": "e2_boss_twin_judges",
+    "name": "双生判官",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      340,
+      340
+    ],
+    "atk": 12,
+    "row": "commander",
+    "deck": [
+      "ec_a_ledger_death",
+      "ec_a_ledger_death",
+      "ec_a_yin_seal",
+      "ec_a_yin_seal",
+      "ec_a_yang_seal",
+      "ec_a_yang_seal",
+      "ec_a_red_brush",
+      "ec_a_abyss_gaze"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 3,
+      "max": 7
+    },
+    "modifiers": [
+      {
+        "stat": "damageTaken",
+        "amount": -3,
+        "who": "self",
+        "if": {
+          "gt": [
+            {
+              "count": "units",
+              "side": "friendly"
+            },
+            0
+          ]
+        }
+      }
+    ],
+    "moves": {
+      "verdict": {
+        "name": "判词",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "gavel": {
+        "name": "惊堂木",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "weigh": {
+        "name": "称命",
+        "intent": [
+          "judge"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "damage",
+                  "amount": 16,
+                  "target": "enemyCommander"
+                },
+                {
+                  "op": "status",
+                  "status": "vulnerable",
+                  "amount": 1,
+                  "target": "enemyCommander"
+                }
+              ],
+              "yin": [
+                {
+                  "op": "sign",
+                  "n": 1
+                },
+                {
+                  "op": "armor",
+                  "amount": 15,
+                  "target": "self"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "call_yin": {
+        "name": "召阴",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_yin_judge",
+            "n": 1
+          }
+        ]
+      },
+      "sentence": {
+        "name": "定谳",
+        "intent": [
+          "attack"
+        ],
+        "target": "commander",
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": {
+              "add": [
+                12,
+                {
+                  "mul": [
+                    {
+                      "count": "delays",
+                      "of": "target"
+                    },
+                    6
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "twin": {
+        "name": "双生同判",
+        "intent": [
+          "judge",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "yang": [
+                {
+                  "op": "damage",
+                  "amount": 12,
+                  "target": "enemyCommander"
+                }
+              ],
+              "yin": [
+                {
+                  "op": "delay",
+                  "card": "ec_a_ledger_death",
+                  "target": "enemyCommander",
+                  "turns": 2
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "verdict"
+      ],
+      "rules": [
+        {
+          "if": {
+            "eq": [
+              {
+                "count": "units",
+                "side": "friendly"
+              },
+              0
+            ]
+          },
+          "move": "call_yin",
+          "once": true
+        }
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "gavel",
+          "weigh",
+          "verdict",
+          "sentence",
+          "verdict"
+        ]
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "阴阳合卷",
+        "text": "阳间判你有罪，阴间判你无命。",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_yin_judge",
+            "n": 1
+          },
+          {
+            "op": "fateAdd",
+            "suit": "moon",
+            "rank": 3,
+            "n": 2,
+            "where": "shuffle"
+          }
+        ],
+        "atk": 14,
+        "ai": {
+          "type": "cycle",
+          "sequence": [
+            "twin",
+            "verdict",
+            "sentence",
+            "weigh",
+            "verdict",
+            "gavel"
+          ]
+        }
+      }
+    ],
+    "lore": "沉渊城的判官一人双生：阳判断生，阴判勾死，同坐一张公案。阴判尚在时，阳判受到的伤害减少3点。他们把生死簿挂在你身上，再以“定谳”清算——你身上每多一张延时牌，这一击便重6点。阴判还暗收[命签]，替你的判定改出最坏的结果。先断阴判，还是先解簿子，全看你手里的底牌。",
+    "dialogue": {
+      "intro": "堂下何人？——不必答，簿上都写着。",
+      "phase": "阴阳合卷，此案再无上诉。",
+      "defeat": "此案……发回……重审……"
+    },
+    "art": {
+      "subject": "two conjoined judges seated at a single long bench in a flooded courthouse, one robed in white with a sun crown and one in black with a moon crown, a giant ledger open between them, candle flames burning underwater"
+    }
+  }
+]
