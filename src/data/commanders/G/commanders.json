@@ -4,7 +4,7 @@
     "name": "青姒",
     "title": "万木灵母",
     "faction": "G",
-    "hp": 70,
+    "hp": 76,
     "sources": ["G", "G", "N"],
     "deck": [
       "g_basic_strike", "g_basic_strike", "g_basic_strike", "g_basic_strike",

@@ -45,6 +45,8 @@ export interface Unit {
   baseMaxHp: number;
   hp: number;
   armor: number;
+  /** armor that expired at this unit's last turn start (restoreArmor can give some back) */
+  lostArmor?: number;
   atkBuff: number;
   hpBuff: number;
   tempAtk: number;

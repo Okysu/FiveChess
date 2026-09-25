@@ -1,62 +1,214 @@
 [
   {
-    "id": "b_shiyun", "name": "石韫", "title": "镇岳山君", "faction": "B", "hp": 82,
-    "sources": ["B", "B", "N"],
+    "id": "b_shiyun",
+    "name": "石韫",
+    "title": "镇岳山君",
+    "faction": "B",
+    "hp": 76,
+    "sources": [
+      "B",
+      "B",
+      "N"
+    ],
     "deck": [
-      "b_basic_strike", "b_basic_strike", "b_basic_strike", "b_basic_strike",
-      "b_basic_guard", "b_basic_guard", "b_basic_guard", "b_basic_guard",
-      "b_sig_raise_rock", "b_sig_mountain_fist"
+      "b_basic_strike",
+      "b_basic_strike",
+      "b_basic_strike",
+      "b_basic_strike",
+      "b_basic_guard",
+      "b_basic_guard",
+      "b_basic_guard",
+      "b_basic_guard",
+      "b_sig_raise_rock",
+      "b_sig_mountain_fist"
     ],
     "relic": "rl_start_shiyun",
     "skills": [
       {
-        "id": "b_shiyun_p", "name": "岳镇", "type": "passive",
-        "text": "我方回合开始时，你至多保留10点[护甲]。",
-        "modifiers": [ { "stat": "armorKeep", "amount": 10 } ]
+        "id": "b_shiyun_p",
+        "name": "岳镇",
+        "type": "passive",
+        "text": "我方回合开始时进行[判定]，决定上回合剩余[护甲]的去留：点数1–4 全部消散；5–9 保留一半；10–13 或{mountain}山纹 全部保留。",
+        "triggers": [
+          {
+            "on": "turnStart",
+            "who": "friendly",
+            "effects": [
+              {
+                "op": "judge",
+                "branches": {
+                  "mountain": [
+                    {
+                      "op": "restoreArmor",
+                      "fraction": 1,
+                      "target": "commander"
+                    }
+                  ],
+                  "ranks": [
+                    {
+                      "min": 10,
+                      "max": 13,
+                      "effects": [
+                        {
+                          "op": "restoreArmor",
+                          "fraction": 1,
+                          "target": "commander"
+                        }
+                      ]
+                    },
+                    {
+                      "min": 5,
+                      "max": 9,
+                      "effects": [
+                        {
+                          "op": "restoreArmor",
+                          "fraction": 0.5,
+                          "target": "commander"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "id": "b_shiyun_a", "name": "山君一怒", "type": "active",
+        "id": "b_shiyun_a",
+        "name": "山君一怒",
+        "type": "active",
         "text": "（每回合一次，支付2枚[源]）对一个敌人造成等同于你[护甲]值一半的伤害。",
-        "cost": { "g": 2 },
+        "cost": {
+          "g": 2
+        },
         "target": "enemy",
-        "effects": [ { "op": "damage", "amount": { "div": [ { "count": "armor", "of": "commander" }, 2 ] }, "target": "target", "attack": true } ]
+        "effects": [
+          {
+            "op": "damage",
+            "amount": {
+              "div": [
+                {
+                  "count": "armor",
+                  "of": "commander"
+                },
+                2
+              ]
+            },
+            "target": "target",
+            "attack": true
+          }
+        ]
       }
     ],
     "lore": "镇岳门第三十一代门主，生来骨重如石，三岁方能行走。命书在他那一行只写了四个字：“山崩身死”。于是他把自己炼成了山——不言、不退、不崩。命阙开裂那年，镇岳门的护山大阵随之出现裂痕，石韫独自下塔，要去找那个写下“山崩”的人，问一句凭什么。",
     "ending": "命书之心寂静无声。石韫在装订线旁找到了属于自己的那一页，墨迹早已干透：“山崩身死”。他看了很久，没有撕，也没有改。他只是把手掌按在那四个字上，任由护甲一层层剥落，露出底下那副从未示人的、会疼会累的血肉之躯。“山会崩，”他说，“但崩之前，它护过的东西，都还在。”他提笔在那行字后添了半句：“——崩而后，草木生。”回到镇岳门时，护山大阵的裂痕里长出了第一株青苔。弟子们说山君变了，笑得多了些，也终于肯在雨天卸甲。只有他自己知道，那副甲并没有卸下，只是换了个地方，搁在了心里。",
-    "art": { "subject": "a towering broad-shouldered man in layered slate-grey stone armor with mountain-ridge pauldrons, arms folded, standing before a misty cliff gate, calm heavy gaze, full body, overcast light" }
+    "art": {
+      "subject": "a towering broad-shouldered man in layered slate-grey stone armor with mountain-ridge pauldrons, arms folded, standing before a misty cliff gate, calm heavy gaze, full body, overcast light"
+    }
   },
   {
-    "id": "b_suxian", "name": "素弦", "title": "寒川琴师", "faction": "B", "hp": 70,
-    "sources": ["B", "B", "N"],
+    "id": "b_suxian",
+    "name": "素弦",
+    "title": "寒川琴师",
+    "faction": "B",
+    "hp": 70,
+    "sources": [
+      "B",
+      "B",
+      "N"
+    ],
     "deck": [
-      "b_basic_strike", "b_basic_strike", "b_basic_strike", "b_basic_strike",
-      "b_basic_guard", "b_basic_guard", "b_basic_guard", "b_basic_guard",
-      "b_sig_pluck_string", "b_sig_pluck_string", "b_sig_cold_river"
+      "b_basic_strike",
+      "b_basic_strike",
+      "b_basic_strike",
+      "b_basic_strike",
+      "b_basic_guard",
+      "b_basic_guard",
+      "b_basic_guard",
+      "b_basic_guard",
+      "b_sig_pluck_string",
+      "b_sig_pluck_string",
+      "b_sig_cold_river"
     ],
     "relic": "rl_start_suxian",
     "skills": [
       {
-        "id": "b_suxian_p", "name": "弦外之音", "type": "passive",
+        "id": "b_suxian_p",
+        "name": "弦外之音",
+        "type": "passive",
         "text": "你的[余烬]上限+1。每回合你首次在应对中打出牌后，将一张「余音」置入手牌。",
-        "modifiers": [ { "stat": "emberCap", "amount": 1 } ],
-        "triggers": [ { "on": "responsePlayed", "limit": "turn", "effects": [ { "op": "create", "card": "tk_b_echo", "to": "hand" } ] } ]
+        "modifiers": [
+          {
+            "stat": "emberCap",
+            "amount": 1
+          }
+        ],
+        "triggers": [
+          {
+            "on": "responsePlayed",
+            "limit": "turn",
+            "effects": [
+              {
+                "op": "create",
+                "card": "tk_b_echo",
+                "to": "hand"
+              }
+            ]
+          }
+        ]
       },
       {
-        "id": "b_suxian_a", "name": "曲终", "type": "awaken",
+        "id": "b_suxian_a",
+        "name": "曲终",
+        "type": "awaken",
         "text": "觉醒：本场战斗你在应对中打出第4张牌时，对所有敌人施加1层[冰冻]，并将此技能变为「寒川一曲」。",
         "awaken": {
           "on": "responsePlayed",
-          "if": { "gte": [ { "count": "responsesThisCombat" }, 4 ] },
-          "effects": [ { "op": "status", "status": "freeze", "amount": 1, "target": "allEnemies" } ],
+          "if": {
+            "gte": [
+              {
+                "count": "responsesThisCombat"
+              },
+              4
+            ]
+          },
+          "effects": [
+            {
+              "op": "status",
+              "status": "freeze",
+              "amount": 1,
+              "target": "allEnemies"
+            }
+          ],
           "becomes": {
-            "name": "寒川一曲", "type": "active",
+            "name": "寒川一曲",
+            "type": "active",
             "text": "（每回合一次，支付2枚[源]）对一个敌人造成4点伤害；若其为单位，施加1层[冰冻]。",
-            "cost": { "g": 2 },
+            "cost": {
+              "g": 2
+            },
             "target": "enemy",
             "effects": [
-              { "op": "damage", "amount": 4, "target": "target" },
-              { "op": "if", "cond": { "isUnit": "target" }, "then": [ { "op": "status", "status": "freeze", "amount": 1, "target": "target" } ] }
+              {
+                "op": "damage",
+                "amount": 4,
+                "target": "target"
+              },
+              {
+                "op": "if",
+                "cond": {
+                  "isUnit": "target"
+                },
+                "then": [
+                  {
+                    "op": "status",
+                    "status": "freeze",
+                    "amount": 1,
+                    "target": "target"
+                  }
+                ]
+              }
             ]
           }
         }
@@ -64,6 +216,8 @@
     ],
     "lore": "寒川边的琴师，琴只有七弦，却从不先弹第一声。她说琴是答，不是问——别人出手，她才落指；落指之时，来势已冻在半空。命书写她“一生为人伴奏”，她不服，抱琴入了命阙，想弹一首只属于自己的曲子。",
     "ending": "命书之心没有风，琴弦却自己颤了起来。素弦坐下，第一次没有等任何人先出手，先拨了第一声。那声音很轻，像寒川解冻时冰层下第一道水流。命书的书页一页页翻动，把她这一路的应和都记了下来——每一次后手、每一次封冻、每一次在刀锋落下前的那一拍。她这才明白，“为人伴奏”四个字并不卑微：天地万物出声，总得有人去接。她没有改那行字，只在页边添了一枚小小的休止符。回到寒川后，她开了一间琴馆，只教一样东西：如何听。来学琴的人都说，她的曲子开头总是一段很长的静默，而那段静默，比任何旋律都好听。",
-    "art": { "subject": "a slender woman in layered white and ice-blue robes seated on a snowy riverbank with a seven-string zither across her knees, one hand hovering over the strings, frozen river behind her, soft falling snow" }
+    "art": {
+      "subject": "a slender woman in layered white and ice-blue robes seated on a snowy riverbank with a seven-string zither across her knees, one hand hovering over the strings, frozen river behind her, soft falling snow"
+    }
   }
 ]

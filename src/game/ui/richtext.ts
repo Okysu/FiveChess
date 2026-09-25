@@ -58,6 +58,9 @@ function termColor(name: string, fallback: string): string {
   return fallback;
 }
 
+/** placeholders a caller forgot to fill ({a} without vars) — surfaced by the UI tour */
+export const richWarnings: string[] = [];
+
 export function tokenize(text: string, o: RichOpts): { toks: Tok[]; terms: string[] } {
   const toks: Tok[] = [];
   const terms: string[] = [];
@@ -93,6 +96,7 @@ export function tokenize(text: string, o: RichOpts): { toks: Tok[]; terms: strin
           i = j + 1;
           continue;
         }
+        if (/^\w+$/.test(key) && richWarnings.length < 200) richWarnings.push(`{${key}} in "${text.slice(0, 30)}"`);
       }
     }
     toks.push({ k: 'ch', s: ch, color: base });

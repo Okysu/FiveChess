@@ -88,7 +88,7 @@ export const EXTRA_TERMS: Record<string, string> = {
 /** plain-text form of card rules: "{a}" → the card's value (suit/pip tokens like {sun} are left for the rich-text renderer) */
 export function fillVars(text: string, vars?: Record<string, number>): string {
   if (!vars) return text;
-  return text.replace(/{(w+)}/g, (m, k: string) => (k in vars ? String(vars[k]) : m));
+  return text.replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? String(vars[k]) : m));
 }
 
 /** rules text for plain Text (no rich renderer): values filled, [term] brackets and suit/pip tokens removed */

@@ -113,6 +113,7 @@ export const zEffect: z.ZodType<Effect> = z.lazy(() => z.discriminatedUnion('op'
   o('heal', { amount: zValue, target: zSelector }),
   o('loseHp', { amount: zValue, target: zSelector }),
   o('armor', { amount: zValue, target: zSelector }),
+  o('restoreArmor', { fraction: z.number().min(0).max(1), target: zSelector }),
   o('ward', { amount: zValue, target: zSelector }),
   o('status', { status: zStatus, amount: zValue, target: zSelector }),
   o('cleanse', { target: zSelector, what: z.union([z.enum(['debuffs', 'buffs']), zStatus]) }),

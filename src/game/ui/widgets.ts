@@ -1,5 +1,6 @@
 /** Reusable widgets: buttons, labels, tooltips, toasts, modal frames. */
 import { Container, Graphics, Text, type TextStyleOptions, Sprite } from 'pixi.js';
+import { errorText } from './errors';
 import { C, FONT_BODY, FONT_TITLE, FONT_UI } from './theme';
 import { darken } from './draw';
 import { WB, nine, frame as selFrame, panel, dim as dimLayer, hitRect, INSET } from './skin';
@@ -232,6 +233,7 @@ export function glossLines(terms: string[]): { title: string; body: string; colo
 // ───────────── toast ─────────────
 
 export function toast(text: string, color = C.goldLight, y = 200) {
+  text = errorText(text); // engine codes ("unplayable", "not enough gold"…) never reach the player in English
   const c = new Container();
   const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: color, stroke: { color: 0x000000, width: 5 } } });
   t.anchor.set(0.5);

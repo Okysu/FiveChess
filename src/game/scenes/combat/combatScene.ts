@@ -4,6 +4,7 @@
  * The presentation never mutates game state.
  */
 import epilogues from '../../../data/lore/epilogues.json';
+import { errorText } from '../../ui/errors';
 import { Container, Graphics, Sprite, Text, type FederatedPointerEvent } from 'pixi.js';
 import { G, Scene } from '../../core/app';
 import { assets, K } from '../../assets';
@@ -471,7 +472,10 @@ export class CombatScene extends Scene {
     } else if (info.reason === 'window') toast('此牌只能在应对窗口中打出', 0xff9a8a, 760);
     else if (info.reason === 'target') toast('没有合法目标', 0xff9a8a, 760);
     else if (info.reason === 'slot') toast('阵地已满', 0xff9a8a, 760);
-    else if (info.reason === 'unplayable') toast('无法打出', 0xff9a8a, 760);
+    else if (info.reason === 'unplayable') {
+      const d = cardDef(card);
+      toast(d.type === 'status' ? '状态牌无法打出——可献为素源，或等它被弃掉' : d.type === 'curse' ? '诅咒牌无法打出——可在营地或商店移除' : '这张牌无法主动打出（只会被效果触发）', 0xff9a8a, 760);
+    }
   }
 
   private pendingMove: { x: number; y: number } | null = null;
@@ -822,7 +826,7 @@ export class CombatScene extends Scene {
       lines.push({ title: cmd?.name ?? u.name, body: `生命 ${u.hp}/${u.baseMaxHp}${u.armor ? ` · 护甲 ${u.armor}` : ''}` });
     }
     for (const [id, n] of Object.entries(u.statuses)) { const st = STATUSES[id as keyof typeof STATUSES]; if (st && n) lines.push({ title: `${st.name} ${n}`, body: st.text, color: st.tint }); }
-    for (const d of u.delays) { const dd = content().card(d.card, d.up); lines.push({ title: `延时：${dd.name}（${d.turns}）`, body: dd.text, color: 0xf0d27a }); }
+    for (const d of u.delays) { const dd = content().card(d.card, d.up); lines.push({ title: `延时：${dd.name}（${d.turns}）`, body: fillVars(dd.text, dd.vars), color: 0xf0d27a }); }
     const leftSide = v.x > 960;
     showTip(new Tooltip(lines, 380), leftSide ? v.x - v.bw / 2 - 20 : v.x + v.bw / 2 + 20, Math.max(140, v.y + v.topY), leftSide ? 'left' : 'right');
     // show intent target arc
@@ -1733,13 +1737,7 @@ function keywordName(k: string) {
 }
 
 function reasonText(err: string): string {
-  if (err.includes('cost')) return '源不足';
-  if (err.includes('target')) return '目标不合法';
-  if (err.includes('slot')) return '无法放置';
-  if (err.includes('already sacrificed')) return '本回合已献过牌';
-  if (err.includes('cannot attack')) return '无法攻击';
-  if (err.includes('busy')) return '请稍候';
-  return err;
+  return errorText(err);
 }
 
 export { autoAnswer, responseOptions, isResponse, X, CMD_Y, FATE, alive };

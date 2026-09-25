@@ -717,6 +717,11 @@ function execEffect(s: CombatState, task: FxTask, eff: AnyEffect) {
     case 'heal': for (const t of select(s, eff.target, ctx)) heal(s, t.uid, V(eff.amount), src); return;
     case 'loseHp': for (const t of select(s, eff.target, ctx)) dealDamage(s, src, t.uid, V(eff.amount), 'loss'); return;
     case 'armor': for (const t of select(s, eff.target, ctx)) gainArmor(s, t.uid, V(eff.amount), src); return;
+    case 'restoreArmor': for (const t of select(s, eff.target, ctx)) {
+      const n = Math.floor((t.lostArmor ?? 0) * eff.fraction);
+      t.lostArmor = 0; // several judge branches may match: only the first one restores
+      if (n > 0) gainArmor(s, t.uid, n, src);
+    } return;
     case 'ward': for (const t of select(s, eff.target, ctx)) { t.ward += V(eff.amount); emit(s, { t: 'ward', target: t.uid, ward: t.ward }); } return;
     case 'status': for (const t of select(s, eff.target, ctx)) applyStatus(s, t.uid, eff.status, V(eff.amount), src); return;
     case 'cleanse': {
@@ -1578,8 +1583,9 @@ function startOfTurn(s: CombatState, side: Side) {
   for (const u of chars) {
     if (u.armor > 0) {
       const kept = keep >= 999 ? u.armor : Math.min(u.armor, keep);
+      u.lostArmor = u.armor - kept;
       if (kept !== u.armor) { u.armor = kept; emit(s, { t: 'armor', target: u.uid, amount: 0, armor: u.armor }); }
-    }
+    } else u.lostArmor = 0;
     u.attacks = 0;
   }
   // growth
