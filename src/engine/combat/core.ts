@@ -682,12 +682,23 @@ function execEffect(s: CombatState, task: FxTask, eff: AnyEffect) {
   const ctx = task.ctx;
   const V = (v: Parameters<typeof evalValue>[1]) => evalValue(s, v, ctx);
   const src = ctx.source;
+  if (ctx.side === 'enemy' && enemyResourceOp(s, eff, V)) return;
   switch (eff.op) {
     case 'damage': {
       const times = eff.times === undefined ? 1 : V(eff.times);
       let total = 0;
       for (let k = 0; k < times; k++) {
-        for (const t of select(s, eff.target, ctx)) {
+        const tgts = select(s, eff.target, ctx);
+        // an enemy move's attack damage is an attack: "when attacked / when attacking" triggers must see it
+        const a = unit(s, src);
+        if (k === 0 && eff.attack && ctx.kind === 'move' && alive(a)) {
+          for (const t of tgts) {
+            if (t.hp <= 0) continue;
+            fire(s, 'attacking', { subject: a.uid, side: a.side, target: t.uid, source: a.uid });
+            fire(s, 'attacked', { subject: t.uid, side: t.side, source: a.uid });
+          }
+        }
+        for (const t of tgts) {
           if (t.hp <= 0) continue;
           total += dealDamage(s, src, t.uid, V(eff.amount), 'effect', { attack: eff.attack, pierce: eff.pierce });
         }
@@ -1020,6 +1031,35 @@ function execEffect(s: CombatState, task: FxTask, eff: AnyEffect) {
     }
     case '__move': return;
   }
+}
+
+/**
+ * Ops that act on the player's deck / hand / sources / fate knowledge. When they run for the enemy side
+ * (a player-style equip, field or unit owned by the enemy) they must not help the player: `draw` draws
+ * from the enemy commander's deck, `energy` / `gainSource` feed the enemy's energy, the rest do nothing.
+ * `create` stays as is — enemies deliberately shuffle status cards into the player's piles.
+ */
+function enemyResourceOp(s: CombatState, eff: AnyEffect, V: (v: Parameters<typeof evalValue>[1]) => number): boolean {
+  const sd = s.sides.enemy;
+  switch (eff.op) {
+    case 'draw': {
+      const n = V(eff.n);
+      for (let k = 0; k < n && sd.hand.length < 10; k++) {
+        if (!sd.deck.length) {
+          const boss = unit(s, sd.commander);
+          const ids = boss?.origin === 'enemy' ? content().enemy(boss.def).deck ?? [] : [];
+          if (!ids.length) break;
+          sd.deck = shuffle(s.rng, ids.map((id) => ({ uid: newUid(s), id, up: false })));
+        }
+        sd.hand.push(sd.deck.pop()!);
+      }
+      return true;
+    }
+    case 'energy': case 'gainSource': sd.energy += V(eff.n); return true;
+    case 'discard': case 'exhaustCards': case 'fetch': case 'discover': case 'refresh': case 'costMod': case 'emberCap': case 'gold': case 'peek':
+      return true;
+  }
+  return false;
 }
 
 function matchCardInst(c: CardInst, f: CardFilter) {
@@ -1528,8 +1568,9 @@ function advanceEnemies(s: CombatState) {
 
 function startOfTurn(s: CombatState, side: Side) {
   const chars = boardOrder(s, side);
-  // armor expires
-  const keep = side === 'player' ? sumMods(s, 'armorKeep', 'player') : 0;
+  // armor expires — except on the player's very first turn: armor granted at combat start
+  // (combatStart triggers resolve just before this phase) has not lived through a turn yet
+  const keep = side === 'player' ? (s.turn <= 1 ? 999 : sumMods(s, 'armorKeep', 'player')) : 0;
   for (const u of chars) {
     if (u.armor > 0) {
       const kept = keep >= 999 ? u.armor : Math.min(u.armor, keep);
@@ -1600,6 +1641,13 @@ function endOfTurn(s: CombatState, side: Side) {
     if (r > 0 && alive(u)) { heal(s, u.uid, r); decStatus(s, u, 'regen'); }
   }
   for (const u of chars) {
+    // stun = "skip the next action". Enemies consume it when they would act (stepEnemyAct); player
+    // characters have no scripted action, so a stun is spent by sitting out one player turn.
+    if (side === 'player' && (u.statuses.stun ?? 0) > 0) {
+      delete u.statuses.stun;
+      u.stunImmune = 2;
+      emit(s, { t: 'status', target: u.uid, status: 'stun', delta: -1, total: 0 });
+    }
     for (const st of ['freeze', 'vulnerable', 'weak'] as StatusId[]) {
       if (u.fresh?.[st]) { delete u.fresh[st]; continue; }
       if ((u.statuses[st] ?? 0) > 0) decStatus(s, u, st);
