@@ -129,7 +129,7 @@ export class MapScene extends Scene {
         if (avl) void tweens.to(node.scale, { x: 1.15, y: 1.15 }, 120, { unscaled: true });
         const lines = [{ title: info.name, body: info.desc }];
         if (prevLabel) lines.push({ title: '观星所见', body: previewText(prevLabel) });
-        showTip(new Tooltip(lines, 360), e.global.x / G.scale - G.root.x / G.scale + 20, 300);
+        showTip(new Tooltip(lines, 360), G.toDesign(e.global.x, e.global.y).x + 20, 300);
       });
       node.on('pointerout', () => { void tweens.to(node.scale, { x: 1, y: 1 }, 120, { unscaled: true }); hideTip(); });
       node.eventMode = 'static';
@@ -174,7 +174,7 @@ export class MapScene extends Scene {
         b.on('pointertap', () => { if (!this.scroll.wasDrag) void this.choose(bossNode(r)); });
       }
       b.eventMode = 'static';
-      b.on('pointerover', (e) => showTip(new Tooltip([{ title: bossEnemy.name, body: bossEnemy.lore }], 420), e.global.x / G.scale - 480, 300));
+      b.on('pointerover', (e) => showTip(new Tooltip([{ title: bossEnemy.name, body: bossEnemy.lore }], 420), G.toDesign(e.global.x, e.global.y).x - 480, 300));
       b.on('pointerout', hideTip);
       c.addChild(b);
     }

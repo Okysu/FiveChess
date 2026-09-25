@@ -57,6 +57,7 @@ class GameApp {
     this.fade.alpha = 0;
     this.fade.eventMode = 'none';
     window.addEventListener('resize', () => this.layout());
+    window.addEventListener('orientationchange', () => setTimeout(() => this.layout(), 150));
     this.layout();
     this.app.ticker.add((t) => {
       tweens.update(t.deltaMS);
@@ -69,13 +70,31 @@ class GameApp {
     });
   }
 
+  /** portrait touch screens: the 16:9 game is drawn rotated 90° so it fills the phone (works with rotation lock) */
+  rotated = false;
+
   layout() {
     const w = window.innerWidth, h = window.innerHeight;
-    this.scale = Math.min(w / DESIGN_W, h / DESIGN_H);
+    const touch = matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
+    this.rotated = touch && h > w * 1.1;
+    const vw = this.rotated ? h : w, vh = this.rotated ? w : h; // the landscape viewport the game sees
+    this.scale = Math.min(vw / DESIGN_W, vh / DESIGN_H);
     this.root.scale.set(this.scale);
-    this.root.position.set(Math.round((w - DESIGN_W * this.scale) / 2), Math.round((h - DESIGN_H * this.scale) / 2));
+    const ox = Math.round((vw - DESIGN_W * this.scale) / 2), oy = Math.round((vh - DESIGN_H * this.scale) / 2);
+    if (this.rotated) {
+      // rotate clockwise: design x runs down the screen, design y runs right→left
+      this.root.rotation = Math.PI / 2;
+      this.root.position.set(w - oy, ox);
+      this.backdrop.rotation = Math.PI / 2;
+      this.backdrop.position.set(w, 0);
+    } else {
+      this.root.rotation = 0;
+      this.root.position.set(ox, oy);
+      this.backdrop.rotation = 0;
+      this.backdrop.position.set(0, 0);
+    }
     this.stageHit();
-    this.compact = h < 500;
+    this.compact = vh < 560;
     this.fitBackdrop();
   }
 
@@ -84,7 +103,7 @@ class GameApp {
   }
 
   private fitBackdrop() {
-    const w = window.innerWidth, h = window.innerHeight;
+    const w = this.rotated ? window.innerHeight : window.innerWidth, h = this.rotated ? window.innerWidth : window.innerHeight;
     const s = this.backdropSprite;
     if (s.texture && s.texture !== Texture.EMPTY) {
       const k = Math.max(w / s.texture.width, h / s.texture.height);
@@ -101,7 +120,9 @@ class GameApp {
 
   /** screen-space → design-space */
   toDesign(x: number, y: number) {
-    return { x: (x - this.root.x) / this.scale, y: (y - this.root.y) / this.scale };
+    // through the root transform, so it stays right when the game is drawn rotated
+    const p = this.root.toLocal({ x, y });
+    return { x: p.x, y: p.y };
   }
 
   pushKeys(fn: (e: KeyboardEvent) => boolean) { this.keyHandlers.push(fn); return () => { const i = this.keyHandlers.indexOf(fn); if (i >= 0) this.keyHandlers.splice(i, 1); }; }

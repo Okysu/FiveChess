@@ -6,6 +6,7 @@ import { CardView, type CardLive } from '../../ui/card';
 import { tweens, ease } from '../../core/tween';
 import { HAND } from './layout';
 import { sfx } from '../../audio/audio';
+import { G } from '../../core/app';
 
 interface Slot { x: number; y: number; rot: number }
 
@@ -23,6 +24,9 @@ export class HandView extends Container {
   onPress?: (v: CardView, e: FederatedPointerEvent) => void;
   onRightClick?: (v: CardView) => void;
   onEmptyPress?: () => void;
+  /** touch: holding a card still (~0.45s) opens its detail view — touch has no right-click or hover */
+  onLongPress?: (v: CardView) => void;
+  private lp: { timer: ReturnType<typeof setTimeout>; x: number; y: number } | null = null;
   /** set by scene while a card is dragged/selected */
   frozen: CardView | null = null;
 
@@ -30,17 +34,26 @@ export class HandView extends Container {
     super();
     this.addChild(this.hit);
     this.hit.on('pointermove', (e) => this.pointerAt(e.global));
+    // any real movement turns a hold into a drag
+    this.hit.on('globalpointermove', (e) => { if (this.lp && Math.hypot(e.global.x - this.lp.x, e.global.y - this.lp.y) > 12) this.cancelLongPress(); });
+    window.addEventListener('pointerup', () => this.cancelLongPress());
     this.hit.on('pointerout', () => this.setHover(null));
     this.hit.on('pointerdown', (e: FederatedPointerEvent) => {
       const v = this.cardAt(e.global);
       if (!v) { this.onEmptyPress?.(); return; }
       if (e.button === 2) { this.onRightClick?.(v); return; }
       this.onPress?.(v, e);
+      if (e.pointerType !== 'mouse') {
+        this.cancelLongPress();
+        this.lp = { x: e.global.x, y: e.global.y, timer: setTimeout(() => { this.lp = null; this.onLongPress?.(v); }, 450) };
+      }
     });
     this.sortableChildren = true;
   }
 
   private toLocal2(p: { x: number; y: number }) { return this.toLocal(p); }
+
+  cancelLongPress() { if (this.lp) { clearTimeout(this.lp.timer); this.lp = null; } }
 
   slots(n: number): Slot[] {
     const out: Slot[] = [];
@@ -146,7 +159,8 @@ export class HandView extends Container {
     const n = this.views.length;
     const sl = this.slots(n);
     const hi = this.hovered ? this.views.indexOf(this.hovered) : -1;
-    const hs = n >= 8 ? 1.6 : this.hoverScale;
+    // phones: the whole 1080p layout is shrunk ~3x, so the focused card grows more
+    const hs = G.compact ? 1.9 : n >= 8 ? 1.6 : this.hoverScale;
     this.views.forEach((v, i) => {
       if (v === this.frozen) return;
       const s = sl[i]!;

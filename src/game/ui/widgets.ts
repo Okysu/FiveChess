@@ -162,7 +162,11 @@ let current: Container | null = null;
 export function showTip(tip: Container, x: number, y: number, prefer: 'right' | 'left' | 'above' = 'right') {
   hideTip();
   current = tip;
-  const b = tip.getLocalBounds();
+  // small screens: tooltips are scaled up so their text stays readable
+  const k = G.compact ? 1.6 : 1;
+  tip.scale.set(k);
+  const lb = tip.getLocalBounds();
+  const b = { width: lb.width * k, height: lb.height * k };
   let tx = prefer === 'left' ? x - b.width - 12 : prefer === 'above' ? x - b.width / 2 : x + 12;
   let ty = prefer === 'above' ? y - b.height - 12 : y;
   tx = Math.max(8, Math.min(1920 - b.width - 8, tx));

@@ -139,6 +139,12 @@ export class CombatScene extends Scene {
     this.hand.onPress = (v, e) => this.onCardPress(v, e);
     this.hand.onHover = (v) => this.onCardHover(v);
     this.hand.onRightClick = (v) => inspectCard(v.cardId, v.up);
+    this.hand.onLongPress = (v) => {
+      // the press already armed a tap/drag: drop it, then inspect
+      if (this.dragging?.started) return;
+      this.dragging = null;
+      inspectCard(v.cardId, v.up);
+    };
     this.hand.onEmptyPress = () => { if (this.selected || this.targeting) { this.cancelTargeting(); this.clearSelection(); } };
     this.popKeys = G.pushKeys((e) => this.onKeyDown(e));
 
@@ -772,7 +778,11 @@ export class CombatScene extends Scene {
 
   // ═════════════ input: units ═════════════
 
+  /** touch taps fire over→out immediately; keep the unit tooltip until the next tap elsewhere */
+  private touchTip = false;
+
   private onUnitHover(v: UnitView, e: FederatedPointerEvent) {
+    this.touchTip = e.pointerType !== 'mouse';
     if (this.targeting || this.dragging) return;
     const u = unit(this.s, v.unitUid);
     if (!u) return;
@@ -808,7 +818,7 @@ export class CombatScene extends Scene {
   }
 
   private onUnitOut(v: UnitView) {
-    hideTip();
+    if (!this.touchTip) hideTip();
     if (this.targeting) return;
     for (const x of this.units.values()) x.setHighlight('none');
     void v;
@@ -850,6 +860,7 @@ export class CombatScene extends Scene {
   }
 
   private onBackgroundDown(e: FederatedPointerEvent) {
+    if (this.touchTip) { hideTip(); this.touchTip = false; }
     if (e.button === 2) { this.cancelTargeting(); this.clearSelection(); return; }
     if (this.dragging) return;
     // tap on an empty slot while a unit card is selected
