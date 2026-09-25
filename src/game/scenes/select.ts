@@ -136,9 +136,10 @@ export class SelectScene extends Scene {
     if (tex) {
       const s = new Sprite(tex);
       s.anchor.set(0.5, 1);
-      const k = Math.min(760 / tex.height, 860 / tex.width);
+      // hero on the left third, lore panel beside it — the panel never covers the face
+      const k = Math.min(780 / tex.height, 440 / tex.width);
       s.scale.set(k);
-      s.position.set(460, 880);
+      s.position.set(250, 900);
       s.alpha = 0;
       this.portrait.addChild(s);
       void tweens.to(s, { alpha: 1 }, 350, { unscaled: true });
@@ -217,15 +218,15 @@ export class SelectScene extends Scene {
     const stats = new Text({ text: st ? `战绩：出征 ${st.runs} · 通关 ${st.wins} · 最高逆命 ${st.highestAsc} · 最远 ${st.bestFloor} 层` : '尚无战绩', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim } });
     stats.position.set(PX, panelH - PY - 16);
     this.details.addChild(stats);
-    const lore = new Text({ text: c.lore, style: { fontFamily: FONT_BODY, fontSize: 19, fill: C.textDim, wordWrap: true, wordWrapWidth: 440, lineHeight: 30, breakWords: true } });
+    const lore = new Text({ text: c.lore, style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.text, wordWrap: true, wordWrapWidth: 330, lineHeight: 32, breakWords: true } });
     lore.position.set(40, 100);
     lore.alpha = 0.85;
     const loreBox = new Container();
-    const lb = uiPanel(440 + INSET.dark.x * 2, lore.height + INSET.dark.y * 2, 'dark');
+    const lb = uiPanel(330 + INSET.dark.x * 2, lore.height + INSET.dark.y * 2, 'dark');
     loreBox.addChild(lb);
     lore.position.set(INSET.dark.x, INSET.dark.y);
     loreBox.addChild(lore);
-    loreBox.position.set(24, 96);
+    loreBox.position.set(478, 240);
     this.portrait.addChild(loreBox);
   }
 
