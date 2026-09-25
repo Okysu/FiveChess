@@ -23,7 +23,8 @@ export class SourceTray extends Container {
 
   constructor() {
     super();
-    const bg = panel(262, 146, 'dark');
+    // lighter corners: this panel is small and holds a 5x2 gem grid
+    const bg = panel(262, 146, 'dark', { cornerScale: 0.55 });
     bg.position.set(SOURCES.x - 14, SOURCES.y - 12);
     this.addChild(bg, this.embers);
     this.countText = new Text({ text: '', style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: 19, fill: C.text } });

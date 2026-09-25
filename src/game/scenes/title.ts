@@ -39,10 +39,10 @@ export class TitleScene extends Scene {
       },
     });
     titleText.anchor.set(0.5);
-    titleText.position.set(430, 250);
+    titleText.position.set(430, 235);
     const sub = new Text({ text: '执 命 者 · 逆 命 之 书', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 40, fill: C.text, letterSpacing: 10, stroke: { color: 0, width: 4 } } });
     sub.anchor.set(0.5);
-    sub.position.set(430, 400);
+    sub.position.set(430, 375);
     this.addChild(titleText, sub);
     titleText.alpha = 0; sub.alpha = 0;
     void tweens.to(titleText, { alpha: 1 }, 1400, { ease: ease.outQuad, unscaled: true });
@@ -59,14 +59,17 @@ export class TitleScene extends Scene {
     btn('设　　置', () => void import('./settings').then((m) => m.openSettings()));
     btn('鸣　　谢', () => this.credits());
     menu.layout();
-    menu.position.set(430 - 180, 500);
+    menu.position.set(430 - 180, 455);
     this.addChild(menu);
 
     // progress
     const p = session.profile;
     const nu = nextUnlock(p);
-    const prog = label(`命数 ${p.xp}${nu ? `　·　下一解锁：${nu.label}（${nu.xp}）` : '　·　全部内容已解锁'}　·　通关 ${p.wins}/${p.runs}`, { fontSize: 20, fill: C.textDim });
-    prog.position.set(40, 1030);
+    // inside the scroll, above its bottom roller
+    const prog = label(`命数 ${p.xp}　·　通关 ${p.wins}/${p.runs}
+${nu ? `下一解锁：${nu.label}（${nu.xp}）` : '全部内容已解锁'}`, { fontSize: 20, fill: C.textDim, align: 'center' });
+    prog.anchor.set(0.5, 0);
+    prog.position.set(430, 918);
     this.addChild(prog);
 
     // opening narration

@@ -1,6 +1,6 @@
 /** Minimal in-canvas text input (no DOM): click to focus, type, Backspace, Enter/Esc to blur. */
 import { Container, Text } from 'pixi.js';
-import { nine } from './skin';
+import { nine, INSET } from './skin';
 import { G } from '../core/app';
 import { C, FONT_UI } from './theme';
 
@@ -16,7 +16,7 @@ export class TextInput extends Container {
   constructor(private w: number, private h: number, private placeholder = '', private maxLen = 24) {
     super();
     this.txt = new Text({ text: '', style: { fontFamily: FONT_UI, fontSize: Math.round(h * 0.45), fill: C.text } });
-    this.txt.position.set(14, h / 2);
+    this.txt.position.set(INSET.row.x + 6, h / 2);
     this.txt.anchor.set(0, 0.5);
     this.addChild(this.bg, this.txt, this.caret);
     this.eventMode = 'static';
@@ -56,7 +56,7 @@ export class TextInput extends Container {
     this.txt.text = this.value || (this.focused ? '' : this.placeholder);
     this.txt.style.fill = this.value ? C.text : C.textDim;
     this.caret.anchor.set(0, 0.5);
-    this.caret.position.set(16 + (this.value ? this.txt.width : 0), this.h / 2);
+    this.caret.position.set(INSET.row.x + 8 + (this.value ? this.txt.width : 0), this.h / 2);
   }
 
   override destroy(o?: Parameters<Container['destroy']>[0]) { this.pop?.(); super.destroy(o); }

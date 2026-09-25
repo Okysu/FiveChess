@@ -31,7 +31,12 @@ async function boot() {
   progress(1, '');
   const el = document.getElementById('boot');
   if (el) { el.style.opacity = '0'; setTimeout(() => el.remove(), 700); }
-  if (import.meta.env.DEV) Object.assign(window, { __G: G, __session: session });
+  if (import.meta.env.DEV) {
+    // debug handles: __pump steps the ticker (the preview pane pauses rAF), __snap saves a PNG to .cache/snaps
+    const pump = async (ms: number) => { let now = performance.now(); const end = now + ms; while (now < end) { now += 16; G.app.ticker.update(now); await new Promise((r) => setTimeout(r, 0)); } };
+    const snap = async (name: string) => { G.app.render(); return (await fetch(`/__snap?name=${name}`, { method: 'POST', body: G.app.canvas.toDataURL('image/png') })).status; };
+    Object.assign(window, { __G: G, __session: session, __pump: pump, __snap: snap });
+  }
   await go(true);
 }
 

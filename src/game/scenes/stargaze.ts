@@ -1,6 +1,6 @@
 /** 观星台: edit the run's fate deck (remove / copy / change suit) or preview the road ahead. */
 import { Container, Text } from 'pixi.js';
-import { panel as uiPanel, frame, dim, hitRect } from '../ui/skin';
+import { panel as uiPanel, frame, dim, hitRect, INSET } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act } from '../router';
@@ -23,16 +23,16 @@ export class StargazeScene extends RunScreen {
     await this.setup({ bg: 'stargaze', music: 'map3', heading: sc.mode ? '「 改 写 天 命 」' : '「 观 星 台 」', dim: 0.4 });
     if (sc.done) {
       if (sc.preview?.length) {
-        const bg = uiPanel(900, 120 + sc.preview.length * 50, 'dark');
+        const bg = uiPanel(900, INSET.dark.y * 2 + 64 + sc.preview.length * 50, 'dark');
         bg.position.set(510, 260);
         this.addChild(bg);
         sc.preview.forEach((p, i) => {
           const t = new Text({ text: `第 ${p.row + 1} 层 · ${p.label}`, style: { fontFamily: FONT_BODY, fontSize: 26, fill: C.text } });
-          t.position.set(560, 320 + i * 50);
+          t.position.set(510 + INSET.dark.x, 260 + INSET.dark.y + 60 + i * 50);
           this.addChild(t);
         });
         const h = label('前路已在星图中显现；地图节点悬停可再次查看。', { fontSize: 22, fill: C.textDim });
-        h.position.set(560, 280);
+        h.position.set(510 + INSET.dark.x, 260 + INSET.dark.y + 4);
         this.addChild(h);
       } else {
         const t = new Text({ text: '命数已改。', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 48, fill: C.goldLight } });

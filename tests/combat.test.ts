@@ -147,9 +147,14 @@ describe('应对窗口与余烬', () => {
     const blk = s.hand[0]!;
     (blk as { costMod?: number }).costMod = 0;
     const r = act(s, { type: 'endTurn' });
-    // discarded at end of turn → no window
+    // response cards are held through the enemy turn → the enemy attack opens a window
     expect(r.ok).toBe(true);
-    expect(s.pending).toBeNull();
+    expect(s.pending?.kind).toBe('response');
+    // without a held response card, the same end turn opens no window
+    const s2 = makeCombat();
+    s2.hand = [];
+    expect(act(s2, { type: 'endTurn' }).ok).toBe(true);
+    expect(s2.pending).toBeNull();
   });
 
   it('responds to an enemy attack using an ember', () => {

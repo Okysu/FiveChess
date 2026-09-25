@@ -135,6 +135,11 @@ const ui = (id: string, prompt: string, transparent: boolean, px: number, size: 
   id, category: 'ui', out: `ui/${id}`, size, transparent, prompt: transparent ? `${prompt} ${UI_STYLE}` : `${prompt} ${STYLE_LOCK}`, px, quality: 'medium', ref,
 });
 
+/** plain surface textures: no illustration style lock (it makes the model paint motifs) */
+const TEX_STYLE = 'Photographic scan of a real material surface, filling the entire frame edge to edge, evenly lit, top-down, completely uniform with no focal point. ' +
+  'Absolutely no drawings, no figures, no animals, no plants, no clouds, no patterns, no motifs, no border, no text.';
+const tex = (id: string, prompt: string, px: number): ArtJob => ({ id, category: 'ui', out: `ui/${id}`, size: '1024x1024', transparent: false, prompt: `${prompt} ${TEX_STYLE}`, px, quality: 'medium' });
+
 const PAPER = 'The empty center is a completely flat plain paper-beige area with no pattern, no marks and no text.';
 const FACTION_PIGMENT: Record<string, string> = { R: 'vermilion red', B: 'azurite blue', G: 'malachite green', Y: 'ochre gold', P: 'plum purple', N: 'paper beige and grey-green' };
 
@@ -157,9 +162,9 @@ export const UI_MATERIALS: ArtJob[] = [
   ui('bar_frame', 'A single long thin horizontal gauge frame with cloud-scroll ends, black outline, ochre-gold rim; the inside channel is completely empty and transparent.', true, 640, '1536x1024'),
   ui('cloud_corner', 'A single auspicious cloud (xiangyun) corner ornament, ochre gold and vermilion with black outlines.', true, 192),
   ui('divider', 'A single long horizontal divider ornament: a meander band with a central lotus and cloud scrolls, ochre gold with black outlines.', true, 768, '1536x1024'),
-  ui('tex_paper', 'A seamless flat texture of aged beige rice paper with visible fibers and faint woodblock ink specks, evenly lit, top-down, no objects, no text.', false, 1024, '1024x1024', undefined),
-  ui('tex_ink', 'A seamless flat texture of dark indigo-black printed paper with subtle fiber grain and faint cloud pattern, evenly lit, top-down, no objects, no text.', false, 1024, '1024x1024', undefined),
-  ui('card_back', 'The back design of a playing card as a woodblock print: dark azurite blue field, a symmetric gold and vermilion mandala of auspicious clouds and stars around a central eye-like fate seal, meander border, full bleed.', false, 600, '1024x1536'),
+  tex('tex_paper', 'Blank aged beige mulberry rice paper, visible long fibers, a few faint ink specks.', 1024),
+  tex('tex_ink', 'Blank rice paper completely soaked with dark indigo-black ink, subtle fiber grain, slightly uneven ink density.', 1024),
+  ui('card_back', 'The back design of a playing card as a woodblock print: dark azurite blue field, a symmetric arrangement of the eight trigrams (bagua) in ochre gold around a central vermilion taiji disc, auspicious cloud corners, meander border, full bleed.', false, 600, '1024x1536'),
   ui('fate_back', 'The back of an ancient fortune card as a woodblock print: vermilion field with a symmetric ochre-gold pattern of a sun, a lightning bolt, a crescent moon and a mountain around a taiji circle, meander border, full bleed.', false, 400, '1024x1536'),
   ui('fate_face', 'A blank fortune card face as a woodblock print: plain paper-beige center with a thin black and ochre meander border, small cloud corners, nothing in the center, full bleed.', false, 400, '1024x1536'),
   ui('shopkeeper', 'Half-body portrait of a friendly masked wandering merchant in layered patterned robes, holding an abacus and a paper lantern, bowing slightly.', true, 900, '1024x1536', 'art-src/style_refs/wb_commander.png'),
@@ -205,7 +210,7 @@ export const UI_MATERIALS: ArtJob[] = [
   ui('smoke_overlay', 'A single swirling patterned ink smoke cloud, flat grey and indigo with black outlines, loosely filling a vertical oval.', true, 384, '1024x1536'),
   ui('arrow_chevron', 'A single chevron arrow segment pointing right, flat vermilion with a black carved outline and an ochre inner line.', true, 96),
   ui('arrow_head', 'A single arrow head pointing right, flat vermilion with a black carved outline and an ochre inner line, sharp and bold.', true, 128),
-  ui('path_dot', 'A single small round ink dot as a woodblock print, flat black with slight paper texture.', true, 48),
+  ui('path_dot', 'A single small plain round stepping-stone disc, flat ochre-gold face, thick black carved outline, one thin inner ring, nothing else, no objects.', true, 64),
   ui('path_dot_red', 'A single small round dot as a woodblock print, flat vermilion red with black outline.', true, 48),
   ui('stamp_visited', 'A single round vermilion cinnabar seal-stamp ring impression with a blank center, slightly uneven like a real stamp, no characters.', true, 192),
   ui('toggle_on', 'A single horizontal pill-shaped toggle switch in the ON state: flat malachite green track with an ochre-gold round knob on the right side, black carved outlines.', true, 192, '1536x1024'),
@@ -213,7 +218,7 @@ export const UI_MATERIALS: ArtJob[] = [
   ui('slider_track', 'A single long thin horizontal slider track with rounded ends, flat dark indigo channel with an ochre-gold rim and black outline. Empty.', true, 640, '1536x1024'),
   ui('slider_knob', 'A single round slider knob: ochre-gold coin with a carved cloud ring and black outline.', true, 96),
   ui('menu_panel', 'A tall vertical hanging scroll panel: dark indigo-black flat center, ornate ochre-gold and vermilion meander border, wooden scroll rods at top and bottom. The center is completely empty.', true, 768, '1024x1536'),
-  ui('dim_vignette', 'A plain flat dark indigo-black rectangle with a subtle rice-paper fiber texture, nothing else.', false, 512, '1024x1024', undefined),
+  tex('dim_vignette', 'Blank near-black ink-soaked paper, very dark and even, faint fiber grain only.', 512),
 ];
 
 const fx = (id: string, prompt: string): ArtJob => ({

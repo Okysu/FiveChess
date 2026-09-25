@@ -2,7 +2,7 @@
 import { Container, Graphics, Text, type TextStyleOptions, Sprite } from 'pixi.js';
 import { C, FONT_BODY, FONT_TITLE, FONT_UI } from './theme';
 import { darken } from './draw';
-import { WB, nine, frame as selFrame, panel, dim as dimLayer, hitRect } from './skin';
+import { WB, nine, frame as selFrame, panel, dim as dimLayer, hitRect, INSET } from './skin';
 import { tweens, ease } from '../core/tween';
 import { G } from '../core/app';
 import { richTexture } from './richtext';
@@ -89,7 +89,8 @@ export class Button extends Container {
   /** keep the label inside the plate face (the cloud-scroll ends take ~20% on each side) */
   private fitText() {
     this.txt.scale.set(1);
-    const maxW = this.bw * 0.62, maxH = this.bh * 0.62;
+    // the scroll ends scale with plate height, so short plates lose proportionally more width
+    const maxW = Math.max(this.bw * 0.4, Math.min(this.bw * 0.62, this.bw - this.bh * 1.15)), maxH = this.bh * 0.62;
     const k = Math.min(1, maxW / Math.max(1, this.txt.width), maxH / Math.max(1, this.txt.height));
     this.txt.scale.set(k);
   }
@@ -130,8 +131,10 @@ export class Button extends Container {
 export class Tooltip extends Container {
   constructor(lines: { title?: string; body: string; color?: number }[], width = 380) {
     super();
-    const pad = 16;
-    let y = pad;
+    // a lighter border (half-scale corners) keeps small tooltips from being all frame
+    const CS = 0.5;
+    const pad = Math.round(INSET.dark.x * CS) + 4;
+    let y = Math.round(INSET.dark.y * CS) + 4;
     const parts: Container[] = [];
     for (const l of lines) {
       if (l.title) {
@@ -147,7 +150,7 @@ export class Tooltip extends Container {
       parts.push(s);
       y += result.usedHeight + 10;
     }
-    const bg = panel(width, y + pad - 8, 'dark');
+    const bg = panel(width, y + Math.round(INSET.dark.y * CS), 'dark', { cornerScale: CS });
     this.addChild(bg, ...parts);
     for (const p of parts) if (p instanceof Sprite) { p.height = Math.min(p.height, 400); }
   }
@@ -230,7 +233,7 @@ export class Modal extends Container {
     if (o.title) {
       const t = title(o.title, 40);
       t.anchor.set(0.5, 0);
-      t.position.set(w / 2, 22);
+      t.position.set(w / 2, INSET.dark.y - 18);
       frame.addChild(t);
     }
     if (o.closable !== false) {

@@ -8,7 +8,10 @@ export abstract class Scene extends Container {
   /** full-screen backdrop texture key (drawn behind the design area, cover-fit) */
   backdropKey: string | null = null;
   backdropTint = 0xffffff;
+  /** build the scene; runs while the transition curtain is down */
   enter(): void | Promise<void> {}
+  /** runs once the curtain has lifted (intros, tutorials, anything the player must see) */
+  shown(): void | Promise<void> {}
   exit(): void {}
   update(_dt: number): void {}
   onKey(_e: KeyboardEvent): boolean { return false; }
@@ -121,6 +124,7 @@ class GameApp {
     await tweens.to(this.fade, { alpha: 0 }, dur, { ease: ease.inOutQuad, unscaled: true });
     this.fade.eventMode = 'none';
     this.switching = false;
+    if (this.scene === next) await next.shown();
   }
 }
 

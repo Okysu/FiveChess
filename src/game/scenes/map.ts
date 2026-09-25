@@ -56,7 +56,7 @@ export class MapScene extends Scene {
     this.top = new TopBar(r, { onPotion: (i) => this.usePotion(i), onSettings: () => void import('./settings').then((m) => m.openSettings()), onCodex: () => void import('./codex').then((m) => m.openCodexModal()) });
     this.addChild(this.top);
     const legend = this.legend();
-    legend.position.set(1680, 820);
+    legend.position.set(1920 - 316 - 20, 1080 - 336 - 16);
     this.addChild(legend);
     const title2 = new Text({ text: `第${['', '一', '二', '三', '终'][r.act]}幕 · ${actName(r.act)}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 40, fill: C.textDark, letterSpacing: 6 } });
     title2.position.set(40, 140);
@@ -148,7 +148,7 @@ export class MapScene extends Scene {
       const frame = uiPanel(260, 330, 'dark');
       frame.position.set(-130, -165);
       b.addChild(frame);
-      const m = maskRect(-122, -157, 244, 280, 12);
+      const m = maskRect(-96, -130, 192, 262, 0);
       assets.with(K.enemy(bossEnemy.id, true), (t) => {
         const s = new Sprite(t);
         const k = 300 / t.height;
@@ -161,7 +161,7 @@ export class MapScene extends Scene {
       });
       const nm = new Text({ text: bossEnemy.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: 0xffc8a0, stroke: { color: 0, width: 5 } } });
       nm.anchor.set(0.5);
-      nm.position.set(0, 140);
+      nm.position.set(0, 196);
       b.addChild(nm);
       const avl = availableNodes(r).some((n) => n.type === 'boss');
       if (avl) {
@@ -191,11 +191,12 @@ export class MapScene extends Scene {
 
   private legend(): Container {
     const c = new Container();
-    const bg = uiPanel(224, 240, 'dark');
+    // the panel's carved border is ~44px: keep entries inside the plain field
+    const bg = uiPanel(316, 336, 'dark');
     c.addChild(bg);
     const types: NodeType[] = ['combat', 'elite', 'event', 'shop', 'camp', 'chest', 'recruit', 'stargaze'];
     types.forEach((t, i) => {
-      const x = 14 + (i % 2) * 106, y = 16 + Math.floor(i / 2) * 54;
+      const x = 46 + (i % 2) * 118, y = 46 + Math.floor(i / 2) * 62;
       const ic = iconSprite(`node_${t}`, 40, NODE_INFO[t].glyph, NODE_INFO[t].tint);
       ic.position.set(x + 20, y + 20);
       const l = label(NODE_INFO[t].name, { fontSize: 18, fill: C.text });

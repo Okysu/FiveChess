@@ -1,6 +1,6 @@
 /** 主帅选择 (UI研究笔记 §14.6) */
 import { Container, Sprite, Text } from 'pixi.js';
-import { panel as uiPanel, maskRect, pip } from '../ui/skin';
+import { panel as uiPanel, maskRect, pip, INSET } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { Box } from '../core/layout';
@@ -59,12 +59,12 @@ export class SelectScene extends Scene {
     this.ascText = new Text({ text: '0', style: { fontFamily: FONT_NUM, fontSize: 34, fill: C.goldLight, fontWeight: 'bold' } });
     bottom.add(this.ascText, { width: 50, height: 44 });
     bottom.add(new Button('▶', { width: 56, height: 56, kind: 'ghost', onClick: () => this.setAsc(this.asc + 1) }), { width: 56, height: 56 });
-    this.seed = new TextInput(260, 56, '种子（可留空）');
-    bottom.add(this.seed, { width: 260, height: 56 });
+    this.seed = new TextInput(320, 56, '种子（可留空）');
+    bottom.add(this.seed, { width: 320, height: 56 });
     this.startBtn = new Button('启　程', { width: 260, height: 80, fontSize: 36, kind: 'primary', onClick: () => this.start() });
     bottom.add(this.startBtn, { width: 260, height: 80 });
     bottom.layout();
-    bottom.position.set(1880 - bottom.w, 975);
+    bottom.position.set(1860 - bottom.w, 836);
     this.addChild(bottom);
     this.setAsc(0);
   }
@@ -83,21 +83,21 @@ export class SelectScene extends Scene {
     for (const f of groups) {
       const cmds = [...content().commanders.values()].filter((c) => c.faction === f);
       const tag = new Text({ text: COLOR_INFO[f].name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: factionColor(f), stroke: { color: 0, width: 4 } } });
-      tag.position.set(x, 900);
+      tag.position.set(x, 960);
       this.list.addChild(tag);
       x += 40;
       for (const c of cmds) {
         const locked = !unlocked.includes(c.id);
         const card = new Container();
-        card.position.set(x, 870);
-        const bg = uiPanel(110, 150, 'tile');
+        card.position.set(x, 928);
+        const bg = uiPanel(104, 142, 'tile');
         card.addChild(bg);
-        const m = maskRect(4, 4, 102, 142, 8);
+        const m = maskRect(12, 12, 80, 118, 4);
         assets.with(K.hero(c.id), (t) => {
           const s = new Sprite(t);
-          const k = 150 / (t.height * 0.45);
+          const k = 142 / (t.height * 0.45);
           s.scale.set(k);
-          s.position.set(55 - (t.width * k) / 2, -8);
+          s.position.set(52 - (t.width * k) / 2, -6);
           card.addChild(m);
           s.mask = m;
           if (locked) { s.tint = 0x000000; s.alpha = 0.7; }
@@ -105,7 +105,7 @@ export class SelectScene extends Scene {
         });
         const nm = new Text({ text: locked ? '？？？' : c.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: C.text, stroke: { color: 0, width: 4 } } });
         nm.anchor.set(0.5, 1);
-        nm.position.set(55, 144);
+        nm.position.set(52, 124);
         card.addChild(nm);
         card.eventMode = 'static';
         card.cursor = 'pointer';
@@ -123,7 +123,7 @@ export class SelectScene extends Scene {
           card.on('pointerout', hideTip);
         }
         this.list.addChild(card);
-        x += 124;
+        x += 116;
       }
       x += 20;
     }
@@ -146,32 +146,33 @@ export class SelectScene extends Scene {
     }
     // details
     this.details.removeChildren();
-    const panelW = 900, panelH = 760;
+    const panelW = 900, panelH = 730;
+    const PX = INSET.dark.x, PY = INSET.dark.y;
     const bg = uiPanel(panelW, panelH, 'dark');
     this.details.position.set(960, 90);
     this.details.addChild(bg);
     const nm = new Text({ text: c.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 64, fill: C.goldLight, stroke: { color: 0, width: 6 } } });
-    nm.position.set(36, 20);
+    nm.position.set(PX, PY - 12);
     const tt = new Text({ text: `「${c.title}」`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 32, fill: factionColor(c.faction), stroke: { color: 0, width: 4 } } });
-    tt.position.set(40 + nm.width, 44);
+    tt.position.set(PX + 6 + nm.width, PY + 12);
     this.details.addChild(nm, tt);
     const info = new Text({ text: `${COLOR_INFO[c.faction].school}　生命 ${c.hp}　初始源`, style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text } });
-    info.position.set(40, 110);
+    info.position.set(PX, PY + 72);
     this.details.addChild(info);
     c.sources.forEach((col, i) => {
       const pp = pip(col, 40);
-      pp.position.set(72 + info.width + i * 46, 126);
+      pp.position.set(PX + 30 + info.width + i * 46, PY + 88);
       this.details.addChild(pp);
     });
-    let y = 160;
+    let y = PY + 118;
     for (const sk of c.skills) {
       const h = new Text({ text: `【${SKILL_TYPE[sk.type]}】${sk.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 28, fill: sk.type === 'passive' ? C.goldLight : 0xff9a6a } });
-      h.position.set(40, y);
+      h.position.set(PX, y);
       this.details.addChild(h);
       y += 40;
-      const { texture, result } = richTexture(sk.text, { width: panelW - 90, height: 140, fontSize: 21, minFontSize: 16, color: 0xeadfc8, align: 'left', vAlign: 'top' });
+      const { texture, result } = richTexture(sk.text, { width: panelW - PX * 2 - 16, height: 140, fontSize: 21, minFontSize: 16, color: 0xeadfc8, align: 'left', vAlign: 'top' });
       const s = new Sprite(texture);
-      s.position.set(56, y);
+      s.position.set(PX + 16, y);
       s.eventMode = 'static';
       s.on('pointerover', (e) => { const g = glossLines(termsOf(sk.text)); if (g.length) showTip(new Tooltip(g), e.global.x, e.global.y); });
       s.on('pointerout', hideTip);
@@ -181,24 +182,25 @@ export class SelectScene extends Scene {
     const relic = content().relics.get(c.relic);
     if (relic) {
       const h = new Text({ text: `专属遗物：${relic.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: C.goldLight } });
-      h.position.set(40, y);
+      h.position.set(PX, y);
       this.details.addChild(h);
       y += 36;
-      const { texture, result } = richTexture(relic.text, { width: panelW - 90, height: 100, fontSize: 20, color: 0xd8ccb4, align: 'left', vAlign: 'top' });
+      const { texture, result } = richTexture(relic.text, { width: panelW - PX * 2 - 16, height: 100, fontSize: 20, color: 0xd8ccb4, align: 'left', vAlign: 'top' });
       const s = new Sprite(texture);
-      s.position.set(56, y);
+      s.position.set(PX + 16, y);
       this.details.addChild(s);
       y += result.usedHeight + 16;
     }
     // starter deck mini-cards
     const deckLbl = new Text({ text: `初始牌组（${c.deck.length}）`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.textDim } });
-    deckLbl.position.set(40, Math.max(y, 540));
+    const deckY = Math.max(y, 460);
+    deckLbl.position.set(PX, deckY);
     this.details.addChild(deckLbl);
     const uniq = [...new Set(c.deck)];
     uniq.forEach((id, i) => {
       const v = new CardView({ id, up: false });
       v.scale.set(0.34);
-      v.position.set(80 + i * 112, Math.max(y, 540) + 120);
+      v.position.set(PX + 52 + i * 112, deckY + 112);
       v.eventMode = 'static';
       v.cursor = 'pointer';
       v.on('pointertap', () => inspectCard(id, false));
@@ -213,18 +215,17 @@ export class SelectScene extends Scene {
     });
     const st = session.profile.commanderStats[c.id];
     const stats = new Text({ text: st ? `战绩：出征 ${st.runs} · 通关 ${st.wins} · 最高逆命 ${st.highestAsc} · 最远 ${st.bestFloor} 层` : '尚无战绩', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim } });
-    stats.position.set(40, panelH - 44);
+    stats.position.set(PX, panelH - PY - 16);
     this.details.addChild(stats);
-    const lore = new Text({ text: c.lore, style: { fontFamily: FONT_BODY, fontSize: 19, fill: C.textDim, wordWrap: true, wordWrapWidth: 420, lineHeight: 30, breakWords: true } });
+    const lore = new Text({ text: c.lore, style: { fontFamily: FONT_BODY, fontSize: 19, fill: C.textDim, wordWrap: true, wordWrapWidth: 440, lineHeight: 30, breakWords: true } });
     lore.position.set(40, 100);
     lore.alpha = 0.85;
     const loreBox = new Container();
-    const lb = uiPanel(470, lore.height + 60, 'dark');
-    lb.position.set(-5, -15);
+    const lb = uiPanel(440 + INSET.dark.x * 2, lore.height + INSET.dark.y * 2, 'dark');
     loreBox.addChild(lb);
-    lore.position.set(20, 15);
+    lore.position.set(INSET.dark.x, INSET.dark.y);
     loreBox.addChild(lore);
-    loreBox.position.set(30, 110);
+    loreBox.position.set(24, 96);
     this.portrait.addChild(loreBox);
   }
 

@@ -36,22 +36,22 @@ export class RecruitScene extends RunScreen {
       const lt = content().lieutenants.get(id)!;
       const c = new Container();
       c.position.set(960 + (i - 1) * 420 - 180, 250);
-      const bg = uiPanel(360, 640, 'dark');
+      const bg = uiPanel(360, 690, 'dark');
       c.addChild(bg);
-      const m = maskRect(10, 10, 340, 300, 12);
+      const m = maskRect(36, 36, 288, 250, 0);
       const tex = assets.get(K.hero(id));
       if (tex) { c.addChild(m); const s = new Sprite(tex); const k = 420 / tex.height; s.scale.set(k); s.anchor.set(0.5, 0); s.position.set(180, 6); s.mask = m; c.addChild(s); }
       const nm = new Text({ text: `${lt.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 42, fill: C.goldLight, stroke: { color: 0, width: 5 } } });
-      nm.position.set(20, 272);
+      nm.position.set(50, 284);
       const tt = new Text({ text: `「${lt.title}」 ${COLOR_INFO[lt.faction].school}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: factionColor(lt.faction), stroke: { color: 0, width: 4 } } });
-      tt.position.set(20, 326);
+      tt.position.set(50, 336);
       const sk = new Text({ text: `【${SKILL_TYPE[lt.skill.type]}】${lt.skill.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: 0xffc88a } });
-      sk.position.set(20, 366);
-      const { texture } = richTexture(lt.skill.text, { width: 320, height: 150, fontSize: 20, minFontSize: 14, color: 0xeadfc8, align: 'left', vAlign: 'top' });
+      sk.position.set(50, 374);
+      const { texture } = richTexture(lt.skill.text, { width: 260, height: 150, fontSize: 20, minFontSize: 14, color: 0xeadfc8, align: 'left', vAlign: 'top' });
       const st = new Sprite(texture);
-      st.position.set(20, 404);
+      st.position.set(50, 412);
       const extra = new Text({ text: `招募后：1 枚素源变为${COLOR_INFO[lt.faction].name}源\n奖励卡池加入${COLOR_INFO[lt.faction].name}色（${COLOR_INFO[cmdColor].name}${COLOR_INFO[lt.faction].name}双色）`, style: { fontFamily: FONT_BODY, fontSize: 18, fill: C.textDim, lineHeight: 26 } });
-      extra.position.set(20, 566);
+      extra.position.set(50, 576);
       c.addChild(nm, tt, sk, st, extra);
       c.eventMode = 'static';
       c.cursor = 'pointer';
@@ -61,7 +61,7 @@ export class RecruitScene extends RunScreen {
       this.content.addChild(c);
     });
     const skip = new Button('不招募', { width: 220, height: 64, kind: 'ghost', onClick: () => void act({ t: 'recruit', i: null }) });
-    skip.position.set(850, 960);
+    skip.position.set(850, 968);
     this.addChild(skip);
   }
 }

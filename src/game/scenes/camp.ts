@@ -34,15 +34,15 @@ export class CampScene extends RunScreen {
     ];
     opts.forEach((o, i) => {
       const c = new Container();
-      c.position.set(420 + i * 380, 600);
-      const bg = uiPanel(340, 300, 'dark');
+      c.position.set(420 + i * 380, 580);
+      const bg = uiPanel(340, 340, 'dark');
       c.addChild(bg);
       const ic = iconSprite(o.icon, 96, o.glyph, C.goldLight);
-      ic.position.set(170, 90);
+      ic.position.set(170, 104);
       const t = new Text({ text: o.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 44, fill: o.disabled ? C.textDim : C.goldLight } });
-      t.anchor.set(0.5); t.position.set(170, 180);
+      t.anchor.set(0.5); t.position.set(170, 196);
       const s = new Text({ text: o.sub, style: { fontFamily: FONT_BODY, fontSize: 22, fill: C.text, align: 'center' } });
-      s.anchor.set(0.5, 0); s.position.set(170, 216);
+      s.anchor.set(0.5, 0); s.position.set(170, 228);
       c.addChild(ic, t, s);
       if (o.disabled || sc.done) c.alpha = 0.5;
       c.eventMode = 'static';

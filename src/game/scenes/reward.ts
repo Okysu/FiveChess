@@ -1,6 +1,6 @@
 /** 奖励 (UI研究笔记 §14.3) + 首领遗物三选一 */
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
-import { panel as uiPanel } from '../ui/skin';
+import { panel as uiPanel, INSET } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act, go } from '../router';
@@ -32,16 +32,16 @@ export class RewardScene extends RunScreen {
     this.content.removeChildren().forEach((c) => c.destroy({ children: true }));
     sc.items.forEach((it, i) => {
       const row = new Container();
-      row.position.set(680, 300 + i * 104);
-      const bg = uiPanel(560, 88, 'row');
+      row.position.set(650, 300 + i * 104);
+      const bg = uiPanel(620, 88, 'row');
       row.addChild(bg);
       const { icon, text } = this.describe(it);
-      icon.position.set(46, 44);
+      icon.position.set(INSET.row.x + 36, 44);
       const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 28, fill: it.taken ? C.textDim : C.text } });
       t.anchor.set(0, 0.5);
-      t.position.set(96, 44);
+      t.position.set(INSET.row.x + 84, 44);
       row.addChild(icon, t);
-      if (it.taken) { const ok = new Text({ text: '✔', style: { fontSize: 32, fill: C.jade } }); ok.anchor.set(0.5); ok.position.set(520, 44); row.addChild(ok); }
+      if (it.taken) { const ok = new Text({ text: '✔', style: { fontSize: 32, fill: C.jade } }); ok.anchor.set(0.5); ok.position.set(620 - INSET.row.x - 30, 44); row.addChild(ok); }
       row.eventMode = 'static';
       row.cursor = it.taken ? 'default' : 'pointer';
       row.on('pointertap', () => { if (!it.taken) void this.take(i, it); });
@@ -147,7 +147,7 @@ export class RewardScene extends RunScreen {
       c.addChild(ic);
       const nm = new Text({ text: def.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 36, fill: C.goldLight } });
       nm.anchor.set(0.5); nm.position.set(0, 0);
-      const tx = new Text({ text: def.text.replace(/\[|\]/g, ''), style: { fontFamily: FONT_BODY, fontSize: 22, fill: C.text, wordWrap: true, wordWrapWidth: 360, breakWords: true, align: 'center', lineHeight: 34 } });
+      const tx = new Text({ text: def.text.replace(/\[|\]/g, ''), style: { fontFamily: FONT_BODY, fontSize: 22, fill: C.text, wordWrap: true, wordWrapWidth: 420 - INSET.dark.x * 2, breakWords: true, align: 'center', lineHeight: 34 } });
       tx.anchor.set(0.5, 0); tx.position.set(0, 40);
       c.addChild(nm, tx);
       c.eventMode = 'static';

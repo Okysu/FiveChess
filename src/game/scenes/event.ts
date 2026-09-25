@@ -1,6 +1,6 @@
 /** 事件 (UI研究笔记 §14.9): illustration left, text & options right. */
 import { Container, Sprite, Text } from 'pixi.js';
-import { panel as uiPanel, maskRect } from '../ui/skin';
+import { panel as uiPanel, maskRect, INSET } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act } from '../router';
@@ -28,11 +28,12 @@ export class EventScene extends RunScreen {
     this.addChild(frame);
     const tex = assets.get(K.event(ev.id));
     if (tex) {
-      const m = maskRect(52, 212, 836, 596, 12);
+      // the print sits just under the carved border
+      const m = maskRect(76, 236, 788, 548, 0);
       const s = new Sprite(tex);
-      const k = Math.max(836 / tex.width, 596 / tex.height);
+      const k = Math.max(788 / tex.width, 548 / tex.height);
       s.scale.set(k);
-      s.position.set(52 + (836 - tex.width * k) / 2, 212 + (596 - tex.height * k) / 2);
+      s.position.set(76 + (788 - tex.width * k) / 2, 236 + (548 - tex.height * k) / 2);
       s.mask = m;
       this.addChild(m, s);
       s.alpha = 0;
@@ -46,11 +47,11 @@ export class EventScene extends RunScreen {
     const panel = uiPanel(920, 820 - 240, 'dark');
     panel.position.set(940, 240);
     this.addChild(panel);
-    const { texture, result } = richTexture(body, { width: 860, height: 380, fontSize: 26, minFontSize: 19, color: 0xf0e4cc, align: 'left', vAlign: 'top', lineHeight: 1.6, shadow: true });
+    const { texture, result } = richTexture(body, { width: 920 - INSET.dark.x * 2, height: 300, fontSize: 26, minFontSize: 19, color: 0xf0e4cc, align: 'left', vAlign: 'top', lineHeight: 1.6, shadow: true });
     const bs = new Sprite(texture);
-    bs.position.set(970, 268);
+    bs.position.set(940 + INSET.dark.x, 240 + INSET.dark.y);
     this.addChild(bs);
-    const optY = 268 + Math.min(380, result.usedHeight) + 30;
+    const optY = 240 + INSET.dark.y + Math.min(300, result.usedHeight) + 24;
     if (sc.outcome !== undefined) {
       this.continueButton('继续', () => void act({ t: 'proceed' }), 1580, 960);
       return;
@@ -63,18 +64,18 @@ export class EventScene extends RunScreen {
     const r = session.run!;
     const ok = !o.requires || checkCond(r, o.requires);
     const c = new Container();
-    c.position.set(970, y);
-    const bg = uiPanel(860, 74, 'row');
+    c.position.set(940 + INSET.dark.x - 10, y);
+    const bg = uiPanel(920 - INSET.dark.x * 2 + 20, 74, 'row');
     bg.alpha = ok ? 0.95 : 0.5;
     const draw = (hover: boolean) => { bg.scale.set(hover && ok ? 1.015 : 1); bg.alpha = ok ? (hover ? 1 : 0.92) : 0.5; };
     draw(false);
     c.addChild(bg);
-    const txt = new Text({ text: `${o.text}`, style: { fontFamily: FONT_BODY, fontSize: 24, fill: ok ? C.text : C.textDim, wordWrap: true, wordWrapWidth: 820, breakWords: true } });
-    txt.position.set(20, o.hint ? 6 : 22);
+    const txt = new Text({ text: `${o.text}`, style: { fontFamily: FONT_BODY, fontSize: 24, fill: ok ? C.text : C.textDim, wordWrap: true, wordWrapWidth: 920 - INSET.dark.x * 2 + 20 - INSET.row.x * 2, breakWords: true } });
+    txt.position.set(INSET.row.x, o.hint ? 6 : 22);
     c.addChild(txt);
     if (o.hint || !ok) {
       const h = new Text({ text: !ok ? `（条件不足）${o.hint ?? ''}` : o.hint!, style: { fontFamily: FONT_BODY, fontSize: 18, fill: !ok ? 0xa08070 : hintColor(o.hint!) } });
-      h.position.set(20, 42);
+      h.position.set(INSET.row.x, 42);
       c.addChild(h);
     }
     c.eventMode = 'static';

@@ -95,15 +95,15 @@ export class ShopScene extends RunScreen {
     if (full) { const t = new Text({ text: `行囊已满（${r.potions.length}/${r.potions.length}）`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 18, fill: 0xff9a8a } }); t.anchor.set(0.5); t.position.set(1110, 580); this.content.addChild(t); }
     // removal service
     const svc = new Container();
-    svc.position.set(1340, 600);
-    const bg = uiPanel(300, 200, 'dark');
+    svc.position.set(1330, 580);
+    const bg = uiPanel(320, 240, 'dark');
     svc.addChild(bg);
     const t1 = new Text({ text: '除牌', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 40, fill: shop.removed ? C.textDim : C.goldLight } });
-    t1.anchor.set(0.5); t1.position.set(150, 60);
+    t1.anchor.set(0.5); t1.position.set(160, 80);
     const t2 = new Text({ text: shop.removed ? '本店已服务' : '从牌组中移除一张牌', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 20, fill: C.textDim } });
-    t2.anchor.set(0.5); t2.position.set(150, 110);
+    t2.anchor.set(0.5); t2.position.set(160, 124);
     svc.addChild(t1, t2);
-    if (!shop.removed) svc.addChild(this.price(shop.removePrice, 150, 160));
+    if (!shop.removed) svc.addChild(this.price(shop.removePrice, 160, 168));
     svc.eventMode = 'static';
     svc.cursor = shop.removed ? 'default' : 'pointer';
     svc.on('pointertap', () => {

@@ -21,7 +21,7 @@ import { TopBar, openDeck, inspectCard, pickCards, termsOf, sortCards } from '..
 import { Button, Modal, Tooltip, glossLines, hideTip, label, showTip, title, toast } from '../../ui/widgets';
 import { CardView, CARD_H } from '../../ui/card';
 import { C, FONT_BODY, FONT_NUM, FONT_TITLE } from '../../ui/theme';
-import { WB, uiSprite, dim, hitRect, nine, panel, frame, ring as ringSprite, sectorMask, maskCircle } from '../../ui/skin';
+import { WB, uiSprite, dim, hitRect, nine, panel, INSET, frame, ring as ringSprite, sectorMask, maskCircle } from '../../ui/skin';
 import { tweens, ease, wait } from '../../core/tween';
 import { audio, sfx } from '../../audio/audio';
 import { Particles, fxTexture, floatText, shake, hitStop, dissolve, preloadFx } from '../../fx/fx';
@@ -139,10 +139,13 @@ export class CombatScene extends Scene {
     this.syncAll(false);
     // intro: cards dealt from the draw pile
     this.hand.views.forEach((v, i) => { v.position.set(PILES.draw.x, PILES.draw.y); v.scale.set(0.3); void wait(i * 80); });
+  }
+
+  override async shown() {
     this.hand.layout(true, 420);
     await this.intro();
-    if (s.pending) await this.handlePending();
-    else if (s.over) await this.finish();
+    if (this.s.pending) await this.handlePending();
+    else if (this.s.over) await this.finish();
   }
 
   override exit() {
@@ -1477,8 +1480,10 @@ export class CombatScene extends Scene {
     }
     const txt = new Text({ text: msg, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: 0xffe0d0, stroke: { color: 0, width: 5 }, align: 'center' } });
     txt.anchor.set(0.5);
-    const bg = panel(720, 150, 'dark');
-    bg.position.set(-360, -75);
+    const bh = Math.max(150, txt.height + INSET.dark.y * 2);
+    const bw = Math.max(720, txt.width + INSET.dark.x * 2);
+    const bg = panel(bw, bh, 'dark');
+    bg.position.set(-bw / 2, -bh / 2);
     const box = new Container();
     box.addChild(bg, txt);
     box.position.set(960, 420);

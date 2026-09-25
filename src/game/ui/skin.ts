@@ -183,7 +183,11 @@ export function nine(id: string, w: number, h: number, o: { tint?: number; alpha
 }
 
 export type PanelKind = 'dark' | 'light' | 'row' | 'tile' | 'menu';
-export function panel(w: number, h: number, kind: PanelKind = 'dark', o: { alpha?: number; tint?: number } = {}): Container {
+/** safe content inset inside each panel kind: the carved border + corner ornaments */
+export const INSET: Record<PanelKind, { x: number; y: number }> = {
+  dark: { x: 60, y: 52 }, light: { x: 60, y: 52 }, row: { x: 64, y: 10 }, tile: { x: 22, y: 22 }, menu: { x: 90, y: 90 },
+};
+export function panel(w: number, h: number, kind: PanelKind = 'dark', o: { alpha?: number; tint?: number; cornerScale?: number } = {}): Container {
   const id = kind === 'dark' ? 'panel_dark' : kind === 'light' ? 'panel_light' : kind === 'row' ? 'panel_row' : kind === 'tile' ? 'panel_tile' : 'menu_panel';
   return nine(id, w, h, o);
 }

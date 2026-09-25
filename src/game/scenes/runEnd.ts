@@ -1,6 +1,6 @@
 /** 冒险结算：胜利（含主帅专属结局）、失败、隐藏首领抉择。 */
 import { Container, Text } from 'pixi.js';
-import { panel as uiPanel, dim } from '../ui/skin';
+import { panel as uiPanel, dim, INSET } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { session } from '../state';
@@ -40,9 +40,10 @@ export class RunEndScene extends Scene {
     const panel = uiPanel(1100, 480, 'dark');
     panel.position.set(410, 280);
     this.addChild(panel);
-    const bt = new Text({ text: body, style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text, wordWrap: true, wordWrapWidth: 1020, lineHeight: 40, breakWords: true } });
-    bt.position.set(450, 310);
-    if (bt.height > 420) bt.scale.set(420 / bt.height);
+    const bt = new Text({ text: body, style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text, wordWrap: true, wordWrapWidth: 1100 - INSET.dark.x * 2, lineHeight: 40, breakWords: true } });
+    bt.position.set(410 + INSET.dark.x, 280 + INSET.dark.y);
+    const maxH = 480 - INSET.dark.y * 2;
+    if (bt.height > maxH) bt.scale.set(maxH / bt.height);
     this.addChild(bt);
     const stats = `${cmd.name} · 逆命 ${r.ascension} · 第${r.act}幕 第${r.floor}层 · 精英 ${r.stats.elites} · 首领 ${r.stats.bosses} · 最高单场伤害 ${r.stats.maxDamage} · 命数 +${runScore(r)}`;
     const st = new Text({ text: stats, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.goldLight, stroke: { color: 0, width: 4 } } });

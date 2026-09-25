@@ -1,6 +1,6 @@
 /** 图鉴 (UI研究笔记 §14.7): cards, enemies, relics, commanders, fate, world, rules, run history. */
 import { Container, Sprite, Text } from 'pixi.js';
-import { panel as uiPanel, maskRect, uiSprite } from '../ui/skin';
+import { panel as uiPanel, maskRect, uiSprite, INSET } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { content } from '../../engine/content';
@@ -92,7 +92,7 @@ class CodexPanel extends Container {
           c.position.set(20 + (i % per) * 200, 10 + Math.floor(i / per) * 240);
           const bg = uiPanel(184, 224, 'tile');
           c.addChild(bg);
-          const m = maskRect(6, 6, 172, 172, 10);
+          const m = maskRect(INSET.tile.x, INSET.tile.y, 184 - INSET.tile.x * 2, 168 - INSET.tile.y, 0);
           assets.with(K.enemy(e.id, e.tier === 'boss'), (t) => { const s = new Sprite(t); const k = Math.min(170 / t.height, 170 / t.width); s.scale.set(k); s.anchor.set(0.5, 1); s.position.set(92, 178); c.addChild(m); s.mask = m; if (!known) { s.tint = 0; s.alpha = 0.6; } c.addChildAt(s, 1); });
           const n = new Text({ text: known ? e.name : '？？？', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: C.text } });
           n.anchor.set(0.5); n.position.set(92, 200);
@@ -192,7 +192,7 @@ class CodexPanel extends Container {
           row.addChild(bg);
           const res = h.result === 'win' ? '通关' : h.result === 'abandon' ? '放弃' : '败北';
           const t = new Text({ text: `${new Date(h.date).toLocaleString('zh-CN')}　${cm?.name ?? h.commander}　逆命${h.ascension}　${res}　第${h.act}幕第${h.floor}层　命数+${h.score}　种子 ${h.seed}`, style: { fontFamily: FONT_BODY, fontSize: 20, fill: h.result === 'win' ? 0x9adfa8 : C.text } });
-          t.position.set(16, 16);
+          t.position.set(INSET.row.x, 16);
           row.addChild(t);
           const cp = new Button('复制种子', { width: 130, height: 44, fontSize: 18, kind: 'ghost', onClick: () => { void navigator.clipboard?.writeText(h.seed); toast('已复制种子'); } });
           cp.position.set(this.w - 210, 8);
@@ -218,15 +218,15 @@ export class CodexScene extends Scene {
     back.position.set(24, 20);
     const bg = uiPanel(1860, 960, 'dark');
     bg.position.set(30, 100);
-    const panel = new CodexPanel(1820, 920);
-    panel.position.set(50, 120);
+    const panel = new CodexPanel(1860 - INSET.dark.x * 2, 960 - INSET.dark.y * 2);
+    panel.position.set(30 + INSET.dark.x, 100 + INSET.dark.y);
     this.addChild(bg, panel, t, back);
   }
 }
 
 export function openCodexModal() {
   const m = new Modal(1800, 1000, { title: '图鉴' });
-  const p = new CodexPanel(1740, 860);
-  p.position.set(30, 110);
+  const p = new CodexPanel(1800 - INSET.dark.x * 2, 1000 - 110 - INSET.dark.y);
+  p.position.set(INSET.dark.x, 110);
   m.body.addChild(p);
 }
