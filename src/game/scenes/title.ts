@@ -40,7 +40,7 @@ export class TitleScene extends Scene {
     });
     titleText.anchor.set(0.5);
     titleText.position.set(430, 250);
-    const sub = new Text({ text: '执 命 者 · 逆 命 之 书', style: { fontFamily: FONT_TITLE, fontSize: 40, fill: C.text, letterSpacing: 10, stroke: { color: 0, width: 4 } } });
+    const sub = new Text({ text: '执 命 者 · 逆 命 之 书', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 40, fill: C.text, letterSpacing: 10, stroke: { color: 0, width: 4 } } });
     sub.anchor.set(0.5);
     sub.position.set(430, 400);
     this.addChild(titleText, sub);

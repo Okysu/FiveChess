@@ -1,5 +1,6 @@
 /** 冒险结算：胜利（含主帅专属结局）、失败、隐藏首领抉择。 */
 import { Container, Graphics, Text } from 'pixi.js';
+import { panelSurface } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { session } from '../state';
@@ -37,8 +38,7 @@ export class RunEndScene extends Scene {
     const cmd = content().commander(r.commander);
     const lore = intro as { victory: string; defeat: string[] };
     const body = win ? `${lore.victory}\n\n${cmd.ending}` : lore.defeat[r.act % lore.defeat.length] ?? '';
-    const panel = new Graphics();
-    drawPanel(panel, 1100, 480, { r: 16, alpha: 0.85 });
+    const panel = panelSurface(1100, 480, true);
     panel.position.set(410, 280);
     this.addChild(panel);
     const bt = new Text({ text: body, style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text, wordWrap: true, wordWrapWidth: 1020, lineHeight: 40, breakWords: true } });
@@ -46,7 +46,7 @@ export class RunEndScene extends Scene {
     if (bt.height > 420) bt.scale.set(420 / bt.height);
     this.addChild(bt);
     const stats = `${cmd.name} · 逆命 ${r.ascension} · 第${r.act}幕 第${r.floor}层 · 精英 ${r.stats.elites} · 首领 ${r.stats.bosses} · 最高单场伤害 ${r.stats.maxDamage} · 命数 +${runScore(r)}`;
-    const st = new Text({ text: stats, style: { fontFamily: FONT_TITLE, fontSize: 24, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
+    const st = new Text({ text: stats, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
     st.anchor.set(0.5); st.position.set(960, 800);
     this.addChild(st);
     if (!win && r.nemesis) {
@@ -58,7 +58,7 @@ export class RunEndScene extends Scene {
     }
     const unlocks = session.lastUnlocks;
     unlocks.forEach((u, i) => {
-      const ut = new Text({ text: `✦ ${u}`, style: { fontFamily: FONT_TITLE, fontSize: 26, fill: 0x9adfa8, stroke: { color: 0, width: 4 } } });
+      const ut = new Text({ text: `✦ ${u}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: 0x9adfa8, stroke: { color: 0, width: 4 } } });
       ut.anchor.set(0.5); ut.position.set(960, 890 + i * 36);
       ut.alpha = 0;
       this.addChild(ut);

@@ -120,7 +120,7 @@ function slider(v: number, on: (v: number) => void): Container {
   let val = v;
   const W = 440;
   const g = new Graphics();
-  const t = new Text({ text: '', style: { fontFamily: FONT_TITLE, fontSize: 24, fill: C.goldLight } });
+  const t = new Text({ text: '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.goldLight } });
   t.position.set(W + 24, 14);
   const draw = () => {
     g.clear().roundRect(0, 24, W, 12, 6).fill({ color: 0x1a120c }).stroke({ width: 1.5, color: C.goldDark });

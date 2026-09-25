@@ -1,5 +1,6 @@
 /** 地图 (UI研究笔记 §14.2): horizontal scroll, ink paths, node semantics, act intro. */
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
+import { panelSurface } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { TopBar, actName } from '../ui/hud';
@@ -57,7 +58,7 @@ export class MapScene extends Scene {
     const legend = this.legend();
     legend.position.set(1680, 820);
     this.addChild(legend);
-    const title2 = new Text({ text: `第${['', '一', '二', '三', '终'][r.act]}幕 · ${actName(r.act)}`, style: { fontFamily: FONT_TITLE, fontSize: 40, fill: C.textDark, letterSpacing: 6 } });
+    const title2 = new Text({ text: `第${['', '一', '二', '三', '终'][r.act]}幕 · ${actName(r.act)}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 40, fill: C.textDark, letterSpacing: 6 } });
     title2.position.set(40, 140);
     this.addChild(title2);
     // center on current
@@ -146,8 +147,7 @@ export class MapScene extends Scene {
       const by = r.act === 4 ? 520 : bp!.y;
       const b = new Container();
       b.position.set(bx, by);
-      const frame = new Graphics();
-      drawPanel(frame, 260, 330, { r: 16, fill: 0x2a1410, fill2: 0x100604, border: C.cinnabar });
+      const frame = panelSurface(260, 330, true);
       frame.position.set(-130, -165);
       b.addChild(frame);
       const m = new Graphics().roundRect(-122, -157, 244, 280, 12).fill(0xffffff);
@@ -161,7 +161,7 @@ export class MapScene extends Scene {
         s.mask = m;
         b.addChildAt(s, 1);
       });
-      const nm = new Text({ text: bossEnemy.name, style: { fontFamily: FONT_TITLE, fontSize: 30, fill: 0xffc8a0, stroke: { color: 0, width: 5 } } });
+      const nm = new Text({ text: bossEnemy.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: 0xffc8a0, stroke: { color: 0, width: 5 } } });
       nm.anchor.set(0.5);
       nm.position.set(0, 140);
       b.addChild(nm);
@@ -192,8 +192,7 @@ export class MapScene extends Scene {
 
   private legend(): Container {
     const c = new Container();
-    const bg = new Graphics();
-    drawPanel(bg, 224, 240, { r: 12, alpha: 0.85 });
+    const bg = panelSurface(224, 240, true);
     c.addChild(bg);
     const types: NodeType[] = ['combat', 'elite', 'event', 'shop', 'camp', 'chest', 'recruit', 'stargaze'];
     types.forEach((t, i) => {
@@ -216,7 +215,7 @@ export class MapScene extends Scene {
     overlay.addChild(dim);
     const t = title(a?.title ?? `第${r.act}幕`, 96);
     t.anchor.set(0.5); t.position.set(960, 380);
-    const st = new Text({ text: a?.subtitle ?? actName(r.act), style: { fontFamily: FONT_TITLE, fontSize: 44, fill: C.text, letterSpacing: 12 } });
+    const st = new Text({ text: a?.subtitle ?? actName(r.act), style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 44, fill: C.text, letterSpacing: 12 } });
     st.anchor.set(0.5); st.position.set(960, 490);
     const body = new Text({ text: a?.text ?? '', style: { fontFamily: FONT_BODY, fontSize: 26, fill: C.textDim, wordWrap: true, wordWrapWidth: 1100, align: 'center', lineHeight: 44, breakWords: true } });
     body.anchor.set(0.5, 0); body.position.set(960, 580);

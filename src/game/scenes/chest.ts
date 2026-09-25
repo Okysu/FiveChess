@@ -26,7 +26,7 @@ export class ChestScene extends RunScreen {
     if (!sc.opened) {
       chest.eventMode = 'static';
       chest.cursor = 'pointer';
-      const t = new Text({ text: '点击开启', style: { fontFamily: FONT_TITLE, fontSize: 30, fill: C.text, stroke: { color: 0, width: 4 } } });
+      const t = new Text({ text: '点击开启', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: C.text, stroke: { color: 0, width: 4 } } });
       t.anchor.set(0.5); t.position.set(960, 760);
       this.addChild(t);
       chest.on('pointertap', async () => {
@@ -42,7 +42,7 @@ export class ChestScene extends RunScreen {
       await assets.load(K.relic(sc.relic));
       const tex = assets.get(K.relic(sc.relic));
       if (tex) { const s = new Sprite(tex); s.anchor.set(0.5); s.scale.set(160 / Math.max(tex.width, tex.height)); s.position.set(960, 320); this.addChild(s); }
-      const t = new Text({ text: `获得遗物【${def.name}】与 ${sc.gold} 金`, style: { fontFamily: FONT_TITLE, fontSize: 36, fill: C.goldLight, stroke: { color: 0, width: 5 } } });
+      const t = new Text({ text: `获得遗物【${def.name}】与 ${sc.gold} 金`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 36, fill: C.goldLight, stroke: { color: 0, width: 5 } } });
       t.anchor.set(0.5); t.position.set(960, 780);
       const d = new Text({ text: def.text.replace(/\[|\]/g, ''), style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text, wordWrap: true, wordWrapWidth: 900, align: 'center', breakWords: true } });
       d.anchor.set(0.5, 0); d.position.set(960, 830);

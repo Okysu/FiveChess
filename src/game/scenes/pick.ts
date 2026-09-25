@@ -25,7 +25,7 @@ export class PickScene extends RunScreen {
     const sc = r.screen;
     await this.setup({ bg: sc.k === 'pick' && sc.source === 'camp' ? 'camp' : sc.k === 'pick' && sc.source === 'shop' ? 'shop' : 'event', dim: 0.55 });
     if (sc.k === 'cardChoice') {
-      const t = new Text({ text: `选择 ${sc.n} 张加入牌组`, style: { fontFamily: FONT_TITLE, fontSize: 48, fill: C.goldLight, stroke: { color: 0, width: 5 } } });
+      const t = new Text({ text: `选择 ${sc.n} 张加入牌组`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 48, fill: C.goldLight, stroke: { color: 0, width: 5 } } });
       t.anchor.set(0.5); t.position.set(960, 190);
       this.addChild(t);
       const picked = new Set<number>();

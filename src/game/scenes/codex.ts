@@ -1,5 +1,6 @@
 /** 图鉴 (UI研究笔记 §14.7): cards, enemies, relics, commanders, fate, world, rules, run history. */
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
+import { panelSurface } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { content } from '../../engine/content';
@@ -60,7 +61,7 @@ class CodexPanel extends Container {
         });
         const all = sortCards([...content().cards.values()].filter((c) => c.pool !== false && !['token', 'special', 'basic'].includes(c.rarity) && c.type !== 'status' && c.type !== 'curse' && (this.filter === 'all' || c.faction === this.filter)).map((c) => ({ id: c.id, up: false })));
         const found = all.filter((c) => d.cards.has(c.id)).length;
-        const cnt = new Text({ text: `收集 ${found}/${all.length}`, style: { fontFamily: FONT_TITLE, fontSize: 24, fill: C.goldLight } });
+        const cnt = new Text({ text: `收集 ${found}/${all.length}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.goldLight } });
         cnt.position.set(this.w - 220, 10);
         this.body.addChild(cnt);
         const box = new ScrollBox(this.w, H - 60);
@@ -94,7 +95,7 @@ class CodexPanel extends Container {
           c.addChild(bg);
           const m = new Graphics().roundRect(6, 6, 172, 172, 10).fill(0xffffff);
           assets.with(K.enemy(e.id, e.tier === 'boss'), (t) => { const s = new Sprite(t); const k = Math.min(170 / t.height, 170 / t.width); s.scale.set(k); s.anchor.set(0.5, 1); s.position.set(92, 178); c.addChild(m); s.mask = m; if (!known) { s.tint = 0; s.alpha = 0.6; } c.addChildAt(s, 1); });
-          const n = new Text({ text: known ? e.name : '？？？', style: { fontFamily: FONT_TITLE, fontSize: 22, fill: C.text } });
+          const n = new Text({ text: known ? e.name : '？？？', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: C.text } });
           n.anchor.set(0.5); n.position.set(92, 200);
           c.addChild(n);
           if (known) { c.eventMode = 'static'; c.on('pointerover', () => showTip(new Tooltip([{ title: `${e.name}（第${e.act}幕 · ${{ normal: '普通', elite: '精英', boss: '首领', minion: '仆从' }[e.tier]}）`, body: e.lore }], 420), c.x + 200 + 80, 200)); c.on('pointerout', hideTip); }
@@ -131,7 +132,7 @@ class CodexPanel extends Container {
         for (const cm of content().commanders.values()) {
           const st = session.profile.commanderStats[cm.id];
           const unlocked = session.profile.unlocked.commanders.includes(cm.id);
-          const t = new Text({ text: `${unlocked ? cm.name : '？？？'} 「${cm.title}」 · ${COLOR_INFO[cm.faction].school}`, style: { fontFamily: FONT_TITLE, fontSize: 30, fill: factionColor(cm.faction), stroke: { color: 0, width: 4 } } });
+          const t = new Text({ text: `${unlocked ? cm.name : '？？？'} 「${cm.title}」 · ${COLOR_INFO[cm.faction].school}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: factionColor(cm.faction), stroke: { color: 0, width: 4 } } });
           t.position.set(20, y);
           box.content.addChild(t);
           y += 44;
@@ -147,7 +148,7 @@ class CodexPanel extends Container {
       }
       case 'fate': {
         SUITS.forEach((s, row) => {
-          const l = new Text({ text: `${SUIT_INFO[s].name}（${SUIT_INFO[s].yang ? '阳' : '阴'}）`, style: { fontFamily: FONT_TITLE, fontSize: 26, fill: SUIT_INFO[s].color } });
+          const l = new Text({ text: `${SUIT_INFO[s].name}（${SUIT_INFO[s].yang ? '阳' : '阴'}）`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: SUIT_INFO[s].color } });
           l.position.set(20, 30 + row * 150);
           this.body.addChild(l);
           for (let r = 1; r <= 13; r++) {
@@ -167,7 +168,7 @@ class CodexPanel extends Container {
         const box = new ScrollBox(this.w, H);
         let y = 10;
         for (const e of entries) {
-          const t = new Text({ text: `${'category' in e && e.category ? `［${e.category}］` : ''}${e.title}`, style: { fontFamily: FONT_TITLE, fontSize: 30, fill: C.goldLight } });
+          const t = new Text({ text: `${'category' in e && e.category ? `［${e.category}］` : ''}${e.title}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: C.goldLight } });
           t.position.set(20, y);
           box.content.addChild(t);
           y += 44;
@@ -217,8 +218,7 @@ export class CodexScene extends Scene {
     t.anchor.set(0.5, 0); t.position.set(960, 14);
     const back = new Button('← 返回', { width: 150, height: 56, fontSize: 22, kind: 'ghost', onClick: () => void import('./title').then((m) => G.go(new m.TitleScene())) });
     back.position.set(24, 20);
-    const bg = new Graphics();
-    drawPanel(bg, 1860, 960, { r: 16, alpha: 0.85 });
+    const bg = panelSurface(1860, 960, true);
     bg.position.set(30, 100);
     const panel = new CodexPanel(1820, 920);
     panel.position.set(50, 120);

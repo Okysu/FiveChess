@@ -1,5 +1,6 @@
 /** 观星台: edit the run's fate deck (remove / copy / change suit) or preview the road ahead. */
 import { Container, Graphics, Text } from 'pixi.js';
+import { panelSurface } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act } from '../router';
@@ -23,8 +24,7 @@ export class StargazeScene extends RunScreen {
     await this.setup({ bg: 'stargaze', music: 'map3', heading: sc.mode ? '「 改 写 天 命 」' : '「 观 星 台 」', dim: 0.4 });
     if (sc.done) {
       if (sc.preview?.length) {
-        const bg = new Graphics();
-        drawPanel(bg, 900, 120 + sc.preview.length * 50, { r: 14 });
+        const bg = panelSurface(900, 120 + sc.preview.length * 50, true);
         bg.position.set(510, 260);
         this.addChild(bg);
         sc.preview.forEach((p, i) => {
@@ -36,7 +36,7 @@ export class StargazeScene extends RunScreen {
         h.position.set(560, 280);
         this.addChild(h);
       } else {
-        const t = new Text({ text: '命数已改。', style: { fontFamily: FONT_TITLE, fontSize: 48, fill: C.goldLight } });
+        const t = new Text({ text: '命数已改。', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 48, fill: C.goldLight } });
         t.anchor.set(0.5); t.position.set(960, 480);
         this.addChild(t);
       }
@@ -45,7 +45,7 @@ export class StargazeScene extends RunScreen {
     }
     this.addChild(this.grid);
     this.drawGrid();
-    const info = new Text({ text: `天命牌堆 ${r.fateDeck.length} 张 · 阳 ${r.fateDeck.filter((f) => SUIT_INFO[f.suit].yang && !f.omen).length} / 阴 ${r.fateDeck.filter((f) => !SUIT_INFO[f.suit].yang && !f.omen).length}${r.fateDeck.some((f) => f.omen) ? ` · 凶兆 ${r.fateDeck.filter((f) => f.omen).length}` : ''}`, style: { fontFamily: FONT_TITLE, fontSize: 26, fill: C.text, stroke: { color: 0, width: 4 } } });
+    const info = new Text({ text: `天命牌堆 ${r.fateDeck.length} 张 · 阳 ${r.fateDeck.filter((f) => SUIT_INFO[f.suit].yang && !f.omen).length} / 阴 ${r.fateDeck.filter((f) => !SUIT_INFO[f.suit].yang && !f.omen).length}${r.fateDeck.some((f) => f.omen) ? ` · 凶兆 ${r.fateDeck.filter((f) => f.omen).length}` : ''}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: C.text, stroke: { color: 0, width: 4 } } });
     info.position.set(80, 250);
     this.addChild(info);
     const hint = label('先点选一张命牌，再选择操作。每次观星只能做一件事。', { fontSize: 20, fill: C.textDim });

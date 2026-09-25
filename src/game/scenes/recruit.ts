@@ -1,5 +1,6 @@
 /** 招贤 (UI研究笔记 §14.9): three lieutenant cards, or a small boon if one is already recruited. */
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
+import { panelSurface } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act } from '../router';
@@ -24,7 +25,7 @@ export class RecruitScene extends RunScreen {
     await this.setup({ bg: 'recruit', music: 'camp', heading: '「 招 贤 」', dim: 0.3 });
     if (sc.done) { this.continueButton('继续前进 →', () => void act({ t: 'proceed' })); return; }
     if (!sc.options.length) {
-      const t = new Text({ text: '已有副将随行。贤士们赠你盘缠，祝你一路顺风。', style: { fontFamily: FONT_TITLE, fontSize: 34, fill: C.text, stroke: { color: 0, width: 5 } } });
+      const t = new Text({ text: '已有副将随行。贤士们赠你盘缠，祝你一路顺风。', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 34, fill: C.text, stroke: { color: 0, width: 5 } } });
       t.anchor.set(0.5); t.position.set(960, 500);
       this.addChild(t);
       this.continueButton('收下（+50 金）', () => void act({ t: 'recruit', i: null }), 820, 640);
@@ -36,17 +37,16 @@ export class RecruitScene extends RunScreen {
       const lt = content().lieutenants.get(id)!;
       const c = new Container();
       c.position.set(960 + (i - 1) * 420 - 180, 250);
-      const bg = new Graphics();
-      drawPanel(bg, 360, 640, { r: 16, border: factionColor(lt.faction) });
+      const bg = panelSurface(360, 640, true);
       c.addChild(bg);
       const m = new Graphics().roundRect(10, 10, 340, 300, 12).fill(0xffffff);
       const tex = assets.get(K.hero(id));
       if (tex) { c.addChild(m); const s = new Sprite(tex); const k = 420 / tex.height; s.scale.set(k); s.anchor.set(0.5, 0); s.position.set(180, 6); s.mask = m; c.addChild(s); }
-      const nm = new Text({ text: `${lt.name}`, style: { fontFamily: FONT_TITLE, fontSize: 42, fill: C.goldLight, stroke: { color: 0, width: 5 } } });
+      const nm = new Text({ text: `${lt.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 42, fill: C.goldLight, stroke: { color: 0, width: 5 } } });
       nm.position.set(20, 272);
-      const tt = new Text({ text: `「${lt.title}」 ${COLOR_INFO[lt.faction].school}`, style: { fontFamily: FONT_TITLE, fontSize: 22, fill: factionColor(lt.faction), stroke: { color: 0, width: 4 } } });
+      const tt = new Text({ text: `「${lt.title}」 ${COLOR_INFO[lt.faction].school}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: factionColor(lt.faction), stroke: { color: 0, width: 4 } } });
       tt.position.set(20, 326);
-      const sk = new Text({ text: `【${SKILL_TYPE[lt.skill.type]}】${lt.skill.name}`, style: { fontFamily: FONT_TITLE, fontSize: 26, fill: 0xffc88a } });
+      const sk = new Text({ text: `【${SKILL_TYPE[lt.skill.type]}】${lt.skill.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: 0xffc88a } });
       sk.position.set(20, 366);
       const { texture } = richTexture(lt.skill.text, { width: 320, height: 150, fontSize: 20, minFontSize: 14, color: 0xeadfc8, align: 'left', vAlign: 'top' });
       const st = new Sprite(texture);

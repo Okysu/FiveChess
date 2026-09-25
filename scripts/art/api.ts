@@ -27,7 +27,7 @@ export async function generate(o: GenOpts): Promise<Buffer> {
 
 async function generateOnce(o: GenOpts): Promise<Buffer> {
   need();
-  const timeout = AbortSignal.timeout(240_000);
+  const timeout = AbortSignal.timeout(480_000);
   let res: Response;
   if (o.ref) {
     const fd = new FormData();

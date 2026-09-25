@@ -64,7 +64,7 @@ export class TopBar extends Container {
     });
     row.add(portrait, { width: 64, height: 64 });
     const hpCol = new Box({ dir: 'column', gap: 4 });
-    const nm = new Text({ text: `${cmd.name} · ${cmd.title}`, style: { fontFamily: FONT_TITLE, fontSize: 22, fill: C.goldLight } });
+    const nm = new Text({ text: `${cmd.name} · ${cmd.title}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: C.goldLight } });
     hpCol.add(nm);
     const hpWrap = new Container();
     hpWrap.addChild(this.hpBar);
@@ -90,7 +90,7 @@ export class TopBar extends Container {
     // center info
     const info = new Text({
       text: `第${NUM_CN[run.act] ?? run.act}幕 · ${actName(run.act)} · 第${Math.max(1, run.floor)}层${run.ascension ? `   逆命 ${run.ascension}` : ''}`,
-      style: { fontFamily: FONT_TITLE, fontSize: 26, fill: C.text, letterSpacing: 2 },
+      style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: C.text, letterSpacing: 2 },
     });
     const spacer = new Box({ grow: 1, align: 'center', justify: 'center', height: 80 });
     spacer.add(info);
@@ -257,7 +257,7 @@ export function inspectCard(id: string, up: boolean) {
     other.position.set(810, 450);
     other.alpha = 0.92;
     m.body.addChild(other);
-    const t = label(up ? '升级前' : '升级后', { fontFamily: FONT_TITLE, fontSize: 26, fill: up ? C.textDim : C.jade });
+    const t = label(up ? '升级前' : '升级后', { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: up ? C.textDim : C.jade });
     t.anchor.set(0.5);
     t.position.set(810, 205);
     m.body.addChild(t);
@@ -268,7 +268,7 @@ export function inspectCard(id: string, up: boolean) {
   const tx = hasUp ? 1060 : 760;
   const w = 1500 - tx - 40;
   for (const l of lines) {
-    const t = new Text({ text: l.title, style: { fontFamily: FONT_TITLE, fontSize: 26, fill: l.color ?? C.goldLight } });
+    const t = new Text({ text: l.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: l.color ?? C.goldLight } });
     t.position.set(tx, y);
     m.body.addChild(t);
     y += 34;

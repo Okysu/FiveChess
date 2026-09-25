@@ -191,7 +191,7 @@ export class CombatScene extends Scene {
       }
     }
     // row labels
-    const mk = (t: string, x: number) => { const l = label(t, { fontFamily: FONT_TITLE, fontSize: 18, fill: C.textDim }); l.anchor.set(0.5); l.position.set(x, 146); l.alpha = 0.7; this.boardLayer.addChild(l); };
+    const mk = (t: string, x: number) => { const l = label(t, { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 18, fill: C.textDim }); l.anchor.set(0.5); l.position.set(x, 146); l.alpha = 0.7; this.boardLayer.addChild(l); };
     mk('后阵', X.playerBack); mk('前阵', X.playerFront); mk('前阵', X.enemyFront); mk('后阵', X.enemyBack);
     this.boardLayer.addChild(this.pField, this.eField, this.fate);
   }
@@ -306,7 +306,7 @@ export class CombatScene extends Scene {
       b.position.set(i * 26, 0);
       this.bossHand.addChild(b);
     });
-    const t = new Text({ text: `气 ${sd.energy}`, style: { fontFamily: FONT_TITLE, fontSize: 20, fill: 0xffc8a0, stroke: { color: 0, width: 4 } } });
+    const t = new Text({ text: `气 ${sd.energy}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 20, fill: 0xffc8a0, stroke: { color: 0, width: 4 } } });
     t.position.set(110, -12);
     this.bossHand.addChild(t);
   }
@@ -1296,7 +1296,7 @@ export class CombatScene extends Scene {
 
   private declareBanner(text: string) {
     this.banner.removeChildren().forEach((c) => c.destroy({ children: true }));
-    const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontSize: 30, fill: 0xffd8c8, stroke: { color: 0, width: 5 } } });
+    const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: 0xffd8c8, stroke: { color: 0, width: 5 } } });
     t.anchor.set(0.5);
     const bg = new Graphics().roundRect(-t.width / 2 - 30, -32, t.width + 60, 64, 12).fill({ color: 0x3a0a06, alpha: 0.85 }).stroke({ width: 2, color: 0xff8a6a });
     const c = new Container();
@@ -1470,14 +1470,14 @@ export class CombatScene extends Scene {
       const total = pv.damage * (pv.hits ?? 1);
       msg += `\n若不应对：${t.name} ${t.hp} → ${Math.max(0, t.hp - Math.max(0, total - t.armor))}`;
     }
-    const txt = new Text({ text: msg, style: { fontFamily: FONT_TITLE, fontSize: 30, fill: 0xffe0d0, stroke: { color: 0, width: 5 }, align: 'center' } });
+    const txt = new Text({ text: msg, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: 0xffe0d0, stroke: { color: 0, width: 5 }, align: 'center' } });
     txt.anchor.set(0.5);
     const bg = new Graphics().roundRect(-330, -60, 660, 120, 14).fill({ color: 0x2a0806, alpha: 0.9 }).stroke({ width: 2.5, color: 0xff7a5a });
     const box = new Container();
     box.addChild(bg, txt);
     box.position.set(960, 420);
     ui.addChild(box);
-    const lbl = new Text({ text: '应 对 窗 口', style: { fontFamily: FONT_TITLE, fontSize: 26, fill: 0xff9a7a, letterSpacing: 6 } });
+    const lbl = new Text({ text: '应 对 窗 口', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: 0xff9a7a, letterSpacing: 6 } });
     lbl.anchor.set(0.5); lbl.position.set(960, 340);
     ui.addChild(lbl);
     // countdown ring replaces the end-turn button
@@ -1540,7 +1540,7 @@ export class CombatScene extends Scene {
       const mk = (list: FateCard[], y: number, isTop: boolean) => {
         const row = new Container();
         (row as Container & { tag?: string }).tag = 'row';
-        const l = label(isTop ? '牌堆顶 ▶（左侧最先翻开）' : '牌堆底 ▶', { fontFamily: FONT_TITLE, fontSize: 24, fill: C.goldLight });
+        const l = label(isTop ? '牌堆顶 ▶（左侧最先翻开）' : '牌堆底 ▶', { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.goldLight });
         l.position.set(40, y - 100);
         row.addChild(l);
         list.forEach((c, i) => {
@@ -1580,7 +1580,7 @@ export class CombatScene extends Scene {
     cur.position.set(200, 280);
     cur.scale.set(1.3);
     m.body.addChild(cur);
-    const l = label(`当前判定：${SUIT_INFO[card.suit].name} ${card.rank}`, { fontFamily: FONT_TITLE, fontSize: 26, fill: C.goldLight });
+    const l = label(`当前判定：${SUIT_INFO[card.suit].name} ${card.rank}`, { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: C.goldLight });
     l.position.set(110, 90);
     m.body.addChild(l);
     signs.forEach((c, i) => {
@@ -1589,7 +1589,7 @@ export class CombatScene extends Scene {
       v.eventMode = 'static';
       v.cursor = 'pointer';
       v.on('pointertap', () => { m.close(); void this.send({ type: 'rejudge', sign: i }); });
-      const t = label('改判', { fontFamily: FONT_TITLE, fontSize: 22, fill: C.goldLight });
+      const t = label('改判', { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: C.goldLight });
       t.anchor.set(0.5); t.position.set(0, 110);
       v.addChild(t);
       m.body.addChild(v);

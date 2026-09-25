@@ -138,7 +138,7 @@ export class Tooltip extends Container {
     const parts: Container[] = [];
     for (const l of lines) {
       if (l.title) {
-        const t = new Text({ text: l.title, style: { fontFamily: FONT_TITLE, fontSize: 24, fill: l.color ?? C.goldLight } });
+        const t = new Text({ text: l.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: l.color ?? C.goldLight } });
         t.position.set(pad, y);
         parts.push(t);
         y += t.height + 4;
@@ -197,7 +197,7 @@ export function glossLines(terms: string[]): { title: string; body: string; colo
 
 export function toast(text: string, color = C.goldLight, y = 200) {
   const c = new Container();
-  const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontSize: 30, fill: color, stroke: { color: 0x000000, width: 5 } } });
+  const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: color, stroke: { color: 0x000000, width: 5 } } });
   t.anchor.set(0.5);
   const bg = new Graphics().roundRect(-t.width / 2 - 30, -t.height / 2 - 10, t.width + 60, t.height + 20, 12).fill({ color: 0x000000, alpha: 0.55 });
   c.addChild(bg, t);

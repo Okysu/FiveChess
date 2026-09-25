@@ -50,7 +50,7 @@ export class SourceTray extends Container {
     const ag = new Graphics();
     const flame = uiSprite('altar', 104, 104, WB.malachite, true);
     flame.position.set(0, -10);
-    const t = new Text({ text: '献', style: { fontFamily: FONT_TITLE, fontSize: 24, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
+    const t = new Text({ text: '献', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
     t.anchor.set(0.5); t.position.set(0, 38);
     this.altar.addChild(this.altarGlow, ag, flame, t);
     this.altar.position.set(ALTAR.x, ALTAR.y);
@@ -132,7 +132,7 @@ export class Pile extends Container {
     const g = new Graphics().roundRect(-w / 2 - 3, -h / 2 - 3, w + 6, h + 6, 10).stroke({ width: 2, color: C.goldDark });
     this.count = new Text({ text: '0', style: { fontFamily: FONT_NUM, fontSize: 30, fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0, width: 6 } } });
     this.count.anchor.set(0.5);
-    const lbl = new Text({ text: kind === 'draw' ? '抽牌' : kind === 'discard' ? '弃牌' : '燃尽', style: { fontFamily: FONT_TITLE, fontSize: 20, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
+    const lbl = new Text({ text: kind === 'draw' ? '抽牌' : kind === 'discard' ? '弃牌' : '燃尽', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 20, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
     lbl.anchor.set(0.5); lbl.position.set(0, h / 2 - 16);
     this.addChild(g, back, this.count, lbl);
     this.position.set(x, y);
@@ -196,7 +196,7 @@ export class SkillRow extends Container {
       g.circle(0, 0, 30).stroke({ width: 3, color: usable ? WB.ochre : sk.from === 'lieutenant' ? WB.malachite : 0x5a4a38 });
       if (usable) g.circle(0, 0, 42).stroke({ width: 2, color: 0xffd46a, alpha: 0.6 });
       c.addChild(g);
-      const t = new Text({ text: def.name.slice(0, 2), style: { fontFamily: FONT_TITLE, fontSize: 24, fill: (def.type === 'limited' && sk.usedCombat) || (def.type === 'active' && sk.used) ? 0x6a6060 : C.goldLight, stroke: { color: 0, width: 4 } } });
+      const t = new Text({ text: def.name.slice(0, 2), style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: (def.type === 'limited' && sk.usedCombat) || (def.type === 'active' && sk.used) ? 0x6a6060 : C.goldLight, stroke: { color: 0, width: 4 } } });
       t.anchor.set(0.5);
       c.addChild(t);
       const typeName = { passive: '被动', active: '主动', limited: '限定', awaken: sk.awakened ? '已觉醒' : '觉醒' }[def.type];

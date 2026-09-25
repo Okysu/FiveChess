@@ -1,5 +1,6 @@
 /** 奖励 (UI研究笔记 §14.3) + 首领遗物三选一 */
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
+import { panelSurface } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act, go } from '../router';
@@ -37,7 +38,7 @@ export class RewardScene extends RunScreen {
       row.addChild(bg);
       const { icon, text } = this.describe(it);
       icon.position.set(46, 44);
-      const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontSize: 28, fill: it.taken ? C.textDim : C.text } });
+      const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 28, fill: it.taken ? C.textDim : C.text } });
       t.anchor.set(0, 0.5);
       t.position.set(96, 44);
       row.addChild(icon, t);
@@ -101,7 +102,7 @@ export class RewardScene extends RunScreen {
       void tweens.to(v.scale, { x: 0.95, y: 0.95 }, 300, { delay: k * 90, ease: ease.outBack });
       m.body.addChild(v);
       const f = v.def.faction;
-      const tag = new Text({ text: f === 'N' ? '素 · 中立' : own[0] === f ? `${COLOR_INFO[f].name} · 主色` : `${COLOR_INFO[f].name} · 副色`, style: { fontFamily: FONT_TITLE, fontSize: 24, fill: factionColor(f) } });
+      const tag = new Text({ text: f === 'N' ? '素 · 中立' : own[0] === f ? `${COLOR_INFO[f].name} · 主色` : `${COLOR_INFO[f].name} · 副色`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: factionColor(f) } });
       tag.anchor.set(0.5); tag.position.set(v.x, 640);
       m.body.addChild(tag);
     });
@@ -137,8 +138,7 @@ export class RewardScene extends RunScreen {
       const def = content().relic(id);
       const c = new Container();
       c.position.set(960 + (i - (sc.options.length - 1) / 2) * 480, 560);
-      const bg = new Graphics();
-      drawPanel(bg, 420, 520, { r: 16, border: 0xff7a5a });
+      const bg = panelSurface(420, 520, true);
       bg.position.set(-210, -260);
       c.addChild(bg);
       const ic = new Container();
@@ -146,7 +146,7 @@ export class RewardScene extends RunScreen {
       assets.with(K.relic(id), (t) => { const s = new Sprite(t); s.anchor.set(0.5); s.scale.set(190 / Math.max(t.width, t.height)); ic.removeChildren(); ic.addChild(s); });
       ic.position.set(0, -130);
       c.addChild(ic);
-      const nm = new Text({ text: def.name, style: { fontFamily: FONT_TITLE, fontSize: 36, fill: C.goldLight } });
+      const nm = new Text({ text: def.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 36, fill: C.goldLight } });
       nm.anchor.set(0.5); nm.position.set(0, 0);
       const tx = new Text({ text: def.text.replace(/\[|\]/g, ''), style: { fontFamily: FONT_BODY, fontSize: 22, fill: C.text, wordWrap: true, wordWrapWidth: 360, breakWords: true, align: 'center', lineHeight: 34 } });
       tx.anchor.set(0.5, 0); tx.position.set(0, 40);

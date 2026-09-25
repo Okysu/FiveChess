@@ -1,5 +1,6 @@
 /** 事件 (UI研究笔记 §14.9): illustration left, text & options right. */
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
+import { panelSurface } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act } from '../router';
@@ -23,8 +24,7 @@ export class EventScene extends RunScreen {
     const ev = content().events.get(sc.id)!;
     await assets.load(K.event(ev.id));
     // illustration
-    const frame = new Graphics();
-    drawPanel(frame, 860, 620, { r: 16 });
+    const frame = panelSurface(860, 620, true);
     frame.position.set(40, 200);
     this.addChild(frame);
     const tex = assets.get(K.event(ev.id));
@@ -39,13 +39,12 @@ export class EventScene extends RunScreen {
       s.alpha = 0;
       void tweens.to(s, { alpha: 1 }, 500);
     }
-    const t = new Text({ text: ev.title, style: { fontFamily: FONT_TITLE, fontSize: 60, fill: C.goldLight, stroke: { color: 0, width: 6 }, letterSpacing: 4 } });
+    const t = new Text({ text: ev.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 60, fill: C.goldLight, stroke: { color: 0, width: 6 }, letterSpacing: 4 } });
     t.position.set(960, 150);
     this.addChild(t);
     const page = sc.page ? ev.pages?.find((p) => p.id === sc.page) : null;
     const body = sc.outcome ?? page?.text ?? ev.text;
-    const panel = new Graphics();
-    drawPanel(panel, 920, 820 - 240, { r: 16, alpha: 0.85 });
+    const panel = panelSurface(920, 820 - 240, true);
     panel.position.set(940, 240);
     this.addChild(panel);
     const { texture, result } = richTexture(body, { width: 860, height: 380, fontSize: 26, minFontSize: 19, color: 0xf0e4cc, align: 'left', vAlign: 'top', lineHeight: 1.6, shadow: true });

@@ -106,7 +106,7 @@ export class FateArea extends Container {
     this.deckCount = new Text({ text: '', style: { fontFamily: FONT_NUM, fontSize: 20, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
     this.deckCount.anchor.set(0.5, 0);
     this.deckCount.position.set(FATE.deck.x, FATE.deck.y + 88);
-    const lbl = new Text({ text: '天命', style: { fontFamily: FONT_TITLE, fontSize: 20, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
+    const lbl = new Text({ text: '天命', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 20, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
     lbl.anchor.set(0.5, 1);
     lbl.position.set(FATE.deck.x, FATE.deck.y - 88);
     this.addChild(this.known, this.deck, this.discard, this.signs, this.deckCount, lbl);
@@ -173,7 +173,7 @@ export class FateArea extends Container {
     await Promise.all([tweens.to(v, { x: FATE.judge.x, y: FATE.judge.y }, fast ? 160 : 300, { ease: ease.outCubic }), tweens.to(v.scale, { x: 2.2, y: 2.2 }, fast ? 160 : 300)]);
     let label: Text | null = null;
     if (!fast && reason) {
-      label = new Text({ text: reason, style: { fontFamily: FONT_TITLE, fontSize: 30, fill: C.goldLight, stroke: { color: 0, width: 5 }, align: 'center' } });
+      label = new Text({ text: reason, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: C.goldLight, stroke: { color: 0, width: 5 }, align: 'center' } });
       label.anchor.set(0.5);
       label.position.set(FATE.judge.x, FATE.judge.y - 235);
       layer.addChild(label);
@@ -204,7 +204,7 @@ export class FateArea extends Container {
   async resultAndDiscard(v: FateCardView, branch: string, fast: boolean) {
     const suitName = v.card ? SUIT_INFO[v.card.suit].name : '';
     const yang = v.card ? SUIT_INFO[v.card.suit].yang : false;
-    const t = new Text({ text: branch === 'omen' ? '凶兆' : `${yang ? '阳' : '阴'} · ${suitName}`, style: { fontFamily: FONT_TITLE, fontSize: 42, fill: yang ? 0xffd27a : 0xa8d8ff, stroke: { color: 0, width: 6 } } });
+    const t = new Text({ text: branch === 'omen' ? '凶兆' : `${yang ? '阳' : '阴'} · ${suitName}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 42, fill: yang ? 0xffd27a : 0xa8d8ff, stroke: { color: 0, width: 6 } } });
     t.anchor.set(0.5);
     t.position.set(FATE.judge.x, FATE.judge.y + 215);
     v.parent?.addChild(t);
