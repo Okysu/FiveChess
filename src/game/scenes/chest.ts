@@ -10,6 +10,7 @@ import { assets, K } from '../assets';
 import { tweens, ease } from '../core/tween';
 import { sfx } from '../audio/audio';
 import { Particles, fxTexture } from '../fx/fx';
+import { richTexture } from '../ui/richtext';
 
 export class ChestScene extends RunScreen {
   private parts = new Particles();
@@ -44,7 +45,8 @@ export class ChestScene extends RunScreen {
       if (tex) { const s = new Sprite(tex); s.anchor.set(0.5); s.scale.set(160 / Math.max(tex.width, tex.height)); s.position.set(960, 320); this.addChild(s); }
       const t = new Text({ text: `获得遗物【${def.name}】与 ${sc.gold} 金`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 36, fill: C.goldLight, stroke: { color: 0, width: 5 } } });
       t.anchor.set(0.5); t.position.set(960, 780);
-      const d = new Text({ text: def.text.replace(/\[|\]/g, ''), style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text, wordWrap: true, wordWrapWidth: 900, align: 'center', breakWords: true } });
+      const { texture } = richTexture(def.text, { width: 900, height: 110, fontSize: 24, minFontSize: 18, color: 0xf0e4cc, align: 'center', vAlign: 'top', shadow: true });
+      const d = new Sprite(texture);
       d.anchor.set(0.5, 0); d.position.set(960, 830);
       this.addChild(t, d);
     }

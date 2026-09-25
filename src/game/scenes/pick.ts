@@ -51,7 +51,7 @@ export class PickScene extends RunScreen {
     }
     if (sc.k !== 'pick') return;
     const info = KIND[sc.kind] ?? KIND.remove!;
-    const cands = pickCandidates(r, sc.kind);
+    const cands = pickCandidates(r, sc.kind, sc.filter);
     pickCards(cands, {
       title: info.title, n: sc.n, confirm: info.confirm, upgradePreview: sc.kind === 'upgrade', optional: sc.optional,
       onDone: (uids) => { sfx(sc.kind === 'upgrade' ? 'buff' : 'discard'); void act(uids.length ? { t: 'pick', uids } : { t: 'proceed' }); },

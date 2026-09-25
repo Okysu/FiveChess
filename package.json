@@ -10,7 +10,7 @@
     "gen:sheets": "tsx scripts/art/sheets.ts",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "test": "npm run check:ui && vitest run",
+    "test": "npm run check:ui && npm run audit && vitest run",
     "test:watch": "vitest",
     "validate": "tsx scripts/validate-data.ts",
     "sim": "tsx scripts/simulate.ts",
@@ -18,7 +18,8 @@
     "export:tables": "tsx scripts/export-tables.ts",
     "check:ui": "tsx scripts/check-no-procedural.ts",
     "credits": "tsx scripts/credits.ts",
-    "audio:import": "tsx scripts/audio/import-audio.ts"
+    "audio:import": "tsx scripts/audio/import-audio.ts",
+    "audit": "tsx scripts/audit-reachability.ts --ci"
   },
   "dependencies": {
     "pixi.js": "^8.21.0",

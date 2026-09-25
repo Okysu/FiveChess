@@ -93,8 +93,8 @@
       },
       {
         "text": "卖掉一件遗物",
-        "hint": "选择失去 1 件遗物 · 获得 140 金",
-        "effects": [ { "op": "loseRelic", "mode": "choose" }, { "op": "gold", "n": 140 } ],
+        "hint": "失去 1 件随机遗物 · 获得 140 金",
+        "effects": [ { "op": "loseRelic", "mode": "random" }, { "op": "gold", "n": 140 } ],
         "outcome": "摊主捧着你的遗物端详半晌，眼里放出贪婪的光，爽快地付了钱。你走出很远，回头看见他把那件东西供在了摊位最高处。"
       },
       {

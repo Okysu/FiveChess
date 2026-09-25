@@ -11,7 +11,7 @@ import { ScrollBox } from '../ui/scroll';
 import { iconSprite } from '../ui/draw';
 import { inspectCard, sortCards } from '../ui/hud';
 import { session } from '../state';
-import { COLOR_INFO, SUIT_INFO } from '../../engine/glossary';
+import { COLOR_INFO, SUIT_INFO, plainRules } from '../../engine/glossary';
 import { SUITS, type Color } from '../../engine/defs';
 import { FateCardView } from './combat/fateView';
 import world from '../../data/lore/world.json';
@@ -171,7 +171,7 @@ class CodexPanel extends Container {
           t.position.set(20, y);
           box.content.addChild(t);
           y += 44;
-          const bt = new Text({ text: e.text.replace(/\[|\]/g, ''), style: { fontFamily: FONT_BODY, fontSize: 21, fill: C.text, wordWrap: true, wordWrapWidth: this.w - 80, lineHeight: 34, breakWords: true } });
+          const bt = new Text({ text: plainRules(e.text), style: { fontFamily: FONT_BODY, fontSize: 21, fill: C.text, wordWrap: true, wordWrapWidth: this.w - 80, lineHeight: 34, breakWords: true } });
           bt.position.set(40, y);
           box.content.addChild(bt);
           y += bt.height + 26;

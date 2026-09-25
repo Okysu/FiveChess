@@ -26,7 +26,7 @@ export interface ShopState {
   removed?: boolean;
 }
 
-export type PickKind = 'remove' | 'upgrade' | 'transform' | 'duplicate' | 'loseRelic';
+export type PickKind = 'remove' | 'upgrade' | 'transform' | 'duplicate';
 
 export type Screen =
   | { k: 'map' }
@@ -39,7 +39,7 @@ export type Screen =
   | { k: 'recruit'; options: string[]; done: boolean }
   | { k: 'stargaze'; done: boolean; preview?: { row: number; col: number; label: string }[]; mode?: 'remove' | 'change' | 'copy' }
   | { k: 'chest'; relic: string | null; gold: number; opened: boolean }
-  | { k: 'pick'; kind: PickKind; n: number; optional: boolean; source: 'camp' | 'event' | 'shop' | 'relic' }
+  | { k: 'pick'; kind: PickKind; n: number; optional: boolean; source: 'camp' | 'event' | 'shop' | 'relic'; filter?: CardFilter }
   | { k: 'cardChoice'; options: CardRef[]; n: number }
   | { k: 'actStart'; act: number }
   | { k: 'victory' }
@@ -118,6 +118,7 @@ export type RunAction =
 // ───────────── setup ─────────────
 
 const rngFor = (r: RunState, label: string): RngState => seedRng(`${r.seed}/${label}`);
+const HIDDEN_BOSS = 'enc4_nameless';
 
 export function fullFateDeck(): FateSpec[] {
   return SUITS.flatMap((suit) => Array.from({ length: 13 }, (_, i) => ({ suit, rank: i + 1 })));
@@ -159,6 +160,7 @@ function startAct(r: RunState, act: number) {
   r.map = generateMap(`${r.seed}/map:${act}`, { act, hasLieutenant: !!r.lieutenant, tutorial: r.tutorial, ascension: r.ascension });
   r.map.boss = r.bosses[act] ?? null;
   r.screen = { k: 'actStart', act };
+  if (hasRule(r, 'mapReveal').length) previewNodes(r, 99);
 }
 
 export function ownColors(r: RunState): Color[] {
@@ -239,6 +241,8 @@ export function applyCombatResult(r: RunState, a: Extract<RunAction, { t: 'comba
   r.relics = a.relics.map((x) => ({ ...x }));
   for (const e of a.enemies) if (!r.discovered.enemies.includes(e)) r.discovered.enemies.push(e);
   if (a.result === 'lose' || r.hp <= 0) {
+    // the hidden boss is an optional epilogue after a completed run: falling there still counts as a win
+    if (r.flags.includes('hidden_boss')) { r.hp = Math.max(1, r.hp); r.flags.push('hidden_boss_lost'); r.result = 'win'; r.screen = { k: 'victory' }; return; }
     r.result = 'lose';
     r.nemesis = sc.encounter;
     r.screen = { k: 'defeat' };
@@ -352,6 +356,7 @@ export function gainRelic(r: RunState, id: string) {
   if (!r.discovered.relics.includes(id)) r.discovered.relics.push(id);
   const def = content().relic(id);
   for (const rule of def.run ?? []) if (rule.rule === 'potionSlots') for (let i = 0; i < rule.n; i++) r.potions.push(null);
+  if ((def.run ?? []).some((x) => x.rule === 'mapReveal') && r.map) previewNodes(r, 99);
   if (def.onPickup) r.pending.push(...def.onPickup);
 }
 
@@ -409,14 +414,15 @@ function applyRunEffect(r: RunState, e: RunEffect): boolean {
     case 'removeCard': case 'upgradeCard': case 'transformCard': case 'duplicateCard': {
       const kind: PickKind = e.op === 'removeCard' ? 'remove' : e.op === 'upgradeCard' ? 'upgrade' : e.op === 'transformCard' ? 'transform' : 'duplicate';
       const mode = 'mode' in e ? e.mode : 'choose';
-      const candidates = pickCandidates(r, kind);
+      const filter = 'filter' in e ? e.filter : undefined;
+      const candidates = pickCandidates(r, kind, filter);
       if (!candidates.length) return false;
       if (mode === 'random') {
         const picks = sample(rng, candidates, e.n);
         for (const c of picks) applyPick(r, kind, c.uid, rng);
         return false;
       }
-      pushScreen(r, { k: 'pick', kind, n: Math.min(e.n, candidates.length), optional: false, source: 'event' });
+      pushScreen(r, { k: 'pick', kind, n: Math.min(e.n, candidates.length), optional: false, source: 'event', filter });
       return true;
     }
     case 'addRelic': gainRelic(r, e.relic ?? rollRelic(r, rng, e.tier ?? rollRelicTier(rng))); return false;
@@ -482,10 +488,11 @@ function popScreen(r: RunState) {
   drainPending(r);
 }
 
-export function pickCandidates(r: RunState, kind: PickKind): CardRef[] {
-  if (kind === 'upgrade') return r.deck.filter((d) => !d.up && !!content().card(d.id).upgrade);
-  if (kind === 'remove' || kind === 'transform') return r.deck.filter((d) => content().card(d.id).rarity !== 'special' || content().card(d.id).type === 'curse' || content().card(d.id).type === 'status');
-  return [...r.deck];
+export function pickCandidates(r: RunState, kind: PickKind, filter?: CardFilter): CardRef[] {
+  const base = kind === 'upgrade' ? r.deck.filter((d) => !d.up && !!content().card(d.id).upgrade)
+    : kind === 'remove' || kind === 'transform' ? r.deck.filter((d) => content().card(d.id).rarity !== 'special' || content().card(d.id).type === 'curse' || content().card(d.id).type === 'status')
+    : [...r.deck];
+  return filter ? base.filter((d) => matchCard(content().card(d.id), filter, ownColors(r))) : base;
 }
 
 function applyPick(r: RunState, kind: PickKind, uid: number, rng: RngState) {
@@ -529,11 +536,11 @@ export function setLieutenant(r: RunState, id: string) {
 
 // ───────────── stargaze preview ─────────────
 
-export function previewNodes(r: RunState): { row: number; col: number; label: string }[] {
+export function previewNodes(r: RunState, rows = 3): { row: number; col: number; label: string }[] {
   const out: { row: number; col: number; label: string }[] = [];
   const startRow = (r.pos?.row ?? -1) + 1;
   for (const row of r.map.rows) for (const n of row) {
-    if (n.row < startRow || n.row >= startRow + 3) continue;
+    if (n.row < startRow || n.row >= startRow + rows) continue;
     if (n.type === 'combat' || n.type === 'elite') {
       const enc = pickEncounter(r, n, n.type === 'combat' ? 'normal' : 'elite');
       r.previews[`${r.act}:${n.row}:${n.col}`] = enc;
@@ -670,7 +677,7 @@ function applyRun(r: RunState, a: RunAction): string | null {
     case 'proceed': {
       if (sc.k === 'actStart') { r.screen = { k: 'map' }; return null; }
       if (sc.k === 'reward') {
-        if (r.flags.includes('hidden_boss')) { r.result = 'win'; r.screen = { k: 'victory' }; return null; }
+        if (r.flags.includes('hidden_boss')) { r.stats.bosses++; r.result = 'win'; r.screen = { k: 'victory' }; return null; }
         const bossPending = r.stack.length && r.stack[r.stack.length - 1]!.k === 'bossRelic';
         if (bossPending) { r.screen = r.stack.pop()!; return null; }
         if (r.act >= 1 && sc.items && r.screen.k === 'reward' && lastWasBoss(r)) { advanceAct(r); return null; }
@@ -737,7 +744,7 @@ function applyRun(r: RunState, a: RunAction): string | null {
         return null;
       }
       if (sc.k !== 'pick') return 'nothing to pick';
-      const cands = pickCandidates(r, sc.kind);
+      const cands = pickCandidates(r, sc.kind, sc.filter);
       const uids = a.uids.filter((u) => cands.some((c) => c.uid === u));
       if (uids.length !== sc.n) return `pick exactly ${sc.n}`;
       const rng = rngFor(r, `pick:${r.floor}:${r.log.length}`);
@@ -798,7 +805,7 @@ function applyRun(r: RunState, a: RunAction): string | null {
     case 'hidden': {
       if (sc.k !== 'hiddenChoice') return 'no choice';
       if (!a.go) { r.result = 'win'; r.screen = { k: 'victory' }; return null; }
-      const hidden = [...content().encounters.values()].find((e) => e.act === 4 && e.tier === 'boss' && e.id !== r.bosses[4]);
+      const hidden = content().encounters.get(HIDDEN_BOSS) ?? [...content().encounters.values()].find((e) => e.act === 4 && e.tier === 'boss' && e.id !== r.bosses[4]);
       if (!hidden) { r.result = 'win'; r.screen = { k: 'victory' }; return null; }
       r.flags.push('hidden_boss');
       enterCombat(r, hidden.id, 'boss', 'none');
@@ -827,10 +834,6 @@ function advanceAct(r: RunState) {
   startAct(r, r.act + 1);
 }
 
-/** called when a hidden-boss or act-4 boss combat returns 'win' via reward 'none' */
-export function afterNoRewardWin(r: RunState) {
-  if (r.flags.includes('hidden_boss')) { r.result = 'win'; r.screen = { k: 'victory' }; }
-}
 
 export { nodeAt };
 export type { MapNode, NodeType };

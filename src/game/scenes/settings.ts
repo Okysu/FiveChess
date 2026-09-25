@@ -1,6 +1,6 @@
 /** 设置 (UI研究笔记 §14.8) as a modal usable anywhere, including mid-combat. */
 import { Container, Text, type FederatedPointerEvent } from 'pixi.js';
-import { uiSprite, nine, hitRect } from '../ui/skin';
+import { uiSprite, nine, hitRect, setColorGlyphs } from '../ui/skin';
 import { Button, Modal } from '../ui/widgets';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
 import { session, defaultSettings } from '../state';
@@ -54,7 +54,7 @@ export function openSettings() {
       row('全屏', toggle(!!document.fullscreenElement, (v) => { if (v) void document.documentElement.requestFullscreen?.(); else void document.exitFullscreen?.(); }));
     } else if (tab === 'access') {
       row('命纹显示文字', toggle(st.suitText, (v) => { st.suitText = v; save(); }), '在命纹图标角落加“日/雷/月/山”汉字（命纹本身已是色 + 形双编码）');
-      row('色觉模式', seg(['标准', '红绿', '蓝黄'], ['none', 'rg', 'by'].indexOf(st.colorblind), (i) => { st.colorblind = (['none', 'rg', 'by'] as const)[i]!; save(); }), '五色源与四命纹均以形状区分；此选项加强对比');
+      row('色觉模式', seg(['标准', '红绿', '蓝黄'], ['none', 'rg', 'by'].indexOf(st.colorblind), (i) => { st.colorblind = (['none', 'rg', 'by'] as const)[i]!; setColorGlyphs(st.colorblind !== 'none'); save(); }), '开启后，源与命纹上额外标注“赤玄青金紫素 / 日雷月山”字样，不再只靠颜色区分');
     } else {
       const note = new Text({ text: '快捷键：空格/E 结束回合（应对窗口中为“不应对”） · 1–0 选择手牌 · D 牌组 · A 抽牌堆 · S 弃牌堆 · L 战报 · Esc 取消/设置 · 右键 检视', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, wordWrap: true, wordWrapWidth: 1100, breakWords: true } });
       note.position.set(290, y);

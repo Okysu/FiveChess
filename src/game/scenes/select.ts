@@ -17,7 +17,7 @@ import { audio, sfx } from '../audio/audio';
 import { TextInput } from '../ui/input';
 import { go } from '../router';
 import { inspectCard, termsOf } from '../ui/hud';
-import { UNLOCK_TRACK } from '../../engine/meta';
+import { UNLOCK_TRACK, ASCENSION_TEXT } from '../../engine/meta';
 
 const SKILL_TYPE: Record<string, string> = { passive: '被动', active: '主动', limited: '限定技', awaken: '觉醒技' };
 
@@ -25,6 +25,7 @@ export class SelectScene extends Scene {
   private portrait = new Container();
   private details = new Container();
   private list = new Container();
+  private ascDesc!: Text;
   private selected: CommanderDef;
   private asc = 0;
   private ascText!: Text;
@@ -66,6 +67,12 @@ export class SelectScene extends Scene {
     bottom.layout();
     bottom.position.set(1860 - bottom.w, 836);
     this.addChild(bottom);
+    this.ascDesc = new Text({ text: '', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, stroke: { color: 0, width: 3 } } });
+    this.ascDesc.position.set(1860 - bottom.w, 836 + 70);
+    this.ascDesc.eventMode = 'static';
+    this.ascDesc.on('pointerover', (e) => { const l = (this.ascDesc as Text & { lines?: string[] }).lines ?? []; if (l.length) showTip(new Tooltip([{ title: `逆命 ${this.asc} 生效的修正`, body: l.map((x, i) => `${i + 1}. ${x}`).join('\n') }], 420), e.global.x, 520, 'above'); });
+    this.ascDesc.on('pointerout', hideTip);
+    this.addChild(this.ascDesc);
     this.setAsc(0);
   }
 
@@ -73,6 +80,10 @@ export class SelectScene extends Scene {
     const max = session.profile.ascension[this.selected.id] ?? 0;
     this.asc = Math.max(0, Math.min(max, v));
     this.ascText.text = String(this.asc);
+    // what this level adds (levels stack); hover lists every active modifier
+    const lines = ASCENSION_TEXT.slice(1, this.asc + 1);
+    this.ascDesc.text = this.asc === 0 ? `逆命 0：${ASCENSION_TEXT[0]}${max ? `（最高可选 ${max}）` : ''}` : `逆命 ${this.asc}：${ASCENSION_TEXT[this.asc]}${this.asc > 1 ? `（另含前 ${this.asc - 1} 级）` : ''}`;
+    (this.ascDesc as Text & { lines?: string[] }).lines = lines;
   }
 
   private buildList() {

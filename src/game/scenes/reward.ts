@@ -14,7 +14,7 @@ import { assets, K } from '../assets';
 import { tweens, ease } from '../core/tween';
 import { sfx } from '../audio/audio';
 import { termsOf, inspectCard, openDeck } from '../ui/hud';
-import { COLOR_INFO } from '../../engine/glossary';
+import { COLOR_INFO, plainRules } from '../../engine/glossary';
 
 export class RewardScene extends RunScreen {
   override async enter() {
@@ -147,7 +147,7 @@ export class RewardScene extends RunScreen {
       c.addChild(ic);
       const nm = new Text({ text: def.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 36, fill: C.goldLight } });
       nm.anchor.set(0.5); nm.position.set(0, 0);
-      const tx = new Text({ text: def.text.replace(/\[|\]/g, ''), style: { fontFamily: FONT_BODY, fontSize: 22, fill: C.text, wordWrap: true, wordWrapWidth: 420 - INSET.dark.x * 2, breakWords: true, align: 'center', lineHeight: 34 } });
+      const tx = new Text({ text: plainRules(def.text), style: { fontFamily: FONT_BODY, fontSize: 22, fill: C.text, wordWrap: true, wordWrapWidth: 420 - INSET.dark.x * 2, breakWords: true, align: 'center', lineHeight: 34 } });
       tx.anchor.set(0.5, 0); tx.position.set(0, 40);
       c.addChild(nm, tx);
       c.eventMode = 'static';

@@ -5,7 +5,7 @@
  * The only Graphics allowed in the game layer are invisible masks and hit areas created here
  * (enforced by scripts/check-no-procedural.ts).
  */
-import { Container, Graphics, NineSliceSprite, Sprite, Texture, type ContainerChild } from 'pixi.js';
+import { Container, Graphics, NineSliceSprite, Sprite, Text, Texture, type ContainerChild } from 'pixi.js';
 import type { Color, Suit } from '../../engine/defs';
 import { assets, K } from '../assets';
 
@@ -231,13 +231,26 @@ export function gem(rarity: string, size: number): Container {
 }
 
 /** a school resource token; `empty` shows a faded outline-like version for a missing color */
-export function pip(color: Color, size: number, empty = false): Container {
-  const c = uiSprite(`pip_${color}`, size, size, empty ? { tint: 0x5a5048, alpha: 0.55 } : {});
+/** 色觉模式: sources and suits also carry their name glyph, so nothing depends on hue alone */
+let glyphs = false;
+export function setColorGlyphs(on: boolean) { glyphs = on; }
+const PIP_GLYPH: Record<Color, string> = { R: '赤', B: '玄', G: '青', Y: '金', P: '紫', N: '素' };
+const SUIT_GLYPH: Record<Suit, string> = { sun: '日', thunder: '雷', moon: '月', mountain: '山' };
+function withGlyph(c: Container, ch: string, size: number): Container {
+  if (!glyphs || size < 18) return c;
+  const t = new Text({ text: ch, style: { fontFamily: '"Noto Serif SC","Songti SC",serif', fontWeight: '900', fontSize: Math.round(size * 0.5), fill: 0xffffff, stroke: { color: 0x000000, width: Math.max(2, size * 0.1) } } });
+  t.anchor.set(0.5);
+  c.addChild(t);
   return c;
 }
 
+export function pip(color: Color, size: number, empty = false): Container {
+  const c = uiSprite(`pip_${color}`, size, size, empty ? { tint: 0x5a5048, alpha: 0.55 } : {});
+  return withGlyph(c, PIP_GLYPH[color], size);
+}
+
 export function suitIcon(s: Suit, size: number): Container {
-  return uiSprite(`suit_${s}`, size, size);
+  return withGlyph(uiSprite(`suit_${s}`, size, size), SUIT_GLYPH[s], size);
 }
 
 export type FrameColor = 'gold' | 'red' | 'blue';

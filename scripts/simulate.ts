@@ -110,7 +110,7 @@ function step(r: RunState): boolean {
       return true;
     }
     case 'pick': {
-      const cands = pickCandidates(r, sc.kind);
+      const cands = pickCandidates(r, sc.kind, sc.filter);
       const order = [...cands].sort((a, b) => (sc.kind === 'remove' ? score(a.id) - score(b.id) : score(b.id) - score(a.id)));
       A({ t: 'pick', uids: order.slice(0, sc.n).map((x) => x.uid) });
       return true;

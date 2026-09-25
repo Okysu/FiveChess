@@ -17,7 +17,6 @@ export interface Settings {
   confirmEndTurn: boolean;
   colorblind: 'none' | 'rg' | 'by';
   suitText: boolean;
-  fontScale: number;
   screenShake: number;
   damageNumbers: boolean;
   tutorialHints: boolean;
@@ -25,7 +24,7 @@ export interface Settings {
 
 export const defaultSettings = (): Settings => ({
   volume: { master: 0.8, music: 0.5, sfx: 0.8, ambient: 0.5 }, animSpeed: 1, skipAnims: false, fastJudge: false,
-  responseMode: 'smart', responseTimer: 8, confirmEndTurn: false, colorblind: 'none', suitText: false, fontScale: 1,
+  responseMode: 'smart', responseTimer: 8, confirmEndTurn: false, colorblind: 'none', suitText: false,
   screenShake: 1, damageNumbers: true, tutorialHints: true,
 });
 

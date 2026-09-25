@@ -3,7 +3,6 @@ import { content } from '../content';
 import type { Color } from '../defs';
 import { seedRng, shuffle } from '../rng';
 import type { CardInst, CombatConfig, CombatState, CEvent, PlayerAction, Side, Unit, SideState } from './state';
-import { encounterTune } from './tuning';
 import { other } from './state';
 import {
   alive, attackTargets, canAttack, commanderOf, emptySlots, unit, unitsOf, BACK, FRONT, reach,
@@ -75,7 +74,7 @@ export function createCombat(cfg: CombatConfig): CombatState {
     const def = c.enemy(e.id);
     const row = e.row ?? def.row;
     if (row === 'commander') {
-      const hp = Math.round(def.hp[0] * (cfg.ascension >= 4 && def.tier === 'boss' ? 1.1 : 1) * encounterTune(cfg.encounter).hp);
+      const hp = scaleEnemyHp(s, def.tier, def.hp[0]);
       const boss: Unit = {
         uid: newUid(s), side: 'enemy', kind: 'commander', def: def.id, origin: 'enemy', up: false, name: def.name, row: 'cmd', slot: 0,
         baseAtk: def.atk, baseMaxHp: hp, hp, armor: 0, atkBuff: 0, hpBuff: 0, tempAtk: 0, ward: def.ward ?? 0, thorns: def.thorns ?? 0,
@@ -102,7 +101,7 @@ export function createCombat(cfg: CombatConfig): CombatState {
   return s;
 }
 
-import { placeUnit } from './core';
+import { placeUnit, scaleEnemyHp } from './core';
 function placeUnitSilently(s: CombatState, row: 'front' | 'back', slot: number, id: string) {
   const size = row === 'front' ? FRONT : BACK;
   let sl = Math.min(slot, size - 1);

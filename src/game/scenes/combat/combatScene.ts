@@ -3,6 +3,7 @@
  * event list; this scene plays those events as animations, then re-syncs every view from state.
  * The presentation never mutates game state.
  */
+import epilogues from '../../../data/lore/epilogues.json';
 import { Container, Graphics, Sprite, Text, type FederatedPointerEvent } from 'pixi.js';
 import { G, Scene } from '../../core/app';
 import { assets, K } from '../../assets';
@@ -1283,7 +1284,9 @@ export class CombatScene extends Scene {
       if (tex) { const sp = new Sprite(tex); sp.anchor.set(0.5, 1); sp.scale.set(Math.min(900 / tex.height, 1)); sp.position.set(1300, 1040); sp.alpha = 0; ov.addChild(sp); void tweens.to(sp, { alpha: 1, x: 1250 }, 700); }
       const nm = title(def.name, 110);
       nm.anchor.set(0.5); nm.position.set(620, 420);
-      const line = new Text({ text: def.dialogue?.intro ?? '', style: { fontFamily: FONT_BODY, fontSize: 30, fill: C.text, wordWrap: true, wordWrapWidth: 900, lineHeight: 46, stroke: { color: 0, width: 4 }, breakWords: true } });
+      // a boss can greet you differently if an earlier event set a flag (lore/epilogues.json bossIntro)
+      const alt = (epilogues as { bossIntro: { enemy: string; flag: string; text: string }[] }).bossIntro.find((b) => b.enemy === def.id && session.run?.flags.includes(b.flag));
+      const line = new Text({ text: alt?.text ?? def.dialogue?.intro ?? '', style: { fontFamily: FONT_BODY, fontSize: 30, fill: C.text, wordWrap: true, wordWrapWidth: 900, lineHeight: 46, stroke: { color: 0, width: 4 }, breakWords: true } });
       line.anchor.set(0.5, 0); line.position.set(620, 540);
       ov.addChild(nm, line);
       ov.alpha = 0;

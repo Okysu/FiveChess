@@ -7,7 +7,7 @@ import { audio } from './game/audio/audio';
 import { session } from './game/state';
 import { go } from './game/router';
 import { preloadFx } from './game/fx/fx';
-import { preloadUi } from './game/ui/skin';
+import { preloadUi, setColorGlyphs } from './game/ui/skin';
 
 const bar = document.getElementById('bootbar');
 const msg = document.getElementById('bootmsg');
@@ -21,6 +21,7 @@ async function boot() {
   await G.init(document.getElementById('app')!);
   audio.init();
   await session.load();
+  setColorGlyphs(session.settings.colorblind !== 'none');
   progress(0.25, '研墨……');
   // fonts: wait briefly for web fonts, fall back to system fonts
   await Promise.race([document.fonts?.ready ?? Promise.resolve(), new Promise((r) => setTimeout(r, 2500))]);

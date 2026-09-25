@@ -302,8 +302,9 @@ for (const ev of c.events.values()) {
   for (const p of st.missingPages) report('6 events', 'ERROR', `${ev.id} option → missing page '${p}' (${at(f, `"next": "${p}"`, evLine)})`);
   for (const p of st.unreachedPages) report('6 events', 'ERROR', `${ev.id} page '${p}' never reached by any 'next' (${at(f, `"id": "${p}"`, evLine)})`);
 }
-for (const f of listJson()) lines(f).forEach((l, i) => { if (/"op":\s*"loseRelic",\s*"mode":\s*"choose"/.test(l)) report('6 events', 'WARN', `loseRelic mode "choose" is implemented as random (${at(RUN, "case 'loseRelic'")}); PickKind 'loseRelic' never pushed (${rel(f)}:${i + 1})`); if (/"op":\s*"removeCard"[^}]*"filter"/.test(l)) report('6 events', 'WARN', `removeCard.filter ignored by applyRunEffect (${rel(f)}:${i + 1})`); });
-for (const [flag, a] of reach.flags) if (!flagsRead.has(flag) && !engineAndGame.some((f) => text(f).includes(`'${flag}'`) || text(f).includes('`' + flag.split(':')[0]))) report('6 events', 'WARN', `flag '${flag}' set (act ${a}) but never read by any requires/code (${at(listJson().map(rel).find((f) => text(f).includes(`"key": "${flag}"`)) ?? RUN, flag)})`);
+for (const f of listJson()) lines(f).forEach((l, i) => { if (/"op":\s*"loseRelic",\s*"mode":\s*"choose"/.test(l)) report('6 events', 'WARN', `loseRelic mode "choose" is implemented as random (${at(RUN, "case 'loseRelic'")}); PickKind 'loseRelic' never pushed (${rel(f)}:${i + 1})`); if (/"op":\s*"removeCard"[^}]*"filter"/.test(l) && !/pickCandidates\(r, kind, filter\)/.test(text(RUN))) report('6 events', 'WARN', `removeCard.filter ignored by applyRunEffect (${rel(f)}:${i + 1})`); });
+const epilogueFlags = fs.existsSync(path.join(DATA_DIR, 'lore', 'epilogues.json')) ? fs.readFileSync(path.join(DATA_DIR, 'lore', 'epilogues.json'), 'utf8') : '';
+for (const [flag, a] of reach.flags) if (!flagsRead.has(flag) && !epilogueFlags.includes('"' + flag + '"') && !engineAndGame.some((f) => text(f).includes(`'${flag}'`) || text(f).includes('`' + flag.split(':')[0]))) report('6 events', 'WARN', `flag '${flag}' set (act ${a}) but never read by any requires/code (${at(listJson().map(rel).find((f) => text(f).includes(`"key": "${flag}"`)) ?? RUN, flag)})`);
 for (const flag of flagsRead) if (!reach.flags.has(flag)) report('6 events', 'ERROR', `flag '${flag}' required but never set`);
 for (const d of dangling) report('6 events', 'ERROR', `dangling reference ${d}`);
 
@@ -342,7 +343,7 @@ for (const k of pickKinds) if (!new RegExp(`kind[^\\n]*'${k}'|'${k}' :|\\? '${k}
 {
   const setHidden = at(META, 'p.hiddenUnlocked = true'), passHidden = at('src/game/state.ts', 'unlockedHidden: this.profile.hiddenUnlocked'), gate = at(RUN, "k: 'hiddenChoice' }; return;");
   report('8 map/screens', hiddenEnc ? 'INFO' : 'ERROR', `hidden ending: any win sets profile.hiddenUnlocked (${setHidden}) → next run passes unlockedHidden (${passHidden}) → after act-4 boss relic, advanceAct shows hiddenChoice (${gate}) → '${hiddenEnc}' with reward 'none' → proceed → victory (${at(RUN, "r.flags.includes('hidden_boss')) { r.result")})`);
-  report('8 map/screens', 'WARN', `losing the optional hidden boss records the whole (already won) run as 'lose' (${at(RUN, "r.result = 'lose';")}); hidden-boss win does not count stats.bosses (${at(RUN, "if (sc.reward === 'boss')")})`);
+  if (!text(RUN).includes('hidden_boss_lost')) report('8 map/screens', 'WARN', `losing the optional hidden boss records the whole (already won) run as 'lose' (${at(RUN, "r.result = 'lose';")}); hidden-boss win does not count stats.bosses (${at(RUN, "if (sc.reward === 'boss')")})`);
   const exp = text(RUN).match(/export function (\w+)/g)!.map((s) => s.split(' ')[2]!);
   const allSrc = [...tsFiles('src'), ...tsFiles('scripts')].filter((f) => f !== RUN && !f.includes('audit-reachability')).map(text).join('\n');
   for (const fn of exp) if (!new RegExp(`\\b${fn}\\b`).test(allSrc) && !new RegExp(`\\b${fn}\\(`).test(text(RUN).replace(`export function ${fn}`, ''))) report('8 map/screens', 'WARN', `run.ts export ${fn}() is never called (${at(RUN, `export function ${fn}`)})`);
@@ -370,17 +371,17 @@ for (const e of c.enemies.values()) for (const ph of e.phases ?? []) if (ph.minA
   for (const tier of ['normal', 'elite'] as const) {
     const hit = cmdRow.filter((e) => e.tier === tier).map((e) => e.id);
     const lv = tier === 'normal' ? 2 : 3;
-    if (hit.length) report('9 ascension', 'ERROR', `A${lv} HP bonus NOT applied to ${hit.length} ${tier} encounters whose enemy is commander-row (createCombat only scales tier 'boss', ${at('src/engine/combat/api.ts', "cfg.ascension >= 4 && def.tier === 'boss'")}): ${hit.join(', ')}`);
+    if (hit.length && !text('src/engine/combat/api.ts').includes('scaleEnemyHp(')) report('9 ascension', 'ERROR', `A${lv} HP bonus NOT applied to ${hit.length} ${tier} encounters whose enemy is commander-row (createCombat only scales tier 'boss', ${at('src/engine/combat/api.ts', "cfg.ascension >= 4 && def.tier === 'boss'")}): ${hit.join(', ')}`);
   }
 }
-const inGameDesc = tsFiles('src/game').some((f) => [...docAsc.values()].some((d) => d.length > 4 && text(f).includes(d.slice(0, 6))));
+const inGameDesc = tsFiles('src/game').some((f) => text(f).includes('ASCENSION_TEXT') || [...docAsc.values()].some((d) => d.length > 4 && text(f).includes(d.slice(0, 6))));
 for (let lv = 1; lv <= 15; lv++) report('9 ascension', impl.has(lv) ? 'INFO' : 'ERROR', `A${lv} doc: "${docAsc.get(lv) ?? '—'}" | code: ${impl.get(lv)?.join(' ; ') ?? 'NO IMPLEMENTATION'}`);
 if (!inGameDesc) report('9 ascension', 'WARN', `no per-level ascension description is shown in game — select screen shows only the number (${at('src/game/scenes/select.ts', 'setAsc(v: number)')})`);
 
 // ═════════════ 10. settings / codex ═════════════
 const stIface = text('src/game/state.ts').match(/export interface Settings \{([\s\S]*?)\n\}/)?.[1] ?? '';
 const keys = [...stIface.matchAll(/^\s*(\w+)\s*:/gm)].map((m) => m[1]!);
-const gameFiles = tsFiles('src/game').filter((f) => !f.endsWith('scenes/settings.ts'));
+const gameFiles = [...tsFiles('src/game'), 'src/main.ts'].filter((f) => !f.endsWith('scenes/settings.ts'));
 const settingsUi = text('src/game/scenes/settings.ts');
 for (const k of keys) {
   const readers = gameFiles.filter((f) => new RegExp(`\\.${k}\\b`).test(text(f)));

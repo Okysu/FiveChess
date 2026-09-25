@@ -198,7 +198,11 @@ export function calcDamage(s: CombatState, src: Unit | undefined, tgt: Unit, bas
     amt += sumMods(s, 'poisonDamage', tgt.side, tgt);
   }
   // difficulty curve (tuning.ts): enemy attacks and damage effects
-  if (src && src.side === 'enemy' && src.origin === 'enemy' && (isAttackKind(kind, attackFlag) || kind === 'effect')) amt *= combatTune(s).dmg;
+  if (src && src.side === 'enemy' && src.origin === 'enemy' && (isAttackKind(kind, attackFlag) || kind === 'effect')) {
+    amt *= combatTune(s).dmg;
+    // 逆命 8: normal enemies' intent values +1
+    if (s.cfg.ascension >= 8 && content().enemies.get(src.def)?.tier === 'normal') amt += 1;
+  }
   amt += sumMods(s, 'damageTaken', tgt.side, tgt);
   if ((tgt.statuses.vulnerable ?? 0) > 0) amt *= 1.5;
   if (src && hasKw(s, src, 'deathtouch') && tgt.kind === 'commander' && (kind === 'attack' || kind === 'effect')) amt += 3;
@@ -409,7 +413,7 @@ export function placeUnit(
   return u;
 }
 
-function scaleEnemyHp(s: CombatState, tier: string, hp: number) {
+export function scaleEnemyHp(s: CombatState, tier: string, hp: number) {
   const a = s.cfg.ascension;
   let m = combatTune(s).hp;
   if (tier === 'normal' && a >= 2) m += 0.1;

@@ -74,12 +74,11 @@ function packs() {
 
 export function lockedContent(p: Profile): { cards: string[]; relics: string[]; events: string[]; lieutenants: string[] } {
   const { lockCards, lockRelics, lockEvents } = packs();
-  const lts = [...content().lieutenants.values()].map((l) => l.id).sort();
   return {
     cards: lockCards.slice(p.unlocked.cardPacks).flat(),
     relics: lockRelics.slice(p.unlocked.relicPacks).flat(),
     events: lockEvents.slice(p.unlocked.eventPacks).flat(),
-    lieutenants: p.unlocked.lieutenants.length ? lts.filter((l) => !p.unlocked.lieutenants.includes(l)) : [],
+    lieutenants: [], // all lieutenants are available (the unlock step only announces recruiting); never snapshot ids
   };
 }
 
@@ -108,7 +107,7 @@ export function recordRun(p: Profile, r: RunState, summary: RunSummary): string[
   for (const step of UNLOCK_TRACK) {
     if (step.xp > before && step.xp <= p.xp || (step.xp === 1 && p.runs === 1)) {
       if (step.commanders) for (const c of step.commanders) if (!p.unlocked.commanders.includes(c)) p.unlocked.commanders.push(c);
-      if (step.lieutenants && !p.unlocked.lieutenants.length) p.unlocked.lieutenants = [...content().lieutenants.keys()];
+      if (step.lieutenants && !p.unlocked.lieutenants.length) p.unlocked.lieutenants = ['*'];
       if (step.cardPack) p.unlocked.cardPacks++;
       if (step.relicPack) p.unlocked.relicPacks++;
       if (step.eventPack) p.unlocked.eventPacks++;
@@ -124,3 +123,23 @@ export function recordRun(p: Profile, r: RunState, summary: RunSummary): string[
 export function nextUnlock(p: Profile) {
   return UNLOCK_TRACK.find((s) => s.xp > p.xp) ?? null;
 }
+
+/** 逆命 levels (cumulative); shown on the commander screen. Keep in sync with the ascension checks in engine code. */
+export const ASCENSION_TEXT: string[] = [
+  '标准难度',
+  '精英出现更频繁',
+  '普通敌人生命 +10%',
+  '精英生命 +10%',
+  '首领生命 +10%',
+  '首领战后只恢复 75% 缺失生命',
+  '开局生命 -10%',
+  '余烬上限 -1',
+  '普通敌人伤害 +1',
+  '商店价格 +10%',
+  '牌组起始加入诅咒「宿业」',
+  '初始源 -1',
+  '升级卡牌奖励概率减半',
+  '天命牌堆加入 4 张「凶兆」',
+  '敌人获得 1 层初始灵障',
+  '终幕首领获得第三阶段',
+];

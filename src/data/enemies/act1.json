@@ -1350,13 +1350,19 @@
       "raise": {
         "name": "举刀",
         "intent": [
-          "defend"
+          "defend",
+          "debuff"
         ],
         "effects": [
           {
             "op": "armor",
             "amount": 8,
             "target": "self"
+          },
+          {
+            "op": "create",
+            "card": "st_dread",
+            "to": "draw"
           }
         ]
       },

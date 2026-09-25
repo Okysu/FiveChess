@@ -13,6 +13,7 @@ import { tweens } from '../core/tween';
 import { audio, sfx } from '../audio/audio';
 import { Particles } from '../fx/fx';
 import intro from '../../data/lore/intro.json';
+import epilogues from '../../data/lore/epilogues.json';
 
 export class RunEndScene extends Scene {
   private parts = new Particles();
@@ -36,7 +37,9 @@ export class RunEndScene extends Scene {
     this.addChild(t);
     const cmd = content().commander(r.commander);
     const lore = intro as { victory: string; defeat: string[] };
-    const body = win ? `${lore.victory}\n\n${cmd.ending}` : lore.defeat[r.act % lore.defeat.length] ?? '';
+    // story choices made during the run (event flags) each add a closing passage
+    const epi = win ? (epilogues as { victory: { flag: string; text: string }[] }).victory.filter((e) => r.flags.includes(e.flag)).map((e) => e.text) : [];
+    const body = win ? [lore.victory, cmd.ending, ...epi].join('\n\n') : lore.defeat[r.act % lore.defeat.length] ?? '';
     const panel = uiPanel(1100, 480, 'dark');
     panel.position.set(410, 280);
     this.addChild(panel);
