@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import { generate } from './api';
 import { cardPrompt, cutoutPrompt, FACTION_TONE, ACT_TONE, STYLE_LOCK } from './style';
 
-const OUT = 'assets/_style_refs';
+const OUT = 'art-src/style_refs';
 const jobs = [
   { id: 'ref_commander', size: '1024x1536' as const, transparent: true,
     prompt: cutoutPrompt('Half-body portrait of a battle-hardened general in red-bronze lamellar armor with a flowing crimson cloak, holding a broad saber whose edge glows like embers, stern determined gaze toward the viewer\'s left.', FACTION_TONE.R) },

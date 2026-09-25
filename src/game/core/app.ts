@@ -42,7 +42,8 @@ class GameApp {
     host.appendChild(this.app.canvas);
     this.app.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
     const stage = this.app.stage;
-    stage.eventMode = 'static';
+    // passive: 'static' on an ancestor makes Pixi hit-test every descendant, so decorative text/sprites would swallow clicks
+    stage.eventMode = 'passive';
     stage.addChild(this.backdrop, this.root);
     this.backdrop.addChild(this.backdropSprite, this.backdropShade);
     this.root.addChild(this.sceneLayer, this.modalLayer, this.tipLayer, this.toastLayer, this.fade);

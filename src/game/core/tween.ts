@@ -53,7 +53,7 @@ class TweenManager {
     for (const d of done) { this.list.splice(this.list.indexOf(d), 1); d.resolve(); }
   }
 
-  to<T extends object>(target: T, to: Partial<Record<keyof T, number>>, dur: number, opts: { ease?: Ease; delay?: number; onUpdate?: (k: number) => void; key?: unknown; unscaled?: boolean } = {}): Promise<void> {
+  to(target: object, to: Record<string, number>, dur: number, opts: { ease?: Ease; delay?: number; onUpdate?: (k: number) => void; key?: unknown; unscaled?: boolean } = {}): Promise<void> {
     if (opts.key !== undefined) this.kill(opts.key);
     return new Promise((resolve) => {
       this.list.push({

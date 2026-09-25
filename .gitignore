@@ -7,3 +7,4 @@ dist/
 .cache/
 assets/_gen_cache/
 coverage/
+art-src/style_lab/

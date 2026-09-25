@@ -37,6 +37,7 @@ class Session {
   run: RunState | null = null;
   combat: CombatState | null = null;
   lastUnlocks: string[] = [];
+  private recorded = false;
   /** router installed by main.ts */
   router: (() => void) | null = null;
 
@@ -67,6 +68,7 @@ class Session {
     const tutorial = !this.profile.tutorialDone;
     this.run = newRun({ seed: s, commander, ascension, tutorial, locked: lockedContent(this.profile), unlockedHidden: this.profile.hiddenUnlocked });
     this.combat = null;
+    this.recorded = false;
     void this.saveRun();
   }
 
@@ -74,6 +76,7 @@ class Session {
   act(a: RunAction): string | null {
     if (!this.run) return 'no run';
     const err = runAct(this.run, a);
+    if (!err && this.run.result && !this.recorded) this.endRun();
     if (!err) void this.saveRun();
     return err;
   }
@@ -95,13 +98,14 @@ class Session {
     const pc = c.units[c.sides.player.commander!]!;
     runAct(r, { t: 'combatResult', result: c.over === 'win' ? 'win' : 'lose', hp: pc.hp, gold: c.goldGained, potions: c.potions, relics: c.relics, stats: c.stats, enemies: [...new Set(enemies)] });
     this.combat = null;
-    if (r.result) this.endRun();
+    if (r.result && !this.recorded) this.endRun();
     void this.saveRun();
   }
 
   endRun(abandon = false) {
     const r = this.run;
-    if (!r) return;
+    if (!r || this.recorded) return;
+    this.recorded = true;
     if (abandon) r.result = 'lose';
     const summary: RunSummary = {
       seed: r.seed, commander: r.commander, lieutenant: r.lieutenant, ascension: r.ascension, result: abandon ? 'abandon' : (r.result ?? 'lose'),

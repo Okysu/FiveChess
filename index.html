@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0806" />
+    <title>命阙</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet" />
+    <style>
+      html, body { margin: 0; padding: 0; height: 100%; background: #0b0806; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+      #app { position: fixed; inset: 0; }
+      #app canvas { display: block; }
+      /* boot overlay (outside the game view; removed once the game renders) */
+      #boot { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #1b1512; color: #eadbb6; font-family: "Noto Serif SC", "Songti SC", "SimSun", serif; z-index: 10; transition: opacity .6s; border-top: 10px solid #c8321f; border-bottom: 10px solid #c8321f; box-sizing: border-box; }
+      #boot h1 { font-family: "Ma Shan Zheng", "STKaiti", "KaiTi", serif; font-size: 110px; letter-spacing: 28px; margin: 0 0 28px; color: #d9a23a; font-weight: normal; -webkit-text-stroke: 3px #1b1512; text-shadow: 7px 7px 0 #c8321f; }
+      #boot .bar { width: 340px; height: 12px; background: #2a211b; border: 3px solid #0e0a08; box-shadow: 4px 4px 0 #0e0a08; }
+      #boot .bar i { display: block; height: 100%; width: 0; background: #d9a23a; transition: width .3s; }
+      #boot p { font-size: 18px; font-weight: 700; color: #b5a384; margin-top: 20px; letter-spacing: 6px; }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="boot"><h1>命阙</h1><div class="bar"><i id="bootbar"></i></div><p id="bootmsg">展开命书……</p></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

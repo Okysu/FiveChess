@@ -52,12 +52,12 @@ export const SUIT_INFO: Record<Suit, { name: string; yang: boolean; color: numbe
 };
 
 export const COLOR_INFO: Record<Color, { name: string; school: string; hex: number; dark: number; light: number }> = {
-  R: { name: '赤', school: '焚阳宗', hex: 0xd2412f, dark: 0x5a1410, light: 0xffb08a },
-  B: { name: '玄', school: '镇岳门', hex: 0x3a5f8f, dark: 0x101c30, light: 0xa8c8f0 },
-  G: { name: '青', school: '万木庭', hex: 0x3f9a5c, dark: 0x0f2e1a, light: 0xa8e8b8 },
-  Y: { name: '金', school: '观星阁', hex: 0xd4a53a, dark: 0x3e2a08, light: 0xfbe6a8 },
-  P: { name: '紫', school: '幽弈坊', hex: 0x8a4fb8, dark: 0x250f38, light: 0xe0b8f8 },
-  N: { name: '素', school: '中立', hex: 0xb8b0a0, dark: 0x3a3630, light: 0xf0ece0 },
+  R: { name: '赤', school: '焚阳宗', hex: 0xc8321f, dark: 0x6a160c, light: 0xf08a5a },
+  B: { name: '玄', school: '镇岳门', hex: 0x2a4f8a, dark: 0x14223e, light: 0x7aa2d8 },
+  G: { name: '青', school: '万木庭', hex: 0x2f8a5f, dark: 0x143a26, light: 0x7ac89a },
+  Y: { name: '金', school: '观星阁', hex: 0xd9a23a, dark: 0x6a4a10, light: 0xf5d68a },
+  P: { name: '紫', school: '幽弈坊', hex: 0x6e3a78, dark: 0x2e1236, light: 0xb88ac8 },
+  N: { name: '素', school: '中立', hex: 0xa89a80, dark: 0x4a4234, light: 0xe8dcc0 },
 };
 
 /** all bracket terms that may appear as [term] in rules text */

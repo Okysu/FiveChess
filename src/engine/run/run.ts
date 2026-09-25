@@ -90,7 +90,7 @@ export interface RunState {
   locked: NonNullable<RunOpts['locked']>;
   unlockedHidden: boolean;
   stats: { floors: number; combats: number; elites: number; bosses: number; goldEarned: number; damageTaken: number; cardsPlayed: number; turns: number; maxDamage: number };
-  history: { act: number; row: number; type: NodeType | 'event-fight'; detail: string }[];
+  history: { act: number; row: number; col?: number; type: NodeType | 'event-fight' | 'recruit'; detail: string }[];
   discovered: { cards: string[]; enemies: string[]; relics: string[] };
   log: RunAction[];
   result: null | 'win' | 'lose';
@@ -600,7 +600,7 @@ function enterNode(r: RunState, n: MapNode) {
     case 'recruit': r.screen = r.lieutenant ? { k: 'recruit', options: [], done: false } : { k: 'recruit', options: rollLieutenants(r), done: false }; break;
     case 'stargaze': r.screen = { k: 'stargaze', done: false }; break;
   }
-  r.history.push({ act: r.act, row: n.row, type: n.type, detail: detail.join(',') });
+  r.history.push({ act: r.act, row: n.row, col: n.col, type: n.type, detail: detail.join(',') });
 }
 
 /** after the last row, the boss node */
@@ -636,7 +636,7 @@ function applyRun(r: RunState, a: RunAction): string | null {
       const opts = availableNodes(r);
       const n = opts.find((x) => x.row === a.row && x.col === a.col);
       if (!n) return 'unreachable';
-      if (n.type === 'boss') { r.pos = { row: n.row, col: n.col }; r.floor++; enterCombat(r, r.bosses[r.act]!, 'boss', 'boss'); r.history.push({ act: r.act, row: n.row, type: 'boss', detail: r.bosses[r.act]! }); return null; }
+      if (n.type === 'boss') { r.pos = { row: n.row, col: n.col }; r.floor++; enterCombat(r, r.bosses[r.act]!, 'boss', 'boss'); r.history.push({ act: r.act, row: n.row, col: n.col, type: 'boss', detail: r.bosses[r.act]! }); return null; }
       enterNode(r, n);
       return null;
     }

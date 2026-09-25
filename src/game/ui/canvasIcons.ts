@@ -13,10 +13,6 @@ export function drawPip(ctx: CanvasRenderingContext2D, color: Color, x: number, 
   const info = COLOR_INFO[color];
   ctx.save();
   ctx.translate(x, y);
-  const grad = ctx.createRadialGradient(-r * 0.3, -r * 0.35, r * 0.1, 0, 0, r * 1.1);
-  grad.addColorStop(0, hex(info.light));
-  grad.addColorStop(0.55, hex(info.hex));
-  grad.addColorStop(1, hex(info.dark));
   ctx.beginPath();
   switch (color) {
     case 'R': // flame lozenge
@@ -48,13 +44,12 @@ export function drawPip(ctx: CanvasRenderingContext2D, color: Color, x: number, 
     ctx.strokeStyle = hex(info.hex);
     ctx.stroke();
   } else {
-    ctx.fillStyle = grad;
-    ctx.shadowColor = 'rgba(0,0,0,0.6)';
-    ctx.shadowBlur = r * 0.35;
+    // offset print layer, flat pigment, carved black outline
+    ctx.save(); ctx.translate(r * 0.16, r * 0.16); ctx.fillStyle = '#1b1512'; ctx.fill(); ctx.restore();
+    ctx.fillStyle = hex(info.hex);
     ctx.fill();
-    ctx.shadowBlur = 0;
-    ctx.lineWidth = Math.max(1, r * 0.12);
-    ctx.strokeStyle = 'rgba(255,240,200,0.85)';
+    ctx.lineWidth = Math.max(1.5, r * 0.2);
+    ctx.strokeStyle = '#1b1512';
     ctx.stroke();
     if (color === 'N') { ctx.beginPath(); ctx.arc(0, 0, r * 0.35, 0, Math.PI * 2); ctx.fillStyle = hex(info.dark); ctx.fill(); }
   }
@@ -116,13 +111,12 @@ export function drawSuit(ctx: CanvasRenderingContext2D, suit: Suit, x: number, y
 export function drawEmblem(ctx: CanvasRenderingContext2D, glyph: string, x: number, y: number, r: number, tint: number) {
   ctx.save();
   ctx.translate(x, y);
-  const g = ctx.createRadialGradient(-r * 0.3, -r * 0.3, r * 0.1, 0, 0, r);
-  g.addColorStop(0, '#3a2c24');
-  g.addColorStop(1, '#120c0a');
-  ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
-  ctx.lineWidth = r * 0.12; ctx.strokeStyle = '#d9b25f'; ctx.stroke();
+  ctx.beginPath(); ctx.arc(r * 0.08, r * 0.08, r, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+  ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fillStyle = '#1b1512'; ctx.fill();
+  ctx.lineWidth = r * 0.14; ctx.strokeStyle = '#d9a23a'; ctx.stroke();
+  ctx.beginPath(); ctx.arc(0, 0, r * 1.02, 0, Math.PI * 2); ctx.lineWidth = r * 0.05; ctx.strokeStyle = '#000'; ctx.stroke();
   ctx.fillStyle = hex(tint);
-  ctx.font = `bold ${Math.round(r * 1.1)}px "STKaiti","KaiTi",serif`;
+  ctx.font = `900 ${Math.round(r * 1.0)}px "Noto Serif SC","SimSun",serif`;
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.fillText(glyph, 0, r * 0.06);
   ctx.restore();

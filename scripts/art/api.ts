@@ -13,7 +13,19 @@ function need() {
   if (!KEY) throw new Error('ASSET_GEN_API_KEY missing — put it in .env (see .env.example)');
 }
 
+/** retries HTTP 429 (rate limit) honoring the server's "retry after N seconds" hint */
 export async function generate(o: GenOpts): Promise<Buffer> {
+  for (let attempt = 0; ; attempt++) {
+    try { return await generateOnce(o); }
+    catch (e) {
+      const m = /HTTP 429.*?retry after (\d+) second/i.exec((e as Error).message);
+      if (!m || attempt >= 8) throw e;
+      await new Promise((r) => setTimeout(r, (Number(m[1]) + 2 + Math.random() * 4) * 1000));
+    }
+  }
+}
+
+async function generateOnce(o: GenOpts): Promise<Buffer> {
   need();
   const timeout = AbortSignal.timeout(240_000);
   let res: Response;

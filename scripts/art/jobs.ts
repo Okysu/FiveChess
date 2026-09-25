@@ -1,5 +1,5 @@
 /** Static (non-content) art jobs: backgrounds, icons, UI materials, effects. */
-import { ACT_TONE, STYLE_LOCK, iconPrompt, FACTION_TONE } from './style';
+import { ACT_TONE, STYLE_LOCK, iconPrompt, FACTION_TONE, UI_STYLE } from './style';
 import type { Size } from './api';
 
 export interface ArtJob {
@@ -17,7 +17,7 @@ export interface ArtJob {
 }
 
 const bg = (id: string, prompt: string, out = `backgrounds/${id}`): ArtJob => ({
-  id, category: 'background', out, size: '1536x1024', transparent: false, prompt: `${prompt} ${STYLE_LOCK}`, ref: 'assets/_style_refs/ref_scene.png', px: 1920, quality: 'high',
+  id, category: 'background', out, size: '1536x1024', transparent: false, prompt: `${prompt} ${STYLE_LOCK}`, ref: 'art-src/style_refs/wb_background.png', px: 1920, quality: 'high',
 });
 
 export const BACKGROUNDS: ArtJob[] = [
@@ -130,28 +130,43 @@ export const ICONS: ArtJob[] = [
   icon('ui_field', 'a flag planted on ground', 'silver'),
 ];
 
-const ui = (id: string, prompt: string, transparent: boolean, px: number, size: Size = '1024x1024'): ArtJob => ({
-  id, category: 'ui', out: `ui/${id}`, size, transparent, prompt: `${prompt} No text, no letters.`, px, quality: 'medium',
+const UIREF = 'art-src/style_refs/wb_ui.png';
+const ui = (id: string, prompt: string, transparent: boolean, px: number, size: Size = '1024x1024', ref: string | undefined = UIREF): ArtJob => ({
+  id, category: 'ui', out: `ui/${id}`, size, transparent, prompt: transparent ? `${prompt} ${UI_STYLE}` : `${prompt} ${STYLE_LOCK}`, px, quality: 'medium', ref,
 });
 
+const PAPER = 'The empty center is a completely flat plain paper-beige area with no pattern, no marks and no text.';
+const FACTION_PIGMENT: Record<string, string> = { R: 'vermilion red', B: 'azurite blue', G: 'malachite green', Y: 'ochre gold', P: 'plum purple', N: 'paper beige and grey-green' };
+
 export const UI_MATERIALS: ArtJob[] = [
-  ui('tex_paper', 'A seamless flat texture of aged cream xuan rice paper with subtle fibers and faint ink stains, evenly lit, top-down, no objects.', false, 1024),
-  ui('tex_lacquer', 'A seamless flat texture of dark red-black lacquered wood with subtle grain and gentle sheen, evenly lit, top-down, no objects.', false, 1024),
-  ui('tex_bronze', 'A seamless flat texture of aged dark bronze with engraved faint cloud patterns and patina, evenly lit, top-down.', false, 1024),
-  ui('tex_jade', 'A seamless flat texture of polished green jade stone with soft veins, evenly lit, top-down.', false, 1024),
-  ui('tex_ink', 'A seamless flat texture of dark indigo-black silk brocade with very faint cloud pattern, evenly lit, top-down.', false, 1024),
-  ui('ornament_corner', 'An ornate gilded gold filigree corner ornament in Chinese cloud-scroll (xiangyun) style, for a UI frame corner, isolated on a transparent background.', true, 256),
-  ui('ornament_divider', 'A long horizontal gilded gold divider ornament with a central jade bead and cloud scrolls, isolated on a transparent background.', true, 512, '1536x1024'),
-  ui('card_back', 'The back design of a fantasy playing card: deep indigo lacquer with an intricate gold circular mandala of stars, clouds and a central eye-like fate seal, symmetric, full bleed.', false, 600, '1024x1536'),
-  ui('fate_back', 'The back of an ancient fortune card: cinnabar red lacquer with a gold symmetric pattern of four suit symbols around a taiji circle, symmetric, full bleed.', false, 400, '1024x1536'),
-  ui('fate_face', 'A blank ancient ivory card face with a thin gold inner border and subtle paper texture and faint cloud watermark, symmetric, full bleed, nothing in the center.', false, 400, '1024x1536'),
-  ui('shopkeeper', `A mysterious masked merchant in layered robes with many pockets, holding an abacus and a lantern, friendly bow, half body. Isolated on a transparent background. ${STYLE_LOCK}`, true, 900, '1024x1536'),
-  ui('seal_response', 'A single square vermilion cinnabar seal stamp impression with an abstract flame-and-hand emblem (no characters), isolated on a transparent background.', true, 128),
-  ui('button_base', 'A horizontal oblong game UI button plate made of dark lacquered wood with a thin gold rim and small cloud ornaments at both ends, front view, isolated on a transparent background.', true, 512, '1536x1024'),
+  // 9-slice panels: ornament concentrated at the border, uniform border width
+  ui('panel_light', `A wide rectangular dialog panel: an ornate border of even thickness (about one tenth of the height) made of meander pattern and small auspicious cloud corners, black outlines, ochre and vermilion accents. ${PAPER}`, true, 1024, '1536x1024'),
+  ui('panel_dark', 'A wide rectangular dialog panel: an ornate border of even thickness (about one tenth of the height) with meander pattern and cloud corners in ochre gold and vermilion, black outlines. The empty center is completely flat plain dark indigo-black with no pattern and no text.', true, 1024, '1536x1024'),
+  ui('button_red', 'A single horizontal oblong button plate with auspicious cloud scroll ends, flat vermilion red face, thick black outline, thin ochre-gold inner border. The face is completely empty.', true, 768, '1536x1024'),
+  ui('button_green', 'A single horizontal oblong button plate with auspicious cloud scroll ends, flat malachite green face, thick black outline, thin ochre-gold inner border. The face is completely empty.', true, 768, '1536x1024'),
+  ui('button_blue', 'A single horizontal oblong button plate with auspicious cloud scroll ends, flat azurite blue face, thick black outline, thin ochre-gold inner border. The face is completely empty.', true, 768, '1536x1024'),
+  ui('button_grey', 'A single horizontal oblong button plate with auspicious cloud scroll ends, flat faded grey-brown face, thick black outline, dull inner border. The face is completely empty.', true, 768, '1536x1024'),
+  ...(['R', 'B', 'G', 'Y', 'P', 'N'] as const).map((f) => ui(`card_frame_${f}`, `A vertical playing-card border frame only: a decorative border of even thickness in ${FACTION_PIGMENT[f]} with black carved outlines, small auspicious cloud ornaments at the four corners and a meander band. The whole inner area inside the border is fully transparent and empty.`, true, 600, '1024x1536')),
+  ...(['R', 'B', 'G', 'Y', 'P', 'N'] as const).map((f) => ui(`ribbon_${f}`, `A single long horizontal name banner ribbon with folded cloud-scroll ends, flat ${FACTION_PIGMENT[f]} face, thick black outline, thin ochre-gold edge. The face is completely empty.`, true, 640, '1536x1024')),
+  ui('cost_disc', 'A single round medallion coin: flat dark indigo face surrounded by a thick ochre-gold ring with a black outline and eight small cloud nubs. The face is completely empty.', true, 192),
+  ui('stat_atk', 'A single small shield-shaped badge pointing downward like a blade, flat ochre-gold face with black outline. The face is completely empty.', true, 160),
+  ui('stat_hp', 'A single small peach-shaped badge (longevity peach), flat vermilion red face with black outline and one green leaf. The face is completely empty.', true, 160),
+  ui('slot', 'A single square battlefield tile: a carved stone plinth seen from the front, meander border, flat grey-green stone with black outlines, the center flat and empty.', true, 256),
+  ui('altar', 'A single bronze tripod incense burner (ding) with a small flame and rising patterned smoke, front view.', true, 256),
+  ui('seal_response', 'A single square vermilion cinnabar seal stamp impression with an abstract flame-and-open-palm emblem, no characters.', true, 128),
+  ui('bar_frame', 'A single long thin horizontal gauge frame with cloud-scroll ends, black outline, ochre-gold rim; the inside channel is completely empty and transparent.', true, 640, '1536x1024'),
+  ui('cloud_corner', 'A single auspicious cloud (xiangyun) corner ornament, ochre gold and vermilion with black outlines.', true, 192),
+  ui('divider', 'A single long horizontal divider ornament: a meander band with a central lotus and cloud scrolls, ochre gold with black outlines.', true, 768, '1536x1024'),
+  ui('tex_paper', 'A seamless flat texture of aged beige rice paper with visible fibers and faint woodblock ink specks, evenly lit, top-down, no objects, no text.', false, 1024, '1024x1024', undefined),
+  ui('tex_ink', 'A seamless flat texture of dark indigo-black printed paper with subtle fiber grain and faint cloud pattern, evenly lit, top-down, no objects, no text.', false, 1024, '1024x1024', undefined),
+  ui('card_back', 'The back design of a playing card as a woodblock print: dark azurite blue field, a symmetric gold and vermilion mandala of auspicious clouds and stars around a central eye-like fate seal, meander border, full bleed.', false, 600, '1024x1536'),
+  ui('fate_back', 'The back of an ancient fortune card as a woodblock print: vermilion field with a symmetric ochre-gold pattern of a sun, a lightning bolt, a crescent moon and a mountain around a taiji circle, meander border, full bleed.', false, 400, '1024x1536'),
+  ui('fate_face', 'A blank fortune card face as a woodblock print: plain paper-beige center with a thin black and ochre meander border, small cloud corners, nothing in the center, full bleed.', false, 400, '1024x1536'),
+  ui('shopkeeper', 'Half-body portrait of a friendly masked wandering merchant in layered patterned robes, holding an abacus and a paper lantern, bowing slightly.', true, 900, '1024x1536', 'art-src/style_refs/wb_commander.png'),
 ];
 
 const fx = (id: string, prompt: string): ArtJob => ({
-  id, category: 'effect', out: `effects/${id}`, size: '1024x1024', transparent: true, prompt: `${prompt} Isolated on a fully transparent background, no text.`, px: 256, quality: 'medium',
+  id, category: 'effect', out: `effects/${id}`, size: '1024x1024', transparent: true, prompt: `${prompt} Made as a flat Chinese woodblock-print element: bold black outline, flat mineral colors, no gradients. Isolated on a fully transparent background, no text.`, px: 256, quality: 'medium',
 });
 
 export const EFFECTS: ArtJob[] = [

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>命阙 · 美术风格候选</title>
+<style>
+  body { margin: 0; background: #0e0b09; color: #eadfc8; font-family: "Noto Serif SC", "Songti SC", "SimSun", serif; }
+  header { padding: 24px 32px 8px; }
+  h1 { margin: 0; font-size: 34px; letter-spacing: 6px; color: #f0cf88; }
+  header p { color: #a99a82; margin: 6px 0 0; }
+  .style { margin: 20px 32px 36px; padding: 18px 20px; background: #1a1411; border: 1px solid #3a2c22; border-radius: 10px; }
+  .style h2 { margin: 0 0 4px; font-size: 26px; color: #f0cf88; }
+  .style h2 span { font-size: 16px; color: #8a7a64; margin-left: 12px; letter-spacing: 1px; }
+  .style .desc { color: #b8a88e; margin: 0 0 12px; }
+  .row { display: grid; grid-template-columns: 0.75fr 1fr 1fr 1.5fr 1.5fr; gap: 12px; align-items: start; }
+  figure { margin: 0; background: repeating-conic-gradient(#221b17 0 25%, #2a211c 0 50%) 0 0 / 20px 20px; border-radius: 6px; overflow: hidden; }
+  figure img { width: 100%; display: block; }
+  figcaption { font-size: 13px; color: #8a7a64; padding: 4px 6px; background: #120e0b; }
+  .px img { image-rendering: pixelated; }
+  .toggle { font-size: 14px; color: #d8b870; cursor: pointer; margin-left: 10px; user-select: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>美术风格候选</h1>
+  <p>每种风格都用同一组题材生成：主帅立绘、卡牌插画、敌人、战斗背景、UI 套件。像素风格默认显示经过“真像素化”后处理（按网格降采样 + 限色调色板）的版本，可切换看原图。</p>
+</header>
+<main id="m"></main>
+<script>
+const styles = [
+  ['pixel16', 'A · 像素 · 16位精绘', 'SNES 时代 JRPG 式的高细节像素画，有限调色板与抖动。', true],
+  ['pixel8', 'B · 像素 · 粗颗粒独立风', '低分辨率大像素、粗黑描边、16 色平涂，现代独立 Roguelike 质感。', true],
+  ['ink', 'C · 水墨写意', '宣纸水墨，大量留白，墨色为主，仅以朱砂与花青点色。', false],
+  ['woodblock', 'D · 木版年画', '粗黑刻线、平涂矿物色、纸纹与轻微套色错位。', false],
+  ['puppet', 'E · 皮影戏', '半透明彩色皮影，镂空纹样与关节，背后灯火透光。', false],
+  ['inked', 'F · 墨线版画 · 暗黑奇幻', '厚重手绘墨线 + 低饱和平涂，剪影强烈的哥特暗黑卡牌风。', false],
+];
+const samples = [['commander', '主帅立绘'], ['card', '卡牌插画'], ['enemy', '敌人'], ['background', '战斗背景'], ['ui', 'UI 套件']];
+const m = document.getElementById('m');
+for (const [id, name, desc, px] of styles) {
+  const sec = document.createElement('section');
+  sec.className = 'style';
+  sec.innerHTML = `<h2>${name}<span>${id}</span>${px ? '<span class="toggle">[切换 原图/像素化]</span>' : ''}</h2><p class="desc">${desc}</p>`;
+  const row = document.createElement('div');
+  row.className = 'row';
+  for (const [sid, sname] of samples) {
+    const f = document.createElement('figure');
+    if (px) f.className = 'px';
+    const img = document.createElement('img');
+    img.src = `/art-src/style_lab/${id}/${sid}${px ? '_px' : ''}.png?v=${Date.now()}`;
+    img.dataset.raw = `/art-src/style_lab/${id}/${sid}.png`;
+    img.dataset.px = `/art-src/style_lab/${id}/${sid}_px.png`;
+    img.onerror = () => { img.style.minHeight = '120px'; img.alt = '生成中…'; };
+    f.appendChild(img);
+    f.insertAdjacentHTML('beforeend', `<figcaption>${sname}</figcaption>`);
+    row.appendChild(f);
+  }
+  sec.appendChild(row);
+  const tg = sec.querySelector('.toggle');
+  if (tg) tg.onclick = () => row.querySelectorAll('img').forEach((i) => { i.src = i.src.includes('_px') ? i.dataset.raw : i.dataset.px; });
+  m.appendChild(sec);
+}
+</script>
+</body>
+</html>

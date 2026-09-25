@@ -1,7 +1,8 @@
 /** Reusable widgets: buttons, labels, tooltips, toasts, modal frames. */
 import { Container, Graphics, Text, type TextStyleOptions, Sprite } from 'pixi.js';
 import { C, FONT_BODY, FONT_TITLE, FONT_UI } from './theme';
-import { drawPanel, vgrad, lighten, darken } from './draw';
+import { drawPanel, darken } from './draw';
+import { WB, surface, printOutline, panelSurface } from './skin';
 import { tweens, ease } from '../core/tween';
 import { G } from '../core/app';
 import { richTexture } from './richtext';
@@ -13,7 +14,8 @@ export function label(text: string, style: TextStyleOptions = {}): Text {
 }
 
 export function title(text: string, size = 48, style: TextStyleOptions = {}): Text {
-  return new Text({ text, style: { fontFamily: FONT_TITLE, fontSize: size, fill: C.goldLight, stroke: { color: 0x1a0c06, width: 6 }, letterSpacing: 6, dropShadow: { color: 0x000000, blur: 8, distance: 2, alpha: 0.7, angle: Math.PI / 2 }, ...style } });
+  // carved heading: heavy Song type, paper-ochre fill, thick black outline, offset print shadow (no blur)
+  return new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: size, fill: C.goldLight, stroke: { color: WB.ink, width: Math.max(5, size * 0.12) }, letterSpacing: 6, dropShadow: { color: WB.vermilionDk, blur: 0, distance: Math.max(3, size * 0.07), alpha: 1, angle: Math.PI / 4 }, ...style } });
 }
 
 export interface ButtonOpts {
@@ -27,11 +29,19 @@ export interface ButtonOpts {
   sub?: string;
 }
 
+const PLATE: Record<string, string> = { primary: 'button_red', danger: 'button_red', normal: 'button_blue', ghost: 'button_green', disabled: 'button_grey' };
+const PLATE_FILL: Record<string, number> = { primary: WB.vermilion, danger: WB.vermilionDk, normal: WB.azurite, ghost: WB.malachite, disabled: WB.grey };
+
+/** woodblock button: printed plate texture (9-slice), pressing shifts the print onto its shadow layer */
 export class Button extends Container {
-  private bg = new Graphics();
+  private face = new Container();
+  private shadow = new Graphics();
+  private ring = new Graphics();
+  private plateKey = '';
   private txt: Text;
   private subTxt?: Text;
   private hover = false;
+  private down = false;
   disabled: boolean;
   onClick?: () => void;
   readonly bw: number;
@@ -47,62 +57,74 @@ export class Button extends Container {
     this.kind = o.kind ?? 'normal';
     this.disabled = !!o.disabled;
     this.onClick = o.onClick;
-    this.txt = new Text({ text, style: { fontFamily: FONT_TITLE, fontSize: o.fontSize ?? 30, fill: C.goldLight, stroke: { color: 0x120804, width: 4 }, letterSpacing: 3 } });
+    this.txt = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: o.fontSize ?? 30, fill: WB.white, stroke: { color: WB.ink, width: 5 }, letterSpacing: 3 } });
     this.txt.anchor.set(0.5);
     this.txt.position.set(this.bw / 2, this.bh / 2 + (o.sub ? -8 : 0));
-    this.addChild(this.bg, this.txt);
+    this.face.addChild(this.txt);
+    this.addChild(this.ring, this.shadow, this.face);
     if (o.sub) {
-      this.subTxt = new Text({ text: o.sub, style: { fontFamily: FONT_UI, fontSize: 15, fill: C.textDim } });
+      this.subTxt = new Text({ text: o.sub, style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: 15, fill: WB.paper, stroke: { color: WB.ink, width: 3 } } });
       this.subTxt.anchor.set(0.5);
       this.subTxt.position.set(this.bw / 2, this.bh / 2 + 18);
-      this.addChild(this.subTxt);
+      this.face.addChild(this.subTxt);
     }
     this.eventMode = 'static';
     this.cursor = 'pointer';
+    this.hitArea = { contains: (x: number, y: number) => x >= 0 && y >= 0 && x <= this.bw && y <= this.bh };
     this.on('pointerover', () => { this.hover = true; this.draw(); if (!this.disabled) sfx('hover'); });
-    this.on('pointerout', () => { this.hover = false; this.draw(); this.scale.set(1); });
-    this.on('pointerdown', () => { if (!this.disabled) { this.scale.set(0.97); } });
-    this.on('pointerup', () => { this.scale.set(1); });
+    this.on('pointerout', () => { this.hover = false; this.down = false; this.draw(); });
+    this.on('pointerdown', () => { if (!this.disabled) { this.down = true; this.draw(); } });
+    this.on('pointerup', () => { this.down = false; this.draw(); });
+    this.on('pointerupoutside', () => { this.down = false; this.draw(); });
     this.on('pointertap', (e) => { if (e.button === 2) return; if (this.disabled) { sfx('deny'); return; } sfx('click'); this.onClick?.(); });
-    this.pivot.set(0, 0);
+    this.fitText();
     this.draw();
   }
 
   setText(t: string, sub?: string) {
     this.txt.text = t;
     if (this.subTxt && sub !== undefined) this.subTxt.text = sub;
+    this.fitText();
   }
 
-  setDisabled(d: boolean) { this.disabled = d; this.draw(); }
-  setKind(k: Button['kind']) { this.kind = k; this.draw(); }
+  /** keep the label inside the plate face (the cloud-scroll ends take ~20% on each side) */
+  private fitText() {
+    this.txt.scale.set(1);
+    const maxW = this.bw * 0.62, maxH = this.bh * 0.62;
+    const k = Math.min(1, maxW / Math.max(1, this.txt.width), maxH / Math.max(1, this.txt.height));
+    this.txt.scale.set(k);
+  }
+
+  setDisabled(d: boolean) { if (d !== this.disabled) { this.disabled = d; this.draw(); } }
+  setKind(k: Button['kind']) { if (k !== this.kind) { this.kind = k; this.draw(); } }
 
   tick(dt: number) {
-    if (!this.pulse) return;
+    if (!this.pulse) { if (this.ring.visible) this.ring.visible = false; return; }
     this.pulseT += dt;
-    this.draw();
+    const a = 0.5 + 0.5 * Math.sin(this.pulseT / 260);
+    this.ring.visible = true;
+    this.ring.alpha = a;
   }
 
   draw() {
-    const g = this.bg;
     const w = this.bw, h = this.bh;
-    g.clear();
-    let top = 0x3a2a20, bot = 0x160e0a, border = C.gold;
-    if (this.kind === 'primary') { top = 0x8a2a1a; bot = 0x3a0e08; border = C.goldLight; }
-    if (this.kind === 'danger') { top = 0x5a1a1a; bot = 0x200606; }
-    if (this.kind === 'ghost') { top = 0x241c18; bot = 0x100a08; border = C.goldDark; }
-    if (this.disabled) { top = 0x2a2624; bot = 0x141210; border = 0x5a5048; }
-    if (this.hover && !this.disabled) { top = lighten(top, 0.15); bot = lighten(bot, 0.1); }
-    if (this.pulse && !this.disabled) {
-      const a = 0.35 + 0.35 * Math.sin(this.pulseT / 260);
-      for (let i = 0; i < 3; i++) g.roundRect(-4 - i * 4, -4 - i * 4, w + 8 + i * 8, h + 8 + i * 8, 16 + i * 4).stroke({ width: 3, color: 0xffcf5a, alpha: a * (1 - i * 0.3) });
+    const state = this.disabled ? 'disabled' : this.kind;
+    const key = PLATE[state]!;
+    if (key !== this.plateKey) {
+      this.plateKey = key;
+      this.face.children.filter((c) => c !== this.txt && c !== this.subTxt).forEach((c) => { this.face.removeChild(c); c.destroy({ children: true }); });
+      const plate = surface(key as never, w, h, { fill: PLATE_FILL[state]!, r: 10 });
+      this.face.addChildAt(plate, 0);
     }
-    g.roundRect(0, 0, w, h, 12).fill({ fill: vgrad(top, bot) } as never);
-    g.roundRect(0, 0, w, h, 12).stroke({ width: 2.5, color: border });
-    g.roundRect(5, 5, w - 10, h - 10, 8).stroke({ width: 1, color: border, alpha: 0.35 });
-    // cloud-tip ornaments
-    for (const x of [14, w - 14]) g.circle(x, h / 2, 4).fill({ color: border, alpha: 0.8 });
-    this.txt.style.fill = this.disabled ? 0x8a7e70 : C.goldLight;
-    this.alpha = 1;
+    // offset print layer (black) visible under the plate; pressing moves the plate onto it
+    const off = this.down ? 1 : this.hover && !this.disabled ? 6 : 4;
+    this.shadow.clear().roundRect(4, 5, w - 8, h - 6, 12).fill({ color: WB.ink, alpha: 0.75 });
+    this.face.position.set(this.down ? 3 : 0, this.down ? 3 : this.hover && !this.disabled ? -2 : 0);
+    void off;
+    this.ring.clear();
+    printOutline(this.ring, 0, 0, w, h, WB.ochre, 12);
+    this.ring.visible = this.pulse;
+    this.txt.style.fill = this.disabled ? 0xc8bca8 : WB.white;
   }
 }
 
@@ -128,8 +150,8 @@ export class Tooltip extends Container {
       parts.push(s);
       y += result.usedHeight + 10;
     }
-    const bg = new Graphics();
-    drawPanel(bg, width, y + pad - 8, { r: 10, alpha: 0.96 });
+    const bg = new Container();
+    bg.addChild(drawPanel(new Graphics(), width, y + pad - 8, { r: 8, alpha: 0.97, inner: false }));
     this.addChild(bg, ...parts);
     for (const p of parts) if (p instanceof Sprite) { p.height = Math.min(p.height, 400); }
   }
@@ -205,8 +227,7 @@ export class Modal extends Container {
     this.addChild(this.dim);
     const frame = new Container();
     frame.position.set((1920 - w) / 2, (1080 - h) / 2);
-    const bg = new Graphics();
-    drawPanel(bg, w, h, { r: 18 });
+    const bg = panelSurface(w, h, true);
     frame.addChild(bg, this.body);
     if (o.title) {
       const t = title(o.title, 40);

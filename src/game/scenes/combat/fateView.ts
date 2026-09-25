@@ -1,0 +1,231 @@
+/** Shared fate deck, discard, signs and the signature centered judgement flip (UI研究笔记 §7.3). */
+import { CanvasSource, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
+import type { CombatState, FateCard } from '../../../engine/combat/state';
+import { SUIT_INFO } from '../../../engine/glossary';
+import { drawSuit, hex } from '../../ui/canvasIcons';
+import { C, FONT_NUM, FONT_TITLE } from '../../ui/theme';
+import { tweens, ease, wait } from '../../core/tween';
+import { FATE } from './layout';
+import { assets, K } from '../../assets';
+import { sfx } from '../../audio/audio';
+import type { Particles } from '../../fx/fx';
+import { fxTexture } from '../../fx/fx';
+import { Tooltip, hideTip, showTip } from '../../ui/widgets';
+import { session } from '../../state';
+
+const W = 120, H = 168;
+const RANK = ['', 'A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+const CN = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二', '十三'];
+
+const faceCache = new Map<string, Texture>();
+export function fateFace(card: FateCard): Texture {
+  const key = `${card.suit}:${card.rank}:${card.omen ? 1 : 0}:${session.settings.suitText ? 1 : 0}`;
+  const hit = faceCache.get(key);
+  if (hit) return hit;
+  const cv = document.createElement('canvas');
+  cv.width = W * 2; cv.height = H * 2;
+  const ctx = cv.getContext('2d')!;
+  ctx.scale(2, 2);
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, card.omen ? '#3a1010' : '#f8f0dc'); g.addColorStop(1, card.omen ? '#1a0606' : '#e4d4b0');
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.roundRect(0, 0, W, H, 10); ctx.fill();
+  const info = SUIT_INFO[card.suit];
+  ctx.strokeStyle = hex(info.color); ctx.lineWidth = info.yang ? 5 : 2.5;
+  ctx.beginPath(); ctx.roundRect(4, 4, W - 8, H - 8, 8); ctx.stroke();
+  if (!info.yang) { ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.roundRect(9, 9, W - 18, H - 18, 6); ctx.stroke(); ctx.setLineDash([]); }
+  if (card.omen) {
+    ctx.fillStyle = '#ff5a3a'; ctx.font = 'bold 64px "STKaiti","KaiTi",serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('凶', W / 2, H / 2);
+  } else {
+    drawSuit(ctx, card.suit, W / 2, H / 2 + 4, 34, true);
+    ctx.fillStyle = hex(info.color);
+    ctx.font = 'bold 26px "Cinzel","Georgia",serif';
+    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    ctx.fillText(RANK[card.rank] ?? String(card.rank), 10, 8);
+    ctx.save(); ctx.translate(W - 10, H - 8); ctx.rotate(Math.PI); ctx.fillText(RANK[card.rank] ?? '', 0, 0); ctx.restore();
+    ctx.font = '14px "STKaiti","KaiTi",serif';
+    ctx.fillText(CN[card.rank] ?? '', 12, 38);
+    if (session.settings.suitText) { ctx.textAlign = 'right'; ctx.fillText(info.name, W - 10, 10); }
+  }
+  const t = new Texture({ source: new CanvasSource({ resource: cv, resolution: 2 }) });
+  faceCache.set(key, t);
+  return t;
+}
+
+let backTex: Texture | null = null;
+function fateBack(): Texture {
+  const t = assets.get(K.ui('fate_back'));
+  if (t) return t;
+  if (backTex) return backTex;
+  const cv = document.createElement('canvas');
+  cv.width = W * 2; cv.height = H * 2;
+  const ctx = cv.getContext('2d')!;
+  ctx.scale(2, 2);
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#8a2014'); g.addColorStop(1, '#3a0a06');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(0, 0, W, H, 10); ctx.fill();
+  ctx.strokeStyle = '#e0b060'; ctx.lineWidth = 3; ctx.stroke();
+  (['sun', 'moon', 'thunder', 'mountain'] as const).forEach((s, i) => drawSuit(ctx, s, W / 2 + (i % 2 ? 26 : -26), H / 2 + (i < 2 ? -30 : 30), 14));
+  backTex = new Texture({ source: new CanvasSource({ resource: cv, resolution: 2 }) });
+  return backTex;
+}
+
+export class FateCardView extends Container {
+  private face: Sprite;
+  private back: Sprite;
+  constructor(public card: FateCard | null) {
+    super();
+    this.back = new Sprite(fateBack());
+    this.back.width = W; this.back.height = H;
+    this.back.anchor.set(0.5);
+    this.face = new Sprite(card ? fateFace(card) : Texture.EMPTY);
+    this.face.anchor.set(0.5);
+    this.face.width = W; this.face.height = H;
+    this.addChild(this.back, this.face);
+    this.setFace(!!card);
+  }
+  setCard(c: FateCard) { this.card = c; this.face.texture = fateFace(c); this.face.width = W; this.face.height = H; }
+  setFace(up: boolean) { this.face.visible = up; this.back.visible = !up; }
+  async flip() {
+    await tweens.to(this.scale, { x: 0 }, 150, { ease: ease.inQuad });
+    this.setFace(true);
+    await tweens.to(this.scale, { x: this.scale.y }, 180, { ease: ease.outQuad });
+  }
+}
+
+export class FateArea extends Container {
+  private deck = new Container();
+  private deckCount: Text;
+  private discard = new Container();
+  private signs = new Container();
+  private known = new Container();
+
+  constructor() {
+    super();
+    this.deckCount = new Text({ text: '', style: { fontFamily: FONT_NUM, fontSize: 20, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
+    this.deckCount.anchor.set(0.5, 0);
+    this.deckCount.position.set(FATE.deck.x, FATE.deck.y + 88);
+    const lbl = new Text({ text: '天命', style: { fontFamily: FONT_TITLE, fontSize: 20, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
+    lbl.anchor.set(0.5, 1);
+    lbl.position.set(FATE.deck.x, FATE.deck.y - 88);
+    this.addChild(this.known, this.deck, this.discard, this.signs, this.deckCount, lbl);
+    this.deck.eventMode = 'static';
+    this.deck.cursor = 'help';
+    this.deck.on('pointerover', () => showTip(new Tooltip([{ title: '天命牌堆', body: '双方共享。[判定]时翻开牌堆顶。日纹、雷纹为阳；月纹、山纹为阴。可被[窥视]、[观星]与[改判]操控。' }]), FATE.deck.x + 70, FATE.deck.y - 60));
+    this.deck.on('pointerout', hideTip);
+  }
+
+  sync(s: CombatState) {
+    this.deck.removeChildren();
+    const n = s.fate.deck.length;
+    for (let i = 0; i < Math.min(6, Math.ceil(n / 8)); i++) {
+      const v = new FateCardView(null);
+      v.position.set(FATE.deck.x + i * 1.2, FATE.deck.y - i * 1.5);
+      this.deck.addChild(v);
+    }
+    this.deckCount.text = `${n}`;
+    // known top cards (peeked)
+    this.known.removeChildren();
+    const known = s.fate.deck.slice(-s.fate.known).reverse();
+    known.slice(0, 5).forEach((c, i) => {
+      const v = new FateCardView(c);
+      v.scale.set(0.4);
+      v.position.set(FATE.deck.x - 95 - i * 0, FATE.deck.y - 60 + i * 30);
+      this.known.addChild(v);
+    });
+    if (known.length) {
+      const top = new FateCardView(known[0]!);
+      top.alpha = 0.45;
+      top.position.set(FATE.deck.x + 8, FATE.deck.y - 9);
+      this.deck.addChild(top);
+    }
+    // discard
+    this.discard.removeChildren();
+    const last = s.fate.discard[s.fate.discard.length - 1];
+    if (last) {
+      const v = new FateCardView(last);
+      v.scale.set(0.75);
+      v.position.set(FATE.discard.x, FATE.discard.y);
+      this.discard.addChild(v);
+    }
+    // signs
+    this.signs.removeChildren();
+    s.fate.signs.forEach((c, i) => {
+      const v = new FateCardView(c);
+      v.scale.set(0.5);
+      v.position.set(FATE.signs.x - 30 + i * 62, FATE.signs.y + 20);
+      v.eventMode = 'static';
+      v.on('pointerover', () => showTip(new Tooltip([{ title: '命签', body: `${SUIT_INFO[c.suit].name} ${c.rank}。判定翻开后，可打出命签替换判定牌（[改判]）。` }]), FATE.signs.x + 40, FATE.signs.y + 60));
+      v.on('pointerout', hideTip);
+      this.signs.addChild(v);
+    });
+  }
+
+  /** the signature judgement flip; returns once the card rests in the center */
+  async judgeFlip(layer: Container, card: FateCard, reason: string, parts: Particles, fast: boolean): Promise<FateCardView> {
+    const v = new FateCardView(null);
+    v.card = card;
+    v.position.set(FATE.deck.x, FATE.deck.y);
+    layer.addChild(v);
+    sfx('judgeFlip');
+    await tweens.to(v, { y: FATE.deck.y - 20 }, fast ? 80 : 200);
+    await Promise.all([tweens.to(v, { x: FATE.judge.x, y: FATE.judge.y }, fast ? 160 : 300, { ease: ease.outCubic }), tweens.to(v.scale, { x: 2.2, y: 2.2 }, fast ? 160 : 300)]);
+    let label: Text | null = null;
+    if (!fast && reason) {
+      label = new Text({ text: reason, style: { fontFamily: FONT_TITLE, fontSize: 30, fill: C.goldLight, stroke: { color: 0, width: 5 }, align: 'center' } });
+      label.anchor.set(0.5);
+      label.position.set(FATE.judge.x, FATE.judge.y - 235);
+      layer.addChild(label);
+      await wait(150);
+    }
+    v.setCard(card);
+    await v.flip();
+    this.suitBurst(layer, card, parts);
+    if (label) void tweens.to(label, { alpha: 0 }, 300).then(() => label!.destroy());
+    return v;
+  }
+
+  suitBurst(layer: Container, card: FateCard, parts: Particles) {
+    const info = SUIT_INFO[card.suit];
+    sfx(card.suit === 'sun' ? 'judgeSun' : card.suit === 'thunder' ? 'judgeThunder' : card.suit === 'moon' ? 'judgeMoon' : 'judgeMountain');
+    parts.burst(FATE.judge.x, FATE.judge.y, { tex: fxTexture('spark'), n: 36, speed: [180, 520], life: [0.4, 1.0], tint: [info.color, 0xffffff], scale: [0.2, 0.5], blend: 'add' });
+    const ring = new Sprite(fxTexture('ring'));
+    ring.anchor.set(0.5);
+    ring.tint = info.color;
+    ring.blendMode = 'add';
+    ring.position.set(FATE.judge.x, FATE.judge.y);
+    ring.scale.set(0.3);
+    layer.addChild(ring);
+    void tweens.to(ring.scale, { x: 3, y: 3 }, 600, { ease: ease.outCubic });
+    void tweens.to(ring, { alpha: 0 }, 600).then(() => ring.destroy());
+  }
+
+  async resultAndDiscard(v: FateCardView, branch: string, fast: boolean) {
+    const suitName = v.card ? SUIT_INFO[v.card.suit].name : '';
+    const yang = v.card ? SUIT_INFO[v.card.suit].yang : false;
+    const t = new Text({ text: branch === 'omen' ? '凶兆' : `${yang ? '阳' : '阴'} · ${suitName}`, style: { fontFamily: FONT_TITLE, fontSize: 42, fill: yang ? 0xffd27a : 0xa8d8ff, stroke: { color: 0, width: 6 } } });
+    t.anchor.set(0.5);
+    t.position.set(FATE.judge.x, FATE.judge.y + 215);
+    v.parent?.addChild(t);
+    t.scale.set(1.6);
+    void tweens.to(t.scale, { x: 1, y: 1 }, 220, { ease: ease.outBack });
+    await wait(fast ? 250 : 650);
+    await Promise.all([tweens.to(v, { x: FATE.discard.x, y: FATE.discard.y }, fast ? 160 : 300, { ease: ease.inOutCubic }), tweens.to(v.scale, { x: 0.75, y: 0.75 }, fast ? 160 : 300), tweens.to(t, { alpha: 0 }, 250)]);
+    t.destroy();
+    v.destroy();
+  }
+
+  async rejudge(layer: Container, v: FateCardView, now: FateCard, parts: Particles) {
+    sfx('rejudge');
+    const sign = new FateCardView(now);
+    sign.scale.set(0.5);
+    sign.position.set(FATE.signs.x, FATE.signs.y + 20);
+    layer.addChild(sign);
+    await Promise.all([tweens.to(sign, { x: FATE.judge.x, y: FATE.judge.y }, 360, { ease: ease.outCubic }), tweens.to(sign.scale, { x: 2.2, y: 2.2 }, 360)]);
+    await Promise.all([tweens.to(v, { x: FATE.discard.x, y: FATE.discard.y, alpha: 0.6 }, 300), tweens.to(v.scale, { x: 0.75, y: 0.75 }, 300)]);
+    v.destroy();
+    this.suitBurst(layer, now, parts);
+    return sign;
+  }
+}
