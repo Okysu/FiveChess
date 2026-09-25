@@ -37,6 +37,29 @@ async function boot() {
     const pump = async (ms: number) => { let now = performance.now(); const end = now + ms; while (now < end) { now += 16; G.app.ticker.update(now); await new Promise((r) => setTimeout(r, 0)); } };
     const snap = async (name: string) => { G.app.render(); return (await fetch(`/__snap?name=${name}`, { method: 'POST', body: G.app.canvas.toDataURL('image/png') })).status; };
     Object.assign(window, { __G: G, __session: session, __audio: audio, __pump: pump, __snap: snap });
+    // UI tour: ?uitour=1 (headless via scripts/ui-tour.ts) or window.__uiTour() by hand
+    const tour = async (o?: { events?: 'all' | number }) => {
+      const m = await import('./game/dev/uiTour');
+      try {
+        const pages = await m.runUiTour(o);
+        const summary = m.tourSummary(pages);
+        console.log(summary);
+        Object.assign(window, { __tourResult: { pages, summary } });
+        return summary;
+      } catch (e) {
+        const summary = `UI tour crashed: ${(e as Error).stack ?? e}`;
+        Object.assign(window, { __tourResult: { pages: [{ name: 'crash', issues: [{ kind: 'error', detail: summary }] }], summary } });
+        return summary;
+      }
+    };
+    Object.assign(window, { __uiTour: tour });
+    const q = new URLSearchParams(location.search);
+    if (q.has('uitour')) {
+      void go(true);
+      await pump(3000);
+      await tour({ events: q.get('uitour') === 'all' ? 'all' : Number(q.get('uitour')) || 6 });
+      return;
+    }
   }
   await go(true);
 }

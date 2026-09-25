@@ -566,7 +566,7 @@ function pickEvent(r: RunState, n: MapNode): string | null {
 
 // ───────────── shop ─────────────
 
-function makeShop(r: RunState): ShopState {
+export function makeShop(r: RunState): ShopState {
   const rng = rngFor(r, `shop:${r.act}:${r.floor}`);
   const disc = hasRule(r, 'shopDiscount').reduce((s, x) => s + (x.pct ?? 0), 0);
   const asc = r.ascension >= 9 ? 1.1 : 1;

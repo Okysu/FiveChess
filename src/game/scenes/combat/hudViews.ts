@@ -1,5 +1,6 @@
 /** Battle HUD pieces (source tray + embers + sacrifice altar, piles, skills, equipment, fields) — generated textures only. */
 import { Container, Text } from 'pixi.js';
+import { unchanged } from '../../ui/memo';
 import type { CombatState, Source, Side } from '../../../engine/combat/state';
 import { content } from '../../../engine/content';
 import { fillVars } from '../../../engine/glossary';
@@ -55,6 +56,7 @@ export class SourceTray extends Container {
   }
 
   sync(s: CombatState) {
+    if (unchanged(this, 'sync', [s.sources, s.active, emberCap(s), [...this.highlightIdx]])) return;
     for (const g of this.gems) g.destroy({ children: true });
     this.gems = [];
     s.sources.forEach((src, i) => {
@@ -123,6 +125,7 @@ const SLOT_ICON = { weapon: 'ui_weapon', armor: 'ui_armorslot', mount: 'ui_mount
 export class EquipRow extends Container {
   constructor(private side: Side) { super(); }
   sync(s: CombatState) {
+    if (unchanged(this, 'sync', s.sides[this.side].equip)) return;
     this.removeChildren().forEach((c) => c.destroy({ children: true }));
     (['weapon', 'armor', 'mount', 'treasure'] as const).forEach((slot, i) => {
       const eq = s.sides[this.side].equip[slot];
@@ -156,6 +159,7 @@ export class EquipRow extends Container {
 export class SkillRow extends Container {
   onUse?: (i: number) => void;
   sync(s: CombatState) {
+    if (unchanged(this, 'sync', [s.skills, s.skills.map((_, i) => skillUsable(s, i)), s.phase, s.active, s.turn])) return;
     this.removeChildren().forEach((c) => c.destroy({ children: true }));
     s.skills.forEach((sk, i) => {
       const def = skillDef(s, sk);
@@ -186,6 +190,7 @@ export class SkillRow extends Container {
 export class FieldSlot extends Container {
   constructor(private side: Side, x: number, y: number) { super(); this.position.set(x, y); }
   sync(s: CombatState) {
+    if (unchanged(this, 'sync', s.sides[this.side].field)) return;
     this.removeChildren().forEach((c) => c.destroy({ children: true }));
     const f = s.sides[this.side].field;
     const g = nine('equip_slot', 160, 100, f ? {} : { alpha: 0.4 });

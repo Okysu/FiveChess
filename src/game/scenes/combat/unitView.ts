@@ -1,5 +1,6 @@
 /** Unit / commander views on the battle line (UI研究笔记 §4.3, §8.3). */
 import { Container, Sprite, Text } from 'pixi.js';
+import { unchanged, clearChildren } from '../../ui/memo';
 import type { Unit, CombatState } from '../../../engine/combat/state';
 import { atkOf, maxHpOf, keywordsOf, canAttack } from '../../../engine/combat/board';
 import { intentPreview } from '../../../engine/combat/intents';
@@ -159,6 +160,7 @@ export class UnitView extends Container {
 
   setNumbers(hp: number, max: number, atk: number, armor: number, u?: Unit) {
     this.shown = { hp, maxHp: max, atk, armor };
+    if (unchanged(this, 'numbers', [hp, max, atk, armor, u?.baseAtk, u?.baseMaxHp])) return;
     const small = this.mode === 'token' || this.mode === 'figure';
     const bw = small ? this.bw - 10 : 220;
     this.hpBar.set(hp / Math.max(1, max));
@@ -201,7 +203,8 @@ export class UnitView extends Container {
   }
 
   setStatuses(st: Partial<Record<StatusId, number>>) {
-    this.statusCol.removeChildren();
+    if (unchanged(this, 'statuses', st)) return;
+    clearChildren(this.statusCol);
     const list = Object.entries(st).filter(([, v]) => (v ?? 0) !== 0) as [StatusId, number][];
     list.slice(0, 5).forEach(([id, v], i) => {
       const info = STATUSES[id];
@@ -222,7 +225,8 @@ export class UnitView extends Container {
   }
 
   setKeywords(kws: Keyword[]) {
-    this.kwStrip.removeChildren();
+    if (unchanged(this, 'keywords', kws)) return;
+    clearChildren(this.kwStrip);
     kws.slice(0, 4).forEach((k, i) => {
       const info = KEYWORDS[k];
       const ic = iconSprite(info.icon, 26, info.name[0]!, info.tint);
@@ -248,8 +252,9 @@ export class UnitView extends Container {
   }
 
   setIntent(s: CombatState, u: Unit) {
-    this.intentBox.removeChildren();
     const pv = intentPreview(s, u);
+    if (unchanged(this, 'intent', [pv, s.sides.enemy.hand.length])) return;
+    clearChildren(this.intentBox);
     if (!pv) return;
     const types = pv.types.slice(0, 3);
     types.forEach((t, i) => {

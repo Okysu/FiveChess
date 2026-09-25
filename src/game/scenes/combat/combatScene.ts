@@ -126,7 +126,8 @@ export class CombatScene extends Scene {
     this.eventMode = 'passive';
     const bgHit = hitRect(-400, -200, 2720, 1480);
     this.addChildAt(bgHit, 0);
-    bgHit.on('globalpointermove', (e) => this.onMove(e));
+    // pointer moves arrive far more often than frames: keep the latest, handle it once per frame
+    bgHit.on('globalpointermove', (e) => { this.pendingMove = { x: e.global.x, y: e.global.y }; });
     // release is read from the window: the scene is passive (receives no events itself) and a drag
     // can end anywhere — over a unit, a button, or outside the canvas
     this.windowUp = (ev: PointerEvent) => {
@@ -473,6 +474,14 @@ export class CombatScene extends Scene {
     else if (info.reason === 'unplayable') toast('无法打出', 0xff9a8a, 760);
   }
 
+  private pendingMove: { x: number; y: number } | null = null;
+  private flushMove() {
+    const g = this.pendingMove;
+    if (!g) return;
+    this.pendingMove = null;
+    this.onMove({ global: g } as FederatedPointerEvent);
+  }
+
   private onMove(e: FederatedPointerEvent) {
     const p = G.toDesign(e.global.x, e.global.y);
     if (this.dragging) {
@@ -506,6 +515,7 @@ export class CombatScene extends Scene {
   }
 
   private async onUp(e: FederatedPointerEvent) {
+    this.flushMove(); // a drop must see the aim of its last move
     const p = G.toDesign(e.global.x, e.global.y);
     const d = this.dragging;
     if (d) {
@@ -697,11 +707,10 @@ export class CombatScene extends Scene {
   }
 
   private previewTip: Container | null = null;
+  private previewKey = '';
   private previewDamage(u: UnitView | null) {
-    this.previewTip?.destroy({ children: true });
-    this.previewTip = null;
     const t = this.targeting;
-    if (!u || !t) return;
+    if (!u || !t) { this.previewTip?.destroy({ children: true }); this.previewTip = null; this.previewKey = ''; return; }
     const target = unit(this.s, u.unitUid);
     if (!target) return;
     let dmg: number | null = null;
@@ -712,6 +721,11 @@ export class CombatScene extends Scene {
       dmg = calcDamage(this.s, a, target, atkOf(this.s, a), 'attack');
       if (target.kind === 'unit' && !isRangedAttacker(this.s, a)) back = calcDamage(this.s, target, a, atkOf(this.s, target), 'retaliate');
     }
+    const key = `${u.unitUid}:${dmg}:${back}:${target.hp}:${target.armor}`;
+    if (key === this.previewKey && this.previewTip) return; // same preview as last frame
+    this.previewTip?.destroy({ children: true });
+    this.previewTip = null;
+    this.previewKey = key;
     if (dmg === null) return;
     const after = Math.max(0, target.hp - Math.max(0, dmg - target.armor));
     const c = new Container();
@@ -1686,6 +1700,7 @@ export class CombatScene extends Scene {
   // ═════════════ frame update ═════════════
 
   override update(dt: number) {
+    this.flushMove();
     this.hand.tick(dt);
     this.arrow.update(dt);
     this.fxLayer.update(dt);

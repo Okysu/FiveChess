@@ -1,5 +1,6 @@
 /** Shared fate deck, discard, signs and the signature centered judgement flip (UI研究笔记 §7.3). */
 import { Container, Sprite, Text } from 'pixi.js';
+import { unchanged, clearChildren } from '../../ui/memo';
 import type { CombatState, FateCard } from '../../../engine/combat/state';
 import { SUIT_INFO } from '../../../engine/glossary';
 import { WB, uiFill, suitIcon } from '../../ui/skin';
@@ -44,16 +45,14 @@ export class FateCardView extends Container {
     const em = suitIcon(c.suit, 70);
     em.y = 6;
     this.face.addChild(em);
-    const rankStyle = { fontFamily: FONT_NUM, fontWeight: '900' as const, fontSize: 26, fill: info.color, stroke: { color: WB.ink, width: 4 } };
+    const rankStyle = { fontFamily: FONT_NUM, fontWeight: '900' as const, fontSize: 36, fill: info.color, stroke: { color: WB.ink, width: 6 } };
     const r1 = new Text({ text: RANK[c.rank] ?? String(c.rank), style: rankStyle });
-    r1.position.set(-W / 2 + 12, -H / 2 + 8);
+    r1.position.set(-W / 2 + 10, -H / 2 + 4);
     const r2 = new Text({ text: RANK[c.rank] ?? '', style: rankStyle });
-    r2.anchor.set(1, 1); r2.rotation = Math.PI;
-    r2.position.set(-W / 2 + 12, -H / 2 + 8);
-    r2.position.set(W / 2 - 12, H / 2 - 8);
-    r2.anchor.set(0, 0);
-    const cn = new Text({ text: CN[c.rank] ?? '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 14, fill: WB.ink } });
-    cn.position.set(-W / 2 + 13, -H / 2 + 38);
+    r2.rotation = Math.PI;
+    r2.position.set(W / 2 - 10, H / 2 - 4);
+    const cn = new Text({ text: CN[c.rank] ?? '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 16, fill: WB.ink } });
+    cn.position.set(-W / 2 + 12, -H / 2 + 50);
     this.face.addChild(r1, r2, cn);
     if (session.settings.suitText) {
       const nm = new Text({ text: info.name[0] ?? '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 16, fill: WB.ink } });
@@ -93,7 +92,8 @@ export class FateArea extends Container {
   }
 
   sync(s: CombatState) {
-    this.deck.removeChildren();
+    if (unchanged(this, 'sync', { ...s.fate, deck: s.fate.deck.length, top: s.fate.deck.slice(-s.fate.known) })) return;
+    clearChildren(this.deck);
     const n = s.fate.deck.length;
     for (let i = 0; i < Math.min(6, Math.ceil(n / 8)); i++) {
       const v = new FateCardView(null);
@@ -102,7 +102,7 @@ export class FateArea extends Container {
     }
     this.deckCount.text = `${n}`;
     // known top cards (peeked)
-    this.known.removeChildren();
+    clearChildren(this.known);
     const known = s.fate.deck.slice(-s.fate.known).reverse();
     known.slice(0, 5).forEach((c, i) => {
       const v = new FateCardView(c);
@@ -117,7 +117,7 @@ export class FateArea extends Container {
       this.deck.addChild(top);
     }
     // discard
-    this.discard.removeChildren();
+    clearChildren(this.discard);
     const last = s.fate.discard[s.fate.discard.length - 1];
     if (last) {
       const v = new FateCardView(last);
@@ -126,7 +126,7 @@ export class FateArea extends Container {
       this.discard.addChild(v);
     }
     // signs
-    this.signs.removeChildren();
+    clearChildren(this.signs);
     s.fate.signs.forEach((c, i) => {
       const v = new FateCardView(c);
       v.scale.set(0.5);

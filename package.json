@@ -19,7 +19,8 @@
     "check:ui": "tsx scripts/check-no-procedural.ts",
     "credits": "tsx scripts/credits.ts",
     "audio:import": "tsx scripts/audio/import-audio.ts",
-    "audit": "tsx scripts/audit-reachability.ts --ci"
+    "audit": "tsx scripts/audit-reachability.ts --ci",
+    "ui:tour": "tsx scripts/ui-tour.ts"
   },
   "dependencies": {
     "pixi.js": "^8.21.0",

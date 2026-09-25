@@ -58,13 +58,13 @@ export class Button extends Container {
     this.onClick = o.onClick;
     this.txt = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: o.fontSize ?? 30, fill: WB.white, stroke: { color: WB.ink, width: 5 }, letterSpacing: 3 } });
     this.txt.anchor.set(0.5);
-    this.txt.position.set(this.bw / 2, this.bh / 2 + (o.sub ? -8 : 0));
+    this.txt.position.set(this.bw / 2, o.sub ? this.bh * 0.4 : this.bh / 2);
     this.face.addChild(this.txt);
     this.addChild(this.ring, this.shadow, this.face);
     if (o.sub) {
       this.subTxt = new Text({ text: o.sub, style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: 15, fill: WB.paper, stroke: { color: WB.ink, width: 3 } } });
       this.subTxt.anchor.set(0.5);
-      this.subTxt.position.set(this.bw / 2, this.bh / 2 + 18);
+      this.subTxt.position.set(this.bw / 2, this.bh * 0.72);
       this.face.addChild(this.subTxt);
     }
     this.eventMode = 'static';
@@ -90,7 +90,7 @@ export class Button extends Container {
   private fitText() {
     this.txt.scale.set(1);
     // the scroll ends scale with plate height, so short plates lose proportionally more width
-    const maxW = Math.max(this.bw * 0.4, Math.min(this.bw * 0.62, this.bw - this.bh * 1.15)), maxH = this.bh * 0.62;
+    const maxW = Math.max(this.bw * 0.4, Math.min(this.bw * 0.62, this.bw - this.bh * 1.15)), maxH = this.bh * (this.subTxt ? 0.42 : 0.62);
     const k = Math.min(1, maxW / Math.max(1, this.txt.width), maxH / Math.max(1, this.txt.height));
     this.txt.scale.set(k);
   }
@@ -169,6 +169,19 @@ export function showTip(tip: Container, x: number, y: number, prefer: 'right' | 
   const b = { width: lb.width * k, height: lb.height * k };
   let tx = prefer === 'left' ? x - b.width - 12 : prefer === 'above' ? x - b.width / 2 : x + 12;
   let ty = prefer === 'above' ? y - b.height - 12 : y;
+  // attach to the element actually under the pointer: right of it, else left, else above / below
+  const a = hoveredAnchor();
+  if (a) {
+    const gap = 14;
+    const fitsR = a.x + a.width + gap + b.width <= 1912, fitsL = a.x - gap - b.width >= 8;
+    if (prefer !== 'above' && (fitsR || fitsL)) {
+      tx = prefer === 'left' && fitsL ? a.x - gap - b.width : fitsR ? a.x + a.width + gap : a.x - gap - b.width;
+      ty = a.y + a.height / 2 - Math.min(b.height / 2, 60);
+    } else {
+      tx = a.x + a.width / 2 - b.width / 2;
+      ty = a.y - gap - b.height >= 8 ? a.y - gap - b.height : a.y + a.height + gap;
+    }
+  }
   tx = Math.max(8, Math.min(1920 - b.width - 8, tx));
   ty = Math.max(8, Math.min(1080 - b.height - 8, ty));
   tip.position.set(tx, ty);
@@ -176,6 +189,22 @@ export function showTip(tip: Container, x: number, y: number, prefer: 'right' | 
   tip.eventMode = 'none';
   G.tipLayer.addChild(tip);
   void tweens.to(tip, { alpha: 1 }, 120, { unscaled: true });
+}
+
+/** design-space bounds of the hovered element that owns the tooltip (nearest ancestor listening for pointerover) */
+function hoveredAnchor(): { x: number; y: number; width: number; height: number } | null {
+  const ev = G.app.renderer.events;
+  const p = ev.pointer?.global;
+  if (!p) return null;
+  ev.rootBoundary.rootTarget = G.app.stage;
+  let o: Container | null = ev.rootBoundary.hitTest(p.x, p.y);
+  while (o && !(o.listenerCount('pointerover') > 0)) o = o.parent;
+  if (!o) return null;
+  const gb = o.getBounds();
+  const p0 = G.toDesign(gb.x, gb.y), p1 = G.toDesign(gb.x + gb.width, gb.y + gb.height);
+  const r = { x: Math.min(p0.x, p1.x), y: Math.min(p0.y, p1.y), width: Math.abs(p1.x - p0.x), height: Math.abs(p1.y - p0.y) };
+  // huge hover zones (the whole hand strip, a board) keep the caller's own coordinates
+  return r.width > 520 || r.height > 520 ? null : r;
 }
 
 export function hideTip() {
