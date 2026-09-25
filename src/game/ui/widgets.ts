@@ -129,6 +129,7 @@ export class Button extends Container {
 // ───────────── tooltip ─────────────
 
 export class Tooltip extends Container {
+  box: { width: number; height: number } | null = null;
   constructor(lines: { title?: string; body: string; color?: number }[], width = 380) {
     super();
     // a lighter border (half-scale corners) keeps small tooltips from being all frame
@@ -150,8 +151,11 @@ export class Tooltip extends Container {
       parts.push(s);
       y += result.usedHeight + 10;
     }
-    const bg = panel(width, y + Math.round(INSET.dark.y * CS), 'dark', { cornerScale: CS });
+    const bh = y + Math.round(INSET.dark.y * CS);
+    const bg = panel(width, bh, 'dark', { cornerScale: CS });
     this.addChild(bg, ...parts);
+    // rich-text textures are allocated taller than their text: report the visible box for placement
+    this.box = { width, height: bh };
     for (const p of parts) if (p instanceof Sprite) { p.height = Math.min(p.height, 400); }
   }
 }
@@ -165,7 +169,7 @@ export function showTip(tip: Container, x: number, y: number, prefer: 'right' | 
   // small screens: tooltips are scaled up so their text stays readable
   const k = G.compact ? 1.6 : 1;
   tip.scale.set(k);
-  const lb = tip.getLocalBounds();
+  const lb = (tip as Container & { box?: { width: number; height: number } | null }).box ?? tip.getLocalBounds();
   const b = { width: lb.width * k, height: lb.height * k };
   let tx = prefer === 'left' ? x - b.width - 12 : prefer === 'above' ? x - b.width / 2 : x + 12;
   let ty = prefer === 'above' ? y - b.height - 12 : y;

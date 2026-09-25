@@ -17,7 +17,7 @@ import { content } from '../../engine/content';
 import { availableNodes, makeShop, rollLieutenants, runAct } from '../../engine/run/run';
 import { ScrollBox } from '../ui/scroll';
 
-export interface TourIssue { kind: 'offscreen' | 'unfilled' | 'overlap' | 'blocked' | 'scroll' | 'error'; detail: string }
+export interface TourIssue { kind: 'offscreen' | 'unfilled' | 'overlap' | 'blocked' | 'scroll' | 'error' | 'tooltip'; detail: string }
 export interface TourPage { name: string; issues: TourIssue[] }
 
 const errors: string[] = [];
@@ -162,6 +162,7 @@ export async function runUiTour(o: { events?: 'all' | number } = {}): Promise<To
   closeModals();
   const hud = await import('../ui/hud');
   await page('combat_hover', pages, () => { const cs = G.scene as unknown as { hand: { views: unknown[]; setHover(v: unknown): void } }; cs.hand.setHover(cs.hand.views[cs.hand.views.length - 1]); }, 800);
+  pages.push({ name: 'combat_tooltips', issues: await hoverAll() });
   await page('inspect_card', pages, () => hud.inspectCard('g_heartwood_pendant', false));
   closeModals();
   await page('deck', pages, () => hud.openDeck(r.deck, '牌组'));
@@ -187,6 +188,27 @@ export async function runUiTour(o: { events?: 'all' | number } = {}): Promise<To
   r.result = 'lose';
   await set('defeat', { k: 'defeat' });
   return pages;
+}
+
+/** hover every hoverable element on the current scene; its tooltip must sit next to it (≤ 40px gap) */
+async function hoverAll(): Promise<TourIssue[]> {
+  const issues: TourIssue[] = [];
+  const cv = G.app.canvas, rect = cv.getBoundingClientRect(), k = rect.width / G.app.screen.width;
+  const els = walk(G.sceneLayer).filter((x) => x.eventMode === 'static' && x.listenerCount('pointerover') > 0 && visible(x) && x.getBounds().width < 300);
+  for (const x of els) {
+    const b = x.getBounds();
+    cv.dispatchEvent(new PointerEvent('pointermove', { clientX: rect.left + (b.x + b.width / 2) * k, clientY: rect.top + (b.y + b.height / 2) * k, pointerType: 'mouse', bubbles: true, pointerId: 1, isPrimary: true }));
+    await pump(200);
+    const tip = G.tipLayer.children[0] as Container & { box?: { width: number; height: number } | null } | undefined;
+    if (!tip) continue;
+    const e0 = G.toDesign(b.x, b.y), e1 = G.toDesign(b.x + b.width, b.y + b.height);
+    const w = tip.box?.width ?? tip.width, h = tip.box?.height ?? tip.height;
+    const dx = Math.max(0, e0.x - (tip.x + w), tip.x - e1.x), dy = Math.max(0, e0.y - (tip.y + h), tip.y - e1.y);
+    if (Math.hypot(dx, dy) > 40) issues.push({ kind: 'tooltip', detail: `tooltip for ${label(x)} at ${e0.x | 0},${e0.y | 0} is ${Math.hypot(dx, dy) | 0}px away` });
+  }
+  cv.dispatchEvent(new PointerEvent('pointermove', { clientX: rect.left + 5, clientY: rect.top + 5, pointerType: 'mouse', bubbles: true, pointerId: 1, isPrimary: true }));
+  await pump(100);
+  return issues;
 }
 
 export function tourSummary(pages: TourPage[]): string {
