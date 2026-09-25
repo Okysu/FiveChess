@@ -102,7 +102,7 @@
       {
         "text": "趁天狗打盹，割下它的一撮毛",
         "hint": "40%：获得 1 件稀有遗物；60%：进行一场战斗（精英奖励）",
-        "effects": [ { "op": "chance", "p": 0.4, "then": [ { "op": "addRelic", "tier": "rare" } ], "else": [ { "op": "fight", "encounter": "sandbox", "reward": "elite" } ] } ],
+        "effects": [ { "op": "chance", "p": 0.4, "then": [ { "op": "addRelic", "tier": "rare" } ], "else": [ { "op": "fight", "encounter": "random:elite", "reward": "elite" } ] } ],
         "outcome": "你屏住呼吸靠近那团巨大的黑影。它的毛像夜色一样又冷又滑，刀锋落下的一刻，你听见它的喘息停了一拍。"
       },
       {

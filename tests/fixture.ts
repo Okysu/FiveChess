@@ -9,6 +9,9 @@ import { SUITS } from '../src/engine/defs';
 const art = { subject: 'test subject art' };
 const card = (c: Omit<CardDef, 'art'> & { art?: CardDef['art'] }): CardDef => ({ art, ...c });
 
+import { setTuning } from '../src/engine/combat/tuning';
+setTuning(false);
+
 export const cards: CardDef[] = [
   card({ id: 't_strike', name: '斩', faction: 'R', type: 'tactic', rarity: 'basic', cost: { g: 1 }, text: '造成{d}点伤害。', vars: { d: 6 }, target: 'enemy', effects: [{ op: 'damage', amount: '$d', target: 'target', attack: true }] }),
   card({ id: 't_guard', name: '守', faction: 'B', type: 'tactic', rarity: 'basic', cost: { g: 1 }, text: '获得{a}护甲。', vars: { a: 5 }, effects: [{ op: 'armor', amount: '$a', target: 'commander' }] }),

@@ -10,6 +10,7 @@ import type {
   AnyEffect, CardInst, ChainLink, CombatState, Ctx, CEvent, FateCard, PendingTrigger, Side, Task, Unit, InternalEffect,
 } from './state';
 import { other } from './state';
+import { combatTune } from './tuning';
 import {
   alive, atkOf, attackTargets, boardOrder, commanderOf, emptySlots, hasKw, maxHpOf, snap, sumMods, unit, unitsOf, BACK, FRONT, depth,
 } from './board';
@@ -196,6 +197,8 @@ export function calcDamage(s: CombatState, src: Unit | undefined, tgt: Unit, bas
   } else if (kind === 'poison') {
     amt += sumMods(s, 'poisonDamage', tgt.side, tgt);
   }
+  // difficulty curve (tuning.ts): enemy attacks and damage effects
+  if (src && src.side === 'enemy' && src.origin === 'enemy' && (isAttackKind(kind, attackFlag) || kind === 'effect')) amt *= combatTune(s).dmg;
   amt += sumMods(s, 'damageTaken', tgt.side, tgt);
   if ((tgt.statuses.vulnerable ?? 0) > 0) amt *= 1.5;
   if (src && hasKw(s, src, 'deathtouch') && tgt.kind === 'commander' && (kind === 'attack' || kind === 'effect')) amt += 3;
@@ -408,7 +411,7 @@ export function placeUnit(
 
 function scaleEnemyHp(s: CombatState, tier: string, hp: number) {
   const a = s.cfg.ascension;
-  let m = 1;
+  let m = combatTune(s).hp;
   if (tier === 'normal' && a >= 2) m += 0.1;
   if (tier === 'boss' && a >= 4) m += 0.1;
   if (tier === 'elite' && a >= 3) m += 0.1;

@@ -168,7 +168,8 @@ function walkRun(where: string, effs: RunEffect[] | undefined) {
     if (e.op === 'addCard' && e.card && !cardIds.has(e.card)) errors.push(`${where}: addCard unknown ${e.card}`);
     if (e.op === 'addRelic' && e.relic && !relicIds.has(e.relic)) errors.push(`${where}: addRelic unknown ${e.relic}`);
     if (e.op === 'addPotion' && e.potion && !potionIds.has(e.potion)) errors.push(`${where}: addPotion unknown ${e.potion}`);
-    if (e.op === 'fight' && !encIds.has(e.encounter)) errors.push(`${where}: fight unknown encounter ${e.encounter}`);
+    if (e.op === 'fight' && !encIds.has(e.encounter) && !/^random:(normal|elite)$/.test(e.encounter)) errors.push(`${where}: fight unknown encounter ${e.encounter}`);
+    if (e.op === 'fight' && e.encounter === 'sandbox') errors.push(`${where}: fight uses the test-only sandbox encounter`);
     if (e.op === 'lieutenant' && e.id && !ltIds.has(e.id)) errors.push(`${where}: unknown lieutenant ${e.id}`);
     if (e.op === 'chance') { walkRun(where, e.then); walkRun(where, e.else); }
   }

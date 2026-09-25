@@ -133,7 +133,7 @@
       {
         "text": "撕掉那张画着你的图纸",
         "hint": "进行一场战斗",
-        "effects": [ { "op": "fight", "encounter": "sandbox", "reward": "normal" } ],
+        "effects": [ { "op": "fight", "encounter": "random:normal", "reward": "normal" } ],
         "outcome": "图纸刚一撕开，满屋的傀儡同时转过头来。梁上的声音叹了口气：“你看，我就说他会生气。”"
       }
     ],
@@ -349,7 +349,7 @@
       {
         "text": "悄悄取走深处的锦盒",
         "hint": "50%：获得 1 件稀有遗物；50%：进行一场战斗（精英奖励）",
-        "effects": [ { "op": "chance", "p": 0.5, "then": [ { "op": "addRelic", "tier": "rare" } ], "else": [ { "op": "fight", "encounter": "sandbox", "reward": "elite" } ] } ],
+        "effects": [ { "op": "chance", "p": 0.5, "then": [ { "op": "addRelic", "tier": "rare" } ], "else": [ { "op": "fight", "encounter": "random:elite", "reward": "elite" } ] } ],
         "outcome": "你踮着脚绕过守库尸，指尖触到锦盒的一刻，屏住了呼吸。身后的甲片究竟有没有响，要等你回头才知道。"
       },
       {

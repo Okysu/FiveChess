@@ -77,7 +77,7 @@
       {
         "text": "拔刀，让他们安息",
         "hint": "进行一场战斗 · 胜利获得精英奖励",
-        "effects": [ { "op": "fight", "encounter": "sandbox", "reward": "elite" } ],
+        "effects": [ { "op": "fight", "encounter": "random:elite", "reward": "elite" } ],
         "outcome": "伍长点了点头，像是等这一刻很久了。“列阵。”锈甲兵齐齐转身，枪尖对准了你。"
       },
       {
@@ -146,7 +146,7 @@
           {
             "text": "掀桌",
             "hint": "进行一场战斗",
-            "effects": [ { "op": "fight", "encounter": "sandbox", "reward": "normal" } ],
+            "effects": [ { "op": "fight", "encounter": "random:normal", "reward": "normal" } ],
             "outcome": "杯盘碎了一地。宾客们齐齐转过没有五官的脸，狐母却只是托着腮：“有趣。那便让我的孩子们陪你玩玩。”"
           }
         ]
@@ -337,7 +337,7 @@
       {
         "text": "追回被它们叼走的东西",
         "hint": "进行一场战斗",
-        "effects": [ { "op": "fight", "encounter": "sandbox", "reward": "normal" } ],
+        "effects": [ { "op": "fight", "encounter": "random:normal", "reward": "normal" } ],
         "outcome": "你一挥手，鸦群轰然飞起，在空中聚成一团黑影。黑影落地，化作几个披着鸦羽的人形。"
       },
       {

@@ -63,8 +63,12 @@ export function evaluate(s: CombatState): number {
   let v = 0;
   v += (pc?.hp ?? 0) * 3 + (pc?.armor ?? 0) * 1.2;
   for (const u of unitsOf(s, 'player')) v += atkOf(s, u) * 2 + u.hp * 1.2 + (u.row === 'front' ? 1 : 0);
+  // one-ply search can't see past phase thresholds (e.g. a split at 50% HP) and would stall forever;
+  // the longer a fight runs, the more finishing it outweighs the threat of the next phase
+  const press = 1 + Math.max(0, s.turn - 6) * 0.35;
   for (const e of unitsOf(s, 'enemy', true)) {
-    v -= e.hp * (e.kind === 'commander' ? 1.5 : 1.3) + atkOf(s, e) * 2;
+    const key = ['elite', 'boss'].includes(content().enemies.get(e.def)?.tier ?? '') || e.kind === 'commander';
+    v -= e.hp * (e.kind === 'commander' ? 1.5 : 1.3) * (key ? press : 1) + atkOf(s, e) * 2;
     v += (e.statuses.burn ?? 0) * 0.8 + (e.statuses.poison ?? 0) * 1.5 + (e.statuses.vulnerable ?? 0) * 2 + (e.statuses.weak ?? 0) * 2;
     v += (e.statuses.stun ?? 0) * 6 + (e.statuses.freeze ?? 0) * 4;
     const pv = intentPreview(s, e);
@@ -137,7 +141,12 @@ export function chooseAction(s: CombatState): PlayerAction {
 function pickSacrifice(s: CombatState): number | null {
   if (s.sacrificesThisTurn > 0 || !s.hand.length) return null;
   const ranked = [...s.hand].sort((a, b) => sacValue(s, a.uid) - sacValue(s, b.uid));
-  return ranked[0]?.uid ?? null;
+  const pick = ranked[0];
+  if (!pick) return null;
+  // enough sources: only burn junk (status / curse), never thin the deck of real cards
+  const junk = ['status', 'curse'].includes(cardDef(pick).type);
+  if (s.sources.length >= 7 && !junk) return null;
+  return pick.uid;
 }
 
 function sacValue(s: CombatState, uid: number): number {
@@ -145,6 +154,8 @@ function sacValue(s: CombatState, uid: number): number {
   const d = cardDef(card);
   let v = cardScore(card.id) * 3;
   if ((d.keywords ?? []).includes('offering')) v -= 5;
+  // damage is the scarce resource in a long fight: keep attacks, offer defensive/utility cards first
+  if (JSON.stringify(d.effects ?? []).includes('"damage"') || d.type === 'unit') v += 2;
   if (!playableInfo(s, card).playable) v -= 1;
   return v;
 }

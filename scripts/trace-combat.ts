@@ -38,3 +38,29 @@ while (!s.over && guard++ < 40) {
   for (const l of s.log.slice(logBefore)) console.log('    ·', typeof l === 'string' ? l : JSON.stringify(l).slice(0, 140));
 }
 console.log('result', s.over, 'turns', s.turn, brief());
+
+if (!s.over) {
+  const { legalActions, evaluate } = await import('../src/engine/combat/autoplay');
+  const { playableInfo } = await import('../src/engine/combat/api');
+  console.log('stalled at', s.phase, 'base', evaluate(s).toFixed(1));
+  for (const h of s.hand) console.log('  ', c.card(h.id).name, JSON.stringify(playableInfo(s, h)).slice(0, 160));
+  for (const a of legalActions(s)) { const cl = structuredClone(s); const res = act(cl, a); console.log('  ', JSON.stringify(a), res.ok ? evaluate(cl).toFixed(1) : JSON.stringify(res).slice(0, 100)); }
+  const boss = unitsOf(s, 'enemy', true)[0];
+  console.log('  foe', JSON.stringify({ hp: boss?.hp, armor: boss?.armor, ward: boss?.ward, statuses: boss?.statuses, kw: boss?.extraKeywords }));
+}
+if (!s.over) {
+  const { chooseAction } = await import('../src/engine/combat/autoplay');
+  for (let i = 0; i < 10 && s.phase === 'main' && !s.over; i++) {
+    const a = chooseAction(s);
+    const res = act(s, a);
+    const foe = unitsOf(s, 'enemy', true).map((u) => `${u.def}:${u.hp}`).join(' ');
+    console.log('  step', JSON.stringify(a), res.ok ? 'ok' : JSON.stringify(res).slice(0, 80), '| ready', s.sources.filter((x) => x.ready).length, '|', foe);
+    if (a.type === 'endTurn') break;
+  }
+}
+if (!s.over) {
+  const { chooseAction, legalActions, evaluate } = await import('../src/engine/combat/autoplay');
+  for (let i = 0; i < 3; i++) { const a = chooseAction(s); if (a.type === 'endTurn') break; act(s, a); }
+  console.log('  -- after 3 plays, base', evaluate(s).toFixed(2), 'hand', s.hand.map((h) => h.id).join(','));
+  for (const a of legalActions(s)) { const cl = structuredClone(s); const res = act(cl, a); console.log('    ', JSON.stringify(a), res.ok ? evaluate(cl).toFixed(2) : 'ERR', 'pending', cl.pending?.kind ?? '-'); }
+}

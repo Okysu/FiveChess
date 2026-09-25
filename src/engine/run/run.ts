@@ -199,6 +199,13 @@ function enterCombat(r: RunState, encounter: string, tier: 'normal' | 'elite' | 
   r.screen = { k: 'combat', encounter, tier, seed: `${r.seed}/combat:${r.act}:${r.floor}:${encounter}`, reward, tutorial: r.tutorial ? enc?.tutorial : undefined };
 }
 
+function pickEventEncounter(r: RunState, rng: RngState, tier: 'normal' | 'elite'): string {
+  const pool = [...content().encounters.values()]
+    .filter((e) => e.act === Math.min(r.act, 3) && e.tier === tier && (e.weight ?? 1) > 0 && (tier === 'elite' || e.pool !== 'easy'))
+    .sort((a, b) => a.id.localeCompare(b.id));
+  return pick(rng, pool)?.id ?? pick(rng, [...content().encounters.values()].filter((e) => e.act === Math.min(r.act, 3) && e.tier === 'normal' && (e.weight ?? 1) > 0))!.id;
+}
+
 function pickEncounter(r: RunState, node: MapNode, tier: 'normal' | 'elite'): string {
   const key = `${r.act}:${node.row}:${node.col}`;
   if (r.previews[key]) return r.previews[key]!;
@@ -216,7 +223,7 @@ function pickEncounter(r: RunState, node: MapNode, tier: 'normal' | 'elite'): st
   }
   const recent = r.history.slice(-3).map((h) => h.detail);
   const fresh = pool.filter((e) => !recent.includes(e.id));
-  const id = pick(rngFor(r, `enc:${key}`), fresh.length ? fresh : pool)?.id ?? 'sandbox';
+  const id = pick(rngFor(r, `enc:${key}`), fresh.length ? fresh : pool)!.id;
   return id;
 }
 
@@ -422,7 +429,10 @@ function applyRunEffect(r: RunState, e: RunEffect): boolean {
     case 'addPotion': { const p = e.potion ?? rollPotion(r, rng); if (p) gainPotion(r, p); return false; }
     case 'fight': {
       r.stack.push({ k: 'map' });
-      enterCombat(r, e.encounter, content().encounters.get(e.encounter)?.tier ?? 'normal', e.reward ?? 'normal');
+      // "random:normal" / "random:elite": a fresh encounter from this act's pool (events aren't tied to one fight)
+      const m = /^random:(normal|elite)$/.exec(e.encounter);
+      const enc = m ? pickEventEncounter(r, rng, m[1] as 'normal' | 'elite') : e.encounter;
+      enterCombat(r, enc, content().encounters.get(enc)?.tier ?? 'normal', e.reward ?? 'normal');
       return true;
     }
     case 'fate': return fateEffect(r, rng, e);

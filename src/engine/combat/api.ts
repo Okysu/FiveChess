@@ -3,6 +3,7 @@ import { content } from '../content';
 import type { Color } from '../defs';
 import { seedRng, shuffle } from '../rng';
 import type { CardInst, CombatConfig, CombatState, CEvent, PlayerAction, Side, Unit, SideState } from './state';
+import { encounterTune } from './tuning';
 import { other } from './state';
 import {
   alive, attackTargets, canAttack, commanderOf, emptySlots, unit, unitsOf, BACK, FRONT, reach,
@@ -74,7 +75,7 @@ export function createCombat(cfg: CombatConfig): CombatState {
     const def = c.enemy(e.id);
     const row = e.row ?? def.row;
     if (row === 'commander') {
-      const hp = Math.round(def.hp[0] * (cfg.ascension >= 4 && def.tier === 'boss' ? 1.1 : 1));
+      const hp = Math.round(def.hp[0] * (cfg.ascension >= 4 && def.tier === 'boss' ? 1.1 : 1) * encounterTune(cfg.encounter).hp);
       const boss: Unit = {
         uid: newUid(s), side: 'enemy', kind: 'commander', def: def.id, origin: 'enemy', up: false, name: def.name, row: 'cmd', slot: 0,
         baseAtk: def.atk, baseMaxHp: hp, hp, armor: 0, atkBuff: 0, hpBuff: 0, tempAtk: 0, ward: def.ward ?? 0, thorns: def.thorns ?? 0,
