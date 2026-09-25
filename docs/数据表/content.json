@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-25T13:46:20.816Z",
+ "generated": "2026-09-25T18:45:35.199Z",
  "cards": [
   {
    "id": "b_armor_smith",
@@ -17234,7 +17234,7 @@
    "text": "[判定]：点数≥8——造成{d}点伤害；点数≤7——造成{e}点伤害并收取{n}张[命签]。",
    "vars": {
     "d": 11,
-    "e": 5,
+    "e": 7,
     "n": 1
    },
    "varKinds": {
@@ -17272,7 +17272,7 @@
    "upgrade": {
     "vars": {
      "d": 14,
-     "e": 7
+     "e": 9
     }
    },
    "flavor": "天有多高，尺子就有多长；尺子有多长，就能量出多重的罪。",
@@ -19104,7 +19104,7 @@
    "name": "山君石心",
    "tier": "starter",
    "faction": "B",
-   "text": "战斗开始时，获得6点[护甲]与1层[坚韧]。",
+   "text": "战斗开始时，获得6点[护甲]。",
    "flavor": "从护山大阵阵眼里取出的一块石头，摸上去是温的。",
    "triggers": [
     {
@@ -19113,12 +19113,6 @@
       {
        "op": "armor",
        "amount": 6,
-       "target": "commander"
-      },
-      {
-       "op": "status",
-       "status": "tenacity",
-       "amount": 1,
        "target": "commander"
       }
      ]
@@ -19156,7 +19150,7 @@
    "name": "浑天铜签",
    "tier": "starter",
    "faction": "Y",
-   "text": "战斗开始时，收取1张[命签]。",
+   "text": "战斗开始时，收取1张[命签]。每当你[改判]，获得4点[护甲]。",
    "flavor": "浑天仪拆下来的一根铜杆，被他削成了签。",
    "triggers": [
     {
@@ -19165,6 +19159,17 @@
       {
        "op": "sign",
        "n": 1
+      }
+     ]
+    },
+    {
+     "on": "rejudged",
+     "who": "friendly",
+     "effects": [
+      {
+       "op": "armor",
+       "amount": 4,
+       "target": "commander"
       }
      ]
     }
@@ -19412,7 +19417,7 @@
    "id": "rl_frost_cicada",
    "name": "冰魄玉蝉",
    "tier": "uncommon",
-   "text": "每当你的主帅[护甲]被击破，对造成伤害者施加2层[冰冻]。",
+   "text": "每当你的主帅[护甲]被击破，对造成伤害者施加1层[冰冻]。",
    "flavor": "玉蝉含在口中，寒气便从伤口里反扑出去。",
    "triggers": [
     {
@@ -19421,7 +19426,7 @@
       {
        "op": "status",
        "status": "freeze",
-       "amount": 2,
+       "amount": 1,
        "target": "eventSource"
       }
      ]
@@ -20958,13 +20963,19 @@
     "raise": {
      "name": "举刀",
      "intent": [
-      "defend"
+      "defend",
+      "debuff"
      ],
      "effects": [
       {
        "op": "armor",
        "amount": 8,
        "target": "self"
+      },
+      {
+       "op": "create",
+       "card": "st_dread",
+       "to": "draw"
       }
      ]
     },
@@ -32814,11 +32825,11 @@
     },
     {
      "text": "卖掉一件遗物",
-     "hint": "选择失去 1 件遗物 · 获得 140 金",
+     "hint": "失去 1 件随机遗物 · 获得 140 金",
      "effects": [
       {
        "op": "loseRelic",
-       "mode": "choose"
+       "mode": "random"
       },
       {
        "op": "gold",
@@ -33902,7 +33913,7 @@
    "name": "石韫",
    "title": "镇岳山君",
    "faction": "B",
-   "hp": 82,
+   "hp": 72,
    "sources": [
     "B",
     "B",
@@ -33926,11 +33937,52 @@
      "id": "b_shiyun_p",
      "name": "岳镇",
      "type": "passive",
-     "text": "我方回合开始时，你至多保留10点[护甲]。",
-     "modifiers": [
+     "text": "我方回合开始时进行[判定]，决定上回合剩余[护甲]的去留：点数1–6 全部消散；7–10 保留一半；11–13 或{mountain}山纹 全部保留（每回合至多保留8点）。",
+     "triggers": [
       {
-       "stat": "armorKeep",
-       "amount": 10
+       "on": "turnStart",
+       "who": "friendly",
+       "effects": [
+        {
+         "op": "judge",
+         "branches": {
+          "mountain": [
+           {
+            "op": "restoreArmor",
+            "fraction": 1,
+            "target": "commander",
+            "max": 8
+           }
+          ],
+          "ranks": [
+           {
+            "min": 11,
+            "max": 13,
+            "effects": [
+             {
+              "op": "restoreArmor",
+              "fraction": 1,
+              "target": "commander",
+              "max": 8
+             }
+            ]
+           },
+           {
+            "min": 7,
+            "max": 10,
+            "effects": [
+             {
+              "op": "restoreArmor",
+              "fraction": 0.5,
+              "target": "commander",
+              "max": 8
+             }
+            ]
+           }
+          ]
+         }
+        }
+       ]
       }
      ]
     },
@@ -33938,9 +33990,9 @@
      "id": "b_shiyun_a",
      "name": "山君一怒",
      "type": "active",
-     "text": "（每回合一次，支付2枚[源]）对一个敌人造成等同于你[护甲]值一半的伤害。",
+     "text": "（每回合一次，支付3枚[源]）对一个敌人造成等同于你[护甲]值一半的伤害。",
      "cost": {
-      "g": 2
+      "g": 3
      },
      "target": "enemy",
      "effects": [
@@ -34085,7 +34137,7 @@
    "name": "青姒",
    "title": "万木灵母",
    "faction": "G",
-   "hp": 70,
+   "hp": 76,
    "sources": [
     "G",
     "G",
@@ -34566,7 +34618,7 @@
      "id": "sk_r_liyuan_2",
      "name": "涅槃",
      "type": "awaken",
-     "text": "觉醒：本场战斗第4次献牌后，恢复8点生命，并在本场剩余时间内每回合可多献牌1次。",
+     "text": "觉醒：本场战斗第5次献牌后，恢复8点生命，并在本场剩余时间内每回合可多献牌1次。",
      "awaken": {
       "on": "cardSacrificed",
       "if": {
@@ -34574,7 +34626,7 @@
         {
          "count": "sacrificed"
         },
-        4
+        5
        ]
       },
       "effects": [
@@ -34609,7 +34661,7 @@
    "name": "玄机子",
    "title": "司天监",
    "faction": "Y",
-   "hp": 68,
+   "hp": 72,
    "sources": [
     "Y",
     "Y",

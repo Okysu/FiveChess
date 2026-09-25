@@ -1,7 +1,8 @@
 /**
  * Difficulty curve: one designer table instead of hand-editing hundreds of enemy numbers.
- * Enemy HP is scaled at spawn; enemy damage in calcDamage (so intent previews match resolution).
- * Tuned from scripts/simulate.ts runs — see docs/平衡报告.md. Ascension scaling stacks on top.
+ * Enemy HP is scaled at spawn; enemy damage in calcDamage (so intent previews match resolution), and the
+ * burn/poison stacks enemies apply in applyStatus. Ascension scaling stacks on top.
+ * Tuned with scripts/sim-batch.ts + scripts/balance-model.ts — method, numbers and every change: docs/难度评估.md.
  */
 import { content } from '../content';
 import type { CombatState } from './state';
@@ -9,9 +10,9 @@ import type { CombatState } from './state';
 export interface Tune { hp: number; dmg: number }
 
 export const BY_ACT_TIER: Record<number, Record<'easy' | 'normal' | 'elite' | 'boss', Tune>> = {
-  1: { easy: { hp: 1, dmg: 1 }, normal: { hp: 0.9, dmg: 0.75 }, elite: { hp: 0.9, dmg: 0.85 }, boss: { hp: 0.85, dmg: 0.8 } },
+  1: { easy: { hp: 1, dmg: 1 }, normal: { hp: 0.9, dmg: 0.8 }, elite: { hp: 0.9, dmg: 0.9 }, boss: { hp: 0.85, dmg: 0.85 } },
   2: { easy: { hp: 0.78, dmg: 0.65 }, normal: { hp: 0.78, dmg: 0.62 }, elite: { hp: 0.76, dmg: 0.64 }, boss: { hp: 0.62, dmg: 0.6 } },
-  3: { easy: { hp: 0.65, dmg: 0.52 }, normal: { hp: 0.68, dmg: 0.55 }, elite: { hp: 0.66, dmg: 0.58 }, boss: { hp: 0.6, dmg: 0.58 } },
+  3: { easy: { hp: 0.65, dmg: 0.52 }, normal: { hp: 0.65, dmg: 0.52 }, elite: { hp: 0.62, dmg: 0.54 }, boss: { hp: 0.57, dmg: 0.58 } },
   4: { easy: { hp: 1, dmg: 1 }, normal: { hp: 1, dmg: 1 }, elite: { hp: 1, dmg: 1 }, boss: { hp: 0.62, dmg: 0.66 } },
 };
 
@@ -45,9 +46,10 @@ export const BY_ENCOUNTER: Record<string, Tune> = {
   enc3_lamp_procession: { hp: 0.75, dmg: 0.7 }, // four bodies incl. a 16-HP healer
   enc3_meteor_charge: { hp: 0.9, dmg: 0.8 },
   enc3_orrery: { hp: 0.85, dmg: 0.8 },
-  enc3_tolling_hall: { hp: 0.9, dmg: 0.8 },
+  enc3_tolling_hall: { hp: 0.85, dmg: 0.7 }, // diviner stacks yin on the fate deck so the bell's delay always lands
   enc3_forbidden_stacks: { hp: 0.8, dmg: 0.85 }, // warden armor + golem growth outlast the bot
-  enc3_boss_sunbird_shadow: { hp: 0.85, dmg: 0.85 },
+  enc3_boss_sunbird_shadow: { hp: 0.72, dmg: 0.7 }, // burn-heavy: 63–68% bot deaths vs 25–31% for the other act-3 bosses
+  enc3_elite_ink_leviathan: { hp: 0.9, dmg: 0.85 },
   enc3_boss_eclipse_tengu: { hp: 0.9, dmg: 0.9 },
 };
 

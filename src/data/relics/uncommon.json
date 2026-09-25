@@ -105,10 +105,10 @@
     "id": "rl_frost_cicada",
     "name": "冰魄玉蝉",
     "tier": "uncommon",
-    "text": "每当你的主帅[护甲]被击破，对造成伤害者施加2层[冰冻]。",
+    "text": "每当你的主帅[护甲]被击破，对造成伤害者施加1层[冰冻]。",
     "flavor": "玉蝉含在口中，寒气便从伤口里反扑出去。",
     "triggers": [
-      { "on": "armorBroken", "effects": [{ "op": "status", "status": "freeze", "amount": 2, "target": "eventSource" }] }
+      { "on": "armorBroken", "effects": [{ "op": "status", "status": "freeze", "amount": 1, "target": "eventSource" }] }
     ],
     "art": { "subject": "a translucent pale jade cicada carving covered in frost crystals, cold vapor rising from its wings" }
   },

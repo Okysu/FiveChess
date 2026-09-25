@@ -149,7 +149,7 @@ CardFilter：`{ type?, faction?（色 / 数组 / "own"）, rarity?, keyword?, id
 | damage | amount, target, attack?, times?, pierce? | 伤害。`attack:true` 表示“攻击伤害”（吃锋锐/虚弱）；pierce 无视护甲灵障 |
 | attack | attacker?(默认 self), target, amount?, times? | 发动一次真正的攻击（有反击、棘刺、武器耐久） |
 | heal / loseHp / armor / ward | amount, target | 治疗 / 直接失去生命 / 护甲 / 灵障层数 |
-| restoreArmor | fraction(0–1), target | 返还本回合开始时消散护甲的一部分（每回合只生效一次；多个判定分支命中时仅第一个生效） |
+| restoreArmor | fraction(0–1), max?, target | 返还本回合开始时消散护甲的一部分（每回合只生效一次；多个判定分支命中时仅第一个生效） |
 | status | status, amount, target | 施加状态（burn poison freeze stun vulnerable weak silence might tenacity regen），amount 可为负 |
 | cleanse | target, what: debuffs|buffs|<status> | 清除 |
 | buff | target, atk?, hp?, until?:"turn" | 单位 +攻/+血（until turn = 本回合临时攻击）|

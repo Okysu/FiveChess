@@ -199,9 +199,10 @@ export function calcDamage(s: CombatState, src: Unit | undefined, tgt: Unit, bas
   }
   // difficulty curve (tuning.ts): enemy attacks and damage effects
   if (src && src.side === 'enemy' && src.origin === 'enemy' && (isAttackKind(kind, attackFlag) || kind === 'effect')) {
-    amt *= combatTune(s).dmg;
-    // 逆命 8: normal enemies' intent values +1
+    // 逆命 8: normal enemies' intent values +1 — added before the curve multiplier so the step stays proportional
+    // in every act (added after it, +1 was +20–40% on the scaled-down act 2–3 hits)
     if (s.cfg.ascension >= 8 && content().enemies.get(src.def)?.tier === 'normal') amt += 1;
+    amt *= combatTune(s).dmg;
   }
   amt += sumMods(s, 'damageTaken', tgt.side, tgt);
   if ((tgt.statuses.vulnerable ?? 0) > 0) amt *= 1.5;
@@ -298,6 +299,11 @@ export function applyStatus(s: CombatState, tgtUid: number, st: StatusId, amount
   if (st === 'stun') {
     if (t.stunImmune > 0 || (t.statuses.stun ?? 0) > 0) return;
     amount = 1;
+  }
+  // difficulty curve (tuning.ts) also covers the damage-over-time enemies put on the player's side
+  if ((st === 'burn' || st === 'poison') && amount > 0 && t.side === 'player') {
+    const src = unit(s, srcUid);
+    if (src && src.side === 'enemy' && src.origin === 'enemy') amount = Math.max(1, Math.round(amount * combatTune(s).dmg));
   }
   const before = t.statuses[st] ?? 0;
   let total = before + amount;
@@ -718,7 +724,7 @@ function execEffect(s: CombatState, task: FxTask, eff: AnyEffect) {
     case 'loseHp': for (const t of select(s, eff.target, ctx)) dealDamage(s, src, t.uid, V(eff.amount), 'loss'); return;
     case 'armor': for (const t of select(s, eff.target, ctx)) gainArmor(s, t.uid, V(eff.amount), src); return;
     case 'restoreArmor': for (const t of select(s, eff.target, ctx)) {
-      const n = Math.floor((t.lostArmor ?? 0) * eff.fraction);
+      const n = Math.min(eff.max ?? Infinity, Math.floor((t.lostArmor ?? 0) * eff.fraction));
       t.lostArmor = 0; // several judge branches may match: only the first one restores
       if (n > 0) gainArmor(s, t.uid, n, src);
     } return;

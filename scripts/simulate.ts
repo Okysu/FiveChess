@@ -5,6 +5,7 @@
  * (fights, act reached, cause of death) so several processes' outputs can be merged (scripts/sim-merge.ts).
  */
 import fs from 'node:fs';
+import path from 'node:path';
 import { loadContent } from './load-content';
 import { createCombat, act as combatAct } from '../src/engine/combat/api';
 import { playTurn, autoAnswer, chooseAction, legalActions, aiErrors } from '../src/engine/combat/autoplay';
@@ -20,6 +21,8 @@ const FROM = Number(args.from ?? 0);
 const ASC = Number(args.asc ?? 0);
 loadContent();
 const c = content();
+// --patch=file.mjs: a module whose default export mutates the loaded content in memory (what-if experiments)
+if (args.patch) { const { pathToFileURL } = await import('node:url'); const m = await import(pathToFileURL(path.resolve(args.patch)).href); m.default(c); }
 const commanders = args.commanders ? args.commanders.split(',') : [...c.commanders.keys()];
 
 interface Stat { n: number; wins: number; floors: number }
@@ -168,7 +171,8 @@ function step(r: RunState): boolean {
 
 for (const cmd of commanders) {
   for (let i = FROM; i < FROM + RUNS; i++) {
-    const seed = `sim-${cmd}-${ASC}-${i}`;
+    // --commonSeeds: the same seeds at every ascension (common random numbers → cleaner difficulty-curve comparisons)
+    const seed = args.commonSeeds ? `sim-${cmd}-${i}` : `sim-${cmd}-${ASC}-${i}`;
     const r = newRun({ seed, commander: cmd, ascension: ASC, unlockedHidden: false });
     let guard = 0;
     curFights = [];

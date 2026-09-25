@@ -62,10 +62,10 @@
         "id": "sk_r_liyuan_2",
         "name": "涅槃",
         "type": "awaken",
-        "text": "觉醒：本场战斗第4次献牌后，恢复8点生命，并在本场剩余时间内每回合可多献牌1次。",
+        "text": "觉醒：本场战斗第5次献牌后，恢复8点生命，并在本场剩余时间内每回合可多献牌1次。",
         "awaken": {
           "on": "cardSacrificed",
-          "if": { "gte": [{ "count": "sacrificed" }, 4] },
+          "if": { "gte": [{ "count": "sacrificed" }, 5] },
           "effects": [{ "op": "heal", "amount": 8, "target": "commander" }],
           "becomes": {
             "name": "涅槃·不烬",

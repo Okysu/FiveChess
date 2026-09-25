@@ -1,7 +1,7 @@
 /**
  * Parallel balance sweep: runs scripts/simulate.ts once per (ascension, commander) in child processes,
  * then merges the per-run records into one summary (act completion, per commander, per encounter).
- *   npx tsx scripts/sim-batch.ts [--runs=12] [--asc=0,5,10,15] [--commanders=a,b] [--jobs=20] [--chunk=6] [--tag=base]
+ *   npx tsx scripts/sim-batch.ts [--runs=12] [--asc=0,5,10,15] [--commanders=a,b] [--jobs=20] [--chunk=6] [--tag=base] [--patch=what-if.mjs] [--commonSeeds]
  * Writes .cache/sim/batch-<tag>.json and prints markdown tables (used for docs/难度评估.md).
  */
 import fs from 'node:fs';
@@ -30,7 +30,7 @@ async function runAll() {
     while (next < jobs.length) {
       const j = jobs[next++]!;
       await new Promise<void>((res, rej) => {
-        const p = spawn(process.execPath, ['--import', 'tsx', 'scripts/simulate.ts', `--runs=${j.n}`, `--from=${j.from}`, `--asc=${j.asc}`, `--commanders=${j.cmd}`, '--noReport', `--out=${j.out}`], { stdio: ['ignore', 'ignore', 'inherit'] });
+        const p = spawn(process.execPath, ['--import', 'tsx', 'scripts/simulate.ts', `--runs=${j.n}`, `--from=${j.from}`, `--asc=${j.asc}`, `--commanders=${j.cmd}`, '--noReport', `--out=${j.out}`, ...(args.patch ? [`--patch=${args.patch}`] : []), ...(args.commonSeeds ? ['--commonSeeds'] : [])], { stdio: ['ignore', 'ignore', 'inherit'] });
         p.on('exit', (code) => (code === 0 ? res() : rej(new Error(`${j.cmd}@${j.asc} exited ${code}`))));
       });
     }

@@ -1,7 +1,7 @@
 /**
  * Analytic difficulty model (no combat engine): expected enemy pressure per encounter vs expected player
  * output per turn, turns-to-kill, HP loss per fight and the HP budget of each act.
- *   npx tsx scripts/balance-model.ts [--asc=0] [--md=.cache/sim/model.md] [--outliers]
+ *   npx tsx scripts/balance-model.ts [--asc=0] [--eff=1] [--md=.cache/sim/model.md] [--patch=what-if.mjs]
  *
  * It is deliberately coarse. Card and move effects are reduced to a "damage-equivalent" (DE) using the
  * weights below; utility (draw, fate manipulation, cost tricks) is only roughly priced. Use it to spot
@@ -20,7 +20,12 @@ type Any = any;
 
 const args = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, '').split('='); return [k!, v ?? 'true']; }));
 const ASC = Number(args.asc ?? 0);
+/** execution efficiency: share of the nominal per-turn output a player actually lands (overkill, taunt/depth
+ *  restrictions, wrong-card-for-the-turn, armor on quiet turns). ≈0.5 reproduces the greedy simulator bot. */
+const EFF = Number(args.eff ?? 1);
 const c = loadContent();
+// --patch=file.mjs: same what-if hook as scripts/simulate.ts (mutates content / tuning tables in memory)
+if (args.patch) { const { pathToFileURL } = await import('node:url'); const path = await import('node:path'); const m = await import(pathToFileURL(path.resolve(args.patch)).href); m.default(c); }
 
 // ───────────── weights (tunable assumptions) ─────────────
 /** a drawn card / created card is worth this much DE (average playable card in a mid deck) */
@@ -77,7 +82,10 @@ const AOE_SEL = new Set(['allEnemies', 'enemyUnits', 'enemyFront', 'enemyBack', 
 const ENEMY_SEL = new Set(['target', 'randomEnemy', 'randomEnemyUnit', 'eventSource', 'declaredActor', 'enemyCommander', 'eventTarget', 'it']);
 const SELF_SEL = new Set(['commander', 'self', 'friendly', 'allFriendly']);
 
+/** set while pricing a card whose chosen target is one of our own units (祭枝, 魂归, 归土 …) */
+let friendlyTarget = false;
 function sel(t: Any): 'aoe' | 'enemy' | 'self' | 'friendlyUnits' | 'other' {
+  if (t === 'target' && friendlyTarget) return 'friendlyUnits';
   if (typeof t !== 'string') return t?.side === 'enemy' ? (t.pick === 'all' || !t.pick ? 'aoe' : 'enemy') : 'other';
   if (AOE_SEL.has(t)) return 'aoe';
   if (ENEMY_SEL.has(t)) return 'enemy';
@@ -184,7 +192,7 @@ function effectsDE(effs: Any[], vars: Record<string, number> = {}): DE {
       case 'fateAdd': d.util += 0.1; break;
       case 'cancel': d.armor += 12; break;
       case 'redirect': d.armor += 9; break;
-      case 'kill': if (where === 'enemy') d.dmg += 14; break;
+      case 'kill': if (where === 'enemy') d.dmg += 14; else if (where === 'friendlyUnits') d.dmg -= 4; break; // sacrificing a unit costs ~its value
       case 'judge': addDE(d, judgeDE(e.branches, vars, false, 0)); break;
       case 'delay': { const dc = c.cards.get(e.card); if (dc?.delay) addDE(d, judgeDE(dc.delay.branches, dc.vars ?? {}, false, 0)); break; }
       case 'weapon': d.dmg += val(e.atk ?? 3, vars) * Math.min(4, val(e.durability ?? 3, vars)); break;
@@ -205,6 +213,7 @@ export interface CardVal { id: string; name: string; faction: string; rarity: st
 export function cardValue(def: CardDef): CardVal {
   const vars = (def.vars ?? {}) as Record<string, number>;
   const d = zero();
+  friendlyTarget = def.target === 'friendlyUnit' || def.target === 'friendly';
   addDE(d, effectsDE(def.effects ?? [], vars));
   if (def.type === 'unit') addDE(d, unitDE(def.unit, vars));
   if (def.type === 'delay' && def.delay) addDE(d, judgeDE(def.delay.branches, vars, false, 0));
@@ -220,6 +229,7 @@ export function cardValue(def: CardDef): CardVal {
     if (f.modifiers?.length) d.util += 0.6 * f.modifiers.length;
   }
   if ((def.keywords ?? []).includes('retain')) d.util += 0.1;
+  friendlyTarget = false;
   const g = def.cost.g === 'X' ? 3 : def.cost.g;
   const cost = g + (def.cost.c?.length ?? 0);
   const value = total(d);
@@ -314,8 +324,8 @@ function enemyProfile(id: string, tune: { hp: number; dmg: number }, asc: number
   if (melee) direct *= 0.4;
   // difficulty table + A8 (+1 per hit for normal enemies; ~1 hit per turn)
   const dmgMul = tune.dmg;
-  const a8 = asc >= 8 && def.tier === 'normal' && direct > 0 ? 1 : 0;
-  const dpt = (direct + castPT) * dmgMul + a8 + side;
+  const a8 = asc >= 8 && def.tier === 'normal' && direct > 0 ? dmgMul : 0; // +1 per hit before the multiplier (core.ts)
+  const dpt = (direct + castPT + side) * dmgMul + a8; // burn/poison stacks are scaled by the same multiplier (core.ts applyStatus)
   return { id, name: def.name, hp, dpt, direct: direct * dmgMul + a8, side, armorPT, healPT, summonPT: Object.entries(summonPT).map(([k, n]) => ({ id: k, n })), castPT: castPT * dmgMul, key };
 }
 
@@ -332,12 +342,12 @@ const STAGES: Stage[] = [
 /** per-commander skill + starter relic contribution per turn, hand-priced from their rules text */
 const SKILL_PT: Record<string, { dmg: number; armor: number; note: string }> = {
   r_huojin: { dmg: 7, armor: 0, note: '断焰刀 3 攻×4 次 + 每击 2 灼烧；引焰入锋 1 源 ≈ 攻击力+灼烧' },
-  r_liyuan: { dmg: 3.5, armor: 1.5, note: '每献 3 伤；第 4 献觉醒回 8 并多献 1 次' },
-  b_shiyun: { dmg: 4, armor: 4, note: '护甲留存 ≤10（护甲利用率大增）；山君一怒 2 源 = 护甲/2 伤害；石心 6 甲 + 1 坚韧' },
+  r_liyuan: { dmg: 3.2, armor: 1.2, note: '每献 3 伤；第 5 献觉醒回 8 并多献 1 次' },
+  b_shiyun: { dmg: 3, armor: 3.5, note: '岳镇判定留存上回合护甲（期望 ≈ 54%）；山君一怒 3 源 = 护甲/2 伤害；石心开场 10 甲' },
   b_suxian: { dmg: 1, armor: 3, note: '余烬 +1、应对得余音；冰蚕弦每次应对 3 甲' },
   g_qingsi: { dmg: 2.5, armor: 1.5, note: '开场灵苗 + 灵母低语 1 源召唤灵苗；≥3 单位抽 1' },
   g_acang: { dmg: 3, armor: 2, note: '开场山魅；单位死亡 +1/+1；首次死亡抽 1' },
-  y_xuanji: { dmg: 2, armor: 1, note: '司天观星 2 → 判定牌可选阳/阴约 +25% 判定收益；开场命签' },
+  y_xuanji: { dmg: 2, armor: 2, note: '司天观星 2 → 判定牌可选阳/阴约 +25% 判定收益；开场命签；改判得 4 甲' },
   y_yanwujiu: { dmg: 2.5, armor: 0, note: '每张延时每回合 2 伤；首次延时抽 1' },
   p_yetan: { dmg: 5, armor: 0, note: '第 3 张牌 3 毒/回合（叠加）；罗刹引 1+P 源 = 中毒层数；昙香囊毒伤 +1' },
   p_liuxu: { dmg: 1.5, armor: 0.5, note: '絮影、换面发现；柳絮扇手牌 +2、开场抽 2' },
@@ -428,8 +438,8 @@ function fight(enc: EncounterDef, curve: PlayerCurve, asc: number, unitsBlock = 
   for (; t < 40; t++) {
     const T = Math.min(t, curve.dmg.length - 1);
     // armor/heal the enemies gained last turn shields this turn's damage
-    let pool = curve.dmg[T]!;
-    const aoe = curve.aoe[T]!;
+    let pool = curve.dmg[T]! * EFF;
+    const aoe = curve.aoe[T]! * EFF;
     const all = [...alive, ...minions].filter((x) => x.hp > 0);
     for (const x of all) { x.hp -= aoe; }
     // focus: minions/non-key first when they deal damage, lowest HP first, key target last in boss fights
@@ -447,7 +457,7 @@ function fight(enc: EncounterDef, curve: PlayerCurve, asc: number, unitsBlock = 
         while (summonAcc[s.id]! >= 1 && minions.filter((m) => m.hp > 0).length < 4) { summonAcc[s.id]! -= 1; const mp = enemyProfile(s.id, tune, asc, false); minions.push({ f: mp, hp: mp.hp }); effHp += mp.hp; }
       }
     }
-    hpLoss += Math.max(0, dmg - curve.armor[T]! - unitsBlock);
+    hpLoss += Math.max(0, dmg - curve.armor[T]! * EFF - unitsBlock);
   }
   effHp += foes.reduce((s, f) => s + f.hp + wardPad, 0);
   return { turns: t, hpLoss, effHp, dpt0: foes.reduce((s, f) => s + f.dpt, 0) };
@@ -478,7 +488,7 @@ const cmds = [...c.commanders.keys()];
 const f1 = (x: number) => x.toFixed(1);
 const f0 = (x: number) => x.toFixed(0);
 const avgHp = cmds.reduce((s, id) => s + c.commander(id).hp, 0) / cmds.length * (ASC >= 6 ? 0.9 : 1);
-md.push(`# 难度模型（逆命 ${ASC}）`, '', `玩家平均生命 ${f1(avgHp)}；DE = 伤害当量（护甲 ×${W_ARMOR}，每张额外抽牌 ≈ ${W_CARD}，AoE ×${AOE_TARGETS}）。`, '');
+md.push(`# 难度模型（逆命 ${ASC}，执行效率 ${EFF}）`, '', `玩家平均生命 ${f1(avgHp)}；DE = 伤害当量（护甲 ×${W_ARMOR}，每张额外抽牌 ≈ ${W_CARD}，AoE ×${AOE_TARGETS}）。`, '');
 
 // enemies per encounter
 const encs = [...c.encounters.values()].filter((e) => (e.weight ?? 1) > 0 && e.id !== 'sandbox').sort((a, b) => a.act - b.act || a.tier.localeCompare(b.tier) || a.id.localeCompare(b.id));
@@ -572,6 +582,49 @@ md.push(`中位 DE/费：普通 ${f1(rarMed.common!)} · 稀有 ${f1(rarMed.rare
 for (const x of allCards.filter((x) => x.utilShare < 0.5).sort((a, b) => b.perCost / rarMed[b.rarity]! - a.perCost / rarMed[a.rarity]!)) {
   const k = x.perCost / rarMed[x.rarity]!;
   if (k >= 1.9 || k <= 0.45) md.push(`- ${k >= 1 ? '偏强' : '偏弱'} ${x.name}（${x.faction} ${x.rarity} ${x.type} 费${x.cost}）：DE ${f1(x.value)}，${f1(x.perCost)}/费 = ${k.toFixed(2)}×中位`);
+}
+// relics: DE per fight from their triggers (≈7 turns, ~4 cards per turn) + flags for unbounded scaling
+md.push('', '### 遗物（每场战斗期望 DE；标注无上限增长）', '');
+const RELIC_TIMES: Record<string, number> = {
+  combatStart: 1, turnStart: 7, turnEnd: 7, opponentTurnStart: 7, opponentTurnEnd: 7, cardPlayed: 28, cardSacrificed: 5, judged: 6,
+  rejudged: 3, responsePlayed: 4, unitDied: 4, unitSummoned: 5, attacking: 5, attacked: 8, damaged: 8, armorBroken: 4,
+  cardDiscarded: 7, shuffled: 2, equipped: 1, armorGained: 12, statusApplied: 6,
+};
+const relicRows = [...c.relics.values()].map((r) => {
+  let de = 0;
+  const flags: string[] = [];
+  for (const t of r.triggers ?? []) {
+    let n = RELIC_TIMES[t.on] ?? 0;
+    if (t.limit === 'combat') n = Math.min(n, 1);
+    if (t.limit === 'turn') n = Math.min(n, 7);
+    if (t.if) n *= 0.6;
+    de += total(effectsDE(t.effects, {})) * n;
+    if (t.on === 'turnStart' && JSON.stringify(t.effects).includes('"energy"')) flags.push('每回合+1临时源');
+  }
+  for (const m of r.modifiers ?? []) {
+    const a = typeof m.amount === 'number' ? m.amount : 0;
+    if (m.stat === 'burnKeep') { flags.push('灼烧不衰减：每回合施加 b 层时总伤 ≈ b·T(T+1)/2（平方增长）'); de += 25; }
+    if (m.stat === 'armorKeep' && a >= 99) { flags.push('护甲永不清零：防御型牌组可无限叠甲'); de += 30; }
+    else if (m.stat === 'armorKeep') de += a * 0.5 * 6;
+    if (m.stat === 'sacrifices' && a > 0) { flags.push('每回合多献 1 张：源的爬升翻倍'); de += 20; }
+    if (m.stat === 'sacrifices' && a < 0) de -= 20;
+    if (m.stat === 'cost' && a < 0) de += 7 * 3;
+    if (m.stat === 'atk') de += a * 2 * 7 * (r.tier === 'boss' ? -1 : 1);
+    if (m.stat === 'draw') de += a * 7 * W_CARD;
+    if (m.stat === 'damageTaken') de -= a * 7 * 1.5 * W_ARMOR;
+    if (m.stat === 'attackDamage') de += a * 7;
+    if (m.stat === 'poisonDamage' || m.stat === 'burnDamage') de += a * 6;
+    if (m.stat === 'emberCap') de += a * 3;
+  }
+  return { r, de, flags };
+});
+const byTier: Record<string, number[]> = {};
+for (const x of relicRows) (byTier[x.r.tier] ??= []).push(x.de);
+md.push('| 遗物 | 层级 | 估算 DE/场 | 同层级中位 | 说明 |', '|---|---|---|---|---|');
+for (const x of relicRows.sort((a, b) => b.de - a.de)) {
+  const med = median(byTier[x.r.tier]!);
+  if (!x.flags.length && !(x.de > Math.max(20, med * 2))) continue;
+  md.push(`| ${x.r.name} | ${x.r.tier} | ${f0(x.de)} | ${f0(med)} | ${x.flags.join('；') || '远高于同层级'} |`);
 }
 fs.mkdirSync('.cache/sim', { recursive: true });
 const out = args.md ?? '.cache/sim/model.md';

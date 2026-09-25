@@ -112,7 +112,7 @@ export type Effect =
   | { op: 'loseHp'; amount: Value; target: Selector }
   | { op: 'armor'; amount: Value; target: Selector }
   /** give back a fraction of the armor that expired at the start of this turn (once per turn) */
-  | { op: 'restoreArmor'; fraction: number; target: Selector }
+  | { op: 'restoreArmor'; fraction: number; max?: number; target: Selector }
   | { op: 'ward'; amount: Value; target: Selector }
   | { op: 'status'; status: StatusId; amount: Value; target: Selector }
   | { op: 'cleanse'; target: Selector; what: 'debuffs' | 'buffs' | StatusId }

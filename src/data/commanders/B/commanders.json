@@ -4,7 +4,7 @@
     "name": "石韫",
     "title": "镇岳山君",
     "faction": "B",
-    "hp": 76,
+    "hp": 72,
     "sources": [
       "B",
       "B",
@@ -28,7 +28,7 @@
         "id": "b_shiyun_p",
         "name": "岳镇",
         "type": "passive",
-        "text": "我方回合开始时进行[判定]，决定上回合剩余[护甲]的去留：点数1–4 全部消散；5–9 保留一半；10–13 或{mountain}山纹 全部保留。",
+        "text": "我方回合开始时进行[判定]，决定上回合剩余[护甲]的去留：点数1–6 全部消散；7–10 保留一半；11–13 或{mountain}山纹 全部保留（每回合至多保留8点）。",
         "triggers": [
           {
             "on": "turnStart",
@@ -41,29 +41,32 @@
                     {
                       "op": "restoreArmor",
                       "fraction": 1,
-                      "target": "commander"
+                      "target": "commander",
+                      "max": 8
                     }
                   ],
                   "ranks": [
                     {
-                      "min": 10,
+                      "min": 11,
                       "max": 13,
                       "effects": [
                         {
                           "op": "restoreArmor",
                           "fraction": 1,
-                          "target": "commander"
+                          "target": "commander",
+                          "max": 8
                         }
                       ]
                     },
                     {
-                      "min": 5,
-                      "max": 9,
+                      "min": 7,
+                      "max": 10,
                       "effects": [
                         {
                           "op": "restoreArmor",
                           "fraction": 0.5,
-                          "target": "commander"
+                          "target": "commander",
+                          "max": 8
                         }
                       ]
                     }
@@ -78,9 +81,9 @@
         "id": "b_shiyun_a",
         "name": "山君一怒",
         "type": "active",
-        "text": "（每回合一次，支付2枚[源]）对一个敌人造成等同于你[护甲]值一半的伤害。",
+        "text": "（每回合一次，支付3枚[源]）对一个敌人造成等同于你[护甲]值一半的伤害。",
         "cost": {
-          "g": 2
+          "g": 3
         },
         "target": "enemy",
         "effects": [

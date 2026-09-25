@@ -4,7 +4,7 @@
     "name": "浑天铜签",
     "tier": "starter",
     "faction": "Y",
-    "text": "战斗开始时，收取1张[命签]。",
+    "text": "战斗开始时，收取1张[命签]。每当你[改判]，获得4点[护甲]。",
     "flavor": "浑天仪拆下来的一根铜杆，被他削成了签。",
     "triggers": [
       {
@@ -13,6 +13,17 @@
           {
             "op": "sign",
             "n": 1
+          }
+        ]
+      },
+      {
+        "on": "rejudged",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 4,
+            "target": "commander"
           }
         ]
       }
