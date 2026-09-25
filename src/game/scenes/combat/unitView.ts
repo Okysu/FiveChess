@@ -89,10 +89,11 @@ export class UnitView extends Container {
     } else {
       const isBoss = this.mode === 'boss';
       const key = u.origin === 'enemy' ? K.enemy(u.def, c.enemies.get(u.def)?.tier === 'boss') : K.hero(u.def);
-      const targetH = this.mode === 'figure' ? 185 : isBoss ? 330 : 300;
+      // figures must fit the 146px slot pitch so stacked enemies don't overlap
+      const targetH = this.mode === 'figure' ? 138 : isBoss ? 330 : 300;
       // placeholder until the figure art exists: a framed print block, bottom-anchored like the art
       const ph = new Container();
-      const pw = this.mode === 'figure' ? 140 : 200, phh = this.mode === 'figure' ? 170 : 260;
+      const pw = this.mode === 'figure' ? 116 : 200, phh = this.mode === 'figure' ? 134 : 260;
       const phArt = uiCover('art_placeholder', pw - 20, phh - 20);
       phArt.position.set(-pw / 2 + 10, -phh + 10);
       const phFrame = nine('token_frame', pw, phh);
@@ -105,7 +106,7 @@ export class UnitView extends Container {
       assets.with(key, (t) => {
         const s = new Sprite(t);
         s.anchor.set(0.5, 1);
-        const k = Math.min(targetH / t.height, (this.mode === 'figure' ? 190 : 300) / t.width);
+        const k = Math.min(targetH / t.height, (this.mode === 'figure' ? 160 : 300) / t.width);
         s.scale.set(k);
         if (u.side === 'player') s.scale.x = -Math.abs(s.scale.x) * 0 + Math.abs(s.scale.x); // commanders face right already
         if (u.side === 'enemy' && this.mode === 'figure') s.scale.x = -Math.abs(s.scale.x); // enemies face left

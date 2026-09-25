@@ -31,6 +31,7 @@ class GameApp {
   toastLayer = new Container();
   fade = new Container();
   scene: Scene | null = null;
+  private sceneReady = false;
   scale = 1;
   compact = false;
   private backdropSprite = new Sprite(Texture.EMPTY);
@@ -59,7 +60,8 @@ class GameApp {
     this.layout();
     this.app.ticker.add((t) => {
       tweens.update(t.deltaMS);
-      this.scene?.update(t.deltaMS);
+      // a scene only ticks once enter() has built it (enter awaits asset loads)
+      if (this.sceneReady) this.scene?.update(t.deltaMS);
     });
     window.addEventListener('keydown', (e) => {
       for (let i = this.keyHandlers.length - 1; i >= 0; i--) if (this.keyHandlers[i]!(e)) { e.preventDefault(); return; }
@@ -118,9 +120,11 @@ class GameApp {
     }
     this.modalLayer.removeChildren();
     this.tipLayer.removeChildren();
+    this.sceneReady = false;
     this.scene = next;
     this.sceneLayer.addChild(next);
     await next.enter();
+    this.sceneReady = true;
     await tweens.to(this.fade, { alpha: 0 }, dur, { ease: ease.inOutQuad, unscaled: true });
     this.fade.eventMode = 'none';
     this.switching = false;

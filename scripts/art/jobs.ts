@@ -16,17 +16,22 @@ export interface ArtJob {
   magentaSubject?: boolean;
   /** short subject line, used to pack small items into one sprite-sheet request (atlas.ts) */
   subject?: string;
+  /** items only share a sprite sheet within the same group (faction / act) so the shared tone fits all */
+  group?: string;
 }
+
+/** battle backdrops sit behind the whole board: no figures, quiet low-contrast middle */
+const BATTLE_CALM = 'No people, no soldiers, no creatures, no figures of any kind. The central band is calm, sparse and low in contrast so game pieces placed on it stay readable; detail only at the far edges.';
 
 const bg = (id: string, prompt: string, out = `backgrounds/${id}`): ArtJob => ({
   id, category: 'background', out, size: '1536x1024', transparent: false, prompt: `${prompt} ${STYLE_LOCK}`, ref: 'art-src/style_refs/wb_background.png', px: 1920, quality: 'high',
 });
 
 export const BACKGROUNDS: ArtJob[] = [
-  bg('battle_1', `A wide battlefield in a misty forest of toppled ancient stone steles and gnarled pines at dusk, open flat mossy ground across the middle and lower half for units to stand on, the top third darker, faint green will-o-wisps. ${ACT_TONE[1]}`),
-  bg('battle_2', `A wide battlefield on the flooded marble plaza of a sunken underground royal palace, ankle-deep still water reflecting broken vermilion pillars, shafts of teal light from above, open flat ground across the middle. ${ACT_TONE[2]}`),
-  bg('battle_3', `A wide battlefield inside a vast celestial library hall, polished star-map floor, towering floating bookshelves and giant armillary spheres in the background, fallen stars glowing as lamps, open flat ground across the middle. ${ACT_TONE[3]}`),
-  bg('battle_4', `A wide battlefield floating in an ink-black void at the binding of an enormous open book whose pages curve up on both sides like cliffs, golden light-trails drifting like flowing script, suspended dust, open flat ground in the middle. ${ACT_TONE[4]}`),
+  bg('battle_1', `A wide battlefield in a misty forest of toppled ancient stone steles and gnarled pines at dusk, open flat mossy ground across the middle and lower half for units to stand on, the top third darker, faint green will-o-wisps. ${BATTLE_CALM} ${ACT_TONE[1]}`),
+  bg('battle_2', `A wide battlefield on the flooded marble plaza of a sunken underground royal palace, ankle-deep still water reflecting broken vermilion pillars, shafts of teal light from above, open flat ground across the middle. ${BATTLE_CALM} ${ACT_TONE[2]}`),
+  bg('battle_3', `A wide battlefield inside a vast celestial library hall, polished star-map floor, towering floating bookshelves and giant armillary spheres in the background, fallen stars glowing as lamps, open flat ground across the middle. ${BATTLE_CALM} ${ACT_TONE[3]}`),
+  bg('battle_4', `A wide battlefield floating in an ink-black void at the binding of an enormous open book whose pages curve up on both sides like cliffs, golden light-trails drifting like flowing script, suspended dust, open flat ground in the middle. ${BATTLE_CALM} ${ACT_TONE[4]}`),
   bg('map_1', 'An aged xuan-paper scroll texture seen from above, subtle ink-wash landscape of misty pine forest and broken steles painted faintly in grey and pale green, large calm empty areas for drawing a route map, warm paper fibers, vignette.'),
   bg('map_2', 'An aged xuan-paper scroll texture seen from above, subtle ink-wash landscape of a sunken palace and flowing water painted faintly in teal and rust, large calm empty areas for drawing a route map, warm paper fibers, vignette.'),
   bg('map_3', 'An aged xuan-paper scroll texture seen from above, subtle ink-wash of constellations, clouds and palace roofs in faint gold and midnight blue, large calm empty areas for drawing a route map, warm paper fibers, vignette.'),

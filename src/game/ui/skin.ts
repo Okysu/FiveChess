@@ -281,10 +281,12 @@ export function icon(id: string, size: number, o: { tint?: number; alpha?: numbe
 }
 
 /** raw image source of a loaded UI/icon texture, for drawing inline in rich-text canvases */
-export function imageSource(key: string): CanvasImageSource | null {
+/** the image behind a texture plus its frame (textures may live inside a packed atlas) */
+export function imageSource(key: string): { img: CanvasImageSource; x: number; y: number; w: number; h: number } | null {
   const t = assets.get(key);
   const r = (t?.source as { resource?: unknown } | undefined)?.resource;
-  return (r as CanvasImageSource) ?? null;
+  if (!t || !r) return null;
+  return { img: r as CanvasImageSource, x: t.frame.x, y: t.frame.y, w: t.frame.width, h: t.frame.height };
 }
 
 export function addAll(parent: Container, ...kids: ContainerChild[]) { for (const k of kids) parent.addChild(k); return parent; }

@@ -16,25 +16,26 @@ export function buildJobs(): ArtJob[] {
     jobs.push({
       id: card.id, category: 'card', out: `cards/${faction}/${card.id}`, size: '1024x1024', transparent: false,
       prompt: cardPrompt(card.art.subject, faction, card.art.mood), ref: REF('wb_card'), px: 640,
+      subject: card.art.subject, group: faction,
     });
   }
   for (const cm of c.commanders.values()) {
     jobs.push({ id: cm.id, category: 'hero', out: `heroes/${cm.id}`, size: '1024x1536', transparent: true,
-      prompt: cutoutPrompt(`Full-body heroic portrait: ${cm.art.subject}`, FACTION_TONE[cm.faction]), ref: REF('wb_commander'), px: 1100, quality: 'high' });
+      prompt: cutoutPrompt(`Full-body heroic portrait: ${cm.art.subject}`, FACTION_TONE[cm.faction]), ref: REF('wb_commander'), px: 1100, quality: 'high', subject: cm.art.subject, group: cm.faction });
   }
   for (const lt of c.lieutenants.values()) {
     jobs.push({ id: lt.id, category: 'hero', out: `heroes/${lt.id}`, size: '1024x1536', transparent: true,
-      prompt: cutoutPrompt(`Full-body portrait: ${lt.art.subject}`, FACTION_TONE[lt.faction]), ref: REF('wb_commander'), px: 900 });
+      prompt: cutoutPrompt(`Full-body portrait: ${lt.art.subject}`, FACTION_TONE[lt.faction]), ref: REF('wb_commander'), px: 900, subject: lt.art.subject, group: lt.faction });
   }
   for (const e of c.enemies.values()) {
     const act = Math.min(4, Math.max(1, e.act));
     const boss = e.tier === 'boss';
     jobs.push({ id: e.id, category: boss ? 'boss' : 'enemy', out: `${boss ? 'bosses' : 'enemies'}/${e.id}`, size: boss ? '1024x1536' : '1024x1024', transparent: true,
-      prompt: cutoutPrompt(`Full body: ${e.art.subject}`, ACT_TONE[act]!), ref: REF('wb_enemy'), px: boss ? 1100 : 640, quality: boss ? 'high' : 'medium' });
+      prompt: cutoutPrompt(`Full body: ${e.art.subject}`, ACT_TONE[act]!), ref: REF('wb_enemy'), px: boss ? 1100 : 640, quality: boss ? 'high' : 'medium', subject: e.art.subject, group: String(act) });
     (e.phases ?? []).forEach((ph, i) => {
       if (!ph.art) return;
       jobs.push({ id: `${e.id}_p${i + 2}`, category: 'boss', out: `bosses/${e.id}_p${i + 2}`, size: '1024x1536', transparent: true,
-        prompt: cutoutPrompt(`Full body: ${ph.art.subject}`, ACT_TONE[act]!), ref: REF('wb_enemy'), px: 1100, quality: 'high' });
+        prompt: cutoutPrompt(`Full body: ${ph.art.subject}`, ACT_TONE[act]!), ref: REF('wb_enemy'), px: 1100, quality: 'high', subject: ph.art.subject, group: String(act) });
     });
   }
   const OBJECT = 'A single magical artifact object, centered, whole object visible, isolated on a fully transparent background, no hands, no scenery.';
@@ -49,7 +50,7 @@ export function buildJobs(): ArtJob[] {
   for (const ev of c.events.values()) {
     const act = Math.min(...ev.acts, 3);
     jobs.push({ id: ev.id, category: 'event', out: `backgrounds/events/${ev.id}`, size: '1536x1024', transparent: false,
-      prompt: `${ev.art.subject} ${ACT_TONE[act] ?? ''} ${STYLE_LOCK}`, ref: REF('wb_background'), px: 1200 });
+      prompt: `${ev.art.subject} ${ACT_TONE[act] ?? ''} ${STYLE_LOCK}`, ref: REF('wb_background'), px: 1200, subject: ev.art.subject, group: String(act) });
   }
   jobs.push(...BACKGROUNDS, ...UI_MATERIALS, ...EFFECTS, ...FACTION_EMBLEMS);
   // icons use the approved first icon as the style reference

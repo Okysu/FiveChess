@@ -1,8 +1,9 @@
 /**
- * Asset store: resolves generated art from assets/manifest.json, lazy-loads textures,
- * and provides procedural fallbacks so the game is always playable.
+ * Asset store: resolves generated art from assets/manifest.json and lazy-loads textures.
+ * Small textures are packed into atlases (scripts/pack-atlas.ts): asking for one of them loads its whole
+ * sheet once and registers every frame, so hundreds of icons cost a handful of requests.
  */
-import { Assets, Texture } from 'pixi.js';
+import { Assets, Texture, type Spritesheet } from 'pixi.js';
 
 interface ManifestEntry { id: string; path: string; category: string }
 
@@ -10,6 +11,8 @@ class AssetStore {
   private byKey = new Map<string, string>(); // key (path w/o ext) -> url path
   private tex = new Map<string, Texture>();
   private pending = new Map<string, Promise<Texture | null>>();
+  private atlasOf = new Map<string, string>(); // key -> atlas json path
+  private sheets = new Map<string, Promise<void>>();
   entries: ManifestEntry[] = [];
   base = import.meta.env.BASE_URL ?? '/';
 
@@ -22,6 +25,10 @@ class AssetStore {
         for (const a of this.entries) this.byKey.set(a.path.replace(/\.[a-z0-9]+$/i, ''), a.path);
       }
     } catch { /* no manifest yet: everything falls back */ }
+    try {
+      const res = await fetch(`${this.base}atlas/index.json`, { cache: 'no-cache' });
+      if (res.ok) for (const [k, v] of Object.entries((await res.json()) as Record<string, string>)) this.atlasOf.set(k, v);
+    } catch { /* no atlases: every texture loads on its own */ }
   }
 
   has(key: string) { return this.byKey.has(key); }
@@ -35,12 +42,25 @@ class AssetStore {
     if (p) return p;
     const path = this.byKey.get(key);
     if (!path) return Promise.resolve(null);
+    const atlas = this.atlasOf.get(key);
+    if (atlas) return this.loadSheet(atlas).then(() => this.tex.get(key) ?? (this.atlasOf.has(key) ? null : this.load(key)));
     const pr = Assets.load<Texture>({ alias: key, src: `${this.base}${path}` })
       .then((t) => { this.tex.set(key, t); return t; })
       .catch(() => null)
       .finally(() => this.pending.delete(key));
     this.pending.set(key, pr);
     return pr;
+  }
+
+  private loadSheet(json: string): Promise<void> {
+    let p = this.sheets.get(json);
+    if (!p) {
+      p = Assets.load<Spritesheet>(`${this.base}${json}`)
+        .then((sheet) => { for (const [k, t] of Object.entries(sheet.textures)) this.tex.set(k, t); })
+        .catch(() => { for (const [k, v] of this.atlasOf) if (v === json) this.atlasOf.delete(k); }); // fall back to single files
+      this.sheets.set(json, p);
+    }
+    return p;
   }
 
   loadMany(keys: string[], onProgress?: (k: number) => void): Promise<void> {

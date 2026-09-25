@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run validate && npm run check:ui && tsc --noEmit && vite build",
+    "build": "npm run validate && npm run check:ui && tsc --noEmit && npm run pack:atlas && vite build",
+    "pack:atlas": "tsx scripts/pack-atlas.ts",
+    "gen:sheets": "tsx scripts/art/sheets.ts",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "npm run check:ui && vitest run",

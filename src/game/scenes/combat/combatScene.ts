@@ -95,7 +95,7 @@ export class CombatScene extends Scene {
     const s = this.s;
     const r = session.run!;
     await this.preload();
-    G.setBackdrop(assets.get(K.bg(`battle_${Math.min(4, r.act)}`)));
+    G.setBackdrop(assets.get(K.bg(`battle_${Math.min(4, r.act)}`)), 0x9c9c9c); // printed backdrop pushed back so the board reads first
     const enc = content().encounters.get(s.cfg.encounter);
     const tier = enc?.tier ?? 'normal';
     audio.playMusic(r.act === 4 ? 'final' : tier === 'boss' ? 'boss' : tier === 'elite' ? 'elite' : 'battle');

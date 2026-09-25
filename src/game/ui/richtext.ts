@@ -12,11 +12,11 @@ const hex = (n: number) => `#${n.toString(16).padStart(6, '0')}`;
 
 /** draw a generated icon texture inline (pips / suits); skipped if the texture isn't loaded yet */
 function drawTex(c: CanvasRenderingContext2D, key: string, cx: number, cy: number, size: number) {
-  const img = imageSource(key);
-  if (!img) return;
-  const iw = (img as { width: number }).width, ih = (img as { height: number }).height;
+  const src = imageSource(key);
+  if (!src) return;
+  const { img, x, y, w: iw, h: ih } = src;
   const k = size / Math.max(iw, ih);
-  c.drawImage(img, cx - (iw * k) / 2, cy - (ih * k) / 2, iw * k, ih * k);
+  c.drawImage(img, x, y, iw, ih, cx - (iw * k) / 2, cy - (ih * k) / 2, iw * k, ih * k);
 }
 import { FONT_BODY } from './theme';
 
