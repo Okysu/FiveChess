@@ -38,7 +38,11 @@ export class ScrollBox extends Container {
   get wasDrag() { return this.moved > 8; }
 
   get contentSize() {
+    // Pixi v8 clips bounds to the mask: measure unmasked, or content past the viewport is unreachable
+    const m = this.content.mask;
+    this.content.mask = null;
     const b = this.content.getLocalBounds();
+    this.content.mask = m;
     return this.horizontal ? b.x + b.width : b.y + b.height;
   }
 
