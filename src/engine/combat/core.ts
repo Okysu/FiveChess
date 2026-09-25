@@ -304,7 +304,9 @@ export function applyStatus(s: CombatState, tgtUid: number, st: StatusId, amount
   if (st !== 'might' && total < 0) total = 0;
   if (total === 0) delete t.statuses[st];
   else t.statuses[st] = total;
-  if (amount > 0 && s.active === t.side && (st === 'freeze' || st === 'vulnerable' || st === 'weak')) (t.fresh ??= {})[st] = true;
+  // applied mid-turn to the acting side → it should still cover that side's next turn, so skip this turn's countdown.
+  // Applied at the start of the bearer's own turn (before it acted) it counts this turn: freeze 1 = one turn.
+  if (amount > 0 && s.active === t.side && s.acted && (st === 'freeze' || st === 'vulnerable' || st === 'weak')) (t.fresh ??= {})[st] = true;
   emit(s, { t: 'status', target: t.uid, status: st, delta: total - before, total });
   if (amount > 0) fire(s, 'statusApplied', { subject: t.uid, side: t.side, source: srcUid, amount, status: st });
 }
@@ -1412,6 +1414,7 @@ function resolveLink(s: CombatState, task: ChainTask, link: ChainLink) {
       if (!mv) return;
       if ((u.statuses.stun ?? 0) > 0) { delete u.statuses.stun; u.stunImmune = 2; emit(s, { t: 'status', target: u.uid, status: 'stun', delta: -1, total: 0 }); emit(s, { t: 'stunned', uid: u.uid }); return; }
       if ((u.statuses.freeze ?? 0) > 0 && mv.intent.includes('attack')) { emit(s, { t: 'frozen', uid: u.uid }); return; }
+      s.acted = true;
       pushFx(s, mv.effects, { side: u.side, source: u.uid, kind: 'move', target: link.target, vars: { atk: atkOf(s, u) } });
       return;
     }
@@ -1567,6 +1570,7 @@ function advanceEnemies(s: CombatState) {
 }
 
 function startOfTurn(s: CombatState, side: Side) {
+  s.acted = false;
   const chars = boardOrder(s, side);
   // armor expires — except on the player's very first turn: armor granted at combat start
   // (combatStart triggers resolve just before this phase) has not lived through a turn yet

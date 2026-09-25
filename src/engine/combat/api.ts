@@ -115,6 +115,7 @@ export function act(s: CombatState, a: PlayerAction): ActResult {
   s.events = [];
   const err = apply(s, a);
   if (err) return { ok: false, error: err, events: [] };
+  if (s.active === 'player') s.acted = true;
   s.actions.push(a);
   run(s);
   const events = s.events;

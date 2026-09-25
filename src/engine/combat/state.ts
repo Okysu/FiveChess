@@ -196,6 +196,8 @@ export interface CombatState {
   sources: Source[];
   emberCap: number;
   sacrificesThisTurn: number;
+  /** the active side has taken an action this turn (turn-start effects run before it) */
+  acted?: boolean;
   cardsPlayedThisTurn: number;
   nextCardCostMod: number;
   fate: { deck: FateCard[]; discard: FateCard[]; known: number; signs: FateCard[] };
