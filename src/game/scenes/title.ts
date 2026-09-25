@@ -1,5 +1,6 @@
 import { Container, Text } from 'pixi.js';
-import { WB, nine } from '../ui/skin';
+import { WB, nine, INSET } from '../ui/skin';
+import { ScrollBox } from '../ui/scroll';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { Box } from '../core/layout';
@@ -87,22 +88,34 @@ ${nu ? `下一解锁：${nu.label}（${nu.xp}）` : '全部内容已解锁'}`, {
     });
   }
 
+  /** 鸣谢: generated from assets/manifest.json by `npm run credits` (assets/credits.json) */
   private credits() {
-    const m = new Modal(1200, 820, { title: '制作与鸣谢' });
-    const text = [
-      '《命阙》— Vite + TypeScript + PixiJS + yoga-layout',
-      '',
-      '规则引擎、内容、界面与演出：本项目原创',
-      '插画 / 立绘 / 图标：由 gpt-image-2 按《美术风格圣经》生成（清单见 assets/manifest.json）',
-      '音效与音乐：WebAudio 实时合成（五声调式生成音乐、程序化音效），无第三方素材',
-      '字体：使用系统中文字体；若联网则加载 Google Fonts（Noto Serif SC / Ma Shan Zheng，SIL OFL）',
-      '',
-      '界面研究参考了炉石传说、万智牌 Arena、符文之地传说、杀戮尖塔、三国杀等作品的公开资料，',
-      '仅用于学习交互原理；本作的界面、图标与卡框均为原创设计。',
-    ].join('\n');
-    const t = new Text({ text, style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text, lineHeight: 40, wordWrap: true, wordWrapWidth: 1080 } });
-    t.position.set(60, 120);
-    m.body.addChild(t);
+    const W = 1300, H = 880;
+    const m = new Modal(W, H, { title: '制作与鸣谢' });
+    const box = new ScrollBox(W - INSET.dark.x * 2, H - 110 - INSET.dark.y);
+    box.position.set(INSET.dark.x, 110);
+    m.body.addChild(box);
+    void fetch(`${import.meta.env.BASE_URL ?? '/'}credits.json`, { cache: 'no-cache' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j: { sections: { title: string; lines: string[] }[] } | null) => {
+        if (!j || box.destroyed) return;
+        let y = 0;
+        const wrap = W - INSET.dark.x * 2 - 40;
+        for (const sec of j.sections) {
+          const h = new Text({ text: sec.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 28, fill: C.goldLight } });
+          h.position.set(0, y);
+          box.content.addChild(h);
+          y += 44;
+          for (const line of sec.lines) {
+            const t = new Text({ text: `· ${line}`, style: { fontFamily: FONT_BODY, fontSize: 21, fill: C.text, lineHeight: 32, wordWrap: true, wordWrapWidth: wrap, breakWords: true } });
+            t.position.set(12, y);
+            box.content.addChild(t);
+            y += t.height + 6;
+          }
+          y += 20;
+        }
+        box.refresh();
+      });
   }
 
   override update(dt: number) {

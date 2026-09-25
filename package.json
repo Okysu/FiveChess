@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run validate && npm run check:ui && tsc --noEmit && npm run pack:atlas && vite build",
+    "build": "npm run validate && npm run check:ui && tsc --noEmit && npm run pack:atlas && npm run credits && vite build",
     "pack:atlas": "tsx scripts/pack-atlas.ts",
     "gen:sheets": "tsx scripts/art/sheets.ts",
     "preview": "vite preview",
@@ -15,9 +15,9 @@
     "validate": "tsx scripts/validate-data.ts",
     "sim": "tsx scripts/simulate.ts",
     "gen:art": "tsx scripts/art/generate.ts",
-    "gen:sfx": "tsx scripts/audio/synth-sfx.ts",
     "export:tables": "tsx scripts/export-tables.ts",
-    "check:ui": "tsx scripts/check-no-procedural.ts"
+    "check:ui": "tsx scripts/check-no-procedural.ts",
+    "credits": "tsx scripts/credits.ts"
   },
   "dependencies": {
     "pixi.js": "^8.21.0",

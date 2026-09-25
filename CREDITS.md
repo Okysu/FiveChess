@@ -1,0 +1,33 @@
+# 制作与鸣谢
+
+> 由 `npm run credits` 从 assets/manifest.json 生成。
+
+## 制作
+
+- 《命阙》规则引擎、全部内容（卡牌、敌人、事件、遗物）、界面与演出：本项目原创。
+
+## 美术（AI 生成，统一木版年画风格）
+
+- 共 849 张，按《美术风格圣经》的提示词与风格参考图生成，逐张记录于 assets/manifest.json。
+- gpt-image-2：背景 17，事件插图 42，首领立绘 18，卡牌插画 308，特效粒子 12，敌人立绘 85，图标 84，主帅与副将立绘 30，界面贴图 83，丹药 26，遗物 94
+- gpt-image-2.5-flare：卡牌插画 48，敌人立绘 2
+
+## 第三方素材
+
+- 无。音效与音乐为 WebAudio 实时合成（五声调式生成音乐、程序化音效）。
+
+## 字体
+
+- Noto Serif SC · SIL Open Font License 1.1 · https://fonts.google.com/noto/specimen/Noto+Serif+SC
+- Ma Shan Zheng · SIL Open Font License 1.1 · https://fonts.google.com/specimen/Ma+Shan+Zheng
+
+## 开源库
+
+- PixiJS（渲染）· MIT · https://pixijs.com
+- yoga-layout（界面布局）· MIT · https://github.com/facebook/yoga
+- zod（数据校验）· MIT · https://zod.dev
+- Vite / TypeScript（构建与语言）· MIT / Apache-2.0 · https://vitejs.dev
+
+## 参考与致意
+
+- 界面研究参考了炉石传说、万智牌 Arena、符文之地传说、杀戮尖塔、三国杀等作品的公开资料，仅用于学习交互原理；本作的界面、图标与卡框均为原创设计。
