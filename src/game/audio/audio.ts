@@ -1,7 +1,9 @@
 /**
- * Audio: WebAudio buses (master / music / sfx / ambient), procedurally synthesized SFX
- * (guqin-like plucks, stone chimes 磬, drums, whooshes), and generative pentatonic music.
- * No third-party audio files are required; if assets/audio/* files exist they could be layered later.
+ * Audio: WebAudio buses (master / music / sfx / ambient).
+ * Samples come from assets/audio/audio.json (CC0 packs + project-generated files, see scripts/audio/import-audio.ts):
+ * sound ids play a random variant, music moods and ambience stream from looping media elements.
+ * Anything unmapped — or a file this browser can't decode — falls back to the procedural synth
+ * (guqin-like plucks, stone chimes 磬, drums, whooshes) and generative pentatonic music.
  */
 type Bus = 'master' | 'music' | 'sfx' | 'ambient';
 
@@ -14,6 +16,11 @@ class AudioSys {
   private music: MusicPlayer | null = null;
   private amb: { stop: () => void } | null = null;
   private unlocked = false;
+  private bank: { sfx: Record<string, { files: string[]; gain: number }>; music: Record<string, { file: string; gain: number }>; amb: Record<string, { file: string; gain: number }> } | null = null;
+  private buffers = new Map<string, AudioBuffer | 'loading' | 'failed'>();
+  private stream: { key: string; el: HTMLAudioElement; g: GainNode } | null = null;
+  private ambStream: { key: string; el: HTMLAudioElement; g: GainNode } | null = null;
+  private base = (import.meta.env.BASE_URL ?? '/') + 'audio/';
 
   init() {
     if (this.ctx) return;
@@ -44,7 +51,11 @@ class AudioSys {
     rg.gain.value = 0.28;
     this.reverb.connect(rg);
     rg.connect(master);
-    const unlock = () => { if (this.ctx?.state === 'suspended') void this.ctx.resume(); this.unlocked = true; };
+    void fetch(`${this.base}audio.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).then((j) => { this.bank = j; if (this.unlocked) this.preloadSfx(); }).catch(() => undefined);
+    const unlock = () => {
+      if (this.ctx?.state === 'suspended') void this.ctx.resume();
+      if (!this.unlocked) { this.unlocked = true; this.preloadSfx(); if (this.pendingMusic) { const m = this.pendingMusic; this.pendingMusic = null; this.music?.stop(); this.music = null; this.playMusic(m); } }
+    };
     window.addEventListener('pointerdown', unlock);
     window.addEventListener('keydown', unlock);
   }
@@ -130,19 +141,99 @@ class AudioSys {
     this.noise(0.08, { vol: (o.vol ?? 0.5) * 0.35, freq: 500, type: 'lowpass', at: o.at, bus: o.bus });
   }
 
+  // ───────────── samples ─────────────
+
+  private preloadSfx() {
+    if (!this.bank) return;
+    for (const { files } of Object.values(this.bank.sfx)) for (const f of files) void this.decode(f);
+  }
+
+  private async decode(file: string): Promise<AudioBuffer | null> {
+    const hit = this.buffers.get(file);
+    if (hit === 'failed' || hit === 'loading') return null;
+    if (hit) return hit;
+    if (!this.ctx) return null;
+    this.buffers.set(file, 'loading');
+    try {
+      const data = await (await fetch(this.base + file)).arrayBuffer();
+      const buf = await this.ctx.decodeAudioData(data);
+      this.buffers.set(file, buf);
+      return buf;
+    } catch {
+      this.buffers.set(file, 'failed'); // e.g. no Ogg Vorbis decoder: this id keeps its synth voice
+      return null;
+    }
+  }
+
+  /** play a sample for a sound id; false → caller synthesizes */
+  playSample(id: string, intensity = 1): boolean {
+    const e = this.bank?.sfx[id];
+    if (!e || !this.ctx) return false;
+    const ready = e.files.map((f) => this.buffers.get(f)).filter((b): b is AudioBuffer => b instanceof AudioBuffer);
+    if (!ready.length) { for (const f of e.files) void this.decode(f); return false; }
+    const src = this.ctx.createBufferSource();
+    src.buffer = ready[Math.floor(Math.random() * ready.length)]!;
+    src.playbackRate.value = 0.96 + Math.random() * 0.08; // small pitch jitter: repeats don't sound identical
+    const g = this.ctx.createGain();
+    g.gain.value = e.gain * Math.min(1.4, 0.6 + intensity * 0.4);
+    src.connect(g);
+    g.connect(this.out('sfx', 0.08));
+    src.start();
+    return true;
+  }
+
+  /** looping streamed track on a bus, crossfaded; null if the file can't play here */
+  private startStream(file: string, gain: number, bus: Bus): { key: string; el: HTMLAudioElement; g: GainNode } | null {
+    if (!this.ctx) return null;
+    const el = new Audio(this.base + file);
+    el.loop = true;
+    el.preload = 'auto';
+    if (el.canPlayType(file.endsWith('.ogg') ? 'audio/ogg; codecs="vorbis"' : file.endsWith('.mp3') ? 'audio/mpeg' : 'audio/wav') === '') return null;
+    const node = this.ctx.createMediaElementSource(el);
+    const g = this.ctx.createGain();
+    g.gain.value = 0;
+    node.connect(g);
+    g.connect(this.buses[bus]!);
+    g.gain.setTargetAtTime(gain, this.ctx.currentTime, 0.8);
+    void el.play().catch(() => undefined);
+    return { key: file, el, g };
+  }
+
+  private stopStream(s: { el: HTMLAudioElement; g: GainNode } | null) {
+    if (!s || !this.ctx) return;
+    s.g.gain.setTargetAtTime(0, this.ctx.currentTime, 0.5);
+    setTimeout(() => { s.el.pause(); s.el.src = ''; }, 2500);
+  }
+
+  private pendingMusic: MusicMood | null = null;
+
   playMusic(mood: MusicMood) {
     if (!this.ctx) return;
-    if (this.music?.mood === mood) return;
+    if (this.music?.mood === mood || this.stream?.key === `${mood}`) return;
+    // browsers block media playback before the first gesture: remember the mood and start it on unlock
+    if (!this.unlocked) this.pendingMusic = mood;
+    const m = this.bank?.music[mood];
+    // two moods can share a track (map1 / map3): keep it playing instead of restarting
+    if (m && this.unlocked && this.stream?.el.src.endsWith(m.file)) { this.stream.key = mood; return; }
+    const next = m && this.unlocked ? this.startStream(m.file, m.gain, 'music') : null;
     this.music?.stop();
+    this.music = null;
+    this.stopStream(this.stream);
+    this.stream = null;
+    if (next) { next.key = mood; this.stream = next; return; }
     this.music = new MusicPlayer(this, mood);
     this.music.start();
   }
 
-  stopMusic() { this.music?.stop(); this.music = null; }
+  stopMusic() { this.music?.stop(); this.music = null; this.stopStream(this.stream); this.stream = null; }
 
   ambience(kind: 'forest' | 'water' | 'stars' | 'void' | 'fire' | null) {
     this.amb?.stop();
     this.amb = null;
+    this.stopStream(this.ambStream);
+    this.ambStream = null;
+    const file = kind ? this.bank?.amb[kind] : undefined;
+    if (file && this.unlocked) { this.ambStream = this.startStream(file.file, file.gain, 'ambient'); if (this.ambStream) return; }
     if (!kind || !this.ctx || !this.noiseBuf) return;
     const ctx = this.ctx;
     const src = ctx.createBufferSource();
@@ -270,6 +361,7 @@ export function sfx(name: Sfx, intensity = 1) {
   const now = performance.now();
   if ((lastPlayed[name] ?? 0) > now - 35) return;
   lastPlayed[name] = now;
+  if (a.playSample(name, intensity)) return;
   const v = Math.min(1.5, intensity);
   switch (name) {
     case 'click': a.tone(880, 0.06, { type: 'triangle', vol: 0.12 }); a.tone(1320, 0.05, { vol: 0.05, at: a.now + 0.01 }); break;

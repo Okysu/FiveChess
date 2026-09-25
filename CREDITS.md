@@ -14,7 +14,15 @@
 
 ## 第三方素材
 
-- 无。音效与音乐为 WebAudio 实时合成（五声调式生成音乐、程序化音效）。
+- Tozan (OpenGameArt) · https://opengameart.org/content/asianoriental1 · CC0 1.0（1 个文件）
+- Tozan (OpenGameArt) · https://opengameart.org/content/asianoriental2 · CC0 1.0（1 个文件）
+- Tozan (OpenGameArt) · https://opengameart.org/content/orien · CC0 1.0（1 个文件）
+- Tozan (OpenGameArt) · https://opengameart.org/content/orient-peace-valley · CC0 1.0（1 个文件）
+- Tozan (OpenGameArt) · https://opengameart.org/content/shangri-river · CC0 1.0（1 个文件）
+- Kenney · https://kenney.nl/assets/impact-sounds · CC0 1.0（29 个文件）
+- Kenney · https://kenney.nl/assets/interface-sounds · CC0 1.0（20 个文件）
+- Kenney · https://kenney.nl/assets/casino-audio · CC0 1.0（18 个文件）
+- Kenney · https://kenney.nl/assets/rpg-audio · CC0 1.0（9 个文件）
 
 ## 字体
 

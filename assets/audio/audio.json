@@ -1,0 +1,294 @@
+{
+ "sfx": {
+  "click": {
+   "files": [
+    "sfx/click_0.ogg",
+    "sfx/click_1.ogg"
+   ],
+   "gain": 0.5
+  },
+  "hover": {
+   "files": [
+    "sfx/hover_0.ogg",
+    "sfx/hover_1.ogg"
+   ],
+   "gain": 0.25
+  },
+  "cardHover": {
+   "files": [
+    "sfx/cardHover_0.ogg",
+    "sfx/cardHover_1.ogg",
+    "sfx/cardHover_2.ogg"
+   ],
+   "gain": 0.3
+  },
+  "deny": {
+   "files": [
+    "sfx/deny_0.ogg",
+    "sfx/deny_1.ogg"
+   ],
+   "gain": 0.45
+  },
+  "draw": {
+   "files": [
+    "sfx/draw_0.ogg",
+    "sfx/draw_1.ogg",
+    "sfx/draw_2.ogg"
+   ],
+   "gain": 0.55
+  },
+  "shuffle": {
+   "files": [
+    "sfx/shuffle_0.ogg"
+   ],
+   "gain": 0.6
+  },
+  "discard": {
+   "files": [
+    "sfx/discard_0.ogg",
+    "sfx/discard_1.ogg",
+    "sfx/discard_2.ogg"
+   ],
+   "gain": 0.5
+  },
+  "play": {
+   "files": [
+    "sfx/play_0.ogg",
+    "sfx/play_1.ogg",
+    "sfx/play_2.ogg",
+    "sfx/play_3.ogg"
+   ],
+   "gain": 0.7
+  },
+  "playUnit": {
+   "files": [
+    "sfx/playUnit_0.ogg",
+    "sfx/playUnit_1.ogg",
+    "sfx/playUnit_2.ogg"
+   ],
+   "gain": 0.55
+  },
+  "playResponse": {
+   "files": [
+    "sfx/playResponse_0.ogg",
+    "sfx/playResponse_1.ogg"
+   ],
+   "gain": 0.55
+  },
+  "playEquip": {
+   "files": [
+    "sfx/playEquip_0.ogg",
+    "sfx/playEquip_1.ogg"
+   ],
+   "gain": 0.6
+  },
+  "playDelay": {
+   "files": [
+    "sfx/playDelay_0.ogg",
+    "sfx/playDelay_1.ogg"
+   ],
+   "gain": 0.6
+  },
+  "playField": {
+   "files": [
+    "sfx/playField_0.ogg",
+    "sfx/playField_1.ogg"
+   ],
+   "gain": 0.6
+  },
+  "legendary": {
+   "files": [
+    "sfx/legendary_0.ogg"
+   ],
+   "gain": 0.6
+  },
+  "hit": {
+   "files": [
+    "sfx/hit_0.ogg",
+    "sfx/hit_1.ogg",
+    "sfx/hit_2.ogg",
+    "sfx/hit_3.ogg"
+   ],
+   "gain": 0.6
+  },
+  "hitHeavy": {
+   "files": [
+    "sfx/hitHeavy_0.ogg",
+    "sfx/hitHeavy_1.ogg",
+    "sfx/hitHeavy_2.ogg"
+   ],
+   "gain": 0.75
+  },
+  "block": {
+   "files": [
+    "sfx/block_0.ogg",
+    "sfx/block_1.ogg",
+    "sfx/block_2.ogg"
+   ],
+   "gain": 0.5
+  },
+  "armor": {
+   "files": [
+    "sfx/armor_0.ogg",
+    "sfx/armor_1.ogg",
+    "sfx/armor_2.ogg"
+   ],
+   "gain": 0.5
+  },
+  "wardBreak": {
+   "files": [
+    "sfx/wardBreak_0.ogg",
+    "sfx/wardBreak_1.ogg"
+   ],
+   "gain": 0.55
+  },
+  "death": {
+   "files": [
+    "sfx/death_0.ogg",
+    "sfx/death_1.ogg"
+   ],
+   "gain": 0.7
+  },
+  "window": {
+   "files": [
+    "sfx/window_0.ogg",
+    "sfx/window_1.ogg"
+   ],
+   "gain": 0.55
+  },
+  "declare": {
+   "files": [
+    "sfx/declare_0.ogg"
+   ],
+   "gain": 0.5
+  },
+  "judgeFlip": {
+   "files": [
+    "sfx/judgeFlip_0.ogg",
+    "sfx/judgeFlip_1.ogg"
+   ],
+   "gain": 0.6
+  },
+  "rejudge": {
+   "files": [
+    "sfx/rejudge_0.ogg",
+    "sfx/rejudge_1.ogg"
+   ],
+   "gain": 0.6
+  },
+  "freeze": {
+   "files": [
+    "sfx/freeze_0.ogg",
+    "sfx/freeze_1.ogg",
+    "sfx/freeze_2.ogg"
+   ],
+   "gain": 0.5
+  },
+  "stun": {
+   "files": [
+    "sfx/stun_0.ogg"
+   ],
+   "gain": 0.4
+  },
+  "buff": {
+   "files": [
+    "sfx/buff_0.ogg",
+    "sfx/buff_1.ogg"
+   ],
+   "gain": 0.45
+  },
+  "debuff": {
+   "files": [
+    "sfx/debuff_0.ogg",
+    "sfx/debuff_1.ogg"
+   ],
+   "gain": 0.45
+  },
+  "turnPlayer": {
+   "files": [
+    "sfx/turnPlayer_0.ogg"
+   ],
+   "gain": 0.35
+  },
+  "turnEnemy": {
+   "files": [
+    "sfx/turnEnemy_0.ogg"
+   ],
+   "gain": 0.35
+  },
+  "endTurn": {
+   "files": [
+    "sfx/endTurn_0.ogg",
+    "sfx/endTurn_1.ogg"
+   ],
+   "gain": 0.5
+  },
+  "ember": {
+   "files": [
+    "sfx/ember_0.ogg",
+    "sfx/ember_1.ogg"
+   ],
+   "gain": 0.45
+  },
+  "gold": {
+   "files": [
+    "sfx/gold_0.ogg",
+    "sfx/gold_1.ogg"
+   ],
+   "gain": 0.6
+  },
+  "relic": {
+   "files": [
+    "sfx/relic_0.ogg"
+   ],
+   "gain": 0.55
+  },
+  "step": {
+   "files": [
+    "sfx/step_0.ogg",
+    "sfx/step_1.ogg",
+    "sfx/step_2.ogg"
+   ],
+   "gain": 0.4
+  }
+ },
+ "music": {
+  "title": {
+   "file": "music/asianoriental2.ogg",
+   "gain": 0.8
+  },
+  "map1": {
+   "file": "music/Shangririver.ogg",
+   "gain": 0.7
+  },
+  "map2": {
+   "file": "music/asianoriental1.ogg",
+   "gain": 0.7
+  },
+  "map3": {
+   "file": "music/Shangririver.ogg",
+   "gain": 0.7
+  },
+  "map4": {
+   "file": "music/asianoriental1.ogg",
+   "gain": 0.7
+  },
+  "battle": {
+   "file": "music/orien_2.ogg",
+   "gain": 0.7
+  },
+  "elite": {
+   "file": "music/orien_2.ogg",
+   "gain": 0.7
+  },
+  "camp": {
+   "file": "music/orien1.ogg",
+   "gain": 0.7
+  },
+  "shop": {
+   "file": "music/orien1.ogg",
+   "gain": 0.7
+  }
+ },
+ "amb": {}
+}

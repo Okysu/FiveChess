@@ -17,7 +17,8 @@
     "gen:art": "tsx scripts/art/generate.ts",
     "export:tables": "tsx scripts/export-tables.ts",
     "check:ui": "tsx scripts/check-no-procedural.ts",
-    "credits": "tsx scripts/credits.ts"
+    "credits": "tsx scripts/credits.ts",
+    "audio:import": "tsx scripts/audio/import-audio.ts"
   },
   "dependencies": {
     "pixi.js": "^8.21.0",

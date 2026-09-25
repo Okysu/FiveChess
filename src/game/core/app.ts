@@ -75,7 +75,8 @@ class GameApp {
 
   layout() {
     const w = window.innerWidth, h = window.innerHeight;
-    const touch = matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
+    // phones and tablets only: primary pointer is touch and the physical screen is small (not a touch laptop in a tall window)
+    const touch = matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) <= 1024;
     this.rotated = touch && h > w * 1.1;
     const vw = this.rotated ? h : w, vh = this.rotated ? w : h; // the landscape viewport the game sees
     this.scale = Math.min(vw / DESIGN_W, vh / DESIGN_H);
