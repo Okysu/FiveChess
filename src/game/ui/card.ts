@@ -14,7 +14,8 @@ import { WB, uiCover, uiFill, uiSprite, nine, gem, pip, frame, maskPoly, maskRec
 export const CARD_W = 300;
 export const CARD_H = 420;
 const ART = { x: 26, y: 28, w: 248, h: 180 };
-const RULES = { x: 32, y: 276, w: 236, h: 104 };
+// rules text sits straight on the card paper: from under the name ribbon to the frame's bottom border
+const RULES = { x: 42, y: 262, w: 216, h: 120 };
 const RIBBON_Y = 200;
 
 export interface CardLive {
@@ -107,9 +108,6 @@ export class CardView extends Container {
       this.queueCache();
     });
     L.addChild(nine(`card_frame_${f}`, CARD_W, CARD_H));
-    const rules = nine('rules_box', RULES.w + 16, RULES.h + 14);
-    rules.position.set(RULES.x - 8, RULES.y - 7);
-    L.addChild(rules);
     const ribbon = nine(`ribbon_${f}`, CARD_W + 16, 54);
     ribbon.position.set(-8, RIBBON_Y);
     L.addChild(ribbon);
@@ -122,8 +120,9 @@ export class CardView extends Container {
     if (nameText.width > CARD_W - 90) nameText.scale.set((CARD_W - 90) / nameText.width);
     L.addChild(nameText);
     if (!['basic', 'token', 'special'].includes(d.rarity)) {
-      const g = gem(d.rarity, 22);
-      g.position.set(CARD_W / 2, RIBBON_Y + 54);
+      // rarity gem rides on the ribbon's right scroll end, leaving the rules area free
+      const g = gem(d.rarity, 24);
+      g.position.set(CARD_W - 30, RIBBON_Y + 27);
       L.addChild(g);
     }
     if (d.type === 'response' || (d.keywords ?? []).includes('response')) {
@@ -137,7 +136,7 @@ export class CardView extends Container {
       L.addChild(seal);
     }
     if (d.rarity === 'legendary') L.addChildAt(frame('gold', CARD_W, CARD_H, 8), 0);
-    for (const key of [K.ui(`card_frame_${f}`), K.ui(`ribbon_${f}`), K.ui('rules_box'), K.ui('tex_paper')]) assets.with(key, () => this.queueCache());
+    for (const key of [K.ui(`card_frame_${f}`), K.ui(`ribbon_${f}`), K.ui('tex_paper')]) assets.with(key, () => this.queueCache());
     this.queueCache();
   }
 
@@ -183,7 +182,7 @@ export class CardView extends Container {
     if (rulesKey !== this.lastRules) {
       this.lastRules = rulesKey;
       const old = this.rulesSprite.texture;
-      const { texture } = richTexture(d.text, { width: RULES.w, height: RULES.h, fontSize: 19, minFontSize: 12, color: 0x241a12, vars, align: 'center', weight: '600' });
+      const { texture } = richTexture(d.text, { width: RULES.w, height: RULES.h, fontSize: 21, minFontSize: 15, color: 0x1e140c, vars, align: 'center', vAlign: 'middle', weight: '700', lineHeight: 1.35 });
       this.rulesSprite.texture = texture;
       this.rulesSprite.position.set(RULES.x, RULES.y);
       if (old && old !== Texture.EMPTY) old.destroy(true);

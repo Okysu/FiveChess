@@ -199,7 +199,7 @@ export class CombatScene extends Scene {
       }
     }
     // row labels
-    const mk = (t: string, x: number) => { const l = label(t, { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 18, fill: C.textDim }); l.anchor.set(0.5); l.position.set(x, 146); l.alpha = 0.7; this.boardLayer.addChild(l); };
+    const mk = (t: string, x: number) => { const l = label(t, { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 18, fill: C.textDim }); l.anchor.set(0.5); l.position.set(x, 112); l.alpha = 0.7; this.boardLayer.addChild(l); };
     mk('后阵', X.playerBack); mk('前阵', X.playerFront); mk('前阵', X.enemyFront); mk('后阵', X.enemyBack);
     this.boardLayer.addChild(this.pField, this.eField, this.fate);
   }
@@ -743,7 +743,18 @@ export class CombatScene extends Scene {
       const r = v.hitRect();
       if (p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h) return v;
     }
-    return null;
+    // forgiving aim: while targeting, snap to the nearest legal target within reach of the pointer
+    const legal = this.targeting?.targets;
+    if (!legal?.length) return null;
+    let best: UnitView | null = null, bd = 120;
+    for (const uid of legal) {
+      const v = this.units.get(uid);
+      if (!v) continue;
+      const r = v.hitRect();
+      const d = Math.hypot(p.x - (r.x + r.w / 2), p.y - (r.y + r.h / 2)) - Math.min(r.w, r.h) / 2;
+      if (d < bd) { bd = d; best = v; }
+    }
+    return best;
   }
 
   private slotAt(p: { x: number; y: number }) {

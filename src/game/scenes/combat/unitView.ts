@@ -163,6 +163,7 @@ export class UnitView extends Container {
     const bw = small ? this.bw - 10 : 220;
     this.hpBar.set(hp / Math.max(1, max));
     this.hpBar.position.set(-this.hpBar.bw / 2, this.bottomY + (this.mode === 'token' ? 14 : 10));
+    this.hpBar.visible = !small;
     void bw;
     this.hpText.text = small ? '' : `${hp}/${max}`;
     this.hpText.anchor.set(0.5);
@@ -171,10 +172,11 @@ export class UnitView extends Container {
     this.atkBadge.removeChildren(); this.hpBadge.removeChildren(); this.armorBadge.removeChildren();
     if (small) {
       const baseAtk = u ? u.baseAtk : atk;
+      // corner badges sit inside the unit's footprint so they never overlap the next slot
       this.atkBadge.addChild(badge('atk', atk, atk > baseAtk ? 0x8aff9a : atk < baseAtk ? 0xff8a7a : 0xffffff));
-      this.atkBadge.position.set(-this.bw / 2 + 4, this.bottomY - 6);
+      this.atkBadge.position.set(-this.bw / 2 + 12, this.bottomY - 16);
       this.hpBadge.addChild(badge('hp', hp, hp < max ? 0xff8a7a : u && max > u.baseMaxHp ? 0x8aff9a : 0xffffff));
-      this.hpBadge.position.set(this.bw / 2 - 4, this.bottomY - 6);
+      this.hpBadge.position.set(this.bw / 2 - 12, this.bottomY - 16);
     } else if (atk > 0 && this.mode === 'commander') {
       this.atkBadge.addChild(badge('atk', atk, 0xffffff));
       this.atkBadge.position.set(-128, this.hpBar.y + 11);
@@ -184,7 +186,7 @@ export class UnitView extends Container {
       const t = new Text({ text: String(armor), style: { fontFamily: FONT_NUM, fontSize: 17, fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0, width: 4 } } });
       t.anchor.set(0.5);
       this.armorBadge.addChild(g, t);
-      this.armorBadge.position.set(small ? 0 : -bw / 2 - 16, small ? this.bottomY - 6 : this.hpBar.y + 11);
+      this.armorBadge.position.set(small ? 0 : -bw / 2 - 16, small ? this.bottomY - 16 : this.hpBar.y + 11);
     }
   }
 
@@ -204,19 +206,19 @@ export class UnitView extends Container {
     list.slice(0, 5).forEach(([id, v], i) => {
       const info = STATUSES[id];
       const c = new Container();
-      const ic = iconSprite(info.icon, 30, info.name[0]!, info.tint);
+      const ic = iconSprite(info.icon, 38, info.name[0]!, info.tint);
       c.addChild(ic);
       if (id !== 'stun' && id !== 'silence') {
-        const t = new Text({ text: String(v), style: { fontFamily: FONT_NUM, fontSize: 16, fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0, width: 4 } } });
-        t.anchor.set(0.5); t.position.set(10, 10);
+        const t = new Text({ text: String(v), style: { fontFamily: FONT_NUM, fontSize: 21, fontWeight: '900', fill: 0xffffff, stroke: { color: 0, width: 5 } } });
+        t.anchor.set(0.5); t.position.set(14, 12);
         c.addChild(t);
       }
-      c.position.set(0, i * 32);
+      c.position.set(0, i * 40);
       (c as Container & { statusId?: string }).statusId = id;
       this.statusCol.addChild(c);
     });
     const small = this.mode === 'token' || this.mode === 'figure';
-    this.statusCol.position.set(small ? this.bw / 2 + 12 : 130, small ? this.topY + 16 : -120);
+    this.statusCol.position.set(small ? this.bw / 2 + 16 : 130, small ? this.topY + 20 : -120);
   }
 
   setKeywords(kws: Keyword[]) {
@@ -259,7 +261,8 @@ export class UnitView extends Container {
         glyph = '攻';
       }
       const c = new Container();
-      const ic = iconSprite(icon, 54, glyph ?? '？', t === 'attack' ? 0xff6a4a : t === 'defend' ? 0x7fa6d6 : t === 'buff' ? 0xf0c050 : t === 'debuff' ? 0xb07ae0 : 0xd8c8b0);
+      const small = this.mode === 'figure' || this.mode === 'token';
+      const ic = iconSprite(icon, small ? 46 : 54, glyph ?? '？', t === 'attack' ? 0xff6a4a : t === 'defend' ? 0x7fa6d6 : t === 'buff' ? 0xf0c050 : t === 'debuff' ? 0xb07ae0 : 0xd8c8b0);
       c.addChild(ic);
       let num = '';
       if (t === 'attack' && pv.damage !== undefined) num = (pv.hits ?? 1) > 1 ? `${pv.damage}×${pv.hits}` : String(pv.damage);
@@ -267,18 +270,18 @@ export class UnitView extends Container {
       if (t === 'summon' && pv.summons) num = String(pv.summons);
       if (t === 'cast') num = String(s.sides.enemy.hand.length || '');
       if (num) {
-        const tx = new Text({ text: num, style: { fontFamily: FONT_NUM, fontSize: 24, fontWeight: 'bold', fill: t === 'attack' ? 0xffe0d0 : 0xffffff, stroke: { color: 0x000000, width: 5 } } });
-        tx.anchor.set(0.5, 0);
-        tx.position.set(0, 16);
+        const tx = new Text({ text: num, style: { fontFamily: FONT_NUM, fontSize: small ? 28 : 24, fontWeight: '900', fill: t === 'attack' ? 0xffe0d0 : 0xffffff, stroke: { color: 0x000000, width: 6 } } });
+        if (small) { tx.anchor.set(1, 0.5); tx.position.set(-26, 2); } // number to the left of its icon
+        else { tx.anchor.set(0.5, 0); tx.position.set(0, 16); }
         c.addChild(tx);
       }
       // figures sit one slot apart with no headroom: their intents stack down the side facing the player
-      if (this.mode === 'figure') c.position.set(0, i * 62); else c.position.set(i * 58, 0);
+      if (this.mode === 'figure' || this.mode === 'token') c.position.set(0, i * 50); else c.position.set(i * 58, 0);
       this.intentBox.addChild(c);
     });
     const w = types.length * 58;
     if (this.mode === 'boss') this.intentBox.position.set(-w / 2 + 29, -250);
-    else if (this.mode === 'figure') this.intentBox.position.set(-this.bw / 2 - 26, -54 - (types.length - 1) * 31);
+    else if (this.mode === 'figure' || this.mode === 'token') this.intentBox.position.set(-this.bw / 2 - 28, (this.topY + this.bottomY) / 2 - (types.length - 1) * 25);
     else this.intentBox.position.set(-w / 2 + 29, this.topY - 40);
     (this.intentBox as Container & { preview?: typeof pv }).preview = pv;
   }
@@ -350,7 +353,7 @@ export class UnitView extends Container {
 }
 
 function badge(kind: 'atk' | 'hp', v: number, col: number): Container {
-  const c = statBadge(kind, v, v, 0, 0, 40);
+  const c = statBadge(kind, v, v, 0, 0, 44);
   const t = c.children[c.children.length - 1] as Text;
   t.style.fill = col;
   return c;

@@ -1,15 +1,16 @@
 /** Battle geometry (UI研究笔记 §14.1). All values in 1920×1080 design space. */
 import type { Side } from '../../../engine/combat/state';
 
-export const FRONT_Y = [216, 362, 508, 654];
-export const BACK_Y = [289, 435, 581];
+// 160px pitch: a unit (frame + corner badges) is ~140px tall, so neighbours keep a visible gap
+export const FRONT_Y = [196, 356, 516, 676];
+export const BACK_Y = [276, 436, 596];
 export const X = {
   playerBack: 436, playerFront: 604, enemyFront: 1316, enemyBack: 1484,
   playerCmd: 180, enemyCmd: 1745,
 };
 export const CMD_Y = 330;
-export const TOKEN_W = 112;
-export const TOKEN_H = 136;
+export const TOKEN_W = 106;
+export const TOKEN_H = 126;
 
 export function slotPos(side: Side, row: 'front' | 'back' | 'cmd', slot: number): { x: number; y: number } {
   if (row === 'cmd') return { x: side === 'player' ? X.playerCmd : X.enemyCmd, y: CMD_Y };

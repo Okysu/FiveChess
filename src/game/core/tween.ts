@@ -40,15 +40,23 @@ class TweenManager {
     if (!this.list.length) return;
     const done: Tw[] = [];
     for (const tw of [...this.list]) {
+      // a view destroyed mid-animation (card played, unit died) ends its tween instead of throwing
+      if ((tw.target as { destroyed?: boolean }).destroyed) { done.push(tw); continue; }
       const dt = tw.scaled ? dtMs * this.speed : dtMs;
       if (tw.delay > 0) { tw.delay -= dt; if (tw.delay > 0) continue; }
-      if (tw.t === 0) for (const k of Object.keys(tw.to)) tw.from[k] = tw.target[k] ?? 0;
-      tw.t += dt;
-      const k = Math.min(1, tw.dur <= 0 ? 1 : tw.t / tw.dur);
-      const e = tw.ease(k);
-      for (const key of Object.keys(tw.to)) tw.target[key] = tw.from[key]! + (tw.to[key]! - tw.from[key]!) * e;
-      tw.onUpdate?.(e);
-      if (k >= 1) done.push(tw);
+      try {
+        if (tw.t === 0) for (const k of Object.keys(tw.to)) tw.from[k] = tw.target[k] ?? 0;
+        tw.t += dt;
+        const k = Math.min(1, tw.dur <= 0 ? 1 : tw.t / tw.dur);
+        const e = tw.ease(k);
+        for (const key of Object.keys(tw.to)) tw.target[key] = tw.from[key]! + (tw.to[key]! - tw.from[key]!) * e;
+        tw.onUpdate?.(e);
+        if (k >= 1) done.push(tw);
+      } catch (err) {
+        // one broken tween must never stall the others (awaiting code would hang forever)
+        console.warn('tween dropped:', err);
+        done.push(tw);
+      }
     }
     for (const d of done) { this.list.splice(this.list.indexOf(d), 1); d.resolve(); }
   }

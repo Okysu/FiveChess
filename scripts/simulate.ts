@@ -41,9 +41,11 @@ function fight(r: RunState): boolean {
   while (!s.over && guard++ < 60) {
     for (let i = 0; i < 20 && s.pending; i++) combatAct(s, autoAnswer(s));
     if (s.over) break;
+    // playTurn ends the turn itself; only force an end if the AI got stuck on the same turn
+    const turn = s.turn;
     playTurn(s);
     for (let i = 0; i < 20 && s.pending; i++) combatAct(s, autoAnswer(s));
-    if (s.phase === 'main' && !s.over) combatAct(s, { type: 'endTurn' });
+    if (s.phase === 'main' && !s.over && s.turn === turn) combatAct(s, { type: 'endTurn' });
   }
   if (!s.over) s.over = 'lose';
   const pc = commanderOf(s, 'player');
@@ -51,6 +53,7 @@ function fight(r: RunState): boolean {
   e.fights++; e.turns += s.turn;
   e.hpLost += Math.max(0, hp0 - (pc?.hp ?? 0));
   if (s.over === 'lose') e.deaths++;
+  if (args.verbose) console.log(`  act${r.act} f${r.floor} ${encId.padEnd(22)} hp ${hp0}→${pc?.hp ?? 0}/${r.maxHp} turns ${s.turn} ${s.over}${guard >= 60 ? ' (TURN CAP)' : ''} deck ${r.deck.length}`);
   combatsTotal++;
   const enemies = Object.values(s.units).filter((u) => u.side === 'enemy' && u.origin === 'enemy').map((u) => u.def);
   runAct(r, { t: 'combatResult', result: s.over === 'win' ? 'win' : 'lose', hp: pc?.hp ?? 0, gold: s.goldGained, potions: s.potions, relics: s.relics, stats: s.stats, enemies });
