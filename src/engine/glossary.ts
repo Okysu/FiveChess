@@ -84,3 +84,9 @@ export const EXTRA_TERMS: Record<string, string> = {
   观星: '查看天命牌堆顶若干张，任意重排或置底。',
   改判: '判定牌翻开后，打出一张命签替换它。',
 };
+
+/** plain-text form of card rules: "{a}" → the card's value (suit/pip tokens like {sun} are left for the rich-text renderer) */
+export function fillVars(text: string, vars?: Record<string, number>): string {
+  if (!vars) return text;
+  return text.replace(/{(w+)}/g, (m, k: string) => (k in vars ? String(vars[k]) : m));
+}

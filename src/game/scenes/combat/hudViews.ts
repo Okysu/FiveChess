@@ -2,6 +2,7 @@
 import { Container, Text } from 'pixi.js';
 import type { CombatState, Source, Side } from '../../../engine/combat/state';
 import { content } from '../../../engine/content';
+import { fillVars } from '../../../engine/glossary';
 import { emberCap } from '../../../engine/combat/core';
 import { skillDef } from '../../../engine/combat/skills';
 import { skillUsable } from '../../../engine/combat/api';
@@ -142,7 +143,7 @@ export class EquipRow extends Container {
           c.addChild(t);
         }
         c.eventMode = 'static';
-        c.on('pointerover', () => { const p = c.getGlobalPosition(); showTip(new Tooltip([{ title: `${SLOT_NAME[slot]}：${def.name}`, body: def.text }, ...glossLines(termsOf(def.text))]), p.x, p.y - 180, 'above'); });
+        c.on('pointerover', () => { const p = c.getGlobalPosition(); showTip(new Tooltip([{ title: `${SLOT_NAME[slot]}：${def.name}`, body: fillVars(def.text, def.vars) }, ...glossLines(termsOf(def.text))]), p.x, p.y - 180, 'above'); });
         c.on('pointerout', hideTip);
       } else {
         c.addChild(icon(SLOT_ICON[slot], 34, { alpha: 0.45 }));
@@ -202,7 +203,7 @@ export class FieldSlot extends Container {
       this.addChild(t);
     }
     this.eventMode = 'static';
-    this.on('pointerover', () => showTip(new Tooltip([{ title: `阵地：${def.name}`, body: def.text }, ...glossLines(termsOf(def.text))]), this.x + 90, this.y - 120));
+    this.on('pointerover', () => showTip(new Tooltip([{ title: `阵地：${def.name}`, body: fillVars(def.text, def.vars) }, ...glossLines(termsOf(def.text))]), this.x + 90, this.y - 120));
     this.on('pointerout', hideTip);
   }
 }

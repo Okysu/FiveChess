@@ -161,18 +161,21 @@ export class CardView extends Container {
       const disc = uiSprite('cost_disc', 72, 72, live.payable === false ? { tint: 0xa89a90 } : {});
       disc.position.set(40, 40);
       this.costLayer.addChild(disc);
-      const numCol = cost.g < baseG ? 0x9aff8a : cost.g > baseG ? 0xff8a6a : live.payable === false ? 0xc8b8a8 : WB.white;
-      const n = new Text({ text: cost.x ? 'X' : String(cost.g), style: { fontFamily: FONT_NUM, fontWeight: '900', fontSize: 34, fill: numCol, stroke: { color: WB.ink, width: 6 } } });
+      // the disc shows the TOTAL sources needed (generic + colored); colored ones are also shown as pips below
+      const total = cost.g + cost.c.length, baseTotal = baseG + (d.cost.c ?? []).length;
+      const numCol = total < baseTotal ? 0x9aff8a : total > baseTotal ? 0xff8a6a : live.payable === false ? 0xc8b8a8 : WB.white;
+      const n = new Text({ text: cost.x ? (cost.c.length ? `X+${cost.c.length}` : 'X') : String(total), style: { fontFamily: FONT_NUM, fontWeight: '900', fontSize: 34, fill: numCol, stroke: { color: WB.ink, width: 6 } } });
       n.anchor.set(0.5);
       n.position.set(40, 39);
+      if (n.width > 56) n.scale.set(56 / n.width);
       this.costLayer.addChild(n);
       const missing = [...(live.missing ?? [])];
       cost.c.forEach((c, i) => {
         const mi = missing.indexOf(c);
         const empty = mi >= 0;
         if (empty) missing.splice(mi, 1);
-        const p = pip(c, 26, empty);
-        p.position.set(88 + i * 26, 30);
+        const p = pip(c, 32, empty);
+        p.position.set(40, 94 + i * 32);
         this.costLayer.addChild(p);
       });
     }

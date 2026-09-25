@@ -56,7 +56,7 @@ export function openSettings() {
       row('命纹显示文字', toggle(st.suitText, (v) => { st.suitText = v; save(); }), '在命纹图标角落加“日/雷/月/山”汉字（命纹本身已是色 + 形双编码）');
       row('色觉模式', seg(['标准', '红绿', '蓝黄'], ['none', 'rg', 'by'].indexOf(st.colorblind), (i) => { st.colorblind = (['none', 'rg', 'by'] as const)[i]!; save(); }), '五色源与四命纹均以形状区分；此选项加强对比');
     } else {
-      const note = new Text({ text: '快捷键：空格/E 结束回合（应对窗口中为“不应对”） · 1–0 选择手牌 · D 牌组 · A 抽牌堆 · S 弃牌堆 · L 战报 · Esc 取消/设置 · 右键 检视', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, wordWrap: true, wordWrapWidth: 1100 } });
+      const note = new Text({ text: '快捷键：空格/E 结束回合（应对窗口中为“不应对”） · 1–0 选择手牌 · D 牌组 · A 抽牌堆 · S 弃牌堆 · L 战报 · Esc 取消/设置 · 右键 检视', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, wordWrap: true, wordWrapWidth: 1100, breakWords: true } });
       note.position.set(290, y);
       body.addChild(note);
       y += 110;

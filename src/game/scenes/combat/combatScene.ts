@@ -16,7 +16,7 @@ import { intentPreview } from '../../../engine/combat/intents';
 import { skillDef } from '../../../engine/combat/skills';
 import { autoAnswer } from '../../../engine/combat/autoplay';
 import { content } from '../../../engine/content';
-import { STATUSES, SUIT_INFO } from '../../../engine/glossary';
+import { STATUSES, SUIT_INFO, fillVars } from '../../../engine/glossary';
 import { TopBar, openDeck, inspectCard, pickCards, termsOf, sortCards } from '../../ui/hud';
 import { Button, Modal, Tooltip, glossLines, hideTip, label, showTip, title, toast } from '../../ui/widgets';
 import { CardView, CARD_H } from '../../ui/card';
@@ -800,7 +800,7 @@ export class CombatScene extends Scene {
       if (def.passives?.length || def.lore) lines.push({ body: def.lore, color: C.textDim });
     } else if (u.kind === 'unit') {
       const def = content().card(u.def, u.up);
-      lines.push({ title: def.name, body: def.text });
+      lines.push({ title: def.name, body: fillVars(def.text, def.vars) });
       lines.push(...glossLines(termsOf(def.text)));
     } else {
       const cmd = content().commanders.get(u.def);
@@ -1310,7 +1310,7 @@ export class CombatScene extends Scene {
         ? '• 回合结束时，未用完的源会留下至多 2 枚【余烬】。\n• 带朱红「应」印的牌可以在敌人宣告行动后打出——应对窗口会自动打开。'
         : '• 【判定】会翻开共享的天命牌堆顶：日纹、雷纹为阳，月纹、山纹为阴。\n• 首领会把【延时】牌挂在你身上。持有【命签】时可以改判。';
     const m = new Modal(980, 420, { title: key === 'basic' ? '初入命阙' : key === 'response' ? '应对窗口' : '天命判定' });
-    const t = new Text({ text, style: { fontFamily: FONT_BODY, fontSize: 26, fill: C.text, lineHeight: 46, wordWrap: true, wordWrapWidth: 880 } });
+    const t = new Text({ text, style: { fontFamily: FONT_BODY, fontSize: 26, fill: C.text, lineHeight: 46, wordWrap: true, wordWrapWidth: 880, breakWords: true } });
     t.position.set(50, 110);
     m.body.addChild(t);
   }
@@ -1448,7 +1448,7 @@ export class CombatScene extends Scene {
 
   private showLog() {
     const m = new Modal(900, 900, { title: '战报' });
-    const t = new Text({ text: this.logLines.slice(-30).join('\n') || '（暂无）', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.text, lineHeight: 26, wordWrap: true, wordWrapWidth: 820 } });
+    const t = new Text({ text: this.logLines.slice(-30).join('\n') || '（暂无）', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.text, lineHeight: 26, wordWrap: true, wordWrapWidth: 820, breakWords: true } });
     t.position.set(40, 100);
     m.body.addChild(t);
   }

@@ -250,6 +250,84 @@
     "sfx/step_2.ogg"
    ],
    "gain": 0.4
+  },
+  "sacrifice": {
+   "files": [
+    "sfx/sacrifice_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "burn": {
+   "files": [
+    "sfx/burn_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "poison": {
+   "files": [
+    "sfx/poison_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "heal": {
+   "files": [
+    "sfx/heal_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "summon": {
+   "files": [
+    "sfx/summon_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "judgeSun": {
+   "files": [
+    "sfx/judgeSun_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "judgeThunder": {
+   "files": [
+    "sfx/judgeThunder_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "judgeMoon": {
+   "files": [
+    "sfx/judgeMoon_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "judgeMountain": {
+   "files": [
+    "sfx/judgeMountain_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "bossIntro": {
+   "files": [
+    "sfx/bossIntro_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "phase": {
+   "files": [
+    "sfx/phase_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "victory": {
+   "files": [
+    "sfx/victory_0.mp3"
+   ],
+   "gain": 0.7
+  },
+  "defeat": {
+   "files": [
+    "sfx/defeat_0.mp3"
+   ],
+   "gain": 0.7
   }
  },
  "music": {
@@ -281,6 +359,22 @@
    "file": "music/orien_2.ogg",
    "gain": 0.7
   },
+  "boss": {
+   "file": "music/boss.mp3",
+   "gain": 0.8
+  },
+  "final": {
+   "file": "music/final.mp3",
+   "gain": 0.8
+  },
+  "victory": {
+   "file": "music/victory.mp3",
+   "gain": 0.8
+  },
+  "defeat": {
+   "file": "music/defeat.mp3",
+   "gain": 0.8
+  },
   "camp": {
    "file": "music/orien1.ogg",
    "gain": 0.7
@@ -290,5 +384,26 @@
    "gain": 0.7
   }
  },
- "amb": {}
+ "amb": {
+  "forest": {
+   "file": "amb/forest.mp3",
+   "gain": 0.5
+  },
+  "water": {
+   "file": "amb/water.mp3",
+   "gain": 0.5
+  },
+  "stars": {
+   "file": "amb/stars.mp3",
+   "gain": 0.5
+  },
+  "void": {
+   "file": "amb/void.mp3",
+   "gain": 0.5
+  },
+  "fire": {
+   "file": "amb/fire.mp3",
+   "gain": 0.5
+  }
+ }
 }

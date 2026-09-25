@@ -5,7 +5,7 @@ import type { CardRef, RunState } from '../../engine/run/run';
 import { Box } from '../core/layout';
 import { C, FONT_NUM, FONT_TITLE, FONT_UI, FONT_BODY } from './theme';
 import { iconSprite } from './draw';
-import { Bar, nine, uiSprite, maskCircle, icon } from './skin';
+import { Bar, nine, uiSprite, maskCircle, icon, INSET } from './skin';
 import { Button, Modal, Tooltip, glossLines, hideTip, label, showTip, toast } from './widgets';
 import { CardView, CARD_W, CARD_H } from './card';
 import { ScrollBox } from './scroll';
@@ -263,7 +263,7 @@ export function inspectCard(id: string, up: boolean) {
   const lines = glossLines(terms);
   let y = 130;
   const tx = hasUp ? 1060 : 760;
-  const w = 1500 - tx - 40;
+  const w = 1500 - INSET.dark.x - 20 - tx; // stay inside the modal border
   for (const l of lines) {
     const t = new Text({ text: l.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: l.color ?? C.goldLight } });
     t.position.set(tx, y);
@@ -276,7 +276,7 @@ export function inspectCard(id: string, up: boolean) {
     y += result.usedHeight + 18;
   }
   if (def.flavor) {
-    const f = new Text({ text: `「${def.flavor}」`, style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, fontStyle: 'italic', wordWrap: true, wordWrapWidth: w } });
+    const f = new Text({ text: `「${def.flavor}」`, style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, fontStyle: 'italic', wordWrap: true, wordWrapWidth: w, breakWords: true } });
     f.position.set(tx, Math.max(y + 10, 700));
     m.body.addChild(f);
   }

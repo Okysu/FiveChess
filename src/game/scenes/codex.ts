@@ -157,7 +157,7 @@ class CodexPanel extends Container {
             this.body.addChild(v);
           }
         });
-        const n = new Text({ text: '天命牌堆共 52 张，每场战斗重新洗混，双方共享。观星台、遗物与事件可以增删改冒险中的天命牌；逆命 13 起混入「凶兆」。', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, wordWrap: true, wordWrapWidth: this.w - 60 } });
+        const n = new Text({ text: '天命牌堆共 52 张，每场战斗重新洗混，双方共享。观星台、遗物与事件可以增删改冒险中的天命牌；逆命 13 起混入「凶兆」。', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, wordWrap: true, wordWrapWidth: this.w - 60, breakWords: true } });
         n.position.set(20, 640);
         this.body.addChild(n);
         break;
