@@ -17,6 +17,9 @@ function need() {
   if (!KEY) throw new Error('ASSET_GEN_API_KEY missing — put it in .env (see .env.example)');
 }
 
+/** the account is out of credit: stop the whole run instead of failing every remaining job */
+export const isFatal = (e: unknown) => /insufficient balance|quota|HTTP 401/i.test((e as Error)?.message ?? '');
+
 /** retries HTTP 429 (rate limit) honoring the server's "retry after N seconds" hint */
 export async function generate(o: GenOpts): Promise<Buffer> {
   for (let attempt = 0; ; attempt++) {

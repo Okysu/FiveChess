@@ -9,8 +9,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
-import { generate } from './api';
-import { STYLE_LOCK, ICON_STYLE } from './style';
+import { generate, isFatal } from './api';
+import { STYLE_LOCK, ICON_STYLE, OBJECT_FORM } from './style';
 import type { ArtJob } from './jobs';
 import { buildJobs } from './alljobs';
 import { ASSETS, jobHash, outFile, openManifest, modelSource } from './manifest';
@@ -49,7 +49,7 @@ function sheetPrompt(items: ArtJob[]) {
     `each item centered in its own cell, all items the same size, with wide fully transparent gaps between items so no two items touch or overlap. ` +
     `No grid lines, no frames around cells, no labels, no background — fully transparent background. ` +
     `Items in reading order (left to right, top to bottom): ${list}. ` +
-    `Flat woodblock print only: no glow, no light rays, no gradients, no soft airbrush shading, no 3D rendering; traditional Chinese objects only. ${style}`;
+    `Flat woodblock print only: no glow, no bloom, no gradients, no soft airbrush shading, no 3D rendering. ${cat === 'icon' ? '' : OBJECT_FORM} ${style}`;
 }
 
 interface Comp { x0: number; y0: number; x1: number; y1: number; area: number; cx: number; cy: number }
@@ -121,6 +121,7 @@ async function runSheet(items: ArtJob[], si: number) {
       raw = await generate({ model, prompt: sheetPrompt(items), size: '1536x1024', quality: 'medium', transparent: true, ref });
     } catch (e) {
       log(`FAIL atlas ${items[0]!.category}#${si} attempt ${attempt + 1}: ${(e as Error).message}`);
+      if (isFatal(e)) { save(); log('STOP: API account out of credit / unauthorized'); process.exit(2); }
       await new Promise((r) => setTimeout(r, 5000 * (attempt + 1)));
     }
   }

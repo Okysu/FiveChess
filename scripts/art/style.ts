@@ -17,6 +17,26 @@ export const CUTOUT =
 export const CUTOUT_MAGENTA =
   'Single subject isolated on a perfectly flat solid pure magenta (#FF00FF) background, no gradient, no shadow, no scenery, the whole figure visible.';
 
+/**
+ * Object subjects written with "glowing / crystal / pulses of light" pull the model toward digital-fantasy
+ * glow and Western props. Rewrite them into print language (flat halos, jade, bronze) for small objects.
+ */
+export function flatSubject(subject: string): string {
+  return subject
+    .replace(/\bglowing\b/gi, 'vividly printed')
+    .replace(/\b(glows?|glimmers?|shimmer(?:s|ing)?|sparkl(?:e|es|ing)|radiant|luminous)\b/gi, 'bright flat-printed')
+    .replace(/\b(?:slow )?pulses? of light\b/gi, 'carved radiating lines')
+    .replace(/\blight rippling\b/gi, 'carved ripple lines')
+    .replace(/\bcrystal heart\b/gi, 'heart-shaped jade core')
+    .replace(/\bcrystals?\b/gi, 'jade')
+    .replace(/\bornate golden oil lamp\b/gi, 'bronze Chinese oil lamp on a tall stand')
+    .replace(/\baura\b/gi, 'flat halo');
+}
+
+export const OBJECT_FORM =
+  'Chinese object forms only (bronze ding and lamps on stands, jade, lacquer, porcelain, silk, bamboo slips, paper talismans) — no Aladdin lamps, no Western crystals or gems. ' +
+  'Light is drawn as flat printed rays or a flat halo disc, never as glow or bloom.';
+
 /** every school keeps the woodblock mineral palette, but one pigment dominates */
 export const FACTION_TONE: Record<Color, string> = {
   R: 'Dominant pigments: vermilion and cinnabar red with lamp black, small touches of ochre gold; patterned flames.',

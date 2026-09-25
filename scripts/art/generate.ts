@@ -8,7 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
-import { generate } from './api';
+import { generate, isFatal } from './api';
 import { CUTOUT_MAGENTA } from './style';
 import type { ArtJob } from './jobs';
 import { buildJobs } from './alljobs';
@@ -135,6 +135,7 @@ async function runJob(j: ArtJob) {
       log(`ok ${j.category} ${j.id} ${(Date.now() - t) / 1000}s ${model}${attempt ? ` (retry ${attempt})` : ''}`);
     } catch (e) {
       log(`FAIL ${j.id} attempt ${attempt + 1}: ${(e as Error).message}`);
+      if (isFatal(e)) { saveManifest(); log('STOP: API account out of credit / unauthorized'); process.exit(2); }
       await new Promise((r) => setTimeout(r, 3000 * (attempt + 1)));
     }
   }
