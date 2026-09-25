@@ -7,6 +7,7 @@ import { audio } from './game/audio/audio';
 import { session } from './game/state';
 import { go } from './game/router';
 import { preloadFx } from './game/fx/fx';
+import { preloadUi } from './game/ui/skin';
 
 const bar = document.getElementById('bootbar');
 const msg = document.getElementById('bootmsg');
@@ -23,11 +24,9 @@ async function boot() {
   progress(0.25, '研墨……');
   // fonts: wait briefly for web fonts, fall back to system fonts
   await Promise.race([document.fonts?.ready ?? Promise.resolve(), new Promise((r) => setTimeout(r, 2500))]);
-  const essentials = [
-    ...assets.keysByPrefix('ui/icons/'), K.ui('card_back'), K.ui('fate_back'), K.bg('title'),
-    ...['R', 'B', 'G', 'Y', 'P', 'N'].map((f) => K.emblem(f)),
-  ];
-  await assets.loadMany(essentials, (k) => progress(0.25 + k * 0.65, '唤醒执命者……'));
+  // every UI texture + icon is preloaded: the UI is built only from generated woodblock art
+  await preloadUi((k) => progress(0.25 + k * 0.4, '唤醒执命者……'));
+  await assets.loadMany([...assets.keysByPrefix('ui/icons/'), K.bg('title')], (k) => progress(0.65 + k * 0.25, '点燃灯火……'));
   await preloadFx();
   progress(1, '');
   const el = document.getElementById('boot');

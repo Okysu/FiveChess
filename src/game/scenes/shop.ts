@@ -1,6 +1,6 @@
 /** 商店 (UI研究笔记 §14.4) */
-import { Container, Graphics, Sprite, Text } from 'pixi.js';
-import { panelSurface } from '../ui/skin';
+import { Container, Sprite, Text } from 'pixi.js';
+import { panel as uiPanel, uiSprite, nine } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act, go } from '../router';
@@ -8,7 +8,7 @@ import { content } from '../../engine/content';
 import { Button, Tooltip, glossLines, hideTip, showTip, toast } from '../ui/widgets';
 import { CardView } from '../ui/card';
 import { C, FONT_NUM, FONT_TITLE } from '../ui/theme';
-import { drawPanel, iconSprite } from '../ui/draw';
+import { iconSprite } from '../ui/draw';
 import { assets, K } from '../assets';
 import { tweens } from '../core/tween';
 import { sfx } from '../audio/audio';
@@ -56,7 +56,7 @@ export class ShopScene extends RunScreen {
       const def = content().relic(it.id);
       const c = new Container();
       c.position.set(620 + i * 120, 660);
-      const base = new Graphics().circle(0, 0, 52).fill({ color: 0x0d0907, alpha: 0.7 }).stroke({ width: 2, color: def.tier === 'shop' ? 0x6ad0c0 : C.gold });
+      const base = uiSprite(def.tier === 'shop' ? 'skill_disc_active' : 'skill_disc', 108, 108);
       c.addChild(base);
       const ic = new Container();
       ic.addChild(iconSprite('ui_relic', 70, def.name[0] ?? '遗', C.gold));
@@ -75,7 +75,8 @@ export class ShopScene extends RunScreen {
       const def = content().potions.get(it.id)!;
       const c = new Container();
       c.position.set(1000 + i * 110, 660);
-      const base = new Graphics().roundRect(-44, -44, 88, 88, 12).fill({ color: 0x0d0907, alpha: 0.7 }).stroke({ width: 2, color: C.goldDark });
+      const base = nine('equip_slot', 88, 88);
+      base.position.set(-44, -44);
       c.addChild(base);
       const ic = new Container();
       ic.addChild(iconSprite('ui_potion', 60, '丹', C.jade));
@@ -95,7 +96,7 @@ export class ShopScene extends RunScreen {
     // removal service
     const svc = new Container();
     svc.position.set(1340, 600);
-    const bg = panelSurface(300, 200, true);
+    const bg = uiPanel(300, 200, 'dark');
     svc.addChild(bg);
     const t1 = new Text({ text: '除牌', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 40, fill: shop.removed ? C.textDim : C.goldLight } });
     t1.anchor.set(0.5); t1.position.set(150, 60);

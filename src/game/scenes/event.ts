@@ -1,6 +1,6 @@
 /** 事件 (UI研究笔记 §14.9): illustration left, text & options right. */
-import { Container, Graphics, Sprite, Text } from 'pixi.js';
-import { panelSurface } from '../ui/skin';
+import { Container, Sprite, Text } from 'pixi.js';
+import { panel as uiPanel, maskRect } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act } from '../router';
@@ -9,7 +9,6 @@ import { checkCond } from '../../engine/run/run';
 import type { EventOption } from '../../engine/defs';
 import { Button, toast } from '../ui/widgets';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
-import { drawPanel } from '../ui/draw';
 import { assets, K } from '../assets';
 import { tweens } from '../core/tween';
 import { sfx } from '../audio/audio';
@@ -24,12 +23,12 @@ export class EventScene extends RunScreen {
     const ev = content().events.get(sc.id)!;
     await assets.load(K.event(ev.id));
     // illustration
-    const frame = panelSurface(860, 620, true);
+    const frame = uiPanel(860, 620, 'dark');
     frame.position.set(40, 200);
     this.addChild(frame);
     const tex = assets.get(K.event(ev.id));
     if (tex) {
-      const m = new Graphics().roundRect(52, 212, 836, 596, 12).fill(0xffffff);
+      const m = maskRect(52, 212, 836, 596, 12);
       const s = new Sprite(tex);
       const k = Math.max(836 / tex.width, 596 / tex.height);
       s.scale.set(k);
@@ -44,7 +43,7 @@ export class EventScene extends RunScreen {
     this.addChild(t);
     const page = sc.page ? ev.pages?.find((p) => p.id === sc.page) : null;
     const body = sc.outcome ?? page?.text ?? ev.text;
-    const panel = panelSurface(920, 820 - 240, true);
+    const panel = uiPanel(920, 820 - 240, 'dark');
     panel.position.set(940, 240);
     this.addChild(panel);
     const { texture, result } = richTexture(body, { width: 860, height: 380, fontSize: 26, minFontSize: 19, color: 0xf0e4cc, align: 'left', vAlign: 'top', lineHeight: 1.6, shadow: true });
@@ -65,8 +64,9 @@ export class EventScene extends RunScreen {
     const ok = !o.requires || checkCond(r, o.requires);
     const c = new Container();
     c.position.set(970, y);
-    const bg = new Graphics();
-    const draw = (hover: boolean) => { bg.clear(); drawPanel(bg, 860, 74, { r: 10, fill: hover && ok ? 0x4a2a1a : 0x2a1f19, alpha: ok ? 0.95 : 0.5 }); };
+    const bg = uiPanel(860, 74, 'row');
+    bg.alpha = ok ? 0.95 : 0.5;
+    const draw = (hover: boolean) => { bg.scale.set(hover && ok ? 1.015 : 1); bg.alpha = ok ? (hover ? 1 : 0.92) : 0.5; };
     draw(false);
     c.addChild(bg);
     const txt = new Text({ text: `${o.text}`, style: { fontFamily: FONT_BODY, fontSize: 24, fill: ok ? C.text : C.textDim, wordWrap: true, wordWrapWidth: 820, breakWords: true } });

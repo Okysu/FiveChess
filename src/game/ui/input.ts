@@ -1,13 +1,14 @@
 /** Minimal in-canvas text input (no DOM): click to focus, type, Backspace, Enter/Esc to blur. */
-import { Container, Graphics, Text } from 'pixi.js';
+import { Container, Text } from 'pixi.js';
+import { nine } from './skin';
 import { G } from '../core/app';
 import { C, FONT_UI } from './theme';
 
 export class TextInput extends Container {
   value = '';
-  private bg = new Graphics();
+  private bg = new Container();
   private txt: Text;
-  private caret = new Graphics();
+  private caret = new Text({ text: '｜', style: { fontFamily: FONT_UI, fontSize: 28, fill: C.goldLight } });
   private focused = false;
   private pop: (() => void) | null = null;
   private t = 0;
@@ -50,10 +51,11 @@ export class TextInput extends Container {
   }
 
   draw() {
-    this.bg.clear().roundRect(0, 0, this.w, this.h, 8).fill({ color: 0x0d0907, alpha: 0.85 }).stroke({ width: 2, color: this.focused ? C.goldLight : C.goldDark });
+    if (!this.bg.children.length) this.bg.addChild(nine('panel_row', this.w, this.h));
+    (this.bg.children[0] as Container).alpha = this.focused ? 1 : 0.8;
     this.txt.text = this.value || (this.focused ? '' : this.placeholder);
     this.txt.style.fill = this.value ? C.text : C.textDim;
-    this.caret.clear().rect(0, -this.h * 0.3, 2, this.h * 0.6).fill(C.goldLight);
+    this.caret.anchor.set(0, 0.5);
     this.caret.position.set(16 + (this.value ? this.txt.width : 0), this.h / 2);
   }
 

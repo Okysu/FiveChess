@@ -1,11 +1,11 @@
 /** 营地 (UI研究笔记 §14.5): 升级 / 删牌 / 休憩 三选一 */
 import { Container, Graphics, Text } from 'pixi.js';
-import { panelSurface } from '../ui/skin';
+import { panel as uiPanel } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act } from '../router';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
-import { drawPanel, iconSprite } from '../ui/draw';
+import { iconSprite } from '../ui/draw';
 import { tweens } from '../core/tween';
 import { sfx } from '../audio/audio';
 import { Particles } from '../fx/fx';
@@ -35,7 +35,7 @@ export class CampScene extends RunScreen {
     opts.forEach((o, i) => {
       const c = new Container();
       c.position.set(420 + i * 380, 600);
-      const bg = panelSurface(340, 300, true);
+      const bg = uiPanel(340, 300, 'dark');
       c.addChild(bg);
       const ic = iconSprite(o.icon, 96, o.glyph, C.goldLight);
       ic.position.set(170, 90);

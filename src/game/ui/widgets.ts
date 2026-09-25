@@ -1,8 +1,8 @@
 /** Reusable widgets: buttons, labels, tooltips, toasts, modal frames. */
 import { Container, Graphics, Text, type TextStyleOptions, Sprite } from 'pixi.js';
 import { C, FONT_BODY, FONT_TITLE, FONT_UI } from './theme';
-import { drawPanel, darken } from './draw';
-import { WB, surface, printOutline, panelSurface } from './skin';
+import { darken } from './draw';
+import { WB, nine, frame as selFrame, panel, dim as dimLayer, hitRect } from './skin';
 import { tweens, ease } from '../core/tween';
 import { G } from '../core/app';
 import { richTexture } from './richtext';
@@ -30,13 +30,12 @@ export interface ButtonOpts {
 }
 
 const PLATE: Record<string, string> = { primary: 'button_red', danger: 'button_red', normal: 'button_blue', ghost: 'button_green', disabled: 'button_grey' };
-const PLATE_FILL: Record<string, number> = { primary: WB.vermilion, danger: WB.vermilionDk, normal: WB.azurite, ghost: WB.malachite, disabled: WB.grey };
 
 /** woodblock button: printed plate texture (9-slice), pressing shifts the print onto its shadow layer */
 export class Button extends Container {
   private face = new Container();
-  private shadow = new Graphics();
-  private ring = new Graphics();
+  private shadow = new Container();
+  private ring = new Container();
   private plateKey = '';
   private txt: Text;
   private subTxt?: Text;
@@ -113,16 +112,14 @@ export class Button extends Container {
     if (key !== this.plateKey) {
       this.plateKey = key;
       this.face.children.filter((c) => c !== this.txt && c !== this.subTxt).forEach((c) => { this.face.removeChild(c); c.destroy({ children: true }); });
-      const plate = surface(key as never, w, h, { fill: PLATE_FILL[state]!, r: 10 });
-      this.face.addChildAt(plate, 0);
+      this.face.addChildAt(nine(key, w, h), 0);
+      // the print layer: the same plate texture inked black, offset under the plate
+      this.shadow.removeChildren().forEach((c) => c.destroy({ children: true }));
+      this.shadow.addChild(nine(key, w, h, { tint: WB.ink, alpha: 0.8 }));
+      if (!this.ring.children.length) this.ring.addChild(selFrame('gold', w, h, 8));
     }
-    // offset print layer (black) visible under the plate; pressing moves the plate onto it
-    const off = this.down ? 1 : this.hover && !this.disabled ? 6 : 4;
-    this.shadow.clear().roundRect(4, 5, w - 8, h - 6, 12).fill({ color: WB.ink, alpha: 0.75 });
+    this.shadow.position.set(4, 5);
     this.face.position.set(this.down ? 3 : 0, this.down ? 3 : this.hover && !this.disabled ? -2 : 0);
-    void off;
-    this.ring.clear();
-    printOutline(this.ring, 0, 0, w, h, WB.ochre, 12);
     this.ring.visible = this.pulse;
     this.txt.style.fill = this.disabled ? 0xc8bca8 : WB.white;
   }
@@ -150,8 +147,7 @@ export class Tooltip extends Container {
       parts.push(s);
       y += result.usedHeight + 10;
     }
-    const bg = new Container();
-    bg.addChild(drawPanel(new Graphics(), width, y + pad - 8, { r: 8, alpha: 0.97, inner: false }));
+    const bg = panel(width, y + pad - 8, 'dark');
     this.addChild(bg, ...parts);
     for (const p of parts) if (p instanceof Sprite) { p.height = Math.min(p.height, 400); }
   }
@@ -199,7 +195,8 @@ export function toast(text: string, color = C.goldLight, y = 200) {
   const c = new Container();
   const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: color, stroke: { color: 0x000000, width: 5 } } });
   t.anchor.set(0.5);
-  const bg = new Graphics().roundRect(-t.width / 2 - 30, -t.height / 2 - 10, t.width + 60, t.height + 20, 12).fill({ color: 0x000000, alpha: 0.55 });
+  const bg = nine('banner_band', t.width + 160, t.height + 40);
+  bg.position.set(-(t.width + 160) / 2, -(t.height + 40) / 2);
   c.addChild(bg, t);
   c.position.set(960, y);
   c.alpha = 0;
@@ -216,18 +213,19 @@ export function toast(text: string, color = C.goldLight, y = 200) {
 
 export class Modal extends Container {
   readonly body = new Container();
-  private dim = new Graphics();
+  private dim: Container;
   private popKeys: () => void;
   onClose?: () => void;
 
   constructor(w: number, h: number, o: { title?: string; closable?: boolean; dim?: number } = {}) {
     super();
-    this.dim.rect(0, 0, 1920, 1080).fill({ color: 0x000000, alpha: o.dim ?? 0.7 });
+    this.dim = new Container();
+    this.dim.addChild(dimLayer(1920, 1080, o.dim ?? 0.75), hitRect(0, 0, 1920, 1080));
     this.dim.eventMode = 'static';
     this.addChild(this.dim);
     const frame = new Container();
     frame.position.set((1920 - w) / 2, (1080 - h) / 2);
-    const bg = panelSurface(w, h, true);
+    const bg = panel(w, h, 'dark');
     frame.addChild(bg, this.body);
     if (o.title) {
       const t = title(o.title, 40);

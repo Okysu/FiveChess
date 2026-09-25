@@ -1,6 +1,6 @@
 /** 主帅选择 (UI研究笔记 §14.6) */
-import { Container, Graphics, Sprite, Text } from 'pixi.js';
-import { panelSurface } from '../ui/skin';
+import { Container, Sprite, Text } from 'pixi.js';
+import { panel as uiPanel, maskRect, pip } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { Box } from '../core/layout';
@@ -9,15 +9,12 @@ import { C, FONT_BODY, FONT_NUM, FONT_TITLE, factionColor } from '../ui/theme';
 import { content } from '../../engine/content';
 import type { CommanderDef, Color } from '../../engine/defs';
 import { COLOR_INFO } from '../../engine/glossary';
-import { drawPanel } from '../ui/draw';
 import { richTexture } from '../ui/richtext';
 import { CardView } from '../ui/card';
 import { tweens, ease } from '../core/tween';
 import { session } from '../state';
 import { audio, sfx } from '../audio/audio';
 import { TextInput } from '../ui/input';
-import { drawPip } from '../ui/canvasIcons';
-import { CanvasSource, Texture } from 'pixi.js';
 import { go } from '../router';
 import { inspectCard, termsOf } from '../ui/hud';
 import { UNLOCK_TRACK } from '../../engine/meta';
@@ -93,10 +90,9 @@ export class SelectScene extends Scene {
         const locked = !unlocked.includes(c.id);
         const card = new Container();
         card.position.set(x, 870);
-        const bg = new Graphics();
-        drawPanel(bg, 110, 150, { r: 10, fill: 0x2a1f19, border: c.id === this.selected.id ? C.goldLight : C.goldDark });
+        const bg = uiPanel(110, 150, 'tile');
         card.addChild(bg);
-        const m = new Graphics().roundRect(4, 4, 102, 142, 8).fill(0xffffff);
+        const m = maskRect(4, 4, 102, 142, 8);
         assets.with(K.hero(c.id), (t) => {
           const s = new Sprite(t);
           const k = 150 / (t.height * 0.45);
@@ -136,8 +132,6 @@ export class SelectScene extends Scene {
   private showCommander(c: CommanderDef) {
     // portrait
     this.portrait.removeChildren();
-    const glow = new Graphics().ellipse(450, 900, 380, 80).fill({ color: factionColor(c.faction), alpha: 0.25 });
-    this.portrait.addChild(glow);
     const tex = assets.get(K.hero(c.id));
     if (tex) {
       const s = new Sprite(tex);
@@ -153,7 +147,7 @@ export class SelectScene extends Scene {
     // details
     this.details.removeChildren();
     const panelW = 900, panelH = 760;
-    const bg = panelSurface(panelW, panelH, true);
+    const bg = uiPanel(panelW, panelH, 'dark');
     this.details.position.set(960, 90);
     this.details.addChild(bg);
     const nm = new Text({ text: c.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 64, fill: C.goldLight, stroke: { color: 0, width: 6 } } });
@@ -164,13 +158,11 @@ export class SelectScene extends Scene {
     const info = new Text({ text: `${COLOR_INFO[c.faction].school}　生命 ${c.hp}　初始源`, style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text } });
     info.position.set(40, 110);
     this.details.addChild(info);
-    const cv = document.createElement('canvas');
-    cv.width = 64 * c.sources.length; cv.height = 64;
-    const ctx = cv.getContext('2d')!;
-    c.sources.forEach((col, i) => drawPip(ctx, col, 32 + i * 64, 32, 22));
-    const pips = new Sprite(new Texture({ source: new CanvasSource({ resource: cv, resolution: 2 }) }));
-    pips.position.set(48 + info.width, 106);
-    this.details.addChild(pips);
+    c.sources.forEach((col, i) => {
+      const pp = pip(col, 40);
+      pp.position.set(72 + info.width + i * 46, 126);
+      this.details.addChild(pp);
+    });
     let y = 160;
     for (const sk of c.skills) {
       const h = new Text({ text: `【${SKILL_TYPE[sk.type]}】${sk.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 28, fill: sk.type === 'passive' ? C.goldLight : 0xff9a6a } });
@@ -227,7 +219,8 @@ export class SelectScene extends Scene {
     lore.position.set(40, 100);
     lore.alpha = 0.85;
     const loreBox = new Container();
-    const lb = new Graphics().roundRect(0, 0, 460, lore.height + 30, 12).fill({ color: 0x000000, alpha: 0.5 });
+    const lb = uiPanel(470, lore.height + 60, 'dark');
+    lb.position.set(-5, -15);
     loreBox.addChild(lb);
     lore.position.set(20, 15);
     loreBox.addChild(lore);

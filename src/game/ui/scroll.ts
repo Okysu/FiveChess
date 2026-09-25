@@ -1,11 +1,11 @@
 /** Vertical (or horizontal) scroll container with mask, wheel, drag and a thin scrollbar. */
-import { Container, Graphics, type FederatedPointerEvent, type FederatedWheelEvent } from 'pixi.js';
-import { C } from './theme';
+import { maskRect, hitRect, uiSprite } from './skin';
+import { Container, type FederatedPointerEvent, type FederatedWheelEvent } from 'pixi.js';
 
 export class ScrollBox extends Container {
   readonly content = new Container();
-  private maskG = new Graphics();
-  private bar = new Graphics();
+  private maskG: Container;
+  private bar: Container;
   private dragging = false;
   private dragStart = 0;
   private startPos = 0;
@@ -14,11 +14,11 @@ export class ScrollBox extends Container {
 
   constructor(readonly vw: number, readonly vh: number, readonly horizontal = false) {
     super();
-    this.maskG.rect(0, 0, vw, vh).fill(0xffffff);
+    this.maskG = maskRect(0, 0, vw, vh);
+    this.bar = uiSprite('slider_knob', 22, 22);
     this.addChild(this.maskG, this.content, this.bar);
     this.content.mask = this.maskG;
-    const hit = new Graphics().rect(0, 0, vw, vh).fill({ color: 0x000000, alpha: 0.001 });
-    hit.eventMode = 'static';
+    const hit = hitRect(0, 0, vw, vh);
     this.addChildAt(hit, 0);
     this.eventMode = 'passive';
     this.on('wheel', (e: FederatedWheelEvent) => { this.scrollBy(this.horizontal ? e.deltaY + e.deltaX : e.deltaY); });
@@ -54,12 +54,10 @@ export class ScrollBox extends Container {
   refresh() { this.setOffset(this.offset); }
 
   private drawBar(max: number) {
-    this.bar.clear();
+    this.bar.visible = max > 0;
     if (max <= 0) return;
     const view = this.horizontal ? this.vw : this.vh;
-    const len = Math.max(40, (view * view) / (view + max));
-    const pos = (this.offset / max) * (view - len);
-    if (this.horizontal) this.bar.roundRect(pos, this.vh - 6, len, 5, 3).fill({ color: C.gold, alpha: 0.6 });
-    else this.bar.roundRect(this.vw - 6, pos, 5, len, 3).fill({ color: C.gold, alpha: 0.6 });
+    const pos = 12 + (this.offset / max) * (view - 24);
+    if (this.horizontal) this.bar.position.set(pos, this.vh - 12); else this.bar.position.set(this.vw - 12, pos);
   }
 }

@@ -5,7 +5,19 @@
 import { CanvasSource, Texture } from 'pixi.js';
 import type { Color, Suit } from '../../engine/defs';
 import { TERM_NAMES, KEYWORDS, STATUSES } from '../../engine/glossary';
-import { drawPip, drawSuit, hex } from './canvasIcons';
+import { imageSource } from './skin';
+import { K } from '../assets';
+
+const hex = (n: number) => `#${n.toString(16).padStart(6, '0')}`;
+
+/** draw a generated icon texture inline (pips / suits); skipped if the texture isn't loaded yet */
+function drawTex(c: CanvasRenderingContext2D, key: string, cx: number, cy: number, size: number) {
+  const img = imageSource(key);
+  if (!img) return;
+  const iw = (img as { width: number }).width, ih = (img as { height: number }).height;
+  const k = size / Math.max(iw, ih);
+  c.drawImage(img, cx - (iw * k) / 2, cy - (ih * k) / 2, iw * k, ih * k);
+}
 import { FONT_BODY } from './theme';
 
 export interface VarInfo { value: number; base: number; better?: 'higher' | 'lower' }
@@ -171,8 +183,8 @@ export function renderRich(text: string, o: RichOpts): RichResult {
     const cy = y0 + (fs * lh) / 2;
     for (const p of line) {
       const t = p.tok;
-      if (t.k === 'pip') drawPip(c, t.c, ox + p.x + p.w / 2, cy, fs * 0.45);
-      else if (t.k === 'suit') drawSuit(c, t.s, ox + p.x + p.w / 2, cy, fs * 0.48);
+      if (t.k === 'pip') drawTex(c, K.ui(`pip_${t.c}`), ox + p.x + p.w / 2, cy, fs * 1.0);
+      else if (t.k === 'suit') drawTex(c, K.ui(`suit_${t.s}`), ox + p.x + p.w / 2, cy, fs * 1.05);
       else if (t.k === 'ch') {
         c.font = `${t.bold ? 'bold' : weight} ${fs}px ${font}`;
         if (o.shadow) { c.shadowColor = 'rgba(0,0,0,0.85)'; c.shadowBlur = 3; }

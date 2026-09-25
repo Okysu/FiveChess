@@ -1,5 +1,6 @@
 /** Pixi application shell: design-space scaling, layers, scene manager, keyboard routing. */
-import { Application, Container, Graphics, Sprite, Texture } from 'pixi.js';
+import { Application, Container, Sprite, Texture } from 'pixi.js';
+import { uiFill } from '../ui/skin';
 import { tweens, ease } from './tween';
 import { DESIGN_H, DESIGN_W } from '../ui/theme';
 
@@ -25,12 +26,11 @@ class GameApp {
   modalLayer = new Container();
   tipLayer = new Container();
   toastLayer = new Container();
-  fade = new Graphics();
+  fade = new Container();
   scene: Scene | null = null;
   scale = 1;
   compact = false;
   private backdropSprite = new Sprite(Texture.EMPTY);
-  private backdropShade = new Graphics();
   private keyHandlers: ((e: KeyboardEvent) => boolean)[] = [];
 
   async init(host: HTMLElement) {
@@ -45,10 +45,11 @@ class GameApp {
     // passive: 'static' on an ancestor makes Pixi hit-test every descendant, so decorative text/sprites would swallow clicks
     stage.eventMode = 'passive';
     stage.addChild(this.backdrop, this.root);
-    this.backdrop.addChild(this.backdropSprite, this.backdropShade);
+    this.backdrop.addChild(this.backdropSprite);
     this.root.addChild(this.sceneLayer, this.modalLayer, this.tipLayer, this.toastLayer, this.fade);
     this.root.sortableChildren = false;
-    this.fade.rect(0, 0, DESIGN_W, DESIGN_H).fill(0x000000);
+    // transition curtain: the generated ink texture, fully inked
+    this.fade.addChild(uiFill('dim_vignette', DESIGN_W, DESIGN_H, { tint: 0x000000 }));
     this.fade.alpha = 0;
     this.fade.eventMode = 'none';
     window.addEventListener('resize', () => this.layout());
@@ -85,7 +86,6 @@ class GameApp {
       s.scale.set(k);
       s.position.set((w - s.texture.width * k) / 2, (h - s.texture.height * k) / 2);
     }
-    this.backdropShade.clear().rect(0, 0, w, h).fill({ color: 0x000000, alpha: 0.0 });
   }
 
   setBackdrop(tex: Texture | null, tint = 0xffffff) {

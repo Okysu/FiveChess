@@ -1,6 +1,6 @@
 /** 奖励 (UI研究笔记 §14.3) + 首领遗物三选一 */
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
-import { panelSurface } from '../ui/skin';
+import { panel as uiPanel } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act, go } from '../router';
@@ -9,7 +9,7 @@ import type { RewardItem } from '../../engine/run/run';
 import { Button, Modal, Tooltip, glossLines, hideTip, showTip, toast, label } from '../ui/widgets';
 import { CardView } from '../ui/card';
 import { C, FONT_TITLE, FONT_BODY, factionColor } from '../ui/theme';
-import { drawPanel, iconSprite } from '../ui/draw';
+import { iconSprite } from '../ui/draw';
 import { assets, K } from '../assets';
 import { tweens, ease } from '../core/tween';
 import { sfx } from '../audio/audio';
@@ -33,8 +33,7 @@ export class RewardScene extends RunScreen {
     sc.items.forEach((it, i) => {
       const row = new Container();
       row.position.set(680, 300 + i * 104);
-      const bg = new Graphics();
-      drawPanel(bg, 560, 88, { r: 12, alpha: it.taken ? 0.4 : 0.92 });
+      const bg = uiPanel(560, 88, 'row');
       row.addChild(bg);
       const { icon, text } = this.describe(it);
       icon.position.set(46, 44);
@@ -138,7 +137,7 @@ export class RewardScene extends RunScreen {
       const def = content().relic(id);
       const c = new Container();
       c.position.set(960 + (i - (sc.options.length - 1) / 2) * 480, 560);
-      const bg = panelSurface(420, 520, true);
+      const bg = uiPanel(420, 520, 'dark');
       bg.position.set(-210, -260);
       c.addChild(bg);
       const ic = new Container();

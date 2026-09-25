@@ -1,24 +1,12 @@
 /** Particles, screen shake, hit-stop, floating numbers, dissolve. */
-import { CanvasSource, Container, Filter, GlProgram, Sprite, Text, Texture, type ContainerChild } from 'pixi.js';
+import { Container, Filter, GlProgram, Sprite, Text, Texture, type ContainerChild } from 'pixi.js';
 import { assets, K } from '../assets';
 import { tweens, ease } from '../core/tween';
 import { FONT_NUM } from '../ui/theme';
 
-const texCache = new Map<string, Texture>();
-
-function softDot(color = '#ffffff'): Texture {
-  const key = `dot:${color}`;
-  const hit = texCache.get(key);
-  if (hit) return hit;
-  const cv = document.createElement('canvas');
-  cv.width = cv.height = 64;
-  const ctx = cv.getContext('2d')!;
-  const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-  g.addColorStop(0, color); g.addColorStop(0.35, color); g.addColorStop(1, 'rgba(255,255,255,0)');
-  ctx.fillStyle = g; ctx.fillRect(0, 0, 64, 64);
-  const t = new Texture({ source: new CanvasSource({ resource: cv }) });
-  texCache.set(key, t);
-  return t;
+/** particles use only generated effect textures (assets/effects/*); empty until loaded */
+function softDot(_color?: string): Texture {
+  return assets.get(K.fx('glow')) ?? Texture.EMPTY;
 }
 
 export function fxTexture(id: 'ember' | 'spark' | 'smoke' | 'ink_splash' | 'petal' | 'leaf' | 'frost' | 'glow' | 'ring' | 'flame' | 'slash' | 'rune'): Texture {

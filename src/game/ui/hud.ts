@@ -1,11 +1,11 @@
 /** Run HUD: top bar, relic bar, deck/pile viewers, card inspector, card picker. */
-import { Container, Graphics, Sprite, Text } from 'pixi.js';
+import { Container, Sprite, Text } from 'pixi.js';
 import { content } from '../../engine/content';
 import type { CardRef, RunState } from '../../engine/run/run';
 import { Box } from '../core/layout';
 import { C, FONT_NUM, FONT_TITLE, FONT_UI, FONT_BODY } from './theme';
-import { drawBar, iconSprite } from './draw';
-import { WB, inkRect } from './skin';
+import { iconSprite } from './draw';
+import { Bar, nine, uiSprite, maskCircle, icon } from './skin';
 import { Button, Modal, Tooltip, glossLines, hideTip, label, showTip, toast } from './widgets';
 import { CardView, CARD_W, CARD_H } from './card';
 import { ScrollBox } from './scroll';
@@ -30,7 +30,7 @@ export interface TopBarHooks {
 }
 
 export class TopBar extends Container {
-  private hpBar = new Graphics();
+  private hpBar = new Bar(220, 24, 'red');
   private hpText: Text;
   private goldText: Text;
   private potionBox = new Container();
@@ -40,19 +40,16 @@ export class TopBar extends Container {
 
   constructor(private run: RunState, private hooks: TopBarHooks = {}) {
     super();
-    this.addChild(inkRect(1920, 80, 0.95));
-    const bg = new Graphics();
-    bg.rect(0, 78, 1920, 5).fill({ color: WB.ochre }).rect(0, 83, 1920, 3).fill({ color: WB.ink }).rect(0, 86, 1920, 3).fill({ color: WB.vermilion });
-    bg.rect(0, 89, 1920, 40).fill({ color: WB.ink, alpha: 0.4 });
-    this.addChild(bg);
+    this.addChild(nine('topbar', 1920, 96));
 
     const row = new Box({ dir: 'row', align: 'center', gap: 18, padding: [0, 16], width: 1920, height: 80 });
     // portrait
     const cmd = content().commander(run.commander);
     const portrait = new Container();
-    const ring = new Graphics().circle(32, 32, 32).fill({ color: 0x0d0907 }).stroke({ width: 3, color: C.gold });
-    portrait.addChild(ring);
-    const pm = new Graphics().circle(32, 32, 29).fill(0xffffff);
+    const pm = maskCircle(32, 32, 29);
+    const ringS = uiSprite('skill_disc', 70, 70);
+    ringS.position.set(32, 32);
+    portrait.addChild(ringS);
     assets.with(K.hero(cmd.id), (t) => {
       const s = new Sprite(t);
       const k = 64 / (t.width * 0.55);
@@ -103,7 +100,7 @@ export class TopBar extends Container {
     row.add(new Button('设置', { width: 100, height: 56, fontSize: 22, kind: 'ghost', onClick: hooks.onSettings }), { width: 100, height: 56 });
     row.layout(1920, 80);
     this.addChild(row);
-    this.relicBar.position.set(16, 84);
+    this.relicBar.position.set(16, 100);
     this.addChild(this.relicBar);
     this.refresh();
   }
@@ -112,11 +109,11 @@ export class TopBar extends Container {
     const r = this.run;
     const live = this.hooks.hp?.();
     const hp = live?.hp ?? r.hp, max = live?.max ?? r.maxHp, armor = live?.armor ?? 0;
-    drawBar(this.hpBar, 220, 22, hp / max, C.hp);
+    this.hpBar.set(hp / max);
     this.hpText.text = `${hp}/${max}`;
     this.armorBadge.removeChildren();
     if (armor > 0) {
-      const b = new Graphics().poly([0, -14, 13, -8, 13, 6, 0, 14, -13, 6, -13, -8]).fill({ color: C.armor }).stroke({ width: 2, color: 0x102030 });
+      const b = icon('ui_armor', 30);
       const t = new Text({ text: String(armor), style: { fontFamily: FONT_NUM, fontSize: 15, fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0, width: 3 } } });
       t.anchor.set(0.5);
       b.position.set(-4, 11); t.position.set(-4, 11);
@@ -130,8 +127,7 @@ export class TopBar extends Container {
     pots.forEach((id, i) => {
       const slot = new Container();
       slot.position.set(i * 80, 0);
-      const g = new Graphics().roundRect(0, 0, 70, 64, 10).fill({ color: 0x0d0907, alpha: 0.7 }).stroke({ width: 1.5, color: id ? C.gold : C.goldDark, alpha: id ? 0.9 : 0.5 });
-      if (!id) g.roundRect(8, 8, 54, 48, 8).stroke({ width: 1, color: C.goldDark, alpha: 0.4 });
+      const g = nine('equip_slot', 70, 64, id ? {} : { alpha: 0.55 });
       slot.addChild(g);
       if (id) {
         const def = content().potions.get(id);
@@ -156,7 +152,8 @@ export class TopBar extends Container {
       if (!def) return;
       const c = new Container();
       c.position.set(i * 46, 0);
-      const bgc = new Graphics().circle(20, 20, 20).fill({ color: 0x0d0907, alpha: 0.6 }).stroke({ width: 1.5, color: def.tier === 'boss' ? 0xe05a3a : def.tier === 'starter' ? C.goldLight : C.goldDark });
+      const bgc = uiSprite(def.tier === 'boss' ? 'skill_disc_active' : 'skill_disc', 44, 44);
+      bgc.position.set(20, 20);
       c.addChild(bgc);
       const holder = new Container();
       const fb = iconSprite('ui_relic', 34, def.name[0] ?? '遗', C.gold);

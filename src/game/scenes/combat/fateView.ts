@@ -1,12 +1,11 @@
 /** Shared fate deck, discard, signs and the signature centered judgement flip (UI研究笔记 §7.3). */
-import { CanvasSource, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
+import { Container, Sprite, Text } from 'pixi.js';
 import type { CombatState, FateCard } from '../../../engine/combat/state';
 import { SUIT_INFO } from '../../../engine/glossary';
-import { drawSuit, hex } from '../../ui/canvasIcons';
+import { WB, uiFill, suitIcon } from '../../ui/skin';
 import { C, FONT_NUM, FONT_TITLE } from '../../ui/theme';
 import { tweens, ease, wait } from '../../core/tween';
 import { FATE } from './layout';
-import { assets, K } from '../../assets';
 import { sfx } from '../../audio/audio';
 import type { Particles } from '../../fx/fx';
 import { fxTexture } from '../../fx/fx';
@@ -17,75 +16,52 @@ const W = 120, H = 168;
 const RANK = ['', 'A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 const CN = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二', '十三'];
 
-const faceCache = new Map<string, Texture>();
-export function fateFace(card: FateCard): Texture {
-  const key = `${card.suit}:${card.rank}:${card.omen ? 1 : 0}:${session.settings.suitText ? 1 : 0}`;
-  const hit = faceCache.get(key);
-  if (hit) return hit;
-  const cv = document.createElement('canvas');
-  cv.width = W * 2; cv.height = H * 2;
-  const ctx = cv.getContext('2d')!;
-  ctx.scale(2, 2);
-  const g = ctx.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0, card.omen ? '#3a1010' : '#f8f0dc'); g.addColorStop(1, card.omen ? '#1a0606' : '#e4d4b0');
-  ctx.fillStyle = g;
-  ctx.beginPath(); ctx.roundRect(0, 0, W, H, 10); ctx.fill();
-  const info = SUIT_INFO[card.suit];
-  ctx.strokeStyle = hex(info.color); ctx.lineWidth = info.yang ? 5 : 2.5;
-  ctx.beginPath(); ctx.roundRect(4, 4, W - 8, H - 8, 8); ctx.stroke();
-  if (!info.yang) { ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.roundRect(9, 9, W - 18, H - 18, 6); ctx.stroke(); ctx.setLineDash([]); }
-  if (card.omen) {
-    ctx.fillStyle = '#ff5a3a'; ctx.font = 'bold 64px "STKaiti","KaiTi",serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('凶', W / 2, H / 2);
-  } else {
-    drawSuit(ctx, card.suit, W / 2, H / 2 + 4, 34, true);
-    ctx.fillStyle = hex(info.color);
-    ctx.font = 'bold 26px "Cinzel","Georgia",serif';
-    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-    ctx.fillText(RANK[card.rank] ?? String(card.rank), 10, 8);
-    ctx.save(); ctx.translate(W - 10, H - 8); ctx.rotate(Math.PI); ctx.fillText(RANK[card.rank] ?? '', 0, 0); ctx.restore();
-    ctx.font = '14px "STKaiti","KaiTi",serif';
-    ctx.fillText(CN[card.rank] ?? '', 12, 38);
-    if (session.settings.suitText) { ctx.textAlign = 'right'; ctx.fillText(info.name, W - 10, 10); }
-  }
-  const t = new Texture({ source: new CanvasSource({ resource: cv, resolution: 2 }) });
-  faceCache.set(key, t);
-  return t;
-}
-
-let backTex: Texture | null = null;
-function fateBack(): Texture {
-  const t = assets.get(K.ui('fate_back'));
-  if (t) return t;
-  if (backTex) return backTex;
-  const cv = document.createElement('canvas');
-  cv.width = W * 2; cv.height = H * 2;
-  const ctx = cv.getContext('2d')!;
-  ctx.scale(2, 2);
-  const g = ctx.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0, '#8a2014'); g.addColorStop(1, '#3a0a06');
-  ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(0, 0, W, H, 10); ctx.fill();
-  ctx.strokeStyle = '#e0b060'; ctx.lineWidth = 3; ctx.stroke();
-  (['sun', 'moon', 'thunder', 'mountain'] as const).forEach((s, i) => drawSuit(ctx, s, W / 2 + (i % 2 ? 26 : -26), H / 2 + (i < 2 ? -30 : 30), 14));
-  backTex = new Texture({ source: new CanvasSource({ resource: cv, resolution: 2 }) });
-  return backTex;
-}
-
+/** a fate card: generated woodblock face / back textures + generated suit emblem + rank text */
 export class FateCardView extends Container {
-  private face: Sprite;
-  private back: Sprite;
+  private face = new Container();
+  private back: Container;
   constructor(public card: FateCard | null) {
     super();
-    this.back = new Sprite(fateBack());
-    this.back.width = W; this.back.height = H;
-    this.back.anchor.set(0.5);
-    this.face = new Sprite(card ? fateFace(card) : Texture.EMPTY);
-    this.face.anchor.set(0.5);
-    this.face.width = W; this.face.height = H;
+    this.back = uiFill('fate_back', W, H);
+    this.back.position.set(-W / 2, -H / 2);
     this.addChild(this.back, this.face);
+    if (card) this.setCard(card);
     this.setFace(!!card);
   }
-  setCard(c: FateCard) { this.card = c; this.face.texture = fateFace(c); this.face.width = W; this.face.height = H; }
+  setCard(c: FateCard) {
+    this.card = c;
+    this.face.removeChildren().forEach((x) => x.destroy({ children: true }));
+    const bg = uiFill('fate_face', W, H, c.omen ? { tint: 0x5a2a22 } : {});
+    bg.position.set(-W / 2, -H / 2);
+    this.face.addChild(bg);
+    const info = SUIT_INFO[c.suit];
+    if (c.omen) {
+      const t = new Text({ text: '凶', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 64, fill: WB.vermilion, stroke: { color: WB.ink, width: 6 } } });
+      t.anchor.set(0.5);
+      this.face.addChild(t);
+      return;
+    }
+    const em = suitIcon(c.suit, 70);
+    em.y = 6;
+    this.face.addChild(em);
+    const rankStyle = { fontFamily: FONT_NUM, fontWeight: '900' as const, fontSize: 26, fill: info.color, stroke: { color: WB.ink, width: 4 } };
+    const r1 = new Text({ text: RANK[c.rank] ?? String(c.rank), style: rankStyle });
+    r1.position.set(-W / 2 + 12, -H / 2 + 8);
+    const r2 = new Text({ text: RANK[c.rank] ?? '', style: rankStyle });
+    r2.anchor.set(1, 1); r2.rotation = Math.PI;
+    r2.position.set(-W / 2 + 12, -H / 2 + 8);
+    r2.position.set(W / 2 - 12, H / 2 - 8);
+    r2.anchor.set(0, 0);
+    const cn = new Text({ text: CN[c.rank] ?? '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 14, fill: WB.ink } });
+    cn.position.set(-W / 2 + 13, -H / 2 + 38);
+    this.face.addChild(r1, r2, cn);
+    if (session.settings.suitText) {
+      const nm = new Text({ text: info.name[0] ?? '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 16, fill: WB.ink } });
+      nm.anchor.set(1, 0);
+      nm.position.set(W / 2 - 12, -H / 2 + 10);
+      this.face.addChild(nm);
+    }
+  }
   setFace(up: boolean) { this.face.visible = up; this.back.visible = !up; }
   async flip() {
     await tweens.to(this.scale, { x: 0 }, 150, { ease: ease.inQuad });

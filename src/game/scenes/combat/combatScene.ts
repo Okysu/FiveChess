@@ -21,8 +21,7 @@ import { TopBar, openDeck, inspectCard, pickCards, termsOf, sortCards } from '..
 import { Button, Modal, Tooltip, glossLines, hideTip, label, showTip, title, toast } from '../../ui/widgets';
 import { CardView, CARD_H } from '../../ui/card';
 import { C, FONT_BODY, FONT_NUM, FONT_TITLE } from '../../ui/theme';
-import { drawPanel } from '../../ui/draw';
-import { WB, uiSprite } from '../../ui/skin';
+import { WB, uiSprite, dim, hitRect, nine, panel, frame, ring as ringSprite, sectorMask, maskCircle } from '../../ui/skin';
 import { tweens, ease, wait } from '../../core/tween';
 import { audio, sfx } from '../../audio/audio';
 import { Particles, fxTexture, floatText, shake, hitStop, dissolve, preloadFx } from '../../fx/fx';
@@ -55,7 +54,7 @@ export class CombatScene extends Scene {
   private shakeRoot = new Container();
   // views
   private units = new Map<number, UnitView>();
-  private slotGfx: { row: 'front' | 'back'; slot: number; g: Graphics; x: number; y: number }[] = [];
+  private slotGfx: { row: 'front' | 'back'; slot: number; g: Container; x: number; y: number }[] = [];
   private fate = new FateArea();
   private tray = new SourceTray();
   private drawPile!: Pile;
@@ -103,10 +102,8 @@ export class CombatScene extends Scene {
     audio.ambience((['forest', 'water', 'stars', 'void'] as const)[r.act - 1] ?? null);
 
     this.addChild(this.shakeRoot);
-    const shade = new Graphics().rect(0, 128, 1920, 952).fill({ color: 0, alpha: 0 });
-    const floorShade = new Graphics().rect(0, 760, 1920, 320).fill({ color: 0, alpha: 0 });
-    const bottomBar = new Graphics().rect(0, 770, 1920, 310).fill({ color: 0x000000, alpha: 0.35 });
-    this.shakeRoot.addChild(shade, floorShade, bottomBar, this.boardLayer, this.unitLayer, this.unitUi, this.fxLayer, this.hudLayer, this.hand, this.dragLayer, this.numLayer, this.sigLayer);
+    const bottomBar = dim(1920, 310, 0.45, 0, 770);
+    this.shakeRoot.addChild(bottomBar, this.boardLayer, this.unitLayer, this.unitUi, this.fxLayer, this.hudLayer, this.hand, this.dragLayer, this.numLayer, this.sigLayer);
     this.ambientSpawn = this.fxLayer.ambient(r.act === 1 ? 'dust' : r.act === 2 ? 'dust' : r.act === 3 ? 'stars' : 'ink', 1920, 760, 0.2);
 
     this.buildBoard();
@@ -126,8 +123,7 @@ export class CombatScene extends Scene {
     // input
     // passive scene + a full-screen static hit layer at the bottom: decorative layers never block clicks
     this.eventMode = 'passive';
-    const bgHit = new Graphics().rect(-400, -200, 2720, 1480).fill({ color: 0, alpha: 0.001 });
-    bgHit.eventMode = 'static';
+    const bgHit = hitRect(-400, -200, 2720, 1480);
     this.addChildAt(bgHit, 0);
     bgHit.on('globalpointermove', (e) => this.onMove(e));
     this.on('pointerup', (e) => this.onUp(e));
@@ -178,11 +174,11 @@ export class CombatScene extends Scene {
         const n = row === 'front' ? 4 : 3;
         for (let i = 0; i < n; i++) {
           const p = slotPos(side, row, i);
-          const tile = uiSprite('slot', 124, 124, 0x3a4a3a);
+          const tile = uiSprite('slot', 124, 124);
           tile.position.set(p.x, p.y + 6);
           tile.alpha = 0.5;
           this.boardLayer.addChild(tile);
-          const g = new Graphics();
+          const g = new Container();
           g.position.set(p.x, p.y);
           this.drawSlot(g, side, row, 'idle');
           this.boardLayer.addChild(g);
@@ -196,16 +192,20 @@ export class CombatScene extends Scene {
     this.boardLayer.addChild(this.pField, this.eField, this.fate);
   }
 
-  private drawSlot(g: Graphics, side: 'player' | 'enemy', row: 'front' | 'back', state: 'idle' | 'drop' | 'hover' | 'full') {
-    g.clear();
-    const w = 118, h = 142;
+  /** slot state overlay: generated selection frames only */
+  private drawSlot(g: Container, side: 'player' | 'enemy', row: 'front' | 'back', state: 'idle' | 'drop' | 'hover' | 'full') {
     void side; void row;
-    if (state === 'idle') { g.roundRect(-w / 2, -h / 2, w, h, 8).stroke({ width: 2, color: WB.ink, alpha: 0.5 }); return; }
-    if (state === 'full') { g.roundRect(-w / 2, -h / 2, w, h, 8).fill({ color: WB.ink, alpha: 0.35 }); return; }
-    const col = state === 'hover' ? WB.vermilion : WB.ochre;
-    g.roundRect(-w / 2, -h / 2, w, h, 8).fill({ color: col, alpha: state === 'hover' ? 0.35 : 0.18 });
-    g.roundRect(-w / 2, -h / 2, w, h, 8).stroke({ width: 8, color: WB.ink });
-    g.roundRect(-w / 2, -h / 2, w, h, 8).stroke({ width: 4, color: col });
+    const key = `slot:${state}`;
+    if ((g as Container & { slotState?: string }).slotState === key) return;
+    (g as Container & { slotState?: string }).slotState = key;
+    g.removeChildren().forEach((c) => c.destroy({ children: true }));
+    const w = 118, h = 142;
+    if (state === 'drop' || state === 'hover') {
+      const f = frame(state === 'hover' ? 'red' : 'gold', w, h, 6);
+      f.position.set(-w / 2 - 6, -h / 2 - 6);
+      g.addChild(f);
+    }
+    g.alpha = state === 'full' ? 0.4 : 1;
   }
 
   private buildHud() {
@@ -696,7 +696,8 @@ export class CombatScene extends Scene {
     const c = new Container();
     const txt = new Text({ text: `-${dmg}${after <= 0 ? ' ☠' : ''}${back ? `  反击 -${back}` : ''}`, style: { fontFamily: FONT_NUM, fontSize: 24, fontWeight: 'bold', fill: after <= 0 ? 0xff5a4a : 0xffe0a0, stroke: { color: 0, width: 5 } } });
     txt.anchor.set(0.5);
-    const bg = new Graphics().roundRect(-txt.width / 2 - 10, -18, txt.width + 20, 36, 8).fill({ color: 0x000000, alpha: 0.6 });
+    const bg = nine('panel_row', txt.width + 40, 44);
+    bg.position.set(-(txt.width + 40) / 2, -22);
     c.addChild(bg, txt);
     c.position.set(u.x, u.y + u.bottomY + 40);
     this.sigLayer.addChild(c);
@@ -1238,8 +1239,7 @@ export class CombatScene extends Scene {
       const def = content().enemy(boss.def);
       sfx('bossIntro');
       const ov = new Container();
-      const dim = new Graphics().rect(0, 0, 1920, 1080).fill({ color: 0, alpha: 0.75 });
-      ov.addChild(dim);
+      ov.addChild(dim(1920, 1080, 0.8));
       const tex = assets.get(K.enemy(boss.def, true));
       if (tex) { const sp = new Sprite(tex); sp.anchor.set(0.5, 1); sp.scale.set(Math.min(900 / tex.height, 1)); sp.position.set(1300, 1040); sp.alpha = 0; ov.addChild(sp); void tweens.to(sp, { alpha: 1, x: 1250 }, 700); }
       const nm = title(def.name, 110);
@@ -1278,9 +1278,8 @@ export class CombatScene extends Scene {
 
   private async turnBanner(text: string, color: number, scale = 1) {
     const c = new Container();
-    const bg = new Graphics().rect(-960, -50 * scale, 1920, 100 * scale).fill({ color: WB.ink, alpha: 0.82 });
-    bg.rect(-960, -50 * scale, 1920, 5).fill({ color: WB.ochre }).rect(-960, 50 * scale - 5, 1920, 5).fill({ color: WB.ochre });
-    bg.rect(-960, -50 * scale + 9, 1920, 3).fill({ color: WB.vermilion }).rect(-960, 50 * scale - 12, 1920, 3).fill({ color: WB.vermilion });
+    const bg = nine('banner_band', 1400 * scale, 130 * scale);
+    bg.position.set(-700 * scale, -65 * scale);
     const t = title(text, 64 * scale, { fill: color });
     t.anchor.set(0.5);
     c.addChild(bg, t);
@@ -1298,7 +1297,8 @@ export class CombatScene extends Scene {
     this.banner.removeChildren().forEach((c) => c.destroy({ children: true }));
     const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: 0xffd8c8, stroke: { color: 0, width: 5 } } });
     t.anchor.set(0.5);
-    const bg = new Graphics().roundRect(-t.width / 2 - 30, -32, t.width + 60, 64, 12).fill({ color: 0x3a0a06, alpha: 0.85 }).stroke({ width: 2, color: 0xff8a6a });
+    const bg = nine('banner_band', t.width + 200, 84);
+    bg.position.set(-(t.width + 200) / 2, -42);
     const c = new Container();
     c.addChild(bg, t);
     c.position.set(960, 410);
@@ -1331,8 +1331,7 @@ export class CombatScene extends Scene {
   private async legendaryShow(card: CardInst) {
     sfx('legendary');
     const ov = new Container();
-    const dim = new Graphics().rect(0, 0, 1920, 1080).fill({ color: 0, alpha: 0.7 });
-    ov.addChild(dim);
+    ov.addChild(dim(1920, 1080, 0.75));
     const v = new CardView(card);
     v.position.set(960, 520);
     v.scale.set(0.4);
@@ -1364,14 +1363,20 @@ export class CombatScene extends Scene {
   private async phaseCeremony(uid: number, name: string, text: string) {
     sfx('phase');
     void shake(this.shakeRoot, 16, 700, session.settings.screenShake);
-    const flash = new Graphics().rect(0, 0, 1920, 1080).fill({ color: 0xffffff, alpha: 0.8 });
+    // impact flash from the generated glow effect texture
+    const flash = new Sprite(fxTexture('glow'));
+    flash.anchor.set(0.5);
+    flash.blendMode = 'add';
+    flash.width = 2600; flash.height = 1600;
+    flash.position.set(960, 540);
     this.sigLayer.addChild(flash);
     await tweens.to(flash, { alpha: 0 }, 400);
     flash.destroy();
     const v = this.units.get(uid);
     if (v) this.fxLayer.burst(v.x, v.y - 100, { tex: fxTexture('ink_splash'), n: 20, speed: [100, 400], life: [0.6, 1.2], tint: 0x1a0a08, scale: [0.3, 0.7] });
     const c = new Container();
-    const bg = new Graphics().rect(-960, -110, 1920, 220).fill({ color: 0x000000, alpha: 0.75 });
+    const bg = nine('banner_band', 1600, 240);
+    bg.position.set(-800, -120);
     const t = title(name, 72, { fill: 0xff8a6a });
     t.anchor.set(0.5); t.y = -34;
     const l = new Text({ text, style: { fontFamily: FONT_BODY, fontSize: 28, fill: C.text, stroke: { color: 0, width: 4 } } });
@@ -1459,9 +1464,9 @@ export class CombatScene extends Scene {
     this.closeWindowUi();
     sfx('window');
     const ui = new Container();
-    const dim = new Graphics().rect(0, 128, 1920, 650).fill({ color: 0x000000, alpha: 0.3 });
-    dim.eventMode = 'none';
-    ui.addChild(dim);
+    const dm = dim(1920, 650, 0.35, 0, 128);
+    dm.eventMode = 'none';
+    ui.addChild(dm);
     const a = unit(this.s, actor);
     const t = unit(this.s, target);
     const pv = a ? intentPreview(this.s, a) : null;
@@ -1472,7 +1477,8 @@ export class CombatScene extends Scene {
     }
     const txt = new Text({ text: msg, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: 0xffe0d0, stroke: { color: 0, width: 5 }, align: 'center' } });
     txt.anchor.set(0.5);
-    const bg = new Graphics().roundRect(-330, -60, 660, 120, 14).fill({ color: 0x2a0806, alpha: 0.9 }).stroke({ width: 2.5, color: 0xff7a5a });
+    const bg = panel(720, 150, 'dark');
+    bg.position.set(-360, -75);
     const box = new Container();
     box.addChild(bg, txt);
     box.position.set(960, 420);
@@ -1481,12 +1487,18 @@ export class CombatScene extends Scene {
     lbl.anchor.set(0.5); lbl.position.set(960, 340);
     ui.addChild(lbl);
     // countdown ring replaces the end-turn button
-    const ring = new Graphics();
+    // countdown: a generated ring texture revealed by an invisible sector mask
+    const ring = new Container();
+    const ringArt = ringSprite('red', 124);
+    const ringMask = sectorMask(maskCircle(0, 0, 0), 64, 1);
+    ring.addChild(ringArt, ringMask);
+    ringArt.mask = ringMask;
+    (ring as Container & { sector?: typeof ringMask }).sector = ringMask;
     ring.position.set(END_BTN.x + END_BTN.w / 2, END_BTN.y + END_BTN.h / 2);
     ui.addChild(ring);
     this.sigLayer.addChild(ui);
     this.windowUi = ui;
-    (ui as Container & { ring?: Graphics }).ring = ring;
+    (ui as Container & { ring?: Container }).ring = ring;
     this.endBtn.setDisabled(false);
     this.endBtn.setText('不应对');
     this.endBtn.setKind('danger');
@@ -1610,8 +1622,7 @@ export class CombatScene extends Scene {
     sfx(win ? 'victory' : 'defeat');
     const boss = content().encounters.get(this.s.cfg.encounter)?.tier === 'boss';
     const ov = new Container();
-    const dim = new Graphics().rect(0, 0, 1920, 1080).fill({ color: 0, alpha: 0.6 });
-    ov.addChild(dim);
+    ov.addChild(dim(1920, 1080, 0.65));
     const t = title(win ? (boss ? '首 领 伏 诛' : '大 捷') : '命 数 已 尽', 120, { fill: win ? 0xffd27a : 0xc8a0a0 });
     t.anchor.set(0.5); t.position.set(960, 440); t.scale.set(1.6); t.alpha = 0;
     ov.addChild(t);
@@ -1640,10 +1651,10 @@ export class CombatScene extends Scene {
     while (this.ambAcc > 120) { this.ambAcc -= 120; this.ambientSpawn?.(); }
     if (this.windowUi && this.windowTotal > 0 && !G.modalLayer.children.length) {
       this.windowTimer -= dt;
-      const ring = (this.windowUi as Container & { ring?: Graphics }).ring;
-      if (ring) {
+      const ring = (this.windowUi as Container & { ring?: Container & { sector?: Parameters<typeof sectorMask>[0] } }).ring;
+      if (ring?.sector) {
         const k = Math.max(0, this.windowTimer / this.windowTotal);
-        ring.clear().arc(0, 0, 56, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * k).stroke({ width: 6, color: k > 0.375 ? 0xffd27a : 0xff5a3a });
+        sectorMask(ring.sector, 64, k);
         ring.position.set(END_BTN.x + END_BTN.w + 40, END_BTN.y + END_BTN.h / 2);
       }
       if (this.windowTimer <= 0 && !this.busy && !this.targeting && !this.dragging) void this.passWindow();

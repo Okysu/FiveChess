@@ -1,5 +1,6 @@
 /** 设置 (UI研究笔记 §14.8) as a modal usable anywhere, including mid-combat. */
-import { Container, Graphics, Text, type FederatedPointerEvent } from 'pixi.js';
+import { Container, Text, type FederatedPointerEvent } from 'pixi.js';
+import { uiSprite, nine, hitRect } from '../ui/skin';
 import { Button, Modal } from '../ui/widgets';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
 import { session, defaultSettings } from '../state';
@@ -87,13 +88,13 @@ export function openSettings() {
 function toggle(v: boolean, on: (v: boolean) => void): Container {
   const c = new Container();
   let val = v;
-  const g = new Graphics();
   const draw = () => {
-    g.clear().roundRect(0, 6, 110, 48, 24).fill({ color: val ? 0x6a3a1a : 0x2a221c }).stroke({ width: 2, color: val ? C.goldLight : C.goldDark });
-    g.circle(val ? 86 : 24, 30, 18).fill({ color: val ? C.goldLight : 0x8a7a6a });
+    c.removeChildren().forEach((x) => x.destroy({ children: true }));
+    const t = uiSprite(val ? 'toggle_on' : 'toggle_off', 120, 60);
+    t.position.set(60, 30);
+    c.addChild(t, hitRect(0, 0, 120, 60));
   };
   draw();
-  c.addChild(g);
   c.eventMode = 'static';
   c.cursor = 'pointer';
   c.on('pointertap', () => { val = !val; draw(); on(val); sfx('click'); });
@@ -119,20 +120,15 @@ function slider(v: number, on: (v: number) => void): Container {
   const c = new Container();
   let val = v;
   const W = 440;
-  const g = new Graphics();
+  const track = nine('slider_track', W, 26);
+  track.position.set(0, 17);
+  const knob = uiSprite('slider_knob', 40, 40);
   const t = new Text({ text: '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.goldLight } });
-  t.position.set(W + 24, 14);
-  const draw = () => {
-    g.clear().roundRect(0, 24, W, 12, 6).fill({ color: 0x1a120c }).stroke({ width: 1.5, color: C.goldDark });
-    g.roundRect(0, 24, W * val, 12, 6).fill({ color: C.gold });
-    g.circle(W * val, 30, 16).fill({ color: C.goldLight }).stroke({ width: 2, color: 0x3a2a10 });
-    t.text = `${Math.round(val * 100)}%`;
-  };
+  t.position.set(W + 28, 14);
+  const draw = () => { knob.position.set(W * val, 30); t.text = `${Math.round(val * 100)}%`; };
   draw();
-  c.addChild(g, t);
-  const hit = new Graphics().rect(-10, 0, W + 20, 60).fill({ color: 0, alpha: 0.001 });
-  c.addChild(hit);
-  hit.eventMode = 'static';
+  const hit = hitRect(-10, 0, W + 20, 60);
+  c.addChild(track, knob, t, hit);
   hit.cursor = 'pointer';
   let dragging = false;
   const set = (e: FederatedPointerEvent) => { const p = c.toLocal(e.global); val = Math.max(0, Math.min(1, p.x / W)); draw(); on(val); };

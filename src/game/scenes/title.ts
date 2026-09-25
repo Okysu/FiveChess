@@ -1,5 +1,5 @@
-import { Container, Graphics, Text } from 'pixi.js';
-import { WB } from '../ui/skin';
+import { Container, Text } from 'pixi.js';
+import { WB, nine } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { Box } from '../core/layout';
@@ -25,8 +25,8 @@ export class TitleScene extends Scene {
     audio.playMusic('title');
     audio.ambience('forest');
     // a flat printed ink band behind the menu (woodblock layer), no gradient
-    const shade = new Graphics().rect(0, 0, 860, 1080).fill({ color: WB.ink, alpha: 0.72 });
-    shade.rect(860, 0, 8, 1080).fill({ color: WB.ochre }).rect(868, 0, 4, 1080).fill({ color: WB.ink }).rect(872, 0, 5, 1080).fill({ color: WB.vermilion });
+    const shade = nine('menu_panel', 820, 1060);
+    shade.position.set(20, 10);
     this.addChild(shade, this.parts);
     this.spawnA = this.parts.ambient('embers', 1920, 1080, 0.6);
     this.spawnB = this.parts.ambient('dust', 1920, 1080, 0.3);

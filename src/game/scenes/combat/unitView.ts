@@ -1,5 +1,5 @@
 /** Unit / commander views on the battle line (UI研究笔记 §4.3, §8.3). */
-import { Container, Graphics, Sprite, Text } from 'pixi.js';
+import { Container, Sprite, Text } from 'pixi.js';
 import type { Unit, CombatState } from '../../../engine/combat/state';
 import { atkOf, maxHpOf, keywordsOf, canAttack } from '../../../engine/combat/board';
 import { intentPreview } from '../../../engine/combat/intents';
@@ -7,11 +7,10 @@ import { content } from '../../../engine/content';
 import { KEYWORDS, STATUSES } from '../../../engine/glossary';
 import type { Keyword, StatusId } from '../../../engine/defs';
 import { assets, K } from '../../assets';
-import { C, FONT_NUM, FONT_TITLE, factionColor } from '../../ui/theme';
-import { drawBar, iconSprite, lighten } from '../../ui/draw';
-import { WB, printShape } from '../../ui/skin';
+import { FONT_NUM, FONT_TITLE } from '../../ui/theme';
+import { iconSprite } from '../../ui/draw';
+import { WB, Bar, uiSprite, uiCover, nine, frame, tag, icon, maskPoly } from '../../ui/skin';
 import { statBadge } from '../../ui/card';
-import { fallbackArt } from '../../ui/card';
 import { tweens, ease } from '../../core/tween';
 import { TOKEN_W, TOKEN_H } from './layout';
 
@@ -22,23 +21,23 @@ export class UnitView extends Container {
   readonly mode: Mode;
   readonly body = new Container();
   private bodySprite: Sprite | null = null;
-  private frame = new Graphics();
-  private base = new Graphics();
-  private hpBar = new Graphics();
+  private frame = new Container();
+  private base = new Container();
+  private hpBar!: Bar;
   private hpText: Text;
   private atkBadge = new Container();
   private hpBadge = new Container();
   private armorBadge = new Container();
-  private wardFx = new Graphics();
+  private wardFx = new Container();
   private statusCol = new Container();
   private kwStrip = new Container();
   private delayRow = new Container();
   readonly intentBox = new Container();
   readonly incoming = new Container();
-  private readyLine = new Graphics();
-  private highlight = new Graphics();
-  private stealthFx = new Graphics();
-  private frozenFx = new Graphics();
+  private readyLine = new Container();
+  private highlight = new Container();
+  private stealthFx = new Container();
+  private frozenFx = new Container();
   readonly bw: number;
   readonly bh: number;
   shown = { hp: 0, maxHp: 0, atk: 0, armor: 0 };
@@ -52,6 +51,8 @@ export class UnitView extends Container {
     this.bw = this.mode === 'token' ? TOKEN_W : this.mode === 'figure' ? 150 : 230;
     this.bh = this.mode === 'token' ? TOKEN_H : this.mode === 'figure' ? 150 : 290;
     this.hpText = new Text({ text: '', style: { fontFamily: FONT_NUM, fontSize: this.mode === 'token' || this.mode === 'figure' ? 24 : 20, fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0x000000, width: 5 } } });
+    const small0 = this.mode === 'token' || this.mode === 'figure';
+    this.hpBar = new Bar(small0 ? this.bw - 6 : 224, small0 ? 16 : 24, 'red');
     this.addChild(this.highlight, this.base, this.body, this.frame, this.readyLine, this.stealthFx, this.frozenFx, this.wardFx, this.hpBar, this.hpText, this.atkBadge, this.hpBadge, this.armorBadge, this.statusCol, this.kwStrip, this.delayRow, this.incoming, this.intentBox);
     this.buildBody(u);
     this.eventMode = 'static';
@@ -64,11 +65,13 @@ export class UnitView extends Container {
       const def = c.cards.has(u.def) ? c.card(u.def, u.up) : null;
       const f = def?.faction ?? 'N';
       const w = TOKEN_W, h = TOKEN_H;
-      const mask = new Graphics().moveTo(-w / 2, h / 2).lineTo(-w / 2, -h / 2 + 34).quadraticCurveTo(-w / 2, -h / 2, -w / 2 + 34, -h / 2).lineTo(w / 2 - 34, -h / 2).quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + 34).lineTo(w / 2, h / 2).closePath().fill(0xffffff);
+      const pts: number[] = [-w / 2, h / 2];
+      for (let i = 0; i <= 12; i++) { const a = Math.PI + (Math.PI * i) / 12; pts.push(Math.cos(a) * (w / 2), -h / 2 + w / 2 + Math.sin(a) * (w / 2) * 0.62); }
+      pts.push(w / 2, h / 2);
+      const mask = maskPoly(pts);
       this.body.addChild(mask);
-      const fb = new Sprite(fallbackArt(f, def?.name ?? '灵'));
-      fb.anchor.set(0.5);
-      fb.width = w * 1.4; fb.height = h * 1.05;
+      const fb = uiCover('art_placeholder', w, h);
+      fb.position.set(-w / 2, -h / 2);
       fb.mask = mask;
       this.body.addChild(fb);
       assets.with(K.card(f, u.def), (t) => {
@@ -80,17 +83,14 @@ export class UnitView extends Container {
         fb.visible = false;
         this.bodySprite = s;
       });
-      const fc = factionColor(f);
-      this.frame.moveTo(-w / 2, h / 2).lineTo(-w / 2, -h / 2 + 34).quadraticCurveTo(-w / 2, -h / 2, -w / 2 + 34, -h / 2).lineTo(w / 2 - 34, -h / 2).quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + 34).lineTo(w / 2, h / 2).closePath().stroke({ width: 5, color: WB.ink });
-      this.base.ellipse(0, h / 2 + 6, w * 0.55, 14).fill({ color: 0x000000, alpha: 0.45 });
+      const fr = nine('token_frame', w + 14, h + 12);
+      fr.position.set(-w / 2 - 7, -h / 2 - 6);
+      this.frame.addChild(fr);
     } else {
       const isBoss = this.mode === 'boss';
       const key = u.origin === 'enemy' ? K.enemy(u.def, c.enemies.get(u.def)?.tier === 'boss') : K.hero(u.def);
       const targetH = this.mode === 'figure' ? 185 : isBoss ? 330 : 300;
-      this.base.ellipse(0, 0, this.mode === 'figure' ? 62 : 110, this.mode === 'figure' ? 16 : 24).fill({ color: 0x000000, alpha: 0.5 });
-      const ph = new Graphics();
-      ph.roundRect(-50, -targetH, 100, targetH, 30).fill({ color: 0x2a1f19, alpha: 0.6 });
-      this.body.addChild(ph);
+      const ph = new Container();
       assets.with(key, (t) => {
         const s = new Sprite(t);
         s.anchor.set(0.5, 1);
@@ -119,14 +119,28 @@ export class UnitView extends Container {
     this.setKeywords(keywordsOf(s, u).filter((k) => k !== 'ward'));
     this.setDelays(u.delays.map((d) => ({ card: d.card, turns: d.turns })));
     const ready = u.side === 'player' && s.phase === 'main' && canAttack(s, u);
-    this.readyLine.clear();
-    if (ready) this.readyLine.ellipse(0, this.bottomY + (this.mode === 'token' ? 6 : 0), this.bw * 0.5, 12).stroke({ width: 3, color: 0xffd46a, alpha: 0.9 });
+    if (!this.readyLine.children.length) {
+      const rr = uiSprite('ring_gold', this.bw * 1.1, this.bw * 1.1);
+      rr.scale.y = 0.28;
+      rr.y = this.bottomY + (this.mode === 'token' ? 6 : 0);
+      this.readyLine.addChild(rr);
+    }
+    this.readyLine.visible = ready;
     const dim = u.side === 'player' && u.kind === 'unit' && s.active === 'player' && !ready;
     if (this.bodySprite) this.bodySprite.tint = dim ? 0xa8a8a8 : 0xffffff;
-    this.stealthFx.clear();
-    if (u.stealth) this.stealthFx.roundRect(-this.bw / 2, this.topY, this.bw, this.bottomY - this.topY, 16).fill({ color: 0x101428, alpha: 0.45 });
-    this.frozenFx.clear();
-    if ((u.statuses.freeze ?? 0) > 0) this.frozenFx.roundRect(-this.bw / 2 + 4, this.topY + 4, this.bw - 8, this.bottomY - this.topY - 8, 14).fill({ color: 0x9ad8ff, alpha: 0.28 }).stroke({ width: 3, color: 0xc8f0ff, alpha: 0.9 });
+    const hBody = this.bottomY - this.topY;
+    if (!this.stealthFx.children.length) {
+      const sm = uiSprite('smoke_overlay', this.bw * 1.2, hBody * 1.1, { alpha: 0.8 });
+      sm.y = this.topY + hBody / 2;
+      this.stealthFx.addChild(sm);
+    }
+    this.stealthFx.visible = u.stealth;
+    if (!this.frozenFx.children.length) {
+      const fz = uiSprite('frost_overlay', this.bw * 1.1, hBody * 1.05, { stretch: true });
+      fz.y = this.topY + hBody / 2;
+      this.frozenFx.addChild(fz);
+    }
+    this.frozenFx.visible = (u.statuses.freeze ?? 0) > 0;
     if (u.side === 'enemy' && u.origin === 'enemy') this.setIntent(s, u);
     this.alpha = u.dead ? 0.4 : 1;
   }
@@ -135,11 +149,12 @@ export class UnitView extends Container {
     this.shown = { hp, maxHp: max, atk, armor };
     const small = this.mode === 'token' || this.mode === 'figure';
     const bw = small ? this.bw - 10 : 220;
-    drawBar(this.hpBar, bw, small ? 14 : 22, hp / Math.max(1, max), C.hp);
-    this.hpBar.position.set(-bw / 2, this.bottomY + (this.mode === 'token' ? 14 : 10));
+    this.hpBar.set(hp / Math.max(1, max));
+    this.hpBar.position.set(-this.hpBar.bw / 2, this.bottomY + (this.mode === 'token' ? 14 : 10));
+    void bw;
     this.hpText.text = small ? '' : `${hp}/${max}`;
     this.hpText.anchor.set(0.5);
-    this.hpText.position.set(0, this.hpBar.y + 11);
+    this.hpText.position.set(0, this.hpBar.y + 12);
     // badges
     this.atkBadge.removeChildren(); this.hpBadge.removeChildren(); this.armorBadge.removeChildren();
     if (small) {
@@ -153,7 +168,7 @@ export class UnitView extends Container {
       this.atkBadge.position.set(-128, this.hpBar.y + 11);
     }
     if (armor > 0) {
-      const g = printShape(new Graphics(), (gg, dx, dy) => gg.poly([dx, -16 + dy, 15 + dx, -9 + dy, 15 + dx, 7 + dy, dx, 16 + dy, -15 + dx, 7 + dy, -15 + dx, -9 + dy]), WB.azurite, { offset: 2.5 });
+      const g = icon('ui_armor', 36);
       const t = new Text({ text: String(armor), style: { fontFamily: FONT_NUM, fontSize: 17, fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0, width: 4 } } });
       t.anchor.set(0.5);
       this.armorBadge.addChild(g, t);
@@ -162,11 +177,13 @@ export class UnitView extends Container {
   }
 
   setWard(n: number) {
-    this.wardFx.clear();
-    if (n <= 0) return;
-    const r = this.mode === 'token' ? 78 : this.mode === 'figure' ? 95 : 150;
-    const cy = this.mode === 'token' ? 0 : this.mode === 'figure' ? -40 : -40;
-    this.wardFx.ellipse(0, cy, r * 0.8, r).fill({ color: 0xffe8a0, alpha: 0.12 }).stroke({ width: 3, color: 0xffe8a0, alpha: 0.7 });
+    if (!this.wardFx.children.length) {
+      const hB = this.bottomY - this.topY;
+      const wd = uiSprite('ward_bubble', this.bw * 1.35, hB * 1.25, { alpha: 0.9 });
+      wd.y = this.topY + hB / 2;
+      this.wardFx.addChild(wd);
+    }
+    this.wardFx.visible = n > 0;
   }
 
   setStatuses(st: Partial<Record<StatusId, number>>) {
@@ -205,8 +222,9 @@ export class UnitView extends Container {
     this.delayRow.removeChildren();
     ds.forEach((d, i) => {
       const c = new Container();
-      const g = new Graphics().roundRect(-22, -12, 44, 24, 6).fill({ color: 0x3a2a0a, alpha: 0.9 }).stroke({ width: 1.5, color: 0xf0d27a });
-      const t = new Text({ text: `⌛${d.turns}`, style: { fontFamily: FONT_NUM, fontSize: 15, fill: 0xffe8a0, fontWeight: 'bold' } });
+      const g = tag('gold', 50, 28);
+      g.position.set(-25, -14);
+      const t = new Text({ text: String(d.turns), style: { fontFamily: FONT_NUM, fontSize: 17, fill: WB.ink, fontWeight: '900' } });
       t.anchor.set(0.5);
       c.addChild(g, t);
       c.position.set((i - (ds.length - 1) / 2) * 48, this.bottomY + (this.mode === 'token' ? 44 : 40));
@@ -254,8 +272,9 @@ export class UnitView extends Container {
   setIncoming(total: number, count: number) {
     this.incoming.removeChildren();
     if (total <= 0) return;
-    const g = new Graphics().roundRect(-40, -16, 80, 32, 8).fill({ color: 0x8a1a10, alpha: 0.9 }).stroke({ width: 2, color: 0xffb0a0 });
-    const t = new Text({ text: `⚔${total}${count > 1 ? ` (${count})` : ''}`, style: { fontFamily: FONT_NUM, fontSize: 18, fontWeight: 'bold', fill: 0xffffff } });
+    const g = tag('red', 96, 34);
+    g.position.set(-48, -17);
+    const t = new Text({ text: `-${total}${count > 1 ? ` (${count})` : ''}`, style: { fontFamily: FONT_NUM, fontSize: 19, fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 3 } } });
     t.anchor.set(0.5);
     this.incoming.addChild(g, t);
     this.incoming.position.set(0, this.topY - (this.mode === 'token' ? 26 : 30));
@@ -264,13 +283,12 @@ export class UnitView extends Container {
   setHighlight(state: UnitView['hlState']) {
     if (state === this.hlState) return;
     this.hlState = state;
-    const g = this.highlight;
-    g.clear();
+    this.highlight.removeChildren().forEach((c) => c.destroy({ children: true }));
     if (state === 'none') return;
-    const col = state === 'target' ? WB.ochre : state === 'hover' ? WB.vermilion : state === 'danger' ? 0xe02a1a : 0x6ac8e0;
     const w = this.bw + 16, top = this.topY - 8, h = this.bottomY - this.topY + 16;
-    g.roundRect(-w / 2, top, w, h, 14).stroke({ width: 8, color: WB.ink });
-    g.roundRect(-w / 2, top, w, h, 14).stroke({ width: 4.5, color: col });
+    const fr = frame(state === 'target' ? 'gold' : state === 'ready' ? 'blue' : 'red', w, h, 4);
+    fr.position.set(-w / 2 - 4, top - 4);
+    this.highlight.addChild(fr);
   }
 
   /** local hit test rect (for drop targets) */

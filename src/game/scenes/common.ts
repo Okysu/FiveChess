@@ -1,5 +1,6 @@
 /** Shared base for run screens: backdrop, top bar, title, continue button. */
-import { Container, Graphics, Text } from 'pixi.js';
+import { Container, Text } from 'pixi.js';
+import { dim } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { TopBar } from '../ui/hud';
@@ -16,7 +17,7 @@ export abstract class RunScreen extends Scene {
     await assets.load(K.bg(o.bg));
     G.setBackdrop(assets.get(K.bg(o.bg)), o.tint ?? 0xffffff);
     if (o.music) audio.playMusic(o.music);
-    if (o.dim) this.addChild(new Graphics().rect(0, 0, 1920, 1080).fill({ color: 0, alpha: o.dim }));
+    if (o.dim) this.addChild(dim(1920, 1080, o.dim));
     this.addChild(this.content);
     this.top = new TopBar(session.run!, {
       onSettings: () => void import('./settings').then((m) => m.openSettings()),

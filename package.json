@@ -5,16 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run validate && tsc --noEmit && vite build",
+    "build": "npm run validate && npm run check:ui && tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "npm run check:ui && vitest run",
     "test:watch": "vitest",
     "validate": "tsx scripts/validate-data.ts",
     "sim": "tsx scripts/simulate.ts",
     "gen:art": "tsx scripts/art/generate.ts",
     "gen:sfx": "tsx scripts/audio/synth-sfx.ts",
-    "export:tables": "tsx scripts/export-tables.ts"
+    "export:tables": "tsx scripts/export-tables.ts",
+    "check:ui": "tsx scripts/check-no-procedural.ts"
   },
   "dependencies": {
     "pixi.js": "^8.21.0",
@@ -27,6 +28,7 @@
     "sharp": "^0.35.4",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
+    "undici": "^8.11.2",
     "vite": "^6.4.3",
     "vitest": "^3.2.7"
   }

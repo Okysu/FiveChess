@@ -1,6 +1,6 @@
 /** 冒险结算：胜利（含主帅专属结局）、失败、隐藏首领抉择。 */
-import { Container, Graphics, Text } from 'pixi.js';
-import { panelSurface } from '../ui/skin';
+import { Container, Text } from 'pixi.js';
+import { panel as uiPanel, dim } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { session } from '../state';
@@ -9,7 +9,6 @@ import { content } from '../../engine/content';
 import { runScore } from '../../engine/meta';
 import { Button, title } from '../ui/widgets';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
-import { drawPanel } from '../ui/draw';
 import { tweens } from '../core/tween';
 import { audio, sfx } from '../audio/audio';
 import { Particles } from '../fx/fx';
@@ -28,7 +27,7 @@ export class RunEndScene extends Scene {
     await assets.load(K.bg(win ? 'victory' : 'defeat'));
     G.setBackdrop(assets.get(K.bg(win ? 'victory' : 'defeat')));
     audio.playMusic(win ? 'victory' : 'defeat');
-    this.addChild(new Graphics().rect(0, 0, 1920, 1080).fill({ color: 0, alpha: 0.45 }), this.parts);
+    this.addChild(dim(1920, 1080, 0.5), this.parts);
     this.spawn = this.parts.ambient(win ? 'petals' : 'ink', 1920, 1080, 0.5);
     sfx(win ? 'victory' : 'defeat');
     if (r.result && !session.lastUnlocks.length && !(r as { _recorded?: boolean })._recorded) { /* recorded by session.finishCombat */ }
@@ -38,7 +37,7 @@ export class RunEndScene extends Scene {
     const cmd = content().commander(r.commander);
     const lore = intro as { victory: string; defeat: string[] };
     const body = win ? `${lore.victory}\n\n${cmd.ending}` : lore.defeat[r.act % lore.defeat.length] ?? '';
-    const panel = panelSurface(1100, 480, true);
+    const panel = uiPanel(1100, 480, 'dark');
     panel.position.set(410, 280);
     this.addChild(panel);
     const bt = new Text({ text: body, style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text, wordWrap: true, wordWrapWidth: 1020, lineHeight: 40, breakWords: true } });
@@ -73,7 +72,7 @@ export class RunEndScene extends Scene {
     await assets.load(K.bg('battle_4'));
     G.setBackdrop(assets.get(K.bg('battle_4')));
     audio.playMusic('map4');
-    this.addChild(new Graphics().rect(0, 0, 1920, 1080).fill({ color: 0, alpha: 0.55 }));
+    this.addChild(dim(1920, 1080, 0.6));
     const t = title('命 书 合 上 之 前', 90);
     t.anchor.set(0.5); t.position.set(960, 260);
     const body = new Text({ text: '司命的笔落在你手里。书页深处，有什么东西在等你——它有你的脸，也有你的执念。\n\n合上命书，就此改命；或者，直视那无名之物。', style: { fontFamily: FONT_BODY, fontSize: 28, fill: C.text, wordWrap: true, wordWrapWidth: 1100, align: 'center', lineHeight: 46, breakWords: true } });

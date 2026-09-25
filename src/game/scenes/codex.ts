@@ -1,6 +1,6 @@
 /** 图鉴 (UI研究笔记 §14.7): cards, enemies, relics, commanders, fate, world, rules, run history. */
-import { Container, Graphics, Sprite, Text } from 'pixi.js';
-import { panelSurface } from '../ui/skin';
+import { Container, Sprite, Text } from 'pixi.js';
+import { panel as uiPanel, maskRect, uiSprite } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { content } from '../../engine/content';
@@ -8,7 +8,7 @@ import { Button, Modal, Tooltip, hideTip, showTip, title, toast } from '../ui/wi
 import { C, FONT_BODY, FONT_TITLE, factionColor } from '../ui/theme';
 import { CardView } from '../ui/card';
 import { ScrollBox } from '../ui/scroll';
-import { iconSprite, drawPanel } from '../ui/draw';
+import { iconSprite } from '../ui/draw';
 import { inspectCard, sortCards } from '../ui/hud';
 import { session } from '../state';
 import { COLOR_INFO, SUIT_INFO } from '../../engine/glossary';
@@ -90,10 +90,9 @@ class CodexPanel extends Container {
           const known = d.enemies.has(e.id);
           const c = new Container();
           c.position.set(20 + (i % per) * 200, 10 + Math.floor(i / per) * 240);
-          const bg = new Graphics();
-          drawPanel(bg, 184, 224, { r: 12, border: e.tier === 'boss' ? 0xff7a5a : e.tier === 'elite' ? 0xe0a050 : C.goldDark });
+          const bg = uiPanel(184, 224, 'tile');
           c.addChild(bg);
-          const m = new Graphics().roundRect(6, 6, 172, 172, 10).fill(0xffffff);
+          const m = maskRect(6, 6, 172, 172, 10);
           assets.with(K.enemy(e.id, e.tier === 'boss'), (t) => { const s = new Sprite(t); const k = Math.min(170 / t.height, 170 / t.width); s.scale.set(k); s.anchor.set(0.5, 1); s.position.set(92, 178); c.addChild(m); s.mask = m; if (!known) { s.tint = 0; s.alpha = 0.6; } c.addChildAt(s, 1); });
           const n = new Text({ text: known ? e.name : '？？？', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: C.text } });
           n.anchor.set(0.5); n.position.set(92, 200);
@@ -113,7 +112,7 @@ class CodexPanel extends Container {
           const known = d.relics.has(r.id);
           const c = new Container();
           c.position.set(60 + (i % per) * 110, 60 + Math.floor(i / per) * 110);
-          const bg = new Graphics().circle(0, 0, 46).fill({ color: 0x0d0907, alpha: 0.7 }).stroke({ width: 2, color: r.tier === 'boss' ? 0xff7a5a : C.goldDark });
+          const bg = uiSprite(r.tier === 'boss' ? 'skill_disc_active' : 'skill_disc', 96, 96);
           c.addChild(bg);
           c.addChild(iconSprite('ui_relic', 60, '遗', C.gold));
           assets.with(K.relic(r.id), (t) => { const s = new Sprite(t); s.anchor.set(0.5); s.scale.set(76 / Math.max(t.width, t.height)); if (!known) { s.tint = 0; s.alpha = 0.5; } c.removeChildAt(1); c.addChild(s); });
@@ -189,8 +188,7 @@ class CodexPanel extends Container {
           const cm = content().commanders.get(h.commander);
           const row = new Container();
           row.position.set(20, 10 + i * 70);
-          const bg = new Graphics();
-          drawPanel(bg, this.w - 60, 60, { r: 8, alpha: 0.7, inner: false });
+          const bg = uiPanel(this.w - 60, 60, 'row');
           row.addChild(bg);
           const res = h.result === 'win' ? '通关' : h.result === 'abandon' ? '放弃' : '败北';
           const t = new Text({ text: `${new Date(h.date).toLocaleString('zh-CN')}　${cm?.name ?? h.commander}　逆命${h.ascension}　${res}　第${h.act}幕第${h.floor}层　命数+${h.score}　种子 ${h.seed}`, style: { fontFamily: FONT_BODY, fontSize: 20, fill: h.result === 'win' ? 0x9adfa8 : C.text } });
@@ -218,7 +216,7 @@ export class CodexScene extends Scene {
     t.anchor.set(0.5, 0); t.position.set(960, 14);
     const back = new Button('← 返回', { width: 150, height: 56, fontSize: 22, kind: 'ghost', onClick: () => void import('./title').then((m) => G.go(new m.TitleScene())) });
     back.position.set(24, 20);
-    const bg = panelSurface(1860, 960, true);
+    const bg = uiPanel(1860, 960, 'dark');
     bg.position.set(30, 100);
     const panel = new CodexPanel(1820, 920);
     panel.position.set(50, 120);

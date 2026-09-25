@@ -1,6 +1,10 @@
 /** Thin client for the OpenAI-compatible image API. Build-time only: reads the key from .env, never bundled. */
 import fs from 'node:fs';
 import 'dotenv/config';
+import { Agent, setGlobalDispatcher } from 'undici';
+
+// image generation can take >5 min under load; Node's default fetch aborts headers at 300 s
+setGlobalDispatcher(new Agent({ headersTimeout: 20 * 60_000, bodyTimeout: 20 * 60_000, connectTimeout: 60_000 }));
 
 const BASE = process.env.ASSET_GEN_BASE_URL ?? 'https://hjmai.yby.zone/v1';
 const KEY = process.env.ASSET_GEN_API_KEY;
@@ -27,7 +31,7 @@ export async function generate(o: GenOpts): Promise<Buffer> {
 
 async function generateOnce(o: GenOpts): Promise<Buffer> {
   need();
-  const timeout = AbortSignal.timeout(480_000);
+  const timeout = AbortSignal.timeout(20 * 60_000);
   let res: Response;
   if (o.ref) {
     const fd = new FormData();

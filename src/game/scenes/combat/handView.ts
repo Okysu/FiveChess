@@ -1,5 +1,6 @@
 /** Fanned hand with static hit zones and neighbor make-room (UI研究笔记 §2.3). */
-import { Container, Graphics, type FederatedPointerEvent } from 'pixi.js';
+import { Container, type FederatedPointerEvent } from 'pixi.js';
+import { hitRect } from '../../ui/skin';
 import type { CardInst } from '../../../engine/combat/state';
 import { CardView, type CardLive } from '../../ui/card';
 import { tweens, ease } from '../../core/tween';
@@ -15,7 +16,7 @@ export class HandView extends Container {
   dimmed = false;
   sunk = 0;
   hoverScale = HAND.hoverScale;
-  private hit = new Graphics();
+  private hit = hitRect(HAND.x0 - 40, 800, HAND.x1 - HAND.x0 + 80, 280);
   private graceTimer = 0;
   private pendingHover: CardView | null = null;
   onHover?: (v: CardView | null) => void;
@@ -26,8 +27,6 @@ export class HandView extends Container {
 
   constructor() {
     super();
-    this.hit.rect(HAND.x0 - 40, 800, HAND.x1 - HAND.x0 + 80, 280).fill({ color: 0x000000, alpha: 0.001 });
-    this.hit.eventMode = 'static';
     this.addChild(this.hit);
     this.hit.on('pointermove', (e) => this.pointerAt(e.global));
     this.hit.on('pointerout', () => this.setHover(null));

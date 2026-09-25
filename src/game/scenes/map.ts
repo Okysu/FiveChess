@@ -1,13 +1,13 @@
 /** 地图 (UI研究笔记 §14.2): horizontal scroll, ink paths, node semantics, act intro. */
-import { Container, Graphics, Sprite, Text } from 'pixi.js';
-import { panelSurface } from '../ui/skin';
+import { Container, Sprite, Text } from 'pixi.js';
+import { panel as uiPanel, dim as dimLayer, hitRect, uiSprite, ring as ringSprite, frame as frameSprite, maskRect } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { TopBar, actName } from '../ui/hud';
 import { Button, Modal, Tooltip, hideTip, label, showTip, title, toast } from '../ui/widgets';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
 import { ScrollBox } from '../ui/scroll';
-import { iconSprite, drawPanel } from '../ui/draw';
+import { iconSprite } from '../ui/draw';
 import { availableNodes, bossNode, type MapNode, type NodeType } from '../../engine/run/run';
 import { content } from '../../engine/content';
 import { session } from '../state';
@@ -37,7 +37,7 @@ const Y0 = 190;
 export class MapScene extends Scene {
   private top!: TopBar;
   private scroll!: ScrollBox;
-  private pulse: { g: Graphics; t: number }[] = [];
+  private pulse: { g: Container; t: number }[] = [];
   private parts = new Particles();
   private acc = 0;
   private spawn?: () => void;
@@ -78,7 +78,7 @@ export class MapScene extends Scene {
     const r = session.run!;
     const c = this.scroll.content;
     c.removeChildren();
-    const paths = new Graphics();
+    const paths = new Container();
     c.addChild(paths);
     const visited = new Set(r.history.filter((h) => h.act === r.act).map((h) => h.row));
     const onPath = (n: MapNode) => r.history.some((h) => h.act === r.act && h.row === n.row && h.col === n.col);
@@ -107,17 +107,15 @@ export class MapScene extends Scene {
       node.position.set(p.x, p.y);
       const done = onPath(n);
       const avl = isAvail(n);
-      const disk = new Graphics().circle(0, 0, 38).fill({ color: 0xf3e6c8, alpha: done ? 0.95 : 0.8 }).stroke({ width: 2, color: 0x3a2a1a, alpha: 0.7 });
-      node.addChild(disk);
       const ic = iconSprite(`node_${n.type}`, 64, info.glyph, info.tint);
       node.addChild(ic);
       if (done) {
-        const stamp = new Graphics().circle(0, 0, 44).stroke({ width: 4, color: C.cinnabar, alpha: 0.85 });
+        const stamp = uiSprite('stamp_visited', 96, 96, { alpha: 0.9 });
         node.addChild(stamp);
         ic.alpha = 0.6;
       }
       if (avl) {
-        const ring = new Graphics().circle(0, 0, 50).stroke({ width: 4, color: 0xf0c050 });
+        const ring = ringSprite('gold', 104);
         node.addChildAt(ring, 0);
         this.pulse.push({ g: ring, t: Math.random() * 1000 });
         node.eventMode = 'static';
@@ -147,10 +145,10 @@ export class MapScene extends Scene {
       const by = r.act === 4 ? 520 : bp!.y;
       const b = new Container();
       b.position.set(bx, by);
-      const frame = panelSurface(260, 330, true);
+      const frame = uiPanel(260, 330, 'dark');
       frame.position.set(-130, -165);
       b.addChild(frame);
-      const m = new Graphics().roundRect(-122, -157, 244, 280, 12).fill(0xffffff);
+      const m = maskRect(-122, -157, 244, 280, 12);
       assets.with(K.enemy(bossEnemy.id, true), (t) => {
         const s = new Sprite(t);
         const k = 300 / t.height;
@@ -167,7 +165,8 @@ export class MapScene extends Scene {
       b.addChild(nm);
       const avl = availableNodes(r).some((n) => n.type === 'boss');
       if (avl) {
-        const ring = new Graphics().roundRect(-140, -175, 280, 350, 20).stroke({ width: 5, color: 0xff6a3a });
+        const ring = frameSprite('red', 260, 330, 12);
+        ring.position.set(-142, -177);
         b.addChildAt(ring, 0);
         this.pulse.push({ g: ring, t: 0 });
         b.eventMode = 'static';
@@ -192,7 +191,7 @@ export class MapScene extends Scene {
 
   private legend(): Container {
     const c = new Container();
-    const bg = panelSurface(224, 240, true);
+    const bg = uiPanel(224, 240, 'dark');
     c.addChild(bg);
     const types: NodeType[] = ['combat', 'elite', 'event', 'shop', 'camp', 'chest', 'recruit', 'stargaze'];
     types.forEach((t, i) => {
@@ -210,7 +209,8 @@ export class MapScene extends Scene {
     const r = session.run!;
     const a = (intro as { acts: Record<string, { title: string; subtitle: string; text: string }> }).acts[String(r.act)];
     const overlay = new Container();
-    const dim = new Graphics().rect(0, 0, 1920, 1080).fill({ color: 0x000000, alpha: 0.82 });
+    const dim = new Container();
+    dim.addChild(dimLayer(1920, 1080, 0.85), hitRect(0, 0, 1920, 1080));
     dim.eventMode = 'static';
     overlay.addChild(dim);
     const t = title(a?.title ?? `第${r.act}幕`, 96);
@@ -266,15 +266,16 @@ function pathTaken(r: NonNullable<typeof session.run>, a: MapNode, b: MapNode): 
   return hs.some((h) => h.row === a.row && h.col === a.col) && hs.some((h) => h.row === b.row && h.col === b.col);
 }
 
-function dashed(g: Graphics, x1: number, y1: number, x2: number, y2: number, w: number, color: number, alpha: number, dash: boolean) {
-  if (!dash) { g.moveTo(x1, y1).lineTo(x2, y2).stroke({ width: w, color, alpha, cap: 'round' }); return; }
+function dashed(layer: Container, x1: number, y1: number, x2: number, y2: number, w: number, _color: number, alpha: number, dash: boolean) {
   const len = Math.hypot(x2 - x1, y2 - y1);
-  const n = Math.floor(len / 18);
-  for (let i = 0; i < n; i += 2) {
-    const a = i / n, b = Math.min(1, (i + 1) / n);
-    g.moveTo(x1 + (x2 - x1) * a, y1 + (y2 - y1) * a).lineTo(x1 + (x2 - x1) * b, y1 + (y2 - y1) * b);
+  const step = dash ? 22 : 11;
+  const n = Math.max(1, Math.floor(len / step));
+  for (let i = 1; i < n; i++) {
+    const k = i / n;
+    const d = uiSprite(dash ? 'path_dot' : 'path_dot_red', w * 2.4, w * 2.4, { alpha });
+    d.position.set(x1 + (x2 - x1) * k, y1 + (y2 - y1) * k);
+    layer.addChild(d);
   }
-  g.stroke({ width: w, color, alpha, cap: 'round' });
 }
 
 function previewText(id: string): string {

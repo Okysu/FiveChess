@@ -1,6 +1,6 @@
 /** 招贤 (UI研究笔记 §14.9): three lieutenant cards, or a small boon if one is already recruited. */
-import { Container, Graphics, Sprite, Text } from 'pixi.js';
-import { panelSurface } from '../ui/skin';
+import { Container, Sprite, Text } from 'pixi.js';
+import { panel as uiPanel, maskRect } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act } from '../router';
@@ -8,7 +8,6 @@ import { content } from '../../engine/content';
 import { COLOR_INFO } from '../../engine/glossary';
 import { Button, Tooltip, glossLines, hideTip, showTip } from '../ui/widgets';
 import { C, FONT_BODY, FONT_TITLE, factionColor } from '../ui/theme';
-import { drawPanel } from '../ui/draw';
 import { assets, K } from '../assets';
 import { tweens } from '../core/tween';
 import { richTexture } from '../ui/richtext';
@@ -37,9 +36,9 @@ export class RecruitScene extends RunScreen {
       const lt = content().lieutenants.get(id)!;
       const c = new Container();
       c.position.set(960 + (i - 1) * 420 - 180, 250);
-      const bg = panelSurface(360, 640, true);
+      const bg = uiPanel(360, 640, 'dark');
       c.addChild(bg);
-      const m = new Graphics().roundRect(10, 10, 340, 300, 12).fill(0xffffff);
+      const m = maskRect(10, 10, 340, 300, 12);
       const tex = assets.get(K.hero(id));
       if (tex) { c.addChild(m); const s = new Sprite(tex); const k = 420 / tex.height; s.scale.set(k); s.anchor.set(0.5, 0); s.position.set(180, 6); s.mask = m; c.addChild(s); }
       const nm = new Text({ text: `${lt.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 42, fill: C.goldLight, stroke: { color: 0, width: 5 } } });

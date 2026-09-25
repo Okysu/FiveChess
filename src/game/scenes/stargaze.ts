@@ -1,6 +1,6 @@
 /** 观星台: edit the run's fate deck (remove / copy / change suit) or preview the road ahead. */
-import { Container, Graphics, Text } from 'pixi.js';
-import { panelSurface } from '../ui/skin';
+import { Container, Text } from 'pixi.js';
+import { panel as uiPanel, frame, dim, hitRect } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act } from '../router';
@@ -8,7 +8,6 @@ import { SUITS, type Suit } from '../../engine/defs';
 import { SUIT_INFO } from '../../engine/glossary';
 import { Button, toast, label } from '../ui/widgets';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
-import { drawPanel } from '../ui/draw';
 import { FateCardView } from './combat/fateView';
 import { sfx } from '../audio/audio';
 import { content } from '../../engine/content';
@@ -24,7 +23,7 @@ export class StargazeScene extends RunScreen {
     await this.setup({ bg: 'stargaze', music: 'map3', heading: sc.mode ? '「 改 写 天 命 」' : '「 观 星 台 」', dim: 0.4 });
     if (sc.done) {
       if (sc.preview?.length) {
-        const bg = panelSurface(900, 120 + sc.preview.length * 50, true);
+        const bg = uiPanel(900, 120 + sc.preview.length * 50, 'dark');
         bg.position.set(510, 260);
         this.addChild(bg);
         sc.preview.forEach((p, i) => {
@@ -76,7 +75,7 @@ export class StargazeScene extends RunScreen {
       v.position.set(170 + (k % perRow) * 118, 400 + Math.floor(k / perRow) * 118);
       v.eventMode = 'static';
       v.cursor = 'pointer';
-      if (this.sel === i) { const g = new Graphics().roundRect(-66, -90, 132, 180, 12).stroke({ width: 6, color: 0xffd46a }); v.addChild(g); }
+      if (this.sel === i) { const g = frame('gold', 120, 168, 8); g.position.set(-68, -92); v.addChild(g); }
       v.on('pointertap', () => { this.sel = i; sfx('click'); this.drawGrid(); });
       this.grid.addChild(v);
     });
@@ -87,7 +86,8 @@ export class StargazeScene extends RunScreen {
     if (op === 'change') {
       const cur = session.run!.fateDeck[this.sel!]!;
       const pick = new Container();
-      const bg = new Graphics().rect(0, 0, 1920, 1080).fill({ color: 0, alpha: 0.6 });
+      const bg = new Container();
+      bg.addChild(dim(1920, 1080, 0.65), hitRect(0, 0, 1920, 1080));
       bg.eventMode = 'static';
       bg.on('pointertap', () => pick.destroy({ children: true }));
       pick.addChild(bg);
