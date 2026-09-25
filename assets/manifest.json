@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-25T12:28:55.642Z",
+ "generated": "2026-09-25T13:28:18.268Z",
  "assets": [
   {
    "id": "battle_1",
@@ -697,10 +697,10 @@
    "source_type": "ai_generated",
    "source": "gpt-image-2 via hjmai.yby.zone (project key)",
    "license": "Generated for this project; no third-party material",
-   "prompt": "An aged dark scroll texture seen from above, faint golden light-trails flowing across black ink, large calm empty areas, vignette. Made as a Chinese woodblock print in the traditional New Year print (nianhua) style: bold carved black outlines of even weight, flat saturated mineral colors (vermilion, malachite green, azurite blue, ochre, lamp black, paper white), visible rice-paper grain, slight color misregistration between print layers, decorative flat composition with patterned clouds, flames and waves, no shading gradients, no airbrush, no 3D rendering, no photorealism, no Western fantasy armor or architecture — Chinese costume and motifs only. Absolutely no text, no letters, no numbers, no calligraphy, no seals, no watermark, no signature.",
+   "prompt": "An aged dark scroll texture seen from above, faint golden light-trails flowing across black ink, large calm empty areas, vignette. No people, no deities, no figures, no creatures. Made as a Chinese woodblock print in the traditional New Year print (nianhua) style: bold carved black outlines of even weight, flat saturated mineral colors (vermilion, malachite green, azurite blue, ochre, lamp black, paper white), visible rice-paper grain, slight color misregistration between print layers, decorative flat composition with patterned clouds, flames and waves, no shading gradients, no airbrush, no 3D rendering, no photorealism, no Western fantasy armor or architecture — Chinese costume and motifs only. Absolutely no text, no letters, no numbers, no calligraphy, no seals, no watermark, no signature.",
    "reference": "art-src/style_refs/wb_background.png",
    "postprocess": "resized≤1920px, webp",
-   "hash": "67abcc9719b4",
+   "hash": "d8dca245186f",
    "qa": "ok"
   },
   {
@@ -1072,7 +1072,7 @@
    "path": "cards/B/b_cold_glare.webp",
    "category": "card",
    "source_type": "ai_generated",
-   "source": "gpt-image-2.5-flare via hjmai.yby.zone (project key)",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
    "license": "Generated for this project; no third-party material",
    "prompt": "a close-up of a woman's icy pale eyes beneath a dark hood, frost forming on her lashes, reflected in her pupils a hesitant warrior lowering his blade Dominant pigments: azurite blue and lamp black with paper white; patterned waves, frost and mountains. Full-bleed square composition, main subject centered slightly above the middle, the lower third kept simple, decorative patterned background. Made as a Chinese woodblock print in the traditional New Year print (nianhua) style: bold carved black outlines of even weight, flat saturated mineral colors (vermilion, malachite green, azurite blue, ochre, lamp black, paper white), visible rice-paper grain, slight color misregistration between print layers, decorative flat composition with patterned clouds, flames and waves, no shading gradients, no airbrush, no 3D rendering, no photorealism, no Western fantasy armor or architecture — Chinese costume and motifs only. Absolutely no text, no letters, no numbers, no calligraphy, no seals, no watermark, no signature.",
    "reference": "art-src/style_refs/wb_card.png",
