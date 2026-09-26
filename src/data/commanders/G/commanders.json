@@ -4,7 +4,7 @@
     "name": "青姒",
     "title": "万木灵母",
     "faction": "G",
-    "hp": 76,
+    "hp": 70,
     "sources": ["G", "G", "N"],
     "deck": [
       "g_basic_strike", "g_basic_strike", "g_basic_strike", "g_basic_strike",
@@ -17,8 +17,11 @@
         "id": "g_qingsi_p",
         "name": "万灵归心",
         "type": "passive",
-        "text": "战斗开始时，召唤1个「灵苗」。你拥有至少4个友方单位时，所有友方单位+1攻击。",
-        "triggers": [{ "on": "combatStart", "effects": [{ "op": "summon", "unit": "tk_g_sprout" }] }],
+        "text": "战斗开始时，召唤1个「灵苗」。你拥有至少4个友方单位时，所有友方单位+1攻击。战斗结束时，每有1个存活的友方单位，恢复1点生命（至多3点）。",
+        "triggers": [
+          { "on": "combatStart", "effects": [{ "op": "summon", "unit": "tk_g_sprout" }] },
+          { "on": "combatEnd", "effects": [{ "op": "heal", "amount": { "min": [{ "count": "units", "side": "friendly" }, 3] }, "target": "commander" }] }
+        ],
         "modifiers": [{ "stat": "atk", "amount": 1, "who": "friendlyUnits", "if": { "gte": [{ "count": "units", "side": "friendly" }, 4] } }]
       },
       {

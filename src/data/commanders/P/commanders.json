@@ -4,7 +4,7 @@
     "name": "夜昙",
     "title": "影罗刹",
     "faction": "P",
-    "hp": 70,
+    "hp": 74,
     "sources": ["P", "P", "N"],
     "deck": [
       "p_basic_strike", "p_basic_strike", "p_basic_strike", "p_basic_strike",
@@ -17,11 +17,11 @@
         "id": "sk_p_yetan_shadow",
         "name": "昙影",
         "type": "passive",
-        "text": "每回合你打出第3张牌后，对一名随机敌人施加3层[中毒]。",
+        "text": "每回合你打出第3张牌后，对一名随机敌人施加4层[中毒]。",
         "triggers": [{
           "on": "cardPlayed",
           "if": { "eq": [{ "count": "cardsPlayed" }, 3] },
-          "effects": [{ "op": "status", "status": "poison", "amount": 3, "target": "randomEnemy" }]
+          "effects": [{ "op": "status", "status": "poison", "amount": 4, "target": "randomEnemy" }]
         }]
       },
       {
@@ -43,7 +43,7 @@
     "name": "柳絮",
     "title": "千面客",
     "faction": "P",
-    "hp": 74,
+    "hp": 82,
     "sources": ["P", "P", "N"],
     "deck": [
       "p_basic_strike", "p_basic_strike", "p_basic_strike", "p_basic_strike",
@@ -67,8 +67,8 @@
         "id": "sk_p_liuxu_facechange",
         "name": "换面",
         "type": "active",
-        "text": "每回合一次，支付1：弃置1张牌，然后从3张随机幽弈坊牌中选择1张加入手牌。",
-        "cost": { "g": 1 },
+        "text": "每回合一次：弃置1张牌，然后从3张随机幽弈坊牌中选择1张加入手牌。",
+        "cost": { "g": 0 },
         "target": "none",
         "effects": [
           { "op": "discard", "n": 1, "mode": "choose" },

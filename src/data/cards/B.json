@@ -562,11 +562,14 @@
   {
     "id": "tk_b_echo", "name": "余音", "faction": "B", "type": "response", "rarity": "token", "pool": false,
     "cost": { "g": 0 },
-    "text": "[浮光]。[应]：获得{a}点[护甲]。",
-    "vars": { "a": 3 }, "varKinds": { "a": "armor" },
+    "text": "[浮光]。[应]：获得{a}点[护甲]；若在应对中打出，对宣告行动的敌人造成{d}点伤害。",
+    "vars": { "a": 3, "d": 3 }, "varKinds": { "a": "armor", "d": "damage" },
     "keywords": ["response", "ethereal"],
-    "effects": [ { "op": "armor", "amount": "$a", "target": "commander" } ],
-    "upgrade": { "vars": { "a": 5 } },
+    "effects": [
+      { "op": "armor", "amount": "$a", "target": "commander" },
+      { "op": "if", "cond": { "inWindow": true }, "then": [ { "op": "damage", "amount": "$d", "target": "declaredActor" } ] }
+    ],
+    "upgrade": { "vars": { "a": 5, "d": 4 } },
     "flavor": "弦已停，音未绝。",
     "art": { "subject": "a faint shimmering ripple of sound lingering in cold air above a zither string, forming a thin translucent shield shape, minimal composition" }
   },

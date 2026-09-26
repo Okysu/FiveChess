@@ -601,7 +601,7 @@ describe('trigger timing', () => {
   it('combat-start armor survives into the first player turn (rl_start_shiyun)', () => {
     const sc = sandbox('t:shiyun', ['rl_start_shiyun']);
     expect(sc.s.turn).toBe(1);
-    expect(armorOf(sc.s, 'player')).toBeGreaterThanOrEqual(6);
+    expect(armorOf(sc.s, 'player')).toBeGreaterThanOrEqual(3);
   });
 
   it('turn-end armor (b_tortoise_mount) is still up during the enemy turn', () => {

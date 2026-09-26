@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-25T18:45:35.199Z",
+ "generated": "2026-09-26T07:35:41.967Z",
  "cards": [
   {
    "id": "b_armor_smith",
@@ -1109,6 +1109,61 @@
    "flavor": "山门三百年未曾开过，也未曾破过。",
    "art": {
     "subject": "a colossal stone gate carved into a cliff face with two guardian reliefs, heavy doors shut, snow on the lintel, tiny figures on the steps for scale"
+   }
+  },
+  {
+   "id": "b_mountain_maul",
+   "name": "镇岳锤",
+   "faction": "B",
+   "type": "equip",
+   "rarity": "rare",
+   "cost": {
+    "g": 2,
+    "c": [
+     "B"
+    ]
+   },
+   "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅每次攻击后，获得{a}点[护甲]。",
+   "vars": {
+    "w": 2,
+    "r": 1,
+    "u": 4,
+    "a": 3
+   },
+   "varKinds": {
+    "w": "attack",
+    "a": "armor"
+   },
+   "equip": {
+    "slot": "weapon",
+    "atk": 2,
+    "range": 1,
+    "durability": 4,
+    "triggers": [
+     {
+      "on": "attacking",
+      "effects": [
+       {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "w": 3,
+     "a": 4
+    },
+    "equip": {
+     "atk": 3
+    }
+   },
+   "flavor": "锤头是一块山骨，落下去的时候，脚下的地也跟着沉一寸。",
+   "art": {
+    "subject": "a massive stone-headed war maul carved with mountain ridges, its dark iron haft wrapped in blue cord, planted head-down on cracked rock with dust rising"
    }
   },
   {
@@ -2247,12 +2302,14 @@
    "cost": {
     "g": 0
    },
-   "text": "[浮光]。[应]：获得{a}点[护甲]。",
+   "text": "[浮光]。[应]：获得{a}点[护甲]；若在应对中打出，对宣告行动的敌人造成{d}点伤害。",
    "vars": {
-    "a": 3
+    "a": 3,
+    "d": 3
    },
    "varKinds": {
-    "a": "armor"
+    "a": "armor",
+    "d": "damage"
    },
    "keywords": [
     "response",
@@ -2263,11 +2320,25 @@
      "op": "armor",
      "amount": "$a",
      "target": "commander"
+    },
+    {
+     "op": "if",
+     "cond": {
+      "inWindow": true
+     },
+     "then": [
+      {
+       "op": "damage",
+       "amount": "$d",
+       "target": "declaredActor"
+      }
+     ]
     }
    ],
    "upgrade": {
     "vars": {
-     "a": 5
+     "a": 5,
+     "d": 4
     }
    },
    "flavor": "弦已停，音未绝。",
@@ -8832,6 +8903,45 @@
    }
   },
   {
+   "id": "n_iron_spear",
+   "name": "铁脊长枪",
+   "faction": "N",
+   "type": "equip",
+   "rarity": "common",
+   "cost": {
+    "g": 1
+   },
+   "text": "武器：攻击力{w}，距离{r}，耐久{u}。",
+   "vars": {
+    "w": 2,
+    "r": 1,
+    "u": 3
+   },
+   "varKinds": {
+    "w": "attack"
+   },
+   "equip": {
+    "slot": "weapon",
+    "atk": 2,
+    "range": 1,
+    "durability": 3
+   },
+   "upgrade": {
+    "vars": {
+     "w": 3,
+     "u": 4
+    },
+    "equip": {
+     "atk": 3,
+     "durability": 4
+    }
+   },
+   "flavor": "驿站墙上挂着的那种枪，谁路过谁拿走，谁回来谁挂上。",
+   "art": {
+    "subject": "a plain iron-spined spear with a red tassel leaning against the wooden wall of a roadside post station, a straw hat hanging beside it"
+   }
+  },
+  {
    "id": "n_leech_shaman",
    "name": "蛭巫",
    "faction": "N",
@@ -11840,11 +11950,15 @@
    "cost": {
     "g": 1
    },
-   "text": "你的主帅以此武器攻击时，对目标施加{p}层[中毒]。",
+   "text": "武器：攻击力{w}，距离{r}，耐久{u}。你的主帅以此武器攻击时，对目标施加{p}层[中毒]。",
    "vars": {
+    "w": 2,
+    "r": 1,
+    "u": 3,
     "p": 2
    },
    "varKinds": {
+    "w": "attack",
     "p": "poison"
    },
    "equip": {
@@ -11869,7 +11983,8 @@
    "upgrade": {
     "qualitative": true,
     "vars": {
-     "p": 3
+     "p": 3,
+     "r": 2
     },
     "equip": {
      "range": 2
@@ -14545,7 +14660,7 @@
    "vars": {
     "w": 3,
     "r": 1,
-    "u": 4
+    "u": 6
    },
    "varKinds": {
     "w": "attack"
@@ -14554,7 +14669,7 @@
     "slot": "weapon",
     "atk": 3,
     "range": 1,
-    "durability": 4
+    "durability": 6
    },
    "upgrade": {
     "vars": {
@@ -15624,6 +15739,57 @@
    "flavor": "“天命？我替天子读了四十年天命。它每一次都在等我点头。”",
    "art": {
     "subject": "an imposing elderly grand diviner in layered gold and black court robes, seated before a floating ring of fortune slips, one hand raised as lightning gathers above"
+   }
+  },
+  {
+   "id": "y_gua_ruler",
+   "name": "量天卦尺",
+   "faction": "Y",
+   "type": "equip",
+   "rarity": "common",
+   "cost": {
+    "g": 1
+   },
+   "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅每次攻击后，[观星]{s}。",
+   "vars": {
+    "w": 2,
+    "r": 2,
+    "u": 3,
+    "s": 1
+   },
+   "varKinds": {
+    "w": "attack",
+    "s": "other"
+   },
+   "equip": {
+    "slot": "weapon",
+    "atk": 2,
+    "range": 2,
+    "durability": 3,
+    "triggers": [
+     {
+      "on": "attacking",
+      "effects": [
+       {
+        "op": "stargaze",
+        "n": "$s"
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "s": 2,
+     "u": 4
+    },
+    "equip": {
+     "durability": 4
+    }
+   },
+   "flavor": "尺上刻的不是寸，是卦；量得出天有多高，也敲得碎人的额头。",
+   "art": {
+    "subject": "a long bronze divination ruler engraved with trigram marks and star charts, glowing faintly gold, held edge-on like a blade against a night sky full of constellations"
    }
   },
   {
@@ -19000,7 +19166,7 @@
    "name": "断焰刀鞘",
    "tier": "starter",
    "faction": "R",
-   "text": "战斗开始时，装备一把断焰刀（攻击力3，距离1，耐久4）。",
+   "text": "战斗开始时，装备一把断焰刀（攻击力3，距离1，耐久6）。",
    "flavor": "刀断了，鞘还留着那一截的形状。",
    "triggers": [
     {
@@ -19104,7 +19270,7 @@
    "name": "山君石心",
    "tier": "starter",
    "faction": "B",
-   "text": "战斗开始时，获得6点[护甲]。",
+   "text": "战斗开始时，获得3点[护甲]。",
    "flavor": "从护山大阵阵眼里取出的一块石头，摸上去是温的。",
    "triggers": [
     {
@@ -19112,7 +19278,7 @@
      "effects": [
       {
        "op": "armor",
-       "amount": 6,
+       "amount": 3,
        "target": "commander"
       }
      ]
@@ -33913,7 +34079,7 @@
    "name": "石韫",
    "title": "镇岳山君",
    "faction": "B",
-   "hp": 72,
+   "hp": 68,
    "sources": [
     "B",
     "B",
@@ -33937,7 +34103,7 @@
      "id": "b_shiyun_p",
      "name": "岳镇",
      "type": "passive",
-     "text": "我方回合开始时进行[判定]，决定上回合剩余[护甲]的去留：点数1–6 全部消散；7–10 保留一半；11–13 或{mountain}山纹 全部保留（每回合至多保留8点）。",
+     "text": "我方回合开始时进行[判定]，决定上回合剩余[护甲]的去留：点数1–6 全部消散；7–10 保留一半；11–13 或{mountain}山纹 全部保留（每回合至多保留5点）。",
      "triggers": [
       {
        "on": "turnStart",
@@ -33951,7 +34117,7 @@
             "op": "restoreArmor",
             "fraction": 1,
             "target": "commander",
-            "max": 8
+            "max": 5
            }
           ],
           "ranks": [
@@ -33963,7 +34129,7 @@
               "op": "restoreArmor",
               "fraction": 1,
               "target": "commander",
-              "max": 8
+              "max": 5
              }
             ]
            },
@@ -33975,7 +34141,7 @@
               "op": "restoreArmor",
               "fraction": 0.5,
               "target": "commander",
-              "max": 8
+              "max": 5
              }
             ]
            }
@@ -34024,7 +34190,7 @@
    "name": "素弦",
    "title": "寒川琴师",
    "faction": "B",
-   "hp": 70,
+   "hp": 76,
    "sources": [
     "B",
     "B",
@@ -34074,7 +34240,7 @@
      "id": "b_suxian_a",
      "name": "曲终",
      "type": "awaken",
-     "text": "觉醒：本场战斗你在应对中打出第4张牌时，对所有敌人施加1层[冰冻]，并将此技能变为「寒川一曲」。",
+     "text": "觉醒：本场战斗你在应对中打出第3张牌时，对所有敌人施加1层[冰冻]，并将此技能变为「寒川一曲」。",
      "awaken": {
       "on": "responsePlayed",
       "if": {
@@ -34082,7 +34248,7 @@
         {
          "count": "responsesThisCombat"
         },
-        4
+        3
        ]
       },
       "effects": [
@@ -34137,7 +34303,7 @@
    "name": "青姒",
    "title": "万木灵母",
    "faction": "G",
-   "hp": 76,
+   "hp": 70,
    "sources": [
     "G",
     "G",
@@ -34162,7 +34328,7 @@
      "id": "g_qingsi_p",
      "name": "万灵归心",
      "type": "passive",
-     "text": "战斗开始时，召唤1个「灵苗」。你拥有至少4个友方单位时，所有友方单位+1攻击。",
+     "text": "战斗开始时，召唤1个「灵苗」。你拥有至少4个友方单位时，所有友方单位+1攻击。战斗结束时，每有1个存活的友方单位，恢复1点生命（至多3点）。",
      "triggers": [
       {
        "on": "combatStart",
@@ -34170,6 +34336,24 @@
         {
          "op": "summon",
          "unit": "tk_g_sprout"
+        }
+       ]
+      },
+      {
+       "on": "combatEnd",
+       "effects": [
+        {
+         "op": "heal",
+         "amount": {
+          "min": [
+           {
+            "count": "units",
+            "side": "friendly"
+           },
+           3
+          ]
+         },
+         "target": "commander"
         }
        ]
       }
@@ -34336,7 +34520,7 @@
    "name": "夜昙",
    "title": "影罗刹",
    "faction": "P",
-   "hp": 70,
+   "hp": 74,
    "sources": [
     "P",
     "P",
@@ -34361,7 +34545,7 @@
      "id": "sk_p_yetan_shadow",
      "name": "昙影",
      "type": "passive",
-     "text": "每回合你打出第3张牌后，对一名随机敌人施加3层[中毒]。",
+     "text": "每回合你打出第3张牌后，对一名随机敌人施加4层[中毒]。",
      "triggers": [
       {
        "on": "cardPlayed",
@@ -34377,7 +34561,7 @@
         {
          "op": "status",
          "status": "poison",
-         "amount": 3,
+         "amount": 4,
          "target": "randomEnemy"
         }
        ]
@@ -34420,7 +34604,7 @@
    "name": "柳絮",
    "title": "千面客",
    "faction": "P",
-   "hp": 74,
+   "hp": 82,
    "sources": [
     "P",
     "P",
@@ -34464,9 +34648,9 @@
      "id": "sk_p_liuxu_facechange",
      "name": "换面",
      "type": "active",
-     "text": "每回合一次，支付1：弃置1张牌，然后从3张随机幽弈坊牌中选择1张加入手牌。",
+     "text": "每回合一次：弃置1张牌，然后从3张随机幽弈坊牌中选择1张加入手牌。",
      "cost": {
-      "g": 1
+      "g": 0
      },
      "target": "none",
      "effects": [
@@ -34495,7 +34679,7 @@
    "name": "霍烬",
    "title": "断焰将军",
    "faction": "R",
-   "hp": 80,
+   "hp": 84,
    "sources": [
     "R",
     "R",
@@ -34519,7 +34703,7 @@
      "id": "sk_r_huojin_1",
      "name": "焰随刀走",
      "type": "passive",
-     "text": "主帅每次攻击后，对目标施加2层[灼烧]。",
+     "text": "主帅每次攻击后，对目标施加3层[灼烧]。",
      "triggers": [
       {
        "on": "attacking",
@@ -34527,7 +34711,7 @@
         {
          "op": "status",
          "status": "burn",
-         "amount": 2,
+         "amount": 3,
          "target": "eventTarget"
         }
        ]
@@ -34576,7 +34760,7 @@
    "name": "离鸢",
    "title": "朱雀祭司",
    "faction": "R",
-   "hp": 70,
+   "hp": 74,
    "sources": [
     "R",
     "R",
@@ -34600,14 +34784,14 @@
      "id": "sk_r_liyuan_1",
      "name": "燎羽",
      "type": "passive",
-     "text": "每当你献出一张牌，对随机敌人造成3点伤害。",
+     "text": "每当你献出一张牌，对随机敌人造成4点伤害。",
      "triggers": [
       {
        "on": "cardSacrificed",
        "effects": [
         {
          "op": "damage",
-         "amount": 3,
+         "amount": 4,
          "target": "randomEnemy"
         }
        ]
@@ -34661,7 +34845,7 @@
    "name": "玄机子",
    "title": "司天监",
    "faction": "Y",
-   "hp": 72,
+   "hp": 78,
    "sources": [
     "Y",
     "Y",
@@ -34703,7 +34887,7 @@
      "id": "y_xuanji_awaken",
      "name": "窥破天机",
      "type": "awaken",
-     "text": "觉醒技：当你在一回合内完成第3次判定后觉醒，收取2张[命签]。此后此技能变为「天机在握」：[命签]上限+1；你的判定点数+2；每当你[改判]后，抽1张牌。",
+     "text": "觉醒技：当你在一回合内完成第2次判定后觉醒，收取2张[命签]。此后此技能变为「天机在握」：[命签]上限+1；你的判定点数+2；每当你[改判]后，抽1张牌。",
      "awaken": {
       "on": "judged",
       "who": "friendly",
@@ -34712,7 +34896,7 @@
         {
          "count": "judgesThisTurn"
         },
-        3
+        2
        ]
       },
       "effects": [

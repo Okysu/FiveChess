@@ -4,7 +4,7 @@
     "name": "霍烬",
     "title": "断焰将军",
     "faction": "R",
-    "hp": 80,
+    "hp": 84,
     "sources": ["R", "R", "N"],
     "deck": [
       "r_basic_strike", "r_basic_strike", "r_basic_strike", "r_basic_strike",
@@ -17,8 +17,8 @@
         "id": "sk_r_huojin_1",
         "name": "焰随刀走",
         "type": "passive",
-        "text": "主帅每次攻击后，对目标施加2层[灼烧]。",
-        "triggers": [{ "on": "attacking", "effects": [{ "op": "status", "status": "burn", "amount": 2, "target": "eventTarget" }] }]
+        "text": "主帅每次攻击后，对目标施加3层[灼烧]。",
+        "triggers": [{ "on": "attacking", "effects": [{ "op": "status", "status": "burn", "amount": 3, "target": "eventTarget" }] }]
       },
       {
         "id": "sk_r_huojin_2",
@@ -42,7 +42,7 @@
     "name": "离鸢",
     "title": "朱雀祭司",
     "faction": "R",
-    "hp": 70,
+    "hp": 74,
     "sources": ["R", "R", "N"],
     "deck": [
       "r_basic_strike", "r_basic_strike", "r_basic_strike", "r_basic_strike",
@@ -55,8 +55,8 @@
         "id": "sk_r_liyuan_1",
         "name": "燎羽",
         "type": "passive",
-        "text": "每当你献出一张牌，对随机敌人造成3点伤害。",
-        "triggers": [{ "on": "cardSacrificed", "effects": [{ "op": "damage", "amount": 3, "target": "randomEnemy" }] }]
+        "text": "每当你献出一张牌，对随机敌人造成4点伤害。",
+        "triggers": [{ "on": "cardSacrificed", "effects": [{ "op": "damage", "amount": 4, "target": "randomEnemy" }] }]
       },
       {
         "id": "sk_r_liyuan_2",

@@ -4,7 +4,7 @@
     "name": "断焰刀鞘",
     "tier": "starter",
     "faction": "R",
-    "text": "战斗开始时，装备一把断焰刀（攻击力3，距离1，耐久4）。",
+    "text": "战斗开始时，装备一把断焰刀（攻击力3，距离1，耐久6）。",
     "flavor": "刀断了，鞘还留着那一截的形状。",
     "triggers": [{ "on": "combatStart", "effects": [{ "op": "equip", "card": "tk_r_duanyan" }] }],
     "art": { "subject": "a battered crimson leather scabbard wrapped in iron bands, lying open with a faint orange glow leaking from its mouth" }

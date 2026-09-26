@@ -4,7 +4,7 @@
     "name": "石韫",
     "title": "镇岳山君",
     "faction": "B",
-    "hp": 72,
+    "hp": 68,
     "sources": [
       "B",
       "B",
@@ -28,7 +28,7 @@
         "id": "b_shiyun_p",
         "name": "岳镇",
         "type": "passive",
-        "text": "我方回合开始时进行[判定]，决定上回合剩余[护甲]的去留：点数1–6 全部消散；7–10 保留一半；11–13 或{mountain}山纹 全部保留（每回合至多保留8点）。",
+        "text": "我方回合开始时进行[判定]，决定上回合剩余[护甲]的去留：点数1–6 全部消散；7–10 保留一半；11–13 或{mountain}山纹 全部保留（每回合至多保留5点）。",
         "triggers": [
           {
             "on": "turnStart",
@@ -42,7 +42,7 @@
                       "op": "restoreArmor",
                       "fraction": 1,
                       "target": "commander",
-                      "max": 8
+                      "max": 5
                     }
                   ],
                   "ranks": [
@@ -54,7 +54,7 @@
                           "op": "restoreArmor",
                           "fraction": 1,
                           "target": "commander",
-                          "max": 8
+                          "max": 5
                         }
                       ]
                     },
@@ -66,7 +66,7 @@
                           "op": "restoreArmor",
                           "fraction": 0.5,
                           "target": "commander",
-                          "max": 8
+                          "max": 5
                         }
                       ]
                     }
@@ -115,7 +115,7 @@
     "name": "素弦",
     "title": "寒川琴师",
     "faction": "B",
-    "hp": 70,
+    "hp": 76,
     "sources": [
       "B",
       "B",
@@ -165,7 +165,7 @@
         "id": "b_suxian_a",
         "name": "曲终",
         "type": "awaken",
-        "text": "觉醒：本场战斗你在应对中打出第4张牌时，对所有敌人施加1层[冰冻]，并将此技能变为「寒川一曲」。",
+        "text": "觉醒：本场战斗你在应对中打出第3张牌时，对所有敌人施加1层[冰冻]，并将此技能变为「寒川一曲」。",
         "awaken": {
           "on": "responsePlayed",
           "if": {
@@ -173,7 +173,7 @@
               {
                 "count": "responsesThisCombat"
               },
-              4
+              3
             ]
           },
           "effects": [

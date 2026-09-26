@@ -144,9 +144,9 @@
     "pool": false,
     "cost": { "g": 1 },
     "text": "武器：攻击力{w}，距离{r}，耐久{u}。",
-    "vars": { "w": 3, "r": 1, "u": 4 },
+    "vars": { "w": 3, "r": 1, "u": 6 },
     "varKinds": { "w": "attack" },
-    "equip": { "slot": "weapon", "atk": 3, "range": 1, "durability": 4 },
+    "equip": { "slot": "weapon", "atk": 3, "range": 1, "durability": 6 },
     "upgrade": { "vars": { "w": 4 }, "equip": { "atk": 4 } },
     "flavor": "刀身齐腰而断，断口至今不冷。",
     "art": { "subject": "a broken-tipped broadsword lying on scorched stone, the sheared edge glowing molten orange, thin smoke curling from it" }

@@ -1,10 +1,10 @@
 [
   {
     "id": "rl_start_shiyun", "name": "山君石心", "tier": "starter", "faction": "B",
-    "text": "战斗开始时，获得6点[护甲]。",
+    "text": "战斗开始时，获得3点[护甲]。",
     "flavor": "从护山大阵阵眼里取出的一块石头，摸上去是温的。",
     "triggers": [ { "on": "combatStart", "effects": [
-      { "op": "armor", "amount": 6, "target": "commander" }
+      { "op": "armor", "amount": 3, "target": "commander" }
     ] } ],
     "art": { "subject": "a fist-sized grey stone shaped like a heart with a faint mountain vein pattern glowing warm blue inside, resting on a folded dark cloth" }
   },
