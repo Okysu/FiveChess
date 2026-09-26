@@ -59,6 +59,8 @@ class GameApp {
     this.fade.eventMode = 'none';
     window.addEventListener('resize', () => this.layout());
     window.addEventListener('orientationchange', () => setTimeout(() => this.layout(), 150));
+    // Android client: MainActivity reports the notch as --mq-inset-* (older WebViews give env() = 0)
+    window.addEventListener('mq-insets', () => this.layout());
     this.layout();
     this.app.ticker.add((t) => {
       tweens.update(t.deltaMS);
@@ -205,7 +207,7 @@ let probe: HTMLDivElement | null = null;
 function deviceInsets(): { top: number; right: number; bottom: number; left: number } {
   if (!probe) {
     probe = document.createElement('div');
-    probe.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);';
+    probe.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;padding:max(env(safe-area-inset-top), var(--mq-inset-top, 0px)) max(env(safe-area-inset-right), var(--mq-inset-right, 0px)) max(env(safe-area-inset-bottom), var(--mq-inset-bottom, 0px)) max(env(safe-area-inset-left), var(--mq-inset-left, 0px));';
     document.body.appendChild(probe);
   }
   const cs = getComputedStyle(probe);
