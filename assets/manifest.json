@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-26T05:16:30.367Z",
+ "generated": "2026-09-26T08:46:14.292Z",
  "assets": [
   {
    "id": "amb_fire",
@@ -9563,6 +9563,19 @@
    "reference": "art-src/style_refs/ref_icon.png",
    "postprocess": "trimmed, resized≤192px, webp",
    "hash": "95ae1c9fe91d",
+   "qa": "ok"
+  },
+  {
+   "id": "kw_sunder",
+   "path": "ui/icons/kw_sunder.webp",
+   "category": "icon",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "A single round game-UI medallion icon made as a Chinese woodblock print: a thick carved black outline ring with a thin ochre-gold inner ring, a bold flat symbol in the center, flat mineral colors, rice-paper grain, slight misregistration, readable at small sizes, centered, isolated on a fully transparent background. No text, no letters, no numbers. The symbol: a cracked lamellar armor plate split by a heavy hammer blow. Symbol color: iron grey; medallion background: dark lamp-black ink.",
+   "reference": "art-src/style_refs/ref_icon.png",
+   "postprocess": "trimmed, resized≤192px, webp",
+   "hash": "3c2e2f16f847",
    "qa": "ok"
   },
   {

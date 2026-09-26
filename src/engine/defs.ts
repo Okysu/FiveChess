@@ -13,7 +13,7 @@ export type CardType = 'unit' | 'tactic' | 'response' | 'equip' | 'delay' | 'fie
 export type Rarity = 'basic' | 'common' | 'rare' | 'epic' | 'legendary' | 'token' | 'special';
 
 export type Keyword =
-  | 'taunt' | 'ranged' | 'leap' | 'haste' | 'twinStrike' | 'ward' | 'lifesteal' | 'deathtouch' | 'thorns'
+  | 'taunt' | 'ranged' | 'leap' | 'haste' | 'twinStrike' | 'ward' | 'lifesteal' | 'deathtouch' | 'thorns' | 'sunder'
   | 'battlecry' | 'deathrattle' | 'growth' | 'aura' | 'stealth'
   | 'response' | 'judge' | 'delay' | 'omen'
   | 'exhaust' | 'innate' | 'retain' | 'ethereal' | 'combo' | 'offering' | 'resonance';

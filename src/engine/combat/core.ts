@@ -210,6 +210,11 @@ export function calcDamage(s: CombatState, src: Unit | undefined, tgt: Unit, bas
   return Math.max(0, Math.floor(amt));
 }
 
+/** a boss-tier enemy (not its summoned minions) */
+function isBossEnemy(u: Unit): boolean {
+  return u.side === 'enemy' && u.origin === 'enemy' && content().enemies.get(u.def)?.tier === 'boss';
+}
+
 export function dealDamage(s: CombatState, srcUid: number | null, tgtUid: number, base: number, kind: DmgKind, opts: { attack?: boolean; pierce?: boolean } = {}): number {
   const tgt = unit(s, tgtUid);
   if (!alive(tgt)) return 0;
@@ -226,9 +231,11 @@ export function dealDamage(s: CombatState, srcUid: number | null, tgtUid: number
   let rest = amount;
   let armorLoss = 0;
   if (!ignoresDefense && tgt.armor > 0) {
-    armorLoss = Math.min(tgt.armor, rest);
+    // 破甲: a boss's attacks strip 2 armor per point of damage (armor soaks them at half value)
+    const breaks = src && isAttackKind(kind, !!opts.attack) && isBossEnemy(src) ? 2 : 1;
+    armorLoss = Math.min(tgt.armor, rest * breaks);
     tgt.armor -= armorLoss;
-    rest -= armorLoss;
+    rest -= Math.ceil(armorLoss / breaks);
   }
   const hpLoss = Math.min(rest, Math.max(0, tgt.hp));
   tgt.hp -= rest;

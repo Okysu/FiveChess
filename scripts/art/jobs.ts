@@ -63,6 +63,7 @@ export const ICONS: ArtJob[] = [
   icon('kw_lifesteal', 'a blood drop inside a crescent fang', 'crimson'),
   icon('kw_deathtouch', 'a skull-shaped jade pendant with a severed thread', 'poison green'),
   icon('kw_thorns', 'a thorny bramble vine', 'moss green'),
+  icon('kw_sunder', 'a cracked lamellar armor plate split by a heavy hammer blow', 'iron grey'),
   icon('kw_battlecry', 'a war drum with a drumstick striking it', 'orange'),
   icon('kw_deathrattle', 'a floating soul flame leaving a lotus', 'violet'),
   icon('kw_growth', 'a sprouting seedling with two leaves', 'bright green'),

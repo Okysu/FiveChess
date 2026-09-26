@@ -12,7 +12,7 @@ export const zColor = z.enum(['R', 'B', 'G', 'Y', 'P', 'N']);
 export const zSuit = z.enum(['sun', 'thunder', 'moon', 'mountain']);
 export const zSuitX = z.enum(['sun', 'thunder', 'moon', 'mountain', 'yang', 'yin']);
 export const zKeyword = z.enum([
-  'taunt', 'ranged', 'leap', 'haste', 'twinStrike', 'ward', 'lifesteal', 'deathtouch', 'thorns',
+  'taunt', 'ranged', 'leap', 'haste', 'twinStrike', 'ward', 'lifesteal', 'deathtouch', 'thorns', 'sunder',
   'battlecry', 'deathrattle', 'growth', 'aura', 'stealth', 'response', 'judge', 'delay', 'omen',
   'exhaust', 'innate', 'retain', 'ethereal', 'combo', 'offering', 'resonance',
 ]);

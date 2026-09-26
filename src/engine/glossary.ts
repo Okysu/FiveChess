@@ -13,6 +13,7 @@ export const KEYWORDS: Record<Keyword, GlossEntry> = {
   lifesteal: { name: '汲命', text: '造成伤害时，己方主帅恢复等量生命。', icon: 'kw_lifesteal', tint: 0xd65a6a },
   deathtouch: { name: '断魂', text: '对单位造成伤害即将其消灭；对主帅改为额外造成3点伤害。', icon: 'kw_deathtouch', tint: 0x7bd18f },
   thorns: { name: '棘刺', text: '受到近战攻击时，对攻击者造成X点伤害。', icon: 'kw_thorns', tint: 0x8fbf6a },
+  sunder: { name: '破甲', text: '首领的攻击每造成1点伤害击碎2点护甲（护甲只能抵挡一半伤害）。', icon: 'kw_sunder', tint: 0x9aa4ad },
   battlecry: { name: '起势', text: '从手牌打出时触发。', icon: 'kw_battlecry', tint: 0xf0b45a },
   deathrattle: { name: '遗志', text: '死亡时触发。', icon: 'kw_deathrattle', tint: 0x9c8ec7 },
   growth: { name: '滋长', text: '我方回合开始时获得+X/+X。', icon: 'kw_growth', tint: 0x6fcf7f },

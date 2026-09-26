@@ -88,6 +88,7 @@ export function keywordsOf(s: CombatState, u: Unit): Keyword[] {
   const all: Keyword[] = ['taunt', 'ranged', 'leap', 'haste', 'twinStrike', 'lifesteal', 'deathtouch', 'stealth'];
   const out = all.filter((k) => hasKw(s, u, k));
   if (u.thorns > 0 && !u.silenced) out.push('thorns');
+  if (u.side === 'enemy' && u.origin === 'enemy' && content().enemies.get(u.def)?.tier === 'boss') out.push('sunder');
   if (u.growth > 0 && !u.silenced) out.push('growth');
   if (u.ward > 0) out.push('ward');
   return out;
