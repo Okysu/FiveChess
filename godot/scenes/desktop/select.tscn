@@ -1,0 +1,226 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://screens/select.gd" id="1"]
+[ext_resource type="Script" path="res://ui/wb_button.gd" id="2"]
+[ext_resource type="Script" path="res://ui/wb_scroll.gd" id="3"]
+
+[node name="Select" type="Control"]
+script = ExtResource("1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/tile_size = Vector2(104, 142)
+metadata/mini_scale = 0.34
+
+[node name="Root" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = 24.0
+offset_top = 14.0
+offset_right = -24.0
+offset_bottom = -14.0
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="TopRow" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Back" type="BaseButton" parent="Root/TopRow"]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 2
+text = "← 返回"
+kind = "ghost"
+font_size = 22
+min_size = Vector2(150, 56)
+
+[node name="S1" type="Control" parent="Root/TopRow"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="Root/TopRow"]
+layout_mode = 2
+theme_type_variation = &"Title"
+text = "选择主帅"
+theme_override_font_sizes/font_size = 52
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 6
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+horizontal_alignment = 1
+size_flags_vertical = 4
+
+[node name="S2" type="Control" parent="Root/TopRow"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="Bal" type="Control" parent="Root/TopRow"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(150, 0)
+
+[node name="Mid" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 24
+size_flags_vertical = 3
+
+[node name="HeroBox" type="Control" parent="Root/Mid"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.1
+
+[node name="Hero" type="TextureRect" parent="Root/Mid/HeroBox"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Col2" type="VBoxContainer" parent="Root/Mid"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+custom_minimum_size = Vector2(450, 0)
+
+[node name="LorePanel" type="PanelContainer" parent="Root/Mid/Col2"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"PanelDark"
+
+[node name="LoreText" type="Label" parent="Root/Mid/Col2/LorePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Body"
+custom_minimum_size = Vector2(330, 0)
+theme_override_font_sizes/font_size = 20
+theme_override_constants/line_spacing = 10
+theme_override_colors/font_color = Color(0.953, 0.902, 0.776, 0.85)
+autowrap_mode = 3
+
+[node name="Gap" type="Control" parent="Root/Mid/Col2"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_vertical = 3
+
+[node name="AscRow" type="HBoxContainer" parent="Root/Mid/Col2"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="AscLbl" type="Label" parent="Root/Mid/Col2/AscRow"]
+layout_mode = 2
+theme_type_variation = &"NoteTitle"
+text = "逆命"
+theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(0.953, 0.831, 0.533, 1)
+size_flags_vertical = 4
+
+[node name="Prev" type="BaseButton" parent="Root/Mid/Col2/AscRow"]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 2
+size_flags_vertical = 4
+text = "◀"
+kind = "ghost"
+font_size = 30
+min_size = Vector2(64, 56)
+
+[node name="Asc" type="Label" parent="Root/Mid/Col2/AscRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Num"
+text = "0"
+custom_minimum_size = Vector2(50, 0)
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 34
+theme_override_colors/font_color = Color(0.953, 0.831, 0.533, 1)
+horizontal_alignment = 1
+
+[node name="Next" type="BaseButton" parent="Root/Mid/Col2/AscRow"]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 2
+size_flags_vertical = 4
+text = "▶"
+kind = "ghost"
+font_size = 30
+min_size = Vector2(64, 56)
+
+[node name="AscDesc" type="Label" parent="Root/Mid/Col2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Dim"
+mouse_filter = 1
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="SeedRow" type="HBoxContainer" parent="Root/Mid/Col2"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Seed" type="LineEdit" parent="Root/Mid/Col2/SeedRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+custom_minimum_size = Vector2(200, 60)
+size_flags_horizontal = 3
+
+[node name="Start" type="BaseButton" parent="Root/Mid/Col2/SeedRow"]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 2
+size_flags_vertical = 4
+text = "启　程"
+kind = "primary"
+font_size = 36
+min_size = Vector2(220, 80)
+
+[node name="Details" type="PanelContainer" parent="Root/Mid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PanelDark"
+mouse_filter = 2
+custom_minimum_size = Vector2(900, 0)
+size_flags_vertical = 3
+
+[node name="DScroll" type="ScrollContainer" parent="Root/Mid/Details"]
+script = ExtResource("3")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="DetailCol" type="VBoxContainer" parent="Root/Mid/Details/DScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+size_flags_horizontal = 3
+
+[node name="List" type="HBoxContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12

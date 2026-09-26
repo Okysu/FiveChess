@@ -1,0 +1,107 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://screens/recruit.gd" id="1"]
+[ext_resource type="Script" path="res://ui/wb_button.gd" id="2"]
+
+[node name="Recruit" type="Control"]
+script = ExtResource("1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/panel_width = 384.0
+metadata/portrait_height = 250.0
+
+[node name="Dim" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+visible = false
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Body" type="MarginContainer" parent="."]
+layout_mode = 1
+mouse_filter = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 150
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 100
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Col" type="VBoxContainer" parent="Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="Heading" type="Label" parent="Body/Col"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Title"
+visible = false
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+
+[node name="Center" type="CenterContainer" parent="Body/Col"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_vertical = 3
+
+[node name="Choices" type="HBoxContainer" parent="Body/Col/Center"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 60
+
+[node name="Skip" type="BaseButton" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -110
+offset_top = -94.0
+offset_right = 110
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "不招募"
+kind = "ghost"
+font_size = 30
+min_size = Vector2(220, 64)
+
+[node name="Continue" type="BaseButton" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -116.0
+offset_right = -40.0
+offset_bottom = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+visible = false
+text = "继续"
+kind = "primary"
+font_size = 32
+min_size = Vector2(280, 76)

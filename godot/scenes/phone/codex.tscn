@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://screens/codex_screen.gd" id="1"]
+[ext_resource type="Script" path="res://ui/wb_button.gd" id="2"]
+
+[node name="Codex" type="Control"]
+script = ExtResource("1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Root" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = 24.0
+offset_top = 14.0
+offset_right = -24.0
+offset_bottom = -20.0
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="TopRow" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Back" type="BaseButton" parent="Root/TopRow"]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 2
+text = "← 返回"
+kind = "ghost"
+font_size = 30
+min_size = Vector2(240, 130)
+
+[node name="S1" type="Control" parent="Root/TopRow"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="Root/TopRow"]
+layout_mode = 2
+theme_type_variation = &"Title"
+text = "图　鉴"
+theme_override_font_sizes/font_size = 60
+theme_override_constants/outline_size = 7
+theme_override_constants/shadow_outline_size = 7
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+size_flags_vertical = 4
+
+[node name="S2" type="Control" parent="Root/TopRow"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="Bal" type="Control" parent="Root/TopRow"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(240, 0)
+
+[node name="Frame" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"PanelDark"
+size_flags_vertical = 3

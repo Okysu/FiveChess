@@ -1,0 +1,215 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://screens/run_end.gd" id="1"]
+[ext_resource type="Script" path="res://ui/ambient.gd" id="2"]
+[ext_resource type="Script" path="res://ui/wb_scroll.gd" id="3"]
+[ext_resource type="Script" path="res://ui/wb_button.gd" id="4"]
+
+[node name="RunEnd" type="Control"]
+script = ExtResource("1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Dim" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+modulate = Color(1, 1, 1, 0.55)
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Petals" type="Control" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+kind = "petals"
+rate = 0.5
+
+[node name="Ink" type="Control" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+kind = "ink"
+rate = 0.5
+
+[node name="End" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = 60.0
+offset_top = 30.0
+offset_right = -60.0
+offset_bottom = -120.0
+mouse_filter = 2
+theme_override_constants/separation = 18
+
+[node name="EndTitle" type="Label" parent="End"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Title"
+theme_override_font_sizes/font_size = 110
+theme_override_constants/outline_size = 13
+theme_override_constants/shadow_outline_size = 13
+theme_override_constants/shadow_offset_x = 7
+theme_override_constants/shadow_offset_y = 7
+horizontal_alignment = 1
+
+[node name="StoryPanel" type="PanelContainer" parent="End"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"PanelDark"
+size_flags_horizontal = 4
+size_flags_vertical = 3
+custom_minimum_size = Vector2(1100, 0)
+
+[node name="Scroll" type="ScrollContainer" parent="End/StoryPanel"]
+script = ExtResource("3")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Story" type="Label" parent="End/StoryPanel/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Body"
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+theme_override_constants/line_spacing = 14
+autowrap_mode = 3
+
+[node name="Stats" type="Label" parent="End"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NoteTitle"
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.953, 0.831, 0.533, 1)
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Nemesis" type="Label" parent="End"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Body"
+theme_override_colors/font_color = Color(0.816, 0.627, 0.627, 1)
+horizontal_alignment = 1
+
+[node name="Unlocks" type="VBoxContainer" parent="End"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Home" type="BaseButton" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -112.0
+offset_right = -40.0
+offset_bottom = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "回到标题"
+kind = "primary"
+font_size = 30
+min_size = Vector2(260, 72)
+
+[node name="Hidden" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+visible = false
+
+[node name="C" type="CenterContainer" parent="Hidden"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Col" type="VBoxContainer" parent="Hidden/C"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="HTitle" type="Label" parent="Hidden/C/Col"]
+layout_mode = 2
+theme_type_variation = &"Title"
+text = "命 书 合 上 之 前"
+theme_override_font_sizes/font_size = 90
+theme_override_constants/outline_size = 11
+theme_override_constants/shadow_outline_size = 11
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 6
+horizontal_alignment = 1
+
+[node name="HBody" type="Label" parent="Hidden/C/Col"]
+layout_mode = 2
+theme_type_variation = &"Body"
+text = "司命的笔落在你手里。书页深处，有什么东西在等你——它有你的脸，也有你的执念。\n\n合上命书，就此改命；或者，直视那无名之物。"
+custom_minimum_size = Vector2(1100, 0)
+theme_override_font_sizes/font_size = 28
+theme_override_constants/line_spacing = 16
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Btns" type="HBoxContainer" parent="Hidden/C/Col"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 120
+alignment = 1
+
+[node name="Close" type="BaseButton" parent="Hidden/C/Col/Btns"]
+unique_name_in_owner = true
+script = ExtResource("4")
+layout_mode = 2
+text = "合上命书"
+kind = "normal"
+font_size = 32
+min_size = Vector2(300, 80)
+
+[node name="Face" type="BaseButton" parent="Hidden/C/Col/Btns"]
+unique_name_in_owner = true
+script = ExtResource("4")
+layout_mode = 2
+text = "直视无名"
+kind = "danger"
+font_size = 32
+min_size = Vector2(300, 80)

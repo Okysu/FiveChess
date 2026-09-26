@@ -1,0 +1,178 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://ui/top_bar.gd" id="1"]
+[ext_resource type="Script" path="res://ui/wb_bar.gd" id="2"]
+[ext_resource type="Script" path="res://ui/wb_button.gd" id="3"]
+[ext_resource type="Script" path="res://ui/icon_button.gd" id="4"]
+
+[node name="TopBar" type="Control"]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 156.0
+grow_horizontal = 2
+mouse_filter = 2
+script = ExtResource("1")
+metadata/portrait_size = 112.0
+metadata/lt_size = 112.0
+metadata/slot_size = Vector2(130, 130)
+metadata/short_info = true
+
+[node name="Bg" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 156.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"PanelTopbarBg"
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 6.0
+offset_right = -16.0
+offset_bottom = 140.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Portrait" type="Control" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Lieutenant" type="Control" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="HpCol" type="VBoxContainer" parent="Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 6
+
+[node name="Name" type="Label" parent="Row/HpCol"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"Heading"
+
+[node name="Info" type="Label" parent="Row/HpCol"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Heading"
+theme_override_font_sizes/font_size = 34
+
+[node name="HpLine" type="HBoxContainer" parent="Row/HpCol"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Hp" type="Control" parent="Row/HpCol/HpLine"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 40)
+layout_mode = 2
+script = ExtResource("2")
+
+[node name="HpText" type="Label" parent="Row/HpCol/HpLine/Hp"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -6.0
+offset_bottom = 6.0
+theme_type_variation = &"Num"
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Armor" type="Label" parent="Row/HpCol/HpLine"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"Num"
+theme_override_font_sizes/font_size = 26
+
+[node name="GoldBox" type="HBoxContainer" parent="Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 130)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 6
+
+[node name="GoldIcon" type="TextureRect" parent="Row/GoldBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Gold" type="Label" parent="Row/GoldBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Num"
+theme_override_colors/font_color = Color(0.953, 0.831, 0.533, 1)
+theme_override_font_sizes/font_size = 38
+
+[node name="Potions" type="HBoxContainer" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+
+[node name="Spacer" type="Control" parent="Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="MapBtn" type="BaseButton" parent="Row"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("4")
+icon_id = "ui_map"
+min_size = Vector2(130, 130)
+tip = "地图"
+
+[node name="RelicBtn" type="BaseButton" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("4")
+icon_id = "ui_relic"
+min_size = Vector2(130, 130)
+tip = "遗物"
+
+[node name="Deck" type="BaseButton" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("4")
+icon_id = "ui_deck"
+min_size = Vector2(130, 130)
+tip = "牌组"
+
+[node name="Codex" type="BaseButton" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("4")
+icon_id = "ui_codex"
+min_size = Vector2(130, 130)
+tip = "图鉴"
+
+[node name="Settings" type="BaseButton" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("4")
+icon_id = "ui_settings"
+min_size = Vector2(130, 130)
+tip = "设置"

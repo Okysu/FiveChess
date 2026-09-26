@@ -1,0 +1,175 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://screens/select.gd" id="1"]
+[ext_resource type="Script" path="res://ui/wb_button.gd" id="2"]
+[ext_resource type="Script" path="res://ui/wb_scroll.gd" id="3"]
+
+[node name="Select" type="Control"]
+script = ExtResource("1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/tile_size = Vector2(150, 200)
+metadata/mini_scale = 0.46
+
+[node name="Root" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = 24.0
+offset_top = 20.0
+offset_right = -24.0
+offset_bottom = -20.0
+mouse_filter = 2
+theme_override_constants/separation = 24
+
+[node name="LeftCol" type="VBoxContainer" parent="Root"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+custom_minimum_size = Vector2(700, 0)
+
+[node name="TopRow" type="HBoxContainer" parent="Root/LeftCol"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="Back" type="BaseButton" parent="Root/LeftCol/TopRow"]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 2
+text = "← 返回"
+kind = "ghost"
+font_size = 30
+min_size = Vector2(240, 130)
+
+[node name="Title" type="Label" parent="Root/LeftCol/TopRow"]
+layout_mode = 2
+theme_type_variation = &"Title"
+text = "选择主帅"
+theme_override_font_sizes/font_size = 60
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 6
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+horizontal_alignment = 1
+size_flags_vertical = 4
+
+[node name="ListScroll" type="ScrollContainer" parent="Root/LeftCol"]
+script = ExtResource("3")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="List" type="HFlowContainer" parent="Root/LeftCol/ListScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+
+[node name="RightCol" type="VBoxContainer" parent="Root"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Details" type="PanelContainer" parent="Root/RightCol"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PanelDark"
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="DScroll" type="ScrollContainer" parent="Root/RightCol/Details"]
+script = ExtResource("3")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="DetailCol" type="VBoxContainer" parent="Root/RightCol/Details/DScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+size_flags_horizontal = 3
+
+[node name="CtlRow" type="HBoxContainer" parent="Root/RightCol"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+alignment = 2
+
+[node name="AscLbl" type="Label" parent="Root/RightCol/CtlRow"]
+layout_mode = 2
+theme_type_variation = &"NoteTitle"
+text = "逆命"
+theme_override_font_sizes/font_size = 40
+theme_override_colors/font_color = Color(0.953, 0.831, 0.533, 1)
+size_flags_vertical = 4
+
+[node name="Prev" type="BaseButton" parent="Root/RightCol/CtlRow"]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 2
+size_flags_vertical = 4
+text = "◀"
+kind = "ghost"
+font_size = 30
+min_size = Vector2(160, 130)
+
+[node name="Asc" type="Label" parent="Root/RightCol/CtlRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Num"
+text = "0"
+custom_minimum_size = Vector2(70, 0)
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(0.953, 0.831, 0.533, 1)
+horizontal_alignment = 1
+
+[node name="Next" type="BaseButton" parent="Root/RightCol/CtlRow"]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 2
+size_flags_vertical = 4
+text = "▶"
+kind = "ghost"
+font_size = 30
+min_size = Vector2(160, 130)
+
+[node name="Seed" type="LineEdit" parent="Root/RightCol/CtlRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+custom_minimum_size = Vector2(360, 130)
+size_flags_horizontal = 3
+
+[node name="Start" type="BaseButton" parent="Root/RightCol/CtlRow"]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 2
+size_flags_vertical = 4
+text = "启　程"
+kind = "primary"
+font_size = 36
+min_size = Vector2(320, 130)
+
+[node name="AscDesc" type="Label" parent="Root/RightCol"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Dim"
+mouse_filter = 1
+horizontal_alignment = 2
+autowrap_mode = 3

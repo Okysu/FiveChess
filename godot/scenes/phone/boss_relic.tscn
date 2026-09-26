@@ -1,0 +1,107 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://screens/boss_relic.gd" id="1"]
+[ext_resource type="Script" path="res://ui/wb_button.gd" id="2"]
+
+[node name="BossRelic" type="Control"]
+script = ExtResource("1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/panel_size = Vector2(560, 640)
+metadata/icon_size = 200.0
+
+[node name="Dim" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+visible = false
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Body" type="MarginContainer" parent="."]
+layout_mode = 1
+mouse_filter = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 176
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 180
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Col" type="VBoxContainer" parent="Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Heading" type="Label" parent="Body/Col"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Title"
+visible = false
+theme_override_font_sizes/font_size = 60
+horizontal_alignment = 1
+
+[node name="Center" type="CenterContainer" parent="Body/Col"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_vertical = 3
+
+[node name="Choices" type="HBoxContainer" parent="Body/Col/Center"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 50
+
+[node name="Skip" type="BaseButton" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -160
+offset_top = -160.0
+offset_right = 160
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "放弃"
+kind = "ghost"
+font_size = 30
+min_size = Vector2(320, 130)
+
+[node name="Continue" type="BaseButton" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = -160.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+visible = false
+text = "继续"
+kind = "primary"
+font_size = 32
+min_size = Vector2(420, 130)

@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://screens/settings.gd" id="1"]
+[ext_resource type="Script" path="res://ui/wb_scroll.gd" id="2"]
+
+[node name="Settings" type="HBoxContainer"]
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 50
+script = ExtResource("1")
+metadata/tab_size = Vector2(200, 64)
+metadata/seg_size = Vector2(140, 56)
+metadata/toggle_size = Vector2(120, 60)
+metadata/slider_width = 440.0
+metadata/label_width = 450.0
+metadata/wide_size = Vector2(280, 64)
+
+[node name="Tabs" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Scroll" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2")
+
+[node name="Rows" type="VBoxContainer" parent="Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 22

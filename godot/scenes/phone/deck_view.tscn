@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ui/card_grid.gd" id="1"]
+
+[node name="DeckView" type="VBoxContainer"]
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 12
+metadata/preview_scale = 1.0
+
+[node name="Main" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Grid" type="ScrollContainer" parent="Main"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1")
+card_scale = 0.62
+
+[node name="Preview" type="CenterContainer" parent="Main"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Note" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"Dim"
+theme_override_font_sizes/font_size = 28
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1

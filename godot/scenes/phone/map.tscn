@@ -1,0 +1,181 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://screens/map.gd" id="1"]
+[ext_resource type="Script" path="res://ui/ambient.gd" id="2"]
+[ext_resource type="Script" path="res://ui/wb_scroll.gd" id="3"]
+[ext_resource type="Script" path="res://ui/map_graph.gd" id="4"]
+[ext_resource type="Script" path="res://ui/wb_button.gd" id="5"]
+
+[node name="Map" type="Control"]
+script = ExtResource("1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/row_w = 250.0
+metadata/col_h = 130.0
+metadata/pad_y = 65.0
+metadata/node_size = 130.0
+metadata/icon_size = 96.0
+metadata/ring_size = 150.0
+metadata/legend_icon = 60.0
+
+[node name="Ambient" type="Control" parent="."]
+script = ExtResource("2")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+kind = "dust"
+rate = 0.25
+
+[node name="Scroll" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = 0.0
+offset_top = 160.0
+offset_right = 0.0
+offset_bottom = 0.0
+horizontal = true
+
+[node name="Canvas" type="VBoxContainer" parent="Scroll"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Graph" type="Control" parent="Scroll/Canvas"]
+unique_name_in_owner = true
+script = ExtResource("4")
+layout_mode = 2
+
+[node name="Legend" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -610.0
+offset_top = -650.0
+offset_right = -190.0
+offset_bottom = -190.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"PanelDark"
+
+[node name="LegendGrid" type="GridContainer" parent="Legend"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+columns = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+
+[node name="LegendBtn" type="BaseButton" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -270.0
+offset_top = -160.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "图例"
+kind = "ghost"
+font_size = 30
+min_size = Vector2(240, 130)
+
+[node name="Intro" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+
+[node name="IntroDim" type="TextureRect" parent="Intro"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+modulate = Color(1, 1, 1, 0.85)
+expand_mode = 1
+stretch_mode = 0
+
+[node name="C" type="CenterContainer" parent="Intro"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Col" type="VBoxContainer" parent="Intro/C"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="IntroTitle" type="Label" parent="Intro/C/Col"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Title"
+theme_override_font_sizes/font_size = 96
+theme_override_constants/outline_size = 11
+theme_override_constants/shadow_outline_size = 11
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 6
+horizontal_alignment = 1
+
+[node name="IntroSub" type="Label" parent="Intro/C/Col"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Heading"
+theme_override_font_sizes/font_size = 50
+theme_override_colors/font_color = Color(0.953, 0.902, 0.776, 1)
+horizontal_alignment = 1
+
+[node name="IntroText" type="Label" parent="Intro/C/Col"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Dim"
+custom_minimum_size = Vector2(1400, 0)
+theme_override_font_sizes/font_size = 34
+theme_override_constants/line_spacing = 14
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="IntroHint" type="Label" parent="Intro/C/Col"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Dim"
+text = "点击继续"
+horizontal_alignment = 1
