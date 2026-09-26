@@ -143,7 +143,16 @@ export class EquipRow extends Container {
       c.addChild(g);
       if (eq) {
         const def = content().card(eq.card, eq.up);
-        const mini = new CardView({ id: eq.card, up: eq.up });
+        // a weapon shows what it is now (淬锋 / 百炼 bonuses, worn durability), not its printed numbers
+        const vars: Record<string, number> = { ...(def.vars ?? {}) };
+        if (slot === 'weapon' && 'atkBonus' in eq) {
+          const w = eq as { atkBonus: number; rangeBonus: number; durability: number };
+          if ('w' in vars) vars.w = (def.equip?.atk ?? 0) + w.atkBonus;
+          if ('r' in vars) vars.r = (def.equip?.range ?? 1) + w.rangeBonus;
+          if ('u' in vars) vars.u = w.durability;
+        }
+        const live = Object.fromEntries(Object.entries(vars).map(([k, v]) => [k, { value: v, base: def.vars?.[k] ?? v }]));
+        const mini = new CardView({ id: eq.card, up: eq.up }, { live: { vars: live } });
         mini.scale.set(0.17);
         c.addChild(mini);
         if (slot === 'weapon') {
@@ -153,7 +162,7 @@ export class EquipRow extends Container {
           c.addChild(t);
         }
         c.eventMode = 'static';
-        c.on('pointerover', () => { const p = c.getGlobalPosition(); showTip(new Tooltip([{ title: `${SLOT_NAME[slot]}：${def.name}`, body: fillVars(def.text, def.vars) }, ...glossLines(termsOf(def.text))]), p.x, p.y - 180, 'above'); });
+        c.on('pointerover', () => { const p = c.getGlobalPosition(); showTip(new Tooltip([{ title: `${SLOT_NAME[slot]}：${def.name}`, body: fillVars(def.text, vars) }, ...glossLines(termsOf(def.text))]), p.x, p.y - 180, 'above'); });
         c.on('pointerout', hideTip);
       } else {
         c.addChild(icon(SLOT_ICON[slot], 34, { alpha: 0.45 }));

@@ -533,9 +533,9 @@
     "type": "equip",
     "rarity": "common",
     "cost": { "g": 1 },
-    "text": "你的主帅以此武器攻击时，对目标施加{p}层[中毒]。",
-    "vars": { "p": 2 },
-    "varKinds": { "p": "poison" },
+    "text": "武器：攻击力{w}，距离{r}，耐久{u}。你的主帅以此武器攻击时，对目标施加{p}层[中毒]。",
+    "vars": { "w": 2, "r": 1, "u": 3, "p": 2 },
+    "varKinds": { "w": "attack", "p": "poison" },
     "equip": {
       "slot": "weapon",
       "atk": 2,
@@ -543,7 +543,7 @@
       "durability": 3,
       "triggers": [{ "on": "attacking", "effects": [{ "op": "status", "status": "poison", "amount": "$p", "target": "eventTarget" }] }]
     },
-    "upgrade": { "qualitative": true, "vars": { "p": 3 }, "equip": { "range": 2 } },
+    "upgrade": { "qualitative": true, "vars": { "p": 3, "r": 2 }, "equip": { "range": 2 } },
     "flavor": "刃口发绿的，别碰。",
     "art": { "subject": "a curved short dagger with a green-stained edge lying on violet silk, a drop of venom sliding down the fuller, soft rim light" }
   },
