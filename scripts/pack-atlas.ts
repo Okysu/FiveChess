@@ -15,7 +15,10 @@ const PREFIXES = ['ui/icons/', 'ui/relics/', 'ui/potions/', 'ui/'];
 // stretched / 9-sliced / full-screen textures must stay standalone
 const STANDALONE = /^ui\/(panel_|button_|ribbon_|card_frame_|bar_|frame_|tag_|equip_slot|slider_track|token_frame|topbar|banner_band|rules_box|menu_panel|tex_|dim_|art_placeholder|card_back|fate_|shopkeeper|divider|smoke_overlay|frost_overlay|ward_bubble)/;
 
-interface Item { key: string; file: string; w: number; h: number; x?: number; y?: number; sheet?: number }
+interface Item { key: string; file: string; w: number; h: number; x?: number; y?: number; sheet?: number; group: string }
+
+/** atlases are grouped by when they are needed: 'core' (UI kit + icons, loaded at boot), 'relic', 'potion' (on demand) */
+const groupOf = (key: string) => key.startsWith('ui/relics/') ? 'relic' : key.startsWith('ui/potions/') ? 'potion' : 'core';
 
 const manifest = JSON.parse(fs.readFileSync(path.join(ASSETS, 'manifest.json'), 'utf8')) as { assets: { path: string }[] };
 const items: Item[] = [];
@@ -27,29 +30,31 @@ for (const a of manifest.assets) {
   if (!fs.existsSync(file)) continue;
   const m = await sharp(file).metadata();
   if (Math.max(m.width!, m.height!) > MAX_EDGE) continue;
-  items.push({ key, file, w: m.width!, h: m.height! });
+  items.push({ key, file, w: m.width!, h: m.height!, group: groupOf(key) });
 }
 
-// shelf packing, tallest first
-items.sort((a, b) => b.h - a.h || b.w - a.w);
-const sheets: Item[][] = [];
-let sheet: Item[] = [], x = 0, y = 0, shelfH = 0;
-for (const it of items) {
-  if (x + it.w + PAD > SIZE) { x = 0; y += shelfH + PAD; shelfH = 0; }
-  if (y + it.h + PAD > SIZE) { sheets.push(sheet); sheet = []; x = 0; y = 0; shelfH = 0; }
-  it.x = x; it.y = y; it.sheet = sheets.length;
-  sheet.push(it);
-  x += it.w + PAD; shelfH = Math.max(shelfH, it.h);
+// shelf packing per group, tallest first
+const sheets: { group: string; list: Item[] }[] = [];
+for (const group of ['core', 'relic', 'potion']) {
+  const g = items.filter((i) => i.group === group).sort((a, b) => b.h - a.h || b.w - a.w);
+  let sheet: Item[] = [], x = 0, y = 0, shelfH = 0;
+  for (const it of g) {
+    if (x + it.w + PAD > SIZE) { x = 0; y += shelfH + PAD; shelfH = 0; }
+    if (y + it.h + PAD > SIZE) { sheets.push({ group, list: sheet }); sheet = []; x = 0; y = 0; shelfH = 0; }
+    it.x = x; it.y = y;
+    sheet.push(it);
+    x += it.w + PAD; shelfH = Math.max(shelfH, it.h);
+  }
+  if (sheet.length) sheets.push({ group, list: sheet });
 }
-if (sheet.length) sheets.push(sheet);
 
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 const index: Record<string, string> = {};
-for (let s = 0; s < sheets.length; s++) {
-  const list = sheets[s]!;
+const counters: Record<string, number> = {};
+for (const { group, list } of sheets) {
   const h = Math.min(SIZE, Math.max(...list.map((i) => i.y! + i.h)) + PAD);
-  const name = `atlas_${s}`;
+  const name = `atlas_${group}_${(counters[group] = (counters[group] ?? -1) + 1)}`;
   await sharp({ create: { width: SIZE, height: h, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
     .composite(await Promise.all(list.map(async (i) => ({ input: await sharp(i.file).png().toBuffer(), left: i.x!, top: i.y! }))))
     .webp({ quality: 88, alphaQuality: 92, effort: 5 }).toFile(path.join(OUT, `${name}.webp`));

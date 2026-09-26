@@ -13,6 +13,9 @@ class AssetStore {
   private pending = new Map<string, Promise<Texture | null>>();
   private atlasOf = new Map<string, string>(); // key -> atlas json path
   private sheets = new Map<string, Promise<void>>();
+  /** keys (and atlas names) that also exist as .avif, used when the browser decodes AVIF (scripts/optimize-images.ts) */
+  private avif = new Set<string>();
+  private avifOk = false;
   entries: ManifestEntry[] = [];
   base = import.meta.env.BASE_URL ?? '/';
 
@@ -25,6 +28,12 @@ class AssetStore {
         for (const a of this.entries) this.byKey.set(a.path.replace(/\.[a-z0-9]+$/i, ''), a.path);
       }
     } catch { /* no manifest yet: everything falls back */ }
+    const [list, ok] = await Promise.all([
+      fetch(`${this.base}avif.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() as Promise<string[]> : [])).catch(() => [] as string[]),
+      supportsAvif(),
+    ]);
+    this.avifOk = ok;
+    for (const k of list) this.avif.add(k);
     try {
       const res = await fetch(`${this.base}atlas/index.json`, { cache: 'no-cache' });
       if (res.ok) for (const [k, v] of Object.entries((await res.json()) as Record<string, string>)) this.atlasOf.set(k, v);
@@ -44,7 +53,8 @@ class AssetStore {
     if (!path) return Promise.resolve(null);
     const atlas = this.atlasOf.get(key);
     if (atlas) return this.loadSheet(atlas).then(() => this.tex.get(key) ?? (this.atlasOf.has(key) ? null : this.load(key)));
-    const pr = Assets.load<Texture>({ alias: key, src: `${this.base}${path}` })
+    const file = this.avifOk && this.avif.has(key) ? path.replace(/\.webp$/, '.avif') : path;
+    const pr = Assets.load<Texture>({ alias: key, src: `${this.base}${file}` })
       .then((t) => { this.tex.set(key, t); return t; })
       .catch(() => null)
       .finally(() => this.pending.delete(key));
@@ -55,7 +65,10 @@ class AssetStore {
   private loadSheet(json: string): Promise<void> {
     let p = this.sheets.get(json);
     if (!p) {
-      p = Assets.load<Spritesheet>(`${this.base}${json}`)
+      // the AVIF twin of an atlas has its own json whose meta.image points at the .avif sheet
+      const name = json.replace(/\.json$/, '');
+      const src = this.avifOk && this.avif.has(name) ? `${name}.avif.json` : json;
+      p = Assets.load<Spritesheet>(`${this.base}${src}`)
         .then((sheet) => { for (const [k, t] of Object.entries(sheet.textures)) this.tex.set(k, t); })
         .catch(() => { for (const [k, v] of this.atlasOf) if (v === json) this.atlasOf.delete(k); }); // fall back to single files
       this.sheets.set(json, p);
@@ -80,6 +93,16 @@ class AssetStore {
   keysByPrefix(prefix: string): string[] {
     return [...this.byKey.keys()].filter((k) => k.startsWith(prefix));
   }
+}
+
+/** true when the browser decodes AVIF (a 1×1 image) */
+function supportsAvif(): Promise<boolean> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img.width > 0);
+    img.onerror = () => resolve(false);
+    img.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=';
+  });
 }
 
 export const assets = new AssetStore();

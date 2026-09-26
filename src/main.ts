@@ -28,7 +28,7 @@ async function boot() {
   // every UI texture + icon is preloaded: the UI is built only from generated woodblock art
   await preloadUi((k) => progress(0.25 + k * 0.4, '唤醒执命者……'));
   await assets.loadMany([...assets.keysByPrefix('ui/icons/'), K.bg('title')], (k) => progress(0.65 + k * 0.25, '点燃灯火……'));
-  await preloadFx();
+  void preloadFx(); // particles fade in once their textures arrive; the title does not wait for them
   progress(1, '');
   const el = document.getElementById('boot');
   if (el) { el.style.opacity = '0'; setTimeout(() => el.remove(), 700); }
