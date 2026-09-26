@@ -1,0 +1,56 @@
+{
+ "generated": "2026-09-26T01:37:05.352Z",
+ "sections": [
+  {
+   "title": "制作",
+   "lines": [
+    "《命阙》规则引擎、全部内容（卡牌、敌人、事件、遗物）、界面与演出：本项目原创。"
+   ]
+  },
+  {
+   "title": "美术与音频（AI 生成，统一木版年画风格）",
+   "lines": [
+    "共 872 项（图像按《美术风格圣经》的提示词与风格参考图生成），逐项记录于 assets/manifest.json。",
+    "ElevenLabs：音效与音乐 22",
+    "gpt-image-2：背景 17，事件插图 42，首领立绘 18，卡牌插画 308，特效粒子 12，敌人立绘 85，图标 84，主帅与副将立绘 30，界面贴图 84，丹药 26，遗物 94",
+    "gpt-image-2.5-flare：卡牌插画 48，敌人立绘 2"
+   ]
+  },
+  {
+   "title": "第三方素材",
+   "lines": [
+    "Tozan (OpenGameArt) · https://opengameart.org/content/asianoriental1 · CC0 1.0（1 个文件）",
+    "Tozan (OpenGameArt) · https://opengameart.org/content/asianoriental2 · CC0 1.0（1 个文件）",
+    "Tozan (OpenGameArt) · https://opengameart.org/content/orien · CC0 1.0（1 个文件）",
+    "Tozan (OpenGameArt) · https://opengameart.org/content/orient-peace-valley · CC0 1.0（1 个文件）",
+    "Tozan (OpenGameArt) · https://opengameart.org/content/shangri-river · CC0 1.0（1 个文件）",
+    "Kenney · https://kenney.nl/assets/impact-sounds · CC0 1.0（29 个文件）",
+    "Kenney · https://kenney.nl/assets/interface-sounds · CC0 1.0（20 个文件）",
+    "Kenney · https://kenney.nl/assets/casino-audio · CC0 1.0（18 个文件）",
+    "Kenney · https://kenney.nl/assets/rpg-audio · CC0 1.0（9 个文件）"
+   ]
+  },
+  {
+   "title": "字体",
+   "lines": [
+    "Noto Serif SC · SIL Open Font License 1.1 · https://fonts.google.com/noto/specimen/Noto+Serif+SC",
+    "Ma Shan Zheng（马善政毛笔楷书，logo 与标题） · SIL Open Font License 1.1 · https://fonts.google.com/specimen/Ma+Shan+Zheng"
+   ]
+  },
+  {
+   "title": "开源库",
+   "lines": [
+    "PixiJS（渲染）· MIT · https://pixijs.com",
+    "yoga-layout（界面布局）· MIT · https://github.com/facebook/yoga",
+    "zod（数据校验）· MIT · https://zod.dev",
+    "Vite / TypeScript（构建与语言）· MIT / Apache-2.0 · https://vitejs.dev"
+   ]
+  },
+  {
+   "title": "参考与致意",
+   "lines": [
+    "界面研究参考了炉石传说、万智牌 Arena、符文之地传说、杀戮尖塔、三国杀等作品的公开资料，仅用于学习交互原理；本作的界面、图标与卡框均为原创设计。"
+   ]
+  }
+ ]
+}
