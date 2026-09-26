@@ -7,7 +7,7 @@ import { session } from '../state';
 import { act } from '../router';
 import { content } from '../../engine/content';
 import { COLOR_INFO } from '../../engine/glossary';
-import { Button, Tooltip, glossLines, hideTip, showTip } from '../ui/widgets';
+import { Button, Modal, Tooltip, glossLines, hideTip, showTip } from '../ui/widgets';
 import { C, FONT_BODY, FONT_TITLE, factionColor } from '../ui/theme';
 import { assets, K } from '../assets';
 import { tweens } from '../core/tween';
@@ -58,7 +58,19 @@ export class RecruitScene extends RunScreen {
       c.cursor = 'pointer';
       c.on('pointerover', (e) => { void tweens.to(c.scale, { x: 1.03, y: 1.03 }, 120); const g = glossLines(termsOf(lt.skill.text)); if (g.length) showTip(new Tooltip([...g, { title: '生平', body: lt.lore }], 380), c.x + 380, 300); void e; });
       c.on('pointerout', () => { void tweens.to(c.scale, { x: 1, y: 1 }, 120); hideTip(); });
-      c.on('pointertap', () => { sfx('relic'); void act({ t: 'recruit', i }); });
+      c.on('pointertap', () => {
+        sfx('relic');
+        const col = COLOR_INFO[lt.faction].name;
+        const m = new Modal(900, 560, { title: `${lt.name} 加入麾下`, closable: false });
+        const t = new Text({
+          text: `副将不会上场作战，而是为你本局冒险提供三项加成（从下一场战斗开始）：\n\n【技能】${lt.skill.name}：出现在战斗左侧主帅技能旁，标记“副将”。\n【源】开局 1 枚素源变为${col}源，可以打出${col}色牌。\n【卡池】之后的战斗奖励、商店与事件会出现${col}色牌。\n\n现有牌组不会改变；副将仅限本局，下一局需重新招贤。`,
+          style: { fontFamily: FONT_BODY, fontSize: fs(24), fill: C.text, lineHeight: 40, wordWrap: true, wordWrapWidth: 900 - 140, breakWords: true },
+        });
+        t.position.set(70, 110);
+        const ok = new Button('知道了', { width: 240, height: 72, fontSize: fs(28), kind: 'primary', onClick: () => { m.close(); void act({ t: 'recruit', i }); } });
+        ok.position.set(330, 450);
+        m.body.addChild(t, ok);
+      });
       this.content.addChild(c);
     });
     const skip = new Button('不招募', { width: 220, height: 64, kind: 'ghost', onClick: () => void act({ t: 'recruit', i: null }) });

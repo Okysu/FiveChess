@@ -1,5 +1,6 @@
 /** Run HUD: top bar, relic bar, deck/pile viewers, card inspector, card picker. */
 import { Container, Sprite, Text } from 'pixi.js';
+import { COLOR_INFO } from '../../engine/glossary';
 import { G } from '../core/app';
 import { fs } from './profile';
 import { content } from '../../engine/content';
@@ -67,6 +68,32 @@ export class TopBar extends Container {
       portrait.addChild(s);
     });
     row.add(portrait, { width: 64, height: 64 });
+    if (run.lieutenant) {
+      const lt = content().lieutenants.get(run.lieutenant);
+      if (lt) {
+        const lp = new Container();
+        const lm = maskCircle(24, 24, 21);
+        const lr = uiSprite('skill_disc', 52, 52, { tint: 0xc8f0d8 });
+        lr.position.set(24, 24);
+        lp.addChild(lr);
+        assets.with(K.hero(lt.id), (t) => {
+          const s = new Sprite(t);
+          const k = 48 / (t.width * 0.55);
+          s.scale.set(k);
+          s.position.set(24 - (t.width * k) / 2, 24 - t.height * k * 0.12 - 6);
+          lp.addChild(lm);
+          s.mask = lm;
+          lp.addChild(s);
+        });
+        lp.eventMode = 'static';
+        lp.on('pointerover', () => showTip(new Tooltip([
+          { title: `副将 · ${lt.name}「${lt.title}」`, body: `【${lt.skill.name}】${lt.skill.text}` },
+          { title: '本局加成', body: `· 技能出现在战斗左侧的主帅技能旁\n· 开局 1 枚素源变为${COLOR_INFO[lt.faction].name}源\n· 奖励与商店卡池加入${COLOR_INFO[lt.faction].name}色牌\n· 仅限本局冒险，下一局需重新招贤` },
+        ], 400), 0, 0));
+        lp.on('pointerout', hideTip);
+        row.add(lp, { width: 48, height: 48 });
+      }
+    }
     const hpCol = new Box({ dir: 'column', gap: 4 });
     const nm = new Text({ text: `${cmd.name} · ${cmd.title}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: C.goldLight } });
     hpCol.add(nm);

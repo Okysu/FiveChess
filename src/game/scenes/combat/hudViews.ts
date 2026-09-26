@@ -175,7 +175,7 @@ export class SkillRow extends Container {
       t.anchor.set(0.5);
       c.addChild(t);
       const typeName = { passive: '被动', active: '主动', limited: '限定', awaken: sk.awakened ? '已觉醒' : '觉醒' }[def.type];
-      const tag = new Text({ text: typeName, style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: fs(14), fill: C.textDim, stroke: { color: WB.ink, width: 3 } } });
+      const tag = new Text({ text: sk.from === 'lieutenant' ? `副将·${typeName}` : typeName, style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: fs(14), fill: C.textDim, stroke: { color: WB.ink, width: 3 } } });
       tag.anchor.set(0.5); tag.position.set(0, 48);
       c.addChild(tag);
       c.eventMode = 'static';
