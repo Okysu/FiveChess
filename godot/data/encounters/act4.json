@@ -1,0 +1,10 @@
+[
+  { "id": "enc4_siming", "act": 4, "tier": "boss", "enemies": [
+    { "id": "e4_siming", "row": "commander" },
+    { "id": "e4_ink_guard", "row": "front", "slot": 1 },
+    { "id": "e4_page_spirit", "row": "back", "slot": 1 }
+  ] },
+  { "id": "enc4_nameless", "act": 4, "tier": "boss", "enemies": [
+    { "id": "e4_nameless", "row": "commander" }
+  ] }
+]

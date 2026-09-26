@@ -1,0 +1,980 @@
+[
+  {
+    "id": "p_basic_strike",
+    "name": "暗刃",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": { "g": 1 },
+    "text": "造成{d}点伤害。",
+    "vars": { "d": 6 },
+    "varKinds": { "d": "attack" },
+    "target": "enemy",
+    "effects": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true }],
+    "upgrade": { "vars": { "d": 9 } },
+    "flavor": "刃在袖中时，没人知道它有多长。",
+    "art": { "subject": "a slender hand flicking a thin black blade out of a wide violet sleeve, the edge catching a single thread of moonlight in a dark corridor" }
+  },
+  {
+    "id": "p_basic_guard",
+    "name": "藏形",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": { "g": 1 },
+    "text": "获得{a}点[护甲]。",
+    "vars": { "a": 5 },
+    "varKinds": { "a": "armor" },
+    "target": "none",
+    "effects": [{ "op": "armor", "amount": "$a", "target": "commander" }],
+    "upgrade": { "vars": { "a": 8 } },
+    "flavor": "看得见的影子，才是最后一道墙。",
+    "art": { "subject": "a cloaked figure pressed against a lacquered wall, violet silk wrapping around the body like a shield, lantern light cut into sharp shadows" }
+  },
+
+  {
+    "id": "p_sig_yetan_thorn",
+    "name": "昙刺",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": { "g": 0 },
+    "text": "造成{d}点伤害，施加{p}层[中毒]。[连势]2：再施加{q}层[中毒]。",
+    "vars": { "d": 2, "p": 2, "q": 2 },
+    "varKinds": { "d": "attack", "p": "poison", "q": "poison" },
+    "keywords": ["combo"],
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "status", "status": "poison", "amount": "$p", "target": "target" },
+      { "op": "if", "cond": { "combo": 2 }, "then": [{ "op": "status", "status": "poison", "amount": "$q", "target": "target" }] }
+    ],
+    "upgrade": { "vars": { "d": 3, "p": 3 } },
+    "flavor": "昙花开在夜里，刺也是。",
+    "art": { "subject": "a pale night-blooming cactus flower unfurling around a hidden needle dripping green venom, moonlight from above, dark background" }
+  },
+  {
+    "id": "p_sig_yetan_bloom",
+    "name": "昙华一现",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": { "g": 1 },
+    "text": "[藏锋]。施加{p}层[中毒]；本回合你每已打出一张牌，额外施加{e}层。",
+    "vars": { "p": 3, "e": 1 },
+    "varKinds": { "p": "poison", "e": "poison" },
+    "keywords": ["retain", "combo"],
+    "target": "enemy",
+    "effects": [
+      { "op": "status", "status": "poison", "amount": { "add": ["$p", { "mul": [{ "count": "cardsPlayed" }, "$e"] }] }, "target": "target" }
+    ],
+    "upgrade": { "vars": { "e": 2 } },
+    "flavor": "一现，便足够让人记一辈子。",
+    "art": { "subject": "a woman in dark violet robes turning mid-spin as a huge white night flower bursts open behind her, petals scattering like blades under a full moon" }
+  },
+  {
+    "id": "p_sig_liuxu_mask",
+    "name": "千丝面",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": { "g": 1 },
+    "text": "抽{n}张牌，然后弃置{m}张牌。",
+    "vars": { "n": 3, "m": 1 },
+    "target": "none",
+    "effects": [
+      { "op": "draw", "n": "$n" },
+      { "op": "discard", "n": "$m", "mode": "choose" }
+    ],
+    "upgrade": { "vars": { "n": 4 } },
+    "flavor": "每张脸都是真的，只是不是同一个人的。",
+    "art": { "subject": "a row of delicate porcelain masks hanging on silk threads, one hand reaching to take one down, the other masks swaying, soft candlelight" }
+  },
+  {
+    "id": "p_sig_liuxu_needle",
+    "name": "袖里针",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": { "g": 1 },
+    "text": "[藏锋]。造成{d}点伤害；你每有一张手牌，伤害+{e}。",
+    "vars": { "d": 3, "e": 1 },
+    "varKinds": { "d": "attack", "e": "attack" },
+    "keywords": ["retain"],
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": { "add": ["$d", { "mul": [{ "count": "hand" }, "$e"] }] }, "target": "target", "attack": true }
+    ],
+    "upgrade": { "vars": { "d": 4, "e": 2 } },
+    "flavor": "她抬袖时，你只看见柳絮。",
+    "art": { "subject": "close view of a willow-green sleeve lifting, a spray of silver needles fanning out from within, drifting willow catkins in the air" }
+  },
+
+  {
+    "id": "tk_p_feint",
+    "name": "虚招",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "token",
+    "pool": false,
+    "cost": { "g": 0 },
+    "text": "抽{n}张牌。",
+    "vars": { "n": 1 },
+    "target": "none",
+    "effects": [{ "op": "draw", "n": "$n" }],
+    "upgrade": {
+      "qualitative": true,
+      "text": "抽{n}张牌，获得{a}点[护甲]。",
+      "vars": { "a": 2 },
+      "effects": [{ "op": "draw", "n": "$n" }, { "op": "armor", "amount": "$a", "target": "commander" }]
+    },
+    "flavor": "招是假的，时间是真的。",
+    "art": { "subject": "a ghostly afterimage of a fencer lunging while the real figure steps aside, violet motion trails, dim hall" }
+  },
+  {
+    "id": "tk_p_needle",
+    "name": "影针",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "token",
+    "pool": false,
+    "cost": { "g": 0 },
+    "text": "施加{p}层[中毒]。",
+    "vars": { "p": 2 },
+    "varKinds": { "p": "poison" },
+    "target": "enemy",
+    "effects": [{ "op": "status", "status": "poison", "amount": "$p", "target": "target" }],
+    "upgrade": { "vars": { "p": 3 } },
+    "flavor": "影子里长出来的针，扎进去也没有声音。",
+    "art": { "subject": "a single black needle forming out of a pool of shadow on stone floor, a bead of green venom at its tip, faint violet glow" }
+  },
+  {
+    "id": "tk_p_willow_shade",
+    "name": "絮影",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "token",
+    "pool": false,
+    "cost": { "g": 0 },
+    "text": "抽{n}张牌，然后弃置{m}张牌。",
+    "vars": { "n": 1, "m": 1 },
+    "target": "none",
+    "effects": [
+      { "op": "draw", "n": "$n" },
+      { "op": "discard", "n": "$m", "mode": "choose" }
+    ],
+    "upgrade": { "vars": { "n": 2 } },
+    "flavor": "风一吹，就换了个样子。",
+    "art": { "subject": "a translucent silhouette of a woman made of drifting willow catkins, dissolving and reforming in a breeze, pale green and violet light" }
+  },
+  {
+    "id": "tk_p_gu_egg",
+    "name": "蛊卵",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "token",
+    "pool": false,
+    "cost": { "g": 1 },
+    "text": "召唤一只「蛊虫」。",
+    "target": "none",
+    "effects": [{ "op": "summon", "unit": "tk_p_gu_worm" }],
+    "upgrade": { "qualitative": true, "cost": { "g": 0 } },
+    "flavor": "壳里的东西已经饿了。",
+    "art": { "subject": "a translucent violet egg resting in a clay jar, a curled insect silhouette pulsing inside, wisps of green mist" }
+  },
+  {
+    "id": "tk_p_gu_worm",
+    "name": "蛊虫",
+    "faction": "P",
+    "type": "unit",
+    "rarity": "token",
+    "pool": false,
+    "cost": { "g": 1 },
+    "text": "此单位造成伤害后，对受伤者施加{p}层[中毒]。",
+    "vars": { "p": 1 },
+    "varKinds": { "p": "poison" },
+    "unit": {
+      "atk": 1,
+      "hp": 1,
+      "triggers": [{ "on": "dealtDamage", "effects": [{ "op": "status", "status": "poison", "amount": "$p", "target": "eventTarget" }] }]
+    },
+    "upgrade": { "vars": { "p": 2 } },
+    "flavor": "一口下去，就不必再咬第二口。",
+    "art": { "subject": "a fat glossy violet centipede-like insect rearing up with dripping green mandibles, low angle, dark earth" }
+  },
+
+  {
+    "id": "p_venom_needle",
+    "name": "淬毒针",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 0, "c": ["P"] },
+    "text": "施加{p}层[中毒]。",
+    "vars": { "p": 5 },
+    "varKinds": { "p": "poison" },
+    "target": "enemy",
+    "effects": [{ "op": "status", "status": "poison", "amount": "$p", "target": "target" }],
+    "upgrade": { "vars": { "p": 7 } },
+    "flavor": "淬一次是药，淬七次是命。",
+    "art": { "subject": "a row of fine needles soaking in a porcelain dish of glowing green liquid, a gloved hand lifting one with tweezers, candlelight" }
+  },
+  {
+    "id": "p_shadow_step",
+    "name": "影步",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 0 },
+    "text": "抽{n}张牌。[连势]2：再抽{m}张牌。",
+    "vars": { "n": 1, "m": 1 },
+    "keywords": ["combo"],
+    "target": "none",
+    "effects": [
+      { "op": "draw", "n": "$n" },
+      { "op": "if", "cond": { "combo": 2 }, "then": [{ "op": "draw", "n": "$m" }] }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[藏锋]。抽{n}张牌。[连势]2：再抽{m}张牌。",
+      "keywords": ["combo", "retain"]
+    },
+    "flavor": "脚步落在影子上，影子替你走完剩下的路。",
+    "art": { "subject": "a masked assassin mid-stride across a tiled rooftop, three fading afterimages trailing behind, crescent moon, violet haze" }
+  },
+  {
+    "id": "p_feint_strike",
+    "name": "虚晃一枪",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 0, "c": ["P"] },
+    "text": "造成{d}点伤害。将一张[浮光]的「虚招」加入手牌。",
+    "vars": { "d": 5 },
+    "varKinds": { "d": "attack" },
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "create", "card": "tk_p_feint", "to": "hand", "fleeting": true }
+    ],
+    "upgrade": { "vars": { "d": 7 } },
+    "flavor": "第一枪是给你看的。",
+    "art": { "subject": "a spear thrust splitting into a real tip and an illusory violet tip, the defender guarding the wrong one, dust in lamplight" }
+  },
+  {
+    "id": "p_sacrifice_piece",
+    "name": "弃子",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 0 },
+    "text": "抽{a}张牌，然后弃置{b}张牌。若弃置的牌费用不低于{k}，再抽{n}张牌。",
+    "vars": { "a": 1, "b": 1, "k": 2, "n": 1 },
+    "target": "none",
+    "effects": [
+      { "op": "draw", "n": "$a" },
+      {
+        "op": "discard", "n": "$b", "mode": "choose",
+        "each": [{ "op": "if", "cond": { "eventCard": { "minCost": 2 } }, "then": [{ "op": "draw", "n": "$n" }] }]
+      }
+    ],
+    "upgrade": { "vars": { "n": 2 } },
+    "flavor": "舍得一子，才赢得一片。",
+    "art": { "subject": "a pale hand sliding a single black go stone off the edge of a wooden board into darkness, other stones glinting, overhead lamp" }
+  },
+  {
+    "id": "p_miasma",
+    "name": "瘴雾",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 1, "c": ["P"] },
+    "text": "对所有敌人施加{p}层[中毒]。[献]：对所有敌人施加{s}层[中毒]。",
+    "vars": { "p": 3, "s": 1 },
+    "varKinds": { "p": "poison", "s": "poison" },
+    "keywords": ["offering"],
+    "target": "none",
+    "effects": [{ "op": "status", "status": "poison", "amount": "$p", "target": "allEnemies" }],
+    "onSacrifice": [{ "op": "status", "status": "poison", "amount": "$s", "target": "allEnemies" }],
+    "upgrade": { "vars": { "p": 4 } },
+    "flavor": "沼泽不急，它有的是时间。",
+    "art": { "subject": "a thick green-violet fog rolling over a marsh battlefield, silhouettes of soldiers coughing and stumbling, sickly sunlight above" }
+  },
+  {
+    "id": "p_sheathed_edge",
+    "name": "匿刃",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "[藏锋]。造成{d}点伤害。[连势]3：再造成{d}点伤害。",
+    "vars": { "d": 6 },
+    "varKinds": { "d": "attack" },
+    "keywords": ["retain", "combo"],
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "if", "cond": { "combo": 3 }, "then": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true }] }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[藏锋]。造成{d}点伤害。[连势]2：再造成{d}点伤害。",
+      "vars": { "d": 7 },
+      "effects": [
+        { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+        { "op": "if", "cond": { "combo": 2 }, "then": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true }] }
+      ]
+    },
+    "flavor": "等它出鞘的人，往往等不到。",
+    "art": { "subject": "a short blade resting half-drawn inside a black lacquered scabbard on a kneeling assassin's lap, eyes closed, a single candle" }
+  },
+  {
+    "id": "p_layered_blade",
+    "name": "叠刃",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 0, "c": ["P"] },
+    "text": "造成{d}点伤害；本回合你每已打出一张牌，伤害+{e}。",
+    "vars": { "d": 3, "e": 2 },
+    "varKinds": { "d": "attack", "e": "attack" },
+    "keywords": ["combo"],
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": { "add": ["$d", { "mul": [{ "count": "cardsPlayed" }, "$e"] }] }, "target": "target", "attack": true }
+    ],
+    "upgrade": { "vars": { "e": 3 } },
+    "flavor": "一刀叠一刀，最后那刀最重。",
+    "art": { "subject": "multiple translucent violet blade arcs stacked in the air converging on one point, a swordswoman at the end of the sequence, dark background" }
+  },
+  {
+    "id": "p_graft",
+    "name": "移花接木",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 0 },
+    "text": "抽{n}张牌，然后使手牌中随机一张费用不低于{k}的牌本回合费用-{c}。",
+    "vars": { "n": 1, "k": 2, "c": 1 },
+    "target": "none",
+    "effects": [
+      { "op": "draw", "n": "$n" },
+      { "op": "costMod", "scope": "handRandom", "amount": { "mul": ["$c", -1] }, "until": "turn", "filter": { "minCost": 2 } }
+    ],
+    "upgrade": { "vars": { "n": 2 } },
+    "flavor": "花还是那朵花，枝已经不是那根枝。",
+    "art": { "subject": "a pair of hands grafting a glowing violet blossom onto a withered branch, sap shimmering, soft dawn light in a quiet garden" }
+  },
+  {
+    "id": "p_shadow_civet",
+    "name": "影狸",
+    "faction": "P",
+    "type": "unit",
+    "rarity": "common",
+    "cost": { "g": 0, "c": ["P"] },
+    "text": "[隐匿]。[献]：将一张[浮光]的「影针」加入手牌。",
+    "keywords": ["offering"],
+    "unit": { "atk": 2, "hp": 1, "keywords": ["stealth"] },
+    "onSacrifice": [{ "op": "create", "card": "tk_p_needle", "to": "hand", "fleeting": true }],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[隐匿]，[奇袭]。[献]：将一张[浮光]的「影针」加入手牌。",
+      "unit": { "keywords": ["stealth", "leap"] }
+    },
+    "flavor": "它从不走门。",
+    "art": { "subject": "a sleek black civet with violet eyes slipping between roof tiles, half its body dissolved into shadow, moonlit night" }
+  },
+  {
+    "id": "p_poison_moth",
+    "name": "毒蛾",
+    "faction": "P",
+    "type": "unit",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "[远射]。此单位造成伤害后，对受伤者施加{p}层[中毒]。",
+    "vars": { "p": 2 },
+    "varKinds": { "p": "poison" },
+    "unit": {
+      "atk": 1,
+      "hp": 2,
+      "keywords": ["ranged"],
+      "prefersBack": true,
+      "triggers": [{ "on": "dealtDamage", "effects": [{ "op": "status", "status": "poison", "amount": "$p", "target": "eventTarget" }] }]
+    },
+    "upgrade": { "vars": { "p": 3 } },
+    "flavor": "翅上的粉，比刀还记仇。",
+    "art": { "subject": "a large moth with dusky violet wings patterned like eyes, shedding glowing green scales as it hovers, dark forest clearing" }
+  },
+  {
+    "id": "p_card_sharp",
+    "name": "赌坊暗桩",
+    "faction": "P",
+    "type": "unit",
+    "rarity": "common",
+    "cost": { "g": 1, "c": ["P"] },
+    "text": "[起势]：抽{n}张牌，然后弃置{m}张牌。",
+    "vars": { "n": 1, "m": 1 },
+    "unit": { "atk": 3, "hp": 2 },
+    "effects": [
+      { "op": "draw", "n": "$n" },
+      { "op": "discard", "n": "$m", "mode": "choose" }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[隐匿]。[起势]：抽{n}张牌，然后弃置{m}张牌。",
+      "unit": { "keywords": ["stealth"] }
+    },
+    "flavor": "他替坊主看着每一张牌，也看着你。",
+    "art": { "subject": "a lean gambler in a dark vest leaning against a gaming table, fanning cards with one hand, a knife hilt visible at his hip, smoky lamplight" }
+  },
+  {
+    "id": "p_hidden_stone",
+    "name": "暗子",
+    "faction": "P",
+    "type": "delay",
+    "rarity": "common",
+    "cost": { "g": 0, "c": ["P"] },
+    "text": "[延时]1。[判定]：阳纹——造成{d}点伤害；阴纹——施加{p}层[中毒]。",
+    "vars": { "d": 8, "p": 5 },
+    "varKinds": { "d": "damage", "p": "poison" },
+    "keywords": ["delay", "judge"],
+    "delay": {
+      "turns": 1,
+      "on": "enemy",
+      "branches": {
+        "yang": [{ "op": "damage", "amount": "$d", "target": "target" }],
+        "yin": [{ "op": "status", "status": "poison", "amount": "$p", "target": "target" }]
+      }
+    },
+    "upgrade": { "vars": { "d": 11, "p": 7 } },
+    "flavor": "棋盘上最可怕的，是你没看见的那一颗。",
+    "art": { "subject": "a single black go stone sitting in a shadowed corner of a vast board, faint violet threads spreading from it toward white stones, top-down lamplight" }
+  },
+  {
+    "id": "p_smoke_veil",
+    "name": "烟遁",
+    "faction": "P",
+    "type": "response",
+    "rarity": "common",
+    "cost": { "g": 0, "c": ["P"] },
+    "text": "[应]：获得{a}点[护甲]，抽{n}张牌。",
+    "vars": { "a": 4, "n": 1 },
+    "varKinds": { "a": "armor" },
+    "keywords": ["response"],
+    "target": "none",
+    "effects": [
+      { "op": "armor", "amount": "$a", "target": "commander" },
+      { "op": "draw", "n": "$n" }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[藏锋]。[应]：获得{a}点[护甲]，抽{n}张牌。",
+      "vars": { "a": 5 },
+      "keywords": ["response", "retain"]
+    },
+    "flavor": "烟散时，人早已不在原处。",
+    "art": { "subject": "a burst of violet smoke erupting from a shattered clay pellet, a figure's silhouette vanishing inside it, sword strike passing through empty air" }
+  },
+  {
+    "id": "p_snake_lure",
+    "name": "引蛇出洞",
+    "faction": "P",
+    "type": "response",
+    "rarity": "common",
+    "cost": { "g": 0, "c": ["P"] },
+    "windowOnly": true,
+    "text": "[应]：对宣告行动的敌人施加{w}层[虚弱]和{p}层[中毒]。",
+    "vars": { "w": 1, "p": 3 },
+    "varKinds": { "p": "poison" },
+    "keywords": ["response"],
+    "target": "none",
+    "effects": [
+      { "op": "status", "status": "weak", "amount": "$w", "target": "declaredActor" },
+      { "op": "status", "status": "poison", "amount": "$p", "target": "declaredActor" }
+    ],
+    "upgrade": { "vars": { "w": 2, "p": 4 } },
+    "flavor": "它出洞的那一刻，就已经输了。",
+    "art": { "subject": "a coiled violet serpent striking at a charging warrior's wrist from beneath a stone, the warrior's weapon faltering, dramatic side light" }
+  },
+  {
+    "id": "p_slow_venom",
+    "name": "慢毒",
+    "faction": "P",
+    "type": "delay",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "[延时]2。[判定]：阴纹——施加{p}层[中毒]；阳纹——造成{d}点伤害。[献]：对一名随机敌人施加{s}层[中毒]。",
+    "vars": { "p": 6, "d": 10, "s": 2 },
+    "varKinds": { "p": "poison", "d": "damage", "s": "poison" },
+    "keywords": ["delay", "judge", "offering"],
+    "delay": {
+      "turns": 2,
+      "on": "enemy",
+      "branches": {
+        "yin": [{ "op": "status", "status": "poison", "amount": "$p", "target": "target" }],
+        "yang": [{ "op": "damage", "amount": "$d", "target": "target" }]
+      }
+    },
+    "onSacrifice": [{ "op": "status", "status": "poison", "amount": "$s", "target": "randomEnemy" }],
+    "upgrade": { "vars": { "p": 8, "d": 13 } },
+    "flavor": "这毒走得很慢，慢到你以为自己好了。",
+    "art": { "subject": "an hourglass filled with glowing green sand beside an untouched cup of tea on a banquet table, a guest smiling unaware in the background" }
+  },
+  {
+    "id": "p_venom_dagger",
+    "name": "淬毒短匕",
+    "faction": "P",
+    "type": "equip",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "你的主帅以此武器攻击时，对目标施加{p}层[中毒]。",
+    "vars": { "p": 2 },
+    "varKinds": { "p": "poison" },
+    "equip": {
+      "slot": "weapon",
+      "atk": 2,
+      "range": 1,
+      "durability": 3,
+      "triggers": [{ "on": "attacking", "effects": [{ "op": "status", "status": "poison", "amount": "$p", "target": "eventTarget" }] }]
+    },
+    "upgrade": { "qualitative": true, "vars": { "p": 3 }, "equip": { "range": 2 } },
+    "flavor": "刃口发绿的，别碰。",
+    "art": { "subject": "a curved short dagger with a green-stained edge lying on violet silk, a drop of venom sliding down the fuller, soft rim light" }
+  },
+
+  {
+    "id": "p_catalyze",
+    "name": "毒发",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": { "g": 1, "c": ["P"] },
+    "text": "使目标的[中毒]层数翻倍。",
+    "target": "enemy",
+    "effects": [
+      { "op": "status", "status": "poison", "amount": { "count": "status", "status": "poison", "of": "target" }, "target": "target" }
+    ],
+    "upgrade": { "cost": { "g": 0, "c": ["P"] } },
+    "flavor": "蛰伏在血里的东西，一声令下就醒了。",
+    "art": { "subject": "a warrior clutching his chest as glowing green veins spread rapidly across his skin, a veiled woman snapping her fingers behind him" }
+  },
+  {
+    "id": "p_bone_rot",
+    "name": "蚀骨",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": { "g": 1, "c": ["P"] },
+    "text": "造成{d}点伤害，再造成等同于目标[中毒]层数的伤害。",
+    "vars": { "d": 4 },
+    "varKinds": { "d": "attack" },
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "target", "attack": true },
+      { "op": "damage", "amount": { "count": "status", "status": "poison", "of": "target" }, "target": "target" }
+    ],
+    "upgrade": { "vars": { "d": 7 } },
+    "flavor": "毒入了骨，痛才刚开始。",
+    "art": { "subject": "a skeletal hand shown through translucent flesh as green corrosion eats along the bones, violet sparks, dark background" }
+  },
+  {
+    "id": "p_needle_rain",
+    "name": "千针",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": { "g": 1, "c": ["P"] },
+    "text": "对随机敌人造成{d}点伤害，共{b}次；本回合你每已打出一张牌，额外重复一次。",
+    "vars": { "d": 3, "b": 1 },
+    "varKinds": { "d": "damage" },
+    "keywords": ["combo"],
+    "target": "none",
+    "effects": [
+      { "op": "damage", "amount": "$d", "target": "randomEnemy", "times": { "add": ["$b", { "count": "cardsPlayed" }] } }
+    ],
+    "upgrade": { "vars": { "d": 4 } },
+    "flavor": "一针不响，千针成雨。",
+    "art": { "subject": "a storm of fine silver needles raining diagonally across a courtyard at night, a lone figure in violet at the center with arms spread" }
+  },
+  {
+    "id": "p_split_shadow",
+    "name": "分影",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": { "g": 1 },
+    "text": "将{n}张[浮光]的「影针」加入手牌。",
+    "vars": { "n": 2 },
+    "target": "none",
+    "effects": [{ "op": "create", "card": "tk_p_needle", "n": "$n", "to": "hand", "fleeting": true }],
+    "upgrade": {
+      "qualitative": true,
+      "text": "将{n}张[浮光]的「影针+」加入手牌。",
+      "effects": [{ "op": "create", "card": "tk_p_needle", "n": "$n", "to": "hand", "fleeting": true, "upgraded": true }]
+    },
+    "flavor": "影子也有影子。",
+    "art": { "subject": "an assassin's shadow splitting into several separate shadows on a moonlit wall, each holding a needle, the figure itself motionless" }
+  },
+  {
+    "id": "p_abandon",
+    "name": "弃车保帅",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": { "g": 0, "c": ["P"] },
+    "text": "弃置所有手牌，每弃置一张，抽{n}张牌。[燃尽]",
+    "vars": { "n": 1 },
+    "keywords": ["exhaust"],
+    "target": "none",
+    "effects": [{ "op": "discard", "n": 0, "mode": "all", "each": [{ "op": "draw", "n": "$n" }] }],
+    "upgrade": {
+      "qualitative": true,
+      "text": "弃置所有手牌，每弃置一张，抽{n}张牌。",
+      "keywords": []
+    },
+    "flavor": "车马皆可弃，将帅不可失。",
+    "art": { "subject": "a hand sweeping carved chess pieces off a board into the dark, leaving only the general piece standing in lamplight" }
+  },
+  {
+    "id": "p_mirror_flower",
+    "name": "镜花水月",
+    "faction": "P",
+    "type": "response",
+    "rarity": "rare",
+    "cost": { "g": 1, "c": ["P"] },
+    "windowOnly": true,
+    "text": "[应]：将该敌方行动的目标改为你选择的一个敌方单位。",
+    "keywords": ["response"],
+    "target": "enemyUnit",
+    "effects": [{ "op": "redirect", "to": "target" }],
+    "upgrade": { "cost": { "g": 0, "c": ["P"] } },
+    "flavor": "你砍中的，只是水里的月亮。",
+    "art": { "subject": "a warrior slashing at a reflection of a woman in a still pond, the blade instead cutting his own ally standing beside him, moon overhead" }
+  },
+  {
+    "id": "p_borrow_blade",
+    "name": "借刀杀人",
+    "faction": "P",
+    "type": "response",
+    "rarity": "rare",
+    "cost": { "g": 1, "c": ["P"] },
+    "windowOnly": true,
+    "text": "[应]：对宣告行动的敌人造成等同于其攻击力{m}倍的伤害。",
+    "vars": { "m": 2 },
+    "keywords": ["response"],
+    "target": "none",
+    "effects": [
+      { "op": "damage", "amount": { "mul": [{ "count": "atk", "of": "declaredActor" }, "$m"] }, "target": "declaredActor" }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[应]：对宣告行动的敌人造成等同于其攻击力{m}倍的伤害，并施加{w}层[虚弱]。",
+      "vars": { "w": 2 },
+      "effects": [
+        { "op": "damage", "amount": { "mul": [{ "count": "atk", "of": "declaredActor" }, "$m"] }, "target": "declaredActor" },
+        { "op": "status", "status": "weak", "amount": "$w", "target": "declaredActor" }
+      ]
+    },
+    "flavor": "刀是他的，力是他的，伤也是他的。",
+    "art": { "subject": "a brute's heavy saber twisting back toward its own wielder, guided by a thin violet silk thread held by an unseen hand, sparks" }
+  },
+  {
+    "id": "p_gambler",
+    "name": "千门赌客",
+    "faction": "P",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": { "g": 2, "c": ["P"] },
+    "text": "每当你弃置一张牌，你的主帅获得{a}点[护甲]。",
+    "vars": { "a": 2 },
+    "varKinds": { "a": "armor" },
+    "unit": {
+      "atk": 3,
+      "hp": 4,
+      "triggers": [{ "on": "cardDiscarded", "effects": [{ "op": "armor", "amount": "$a", "target": "commander" }] }]
+    },
+    "upgrade": { "unit": { "atk": 4, "hp": 5 } },
+    "flavor": "输掉的每一把，他都记在别人账上。",
+    "art": { "subject": "a grinning gambler in patched violet silk tossing discarded cards over his shoulder, each card turning into a floating shield of light" }
+  },
+  {
+    "id": "p_gu_master",
+    "name": "蛊师",
+    "faction": "P",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": { "g": 2, "c": ["P"] },
+    "text": "[远射]。敌人受到的[中毒]伤害+{x}。",
+    "vars": { "x": 1 },
+    "varKinds": { "x": "poison" },
+    "unit": {
+      "atk": 2,
+      "hp": 4,
+      "keywords": ["ranged"],
+      "prefersBack": true,
+      "modifiers": [{ "stat": "poisonDamage", "amount": 1, "who": "enemy" }]
+    },
+    "upgrade": {
+      "vars": { "x": 2 },
+      "unit": { "modifiers": [{ "stat": "poisonDamage", "amount": 2, "who": "enemy" }] }
+    },
+    "flavor": "她养的虫，只吃中了毒的人。",
+    "art": { "subject": "an old woman in layered violet robes cradling a clay jar, glowing insects crawling along her arms, green smoke curling upward" }
+  },
+  {
+    "id": "p_shadow_dancer",
+    "name": "影舞者",
+    "faction": "P",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": { "g": 1, "c": ["P"] },
+    "text": "[隐匿]，[奇袭]。每回合你打出第{k}张牌后，此单位攻击一名随机敌人。",
+    "vars": { "k": 3 },
+    "keywords": ["combo"],
+    "unit": {
+      "atk": 2,
+      "hp": 2,
+      "keywords": ["stealth", "leap"],
+      "triggers": [{ "on": "cardPlayed", "if": { "eq": [{ "count": "cardsPlayed" }, 3] }, "effects": [{ "op": "attack", "attacker": "self", "target": "randomEnemy" }] }]
+    },
+    "upgrade": { "unit": { "atk": 3, "hp": 3 } },
+    "flavor": "第三拍落下时，她已经到了你身后。",
+    "art": { "subject": "a dancer with twin crescent blades spinning through violet mist, her body half invisible, silk ribbons trailing, stage lanterns" }
+  },
+  {
+    "id": "p_hide_light",
+    "name": "韬光养晦",
+    "faction": "P",
+    "type": "field",
+    "rarity": "rare",
+    "cost": { "g": 1, "c": ["P"] },
+    "text": "阵地，持续{t}回合：回合结束时你不弃置手牌；你的手牌上限+{h}。",
+    "vars": { "t": 2, "h": 2 },
+    "field": {
+      "duration": 2,
+      "modifiers": [
+        { "stat": "retainHand", "amount": 1 },
+        { "stat": "handLimit", "amount": 2 }
+      ]
+    },
+    "upgrade": { "vars": { "t": 3 }, "field": { "duration": 3 } },
+    "flavor": "灯熄着，棋子还在盘上。",
+    "art": { "subject": "a dim study with a go board frozen mid-game, a hooded player sitting completely still in shadow, a single lamp turned low" }
+  },
+
+  {
+    "id": "p_plague",
+    "name": "疫蛊蔓生",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": { "g": 2, "c": ["P"] },
+    "text": "对目标施加{p}层[中毒]，然后对所有其他敌人施加等同于目标[中毒]层数的[中毒]。[燃尽]",
+    "vars": { "p": 3, "sp": 0 },
+    "varKinds": { "p": "poison" },
+    "keywords": ["exhaust"],
+    "target": "enemy",
+    "effects": [
+      { "op": "status", "status": "poison", "amount": "$p", "target": "target" },
+      { "op": "store", "key": "sp", "value": { "count": "status", "status": "poison", "of": "target" } },
+      { "op": "cleanse", "target": "target", "what": "poison" },
+      { "op": "status", "status": "poison", "amount": "$sp", "target": "allEnemies" }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "对目标施加{p}层[中毒]，然后对所有其他敌人施加等同于目标[中毒]层数的[中毒]。",
+      "keywords": []
+    },
+    "flavor": "一只蛊死了，一窝蛊醒了。",
+    "art": { "subject": "a swarm of glowing violet insects bursting from one fallen soldier and streaming toward the rest of an enemy line, green haze, dusk" }
+  },
+  {
+    "id": "p_golden_cicada",
+    "name": "金蝉脱壳",
+    "faction": "P",
+    "type": "response",
+    "rarity": "epic",
+    "cost": { "g": 1, "c": ["P"] },
+    "windowOnly": true,
+    "text": "[应]：取消该行动。[燃尽]",
+    "keywords": ["response", "exhaust"],
+    "target": "none",
+    "effects": [{ "op": "cancel" }],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[应]：取消该行动，将一张[浮光]的「虚招」加入手牌。[燃尽]",
+      "effects": [{ "op": "cancel" }, { "op": "create", "card": "tk_p_feint", "to": "hand", "fleeting": true }]
+    },
+    "flavor": "刀落下时，只剩一副空壳。",
+    "art": { "subject": "a heavy axe cleaving an empty translucent golden husk shaped like a person, the real figure already stepping out behind in violet shadow" }
+  },
+  {
+    "id": "p_endgame",
+    "name": "收官",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": { "g": 2, "c": ["P"] },
+    "text": "[藏锋]。造成{d}点伤害；本回合你每已打出一张牌，伤害+{e}。",
+    "vars": { "d": 8, "e": 3 },
+    "varKinds": { "d": "attack", "e": "attack" },
+    "keywords": ["retain", "combo"],
+    "target": "enemy",
+    "effects": [
+      { "op": "damage", "amount": { "add": ["$d", { "mul": [{ "count": "cardsPlayed" }, "$e"] }] }, "target": "target", "attack": true }
+    ],
+    "upgrade": { "vars": { "d": 10, "e": 4 } },
+    "flavor": "最后一手，要落在对方以为已经赢了的时候。",
+    "art": { "subject": "a single white-knuckled hand placing the final stone on a crowded go board, violet light rippling across the stones, opponent's shadow recoiling" }
+  },
+  {
+    "id": "p_puzzle_box",
+    "name": "千机匣",
+    "faction": "P",
+    "type": "equip",
+    "rarity": "epic",
+    "cost": { "g": 1, "c": ["P"] },
+    "text": "你的回合开始时，将{n}张[浮光]的「影针」加入手牌。",
+    "vars": { "n": 1 },
+    "equip": {
+      "slot": "treasure",
+      "triggers": [{ "on": "turnStart", "effects": [{ "op": "create", "card": "tk_p_needle", "n": "$n", "to": "hand", "fleeting": true }] }]
+    },
+    "upgrade": {
+      "qualitative": true,
+      "text": "你的回合开始时，将{n}张[浮光]的「影针+」加入手牌。",
+      "equip": {
+        "triggers": [{ "on": "turnStart", "effects": [{ "op": "create", "card": "tk_p_needle", "n": "$n", "to": "hand", "fleeting": true, "upgraded": true }] }]
+      }
+    },
+    "flavor": "匣子有九十九个机关，第一百个是你。",
+    "art": { "subject": "an intricate black lacquer puzzle box on a table, its panels sliding open by themselves to reveal rows of tiny glinting needles, violet glow" }
+  },
+  {
+    "id": "p_gu_mother",
+    "name": "蛊母",
+    "faction": "P",
+    "type": "unit",
+    "rarity": "epic",
+    "cost": { "g": 2, "c": ["P"] },
+    "text": "你的回合结束时，对每个已[中毒]的敌人施加{p}层[中毒]。",
+    "vars": { "p": 2 },
+    "varKinds": { "p": "poison" },
+    "unit": {
+      "atk": 2,
+      "hp": 5,
+      "prefersBack": true,
+      "triggers": [{
+        "on": "turnEnd",
+        "effects": [{
+          "op": "status", "status": "poison", "amount": "$p",
+          "target": { "side": "enemy", "kind": "character", "where": { "hasStatus": { "of": "it", "status": "poison" } } }
+        }]
+      }]
+    },
+    "upgrade": { "vars": { "p": 3 } },
+    "flavor": "万蛊之母，从不亲自动口。",
+    "art": { "subject": "a colossal pale violet insect queen coiled in a cavern, translucent egg sacs glowing green along her body, smaller insects swarming around" }
+  },
+  {
+    "id": "p_thousand_faces",
+    "name": "千面郎君",
+    "faction": "P",
+    "type": "unit",
+    "rarity": "epic",
+    "cost": { "g": 2, "c": ["P"] },
+    "text": "[隐匿]。每当你弃置一张牌，对一名随机敌人施加{p}层[中毒]。",
+    "vars": { "p": 1 },
+    "varKinds": { "p": "poison" },
+    "unit": {
+      "atk": 3,
+      "hp": 3,
+      "keywords": ["stealth"],
+      "triggers": [{ "on": "cardDiscarded", "effects": [{ "op": "status", "status": "poison", "amount": "$p", "target": "randomEnemy" }] }]
+    },
+    "upgrade": {
+      "qualitative": true,
+      "text": "[隐匿]。每当你弃置一张牌，对所有敌人施加{p}层[中毒]。",
+      "unit": {
+        "triggers": [{ "on": "cardDiscarded", "effects": [{ "op": "status", "status": "poison", "amount": "$p", "target": "allEnemies" }] }]
+      }
+    },
+    "flavor": "撕下一张脸，就有一个人倒下。",
+    "art": { "subject": "a slim man in violet peeling a paper mask from his face, the discarded mask crumbling into green poison dust drifting toward distant figures" }
+  },
+
+  {
+    "id": "p_myriad_gu",
+    "name": "万蛊噬心",
+    "faction": "P",
+    "type": "tactic",
+    "rarity": "legendary",
+    "cost": { "g": 2, "c": ["P"] },
+    "text": "对每个敌人造成等同于其[中毒]层数{m}倍的伤害（无视[护甲]与[灵障]）。[燃尽]",
+    "vars": { "m": 2 },
+    "keywords": ["exhaust"],
+    "target": "none",
+    "effects": [{
+      "op": "forEach", "sel": "allEnemies",
+      "effects": [{ "op": "damage", "amount": { "mul": [{ "count": "status", "status": "poison", "of": "it" }, "$m"] }, "target": "it", "pierce": true }]
+    }],
+    "upgrade": { "vars": { "m": 3 } },
+    "flavor": "心口先是一痒，然后是千万张嘴。",
+    "art": { "subject": "a battlefield of enemies frozen mid-scream as glowing violet insects erupt from their chests, a veiled woman in the center closing her fist, green light" }
+  },
+  {
+    "id": "p_flowing_clouds",
+    "name": "行云流水",
+    "faction": "P",
+    "type": "field",
+    "rarity": "legendary",
+    "cost": { "g": 2, "c": ["P"] },
+    "text": "阵地，持续至你的下个回合开始：每当你打出一张牌，抽{n}张牌。",
+    "vars": { "n": 1 },
+    "keywords": ["combo"],
+    "field": {
+      "duration": 1,
+      "triggers": [{ "on": "cardPlayed", "effects": [{ "op": "draw", "n": "$n" }] }]
+    },
+    "upgrade": {
+      "qualitative": true,
+      "text": "打出时，将一张[浮光]的「虚招」加入手牌。阵地，持续至你的下个回合开始：每当你打出一张牌，抽{n}张牌。",
+      "effects": [{ "op": "create", "card": "tk_p_feint", "to": "hand", "fleeting": true }]
+    },
+    "flavor": "一手接一手，云不停，水不断。",
+    "art": { "subject": "a swordswoman performing an unbroken sequence of strikes that trail into flowing clouds and water ribbons, violet dusk sky, wide composition" }
+  },
+  {
+    "id": "p_lanke_ghost",
+    "name": "烂柯棋鬼",
+    "faction": "P",
+    "type": "unit",
+    "rarity": "legendary",
+    "cost": { "g": 3, "c": ["P"] },
+    "text": "[远射]。[起势]：弃置所有手牌，每弃置一张，抽{n}张牌。每当你弃置一张牌，对一名随机敌人造成{d}点伤害。",
+    "vars": { "n": 1, "d": 2 },
+    "varKinds": { "d": "damage" },
+    "unit": {
+      "atk": 4,
+      "hp": 5,
+      "keywords": ["ranged"],
+      "prefersBack": true,
+      "triggers": [{ "on": "cardDiscarded", "effects": [{ "op": "damage", "amount": "$d", "target": "randomEnemy" }] }]
+    },
+    "effects": [{ "op": "discard", "n": 0, "mode": "all", "each": [{ "op": "draw", "n": "$n" }] }],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[远射]，[隐匿]。[起势]：弃置所有手牌，每弃置一张，抽{n}张牌。每当你弃置一张牌，对一名随机敌人造成{d}点伤害。",
+      "vars": { "d": 3 },
+      "unit": { "keywords": ["ranged", "stealth"] }
+    },
+    "flavor": "樵夫看完一局棋，斧柄已经烂了。棋鬼还在等下一局。",
+    "art": { "subject": "a gaunt ghostly go player in rotted scholar robes sitting cross-legged beside a mossy stone board, a rusted axe handle crumbling nearby, pale violet spirit light" }
+  }
+]

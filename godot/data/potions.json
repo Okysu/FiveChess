@@ -1,0 +1,245 @@
+[
+  {
+    "id": "po_red_flame_pill",
+    "name": "赤焰丹",
+    "rarity": "common",
+    "text": "对一个敌人造成12点伤害。",
+    "target": "enemy",
+    "effects": [{ "op": "damage", "amount": 12, "target": "target" }],
+    "art": { "subject": "a glowing crimson pill cracking open to release a jet of flame toward a distant silhouette, sparks flying" }
+  },
+  {
+    "id": "po_iron_bone_pill",
+    "name": "铁骨丹",
+    "rarity": "common",
+    "text": "使一个友方角色获得12点[护甲]。",
+    "target": "friendly",
+    "effects": [{ "op": "armor", "amount": 12, "target": "target" }],
+    "art": { "subject": "a dull grey pill resting in an open palm as iron-colored plates spread across the skin of the wrist" }
+  },
+  {
+    "id": "po_clear_mind_pill",
+    "name": "清心丹",
+    "rarity": "common",
+    "text": "抽3张牌。",
+    "target": "none",
+    "effects": [{ "op": "draw", "n": 3 }],
+    "art": { "subject": "a translucent pale blue pill dissolving in a cup of clear water, ripples forming the shapes of floating cards" }
+  },
+  {
+    "id": "po_gathering_pill",
+    "name": "聚灵丹",
+    "rarity": "common",
+    "text": "获得2枚本回合的[源]。",
+    "target": "none",
+    "effects": [{ "op": "energy", "n": 2 }],
+    "art": { "subject": "a swirling multicolored pill drawing small orbs of colored light toward itself, suspended above a bronze tray" }
+  },
+  {
+    "id": "po_burning_talisman",
+    "name": "焚身符",
+    "rarity": "common",
+    "text": "对一个敌人施加6层[灼烧]。",
+    "target": "enemy",
+    "effects": [{ "op": "status", "status": "burn", "amount": 6, "target": "target" }],
+    "art": { "subject": "a yellow paper talisman with red brush script bursting into flame mid-air as it flies forward" }
+  },
+  {
+    "id": "po_bone_rot_powder",
+    "name": "蚀骨散",
+    "rarity": "common",
+    "text": "对一个敌人施加6层[中毒]。",
+    "target": "enemy",
+    "effects": [{ "op": "status", "status": "poison", "amount": 6, "target": "target" }],
+    "art": { "subject": "a small paper packet spilling sickly green powder that curls into a skull-shaped cloud, dark alley" }
+  },
+  {
+    "id": "po_frost_talisman",
+    "name": "冰封符",
+    "rarity": "common",
+    "text": "对一个敌人施加1层[冰冻]。",
+    "target": "enemy",
+    "effects": [{ "op": "status", "status": "freeze", "amount": 1, "target": "target" }],
+    "art": { "subject": "a pale blue paper talisman freezing solid in mid-air, ice crystals spreading outward from its inked seal" }
+  },
+  {
+    "id": "po_dispersal_talisman",
+    "name": "散功符",
+    "rarity": "common",
+    "text": "对所有敌人施加2层[虚弱]。",
+    "target": "none",
+    "effects": [{ "op": "status", "status": "weak", "amount": 2, "target": "allEnemies" }],
+    "art": { "subject": "a grey talisman unfurling into drifting smoke ribbons that wrap around shadowy warriors, their weapons drooping" }
+  },
+  {
+    "id": "po_armor_break_talisman",
+    "name": "破甲符",
+    "rarity": "common",
+    "text": "对一个敌人施加3层[易伤]。",
+    "target": "enemy",
+    "effects": [{ "op": "status", "status": "vulnerable", "amount": 3, "target": "target" }],
+    "art": { "subject": "a crimson-inked talisman pressed against cracked armor, fracture lines of light spreading from it" }
+  },
+  {
+    "id": "po_tiger_bone_wine",
+    "name": "虎骨酒",
+    "rarity": "common",
+    "text": "获得2层[锋锐]。",
+    "target": "none",
+    "effects": [{ "op": "status", "status": "might", "amount": 2, "target": "commander" }],
+    "art": { "subject": "a small earthenware flask of amber wine with a tiger bone charm tied to its neck, a snarling tiger spirit in the steam" }
+  },
+  {
+    "id": "po_spring_pill",
+    "name": "回春丹",
+    "rarity": "common",
+    "text": "恢复15点生命。可在地图上使用。",
+    "target": "none",
+    "effects": [{ "op": "heal", "amount": 15, "target": "commander" }],
+    "outOfCombat": [{ "op": "hp", "n": 15 }],
+    "art": { "subject": "a warm green pill glowing softly with sprouting leaves unfurling from its surface, held between two fingers" }
+  },
+  {
+    "id": "po_sky_peek_talisman",
+    "name": "窥天符",
+    "rarity": "common",
+    "text": "[观星]4。",
+    "target": "none",
+    "effects": [{ "op": "stargaze", "n": 4 }],
+    "art": { "subject": "a golden talisman burning away to reveal four floating fate cards arranged in the night sky, starlight" }
+  },
+  {
+    "id": "po_fate_lot_talisman",
+    "name": "天命签符",
+    "rarity": "uncommon",
+    "text": "获得2张[命签]。",
+    "target": "none",
+    "effects": [{ "op": "sign", "n": 2 }],
+    "art": { "subject": "a gilded talisman splitting into two thin glowing divination lots that spin into an outstretched hand" }
+  },
+  {
+    "id": "po_warding_charm",
+    "name": "护身符",
+    "rarity": "uncommon",
+    "text": "获得2层[灵障]。",
+    "target": "none",
+    "effects": [{ "op": "ward", "amount": 2, "target": "commander" }],
+    "art": { "subject": "a small embroidered red charm pouch radiating two concentric translucent golden shields around a figure" }
+  },
+  {
+    "id": "po_purifying_pill",
+    "name": "净秽丹",
+    "rarity": "uncommon",
+    "text": "清除我方所有角色的减益，并恢复6点生命。可在地图上使用（恢复6点生命）。",
+    "target": "none",
+    "effects": [
+      { "op": "cleanse", "target": "allFriendly", "what": "debuffs" },
+      { "op": "heal", "amount": 6, "target": "commander" }
+    ],
+    "outOfCombat": [{ "op": "hp", "n": 6 }],
+    "art": { "subject": "a pure white pill in a lotus-shaped dish, dark smoke being drawn out of a figure and purified into light" }
+  },
+  {
+    "id": "po_source_forging_pill",
+    "name": "化源丹",
+    "rarity": "uncommon",
+    "text": "本场战斗中永久获得1枚主帅主色的[源]。",
+    "target": "none",
+    "effects": [{ "op": "gainSource", "n": 1, "color": "best" }],
+    "art": { "subject": "a pill melting into a bright crystalline orb of colored light that settles into a ring of floating source stones" }
+  },
+  {
+    "id": "po_spirit_calling_talisman",
+    "name": "召灵符",
+    "rarity": "uncommon",
+    "text": "从3张随机随从牌中选择1张加入手牌，其本回合费用为0。",
+    "target": "none",
+    "effects": [{ "op": "discover", "pool": { "type": "unit", "faction": "own" }, "n": 3, "free": true }],
+    "art": { "subject": "a green talisman glowing on the ground as three ghostly creature silhouettes rise from its inked circle" }
+  },
+  {
+    "id": "po_ember_hoard_pill",
+    "name": "蓄烬丹",
+    "rarity": "uncommon",
+    "text": "本场战斗[余烬]上限+2。",
+    "target": "none",
+    "effects": [{ "op": "emberCap", "n": 2 }],
+    "art": { "subject": "a dark red pill with glowing ember cracks, surrounded by several small coals that refuse to go out" }
+  },
+  {
+    "id": "po_vigor_pill",
+    "name": "壮灵丹",
+    "rarity": "uncommon",
+    "text": "使一个友方单位获得+3/+3。",
+    "target": "friendlyUnit",
+    "effects": [{ "op": "buff", "target": "target", "atk": 3, "hp": 3 }],
+    "art": { "subject": "a beast spirit swallowing a glowing orange pill, its body swelling with rippling muscle and light" }
+  },
+  {
+    "id": "po_divination_talisman",
+    "name": "问卜符",
+    "rarity": "uncommon",
+    "text": "进行一次[判定]：阳纹——对所有敌人造成10点伤害；阴纹——获得15点[护甲]。",
+    "target": "none",
+    "effects": [{ "op": "judge", "branches": {
+      "yang": [{ "op": "damage", "amount": 10, "target": "allEnemies" }],
+      "yin": [{ "op": "armor", "amount": 15, "target": "commander" }]
+    } }],
+    "art": { "subject": "a talisman burning in a bronze bowl as a single fate card rises from the smoke, half gold and half silver" }
+  },
+  {
+    "id": "po_stone_skin_pill",
+    "name": "石肤丹",
+    "rarity": "uncommon",
+    "text": "获得2层[坚韧]。",
+    "target": "none",
+    "effects": [{ "op": "status", "status": "tenacity", "amount": 2, "target": "commander" }],
+    "art": { "subject": "a granite-textured pill beside a forearm whose skin is turning into layered grey stone, dust falling" }
+  },
+  {
+    "id": "po_soul_return_pill",
+    "name": "还魂丹",
+    "rarity": "rare",
+    "text": "恢复一半已损失的生命。在地图上使用时，改为恢复30%最大生命。",
+    "target": "none",
+    "effects": [{ "op": "heal", "amount": { "div": [{ "count": "missingHp" }, 2] }, "target": "commander" }],
+    "outOfCombat": [{ "op": "hpPct", "pct": 30 }],
+    "art": { "subject": "a luminous golden pill hovering over a fallen warrior as a faint soul figure is drawn back into the body" }
+  },
+  {
+    "id": "po_fate_rewrite_talisman",
+    "name": "改命符",
+    "rarity": "rare",
+    "text": "[观星]5，然后获得2张[命签]。",
+    "target": "none",
+    "effects": [{ "op": "stargaze", "n": 5 }, { "op": "sign", "n": 2 }],
+    "art": { "subject": "a gold-and-black talisman rewriting glowing characters on itself, five fate cards orbiting it in a spiral" }
+  },
+  {
+    "id": "po_heavenfire_talisman",
+    "name": "天火符",
+    "rarity": "rare",
+    "text": "对所有敌人造成12点伤害。",
+    "target": "none",
+    "effects": [{ "op": "damage", "amount": 12, "target": "allEnemies" }],
+    "art": { "subject": "a talisman tossed upward igniting the sky, pillars of white-gold fire raining down on a line of enemies" }
+  },
+  {
+    "id": "po_soul_sealing_talisman",
+    "name": "镇魂符",
+    "rarity": "rare",
+    "text": "消灭一个敌方单位（首领与精英头目不受影响）。",
+    "target": "enemyUnit",
+    "effects": [{ "op": "kill", "target": "target" }],
+    "art": { "subject": "a black talisman with a vermilion seal slapped onto the forehead of a snarling spectral beast, which turns to ash" }
+  },
+  {
+    "id": "po_origin_restoring_pill",
+    "name": "回元丹",
+    "rarity": "rare",
+    "text": "重置你所有已用的[源]。",
+    "target": "none",
+    "effects": [{ "op": "refresh", "n": { "count": "sources" } }],
+    "art": { "subject": "a pearl-white pill releasing a pulse of light that relights a ring of dimmed floating source stones" }
+  }
+]

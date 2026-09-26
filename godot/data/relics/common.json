@@ -1,0 +1,277 @@
+[
+  {
+    "id": "rl_page_sun",
+    "name": "残页·日卷",
+    "tier": "common",
+    "text": "每当你方的[判定]结果为{sun}日纹，对随机敌人造成3点伤害。",
+    "flavor": "日卷记征伐。纸边焦黑，仍烫手。",
+    "triggers": [
+      { "on": "judged", "who": "friendly", "suit": "sun", "effects": [{ "op": "damage", "amount": 3, "target": "randomEnemy" }] }
+    ],
+    "art": { "subject": "a torn scorched page of an ancient scroll floating in the air, a golden sun sigil glowing on it, embers curling from its burnt edge" }
+  },
+  {
+    "id": "rl_page_moon",
+    "name": "残页·月卷",
+    "tier": "common",
+    "text": "每当你方的[判定]结果为{moon}月纹，抽1张牌。",
+    "flavor": "月卷记归藏。读它的人，总会多想起一件事。",
+    "triggers": [
+      { "on": "judged", "who": "friendly", "suit": "moon", "effects": [{ "op": "draw", "n": 1 }] }
+    ],
+    "art": { "subject": "a torn silver-edged scroll page drifting in darkness, a pale crescent moon sigil shining on it, faint mist around" }
+  },
+  {
+    "id": "rl_page_thunder",
+    "name": "残页·雷卷",
+    "tier": "common",
+    "text": "每当你方的[判定]结果为{thunder}雷纹，对所有敌人造成2点伤害。",
+    "flavor": "雷卷记天罚。撕下它时，天上响了一声。",
+    "triggers": [
+      { "on": "judged", "who": "friendly", "suit": "thunder", "effects": [{ "op": "damage", "amount": 2, "target": "allEnemies" }] }
+    ],
+    "art": { "subject": "a torn violet scroll page crackling with small lightning arcs, a thunderbolt sigil at its center, storm clouds behind" }
+  },
+  {
+    "id": "rl_page_mountain",
+    "name": "残页·山卷",
+    "tier": "common",
+    "text": "每当你方的[判定]结果为{mountain}山纹，获得4点[护甲]。",
+    "flavor": "山卷记长久。它比别的残页都重。",
+    "triggers": [
+      { "on": "judged", "who": "friendly", "suit": "mountain", "effects": [{ "op": "armor", "amount": 4, "target": "commander" }] }
+    ],
+    "art": { "subject": "a heavy torn scroll page resting on a stone ledge, a green triangular mountain sigil etched into it, dust motes in soft light" }
+  },
+  {
+    "id": "rl_broken_zither_peg",
+    "name": "断弦琴轸",
+    "tier": "common",
+    "text": "每打出6张牌，抽2张牌。",
+    "flavor": "弦断了，轸还在拧。拧满六圈，便有一声余响。",
+    "triggers": [
+      { "on": "cardPlayed", "effects": [{ "op": "counter", "amount": 1, "max": 6, "then": [{ "op": "draw", "n": 2 }] }] }
+    ],
+    "art": { "subject": "a carved rosewood tuning peg of an old zither with a snapped silk string wound around it, lying on dark lacquered wood" }
+  },
+  {
+    "id": "rl_rusted_mirror",
+    "name": "锈铁护心镜",
+    "tier": "common",
+    "text": "每场战斗的第一回合开始时，获得8点[护甲]。",
+    "flavor": "锈甲将军的旧部，把它挂在碑上，等一个还会冲锋的人。",
+    "triggers": [
+      { "on": "turnStart", "limit": "combat", "effects": [{ "op": "armor", "amount": 8, "target": "commander" }] }
+    ],
+    "art": { "subject": "a round rusted iron breastplate mirror hanging from a leather cord, dented at the center, reflecting cold light" }
+  },
+  {
+    "id": "rl_graveside_wine",
+    "name": "碑前冷酒",
+    "tier": "common",
+    "text": "战斗胜利后，恢复6点生命。",
+    "flavor": "敬亡者一杯，自己也喝一杯。",
+    "triggers": [
+      { "on": "combatEnd", "effects": [{ "op": "heal", "amount": 6, "target": "commander" }] }
+    ],
+    "art": { "subject": "a small cracked clay wine jar and cup placed before a weathered gravestone, cold mist, a single paper lantern" }
+  },
+  {
+    "id": "rl_longevity_tablet",
+    "name": "长生木牌",
+    "tier": "common",
+    "text": "拾取时，最大生命+10。",
+    "flavor": "牌上写着一个陌生人的名字，和一个很长的寿数。",
+    "onPickup": [{ "op": "maxHp", "n": 10 }],
+    "art": { "subject": "an old wooden memorial tablet painted with faded red characters, tied with a green ribbon, soft candlelight" }
+  },
+  {
+    "id": "rl_underground_coins",
+    "name": "地宫铜钱串",
+    "tier": "common",
+    "text": "战斗胜利后，额外获得10金。",
+    "flavor": "地下王国的钱，在地上也还算钱。",
+    "triggers": [
+      { "on": "combatEnd", "effects": [{ "op": "gold", "n": 10 }] }
+    ],
+    "art": { "subject": "a string of green-patinated square-holed bronze coins coiled on a stone floor, faint torchlight glinting" }
+  },
+  {
+    "id": "rl_bone_flute",
+    "name": "骨笛",
+    "tier": "common",
+    "text": "每当一个敌方单位死亡，抽1张牌。",
+    "flavor": "吹响它的不是风，是刚散的魂。",
+    "triggers": [
+      { "on": "unitDied", "who": "enemy", "effects": [{ "op": "draw", "n": 1 }] }
+    ],
+    "art": { "subject": "a pale bone flute with seven holes, a wisp of ghostly blue smoke drifting out of it, lying on black silk" }
+  },
+  {
+    "id": "rl_bronze_tsuba",
+    "name": "赤铜刀镡",
+    "tier": "common",
+    "ruleChanging": true,
+    "text": "你的主帅攻击距离+1（需装备武器）。",
+    "flavor": "护手宽一分，刀就长一寸。",
+    "modifiers": [{ "stat": "range", "amount": 1 }],
+    "art": { "subject": "an ornate red-bronze sword guard shaped like coiled flames, resting on a whetstone, warm forge light" }
+  },
+  {
+    "id": "rl_black_iron_scale",
+    "name": "玄铁甲片",
+    "tier": "common",
+    "faction": "B",
+    "ruleChanging": true,
+    "text": "回合开始时，我方每个角色至多保留8点[护甲]，不再全部清零。",
+    "flavor": "镇岳门的甲片，一片压一片，像山的年轮。",
+    "modifiers": [{ "stat": "armorKeep", "amount": 8 }],
+    "art": { "subject": "a single overlapping dark iron armor scale engraved with mountain patterns, frost on its edge, cold blue light" }
+  },
+  {
+    "id": "rl_soul_wick",
+    "name": "引魂灯芯",
+    "tier": "common",
+    "faction": "G",
+    "text": "每回合第一次有友方单位死亡时，抽1张牌。",
+    "flavor": "万木庭的灯芯是草籽捻成的。灯灭了，种子就落地。",
+    "triggers": [
+      { "on": "unitDied", "who": "friendly", "limit": "turn", "effects": [{ "op": "draw", "n": 1 }] }
+    ],
+    "art": { "subject": "a twisted lamp wick made of green grass seeds burning with a soft jade flame, tiny seeds falling from it" }
+  },
+  {
+    "id": "rl_star_lot",
+    "name": "观星阁铜签",
+    "tier": "common",
+    "faction": "Y",
+    "ruleChanging": true,
+    "text": "战斗开始时，获得1张[命签]。",
+    "flavor": "阁中弟子人手一支。抽中什么，便信什么。",
+    "triggers": [
+      { "on": "combatStart", "effects": [{ "op": "sign", "n": 1 }] }
+    ],
+    "art": { "subject": "a thin gilded bronze divination lot engraved with star charts, standing in a bamboo cup, golden starlight above" }
+  },
+  {
+    "id": "rl_gambler_dice",
+    "name": "幽弈坊骰子",
+    "tier": "common",
+    "faction": "P",
+    "text": "每回合你打出第3张牌时，对随机敌人施加3层[中毒]。",
+    "flavor": "坊里的骰子只有一面是空的。你永远掷不到它。",
+    "triggers": [
+      { "on": "cardPlayed", "if": { "combo": 3 }, "limit": "turn", "effects": [{ "op": "status", "status": "poison", "amount": 3, "target": "randomEnemy" }] }
+    ],
+    "art": { "subject": "a violet bone die with green venom dripping from its pips, rolling across a dark gambling table in candlelight" }
+  },
+  {
+    "id": "rl_ember_brazier",
+    "name": "余烬炉",
+    "tier": "common",
+    "ruleChanging": true,
+    "text": "[余烬]上限+1。",
+    "flavor": "炉灰里总埋着一点红，留给夜里的人。",
+    "modifiers": [{ "stat": "emberCap", "amount": 1 }],
+    "art": { "subject": "a small three-legged bronze brazier filled with grey ash, a few glowing red embers buried inside, night darkness" }
+  },
+  {
+    "id": "rl_pill_pouch",
+    "name": "丹囊",
+    "tier": "common",
+    "text": "丹药栏位+1。",
+    "flavor": "多一个口袋，就多一条命。",
+    "run": [{ "rule": "potionSlots", "n": 1 }],
+    "art": { "subject": "an embroidered cloth pouch with several small porcelain pill bottles peeking out, tied with a red cord" }
+  },
+  {
+    "id": "rl_herb_basket",
+    "name": "采药篓",
+    "tier": "common",
+    "text": "拾取时，获得2瓶随机丹药。",
+    "flavor": "采药人没有回来，篓子却一直在路边等着。",
+    "onPickup": [{ "op": "addPotion" }, { "op": "addPotion" }],
+    "art": { "subject": "a woven bamboo herb basket overflowing with glowing mushrooms and roots, abandoned beside a mossy stone path" }
+  },
+  {
+    "id": "rl_stele_rubbing",
+    "name": "断碑拓片",
+    "tier": "common",
+    "text": "每场战斗一次：受到伤害后若生命低于最大生命的一半，恢复12点生命。",
+    "flavor": "拓下来的是一个人的生辰。贴在胸口，就还能多活一会儿。",
+    "triggers": [
+      {
+        "on": "damaged",
+        "limit": "combat",
+        "if": { "lt": [{ "count": "hp" }, { "div": [{ "count": "maxHp" }, 2] }] },
+        "effects": [{ "op": "heal", "amount": 12, "target": "commander" }]
+      }
+    ],
+    "art": { "subject": "a paper rubbing of a broken stele with faint black ink characters, fluttering in wind, pinned by a small stone" }
+  },
+  {
+    "id": "rl_dawn_bell_shard",
+    "name": "晨钟碎片",
+    "tier": "common",
+    "text": "战斗开始时，抽2张牌。",
+    "flavor": "钟碎了，敲它还是会醒。",
+    "triggers": [
+      { "on": "combatStart", "effects": [{ "op": "draw", "n": 2 }] }
+    ],
+    "art": { "subject": "a curved shard of a bronze temple bell with engraved clouds, lit by pale dawn light through fog" }
+  },
+  {
+    "id": "rl_temple_cushion",
+    "name": "破庙蒲团",
+    "tier": "common",
+    "text": "在营地休息时，额外恢复10点生命。",
+    "flavor": "庙塌了一半，蒲团还是暖的。",
+    "run": [{ "rule": "restHealBonus", "amount": 10 }],
+    "art": { "subject": "a worn round straw meditation cushion in a half-collapsed temple, moonlight through the broken roof" }
+  },
+  {
+    "id": "rl_sunfire_striker",
+    "name": "焚阳火镰",
+    "tier": "common",
+    "faction": "R",
+    "text": "战斗开始时，对所有敌人施加3层[灼烧]。",
+    "flavor": "焚阳宗入门第一课：先学会怎样点着别人。",
+    "triggers": [
+      { "on": "combatStart", "effects": [{ "op": "status", "status": "burn", "amount": 3, "target": "allEnemies" }] }
+    ],
+    "art": { "subject": "a curved steel fire striker with a crimson tassel striking sparks off a flint, bright orange sparks flying" }
+  },
+  {
+    "id": "rl_ink_line",
+    "name": "墨斗线",
+    "tier": "common",
+    "text": "每当你献牌为源，获得3点[护甲]。",
+    "flavor": "木匠弹一道墨线，梁就正了；你献一张牌，命就稳了。",
+    "triggers": [
+      { "on": "cardSacrificed", "effects": [{ "op": "armor", "amount": 3, "target": "commander" }] }
+    ],
+    "art": { "subject": "a carpenter's ink line reel shaped like a small wooden boat, a taut black ink-soaked thread stretched across a beam" }
+  },
+  {
+    "id": "rl_paper_effigy",
+    "name": "纸人替身",
+    "tier": "common",
+    "text": "战斗开始时，获得1层[灵障]。",
+    "flavor": "它替你挨第一下。它从不抱怨。",
+    "triggers": [
+      { "on": "combatStart", "effects": [{ "op": "ward", "amount": 1, "target": "commander" }] }
+    ],
+    "art": { "subject": "a small white paper effigy of a person with a red talisman stamp on its chest, standing upright on a table, faint glow" }
+  },
+  {
+    "id": "rl_bronze_bell",
+    "name": "铜铃",
+    "tier": "common",
+    "text": "每回合你第一次在敌方回合打出[应]牌时，抽1张牌。",
+    "flavor": "铃响在刀落之前。",
+    "triggers": [
+      { "on": "responsePlayed", "limit": "turn", "effects": [{ "op": "draw", "n": 1 }] }
+    ],
+    "art": { "subject": "a small bronze wind bell with a jade clapper swaying on a red string, motion blur, sharp wind" }
+  }
+]

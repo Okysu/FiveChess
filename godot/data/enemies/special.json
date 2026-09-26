@@ -1,0 +1,34 @@
+[
+  {
+    "id": "sandbox_dummy",
+    "name": "试招木人",
+    "act": 1,
+    "tier": "minion",
+    "hp": [999, 999],
+    "atk": 1,
+    "row": "front",
+    "moves": {
+      "poke": { "name": "戳", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] },
+      "brace": { "name": "稳", "intent": ["defend"], "effects": [{ "op": "armor", "amount": 1, "target": "self" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["poke", "brace"] },
+    "lore": "观星阁弟子练招用的木人，身上刻满了被改写过的命纹。",
+    "art": { "subject": "a wooden training dummy carved with glowing rune patterns, standing on a stone plinth" }
+  },
+  {
+    "id": "sandbox_archer",
+    "name": "试招弓架",
+    "act": 1,
+    "tier": "minion",
+    "hp": [999, 999],
+    "atk": 1,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "shoot": { "name": "射", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }], "target": "commander" }
+    },
+    "ai": { "type": "cycle", "sequence": ["shoot"] },
+    "lore": "会自己拉弦的木弓架。",
+    "art": { "subject": "an animated wooden bow rack that draws its own bowstring, rune-carved" }
+  }
+]

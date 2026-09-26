@@ -1,0 +1,239 @@
+[
+  {
+    "id": "e4_siming",
+    "name": "司命",
+    "act": 4,
+    "tier": "boss",
+    "hp": [720, 720],
+    "atk": 14,
+    "row": "commander",
+    "deck": ["ec_b_fate_quill", "ec_b_fate_quill", "ec_b_rewrite_fate", "ec_b_heaven_decree", "ec_b_call_guard", "ec_b_star_ink", "ec_b_close_book", "ec_b_still_hour", "ec_b_fixed_number", "ec_b_last_line"],
+    "energy": { "start": 2, "perTurn": 2, "max": 6 },
+    "passives": [
+      { "on": "rejudged", "who": "enemy", "effects": [{ "op": "sign", "n": 1 }] }
+    ],
+    "moves": {
+      "gaze": { "name": "观星", "intent": ["judge", "buff"], "target": "none", "effects": [
+        { "op": "stargaze", "n": 5 },
+        { "op": "sign", "n": 1 }
+      ] },
+      "write": { "name": "落笔", "intent": ["cast"], "target": "none", "effects": [{ "op": "script", "id": "bossCast" }] },
+      "decree": { "name": "天命判", "intent": ["attack", "judge"], "target": "commander", "effects": [
+        { "op": "judge", "target": "target", "branches": {
+          "ranks": [
+            { "min": -20, "max": 5, "effects": [{ "op": "damage", "amount": 30, "target": "target", "attack": true }] },
+            { "min": 6, "max": 9, "effects": [{ "op": "damage", "amount": 16, "target": "target", "attack": true }] },
+            { "min": 10, "max": 13, "effects": [{ "op": "damage", "amount": 6, "target": "target", "attack": true }] }
+          ]
+        } }
+      ] },
+      "stroke": { "name": "星辰笔", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target", "times": 2 }] },
+      "bind": { "name": "装订", "intent": ["debuff", "judge"], "target": "commander", "effects": [
+        { "op": "delay", "card": "ec_b_binding_thread", "target": "target" },
+        { "op": "create", "card": "st_dazed", "n": 2, "to": "draw" }
+      ] },
+      "verdict": { "name": "终审", "intent": ["attack"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 38, "target": "target", "attack": true }
+      ] },
+      "burn_book": { "name": "焚书", "intent": ["attack", "debuff"], "target": "none", "effects": [
+        { "op": "damage", "amount": 10, "target": "allEnemies" },
+        { "op": "status", "status": "burn", "amount": 5, "target": "allEnemies" },
+        { "op": "create", "card": "st_burn_scar", "n": 2, "to": "discard" }
+      ] }
+    },
+    "ai": { "type": "script", "first": ["gaze", "write"], "then": { "type": "cycle", "sequence": ["stroke", "decree", "write", "gaze"] } },
+    "phases": [
+      {
+        "hpBelow": 0.6,
+        "name": "合卷",
+        "text": "你已读到这一页了……那便合上它。",
+        "atk": 16,
+        "effects": [
+          { "op": "summon", "unit": "e4_ink_guard", "n": 2, "row": "front" },
+          { "op": "summon", "unit": "e4_page_spirit", "n": 1, "row": "back" },
+          { "op": "armor", "amount": 30, "target": "self" },
+          { "op": "fateAdd", "suit": "moon", "rank": 1, "n": 2, "where": "shuffle" }
+        ],
+        "ai": { "type": "script", "first": ["bind"], "then": { "type": "cycle", "sequence": ["write", "stroke", "gaze", "write", "verdict", "decree"] } },
+        "art": { "subject": "the Fate Scribe closing an immense book whose pages are night sky, the binding thread glowing like a comet tail, ink guards rising from the spine" }
+      },
+      {
+        "hpBelow": 0.3,
+        "minAscension": 15,
+        "name": "焚书",
+        "text": "若命书烧尽，便谁也不必再被写下……连我也是。",
+        "atk": 18,
+        "effects": [
+          { "op": "summon", "unit": "e4_last_candle", "n": 3, "row": "back" },
+          { "op": "status", "status": "might", "amount": 3, "target": "self" },
+          { "op": "heal", "amount": 60, "target": "self" }
+        ],
+        "ai": { "type": "script", "first": ["burn_book"], "then": { "type": "cycle", "sequence": ["write", "verdict", "stroke", "write", "burn_book", "decree"] } },
+        "art": { "subject": "the Fate Scribe standing in a whirlwind of burning pages, holding a flaming brush aloft, the Book of Fate igniting behind him, three candles guttering at his feet" }
+      }
+    ],
+    "lore": "天地初开时，司命以星辰为墨写下众生的命数。他写了千万年，从不出错，也从不犹豫——直到写到命书最后一行，才发现那一行写的是他自己。他落不下笔。三百年前命书撕裂，世人都说是执命者作乱，只有星殿的灯知道，是司命亲手松开了装订线。他坐在时间停止之处，等一个敢从他手里接过笔的人。",
+    "dialogue": {
+      "intro": "执命者。你一路改写别人的命数走到这里——可曾想过，你自己的那一行，是谁写的？",
+      "phase": "你已读到这一页了……那便合上它。",
+      "defeat": "……笔，在你手里了。命书的最后一行本就空着——去写吧，写你自己。"
+    },
+    "art": { "subject": "an ageless scholar-deity in flowing robes of midnight blue embroidered with moving constellations, seated before a colossal open book at the heart of stopped time, holding a brush whose tip drips starlight, frozen clock-gears floating around him" }
+  },
+  {
+    "id": "e4_nameless",
+    "name": "无名之执",
+    "act": 4,
+    "tier": "boss",
+    "hp": [760, 760],
+    "atk": 14,
+    "row": "commander",
+    "deck": ["ec_b_echo_strike", "ec_b_echo_strike", "ec_b_mirror_shard", "ec_b_clinging", "ec_b_hollow_self", "ec_b_old_wish", "ec_b_regret", "ec_b_unlet_go"],
+    "energy": { "start": 2, "perTurn": 2, "max": 6 },
+    "passives": [
+      { "on": "statusApplied", "who": "enemy", "status": "might", "effects": [
+        { "op": "status", "status": "might", "amount": { "count": "eventAmount" }, "target": "self" }
+      ] },
+      { "on": "statusApplied", "who": "enemy", "status": "tenacity", "effects": [
+        { "op": "status", "status": "tenacity", "amount": { "count": "eventAmount" }, "target": "self" }
+      ] },
+      { "on": "damaged", "if": { "gte": [{ "count": "eventAmount" }, 20] }, "effects": [
+        { "op": "damage", "amount": { "div": [{ "count": "eventAmount" }, 2] }, "target": "enemyCommander" }
+      ] }
+    ],
+    "moves": {
+      "mirror": { "name": "照影", "intent": ["defend", "buff"], "target": "none", "effects": [
+        { "op": "armor", "amount": { "add": [{ "count": "armor", "of": "enemyCommander" }, 12] }, "target": "self" },
+        { "op": "status", "status": "might", "amount": 1, "target": "self" }
+      ] },
+      "echo": { "name": "回响", "intent": ["summon"], "target": "none", "effects": [
+        { "op": "summon", "unit": "e4_echo", "row": "front",
+          "atk": { "max": [{ "count": "atk", "of": { "side": "enemy", "pick": "highestAtk" } }, 8] },
+          "hp": { "max": [{ "count": "hp", "of": { "side": "enemy", "pick": "highestHp" } }, 24] } }
+      ] },
+      "grasp": { "name": "执念", "intent": ["attack"], "target": "highestAtk", "effects": [
+        { "op": "attack", "target": "target", "amount": { "add": ["$atk", 8] } }
+      ] },
+      "cast": { "name": "心魔", "intent": ["cast"], "target": "none", "effects": [{ "op": "script", "id": "bossCast" }] },
+      "wail": { "name": "无名恸", "intent": ["attack"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 32, "target": "target", "attack": true }
+      ] },
+      "seize": { "name": "夺念", "intent": ["debuff"], "target": "commander", "effects": [
+        { "op": "create", "card": "st_wound", "n": 2, "to": "draw" },
+        { "op": "create", "card": "st_dazed", "to": "hand" },
+        { "op": "status", "status": "weak", "amount": 2, "target": "target" }
+      ] },
+      "last_grip": { "name": "最后一握", "intent": ["attack"], "target": "commander", "effects": [
+        { "op": "damage", "amount": 16, "target": "target", "attack": true, "times": 2 }
+      ] }
+    },
+    "ai": { "type": "script", "first": ["grasp", "cast"], "then": { "type": "cycle", "sequence": ["mirror", "echo", "wail", "cast", "grasp", "cast"] } },
+    "phases": [
+      {
+        "hpBelow": 0.66,
+        "name": "照见",
+        "text": "你砍向我的每一刀，我都记得——因为握刀的，是你自己的手。",
+        "atk": 15,
+        "effects": [
+          { "op": "summon", "unit": "e4_echo", "n": 2, "row": "front",
+            "atk": { "max": [{ "count": "atk", "of": { "side": "enemy", "pick": "highestAtk" } }, 8] },
+            "hp": { "max": [{ "count": "hp", "of": { "side": "enemy", "pick": "highestHp" } }, 24] } },
+          { "op": "ward", "amount": 2, "target": "self" }
+        ],
+        "ai": { "type": "script", "first": ["seize"], "then": { "type": "cycle", "sequence": ["grasp", "cast", "wail", "echo", "cast", "mirror"] } },
+        "art": { "subject": "the faceless figure now wearing a perfect mirror where its face should be, reflecting the viewer, two shadow echoes stepping out from its sides in the viewer's stance" }
+      },
+      {
+        "hpBelow": 0.33,
+        "name": "不肯放手",
+        "text": "……原来你要的从来不是改命。你只是，不肯放手。",
+        "atk": 17,
+        "effects": [
+          { "op": "status", "status": "might", "amount": 3, "target": "self" },
+          { "op": "create", "card": "cu_suye", "to": "discard" }
+        ],
+        "ai": { "type": "script", "first": ["last_grip"], "then": { "type": "cycle", "sequence": ["cast", "grasp", "last_grip", "cast", "wail", "seize"] } },
+        "art": { "subject": "the figure collapsing inward into a pair of enormous clenched hands made of ink and memory, knuckles white with strain, gripping a single blank page" }
+      }
+    ],
+    "lore": "命书之心的更深处，还有一页没有名字的纸。执命者一路改写别人的命，每一次不甘、每一次非赢不可、每一次不肯放手，都在这页纸上留下一道墨痕。墨痕积得够深，便站了起来。它用你的招式，穿你的甲，记得你每一场胜仗——它就是你走到这里所凭的全部执念。想改写自己的命，先得放下它。",
+    "dialogue": {
+      "intro": "……你终于走到这里了。别怕，我没有名字——我是你一路上不肯放下的那些东西。",
+      "phase": "你砍向我的每一刀，我都记得。",
+      "defeat": "……松手吧。你看，手一松开，这页纸上的字也就散了。原来这一页，本来就是空白的。"
+    },
+    "art": { "subject": "a faceless humanoid figure woven from ink strokes and fragments of the viewer's own memories, standing alone on a blank page that stretches to infinity, one hand reaching forward in an unbreakable grip" }
+  },
+  {
+    "id": "e4_page_spirit",
+    "name": "书页灵",
+    "act": 4,
+    "tier": "minion",
+    "hp": [34, 38],
+    "atk": 9,
+    "row": "back",
+    "keywords": ["ranged"],
+    "moves": {
+      "cut": { "name": "纸刃", "intent": ["attack"], "target": "commander", "effects": [{ "op": "attack", "target": "target" }] },
+      "recite": { "name": "诵页", "intent": ["buff", "debuff"], "target": "none", "effects": [
+        { "op": "ward", "amount": 1, "target": "commander" },
+        { "op": "create", "card": "st_dazed", "to": "draw" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["recite", "cut"], "start": "random" },
+    "lore": "命书散落的残页，在时间停止处翩翩不落。每一页都记着一段没写完的人生，它们绕着司命飞，替他念诵尚未落定的判词。",
+    "art": { "subject": "a swirling spirit made of dozens of glowing manuscript pages fluttering in a humanoid shape, sharp paper edges catching starlight, suspended in motionless air" }
+  },
+  {
+    "id": "e4_ink_guard",
+    "name": "墨卫",
+    "act": 4,
+    "tier": "minion",
+    "hp": [52, 58],
+    "atk": 11,
+    "row": "front",
+    "keywords": ["taunt"],
+    "thorns": 5,
+    "moves": {
+      "hit": { "name": "墨戟", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] },
+      "guard": { "name": "护卷", "intent": ["defend"], "target": "none", "effects": [
+        { "op": "armor", "amount": 12, "target": "commander" },
+        { "op": "armor", "amount": 8, "target": "self" }
+      ] }
+    },
+    "ai": { "type": "cycle", "sequence": ["guard", "hit"] },
+    "lore": "司命用最浓的一池墨捏成的卫士，手里握着装订命书的铁锥。它们只懂一件事：不许任何人靠近那根装订线。",
+    "art": { "subject": "a tall sentinel sculpted from dense black ink, wielding a long iron binding awl like a halberd, spines of thorny calligraphy strokes jutting from its shoulders" }
+  },
+  {
+    "id": "e4_last_candle",
+    "name": "残烛",
+    "act": 4,
+    "tier": "minion",
+    "hp": [30, 30],
+    "atk": 0,
+    "row": "back",
+    "modifiers": [{ "stat": "damageTaken", "amount": -4, "who": "commander" }],
+    "moves": {
+      "flicker": { "name": "续焰", "intent": ["heal"], "target": "none", "effects": [{ "op": "heal", "amount": 10, "target": "commander" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["flicker"] },
+    "lore": "命书之心最后的三支蜡烛，照着司命落笔的那一方寸。烛火一日不灭，他便一日不必看清自己那一行字。",
+    "art": { "subject": "a single tall white candle burned almost to the stub, wax flowing like tears, its small flame leaning toward an unseen figure in the dark" }
+  },
+  {
+    "id": "e4_echo",
+    "name": "执念残影",
+    "act": 4,
+    "tier": "minion",
+    "hp": [24, 24],
+    "atk": 8,
+    "row": "front",
+    "moves": {
+      "strike": { "name": "残影击", "intent": ["attack"], "effects": [{ "op": "attack", "target": "target" }] }
+    },
+    "ai": { "type": "cycle", "sequence": ["strike"] },
+    "lore": "执念化出的残影，模仿着你最得意的那一击。它没有面目，只有一双和你一模一样、不肯松开的手。",
+    "art": { "subject": "a translucent shadow copy of a warrior mid-strike, faceless, outlined in trembling ink, its grip on its weapon impossibly tight" }
+  }
+]

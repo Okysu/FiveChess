@@ -1,0 +1,609 @@
+[
+  {
+    "id": "n_gate_veteran",
+    "name": "守关老卒",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "[坚守]。",
+    "unit": { "atk": 1, "hp": 3, "keywords": ["taunt"] },
+    "upgrade": {
+      "text": "[坚守]。[棘刺]{t}。",
+      "vars": { "t": 2 },
+      "unit": { "thorns": 2 },
+      "qualitative": true
+    },
+    "flavor": "关早就破了，他还守着那道门槛。",
+    "art": { "subject": "a grizzled old gate guard in patched lamellar armor planting a long spear before a ruined stone gateway, feet braced, dusk light behind him" }
+  },
+  {
+    "id": "n_hill_hunter",
+    "name": "山中猎户",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "common",
+    "cost": { "g": 2 },
+    "text": "[远射]。",
+    "unit": { "atk": 2, "hp": 2, "keywords": ["ranged"], "prefersBack": true },
+    "upgrade": { "unit": { "atk": 3 } },
+    "flavor": "他只认得两种东西：风向，和猎物。",
+    "art": { "subject": "a lean mountain hunter in fur-trimmed hood drawing a horn bow from behind a mossy boulder, pine forest mist, eye narrowed along the arrow" }
+  },
+  {
+    "id": "n_road_swordsman",
+    "name": "游方剑客",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "common",
+    "cost": { "g": 2 },
+    "text": "[疾行]。",
+    "unit": { "atk": 3, "hp": 2, "keywords": ["haste"] },
+    "upgrade": { "unit": { "hp": 3 } },
+    "flavor": "剑比人先到，人比名声先走。",
+    "art": { "subject": "a wandering swordsman in a travel-worn straw hat mid-dash, blade half drawn from its scabbard, dust kicking up on a dirt road, low sun" }
+  },
+  {
+    "id": "n_night_walker",
+    "name": "夜行客",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "common",
+    "cost": { "g": 2 },
+    "text": "[奇袭]。",
+    "unit": { "atk": 2, "hp": 2, "keywords": ["leap"] },
+    "upgrade": {
+      "text": "[奇袭]。[隐匿]。",
+      "unit": { "keywords": ["leap", "stealth"] },
+      "qualitative": true
+    },
+    "flavor": "墙再高，也高不过檐下的影子。",
+    "art": { "subject": "a masked night runner in dark wrappings leaping between tiled rooftops under a thin crescent moon, twin short knives reversed along the forearms" }
+  },
+  {
+    "id": "n_straw_effigy",
+    "name": "扎草人",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "召唤{n}个具有[坚守]的草人。",
+    "vars": { "n": 2 },
+    "effects": [{ "op": "summon", "unit": "tk_n_straw", "n": "$n", "row": "front" }],
+    "upgrade": { "vars": { "n": 3 } },
+    "flavor": "稻草不怕疼，只怕火。",
+    "art": { "subject": "weathered hands binding straw into crude human effigies in a harvested field, two finished scarecrows already standing guard, overcast light" }
+  },
+  {
+    "id": "tk_n_straw",
+    "name": "草人",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "token",
+    "pool": false,
+    "cost": { "g": 0 },
+    "text": "[坚守]。",
+    "unit": { "atk": 0, "hp": 2, "keywords": ["taunt"] },
+    "flavor": "它替你挨的每一刀，都不会记仇。",
+    "art": { "subject": "a crude straw effigy wearing a torn soldier's tabard, bound to a wooden cross-stake, arrows stuck in its chest, wind tugging loose straw" }
+  },
+  {
+    "id": "n_plain_offering",
+    "name": "素心供",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 0 },
+    "text": "抽{n}张牌。[献]：抽{m}张牌。",
+    "vars": { "n": 1, "m": 1 },
+    "keywords": ["offering"],
+    "effects": [{ "op": "draw", "n": "$n" }],
+    "onSacrifice": [{ "op": "draw", "n": "$m" }],
+    "upgrade": { "vars": { "m": 2 } },
+    "flavor": "无色之供，神明也挑不出错。",
+    "art": { "subject": "a plain white porcelain offering bowl holding a single unlit candle on a bare stone altar, thin smoke of incense curling upward, soft dawn light" }
+  },
+  {
+    "id": "n_five_color_charm",
+    "name": "五色符",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 0 },
+    "text": "选择一种颜色，本回合获得{n}枚该色的临时[源]。[燃尽]。",
+    "vars": { "n": 1 },
+    "keywords": ["exhaust"],
+    "effects": [
+      {
+        "op": "choose",
+        "options": [
+          { "text": "赤", "effects": [{ "op": "energy", "n": "$n", "color": "R" }] },
+          { "text": "玄", "effects": [{ "op": "energy", "n": "$n", "color": "B" }] },
+          { "text": "青", "effects": [{ "op": "energy", "n": "$n", "color": "G" }] },
+          { "text": "金", "effects": [{ "op": "energy", "n": "$n", "color": "Y" }] },
+          { "text": "紫", "effects": [{ "op": "energy", "n": "$n", "color": "P" }] }
+        ]
+      }
+    ],
+    "upgrade": {
+      "text": "选择一种颜色，本回合获得{n}枚该色的临时[源]。",
+      "keywords": [],
+      "qualitative": true
+    },
+    "flavor": "一张黄纸，五道朱砂。写哪一道，全看你缺哪一口气。",
+    "art": { "subject": "a paper talisman held between two fingers, five brush strokes glowing in vermilion, indigo, jade, gold and violet, embers peeling from its edges" }
+  },
+  {
+    "id": "n_coin_divination",
+    "name": "掷钱问卦",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "[判定]：阳纹——对目标造成{d}点伤害；阴纹——获得{a}点[护甲]。",
+    "vars": { "d": 8, "a": 6 },
+    "varKinds": { "d": "attack", "a": "armor" },
+    "keywords": ["judge"],
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "yang": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true }],
+          "yin": [{ "op": "armor", "amount": "$a", "target": "commander" }]
+        }
+      }
+    ],
+    "upgrade": { "vars": { "d": 11, "a": 8 } },
+    "flavor": "三枚铜钱落地，字面朝天者进，背面朝天者守。",
+    "art": { "subject": "three bronze square-holed coins spinning in midair above an open palm, one landing face up on a cracked tile floor, lantern light glinting off their rims" }
+  },
+  {
+    "id": "n_glimpse",
+    "name": "窥天一隙",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 0 },
+    "text": "[窥视]{p}。抽{n}张牌。",
+    "vars": { "p": 3, "n": 1 },
+    "effects": [
+      { "op": "peek", "n": "$p" },
+      { "op": "draw", "n": "$n" }
+    ],
+    "upgrade": {
+      "text": "[观星]{p}。抽{n}张牌。",
+      "vars": { "p": 2 },
+      "effects": [
+        { "op": "stargaze", "n": "$p" },
+        { "op": "draw", "n": "$n" }
+      ],
+      "qualitative": true
+    },
+    "flavor": "天幕裂开一道缝，缝里是明天的颜色。",
+    "art": { "subject": "a traveler peering through a narrow crack in a night sky rendered as torn silk, glimpsing glowing fate cards arranged beyond, starlight on the face" }
+  },
+  {
+    "id": "n_rummage",
+    "name": "翻检行囊",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 0 },
+    "text": "抽{n}张牌，然后弃置{k}张牌。",
+    "vars": { "n": 2, "k": 1 },
+    "effects": [
+      { "op": "draw", "n": "$n" },
+      { "op": "discard", "n": "$k", "mode": "choose" }
+    ],
+    "upgrade": { "vars": { "n": 3 } },
+    "flavor": "干粮、火石、半张地图——还有一块不知谁塞进来的石头。",
+    "art": { "subject": "a worn leather travel pack spilled open on a campfire-lit blanket, hands sorting rations, flint, a rolled map and a strange smooth stone" }
+  },
+  {
+    "id": "n_brace",
+    "name": "横刀格挡",
+    "faction": "N",
+    "type": "response",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "[应]：获得{a}点[护甲]。",
+    "vars": { "a": 5 },
+    "varKinds": { "a": "armor" },
+    "keywords": ["response"],
+    "effects": [{ "op": "armor", "amount": "$a", "target": "commander" }],
+    "upgrade": {
+      "text": "[应]：获得{a}点[护甲]。若在应对窗口中打出，抽{n}张牌。",
+      "vars": { "a": 6, "n": 1 },
+      "effects": [
+        { "op": "armor", "amount": "$a", "target": "commander" },
+        { "op": "if", "cond": { "inWindow": true }, "then": [{ "op": "draw", "n": "$n" }] }
+      ],
+      "qualitative": true
+    },
+    "flavor": "刀背迎上去的那一刻，你已经在想下一招。",
+    "art": { "subject": "a fighter catching a heavy downward blow on a horizontally raised saber, sparks bursting at the point of contact, knees bent, rain streaking the dark" }
+  },
+  {
+    "id": "n_shift_ranks",
+    "name": "挪移阵脚",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "将一个单位移至另一排（须有空位）。抽{n}张牌。",
+    "vars": { "n": 1 },
+    "target": "anyUnit",
+    "effects": [
+      { "op": "move", "target": "target", "to": "swap" },
+      { "op": "draw", "n": "$n" }
+    ],
+    "upgrade": { "cost": { "g": 0 } },
+    "flavor": "阵不在人多，在脚下那一步。",
+    "art": { "subject": "a commander's hand sliding a carved wooden soldier piece across a battle map from the rear line to the front line, candlelight over the table" }
+  },
+  {
+    "id": "n_whirling_blade",
+    "name": "回风斩",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 3 },
+    "text": "对所有敌方单位造成{d}点伤害。",
+    "vars": { "d": 6 },
+    "varKinds": { "d": "damage" },
+    "effects": [{ "op": "damage", "amount": "$d", "target": "enemyUnits" }],
+    "upgrade": { "vars": { "d": 8 } },
+    "flavor": "一刀出去，风替你再砍三刀。",
+    "art": { "subject": "a warrior spinning low with a long curved blade, a ring of cutting wind flaring outward and scattering fallen leaves, figures recoiling at the edge" }
+  },
+  {
+    "id": "n_rekindle",
+    "name": "拨灯续明",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "重置{n}枚已用的[源]。",
+    "vars": { "n": 2 },
+    "effects": [{ "op": "refresh", "n": "$n" }],
+    "upgrade": { "vars": { "n": 3 } },
+    "flavor": "灯芯挑一挑，还能再亮一更。",
+    "art": { "subject": "a thin bronze pin lifting the wick of a dimming oil lamp, the flame blooming brighter and throwing warm light over a scroll-covered desk at night" }
+  },
+  {
+    "id": "n_twin_sabers",
+    "name": "双刀客",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": { "g": 3 },
+    "text": "[连斩]。",
+    "unit": { "atk": 2, "hp": 4, "keywords": ["twinStrike"] },
+    "upgrade": { "unit": { "atk": 3 } },
+    "flavor": "左手问路，右手答话。",
+    "art": { "subject": "a broad-shouldered duelist with a saber in each hand crossed low before him, scarf whipping in the wind, standing on a rope bridge over a gorge" }
+  },
+  {
+    "id": "n_warding_monk",
+    "name": "护法僧",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": { "g": 2 },
+    "text": "[灵障]。[起势]：你的主帅获得{w}层[灵障]。",
+    "vars": { "w": 1 },
+    "keywords": ["battlecry"],
+    "unit": { "atk": 2, "hp": 3, "keywords": ["ward"] },
+    "effects": [{ "op": "ward", "amount": "$w", "target": "commander" }],
+    "upgrade": { "unit": { "hp": 5 } },
+    "flavor": "他念的经没人听得懂，但刀砍上去是真的会停。",
+    "art": { "subject": "a bald warrior monk holding prayer beads up in one hand, a translucent golden bell-shaped barrier ringing around him and a figure behind him" }
+  },
+  {
+    "id": "n_leech_shaman",
+    "name": "蛭巫",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": { "g": 2 },
+    "text": "[汲命]。",
+    "unit": { "atk": 2, "hp": 3, "keywords": ["lifesteal"] },
+    "upgrade": { "unit": { "atk": 3 } },
+    "flavor": "沼泽里的老妪，放一次血，还你一口气。",
+    "art": { "subject": "a hunched swamp witch with leeches coiled around her wrists raising a gnarled staff, crimson threads of life drifting toward her from the fog" }
+  },
+  {
+    "id": "n_throat_cut",
+    "name": "断喉",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": { "g": 2 },
+    "text": "若目标生命值不高于{n}，将其消灭；否则对其造成{d}点伤害。",
+    "vars": { "n": 8, "d": 8 },
+    "varKinds": { "d": "attack" },
+    "target": "enemyUnit",
+    "effects": [
+      {
+        "op": "if",
+        "cond": { "lte": [{ "count": "hp", "of": "target" }, "$n"] },
+        "then": [{ "op": "kill", "target": "target" }],
+        "else": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true }]
+      }
+    ],
+    "upgrade": { "vars": { "n": 12, "d": 10 } },
+    "flavor": "不必多一寸，也不能少一寸。",
+    "art": { "subject": "a single thin blade flashing across the frame from the shadows, a severed lantern cord falling, the silhouette of a startled guard beyond" }
+  },
+  {
+    "id": "n_all_rivers",
+    "name": "百川归流",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": { "g": 1 },
+    "text": "你的[源]中每有一种颜色（素色不计），抽{n}张牌。",
+    "vars": { "n": 1 },
+    "effects": [
+      {
+        "op": "draw",
+        "n": {
+          "mul": [
+            "$n",
+            {
+              "add": [
+                { "min": [{ "count": "sources", "color": "R" }, 1] },
+                { "min": [{ "count": "sources", "color": "B" }, 1] },
+                { "min": [{ "count": "sources", "color": "G" }, 1] },
+                { "min": [{ "count": "sources", "color": "Y" }, 1] },
+                { "min": [{ "count": "sources", "color": "P" }, 1] }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": { "cost": { "g": 0 } },
+    "flavor": "赤水、玄水、青水，流到海里都是一个颜色。",
+    "art": { "subject": "several rivers of different tinted waters, red, deep blue and green, braiding together through a valley and pouring into one luminous sea at dusk" }
+  },
+  {
+    "id": "n_peddler",
+    "name": "行脚货郎",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": { "g": 3 },
+    "text": "[起势]：从三张你流派的随机牌中选择一张加入手牌。",
+    "keywords": ["battlecry"],
+    "unit": { "atk": 2, "hp": 3 },
+    "effects": [{ "op": "discover", "pool": { "faction": "own" }, "n": 3 }],
+    "upgrade": {
+      "text": "[起势]：从三张你流派的随机牌中选择一张加入手牌，它已升级。",
+      "effects": [{ "op": "discover", "pool": { "faction": "own" }, "n": 3, "upgraded": true }],
+      "qualitative": true
+    },
+    "flavor": "“客官，赤的玄的都有，看您今天是什么命。”",
+    "art": { "subject": "a cheerful traveling peddler with an enormous lacquered backpack cabinet, drawers open to show glowing cards and trinkets, tipping his hat on a village road" }
+  },
+  {
+    "id": "n_swift_steed",
+    "name": "追风骑",
+    "faction": "N",
+    "type": "equip",
+    "rarity": "rare",
+    "cost": { "g": 2 },
+    "text": "进击坐骑：你的主帅攻击距离+{r}。每回合你的主帅第一次攻击时，抽{n}张牌。",
+    "vars": { "r": 1, "n": 1 },
+    "equip": {
+      "slot": "mount",
+      "mount": "offense",
+      "triggers": [{ "on": "attacking", "limit": "turn", "effects": [{ "op": "draw", "n": "$n" }] }]
+    },
+    "upgrade": { "cost": { "g": 1 } },
+    "flavor": "马比人快一步，刀就能长一尺。",
+    "art": { "subject": "a lean chestnut warhorse at full gallop with mane streaming like smoke, empty saddle trimmed in brass, hooves barely touching a windswept plain" }
+  },
+  {
+    "id": "n_stele_tortoise",
+    "name": "负碑玄龟",
+    "faction": "N",
+    "type": "equip",
+    "rarity": "rare",
+    "cost": { "g": 2 },
+    "text": "防御坐骑：你的主帅深度+{r}。回合结束时，获得{a}点[护甲]。",
+    "vars": { "r": 1, "a": 3 },
+    "varKinds": { "a": "armor" },
+    "equip": {
+      "slot": "mount",
+      "mount": "defense",
+      "triggers": [{ "on": "turnEnd", "effects": [{ "op": "armor", "amount": "$a", "target": "commander" }] }]
+    },
+    "upgrade": { "vars": { "a": 5 } },
+    "flavor": "碑上的字早磨平了，龟还记得要往哪里走。",
+    "art": { "subject": "an enormous ancient black tortoise carrying a weathered stone stele on its shell, a saddle platform built beside the stele, moss and small ferns growing in the cracks" }
+  },
+  {
+    "id": "n_night_market",
+    "name": "野市",
+    "faction": "N",
+    "type": "field",
+    "rarity": "rare",
+    "cost": { "g": 2 },
+    "text": "此后{n}个回合，你每回合额外抽{m}张牌。",
+    "vars": { "n": 3, "m": 1 },
+    "field": {
+      "duration": 4,
+      "modifiers": [{ "stat": "draw", "amount": 1 }]
+    },
+    "upgrade": { "vars": { "n": 4 }, "field": { "duration": 5 } },
+    "flavor": "命阙的野市只在无月之夜开张，卖什么全看你缺什么。",
+    "art": { "subject": "a crowded night market in a ruined courtyard lit by paper lanterns, stalls of mysterious goods, hooded figures bargaining, mist drifting between the awnings" }
+  },
+  {
+    "id": "n_patchwork_mail",
+    "name": "百衲衣",
+    "faction": "N",
+    "type": "equip",
+    "rarity": "epic",
+    "cost": { "g": 2 },
+    "text": "你的主帅受到的伤害-{r}。每当你献出一张牌，获得{a}点[护甲]。",
+    "vars": { "r": 1, "a": 3 },
+    "varKinds": { "a": "armor" },
+    "equip": {
+      "slot": "armor",
+      "modifiers": [{ "stat": "damageTaken", "amount": -1, "who": "commander" }],
+      "triggers": [{ "on": "cardSacrificed", "effects": [{ "op": "armor", "amount": "$a", "target": "commander" }] }]
+    },
+    "upgrade": { "vars": { "a": 5 } },
+    "flavor": "每一块补丁，都是一张献出去的牌换来的。",
+    "art": { "subject": "a heavy quilted robe stitched from hundreds of mismatched cloth patches and small metal plates, hung on a wooden frame, faint glyphs glowing along the seams" }
+  },
+  {
+    "id": "n_plain_jade",
+    "name": "素玉璧",
+    "faction": "N",
+    "type": "equip",
+    "rarity": "epic",
+    "cost": { "g": 2 },
+    "text": "每回合你第一次献牌时，抽{n}张牌。",
+    "vars": { "n": 1 },
+    "equip": {
+      "slot": "treasure",
+      "triggers": [{ "on": "cardSacrificed", "limit": "turn", "effects": [{ "op": "draw", "n": "$n" }] }]
+    },
+    "upgrade": {
+      "text": "每回合你第一次献牌时，抽{n}张牌，并获得{e}枚临时[源]。",
+      "vars": { "e": 1 },
+      "equip": {
+        "triggers": [{ "on": "cardSacrificed", "limit": "turn", "effects": [{ "op": "draw", "n": "$n" }, { "op": "energy", "n": "$e" }] }]
+      },
+      "qualitative": true
+    },
+    "flavor": "无纹无饰的玉，什么都盛得下。",
+    "art": { "subject": "a flawless pale jade bi disc floating above an open palm, a card dissolving into white light as it passes through the central hole" }
+  },
+  {
+    "id": "n_offering_child",
+    "name": "献火童子",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "epic",
+    "cost": { "g": 2 },
+    "text": "每当你献出一张牌，此单位获得+{n}/+{n}，然后对一个随机敌人造成等同于其攻击力的伤害。",
+    "vars": { "n": 1 },
+    "unit": {
+      "atk": 1,
+      "hp": 3,
+      "prefersBack": true,
+      "triggers": [
+        {
+          "on": "cardSacrificed",
+          "effects": [
+            { "op": "buff", "target": "self", "atk": "$n", "hp": "$n" },
+            { "op": "damage", "amount": { "count": "atk" }, "target": "randomEnemy" }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "text": "[灵障]。每当你献出一张牌，此单位获得+{n}/+{n}，然后对一个随机敌人造成等同于其攻击力的伤害。",
+      "unit": { "keywords": ["ward"] },
+      "qualitative": true
+    },
+    "flavor": "它吃的不是柴，是你舍掉的东西。",
+    "art": { "subject": "a small child spirit in a white robe cradling a brazier, catching a falling card that bursts into white flame, sparks flying off toward the dark" }
+  },
+  {
+    "id": "n_earth_spring",
+    "name": "地脉灵泉",
+    "faction": "N",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": { "g": 2 },
+    "text": "获得{n}枚素[源]。[燃尽]。",
+    "vars": { "n": 2 },
+    "keywords": ["exhaust"],
+    "effects": [{ "op": "gainSource", "n": "$n", "color": "N" }],
+    "upgrade": {
+      "text": "获得{n}枚素[源]与{m}枚你主帅颜色的[源]。[燃尽]。",
+      "vars": { "n": 1, "m": 1 },
+      "effects": [
+        { "op": "gainSource", "n": "$n", "color": "N" },
+        { "op": "gainSource", "n": "$m", "color": "best" }
+      ],
+      "qualitative": true
+    },
+    "flavor": "凿开一寸岩层，涌出来的是三百年前的雨。",
+    "art": { "subject": "a pick striking a cracked rock face and releasing a gush of luminous white spring water, droplets hanging in the air like pearls, cave darkness around" }
+  },
+  {
+    "id": "n_graft_flower",
+    "name": "移花接木",
+    "faction": "N",
+    "type": "response",
+    "rarity": "epic",
+    "cost": { "g": 1 },
+    "text": "[应]：仅能在应对窗口中打出。将被应对的敌方行动改为以一个友方角色为目标。",
+    "keywords": ["response"],
+    "windowOnly": true,
+    "target": "friendly",
+    "effects": [{ "op": "redirect", "to": "target" }],
+    "upgrade": {
+      "text": "[应]：仅能在应对窗口中打出。将被应对的敌方行动改为以一个友方角色为目标，并使其获得{a}点[护甲]。",
+      "vars": { "a": 5 },
+      "effects": [
+        { "op": "redirect", "to": "target" },
+        { "op": "armor", "amount": "$a", "target": "target" }
+      ],
+      "qualitative": true
+    },
+    "flavor": "刀还在半空，挨刀的人已经换了。",
+    "art": { "subject": "a falling blade frozen mid-strike as a swirl of petals and leaves twists its path toward a raised shield on the other side, a figure stepping out of harm's way" }
+  },
+  {
+    "id": "n_five_elements_hermit",
+    "name": "五行散人",
+    "faction": "N",
+    "type": "unit",
+    "rarity": "legendary",
+    "cost": { "g": 4 },
+    "text": "[起势]：你的[源]中每有一种颜色，此单位获得+{b}/+{b}及对应能力：{R}[连斩]、{B}[坚守]、{G}[滋长]{b}、{Y}[灵障]、{P}[隐匿]。",
+    "vars": { "b": 1 },
+    "keywords": ["battlecry"],
+    "unit": { "atk": 3, "hp": 3 },
+    "effects": [
+      { "op": "if", "cond": { "resonance": { "color": "R", "n": 1 } }, "then": [{ "op": "buff", "target": "self", "atk": "$b", "hp": "$b" }, { "op": "addKeyword", "target": "self", "keyword": "twinStrike" }] },
+      { "op": "if", "cond": { "resonance": { "color": "B", "n": 1 } }, "then": [{ "op": "buff", "target": "self", "atk": "$b", "hp": "$b" }, { "op": "addKeyword", "target": "self", "keyword": "taunt" }] },
+      { "op": "if", "cond": { "resonance": { "color": "G", "n": 1 } }, "then": [{ "op": "buff", "target": "self", "atk": "$b", "hp": "$b" }, { "op": "addKeyword", "target": "self", "keyword": "growth", "value": "$b" }] },
+      { "op": "if", "cond": { "resonance": { "color": "Y", "n": 1 } }, "then": [{ "op": "buff", "target": "self", "atk": "$b", "hp": "$b" }, { "op": "addKeyword", "target": "self", "keyword": "ward", "value": "$b" }] },
+      { "op": "if", "cond": { "resonance": { "color": "P", "n": 1 } }, "then": [{ "op": "buff", "target": "self", "atk": "$b", "hp": "$b" }, { "op": "addKeyword", "target": "self", "keyword": "stealth" }] }
+    ],
+    "upgrade": { "unit": { "atk": 4, "hp": 4 } },
+    "flavor": "五宗都说他是叛徒，五宗都偷学过他的东西。",
+    "art": { "subject": "a barefoot hermit in a white robe seated cross-legged in midair, five orbs of red, indigo, green, gold and violet light orbiting him slowly, a calm faint smile" }
+  },
+  {
+    "id": "n_abyss_furnace",
+    "name": "归墟炉",
+    "faction": "N",
+    "type": "field",
+    "rarity": "legendary",
+    "cost": { "g": 3 },
+    "text": "你每回合可以额外献出{k}张牌。每当你献出一张牌，对一个随机敌人造成{d}点伤害。",
+    "vars": { "k": 1, "d": 3 },
+    "varKinds": { "d": "damage" },
+    "field": {
+      "modifiers": [{ "stat": "sacrifices", "amount": 1 }],
+      "triggers": [{ "on": "cardSacrificed", "effects": [{ "op": "damage", "amount": "$d", "target": "randomEnemy" }] }]
+    },
+    "upgrade": {
+      "text": "[本命]。你每回合可以额外献出{k}张牌。每当你献出一张牌，对一个随机敌人造成{d}点伤害。",
+      "keywords": ["innate"],
+      "qualitative": true
+    },
+    "flavor": "万物落进去，只剩一缕白烟，和一粒还在发烫的源。",
+    "art": { "subject": "a colossal bronze furnace sunk into a bottomless chasm, cards and relics spiraling down into its white-hot mouth, pale smoke rising in a single column" }
+  }
+]

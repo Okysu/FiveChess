@@ -1,0 +1,480 @@
+[
+  {
+    "id": "st_wound",
+    "name": "伤口",
+    "faction": "N",
+    "type": "status",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "无法打出。",
+    "unplayable": true,
+    "flavor": "不致命，只是碍事。",
+    "art": {
+      "subject": "a fresh gash across a forearm hastily wrapped in a blood-soaked cloth strip, fingers trembling, dim firelight"
+    }
+  },
+  {
+    "id": "st_dazed",
+    "name": "恍惚",
+    "faction": "N",
+    "type": "status",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[浮光]。无法打出。",
+    "keywords": [
+      "ethereal"
+    ],
+    "unplayable": true,
+    "flavor": "眼前的人影分成了三个，你不知道该砍哪一个。",
+    "art": {
+      "subject": "a blurred warrior's view of the battlefield splitting into three ghostly overlapping images, ringing haze and drifting motes of light"
+    }
+  },
+  {
+    "id": "st_burn_scar",
+    "name": "灼痕",
+    "faction": "N",
+    "type": "status",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "无法打出。回合结束时若在手中，失去{n}点生命。",
+    "vars": {
+      "n": 2
+    },
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "turnEnd",
+        "effects": [
+          {
+            "op": "loseHp",
+            "amount": "$n",
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "flavor": "火灭了，疼还没有。",
+    "art": {
+      "subject": "a glowing ember-red burn mark branching like cracked lava across the back of a hand, faint smoke still rising from the skin"
+    }
+  },
+  {
+    "id": "st_toxin",
+    "name": "蚀毒",
+    "faction": "N",
+    "type": "status",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "无法打出。回合结束时若在手中，获得{n}层[中毒]。",
+    "vars": {
+      "n": 2
+    },
+    "varKinds": {
+      "n": "poison"
+    },
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "turnEnd",
+        "effects": [
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": "$n",
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "flavor": "毒在血里慢慢找路。",
+    "art": {
+      "subject": "sickly green veins spreading up a pale wrist from a small puncture wound, a bead of dark venom sliding down the skin"
+    }
+  },
+  {
+    "id": "st_frost",
+    "name": "霜噬",
+    "faction": "N",
+    "type": "status",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[浮光]。无法打出。在手中时，每当你打出一张牌，你打出的下一张牌费用+{n}。",
+    "vars": {
+      "n": 1
+    },
+    "keywords": [
+      "ethereal"
+    ],
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "cardPlayed",
+        "effects": [
+          {
+            "op": "costMod",
+            "scope": "nextCard",
+            "amount": "$n",
+            "until": "played"
+          }
+        ]
+      }
+    ],
+    "flavor": "指节冻得发僵，每一个动作都要多用一分力。",
+    "art": {
+      "subject": "rime frost creeping over stiff fingers gripping a sword hilt, ice crystals forming on the knuckles, breath fogging in the cold"
+    }
+  },
+  {
+    "id": "st_dread",
+    "name": "胆寒",
+    "faction": "N",
+    "type": "status",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[浮光]。无法打出。抽到此牌时，获得{n}层[虚弱]。",
+    "vars": {
+      "n": 1
+    },
+    "keywords": [
+      "ethereal"
+    ],
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "cardDrawn",
+        "limit": "turn",
+        "if": {
+          "eventCard": {
+            "id": "st_dread"
+          }
+        },
+        "effects": [
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": "$n",
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "flavor": "那声嚎叫之后，你握刀的手一直在抖。",
+    "art": {
+      "subject": "a soldier's shaking hand loosening its grip on a spear as a huge shadow looms across the ground, cold sweat on the wrist"
+    }
+  },
+  {
+    "id": "cu_suye",
+    "name": "宿业",
+    "faction": "N",
+    "type": "curse",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[本命]。无法打出。回合结束时若在手中，失去{n}点生命。[献]：失去{m}点生命。",
+    "vars": {
+      "n": 2,
+      "m": 1
+    },
+    "keywords": [
+      "innate"
+    ],
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "turnEnd",
+        "effects": [
+          {
+            "op": "loseHp",
+            "amount": "$n",
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "onSacrifice": [
+      {
+        "op": "loseHp",
+        "amount": "$m",
+        "target": "commander"
+      }
+    ],
+    "flavor": "逆命者每走一步，命书便在背后多记一笔。",
+    "art": {
+      "subject": "a heavy black ink chain of written characters coiling out of an open ancient book and winding around a traveler's ankle, faint red glow in the strokes"
+    }
+  },
+  {
+    "id": "cu_huihen",
+    "name": "悔恨",
+    "faction": "N",
+    "type": "curse",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "无法打出。回合结束时若在手中，失去等同于你手牌数的生命。",
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "turnEnd",
+        "effects": [
+          {
+            "op": "loseHp",
+            "amount": {
+              "count": "hand"
+            },
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "flavor": "攥得越紧，越疼。",
+    "art": {
+      "subject": "a figure kneeling in the rain clutching a bundle of wilted letters to the chest, knuckles white, faces of the past faint in the puddles"
+    }
+  },
+  {
+    "id": "cu_eyun",
+    "name": "厄运",
+    "faction": "N",
+    "type": "curse",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "无法打出。抽到此牌时，将一张{r}点{mountain}山纹命牌置于天命牌堆顶。",
+    "vars": {
+      "r": 1
+    },
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "cardDrawn",
+        "limit": "turn",
+        "if": {
+          "eventCard": {
+            "id": "cu_eyun"
+          }
+        },
+        "effects": [
+          {
+            "op": "fateAdd",
+            "suit": "mountain",
+            "rank": 1,
+            "where": "top"
+          }
+        ]
+      }
+    ],
+    "flavor": "翻开的每一张命牌，都是那座压在你头上的山。",
+    "art": {
+      "subject": "a single dull gray fate card marked with a small mountain sigil sliding onto the top of a glowing card stack, a crow perched on the stack watching"
+    }
+  },
+  {
+    "id": "cu_tannian",
+    "name": "贪念",
+    "faction": "N",
+    "type": "curse",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[藏锋]。无法打出。在手中时，每当你献出其他牌，失去{n}点生命。",
+    "vars": {
+      "n": 3
+    },
+    "keywords": [
+      "retain"
+    ],
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "cardSacrificed",
+        "effects": [
+          {
+            "op": "loseHp",
+            "amount": "$n",
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "flavor": "它不许你放下任何东西——除了它自己。",
+    "art": {
+      "subject": "a hand clenched around a heap of gold coins that are turning into grasping little claws, digging into the palm, dim candlelight"
+    }
+  },
+  {
+    "id": "cu_jiasuo",
+    "name": "枷锁",
+    "faction": "N",
+    "type": "curse",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "无法打出。回合结束时若在手中，获得{w}层[虚弱]。[献]：将一张枷锁洗入你的抽牌堆。",
+    "vars": {
+      "w": 1
+    },
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "turnEnd",
+        "effects": [
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": "$w",
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "onSacrifice": [
+      {
+        "op": "create",
+        "card": "cu_jiasuo",
+        "to": "draw"
+      }
+    ],
+    "flavor": "献出去的是锁，回来的还是锁。",
+    "art": {
+      "subject": "a heavy wooden cangue collar with iron chains lying in a dungeon, the chains glowing faintly and slithering back toward an unseen prisoner"
+    }
+  },
+  {
+    "id": "cu_xinmo",
+    "name": "心魔",
+    "faction": "N",
+    "type": "curse",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "无法打出。回合结束时若在手中，获得{v}层[易伤]。",
+    "vars": {
+      "v": 1
+    },
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "turnEnd",
+        "effects": [
+          {
+            "op": "status",
+            "status": "vulnerable",
+            "amount": "$v",
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "flavor": "它长着你的脸，说着你不敢说的话。",
+    "art": {
+      "subject": "a meditating warrior with a dark smoky double of themselves rising from their shadow, the double grinning and whispering into their ear"
+    }
+  },
+  {
+    "id": "cu_mingshang",
+    "name": "命殇",
+    "faction": "N",
+    "type": "curse",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[藏锋]。无法打出。在手中时，每进行一次[判定]，失去{n}点生命。",
+    "vars": {
+      "n": 2
+    },
+    "keywords": [
+      "retain"
+    ],
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "judged",
+        "who": "any",
+        "effects": [
+          {
+            "op": "loseHp",
+            "amount": "$n",
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "flavor": "天意每显一次，你身上的裂痕就深一分。",
+    "art": {
+      "subject": "a torn fate card bleeding thin red light from its tear, hovering over an outstretched hand whose skin cracks like porcelain in the same pattern"
+    }
+  },
+  {
+    "id": "cu_lihun",
+    "name": "离魂",
+    "faction": "N",
+    "type": "curse",
+    "rarity": "special",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "无法打出。抽到此牌时，失去{n}点生命。",
+    "vars": {
+      "n": 3
+    },
+    "unplayable": true,
+    "inHand": [
+      {
+        "on": "cardDrawn",
+        "limit": "turn",
+        "if": {
+          "eventCard": {
+            "id": "cu_lihun"
+          }
+        },
+        "effects": [
+          {
+            "op": "loseHp",
+            "amount": "$n",
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "flavor": "有一瞬间，你从背后看见了自己。",
+    "art": {
+      "subject": "a pale translucent soul drifting half out of a sleeping traveler's body, tethered by a thinning silver thread, cold moonlight through a window"
+    }
+  }
+]

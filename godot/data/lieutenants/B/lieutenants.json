@@ -1,0 +1,47 @@
+[
+  {
+    "id": "lt_b_luniang", "name": "炉娘", "title": "熔甲匠", "faction": "B",
+    "skill": {
+      "id": "lt_b_luniang_s", "name": "熔甲", "type": "passive",
+      "text": "你的[护甲]被击破时，对来源施加4层[灼烧]。你的主帅攻击力+你[护甲]值的四分之一（向下取整）。",
+      "triggers": [ { "on": "armorBroken", "effects": [ { "op": "status", "status": "burn", "amount": 4, "target": "eventSource" } ] } ],
+      "modifiers": [ { "stat": "atk", "who": "commander", "amount": { "div": [ { "count": "armor" }, 4 ] } } ]
+    },
+    "lore": "镇岳门的铸甲炉三百年不熄，炉娘是守炉人。她打的甲被砍碎时会迸出铁水，溅谁身上烧谁。焚阳宗的人说她是半个自家人，她说不是，她只是不喜欢甲白白碎掉。",
+    "art": { "subject": "a stout woman blacksmith in a leather apron with molten-orange cracks running through her forearm guards, holding tongs with a glowing armor plate, forge fire behind her, half body" }
+  },
+  {
+    "id": "lt_b_taoweng", "name": "苔翁", "title": "根盘老者", "faction": "B",
+    "skill": {
+      "id": "lt_b_taoweng_s", "name": "根盘", "type": "passive",
+      "text": "每当一个友方单位入场，其获得4点[护甲]。",
+      "triggers": [ { "on": "unitSummoned", "effects": [ { "op": "armor", "amount": 4, "target": "eventTarget" } ] } ]
+    },
+    "lore": "在镇岳门山脚下看了一辈子石头的老人，身上长满青苔。他说石头与树根是一回事：一个往下扎，一个往下压，都是为了站稳。万木庭的精怪见了他，都要叫一声爷爷。",
+    "art": { "subject": "an ancient bent old man whose robes and beard are overgrown with moss and tiny roots, leaning on a gnarled staff wrapped around a stone, sitting in a forest clearing" }
+  },
+  {
+    "id": "lt_b_sibei", "name": "司碑", "title": "镇命碑官", "faction": "B",
+    "skill": {
+      "id": "lt_b_sibei_s", "name": "镇命", "type": "passive",
+      "text": "每当判定结果为{mountain}山纹，你获得6点[护甲]；为{moon}月纹，获得3点[护甲]。",
+      "triggers": [
+        { "on": "judged", "suit": "mountain", "effects": [ { "op": "armor", "amount": 6, "target": "commander" } ] },
+        { "on": "judged", "suit": "moon", "effects": [ { "op": "armor", "amount": 3, "target": "commander" } ] }
+      ]
+    },
+    "lore": "残碑林里唯一还会刻字的碑官。命书的“山”卷在他手里被抄过七遍，每抄一遍，他就沉稳一分。观星阁请他去当客卿，他只提了一个条件：碑要立在山上。",
+    "art": { "subject": "a gaunt scholar-official in grey robes carving characters into a tall stone stele with a chisel, a faint green mountain sigil glowing on the stone, graveyard of old steles around him" }
+  },
+  {
+    "id": "lt_b_yingxian", "name": "影弦", "title": "伏机刺客", "faction": "B",
+    "skill": {
+      "id": "lt_b_yingxian_s", "name": "伏机", "type": "passive",
+      "text": "你的[余烬]上限+1。每回合你首次在应对中打出牌后，抽1张牌。",
+      "modifiers": [ { "stat": "emberCap", "amount": 1 } ],
+      "triggers": [ { "on": "responsePlayed", "limit": "turn", "effects": [ { "op": "draw", "n": 1 } ] } ]
+    },
+    "lore": "素弦的同门师妹，后来投了幽弈坊。她把琴弦拆下来做成了袖里的暗器，从不先动手——在她看来，先动手的人已经把破绽递到了她手上。",
+    "art": { "subject": "a lithe masked woman crouched in shadow on a rooftop, thin glinting zither strings wound around her fingers like garrotes, violet and ice-blue moonlight" }
+  }
+]

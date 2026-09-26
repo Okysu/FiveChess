@@ -8,3 +8,10 @@ dist/
 assets/_gen_cache/
 coverage/
 art-src/style_lab/
+
+# Godot
+godot/.godot/
+godot/tests/parity/
+godot/build/
+*.apk
+*.aab

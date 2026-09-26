@@ -1,0 +1,172 @@
+[
+  {
+    "id": "lt_y_zhuxi",
+    "name": "朱曦",
+    "title": "日晷使",
+    "faction": "Y",
+    "skill": {
+      "id": "lt_y_zhuxi_skill",
+      "name": "日曜",
+      "type": "passive",
+      "text": "[天契]{sun}：对一个随机敌人施加2层[灼烧]；若你装备着武器，其攻击力+1。",
+      "triggers": [
+        {
+          "on": "judged",
+          "suit": "sun",
+          "effects": [
+            {
+              "op": "status",
+              "status": "burn",
+              "amount": 2,
+              "target": "randomEnemy"
+            },
+            {
+              "op": "if",
+              "cond": {
+                "hasEquip": "weapon"
+              },
+              "then": [
+                {
+                  "op": "weapon",
+                  "atk": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "观星阁里专管日晷的女官，脾气比正午的太阳还烈。焚阳宗的人说她的日影能点着柴火，她说那是柴火自己心虚。她跟着你，是因为你的剑被日光照到时，影子是直的。",
+    "art": {
+      "subject": "a fierce young woman in vermilion and gold robes standing beside a large stone sundial, the gnomon shadow burning like a line of fire"
+    }
+  },
+  {
+    "id": "lt_y_shiguanlan",
+    "name": "石观澜",
+    "title": "镇命碑官",
+    "faction": "Y",
+    "skill": {
+      "id": "lt_y_shiguanlan_skill",
+      "name": "镇命",
+      "type": "passive",
+      "text": "[天契]{mountain}：获得5点[护甲]。每当你打出[延时]牌，获得3点[护甲]。",
+      "triggers": [
+        {
+          "on": "judged",
+          "suit": "mountain",
+          "effects": [
+            {
+              "op": "armor",
+              "amount": 5,
+              "target": "commander"
+            }
+          ]
+        },
+        {
+          "on": "cardPlayed",
+          "if": {
+            "eventCard": {
+              "type": "delay"
+            }
+          },
+          "effects": [
+            {
+              "op": "armor",
+              "amount": 3,
+              "target": "commander"
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "在残碑林守了二十年碑的老人，碑上的字他全背得出来，包括那些后来被改掉的。他说命像山，搬不动，但可以靠。镇岳门请过他三次，他都说自己只会刻字。",
+    "art": {
+      "subject": "a broad-shouldered old stone carver in dark blue robes leaning on a huge chisel beside a towering stele covered in mountain glyphs"
+    }
+  },
+  {
+    "id": "lt_y_heyan",
+    "name": "禾晏",
+    "title": "司农卜正",
+    "faction": "Y",
+    "skill": {
+      "id": "lt_y_heyan_skill",
+      "name": "农时",
+      "type": "passive",
+      "text": "[天契]{moon}：召唤一个「月苗」。每当你的判定牌点数不小于10，所有友方单位获得+1/+1。",
+      "triggers": [
+        {
+          "on": "judged",
+          "suit": "moon",
+          "effects": [
+            {
+              "op": "summon",
+              "unit": "tk_y_moon_sprout"
+            }
+          ]
+        },
+        {
+          "on": "judged",
+          "who": "friendly",
+          "if": {
+            "rank": {
+              "min": 10
+            }
+          },
+          "effects": [
+            {
+              "op": "buff",
+              "target": "friendlyUnits",
+              "atk": 1,
+              "hp": 1
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "替万木庭推算节气的卜官，一辈子只看两样东西：月亮和秧苗。他说播种不看黄历，看月纹；收成不看天，看点数。他的袖子里总有泥。",
+    "art": {
+      "subject": "a gentle middle-aged farmer-scholar in green and gold robes kneeling in a moonlit field, planting glowing seedlings that sprout crescent leaves"
+    }
+  },
+  {
+    "id": "lt_y_xiejiuchou",
+    "name": "谢九筹",
+    "title": "千术客",
+    "faction": "Y",
+    "skill": {
+      "id": "lt_y_xiejiuchou_skill",
+      "name": "千术",
+      "type": "active",
+      "text": "每回合一次：弃置1张手牌，收取1张[命签]。被动：每当你[改判]后，抽1张牌。",
+      "effects": [
+        {
+          "op": "discard",
+          "n": 1,
+          "mode": "choose"
+        },
+        {
+          "op": "sign",
+          "n": 1
+        }
+      ],
+      "triggers": [
+        {
+          "on": "rejudged",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "draw",
+              "n": 1
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "幽弈坊出身的赌客，据说从没输过一局，因为他从不跟人赌，只跟天赌。他袖里藏的不是牌，是命签。被他换掉的判定牌，第二天会出现在他的赌桌上。",
+    "art": {
+      "subject": "a smirking gambler in violet silk with long sleeves, shuffling a hand of glowing fate cards that blur between his fingers, one card mid-swap"
+    }
+  }
+]

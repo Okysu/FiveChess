@@ -1,0 +1,3 @@
+[
+  { "id": "sandbox", "act": 1, "tier": "normal", "pool": "easy", "weight": 0, "enemies": [ { "id": "sandbox_dummy", "row": "front", "slot": 1 }, { "id": "sandbox_dummy", "row": "front", "slot": 2 }, { "id": "sandbox_archer", "row": "back", "slot": 1 } ] }
+]

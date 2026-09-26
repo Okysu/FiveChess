@@ -1,0 +1,525 @@
+[
+  {
+    "id": "enc2_guards",
+    "act": 2,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_drowned_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_drowned_guard",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc2_guard_harpoon",
+    "act": 2,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_drowned_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_harpoon",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_crab",
+    "act": 2,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_abyss_crab",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_crawlers",
+    "act": 2,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_silt_crawler",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_silt_crawler",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc2_eel_lantern",
+    "act": 2,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_eel_spearman",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_lantern_fish",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_scholar",
+    "act": 2,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_coral_shield",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_drowned_scholar",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_whirlpool",
+    "act": 2,
+    "tier": "normal",
+    "pool": "easy",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_drowned_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_whirlpool",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_bell_court",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_bell_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_bell_ringer",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_tide_rite",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_drowned_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_drowned_guard",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e2_tide_priest",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_clerks",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_coral_shield",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_clerk_ghost",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e2_harpoon",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc2_sirens",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_pearl_diver",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_pearl_diver",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e2_ghost_courtesan",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_clock_scholar",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_water_clock",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_eel_spearman",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e2_drowned_scholar",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_reef",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_abyss_crab",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_lantern_fish",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e2_harpoon",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc2_silt_swarm",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_silt_crawler",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_silt_crawler",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e2_bell_ringer",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_deep_hunt",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_pearl_diver",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_eel_spearman",
+        "row": "front",
+        "slot": 0
+      },
+      {
+        "id": "e2_eel_spearman",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc2_drowned_watch",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_coral_shield",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_tide_priest",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e2_harpoon",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc2_whirl_court",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_bell_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_whirlpool",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e2_ghost_courtesan",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc2_hall_of_records",
+    "act": 2,
+    "tier": "normal",
+    "pool": "hard",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_abyss_crab",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_water_clock",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e2_clerk_ghost",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_elite_tide_general",
+    "act": 2,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_tide_general",
+        "row": "commander"
+      },
+      {
+        "id": "e2_drowned_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_harpoon",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_elite_coral_colossus",
+    "act": 2,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_coral_colossus",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_lantern_fish",
+        "row": "back",
+        "slot": 1
+      },
+      {
+        "id": "e2_harpoon",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc2_elite_mirror_witch",
+    "act": 2,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_mirror_witch",
+        "row": "commander"
+      },
+      {
+        "id": "e2_ghost_courtesan",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_elite_eel_king",
+    "act": 2,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_eel_king",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2_eel_spearman",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc2_boss_drowned_king",
+    "act": 2,
+    "tier": "boss",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_boss_drowned_king",
+        "row": "commander"
+      },
+      {
+        "id": "e2m_drowned_courtier",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_boss_puppeteer",
+    "act": 2,
+    "tier": "boss",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_boss_puppeteer",
+        "row": "commander"
+      },
+      {
+        "id": "e2m_puppet",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e2m_puppet",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc2_boss_twin_judges",
+    "act": 2,
+    "tier": "boss",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_boss_twin_judges",
+        "row": "commander"
+      },
+      {
+        "id": "e2m_yin_judge",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  }
+]

@@ -1,0 +1,2310 @@
+[
+  {
+    "id": "g_basic_strike",
+    "name": "青藤鞭",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "text": "造成{d}点伤害。",
+    "vars": {
+      "d": 6
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 9
+      }
+    },
+    "flavor": "藤不争高，只争这一抽。",
+    "art": {
+      "subject": "a thick green vine lashing forward like a whip through a misty forest clearing, leaves scattering from the impact, warm light from the upper left"
+    }
+  },
+  {
+    "id": "g_basic_guard",
+    "name": "树皮甲",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "text": "获得{a}点[护甲]。",
+    "vars": {
+      "a": 5
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "effects": [
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 8
+      }
+    },
+    "flavor": "老树挨过的刀，比你见过的都多。",
+    "art": {
+      "subject": "a robed figure raising an arm as layered plates of living bark grow over their forearm and shoulder, moss glowing faintly in the seams"
+    }
+  },
+  {
+    "id": "g_sig_sow",
+    "name": "播灵",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 0,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "召唤{n}个「灵苗」。\n[献]：召唤{m}个「灵苗」。",
+    "vars": {
+      "n": 2,
+      "m": 1
+    },
+    "keywords": [
+      "offering"
+    ],
+    "effects": [
+      {
+        "op": "summon",
+        "unit": "tk_g_sprout",
+        "n": "$n"
+      }
+    ],
+    "onSacrifice": [
+      {
+        "op": "summon",
+        "unit": "tk_g_sprout",
+        "n": "$m"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 3
+      }
+    },
+    "flavor": "撒下去的不是种子，是名字。",
+    "art": {
+      "subject": "a slender hand scattering glowing seeds over dark soil, each seed sprouting a tiny luminous sapling spirit with leaf-shaped eyes"
+    }
+  },
+  {
+    "id": "g_sig_spirit_drum",
+    "name": "灵鼓",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 0,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "所有友方单位本回合获得+{a}攻击。抽{n}张牌。",
+    "vars": {
+      "a": 1,
+      "n": 1
+    },
+    "varKinds": {
+      "a": "attack"
+    },
+    "effects": [
+      {
+        "op": "buff",
+        "target": "friendlyUnits",
+        "atk": "$a",
+        "until": "turn"
+      },
+      {
+        "op": "draw",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 2
+      }
+    },
+    "flavor": "鼓面是一段空心的老桑，一敲，满林子都醒了。",
+    "art": {
+      "subject": "a hollow mulberry trunk drum struck by a vine mallet, rings of green firefly light pulsing outward over a crowd of small forest spirits"
+    }
+  },
+  {
+    "id": "g_sig_moss_stag",
+    "name": "苔鹿",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[滋长]{g}",
+    "vars": {
+      "g": 1
+    },
+    "keywords": [
+      "growth"
+    ],
+    "unit": {
+      "atk": 1,
+      "hp": 3,
+      "growth": 1
+    },
+    "upgrade": {
+      "text": "[坚守]。[滋长]{g}",
+      "unit": {
+        "keywords": [
+          "taunt"
+        ]
+      },
+      "qualitative": true
+    },
+    "flavor": "它在山鬼身后走了三百年，角上的苔越长越厚。",
+    "art": {
+      "subject": "a gentle stag whose antlers are overgrown with moss and tiny ferns, standing in a misty mountain glade, amber light on its flank"
+    }
+  },
+  {
+    "id": "g_sig_withering",
+    "name": "枯荣",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "消灭一个友方单位。抽{n}张牌，随机一个友方单位获得+{a}/+{a}。",
+    "vars": {
+      "n": 1,
+      "a": 1
+    },
+    "target": "friendlyUnit",
+    "effects": [
+      {
+        "op": "kill",
+        "target": "target"
+      },
+      {
+        "op": "draw",
+        "n": "$n"
+      },
+      {
+        "op": "buff",
+        "target": "randomFriendlyUnit",
+        "atk": "$a",
+        "hp": "$a"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 2
+      }
+    },
+    "flavor": "一岁一枯荣。枯的那一半，也是它自己。",
+    "art": {
+      "subject": "a withered sapling crumbling to ash on one side while fresh green shoots burst from the same roots on the other, split light and shadow"
+    }
+  },
+  {
+    "id": "tk_g_sprout",
+    "name": "灵苗",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "",
+    "unit": {
+      "atk": 1,
+      "hp": 1
+    },
+    "upgrade": {
+      "unit": {
+        "hp": 2
+      }
+    },
+    "flavor": "刚学会站起来，就学会了往前冲。",
+    "art": {
+      "subject": "a tiny glowing sapling spirit with two leaf ears and round dark eyes, standing bravely on a moss stone, spores drifting around it"
+    }
+  },
+  {
+    "id": "tk_g_vine_puppet",
+    "name": "藤甲傀",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[坚守]",
+    "keywords": [
+      "taunt"
+    ],
+    "unit": {
+      "atk": 0,
+      "hp": 4,
+      "keywords": [
+        "taunt"
+      ]
+    },
+    "upgrade": {
+      "unit": {
+        "hp": 5
+      }
+    },
+    "flavor": "空壳，却站得比谁都直。",
+    "art": {
+      "subject": "a hollow humanoid figure woven from thick braided vines, arms crossed in a guarding stance, faint green light glowing inside its chest"
+    }
+  },
+  {
+    "id": "tk_g_mountain_wraith",
+    "name": "山魅",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[滋长]{g}",
+    "vars": {
+      "g": 1
+    },
+    "keywords": [
+      "growth"
+    ],
+    "unit": {
+      "atk": 1,
+      "hp": 2,
+      "growth": 1
+    },
+    "upgrade": {
+      "vars": {
+        "g": 2
+      },
+      "unit": {
+        "growth": 2
+      }
+    },
+    "flavor": "借了一副旧形骸，便又是一条命。",
+    "art": {
+      "subject": "a translucent mountain spirit wearing a mask of bark and a cloak of hanging moss, crouched on a rocky ledge, pale green wisps trailing from its limbs"
+    }
+  },
+  {
+    "id": "tk_g_banyan_seed",
+    "name": "榕种",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[遗志]：召唤一个「轮回古榕」。",
+    "keywords": [
+      "deathrattle"
+    ],
+    "unit": {
+      "atk": 0,
+      "hp": 2,
+      "triggers": [
+        {
+          "on": "death",
+          "effects": [
+            {
+              "op": "summon",
+              "unit": "g_samsara_banyan"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "unit": {
+        "hp": 3
+      }
+    },
+    "flavor": "它等着被打碎。",
+    "art": {
+      "subject": "a large seed pod with a cracked shell, golden light and thin aerial roots spilling from the crack, resting in a nest of old banyan roots"
+    }
+  },
+  {
+    "id": "tk_g_gu",
+    "name": "蛊虫",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[遗志]：随机一个敌人获得{p}层[中毒]。",
+    "vars": {
+      "p": 2
+    },
+    "varKinds": {
+      "p": "poison"
+    },
+    "keywords": [
+      "deathrattle"
+    ],
+    "unit": {
+      "atk": 1,
+      "hp": 1,
+      "triggers": [
+        {
+          "on": "death",
+          "effects": [
+            {
+              "op": "status",
+              "status": "poison",
+              "amount": "$p",
+              "target": "randomEnemy"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "p": 3
+      }
+    },
+    "flavor": "死了也要咬一口。",
+    "art": {
+      "subject": "a jade-green centipede-like insect with leaf-shaped carapace plates, rearing up with dripping luminous venom on its mandibles"
+    }
+  },
+  {
+    "id": "tk_g_gu_jar",
+    "name": "蛊瓮",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "召唤{n}个「蛊虫」。[燃尽]",
+    "vars": {
+      "n": 1
+    },
+    "keywords": [
+      "exhaust"
+    ],
+    "effects": [
+      {
+        "op": "summon",
+        "unit": "tk_g_gu",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 2
+      }
+    },
+    "flavor": "封口的红布一揭，瓮里便窸窸窣窣。",
+    "art": {
+      "subject": "a small clay jar sealed with red cloth, the cloth lifting as green-glowing insects crawl out of the opening, dim lantern light"
+    }
+  },
+  {
+    "id": "g_moss_child",
+    "name": "苔灵童",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 0,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[起势]：召唤{n}个「灵苗」。\n[献]：召唤{n}个「灵苗」。",
+    "vars": {
+      "n": 1
+    },
+    "keywords": [
+      "battlecry",
+      "offering"
+    ],
+    "unit": {
+      "atk": 1,
+      "hp": 1
+    },
+    "effects": [
+      {
+        "op": "summon",
+        "unit": "tk_g_sprout",
+        "n": "$n"
+      }
+    ],
+    "onSacrifice": [
+      {
+        "op": "summon",
+        "unit": "tk_g_sprout",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "unit": {
+        "hp": 2
+      }
+    },
+    "flavor": "它走到哪儿，哪儿就多出一个玩伴。",
+    "art": {
+      "subject": "a small child-like spirit made of moss and pebbles, leading a tiny glowing sapling by the hand across a forest floor, spores floating in warm light"
+    }
+  },
+  {
+    "id": "g_seed_pod",
+    "name": "荚灵",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[遗志]：召唤{n}个「灵苗」。",
+    "vars": {
+      "n": 2
+    },
+    "keywords": [
+      "deathrattle"
+    ],
+    "unit": {
+      "atk": 1,
+      "hp": 2,
+      "triggers": [
+        {
+          "on": "death",
+          "effects": [
+            {
+              "op": "summon",
+              "unit": "tk_g_sprout",
+              "n": "$n"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "text": "[坚守]。\n[遗志]：召唤{n}个「灵苗」。",
+      "unit": {
+        "keywords": [
+          "taunt"
+        ]
+      },
+      "qualitative": true
+    },
+    "flavor": "荚一裂，满地都是新面孔。",
+    "art": {
+      "subject": "a plump bean-pod creature with stubby legs, its seam glowing as tiny sapling spirits peek out from inside, standing on a mossy root"
+    }
+  },
+  {
+    "id": "g_lantern_shroom",
+    "name": "灯笼菌",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[统御]：相邻友方单位+{a}攻击。",
+    "vars": {
+      "a": 1
+    },
+    "keywords": [
+      "aura"
+    ],
+    "unit": {
+      "atk": 1,
+      "hp": 3,
+      "prefersBack": true,
+      "aura": [
+        {
+          "stat": "atk",
+          "amount": 1
+        }
+      ]
+    },
+    "upgrade": {
+      "text": "[统御]：相邻友方单位+{a}攻击并具有[汲命]。",
+      "unit": {
+        "aura": [
+          {
+            "stat": "atk",
+            "amount": 1
+          },
+          {
+            "stat": "keyword",
+            "keyword": "lifesteal"
+          }
+        ]
+      },
+      "qualitative": true
+    },
+    "flavor": "后排的光，是给前排看路的。",
+    "art": {
+      "subject": "a tall glowing mushroom with a lantern-shaped cap, amber light spilling from its gills onto small spirits gathered around its stem, dark forest behind"
+    }
+  },
+  {
+    "id": "g_old_camphor",
+    "name": "老樟",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[坚守]。[滋长]{g}",
+    "vars": {
+      "g": 1
+    },
+    "keywords": [
+      "taunt",
+      "growth"
+    ],
+    "unit": {
+      "atk": 1,
+      "hp": 5,
+      "keywords": [
+        "taunt"
+      ],
+      "growth": 1
+    },
+    "upgrade": {
+      "unit": {
+        "atk": 2,
+        "hp": 6
+      }
+    },
+    "flavor": "村口那棵樟树，替三代人挡过风。",
+    "art": {
+      "subject": "an ancient camphor tree spirit with a gnarled face in its trunk, broad branches spread protectively, roots gripping the ground like fists"
+    }
+  },
+  {
+    "id": "g_carrion_crow",
+    "name": "腐木鸦",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[远射]。每当另一个友方单位死亡，获得+{a}/+{a}。",
+    "vars": {
+      "a": 1
+    },
+    "keywords": [
+      "ranged"
+    ],
+    "unit": {
+      "atk": 1,
+      "hp": 2,
+      "keywords": [
+        "ranged"
+      ],
+      "prefersBack": true,
+      "triggers": [
+        {
+          "on": "unitDied",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "buff",
+              "target": "self",
+              "atk": "$a",
+              "hp": "$a"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "text": "[远射]。[汲命]。每当另一个友方单位死亡，获得+{a}/+{a}。",
+      "unit": {
+        "keywords": [
+          "ranged",
+          "lifesteal"
+        ]
+      },
+      "qualitative": true
+    },
+    "flavor": "它啄食落叶，也啄食落下的魂。",
+    "art": {
+      "subject": "a crow with feathers like rotted bark and fungus sprouting from its back, perched on a dead branch, eyes glowing green"
+    }
+  },
+  {
+    "id": "g_thornback_boar",
+    "name": "棘背山猪",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[棘刺]{t}",
+    "vars": {
+      "t": 2
+    },
+    "keywords": [
+      "thorns"
+    ],
+    "unit": {
+      "atk": 2,
+      "hp": 3,
+      "thorns": 2
+    },
+    "upgrade": {
+      "vars": {
+        "t": 3
+      },
+      "unit": {
+        "hp": 4,
+        "thorns": 3
+      }
+    },
+    "flavor": "撞上去之前，先想想它背上长的是什么。",
+    "art": {
+      "subject": "a stocky wild boar whose back bristles are thick bramble thorns, head lowered and tusks forward, stamping on forest mud"
+    }
+  },
+  {
+    "id": "g_vine_maiden",
+    "name": "结藤娘",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[起势]：召唤一个具有[坚守]的「藤甲傀」。",
+    "keywords": [
+      "battlecry"
+    ],
+    "unit": {
+      "atk": 2,
+      "hp": 3
+    },
+    "effects": [
+      {
+        "op": "summon",
+        "unit": "tk_g_vine_puppet",
+        "row": "front"
+      }
+    ],
+    "upgrade": {
+      "text": "[起势]：召唤一个具有[坚守]的「藤甲傀」。\n[遗志]：召唤一个「藤甲傀」。",
+      "unit": {
+        "triggers": [
+          {
+            "on": "death",
+            "effects": [
+              {
+                "op": "summon",
+                "unit": "tk_g_vine_puppet",
+                "row": "front"
+              }
+            ]
+          }
+        ]
+      },
+      "qualitative": true
+    },
+    "flavor": "她编的傀儡不会说话，只会挡在前头。",
+    "art": {
+      "subject": "a young woman in green robes weaving thick vines with quick fingers, a half-finished vine guardian rising beside her, fireflies around her hands"
+    }
+  },
+  {
+    "id": "g_banner_elder",
+    "name": "青旗树伯",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[统御]：相邻友方单位+{a}攻击，受到的伤害-{r}。",
+    "vars": {
+      "a": 1,
+      "r": 1
+    },
+    "keywords": [
+      "aura"
+    ],
+    "unit": {
+      "atk": 2,
+      "hp": 5,
+      "prefersBack": true,
+      "aura": [
+        {
+          "stat": "atk",
+          "amount": 1
+        },
+        {
+          "stat": "damageTaken",
+          "amount": -1
+        }
+      ]
+    },
+    "upgrade": {
+      "text": "[统御]：相邻友方单位+{a}攻击，受到的伤害-{r}，并具有[坚守]。",
+      "unit": {
+        "aura": [
+          {
+            "stat": "atk",
+            "amount": 1
+          },
+          {
+            "stat": "damageTaken",
+            "amount": -1
+          },
+          {
+            "stat": "keyword",
+            "keyword": "taunt"
+          }
+        ]
+      },
+      "qualitative": true
+    },
+    "flavor": "树伯不上阵。树伯只要站在那里，阵就不会散。",
+    "art": {
+      "subject": "an elderly treant holding a tall staff hung with green silk banners, standing behind a line of small forest spirits, banners rippling in warm wind"
+    }
+  },
+  {
+    "id": "g_root_weaver",
+    "name": "织根婆",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[统御]：相邻友方单位受到的伤害-{r}。",
+    "vars": {
+      "r": 1
+    },
+    "keywords": [
+      "aura"
+    ],
+    "unit": {
+      "atk": 0,
+      "hp": 4,
+      "prefersBack": true,
+      "aura": [
+        {
+          "stat": "damageTaken",
+          "amount": -1
+        }
+      ]
+    },
+    "upgrade": {
+      "unit": {
+        "atk": 1,
+        "hp": 6
+      }
+    },
+    "flavor": "地底下的根，早就把大家缝在一起了。",
+    "art": {
+      "subject": "a hunched old woman kneeling with her hands in the earth, glowing roots spreading from her fingers beneath the feet of nearby spirits"
+    }
+  },
+  {
+    "id": "g_firefly_crone",
+    "name": "萤灯婆",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[远射]。你的回合结束时，召唤{n}个「灵苗」。",
+    "vars": {
+      "n": 1
+    },
+    "keywords": [
+      "ranged"
+    ],
+    "unit": {
+      "atk": 1,
+      "hp": 3,
+      "keywords": [
+        "ranged"
+      ],
+      "prefersBack": true,
+      "triggers": [
+        {
+          "on": "turnEnd",
+          "effects": [
+            {
+              "op": "summon",
+              "unit": "tk_g_sprout",
+              "n": "$n"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "unit": {
+        "atk": 2,
+        "hp": 4
+      }
+    },
+    "flavor": "她提着灯走一夜，身后便跟了一夜的小东西。",
+    "art": {
+      "subject": "an old woman in a straw cloak holding a paper lantern full of fireflies, a trail of tiny glowing sapling spirits following behind her on a night path"
+    }
+  },
+  {
+    "id": "g_weeping_willow",
+    "name": "哭柳",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "每当另一个友方单位死亡，随机对一个敌人造成{d}点伤害。",
+    "vars": {
+      "d": 2
+    },
+    "varKinds": {
+      "d": "damage"
+    },
+    "unit": {
+      "atk": 2,
+      "hp": 4,
+      "triggers": [
+        {
+          "on": "unitDied",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "randomEnemy"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "d": 3
+      }
+    },
+    "flavor": "柳枝垂到地上，是为了把死去的都记下来。",
+    "art": {
+      "subject": "a willow tree spirit with a sorrowful woman's face in its bark, long drooping branches ending in sharp glinting leaves that lash outward"
+    }
+  },
+  {
+    "id": "g_cypress_general",
+    "name": "苍柏将",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 3,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[坚守]。[滋长]{g}。\n[起势]：相邻友方单位获得[滋长]{g}。",
+    "vars": {
+      "g": 1
+    },
+    "keywords": [
+      "taunt",
+      "growth",
+      "battlecry"
+    ],
+    "unit": {
+      "atk": 2,
+      "hp": 5,
+      "keywords": [
+        "taunt"
+      ],
+      "growth": 1
+    },
+    "effects": [
+      {
+        "op": "addKeyword",
+        "target": "adjacent",
+        "keyword": "growth",
+        "value": "$g"
+      }
+    ],
+    "upgrade": {
+      "text": "[坚守]。[滋长]{g}。\n[起势]：所有其他友方单位获得[滋长]{g}。",
+      "effects": [
+        {
+          "op": "addKeyword",
+          "target": "otherFriendlyUnits",
+          "keyword": "growth",
+          "value": "$g"
+        }
+      ],
+      "qualitative": true
+    },
+    "flavor": "柏将军不催兵。它只教它们往上长。",
+    "art": {
+      "subject": "a towering armored warrior whose body is an old cypress trunk, bark plates like lamellar armor, one arm raised as green shoots sprout around its feet"
+    }
+  },
+  {
+    "id": "g_spirit_matron",
+    "name": "百灵姥",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "epic",
+    "cost": {
+      "g": 3,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "每当一个友方单位入场（包括此单位），使其获得+{a}/+{a}。",
+    "vars": {
+      "a": 1
+    },
+    "unit": {
+      "atk": 2,
+      "hp": 4,
+      "triggers": [
+        {
+          "on": "unitSummoned",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "buff",
+              "target": "eventTarget",
+              "atk": "$a",
+              "hp": "$a"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "text": "每当一个友方单位入场（包括此单位），使其获得+{a}/+{a}与[疾行]。",
+      "unit": {
+        "triggers": [
+          {
+            "on": "unitSummoned",
+            "who": "friendly",
+            "effects": [
+              {
+                "op": "buff",
+                "target": "eventTarget",
+                "atk": "$a",
+                "hp": "$a"
+              },
+              {
+                "op": "addKeyword",
+                "target": "eventTarget",
+                "keyword": "haste"
+              }
+            ]
+          }
+        ]
+      },
+      "qualitative": true
+    },
+    "flavor": "林子里每一个新生的，都先被她抱一抱。",
+    "art": {
+      "subject": "a serene grandmother figure seated in the hollow of a giant tree, cradling a newborn sapling spirit while dozens of tiny spirits climb over her mossy shawl"
+    }
+  },
+  {
+    "id": "g_thousand_pine",
+    "name": "千岁松",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "epic",
+    "cost": {
+      "g": 3,
+      "c": [
+        "G",
+        "G"
+      ]
+    },
+    "text": "[坚守]。[滋长]{g}。",
+    "vars": {
+      "g": 2
+    },
+    "keywords": [
+      "taunt",
+      "growth"
+    ],
+    "unit": {
+      "atk": 3,
+      "hp": 8,
+      "keywords": [
+        "taunt"
+      ],
+      "growth": 2
+    },
+    "upgrade": {
+      "text": "[坚守]。[棘刺]{t}。[滋长]{g}。",
+      "vars": {
+        "t": 3
+      },
+      "unit": {
+        "thorns": 3
+      },
+      "qualitative": true
+    },
+    "flavor": "一千年里，它只学会了一件事：再高一点。",
+    "art": {
+      "subject": "a colossal ancient pine rooted on a cliff edge, its twisted trunk forming a stern guardian face, clouds wrapping its crown, low sun behind"
+    }
+  },
+  {
+    "id": "g_corpse_lily",
+    "name": "尸香魔芋",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "每回合第一次有其他友方单位死亡时，抽{n}张牌，并获得{e}枚本回合可用的源。",
+    "vars": {
+      "n": 1,
+      "e": 1
+    },
+    "unit": {
+      "atk": 1,
+      "hp": 4,
+      "prefersBack": true,
+      "triggers": [
+        {
+          "on": "unitDied",
+          "who": "friendly",
+          "limit": "turn",
+          "effects": [
+            {
+              "op": "draw",
+              "n": "$n"
+            },
+            {
+              "op": "energy",
+              "n": "$e"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "n": 2
+      }
+    },
+    "flavor": "它开花的时候，林子里总有什么刚刚死去。",
+    "art": {
+      "subject": "an enormous dark crimson corpse flower with a towering central spadix, pale green mist rising from its bloom, fallen leaves and bones at its base"
+    }
+  },
+  {
+    "id": "g_jianmu",
+    "name": "建木",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "legendary",
+    "cost": {
+      "g": 5,
+      "c": [
+        "G",
+        "G"
+      ]
+    },
+    "text": "[坚守]。[滋长]{g}。\n[起势]：所有其他友方单位获得[滋长]{k}。",
+    "vars": {
+      "g": 2,
+      "k": 1
+    },
+    "keywords": [
+      "taunt",
+      "growth",
+      "battlecry"
+    ],
+    "unit": {
+      "atk": 6,
+      "hp": 10,
+      "keywords": [
+        "taunt"
+      ],
+      "growth": 2
+    },
+    "effects": [
+      {
+        "op": "addKeyword",
+        "target": "otherFriendlyUnits",
+        "keyword": "growth",
+        "value": "$k"
+      }
+    ],
+    "upgrade": {
+      "text": "[坚守]。[滋长]{g}。[统御]：相邻友方单位+{a}攻击。\n[起势]：所有其他友方单位获得[滋长]{k}。",
+      "vars": {
+        "a": 2
+      },
+      "unit": {
+        "aura": [
+          {
+            "stat": "atk",
+            "amount": 2
+          }
+        ]
+      },
+      "qualitative": true
+    },
+    "flavor": "传说天地未分时，众神沿着它上下。如今它只为万木庭长。",
+    "art": {
+      "subject": "a gigantic world tree whose trunk rises beyond the clouds, its roots forming a vast terraced city of smaller trees, golden light pouring down through the canopy"
+    }
+  },
+  {
+    "id": "g_samsara_banyan",
+    "name": "轮回古榕",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "legendary",
+    "cost": {
+      "g": 4,
+      "c": [
+        "G",
+        "G"
+      ]
+    },
+    "text": "每当另一个友方单位死亡，获得+{a}/+{a}。\n[遗志]：召唤一个「榕种」（其[遗志]会召唤「轮回古榕」）。",
+    "vars": {
+      "a": 1
+    },
+    "keywords": [
+      "deathrattle"
+    ],
+    "unit": {
+      "atk": 4,
+      "hp": 6,
+      "triggers": [
+        {
+          "on": "unitDied",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "buff",
+              "target": "self",
+              "atk": "$a",
+              "hp": "$a"
+            }
+          ]
+        },
+        {
+          "on": "death",
+          "effects": [
+            {
+              "op": "summon",
+              "unit": "tk_g_banyan_seed"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "text": "[起势]：召唤一个「榕种」。\n每当另一个友方单位死亡，获得+{a}/+{a}。\n[遗志]：召唤一个「榕种」（其[遗志]会召唤「轮回古榕」）。",
+      "effects": [
+        {
+          "op": "summon",
+          "unit": "tk_g_banyan_seed"
+        }
+      ],
+      "keywords": [
+        "deathrattle",
+        "battlecry"
+      ],
+      "qualitative": true
+    },
+    "flavor": "榕树的气根落地，便又是一棵榕树。它从来没有真正死过。",
+    "art": {
+      "subject": "a vast banyan tree whose hanging aerial roots take root and become new trunks in a ring around it, a seed glowing at the center of the ring, dusk light"
+    }
+  },
+  {
+    "id": "g_swarm_forth",
+    "name": "群灵出巢",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "召唤{n}个「灵苗」。",
+    "vars": {
+      "n": 3
+    },
+    "effects": [
+      {
+        "op": "summon",
+        "unit": "tk_g_sprout",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 4
+      }
+    },
+    "flavor": "一声口哨，满山的树洞都开了门。",
+    "art": {
+      "subject": "dozens of tiny glowing sapling spirits pouring out of hollows in an old tree trunk, tumbling over each other toward the viewer, spores in the air"
+    }
+  },
+  {
+    "id": "g_swarm_pounce",
+    "name": "群灵扑击",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "造成{d}点伤害。每有一个友方单位，伤害+{k}。",
+    "vars": {
+      "d": 2,
+      "k": 2
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "target": "target",
+        "attack": true,
+        "amount": {
+          "add": [
+            "$d",
+            {
+              "mul": [
+                {
+                  "count": "units",
+                  "side": "friendly"
+                },
+                "$k"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 5
+      }
+    },
+    "flavor": "一只不可怕。一林子才可怕。",
+    "art": {
+      "subject": "a swarm of small leafy forest spirits leaping together onto a hulking armored foe, vines and petals flying, dynamic diagonal composition"
+    }
+  },
+  {
+    "id": "g_shifting_roots",
+    "name": "走根",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 0,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "将一个友方单位移至另一排，使其获得+{a}/+{a}。抽{n}张牌。",
+    "vars": {
+      "a": 1,
+      "n": 1
+    },
+    "target": "friendlyUnit",
+    "effects": [
+      {
+        "op": "move",
+        "target": "target",
+        "to": "swap"
+      },
+      {
+        "op": "buff",
+        "target": "target",
+        "atk": "$a",
+        "hp": "$a"
+      },
+      {
+        "op": "draw",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "text": "[藏锋]。\n将一个友方单位移至另一排，使其获得+{a}/+{a}。抽{n}张牌。",
+      "keywords": [
+        "retain"
+      ],
+      "qualitative": true
+    },
+    "flavor": "树不会走？那是你没见过它们在夜里换位置。",
+    "art": {
+      "subject": "a young tree spirit pulling its roots out of the soil and striding to a new spot, soil clods falling, moonlit clearing with other trees watching"
+    }
+  },
+  {
+    "id": "g_quicken",
+    "name": "催芽",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 0,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "一个友方单位获得+{a}/+{a}与[滋长]{g}。\n[献]：随机一个友方单位获得[滋长]{g}。",
+    "vars": {
+      "a": 1,
+      "g": 1
+    },
+    "keywords": [
+      "offering"
+    ],
+    "target": "friendlyUnit",
+    "effects": [
+      {
+        "op": "buff",
+        "target": "target",
+        "atk": "$a",
+        "hp": "$a"
+      },
+      {
+        "op": "addKeyword",
+        "target": "target",
+        "keyword": "growth",
+        "value": "$g"
+      }
+    ],
+    "onSacrifice": [
+      {
+        "op": "addKeyword",
+        "target": "randomFriendlyUnit",
+        "keyword": "growth",
+        "value": "$g"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 2
+      }
+    },
+    "flavor": "一滴晨露，一句咒，一夜长一寸。",
+    "art": {
+      "subject": "cupped hands releasing a single glowing dewdrop onto a sprout that surges upward in a spiral of green light"
+    }
+  },
+  {
+    "id": "g_branch_rite",
+    "name": "祭枝",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 0
+    },
+    "text": "消灭一个友方单位，获得{e}枚本回合可用的{G}源。",
+    "vars": {
+      "e": 2
+    },
+    "target": "friendlyUnit",
+    "effects": [
+      {
+        "op": "kill",
+        "target": "target"
+      },
+      {
+        "op": "energy",
+        "n": "$e",
+        "color": "G"
+      }
+    ],
+    "upgrade": {
+      "text": "消灭一个友方单位，获得{e}枚本回合可用的{G}源。抽{n}张牌。",
+      "vars": {
+        "n": 1
+      },
+      "effects": [
+        {
+          "op": "kill",
+          "target": "target"
+        },
+        {
+          "op": "energy",
+          "n": "$e",
+          "color": "G"
+        },
+        {
+          "op": "draw",
+          "n": "$n"
+        }
+      ],
+      "qualitative": true
+    },
+    "flavor": "折下的枝，烧的是它，暖的是林。",
+    "art": {
+      "subject": "a robed druid snapping a living branch over a stone altar, green flame rising from the break and flowing into her palm"
+    }
+  },
+  {
+    "id": "g_ancient_quake",
+    "name": "古木撼地",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "对一个敌人造成等于你攻击力最高的友方单位攻击力{m}倍的伤害。",
+    "vars": {
+      "m": 2
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "target": "target",
+        "amount": {
+          "mul": [
+            {
+              "count": "atk",
+              "of": {
+                "side": "friendly",
+                "pick": "highestAtk"
+              }
+            },
+            "$m"
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 1,
+        "c": [
+          "G"
+        ]
+      }
+    },
+    "flavor": "它只是翻了个身。",
+    "art": {
+      "subject": "a colossal tree spirit slamming its root-fist into the ground, a shockwave of splintered earth racing toward a distant enemy, dust and leaves exploding upward"
+    }
+  },
+  {
+    "id": "g_withered_spring",
+    "name": "枯木逢春",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "从弃牌堆选择{n}张单位牌加入手牌。召唤{m}个「灵苗」。",
+    "vars": {
+      "n": 1,
+      "m": 1
+    },
+    "effects": [
+      {
+        "op": "fetch",
+        "from": "discard",
+        "mode": "choose",
+        "n": "$n",
+        "filter": {
+          "type": "unit"
+        }
+      },
+      {
+        "op": "summon",
+        "unit": "tk_g_sprout",
+        "n": "$m"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 2
+      }
+    },
+    "flavor": "死去的那棵，根还醒着。",
+    "art": {
+      "subject": "a blackened dead stump with a single bright green shoot bursting from its center, spring rain falling, soft light breaking through clouds"
+    }
+  },
+  {
+    "id": "g_verdant_surge",
+    "name": "万木争春",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "所有友方单位获得+{a}/+{a}。若你拥有至少{m}个友方单位，抽{n}张牌。",
+    "vars": {
+      "a": 1,
+      "m": 4,
+      "n": 2
+    },
+    "effects": [
+      {
+        "op": "buff",
+        "target": "friendlyUnits",
+        "atk": "$a",
+        "hp": "$a"
+      },
+      {
+        "op": "if",
+        "cond": {
+          "gte": [
+            {
+              "count": "units",
+              "side": "friendly"
+            },
+            "$m"
+          ]
+        },
+        "then": [
+          {
+            "op": "draw",
+            "n": "$n"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 2
+      }
+    },
+    "flavor": "春风一过，谁都不肯落后半寸。",
+    "art": {
+      "subject": "an entire forest of young trees and spirits surging upward at once under a wave of warm spring wind, blossoms and leaves spiraling into the sky"
+    }
+  },
+  {
+    "id": "g_return_to_soil",
+    "name": "归土",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "消灭一个友方单位，对所有敌人造成等于其生命值的伤害。",
+    "target": "friendlyUnit",
+    "effects": [
+      {
+        "op": "damage",
+        "target": "allEnemies",
+        "amount": {
+          "count": "hp",
+          "of": "target"
+        }
+      },
+      {
+        "op": "kill",
+        "target": "target"
+      }
+    ],
+    "upgrade": {
+      "text": "消灭一个友方单位，对所有敌人造成等于其生命值的伤害，然后召唤{n}个「灵苗」。",
+      "vars": {
+        "n": 1
+      },
+      "effects": [
+        {
+          "op": "damage",
+          "target": "allEnemies",
+          "amount": {
+            "count": "hp",
+            "of": "target"
+          }
+        },
+        {
+          "op": "kill",
+          "target": "target"
+        },
+        {
+          "op": "summon",
+          "unit": "tk_g_sprout",
+          "n": "$n"
+        }
+      ],
+      "qualitative": true
+    },
+    "flavor": "它倒下时，大地替它还手。",
+    "art": {
+      "subject": "a great tree spirit collapsing into the earth as a ring of roots and splintered wood erupts outward from where it fell, striking shadowy foes"
+    }
+  },
+  {
+    "id": "g_forest_march",
+    "name": "林海行军",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "所有友方单位本回合获得+{a}攻击，并获得[疾行]。",
+    "vars": {
+      "a": 2
+    },
+    "varKinds": {
+      "a": "attack"
+    },
+    "effects": [
+      {
+        "op": "buff",
+        "target": "friendlyUnits",
+        "atk": "$a",
+        "until": "turn"
+      },
+      {
+        "op": "addKeyword",
+        "target": "friendlyUnits",
+        "keyword": "haste"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 3
+      }
+    },
+    "flavor": "那一夜，山上的林子向山下走了十里。",
+    "art": {
+      "subject": "a vast army of tree spirits, beasts of bark and tiny sapling soldiers marching down a mountainside in a single surging tide of green, moonlight on their leaves"
+    }
+  },
+  {
+    "id": "g_vine_ward",
+    "name": "藤甲",
+    "faction": "G",
+    "type": "response",
+    "rarity": "common",
+    "cost": {
+      "g": 0,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[应]：召唤{n}个具有[坚守]的「藤甲傀」。",
+    "vars": {
+      "n": 1
+    },
+    "keywords": [
+      "response"
+    ],
+    "effects": [
+      {
+        "op": "summon",
+        "unit": "tk_g_vine_puppet",
+        "n": "$n",
+        "row": "front"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 2
+      }
+    },
+    "flavor": "刀落下来之前，藤先立起来。",
+    "art": {
+      "subject": "vines erupting from the ground and braiding themselves into a shield-bearing guardian in front of a startled spirit, a blade descending from above"
+    }
+  },
+  {
+    "id": "g_graft_bloom",
+    "name": "移花接木",
+    "faction": "G",
+    "type": "response",
+    "rarity": "rare",
+    "cost": {
+      "g": 0,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[应]：将该敌方行动的目标改为一个友方单位，并使其获得{a}点[护甲]。",
+    "vars": {
+      "a": 4
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "keywords": [
+      "response"
+    ],
+    "windowOnly": true,
+    "target": "friendlyUnit",
+    "effects": [
+      {
+        "op": "redirect",
+        "to": "target"
+      },
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "target"
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 0
+      },
+      "vars": {
+        "a": 6
+      },
+      "qualitative": true
+    },
+    "flavor": "你要砍的那棵树，早就换了。",
+    "art": {
+      "subject": "a falling blade deflected midair as petals swirl and a sturdy bark-armored spirit suddenly stands where a robed woman was, her silhouette fading into blossoms"
+    }
+  },
+  {
+    "id": "g_soul_harvest",
+    "name": "魂归",
+    "faction": "G",
+    "type": "response",
+    "rarity": "common",
+    "cost": {
+      "g": 0,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[应]：消灭一个友方单位。主帅获得{a}点[护甲]，外加等于该单位生命值的[护甲]。",
+    "vars": {
+      "a": 3
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "keywords": [
+      "response"
+    ],
+    "target": "friendlyUnit",
+    "effects": [
+      {
+        "op": "armor",
+        "target": "commander",
+        "amount": {
+          "add": [
+            "$a",
+            {
+              "count": "hp",
+              "of": "target"
+            }
+          ]
+        }
+      },
+      {
+        "op": "kill",
+        "target": "target"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 5
+      }
+    },
+    "flavor": "落叶归根，归的是护着根的那一层。",
+    "art": {
+      "subject": "a small tree spirit dissolving into a stream of glowing leaves that wrap around a commander as a layered bark cloak, dusk forest"
+    }
+  },
+  {
+    "id": "g_vine_staff",
+    "name": "青藤杖",
+    "faction": "G",
+    "type": "equip",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "武器（攻击{w}，距离{r}，耐久{u}）。主帅每次攻击时，召唤{n}个「灵苗」。",
+    "vars": {
+      "w": 1,
+      "r": 2,
+      "u": 3,
+      "n": 1
+    },
+    "equip": {
+      "slot": "weapon",
+      "atk": 1,
+      "range": 2,
+      "durability": 3,
+      "triggers": [
+        {
+          "on": "attacking",
+          "effects": [
+            {
+              "op": "summon",
+              "unit": "tk_g_sprout",
+              "n": "$n"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "w": 2,
+        "u": 4
+      },
+      "equip": {
+        "atk": 2,
+        "durability": 4
+      }
+    },
+    "flavor": "杖头每点一下，地里就冒出一个脑袋。",
+    "art": {
+      "subject": "a gnarled staff wrapped in living green vines, its tip blooming with a glowing bud, planted in soil as tiny sprouts rise in a circle around its base"
+    }
+  },
+  {
+    "id": "g_heartwood_pendant",
+    "name": "心材坠",
+    "faction": "G",
+    "type": "equip",
+    "rarity": "common",
+    "cost": {
+      "g": 0,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "宝物。每当一个友方单位死亡，主帅获得{a}点[护甲]。",
+    "vars": {
+      "a": 2
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "equip": {
+      "slot": "treasure",
+      "triggers": [
+        {
+          "on": "unitDied",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "armor",
+              "amount": "$a",
+              "target": "commander"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "a": 3
+      }
+    },
+    "flavor": "取自千年老木的芯，戴着它，就听得见林子里每一声叹息。",
+    "art": {
+      "subject": "a pendant carved from dark amber heartwood showing concentric growth rings, hanging from a jade cord, glowing softly in a cupped palm"
+    }
+  },
+  {
+    "id": "g_spring_sowing",
+    "name": "春播",
+    "faction": "G",
+    "type": "delay",
+    "rarity": "common",
+    "cost": {
+      "g": 0,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[延时]{t}，挂在一个友方角色身上。\n[判定]：召唤{n}个「灵苗」；{moon}月纹——额外召唤{m}个。",
+    "vars": {
+      "t": 2,
+      "n": 2,
+      "m": 2
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "delay": {
+      "turns": 2,
+      "on": "friendly",
+      "branches": {
+        "moon": [
+          {
+            "op": "summon",
+            "unit": "tk_g_sprout",
+            "n": "$m"
+          }
+        ],
+        "always": [
+          {
+            "op": "summon",
+            "unit": "tk_g_sprout",
+            "n": "$n"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "vars": {
+        "t": 1
+      },
+      "delay": {
+        "turns": 1
+      }
+    },
+    "flavor": "种下去，等一场月光。",
+    "art": {
+      "subject": "a farmer spirit pressing seeds into moonlit furrows, a crescent moon reflected in a paddy of water behind, faint sprouts already glowing in the rows"
+    }
+  },
+  {
+    "id": "g_autumn_harvest",
+    "name": "秋实",
+    "faction": "G",
+    "type": "delay",
+    "rarity": "epic",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[延时]{t}，挂在一个友方角色身上。\n[判定]：{moon}月纹——召唤{n}个「灵苗」，然后所有友方单位获得+{b}/+{b}；其他命纹——所有友方单位获得+{a}/+{a}。点数≥{h}时，额外抽{d}张牌。",
+    "vars": {
+      "t": 1,
+      "n": 2,
+      "b": 2,
+      "a": 1,
+      "h": 8,
+      "d": 1
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
+    "delay": {
+      "turns": 1,
+      "on": "friendly",
+      "branches": {
+        "moon": [
+          {
+            "op": "summon",
+            "unit": "tk_g_sprout",
+            "n": "$n"
+          },
+          {
+            "op": "buff",
+            "target": "friendlyUnits",
+            "atk": "$b",
+            "hp": "$b"
+          }
+        ],
+        "sun": [
+          {
+            "op": "buff",
+            "target": "friendlyUnits",
+            "atk": "$a",
+            "hp": "$a"
+          }
+        ],
+        "thunder": [
+          {
+            "op": "buff",
+            "target": "friendlyUnits",
+            "atk": "$a",
+            "hp": "$a"
+          }
+        ],
+        "mountain": [
+          {
+            "op": "buff",
+            "target": "friendlyUnits",
+            "atk": "$a",
+            "hp": "$a"
+          }
+        ],
+        "high": [
+          {
+            "op": "draw",
+            "n": "$d"
+          }
+        ]
+      }
+    },
+    "upgrade": {
+      "vars": {
+        "a": 2,
+        "b": 3
+      }
+    },
+    "flavor": "春种一粒粟，秋收的是一整片林。",
+    "art": {
+      "subject": "a harvest field under a huge amber autumn moon, golden grain and fruit-laden trees bending low as forest spirits gather beneath them"
+    }
+  },
+  {
+    "id": "g_rooted_court",
+    "name": "盘根庭",
+    "faction": "G",
+    "type": "field",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "阵地。友方单位受到的伤害-{r}。具有[坚守]的友方单位+{a}攻击。",
+    "vars": {
+      "r": 1,
+      "a": 2
+    },
+    "field": {
+      "modifiers": [
+        {
+          "stat": "damageTaken",
+          "amount": -1,
+          "who": "friendlyUnits"
+        },
+        {
+          "stat": "atk",
+          "amount": 2,
+          "who": "friendlyUnits",
+          "if": {
+            "hasKeyword": {
+              "of": "target",
+              "keyword": "taunt"
+            }
+          }
+        }
+      ]
+    },
+    "upgrade": {
+      "text": "阵地。友方单位受到的伤害-{r}。具有[坚守]的友方单位+{a}攻击，并在你的回合开始时恢复{h}点生命。",
+      "vars": {
+        "h": 3
+      },
+      "field": {
+        "triggers": [
+          {
+            "on": "turnStart",
+            "effects": [
+              {
+                "op": "heal",
+                "amount": "$h",
+                "target": {
+                  "side": "friendly",
+                  "where": {
+                    "hasKeyword": {
+                      "of": "it",
+                      "keyword": "taunt"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "qualitative": true
+    },
+    "flavor": "庭中古木的根在地下握成一只拳。",
+    "art": {
+      "subject": "an ancient courtyard where colossal tree roots have broken through the flagstones and interlocked into a fortress wall, lantern light between the roots"
+    }
+  },
+  {
+    "id": "g_evergreen_ruins",
+    "name": "长春墟",
+    "faction": "G",
+    "type": "field",
+    "rarity": "legendary",
+    "cost": {
+      "g": 3,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "阵地。友方单位+{a}攻击。每当一个友方单位死亡，召唤{n}个「灵苗」。",
+    "vars": {
+      "a": 1,
+      "n": 1
+    },
+    "field": {
+      "modifiers": [
+        {
+          "stat": "atk",
+          "amount": 1,
+          "who": "friendlyUnits"
+        }
+      ],
+      "triggers": [
+        {
+          "on": "unitDied",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "summon",
+              "unit": "tk_g_sprout",
+              "n": "$n"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "text": "阵地。友方单位+{a}攻击，受到的伤害-{r}。每当一个友方单位死亡，召唤{n}个「灵苗」。",
+      "vars": {
+        "r": 1
+      },
+      "field": {
+        "modifiers": [
+          {
+            "stat": "atk",
+            "amount": 1,
+            "who": "friendlyUnits"
+          },
+          {
+            "stat": "damageTaken",
+            "amount": -1,
+            "who": "friendlyUnits"
+          }
+        ]
+      },
+      "qualitative": true
+    },
+    "flavor": "墟里没有死去的东西，只有正在重新长出来的东西。",
+    "art": {
+      "subject": "overgrown ruins of an ancient palace swallowed by eternal green forest, glowing spirits rising from fallen leaves in the collapsed halls, shafts of warm light"
+    }
+  }
+]

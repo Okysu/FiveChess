@@ -1,0 +1,63 @@
+[
+  {
+    "id": "rl_start_xuanji",
+    "name": "浑天铜签",
+    "tier": "starter",
+    "faction": "Y",
+    "text": "战斗开始时，收取1张[命签]。每当你[改判]，获得4点[护甲]。",
+    "flavor": "浑天仪拆下来的一根铜杆，被他削成了签。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "sign",
+            "n": 1
+          }
+        ]
+      },
+      {
+        "on": "rejudged",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 4,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a slender bronze rod broken from an armillary sphere, carved into a fortune slip, lying on dark velvet with faint star engravings"
+    }
+  },
+  {
+    "id": "rl_start_yanwujiu",
+    "name": "龟甲卦筒",
+    "tier": "starter",
+    "faction": "Y",
+    "text": "每回合你首次打出[延时]牌后，抽1张牌。",
+    "flavor": "筒里的龟甲早就裂完了，裂纹比卦辞还多。",
+    "triggers": [
+      {
+        "on": "cardPlayed",
+        "limit": "turn",
+        "if": {
+          "eventCard": {
+            "type": "delay"
+          }
+        },
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a worn cylinder made from a tortoise shell, cracked all over, with three bronze coins and a folded talisman peeking out of the top"
+    }
+  }
+]
