@@ -67,7 +67,7 @@ export let HUD = DESKTOP.HUD;
  * Select the geometry for the current profile and anchor it to the visible screen (call before building a battle
  * scene). Board and fate stay centred; the hand/piles/tray/end button hug the bottom edge, the left HUD the left
  * edge and the right HUD the right edge, so a taller or wider window has no dead bands at its borders.
- * view: visible screen in design coordinates (G.view).
+ * view: HUD safe area in design coordinates (G.hud).
  */
 export function applyCombatLayout(view = { left: 0, top: 0, right: 1920, bottom: 1080 }) {
   const g = isPhone() ? PHONE : DESKTOP;

@@ -144,13 +144,18 @@ export class TopBar extends Container {
 
   /** stick to the top-left of the visible screen and span its width */
   fit() {
-    const v = G.view;
-    this.position.set(v.left, v.top);
+    // band spans the whole screen width; its contents and vertical position respect the HUD safe area
+    const v = G.view, h = G.hud;
+    this.position.set(v.left, h.top);
     const w = Math.round(v.width);
     this.bg.removeChildren().forEach((c) => c.destroy({ children: true }));
     this.bg.addChild(nine('topbar', w, 96));
-    this.row.node.setWidth(w);
-    this.row.layout(w, 80);
+    const inL = h.left - v.left, inR = v.right - h.right;
+    this.row.position.set(inL, 0);
+    const rw = Math.round(w - inL - inR);
+    this.row.node.setWidth(rw);
+    this.row.layout(rw, 80);
+    this.relicBar.position.set(inL + 16, 100);
   }
 
   refresh() {

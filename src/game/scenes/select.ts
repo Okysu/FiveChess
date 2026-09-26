@@ -113,7 +113,7 @@ export class SelectScene extends Scene {
           card.addChild(m);
           s.mask = m;
           if (locked) { s.tint = 0x000000; s.alpha = 0.7; }
-          card.addChildAt(s, 1);
+          if (!card.destroyed) card.addChildAt(s, Math.min(1, card.children.length));
         });
         const nm = new Text({ text: locked ? '？？？' : c.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: C.text, stroke: { color: 0, width: 4 } } });
         nm.anchor.set(0.5, 1);

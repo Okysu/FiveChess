@@ -24,7 +24,7 @@ import { TopBar, openDeck, inspectCard, pickCards, termsOf, sortCards } from '..
 import { Button, Modal, Tooltip, glossLines, hideTip, label, showTip, title, toast } from '../../ui/widgets';
 import { CardView, CARD_H } from '../../ui/card';
 import { C, FONT_BODY, FONT_NUM, FONT_TITLE } from '../../ui/theme';
-import { WB, uiSprite, dim, hitRect, nine, panel, INSET, frame, ring as ringSprite, sectorMask, maskCircle } from '../../ui/skin';
+import { WB, uiSprite, dim, screenDim, hitRect, nine, panel, INSET, frame, ring as ringSprite, sectorMask, maskCircle } from '../../ui/skin';
 import { tweens, ease, wait } from '../../core/tween';
 import { audio, sfx } from '../../audio/audio';
 import { Particles, fxTexture, floatText, shake, hitStop, dissolve, preloadFx } from '../../fx/fx';
@@ -162,7 +162,13 @@ export class CombatScene extends Scene {
   override async shown() {
     // a resize mid-battle rebuilds the scene from state (geometry depends on the visible area), without the intro
     let t: ReturnType<typeof setTimeout> | undefined;
-    const off = G.onView(() => { clearTimeout(t); t = setTimeout(() => { if (!this.destroyed && !this.busy && !this.dragging) { resumeWithoutIntro = true; void import('../../router').then((m) => m.go(true)); } }, 300); });
+    const rebuild = () => {
+      if (this.destroyed) return;
+      if (this.busy || this.dragging || G.modalLayer.children.length) { t = setTimeout(rebuild, 300); return; } // wait for dialogs / animations
+      resumeWithoutIntro = true;
+      void import('../../router').then((m) => m.go(true));
+    };
+    const off = G.onView(() => { clearTimeout(t); t = setTimeout(rebuild, 300); });
     this.on('destroyed', () => { off(); clearTimeout(t); });
     if (resumeWithoutIntro) { resumeWithoutIntro = false; this.hand.layout(false); return; }
     this.hand.layout(true, 420);
@@ -1303,7 +1309,7 @@ export class CombatScene extends Scene {
       const def = content().enemy(boss.def);
       sfx('bossIntro');
       const ov = new Container();
-      ov.addChild(dim(1920, 1080, 0.8));
+      ov.addChild(screenDim(0.8));
       const tex = assets.get(K.enemy(boss.def, true));
       if (tex) { const sp = new Sprite(tex); sp.anchor.set(0.5, 1); sp.scale.set(Math.min(900 / tex.height, 1)); sp.position.set(1300, 1040); sp.alpha = 0; ov.addChild(sp); void tweens.to(sp, { alpha: 1, x: 1250 }, 700); }
       const nm = title(def.name, 110);
@@ -1397,7 +1403,7 @@ export class CombatScene extends Scene {
   private async legendaryShow(card: CardInst) {
     sfx('legendary');
     const ov = new Container();
-    ov.addChild(dim(1920, 1080, 0.75));
+    ov.addChild(screenDim(0.75));
     const v = new CardView(card);
     v.position.set(960, 520);
     v.scale.set(0.4);
@@ -1530,7 +1536,7 @@ export class CombatScene extends Scene {
     this.closeWindowUi();
     sfx('window');
     const ui = new Container();
-    const dm = dim(1920, 650, 0.35, 0, 128);
+    const dm = dim(G.view.width, 650, 0.35, G.view.left, 128);
     dm.eventMode = 'none';
     ui.addChild(dm);
     const a = unit(this.s, actor);
@@ -1690,7 +1696,7 @@ export class CombatScene extends Scene {
     sfx(win ? 'victory' : 'defeat');
     const boss = content().encounters.get(this.s.cfg.encounter)?.tier === 'boss';
     const ov = new Container();
-    ov.addChild(dim(1920, 1080, 0.65));
+    ov.addChild(screenDim(0.65));
     const t = title(win ? (boss ? '首 领 伏 诛' : '大 捷') : '命 数 已 尽', 120, { fill: win ? 0xffd27a : 0xc8a0a0 });
     t.anchor.set(0.5); t.position.set(960, 440); t.scale.set(1.6); t.alpha = 0;
     ov.addChild(t);

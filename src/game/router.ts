@@ -1,6 +1,7 @@
 /** Routes the current run screen to its scene. */
 import { G, type Scene } from './core/app';
 import { session } from './state';
+import { prefetchAfter } from './prefetch';
 
 let current: string | null = null;
 
@@ -12,6 +13,7 @@ export async function go(force = false) {
     next = new m.TitleScene();
     current = 'title';
     await G.go(next);
+    prefetchAfter('title');
     return;
   }
   const k = r.screen.k;
@@ -22,7 +24,7 @@ export async function go(force = false) {
     case 'map': case 'actStart': next = new (await import('./scenes/map')).MapScene(); break;
     case 'combat': {
       // geometry must be chosen before the scene's views are constructed
-      (await import('./scenes/combat/layout')).applyCombatLayout(G.view);
+      (await import('./scenes/combat/layout')).applyCombatLayout(G.hud);
       next = new (await import('./scenes/combat/combatScene')).CombatScene();
       break;
     }
@@ -38,6 +40,7 @@ export async function go(force = false) {
     default: next = new (await import('./scenes/map')).MapScene();
   }
   await G.go(next);
+  prefetchAfter(k);
 }
 
 /** apply a run action, then route */

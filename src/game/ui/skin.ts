@@ -6,6 +6,7 @@
  * (enforced by scripts/check-no-procedural.ts).
  */
 import { Container, Graphics, NineSliceSprite, Sprite, Text, Texture, type ContainerChild } from 'pixi.js';
+import { G } from '../core/app';
 import type { Color, Suit } from '../../engine/defs';
 import { assets, K } from '../assets';
 
@@ -267,6 +268,12 @@ export function ring(color: 'gold' | 'red', size: number): Container {
 
 export function tag(color: 'red' | 'gold', w: number, h: number): Container {
   return nine(`tag_${color}`, w, h);
+}
+
+/** dim covering the whole visible screen (any aspect ratio) */
+export function screenDim(alpha: number): Container {
+  const v = G.view;
+  return dim(v.width, v.height, alpha, v.left, v.top);
 }
 
 /** a full-screen dim made from the ink texture */

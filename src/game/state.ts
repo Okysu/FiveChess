@@ -20,12 +20,14 @@ export interface Settings {
   screenShake: number;
   damageNumbers: boolean;
   tutorialHints: boolean;
+  /** HUD safe-area margin per side, 0 – 0.1 of the screen */
+  hudMargin: number;
 }
 
 export const defaultSettings = (): Settings => ({
   volume: { master: 0.8, music: 0.5, sfx: 0.8, ambient: 0.5 }, animSpeed: 1, skipAnims: false, fastJudge: false,
   responseMode: 'smart', responseTimer: 8, confirmEndTurn: false, colorblind: 'none', suitText: false,
-  screenShake: 1, damageNumbers: true, tutorialHints: true,
+  screenShake: 1, damageNumbers: true, tutorialHints: true, hudMargin: 0,
 });
 
 interface RunSave { run: RunState; combat: CombatState | null }

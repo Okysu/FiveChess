@@ -21,6 +21,7 @@ async function boot() {
   await G.init(document.getElementById('app')!);
   audio.init();
   await session.load();
+  G.setHudMargin(session.settings.hudMargin ?? 0);
   setColorGlyphs(session.settings.colorblind !== 'none');
   progress(0.25, '研墨……');
   // fonts: wait briefly for web fonts, fall back to system fonts
@@ -62,6 +63,11 @@ async function boot() {
     }
   }
   await go(true);
+}
+
+// production: cache art/audio locally so repeat visits don't download them again (assets/sw.js)
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => { void navigator.serviceWorker.register(`${import.meta.env.BASE_URL ?? '/'}sw.js`).catch(() => undefined); });
 }
 
 boot().catch((e) => {

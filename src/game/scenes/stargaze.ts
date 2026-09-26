@@ -1,5 +1,6 @@
 /** 观星台: edit the run's fate deck (remove / copy / change suit) or preview the road ahead. */
 import { Container, Text } from 'pixi.js';
+import { G } from '../core/app';
 import { fs } from '../ui/profile';
 import { panel as uiPanel, frame, dim, hitRect, INSET } from '../ui/skin';
 import { RunScreen } from './common';
@@ -88,7 +89,7 @@ export class StargazeScene extends RunScreen {
       const cur = session.run!.fateDeck[this.sel!]!;
       const pick = new Container();
       const bg = new Container();
-      bg.addChild(dim(1920, 1080, 0.65), hitRect(0, 0, 1920, 1080));
+      bg.addChild(dim(G.view.width, G.view.height, 0.65, G.view.left, G.view.top), hitRect(G.view.left, G.view.top, G.view.width, G.view.height));
       bg.eventMode = 'static';
       bg.on('pointertap', () => pick.destroy({ children: true }));
       pick.addChild(bg);

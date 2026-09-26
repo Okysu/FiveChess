@@ -94,7 +94,7 @@ class CodexPanel extends Container {
           const bg = uiPanel(184, 224, 'tile');
           c.addChild(bg);
           const m = maskRect(INSET.tile.x, INSET.tile.y, 184 - INSET.tile.x * 2, 168 - INSET.tile.y, 0);
-          assets.with(K.enemy(e.id, e.tier === 'boss'), (t) => { const s = new Sprite(t); const k = Math.min(170 / t.height, 170 / t.width); s.scale.set(k); s.anchor.set(0.5, 1); s.position.set(92, 178); c.addChild(m); s.mask = m; if (!known) { s.tint = 0; s.alpha = 0.6; } c.addChildAt(s, 1); });
+          assets.with(K.enemy(e.id, e.tier === 'boss'), (t) => { const s = new Sprite(t); const k = Math.min(170 / t.height, 170 / t.width); s.scale.set(k); s.anchor.set(0.5, 1); s.position.set(92, 178); if (c.destroyed) return; c.addChild(m); s.mask = m; if (!known) { s.tint = 0; s.alpha = 0.6; } c.addChildAt(s, Math.min(1, c.children.length)); });
           const n = new Text({ text: known ? e.name : '？？？', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: C.text } });
           n.anchor.set(0.5); n.position.set(92, 200);
           c.addChild(n);

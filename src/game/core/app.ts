@@ -75,6 +75,23 @@ class GameApp {
   rotated = false;
   /** visible screen in design space: the 1920×1080 design sits centred inside it; edge-anchored UI uses these bounds */
   view = { left: 0, top: 0, right: DESIGN_W, bottom: DESIGN_H, width: DESIGN_W, height: DESIGN_H };
+  /**
+   * HUD safe area in design space: edge-anchored UI (top bar, hand, buttons, piles, legends, tooltips) stays inside it.
+   * = view shrunk by the device's safe-area insets (env(safe-area-inset-*): notches, rounded corners) and by the
+   * player's 显示 → HUD 安全区 margin (a fraction of the screen on every side, like a console's calibration).
+   */
+  hud = { left: 0, top: 0, right: DESIGN_W, bottom: DESIGN_H, width: DESIGN_W, height: DESIGN_H };
+  /** player margin, 0 – 0.1 of the screen size per side */
+  hudMargin = 0;
+  setHudMargin(m: number) { this.hudMargin = Math.max(0, Math.min(0.1, m)); this.layout(); }
+  private insets = { top: 0, right: 0, bottom: 0, left: 0 };
+  /** the HUD safe area for a given margin (calibration previews it before applying) */
+  hudRect(v = this.view, margin = this.hudMargin) {
+    const mx = v.width * margin, my = v.height * margin, d = this.insets;
+    const left = v.left + Math.max(d.left, mx), top = v.top + Math.max(d.top, my);
+    const right = v.right - Math.max(d.right, mx), bottom = v.bottom - Math.max(d.bottom, my);
+    return { left, top, right, bottom, width: right - left, height: bottom - top };
+  }
   private viewFns = new Set<() => void>();
   /** subscribe to visible-area changes; returns the unsubscribe function */
   onView(fn: () => void): () => void { this.viewFns.add(fn); return () => this.viewFns.delete(fn); }
@@ -101,8 +118,16 @@ class GameApp {
       this.backdrop.position.set(0, 0);
     }
     const v = { left: -ox / this.scale, top: -oy / this.scale, right: (vw - ox) / this.scale, bottom: (vh - oy) / this.scale, width: vw / this.scale, height: vh / this.scale };
-    const viewChanged = Math.abs(v.width - this.view.width) > 1 || Math.abs(v.height - this.view.height) > 1;
+    // device insets in css px (top/right/bottom/left of the screen) → design units, following the portrait rotation
+    const ins = deviceInsets();
+    const s = this.scale;
+    const d = this.rotated ? { top: ins.right, right: ins.bottom, bottom: ins.left, left: ins.top } : ins;
+    this.insets = { top: d.top / s, right: d.right / s, bottom: d.bottom / s, left: d.left / s };
+    const hud = this.hudRect(v, this.hudMargin);
+    const viewChanged = Math.abs(v.width - this.view.width) > 1 || Math.abs(v.height - this.view.height) > 1
+      || Math.abs(hud.left - this.hud.left) > 1 || Math.abs(hud.top - this.hud.top) > 1 || Math.abs(hud.right - this.hud.right) > 1 || Math.abs(hud.bottom - this.hud.bottom) > 1;
     this.view = v;
+    this.hud = hud;
     this.fade.position.set(v.left, v.top);
     this.fade.scale.set(v.width / DESIGN_W, v.height / DESIGN_H);
     this.stageHit();
@@ -171,6 +196,18 @@ class GameApp {
     this.switching = false;
     if (this.scene === next) await next.shown();
   }
+}
+
+/** CSS safe-area insets (px) read through a probe element; zero on devices without them */
+let probe: HTMLDivElement | null = null;
+function deviceInsets(): { top: number; right: number; bottom: number; left: number } {
+  if (!probe) {
+    probe = document.createElement('div');
+    probe.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);';
+    document.body.appendChild(probe);
+  }
+  const cs = getComputedStyle(probe);
+  return { top: parseFloat(cs.paddingTop) || 0, right: parseFloat(cs.paddingRight) || 0, bottom: parseFloat(cs.paddingBottom) || 0, left: parseFloat(cs.paddingLeft) || 0 };
 }
 
 export const G = new GameApp();

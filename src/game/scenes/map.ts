@@ -51,19 +51,20 @@ export class MapScene extends Scene {
     audio.ambience((['forest', 'water', 'stars', 'void'] as const)[r.act - 1] ?? null);
     // the scrollable map fills the visible screen below the top bar (edge to edge on non-16:9 windows)
     const v = G.view;
-    this.scroll = new ScrollBox(v.width, v.bottom - (v.top + 128), true);
-    this.scroll.position.set(v.left, v.top + 128);
-    this.scroll.content.y = Math.round((v.bottom - (v.top + 128) - 952) / 2); // node grid stays vertically centred
+    const top = G.hud.top + 128;
+    this.scroll = new ScrollBox(v.width, v.bottom - top, true);
+    this.scroll.position.set(v.left, top);
+    this.scroll.content.y = Math.round((G.hud.bottom - top - 952) / 2); // node grid stays vertically centred in the safe area
     this.addChild(this.scroll, this.parts);
     this.spawn = this.parts.ambient(r.act === 1 ? 'dust' : r.act === 2 ? 'dust' : 'stars', 1920, 1080, 0.25);
     this.drawMap();
     this.top = new TopBar(r, { onPotion: (i) => this.usePotion(i), onSettings: () => void import('./settings').then((m) => m.openSettings()), onCodex: () => void import('./codex').then((m) => m.openCodexModal()) });
     this.addChild(this.top);
     const legend = this.legend();
-    legend.position.set(v.right - 316 - 20, v.bottom - 336 - 16);
+    legend.position.set(G.hud.right - 316 - 20, G.hud.bottom - 336 - 16);
     this.addChild(legend);
     const title2 = new Text({ text: `第${['', '一', '二', '三', '终'][r.act]}幕 · ${actName(r.act)}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(40), fill: C.textDark, letterSpacing: 6 } });
-    title2.position.set(v.left + 40, v.top + 140);
+    title2.position.set(G.hud.left + 40, G.hud.top + 140);
     this.addChild(title2);
     // center on current
     const cur = r.pos?.row ?? -1;
@@ -161,7 +162,7 @@ export class MapScene extends Scene {
         s.position.set(0, -150);
         b.addChild(m);
         s.mask = m;
-        b.addChildAt(s, 1);
+        if (!b.destroyed) b.addChildAt(s, Math.min(1, b.children.length));
       });
       const nm = new Text({ text: bossEnemy.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(30), fill: 0xffc8a0, stroke: { color: 0, width: 5 } } });
       nm.anchor.set(0.5);
@@ -215,7 +216,7 @@ export class MapScene extends Scene {
     const a = (intro as { acts: Record<string, { title: string; subtitle: string; text: string }> }).acts[String(r.act)];
     const overlay = new Container();
     const dim = new Container();
-    dim.addChild(dimLayer(1920, 1080, 0.85), hitRect(0, 0, 1920, 1080));
+    dim.addChild(dimLayer(G.view.width, G.view.height, 0.85, G.view.left, G.view.top), hitRect(G.view.left, G.view.top, G.view.width, G.view.height));
     dim.eventMode = 'static';
     overlay.addChild(dim);
     const t = title(a?.title ?? `第${r.act}幕`, 96);

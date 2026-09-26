@@ -90,6 +90,18 @@ class AssetStore {
     void this.load(key).then((x) => { if (x) cb(x); });
   }
 
+  /** the URL a texture key loads from (its atlas sheet image, or the AVIF/WebP file) — used by prefetch */
+  urlOf(key: string): string | null {
+    const atlas = this.atlasOf.get(key);
+    if (atlas) {
+      const name = atlas.replace(/.json$/, '');
+      return `${this.base}${name}.${this.avifOk && this.avif.has(name) ? 'avif' : 'webp'}`;
+    }
+    const path = this.byKey.get(key);
+    if (!path) return null;
+    return `${this.base}${this.avifOk && this.avif.has(key) ? path.replace(/.webp$/, '.avif') : path}`;
+  }
+
   keysByPrefix(prefix: string): string[] {
     return [...this.byKey.keys()].filter((k) => k.startsWith(prefix));
   }

@@ -1,7 +1,7 @@
 /** 设置 (UI研究笔记 §14.8) as a modal usable anywhere, including mid-combat. */
 import { Container, Text, type FederatedPointerEvent } from 'pixi.js';
 import { fs } from '../ui/profile';
-import { uiSprite, nine, hitRect, setColorGlyphs } from '../ui/skin';
+import { uiSprite, nine, hitRect, setColorGlyphs, dim } from '../ui/skin';
 import { Button, Modal } from '../ui/widgets';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
 import { session, defaultSettings } from '../state';
@@ -53,6 +53,13 @@ export function openSettings() {
       row('屏幕震动', seg(['关', '弱', '标准'], [0, 0.5, 1].indexOf(st.screenShake), (i) => { st.screenShake = [0, 0.5, 1][i]!; save(); }));
       row('伤害数字', toggle(st.damageNumbers, (v) => { st.damageNumbers = v; save(); }));
       row('全屏', toggle(!!document.fullscreenElement, (v) => { if (v) void document.documentElement.requestFullscreen?.(); else void document.exitFullscreen?.(); }));
+      const hudRow = new Container();
+      const val = new Text({ text: `${(st.hudMargin * 100).toFixed(1).replace(/\.0$/, '')}%`, style: { fontFamily: FONT_BODY, fontSize: fs(26), fill: C.goldLight } });
+      val.position.set(0, 14);
+      const cal = new Button('校准', { width: 160, height: 60, fontSize: fs(24), onClick: () => openHudCalibration(() => { val.text = `${(st.hudMargin * 100).toFixed(1).replace(/\.0$/, '')}%`; }) });
+      cal.position.set(110, 0);
+      hudRow.addChild(val, cal);
+      row('HUD 安全区', hudRow, '屏幕边缘被圆角、刘海或电视过扫描遮挡时，把界面向内收');
     } else if (tab === 'access') {
       row('命纹显示文字', toggle(st.suitText, (v) => { st.suitText = v; save(); }), '在命纹图标角落加“日/雷/月/山”汉字（命纹本身已是色 + 形双编码）');
       row('色觉模式', seg(['标准', '红绿', '蓝黄'], ['none', 'rg', 'by'].indexOf(st.colorblind), (i) => { st.colorblind = (['none', 'rg', 'by'] as const)[i]!; setColorGlyphs(st.colorblind !== 'none'); save(); }), '开启后，源与命纹上额外标注“赤玄青金紫素 / 日雷月山”字样，不再只靠颜色区分');
@@ -84,6 +91,57 @@ export function openSettings() {
     }
   };
   render();
+}
+
+/**
+ * Console-style HUD calibration: four corner marks sit on the edge of the HUD safe area; the player shrinks the
+ * area until all four are fully visible. Applies live (every edge-anchored element follows G.hud).
+ */
+export function openHudCalibration(onDone?: () => void) {
+  const st = session.settings;
+  const ov = new Container();
+  const v = G.view;
+  ov.addChild(dim(v.width, v.height, 0.85, v.left, v.top), hitRect(v.left, v.top, v.width, v.height));
+  const marks = new Container();
+  ov.addChild(marks);
+  const pct = new Text({ text: '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(56), fill: C.goldLight, stroke: { color: 0, width: 6 } } });
+  pct.anchor.set(0.5);
+  pct.position.set(960, 470);
+  const tip = new Text({ text: '调整边距，直到四个角的标记都完整可见', style: { fontFamily: FONT_BODY, fontSize: fs(28), fill: C.text, stroke: { color: 0, width: 4 } } });
+  tip.anchor.set(0.5);
+  tip.position.set(960, 390);
+  ov.addChild(pct, tip);
+  let margin = st.hudMargin;
+  const draw = () => {
+    marks.removeChildren().forEach((c) => c.destroy({ children: true }));
+    const h = G.hudRect(G.view, margin); // preview only; applied on 完成
+    // generated corner ornament, rotated into each corner of the safe area
+    ([[h.left, h.top, 0], [h.right, h.top, Math.PI / 2], [h.right, h.bottom, Math.PI], [h.left, h.bottom, -Math.PI / 2]] as const).forEach(([x, y, r]) => {
+      const m = uiSprite('cloud_corner', 150, 150);
+      const c = new Container();
+      m.position.set(75, 75);
+      c.addChild(m);
+      c.position.set(x, y);
+      c.rotation = r;
+      marks.addChild(c);
+    });
+    pct.text = `边距 ${(margin * 100).toFixed(1).replace(/\.0$/, '')}%`;
+  };
+  const set = (m: number) => { margin = Math.round(Math.max(0, Math.min(0.1, m)) * 200) / 200; draw(); };
+  const minus = new Button('－ 外扩', { width: 220, height: 72, fontSize: fs(28), onClick: () => set(margin - 0.005) });
+  const plus = new Button('＋ 内收', { width: 220, height: 72, fontSize: fs(28), onClick: () => set(margin + 0.005) });
+  const reset = new Button('重置', { width: 160, height: 72, fontSize: fs(26), kind: 'ghost', onClick: () => set(0) });
+  const ok = new Button('完成', { width: 220, height: 72, fontSize: fs(28), kind: 'primary', onClick: () => {
+    st.hudMargin = margin;
+    void session.saveSettings();
+    ov.destroy({ children: true });
+    onDone?.();
+    G.setHudMargin(margin); // edge-anchored UI moves now (open screens re-fit / rebuild once dialogs close)
+  } });
+  minus.position.set(960 - 470, 560); plus.position.set(960 - 230, 560); reset.position.set(960 + 10, 560); ok.position.set(960 + 190, 560);
+  ov.addChild(minus, plus, reset, ok);
+  G.modalLayer.addChild(ov);
+  draw();
 }
 
 function toggle(v: boolean, on: (v: boolean) => void): Container {

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run validate && npm run check:ui && tsc --noEmit && npm run pack:atlas && npm run img:avif && npm run credits && vite build",
+    "build": "npm run validate && npm run check:ui && tsc --noEmit && npm run credits && vite build",
     "pack:atlas": "tsx scripts/pack-atlas.ts",
     "gen:sheets": "tsx scripts/art/sheets.ts",
     "preview": "vite preview",
@@ -21,7 +21,8 @@
     "audio:import": "tsx scripts/audio/import-audio.ts",
     "audit": "tsx scripts/audit-reachability.ts --ci",
     "ui:tour": "tsx scripts/ui-tour.ts",
-    "img:avif": "tsx scripts/optimize-images.ts"
+    "img:avif": "tsx scripts/optimize-images.ts",
+    "assets:pack": "npm run pack:atlas && npm run img:avif"
   },
   "dependencies": {
     "pixi.js": "^8.21.0",
