@@ -4,7 +4,7 @@
     "name": "千机匣",
     "tier": "boss",
     "ruleChanging": true,
-    "text": "回合结束时，你不再弃置手牌。手牌上限-3。",
+    "text": "回合结束时，手牌留在手中，不再放入弃牌堆。代价：[手牌上限]从 10 降为 7。",
     "flavor": "千机傀儡师的匣子。放进去的东西，一件也拿不出来。",
     "modifiers": [{ "stat": "retainHand", "amount": 1 }, { "stat": "handLimit", "amount": -3 }],
     "art": { "subject": "an intricate puppeteer's lacquered box with dozens of tiny drawers and gears, silk strings trailing from it, violet light" }
@@ -114,5 +114,15 @@
       { "on": "unitSummoned", "who": "friendly", "effects": [{ "op": "addKeyword", "target": "eventTarget", "keyword": "growth", "value": 1 }] }
     ],
     "art": { "subject": "a huge glowing seed cracked open with a tiny world tree sprouting from it, roots curling around a drop of blood" }
-  }
+  },
+  {"id":"rl_heaven_compass","name":"天机罗盘","tier":"boss","ruleChanging":true,"text":"每回合多抽1张牌。拾取时，天命牌堆中加入3张1点{thunder}雷纹命牌。","flavor":"指针永远指向下一张牌，只是那张牌常常不吉。","modifiers":[{"stat":"draw","amount":1}],"onPickup":[{"op":"fate","action":"add","suit":"thunder","rank":1,"n":3}],"art":{"subject":"an ornate bronze divination compass with a spinning needle shaped like a tiny card, thunder sigils etched on its rim, crackling with faint lightning"}},
+  {"id":"rl_nine_furnace","name":"九转丹炉","tier":"boss","text":"每场战斗结束时，恢复8点生命。拾取时，最大生命-4。","flavor":"九转之后，炉里炼出的是时间；你用来养伤。","onPickup":[{"op":"maxHp","n":-4}],"triggers":[{"on":"combatEnd","effects":[{"op":"heal","amount":8,"target":"commander"}]}],"art":{"subject":"a small three-legged bronze alchemy furnace with nine rings on its lid, soft golden steam curling out, glowing coals beneath"}},
+  {"id":"rl_war_banner","name":"燎天军旗","tier":"boss","text":"友方单位攻击力+1。你的主帅受到的伤害+1。","flavor":"旗在，阵就在；旗手总是第一个中箭。","modifiers":[{"stat":"atk","amount":1,"who":"friendlyUnits"},{"stat":"damageTaken","amount":1,"who":"commander"}],"art":{"subject":"a tattered crimson war banner on a tall spear pole, embroidered with a flaming character, whipping in the wind above smoke"}},
+  {"id":"rl_iron_oath","name":"铁誓兵符","tier":"boss","ruleChanging":true,"text":"战斗开始时，获得12点[护甲]。每回合少抽1张牌。","flavor":"半枚虎符，另一半在一个再也回不来的人手里。","modifiers":[{"stat":"draw","amount":-1}],"triggers":[{"on":"combatStart","effects":[{"op":"armor","amount":12,"target":"commander"}]}],"art":{"subject":"half of an ancient bronze tiger-shaped military tally with inlaid gold script, its broken edge jagged, resting on dark iron armor scales"}},
+  {"id":"rl_blood_contract","name":"血契","tier":"boss","ruleChanging":true,"text":"每当你献出一张牌，抽1张牌。我方回合开始时，失去1点生命。","flavor":"契约写在掌心，每一笔都要拿血来描。","triggers":[{"on":"cardSacrificed","effects":[{"op":"draw","n":1}]},{"on":"turnStart","effects":[{"op":"loseHp","amount":1,"target":"commander"}]}],"art":{"subject":"a narrow scroll of pale paper signed with a bloody handprint and red seal, a thin trail of blood seeping along its edge"}},
+  {"id":"rl_falling_star_lamp","name":"坠星灯","tier":"boss","text":"你的[判定]点数+2。敌人的攻击伤害+1。","flavor":"星星落进灯里，照亮了命数，也照亮了你。","modifiers":[{"stat":"judgeRank","amount":2},{"stat":"attackDamage","amount":1,"who":"enemy"}],"art":{"subject":"a hanging paper lantern with a small falling star trapped inside, trailing golden sparks, starry night background"}},
+  {"id":"rl_myriad_poison_gourd","name":"万毒葫芦","tier":"boss","faction":"P","text":"敌人受到的[中毒]伤害+2。拾取时，最大生命-10。","flavor":"葫芦里装的不是药，是一万种不肯救人的法子。","onPickup":[{"op":"maxHp","n":-10}],"modifiers":[{"stat":"poisonDamage","amount":2,"who":"enemy"}],"art":{"subject":"a lacquered double gourd painted with violet serpents, a thin green venom mist leaking from its cork stopper"}},
+  {"id":"rl_cold_mountain_bell","name":"寒山钟","tier":"boss","faction":"B","text":"我方回合开始时，至多保留10点[护甲]。你的攻击伤害-1。","flavor":"钟声一响，山里的寒气就不再散。","modifiers":[{"stat":"armorKeep","amount":10},{"stat":"attackDamage","amount":-1,"who":"friendly"}],"art":{"subject":"a heavy bronze temple bell rimmed with frost and icicles, mountain pattern cast on its side, hanging in cold blue mist"}},
+  {"id":"rl_lone_blade","name":"孤注之刃","tier":"boss","ruleChanging":true,"text":"你的攻击伤害+2。你无法在营地休息恢复生命。","flavor":"只有一刀，所以要比谁都快。","run":[{"rule":"noHealAtRest"}],"modifiers":[{"stat":"attackDamage","amount":2,"who":"friendly"}],"art":{"subject":"a single straight blade with no guard stabbed into bare rock, a strip of red cloth tied to its hilt, sharp moonlight on the edge"}},
+  {"id":"rl_bronze_sparrow","name":"铜雀台","tier":"boss","ruleChanging":true,"text":"每回合你打出第3张牌后，获得1枚本回合的[源]。拾取时，失去所有金币。","flavor":"台上歌舞从不停歇，台下的金子一夜散尽。","onPickup":[{"op":"gold","n":-9999}],"triggers":[{"on":"cardPlayed","if":{"eq":[{"count":"cardsPlayed"},3]},"effects":[{"op":"energy","n":1}]}],"art":{"subject":"a small bronze sparrow statue perched on a miniature terrace pavilion, gold coins scattered and falling from the terrace edge"}}
 ]

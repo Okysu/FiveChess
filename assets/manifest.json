@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-26T10:01:45.158Z",
+ "generated": "2026-09-26T17:41:45.107Z",
  "assets": [
   {
    "id": "amb_fire",
@@ -10734,6 +10734,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_blood_contract",
+   "path": "ui/relics/rl_blood_contract.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muiodkur-0 cell 5] a narrow scroll of pale paper signed with a bloody handprint and red seal, a thin trail of blood seeping along its edge",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "4b2585185acb",
+   "qa": "ok"
+  },
+  {
    "id": "rl_blood_jade_ring",
    "path": "ui/relics/rl_blood_jade_ring.webp",
    "category": "relic",
@@ -10812,6 +10825,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_bronze_sparrow",
+   "path": "ui/relics/rl_bronze_sparrow.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muiodkur-0 cell 10] a small bronze sparrow statue perched on a miniature terrace pavilion, gold coins scattered and falling from the terrace edge",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "951417c8e015",
+   "qa": "ok"
+  },
+  {
    "id": "rl_bronze_tsuba",
    "path": "ui/relics/rl_bronze_tsuba.webp",
    "category": "relic",
@@ -10848,6 +10874,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "f9eecb65861b",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_cold_mountain_bell",
+   "path": "ui/relics/rl_cold_mountain_bell.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muiodkur-0 cell 8] a heavy bronze temple bell rimmed with frost and icicles, mountain pattern cast on its side, hanging in cold blue mist",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "6928d4649f55",
    "qa": "ok"
   },
   {
@@ -10994,6 +11033,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_falling_star_lamp",
+   "path": "ui/relics/rl_falling_star_lamp.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muiodkur-0 cell 6] a hanging paper lantern with a small falling star trapped inside, trailing golden sparks, starry night background",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "032b579d9aa7",
+   "qa": "ok"
+  },
+  {
    "id": "rl_final_page",
    "path": "ui/relics/rl_final_page.webp",
    "category": "relic",
@@ -11111,6 +11163,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_heaven_compass",
+   "path": "ui/relics/rl_heaven_compass.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muiodkur-0 cell 1] an ornate bronze divination compass with a spinning needle shaped like a tiny card, thunder sigils etched on its rim, crackling with faint lightning",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "ae828c6e7ffd",
+   "qa": "ok"
+  },
+  {
    "id": "rl_heavenly_astrolabe",
    "path": "ui/relics/rl_heavenly_astrolabe.webp",
    "category": "relic",
@@ -11163,6 +11228,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_iron_oath",
+   "path": "ui/relics/rl_iron_oath.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muiodkur-0 cell 4] half of an ancient bronze tiger-shaped military tally with inlaid gold script, its broken edge jagged, resting on dark iron armor scales",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "e2d5af6280f4",
+   "qa": "ok"
+  },
+  {
    "id": "rl_ledger_of_depths",
    "path": "ui/relics/rl_ledger_of_depths.webp",
    "category": "relic",
@@ -11186,6 +11264,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "8fbd3943766c",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_lone_blade",
+   "path": "ui/relics/rl_lone_blade.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muiodkur-0 cell 9] a single straight blade with no guard stabbed into bare rock, a strip of red cloth tied to its hilt, sharp moonlight on the edge",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "648758cd4b58",
    "qa": "ok"
   },
   {
@@ -11254,6 +11345,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_myriad_poison_gourd",
+   "path": "ui/relics/rl_myriad_poison_gourd.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muiodkur-0 cell 7] a lacquered double gourd painted with violet serpents, a thin green venom mist leaking from its cork stopper",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "af82e9fbeee2",
+   "qa": "ok"
+  },
+  {
    "id": "rl_name_eater_tail",
    "path": "ui/relics/rl_name_eater_tail.webp",
    "category": "relic",
@@ -11264,6 +11368,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "46d20c6f49af",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_nine_furnace",
+   "path": "ui/relics/rl_nine_furnace.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muiodkur-0 cell 2] a small three-legged bronze alchemy furnace with nine rings on its lid, soft golden steam curling out, vividly printed coals beneath",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "ab02cd7121d9",
    "qa": "ok"
   },
   {
@@ -11992,6 +12109,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "4746fd7b5d53",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_war_banner",
+   "path": "ui/relics/rl_war_banner.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muiodkur-0 cell 3] a tattered crimson war banner on a tall spear pole, embroidered with a flaming character, whipping in the wind above smoke",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "278a1a4f4367",
    "qa": "ok"
   },
   {
