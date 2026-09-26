@@ -1,5 +1,6 @@
 /** 观星台: edit the run's fate deck (remove / copy / change suit) or preview the road ahead. */
 import { Container, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { panel as uiPanel, frame, dim, hitRect, INSET } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
@@ -27,15 +28,15 @@ export class StargazeScene extends RunScreen {
         bg.position.set(510, 260);
         this.addChild(bg);
         sc.preview.forEach((p, i) => {
-          const t = new Text({ text: `第 ${p.row + 1} 层 · ${p.label}`, style: { fontFamily: FONT_BODY, fontSize: 26, fill: C.text } });
+          const t = new Text({ text: `第 ${p.row + 1} 层 · ${p.label}`, style: { fontFamily: FONT_BODY, fontSize: fs(26), fill: C.text } });
           t.position.set(510 + INSET.dark.x, 260 + INSET.dark.y + 60 + i * 50);
           this.addChild(t);
         });
-        const h = label('前路已在星图中显现；地图节点悬停可再次查看。', { fontSize: 22, fill: C.textDim });
+        const h = label('前路已在星图中显现；地图节点悬停可再次查看。', { fontSize: fs(22), fill: C.textDim });
         h.position.set(510 + INSET.dark.x, 260 + INSET.dark.y + 4);
         this.addChild(h);
       } else {
-        const t = new Text({ text: '命数已改。', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 48, fill: C.goldLight } });
+        const t = new Text({ text: '命数已改。', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(48), fill: C.goldLight } });
         t.anchor.set(0.5); t.position.set(960, 480);
         this.addChild(t);
       }
@@ -44,10 +45,10 @@ export class StargazeScene extends RunScreen {
     }
     this.addChild(this.grid);
     this.drawGrid();
-    const info = new Text({ text: `天命牌堆 ${r.fateDeck.length} 张 · 阳 ${r.fateDeck.filter((f) => SUIT_INFO[f.suit].yang && !f.omen).length} / 阴 ${r.fateDeck.filter((f) => !SUIT_INFO[f.suit].yang && !f.omen).length}${r.fateDeck.some((f) => f.omen) ? ` · 凶兆 ${r.fateDeck.filter((f) => f.omen).length}` : ''}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: C.text, stroke: { color: 0, width: 4 } } });
+    const info = new Text({ text: `天命牌堆 ${r.fateDeck.length} 张 · 阳 ${r.fateDeck.filter((f) => SUIT_INFO[f.suit].yang && !f.omen).length} / 阴 ${r.fateDeck.filter((f) => !SUIT_INFO[f.suit].yang && !f.omen).length}${r.fateDeck.some((f) => f.omen) ? ` · 凶兆 ${r.fateDeck.filter((f) => f.omen).length}` : ''}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: C.text, stroke: { color: 0, width: 4 } } });
     info.position.set(80, 250);
     this.addChild(info);
-    const hint = label('先点选一张命牌，再选择操作。每次观星只能做一件事。', { fontSize: 20, fill: C.textDim });
+    const hint = label('先点选一张命牌，再选择操作。每次观星只能做一件事。', { fontSize: fs(20), fill: C.textDim });
     hint.position.set(80, 290);
     this.addChild(hint);
     const mode = sc.mode;
@@ -58,7 +59,7 @@ export class StargazeScene extends RunScreen {
       { t: '预览前路', op: 'preview', needs: false },
     ].filter((o) => !mode || o.op === mode) as never;
     ops.forEach((o, i) => {
-      const b = new Button(o.t, { width: 240, height: 70, fontSize: 28, kind: o.op === 'preview' ? 'normal' : 'primary', onClick: () => this.doOp(o.op) });
+      const b = new Button(o.t, { width: 240, height: 70, fontSize: fs(28), kind: o.op === 'preview' ? 'normal' : 'primary', onClick: () => this.doOp(o.op) });
       b.position.set(360 + i * 300, 960);
       this.addChild(b);
     });
@@ -92,7 +93,7 @@ export class StargazeScene extends RunScreen {
       bg.on('pointertap', () => pick.destroy({ children: true }));
       pick.addChild(bg);
       SUITS.filter((s) => s !== cur.suit).forEach((s: Suit, i) => {
-        const b = new Button(SUIT_INFO[s].name, { width: 220, height: 80, fontSize: 32, onClick: async () => { pick.destroy({ children: true }); const err = await act({ t: 'fate', op: 'change', idx: this.sel!, suit: s }); if (err) toast(err); } });
+        const b = new Button(SUIT_INFO[s].name, { width: 220, height: 80, fontSize: fs(32), onClick: async () => { pick.destroy({ children: true }); const err = await act({ t: 'fate', op: 'change', idx: this.sel!, suit: s }); if (err) toast(err); } });
         b.position.set(600 + i * 250, 500);
         pick.addChild(b);
       });

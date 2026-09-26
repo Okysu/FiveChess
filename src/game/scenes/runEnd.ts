@@ -1,5 +1,6 @@
 /** 冒险结算：胜利（含主帅专属结局）、失败、隐藏首领抉择。 */
 import { Container, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { panel as uiPanel, dim, INSET } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
@@ -43,25 +44,25 @@ export class RunEndScene extends Scene {
     const panel = uiPanel(1100, 480, 'dark');
     panel.position.set(410, 280);
     this.addChild(panel);
-    const bt = new Text({ text: body, style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text, wordWrap: true, wordWrapWidth: 1100 - INSET.dark.x * 2, lineHeight: 40, breakWords: true } });
+    const bt = new Text({ text: body, style: { fontFamily: FONT_BODY, fontSize: fs(24), fill: C.text, wordWrap: true, wordWrapWidth: 1100 - INSET.dark.x * 2, lineHeight: 40, breakWords: true } });
     bt.position.set(410 + INSET.dark.x, 280 + INSET.dark.y);
     const maxH = 480 - INSET.dark.y * 2;
     if (bt.height > maxH) bt.scale.set(maxH / bt.height);
     this.addChild(bt);
     const stats = `${cmd.name} · 逆命 ${r.ascension} · 第${r.act}幕 第${r.floor}层 · 精英 ${r.stats.elites} · 首领 ${r.stats.bosses} · 最高单场伤害 ${r.stats.maxDamage} · 命数 +${runScore(r)}`;
-    const st = new Text({ text: stats, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.goldLight, stroke: { color: 0, width: 4 } } });
+    const st = new Text({ text: stats, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(24), fill: C.goldLight, stroke: { color: 0, width: 4 } } });
     st.anchor.set(0.5); st.position.set(960, 800);
     this.addChild(st);
     if (!win && r.nemesis) {
       const n = content().encounters.get(r.nemesis);
       const names = n?.enemies.map((e) => content().enemies.get(e.id)?.name).join('、');
-      const nt = new Text({ text: `折戟于：${names}`, style: { fontFamily: FONT_BODY, fontSize: 22, fill: 0xd0a0a0 } });
+      const nt = new Text({ text: `折戟于：${names}`, style: { fontFamily: FONT_BODY, fontSize: fs(22), fill: 0xd0a0a0 } });
       nt.anchor.set(0.5); nt.position.set(960, 840);
       this.addChild(nt);
     }
     const unlocks = session.lastUnlocks;
     unlocks.forEach((u, i) => {
-      const ut = new Text({ text: `✦ ${u}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: 0x9adfa8, stroke: { color: 0, width: 4 } } });
+      const ut = new Text({ text: `✦ ${u}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: 0x9adfa8, stroke: { color: 0, width: 4 } } });
       ut.anchor.set(0.5); ut.position.set(960, 890 + i * 36);
       ut.alpha = 0;
       this.addChild(ut);
@@ -79,12 +80,12 @@ export class RunEndScene extends Scene {
     this.addChild(dim(1920, 1080, 0.6));
     const t = title('命 书 合 上 之 前', 90);
     t.anchor.set(0.5); t.position.set(960, 260);
-    const body = new Text({ text: '司命的笔落在你手里。书页深处，有什么东西在等你——它有你的脸，也有你的执念。\n\n合上命书，就此改命；或者，直视那无名之物。', style: { fontFamily: FONT_BODY, fontSize: 28, fill: C.text, wordWrap: true, wordWrapWidth: 1100, align: 'center', lineHeight: 46, breakWords: true } });
+    const body = new Text({ text: '司命的笔落在你手里。书页深处，有什么东西在等你——它有你的脸，也有你的执念。\n\n合上命书，就此改命；或者，直视那无名之物。', style: { fontFamily: FONT_BODY, fontSize: fs(28), fill: C.text, wordWrap: true, wordWrapWidth: 1100, align: 'center', lineHeight: 46, breakWords: true } });
     body.anchor.set(0.5, 0); body.position.set(960, 380);
     this.addChild(t, body);
-    const a = new Button('合上命书', { width: 300, height: 80, fontSize: 32, onClick: () => void act({ t: 'hidden', go: false }) });
+    const a = new Button('合上命书', { width: 300, height: 80, fontSize: fs(32), onClick: () => void act({ t: 'hidden', go: false }) });
     a.position.set(600, 760);
-    const b = new Button('直视无名', { width: 300, height: 80, fontSize: 32, kind: 'danger', onClick: () => void act({ t: 'hidden', go: true }) });
+    const b = new Button('直视无名', { width: 300, height: 80, fontSize: fs(32), kind: 'danger', onClick: () => void act({ t: 'hidden', go: true }) });
     b.position.set(1020, 760);
     this.addChild(a, b);
     void Container;

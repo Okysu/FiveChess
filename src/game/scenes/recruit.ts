@@ -1,5 +1,6 @@
 /** 招贤 (UI研究笔记 §14.9): three lieutenant cards, or a small boon if one is already recruited. */
 import { Container, Sprite, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { panel as uiPanel, maskRect } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
@@ -24,7 +25,7 @@ export class RecruitScene extends RunScreen {
     await this.setup({ bg: 'recruit', music: 'camp', heading: '「 招 贤 」', dim: 0.3 });
     if (sc.done) { this.continueButton('继续前进 →', () => void act({ t: 'proceed' })); return; }
     if (!sc.options.length) {
-      const t = new Text({ text: '已有副将随行。贤士们赠你盘缠，祝你一路顺风。', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 34, fill: C.text, stroke: { color: 0, width: 5 } } });
+      const t = new Text({ text: '已有副将随行。贤士们赠你盘缠，祝你一路顺风。', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(34), fill: C.text, stroke: { color: 0, width: 5 } } });
       t.anchor.set(0.5); t.position.set(960, 500);
       this.addChild(t);
       this.continueButton('收下（+50 金）', () => void act({ t: 'recruit', i: null }), 820, 640);
@@ -41,16 +42,16 @@ export class RecruitScene extends RunScreen {
       const m = maskRect(36, 36, 288, 250, 0);
       const tex = assets.get(K.hero(id));
       if (tex) { c.addChild(m); const s = new Sprite(tex); const k = 420 / tex.height; s.scale.set(k); s.anchor.set(0.5, 0); s.position.set(180, 6); s.mask = m; c.addChild(s); }
-      const nm = new Text({ text: `${lt.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 42, fill: C.goldLight, stroke: { color: 0, width: 5 } } });
+      const nm = new Text({ text: `${lt.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(42), fill: C.goldLight, stroke: { color: 0, width: 5 } } });
       nm.position.set(50, 284);
-      const tt = new Text({ text: `「${lt.title}」 ${COLOR_INFO[lt.faction].school}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: factionColor(lt.faction), stroke: { color: 0, width: 4 } } });
+      const tt = new Text({ text: `「${lt.title}」 ${COLOR_INFO[lt.faction].school}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: factionColor(lt.faction), stroke: { color: 0, width: 4 } } });
       tt.position.set(50, 336);
-      const sk = new Text({ text: `【${SKILL_TYPE[lt.skill.type]}】${lt.skill.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: 0xffc88a } });
+      const sk = new Text({ text: `【${SKILL_TYPE[lt.skill.type]}】${lt.skill.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: 0xffc88a } });
       sk.position.set(50, 374);
-      const { texture } = richTexture(lt.skill.text, { width: 260, height: 150, fontSize: 20, minFontSize: 14, color: 0xeadfc8, align: 'left', vAlign: 'top' });
+      const { texture } = richTexture(lt.skill.text, { width: 260, height: 150, fontSize: fs(20), minFontSize: 14, color: 0xeadfc8, align: 'left', vAlign: 'top' });
       const st = new Sprite(texture);
       st.position.set(50, 412);
-      const extra = new Text({ text: `招募后：1 枚素源变为${COLOR_INFO[lt.faction].name}源\n奖励卡池加入${COLOR_INFO[lt.faction].name}色（${COLOR_INFO[cmdColor].name}${COLOR_INFO[lt.faction].name}双色）`, style: { fontFamily: FONT_BODY, fontSize: 18, fill: C.textDim, lineHeight: 26 } });
+      const extra = new Text({ text: `招募后：1 枚素源变为${COLOR_INFO[lt.faction].name}源\n奖励卡池加入${COLOR_INFO[lt.faction].name}色（${COLOR_INFO[cmdColor].name}${COLOR_INFO[lt.faction].name}双色）`, style: { fontFamily: FONT_BODY, fontSize: fs(18), fill: C.textDim, lineHeight: 26 } });
       extra.position.set(50, 576);
       c.addChild(nm, tt, sk, st, extra);
       c.eventMode = 'static';

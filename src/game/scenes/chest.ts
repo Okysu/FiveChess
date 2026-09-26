@@ -1,5 +1,6 @@
 /** 宝箱 */
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { RunScreen } from './common';
 import { session } from '../state';
 import { act } from '../router';
@@ -27,7 +28,7 @@ export class ChestScene extends RunScreen {
     if (!sc.opened) {
       chest.eventMode = 'static';
       chest.cursor = 'pointer';
-      const t = new Text({ text: '点击开启', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: C.text, stroke: { color: 0, width: 4 } } });
+      const t = new Text({ text: '点击开启', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(30), fill: C.text, stroke: { color: 0, width: 4 } } });
       t.anchor.set(0.5); t.position.set(960, 760);
       this.addChild(t);
       chest.on('pointertap', async () => {
@@ -43,9 +44,9 @@ export class ChestScene extends RunScreen {
       await assets.load(K.relic(sc.relic));
       const tex = assets.get(K.relic(sc.relic));
       if (tex) { const s = new Sprite(tex); s.anchor.set(0.5); s.scale.set(160 / Math.max(tex.width, tex.height)); s.position.set(960, 320); this.addChild(s); }
-      const t = new Text({ text: `获得遗物【${def.name}】与 ${sc.gold} 金`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 36, fill: C.goldLight, stroke: { color: 0, width: 5 } } });
+      const t = new Text({ text: `获得遗物【${def.name}】与 ${sc.gold} 金`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(36), fill: C.goldLight, stroke: { color: 0, width: 5 } } });
       t.anchor.set(0.5); t.position.set(960, 780);
-      const { texture } = richTexture(def.text, { width: 900, height: 110, fontSize: 24, minFontSize: 18, color: 0xf0e4cc, align: 'center', vAlign: 'top', shadow: true });
+      const { texture } = richTexture(def.text, { width: 900, height: 110, fontSize: fs(24), minFontSize: 18, color: 0xf0e4cc, align: 'center', vAlign: 'top', shadow: true });
       const d = new Sprite(texture);
       d.anchor.set(0.5, 0); d.position.set(960, 830);
       this.addChild(t, d);

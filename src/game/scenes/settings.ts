@@ -1,5 +1,6 @@
 /** 设置 (UI研究笔记 §14.8) as a modal usable anywhere, including mid-combat. */
 import { Container, Text, type FederatedPointerEvent } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { uiSprite, nine, hitRect, setColorGlyphs } from '../ui/skin';
 import { Button, Modal } from '../ui/widgets';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
@@ -27,11 +28,11 @@ export function openSettings() {
     const st = session.settings;
     let y = 110;
     const row = (label: string, ctrl: Container, hint?: string) => {
-      const t = new Text({ text: label, style: { fontFamily: FONT_BODY, fontSize: 26, fill: C.text } });
+      const t = new Text({ text: label, style: { fontFamily: FONT_BODY, fontSize: fs(26), fill: C.text } });
       t.position.set(290, y + 14);
       ctrl.position.set(760, y);
       body.addChild(t, ctrl);
-      if (hint) { const h = new Text({ text: hint, style: { fontFamily: FONT_BODY, fontSize: 17, fill: C.textDim } }); h.position.set(290, y + 50); body.addChild(h); y += 22; }
+      if (hint) { const h = new Text({ text: hint, style: { fontFamily: FONT_BODY, fontSize: fs(17), fill: C.textDim } }); h.position.set(290, y + 50); body.addChild(h); y += 22; }
       y += 84;
     };
     const save = () => { void session.saveSettings(); };
@@ -56,7 +57,7 @@ export function openSettings() {
       row('命纹显示文字', toggle(st.suitText, (v) => { st.suitText = v; save(); }), '在命纹图标角落加“日/雷/月/山”汉字（命纹本身已是色 + 形双编码）');
       row('色觉模式', seg(['标准', '红绿', '蓝黄'], ['none', 'rg', 'by'].indexOf(st.colorblind), (i) => { st.colorblind = (['none', 'rg', 'by'] as const)[i]!; setColorGlyphs(st.colorblind !== 'none'); save(); }), '开启后，源与命纹上额外标注“赤玄青金紫素 / 日雷月山”字样，不再只靠颜色区分');
     } else {
-      const note = new Text({ text: '快捷键：空格/E 结束回合（应对窗口中为“不应对”） · 1–0 选择手牌 · D 牌组 · A 抽牌堆 · S 弃牌堆 · L 战报 · Esc 取消/设置 · 右键 检视', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, wordWrap: true, wordWrapWidth: 1100, breakWords: true } });
+      const note = new Text({ text: '快捷键：空格/E 结束回合（应对窗口中为“不应对”） · 1–0 选择手牌 · D 牌组 · A 抽牌堆 · S 弃牌堆 · L 战报 · Esc 取消/设置 · 右键 检视', style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: C.textDim, wordWrap: true, wordWrapWidth: 1100, breakWords: true } });
       note.position.set(290, y);
       body.addChild(note);
       y += 110;
@@ -67,7 +68,7 @@ export function openSettings() {
       if (session.run) {
         const ab = new Button('放弃本次冒险', { width: 280, height: 64, kind: 'danger', onClick: () => {
           const c = new Modal(700, 320, { title: '确定放弃？' });
-          const t = new Text({ text: '本次冒险将按当前进度结算。', style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text } });
+          const t = new Text({ text: '本次冒险将按当前进度结算。', style: { fontFamily: FONT_BODY, fontSize: fs(24), fill: C.text } });
           t.position.set(60, 110);
           const yes = new Button('放弃', { width: 220, height: 64, kind: 'danger', onClick: () => { c.close(); m.close(); session.abandon(); void import('./title').then((mm) => G.go(new mm.TitleScene())); } });
           yes.position.set(80, 200);
@@ -107,7 +108,7 @@ function seg(opts: string[], cur: number, on: (i: number) => void): Container {
   const draw = () => {
     c.removeChildren().forEach((x) => x.destroy({ children: true }));
     opts.forEach((o, i) => {
-      const b = new Button(o, { width: 140, height: 56, fontSize: 22, kind: i === sel ? 'primary' : 'ghost', onClick: () => { sel = i; draw(); on(i); } });
+      const b = new Button(o, { width: 140, height: 56, fontSize: fs(22), kind: i === sel ? 'primary' : 'ghost', onClick: () => { sel = i; draw(); on(i); } });
       b.position.set(i * 150, 0);
       c.addChild(b);
     });
@@ -123,7 +124,7 @@ function slider(v: number, on: (v: number) => void): Container {
   const track = nine('slider_track', W, 26);
   track.position.set(0, 17);
   const knob = uiSprite('slider_knob', 40, 40);
-  const t = new Text({ text: '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.goldLight } });
+  const t = new Text({ text: '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(24), fill: C.goldLight } });
   t.position.set(W + 28, 14);
   const draw = () => { knob.position.set(W * val, 30); t.text = `${Math.round(val * 100)}%`; };
   draw();

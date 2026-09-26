@@ -1,5 +1,6 @@
 /** 地图 (UI研究笔记 §14.2): horizontal scroll, ink paths, node semantics, act intro. */
 import { Container, Sprite, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { panel as uiPanel, dim as dimLayer, hitRect, uiSprite, ring as ringSprite, frame as frameSprite, maskRect } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
@@ -58,7 +59,7 @@ export class MapScene extends Scene {
     const legend = this.legend();
     legend.position.set(1920 - 316 - 20, 1080 - 336 - 16);
     this.addChild(legend);
-    const title2 = new Text({ text: `第${['', '一', '二', '三', '终'][r.act]}幕 · ${actName(r.act)}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 40, fill: C.textDark, letterSpacing: 6 } });
+    const title2 = new Text({ text: `第${['', '一', '二', '三', '终'][r.act]}幕 · ${actName(r.act)}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(40), fill: C.textDark, letterSpacing: 6 } });
     title2.position.set(40, 140);
     this.addChild(title2);
     // center on current
@@ -159,7 +160,7 @@ export class MapScene extends Scene {
         s.mask = m;
         b.addChildAt(s, 1);
       });
-      const nm = new Text({ text: bossEnemy.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: 0xffc8a0, stroke: { color: 0, width: 5 } } });
+      const nm = new Text({ text: bossEnemy.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(30), fill: 0xffc8a0, stroke: { color: 0, width: 5 } } });
       nm.anchor.set(0.5);
       nm.position.set(0, 196);
       b.addChild(nm);
@@ -199,7 +200,7 @@ export class MapScene extends Scene {
       const x = 46 + (i % 2) * 118, y = 46 + Math.floor(i / 2) * 62;
       const ic = iconSprite(`node_${t}`, 40, NODE_INFO[t].glyph, NODE_INFO[t].tint);
       ic.position.set(x + 20, y + 20);
-      const l = label(NODE_INFO[t].name, { fontSize: 18, fill: C.text });
+      const l = label(NODE_INFO[t].name, { fontSize: fs(18), fill: C.text });
       l.position.set(x + 44, y + 8);
       c.addChild(ic, l);
     });
@@ -216,11 +217,11 @@ export class MapScene extends Scene {
     overlay.addChild(dim);
     const t = title(a?.title ?? `第${r.act}幕`, 96);
     t.anchor.set(0.5); t.position.set(960, 380);
-    const st = new Text({ text: a?.subtitle ?? actName(r.act), style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 44, fill: C.text, letterSpacing: 12 } });
+    const st = new Text({ text: a?.subtitle ?? actName(r.act), style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(44), fill: C.text, letterSpacing: 12 } });
     st.anchor.set(0.5); st.position.set(960, 490);
-    const body = new Text({ text: a?.text ?? '', style: { fontFamily: FONT_BODY, fontSize: 26, fill: C.textDim, wordWrap: true, wordWrapWidth: 1100, align: 'center', lineHeight: 44, breakWords: true } });
+    const body = new Text({ text: a?.text ?? '', style: { fontFamily: FONT_BODY, fontSize: fs(26), fill: C.textDim, wordWrap: true, wordWrapWidth: 1100, align: 'center', lineHeight: 44, breakWords: true } });
     body.anchor.set(0.5, 0); body.position.set(960, 580);
-    const hint = label('点击继续', { fontSize: 22, fill: C.textDim });
+    const hint = label('点击继续', { fontSize: fs(22), fill: C.textDim });
     hint.anchor.set(0.5); hint.position.set(960, 960);
     overlay.addChild(t, st, body, hint);
     overlay.alpha = 0;
@@ -241,7 +242,7 @@ export class MapScene extends Scene {
     if (!id) return;
     const def = content().potions.get(id)!;
     const m = new Modal(640, 360, { title: def.name });
-    const t = new Text({ text: def.outOfCombat ? '在地图上使用，或丢弃。' : '此物只能在战斗中使用。', style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text } });
+    const t = new Text({ text: def.outOfCombat ? '在地图上使用，或丢弃。' : '此物只能在战斗中使用。', style: { fontFamily: FONT_BODY, fontSize: fs(24), fill: C.text } });
     t.position.set(60, 120);
     m.body.addChild(t);
     if (def.outOfCombat) {

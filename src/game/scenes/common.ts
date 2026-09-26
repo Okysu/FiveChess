@@ -1,5 +1,6 @@
 /** Shared base for run screens: backdrop, top bar, title, continue button. */
 import { Container, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { dim } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
@@ -33,7 +34,7 @@ export abstract class RunScreen extends Scene {
   }
 
   continueButton(text: string, onClick: () => void, x = 1600, y = 960): Button {
-    const b = new Button(text, { width: 280, height: 76, fontSize: 32, kind: 'primary', onClick });
+    const b = new Button(text, { width: 280, height: 76, fontSize: fs(32), kind: 'primary', onClick });
     b.position.set(x, y);
     this.addChild(b);
     return b;

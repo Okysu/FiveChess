@@ -10073,6 +10073,17 @@
    "qa": "ok"
   },
   {
+   "id": "logo",
+   "path": "ui/logo.webp",
+   "category": "ui",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; lettering in Ma Shan Zheng (SIL OFL 1.1)",
+   "prompt": "woodblock title cartouche with an empty plaque (art-src/logo/frame_a.png) + 命阙 set in Ma Shan Zheng",
+   "postprocess": "text composited, trimmed, webp",
+   "qa": "ok"
+  },
+  {
    "id": "menu_panel",
    "path": "ui/menu_panel.webp",
    "category": "ui",

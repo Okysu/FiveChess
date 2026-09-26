@@ -1,5 +1,6 @@
 import { Container, Text } from 'pixi.js';
-import { WB, nine, INSET } from '../ui/skin';
+import { WB, nine, INSET, uiSprite } from '../ui/skin';
+import { fs } from '../ui/profile';
 import { ScrollBox } from '../ui/scroll';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
@@ -32,25 +33,19 @@ export class TitleScene extends Scene {
     this.spawnA = this.parts.ambient('embers', 1920, 1080, 0.6);
     this.spawnB = this.parts.ambient('dust', 1920, 1080, 0.3);
 
-    const titleText = new Text({
-      text: '命 阙',
-      style: {
-        fontFamily: FONT_BRUSH, fontSize: 220, fill: WB.ochre,
-        stroke: { color: WB.ink, width: 14 }, dropShadow: { color: WB.vermilion, blur: 0, distance: 12, alpha: 1, angle: Math.PI / 4 }, letterSpacing: 20,
-      },
-    });
-    titleText.anchor.set(0.5);
-    titleText.position.set(430, 235);
-    const sub = new Text({ text: '执 命 者 · 逆 命 之 书', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 40, fill: C.text, letterSpacing: 10, stroke: { color: 0, width: 4 } } });
+    // the game logo (art-src/logo: generated woodblock cartouche + 马善政 lettering)
+    const titleText = uiSprite('logo', 660, 400);
+    titleText.position.set(430, 215);
+    const sub = new Text({ text: '执 命 者 · 逆 命 之 书', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(40), fill: C.text, letterSpacing: 10, stroke: { color: 0, width: 4 } } });
     sub.anchor.set(0.5);
-    sub.position.set(430, 375);
+    sub.position.set(430, 432);
     this.addChild(titleText, sub);
     titleText.alpha = 0; sub.alpha = 0;
     void tweens.to(titleText, { alpha: 1 }, 1400, { ease: ease.outQuad, unscaled: true });
     void tweens.to(sub, { alpha: 1 }, 1400, { delay: 500, unscaled: true });
 
-    const menu = new Box({ dir: 'column', gap: 18, align: 'center' });
-    const btn = (t: string, fn: () => void, kind: 'primary' | 'normal' = 'normal', sub2?: string) => { const h = sub2 ? 88 : 74; menu.add(new Button(t, { width: 360, height: h, fontSize: 32, kind, onClick: fn, sub: sub2 }), { width: 360, height: h }); };
+    const menu = new Box({ dir: 'column', gap: 14, align: 'center' });
+    const btn = (t: string, fn: () => void, kind: 'primary' | 'normal' = 'normal', sub2?: string) => { const h = sub2 ? 88 : 74; menu.add(new Button(t, { width: 360, height: h, fontSize: fs(32), kind, onClick: fn, sub: sub2 }), { width: 360, height: h }); };
     if (session.run) {
       const r = session.run;
       btn('继续冒险', () => go(), 'primary', `第${r.act}幕 · 第${r.floor}层`);
@@ -60,7 +55,7 @@ export class TitleScene extends Scene {
     btn('设　　置', () => void import('./settings').then((m) => m.openSettings()));
     btn('鸣　　谢', () => this.credits());
     menu.layout();
-    menu.position.set(430 - 180, 455);
+    menu.position.set(430 - 180, 478);
     this.addChild(menu);
 
     // progress
@@ -68,9 +63,9 @@ export class TitleScene extends Scene {
     const nu = nextUnlock(p);
     // inside the scroll, above its bottom roller
     const prog = label(`命数 ${p.xp}　·　通关 ${p.wins}/${p.runs}
-${nu ? `下一解锁：${nu.label}（${nu.xp}）` : '全部内容已解锁'}`, { fontSize: 20, fill: C.textDim, align: 'center' });
+${nu ? `下一解锁：${nu.label}（${nu.xp}）` : '全部内容已解锁'}`, { fontSize: fs(20), fill: C.textDim, align: 'center' });
     prog.anchor.set(0.5, 0);
-    prog.position.set(430, 918);
+    prog.position.set(430, 936);
     this.addChild(prog);
 
     // opening narration
@@ -79,7 +74,7 @@ ${nu ? `下一解锁：${nu.label}（${nu.xp}）` : '全部内容已解锁'}`, {
     narr.position.set(1880, 820);
     this.addChild(narr);
     lines.forEach((l, i) => {
-      const t = new Text({ text: l, style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text, stroke: { color: 0, width: 4 }, align: 'right' } });
+      const t = new Text({ text: l, style: { fontFamily: FONT_BODY, fontSize: fs(24), fill: C.text, stroke: { color: 0, width: 4 }, align: 'right' } });
       t.anchor.set(1, 0);
       t.y = i * 38 - lines.length * 19;
       t.alpha = 0;
@@ -102,12 +97,12 @@ ${nu ? `下一解锁：${nu.label}（${nu.xp}）` : '全部内容已解锁'}`, {
         let y = 0;
         const wrap = W - INSET.dark.x * 2 - 40;
         for (const sec of j.sections) {
-          const h = new Text({ text: sec.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 28, fill: C.goldLight } });
+          const h = new Text({ text: sec.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(28), fill: C.goldLight } });
           h.position.set(0, y);
           box.content.addChild(h);
           y += 44;
           for (const line of sec.lines) {
-            const t = new Text({ text: `· ${line}`, style: { fontFamily: FONT_BODY, fontSize: 21, fill: C.text, lineHeight: 32, wordWrap: true, wordWrapWidth: wrap, breakWords: true } });
+            const t = new Text({ text: `· ${line}`, style: { fontFamily: FONT_BODY, fontSize: fs(21), fill: C.text, lineHeight: 32, wordWrap: true, wordWrapWidth: wrap, breakWords: true } });
             t.position.set(12, y);
             box.content.addChild(t);
             y += t.height + 6;

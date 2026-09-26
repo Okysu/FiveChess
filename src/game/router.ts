@@ -44,3 +44,4 @@ export async function act(a: Parameters<typeof session.act>[0]): Promise<string 
 
 export function resetRoute() { current = null; }
 session.router = () => { void go(true); };
+G.onProfileChange = () => { void go(true); };

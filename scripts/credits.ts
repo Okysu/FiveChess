@@ -31,7 +31,7 @@ const LIBS = [
 ];
 const FONTS = [
   { name: 'Noto Serif SC', license: 'SIL Open Font License 1.1', url: 'https://fonts.google.com/noto/specimen/Noto+Serif+SC' },
-  { name: 'Ma Shan Zheng', license: 'SIL Open Font License 1.1', url: 'https://fonts.google.com/specimen/Ma+Shan+Zheng' },
+  { name: 'Ma Shan Zheng（马善政毛笔楷书，logo 与标题）', license: 'SIL Open Font License 1.1', url: 'https://fonts.google.com/specimen/Ma+Shan+Zheng' },
 ];
 
 const sections: { title: string; lines: string[] }[] = [

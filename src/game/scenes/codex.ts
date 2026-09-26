@@ -1,5 +1,6 @@
 /** 图鉴 (UI研究笔记 §14.7): cards, enemies, relics, commanders, fate, world, rules, run history. */
 import { Container, Sprite, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { panel as uiPanel, maskRect, uiSprite, INSET } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
@@ -43,7 +44,7 @@ class CodexPanel extends Container {
     this.removeChildren().forEach((c) => { if (c !== this.body) c.destroy({ children: true }); });
     this.addChild(this.body);
     TABS.forEach(([k, n], i) => {
-      const b = new Button(n, { width: 150, height: 52, fontSize: 22, kind: k === this.tab ? 'primary' : 'ghost', onClick: () => { this.tab = k; this.render(); } });
+      const b = new Button(n, { width: 150, height: 52, fontSize: fs(22), kind: k === this.tab ? 'primary' : 'ghost', onClick: () => { this.tab = k; this.render(); } });
       b.position.set(20 + i * 160, 0);
       this.addChild(b);
     });
@@ -55,13 +56,13 @@ class CodexPanel extends Container {
       case 'cards': {
         const colors: (Color | 'all')[] = ['all', 'R', 'B', 'G', 'Y', 'P', 'N'];
         colors.forEach((c, i) => {
-          const b = new Button(c === 'all' ? '全部' : COLOR_INFO[c].name, { width: 100, height: 44, fontSize: 20, kind: this.filter === c ? 'primary' : 'ghost', onClick: () => { this.filter = c; this.render(); } });
+          const b = new Button(c === 'all' ? '全部' : COLOR_INFO[c].name, { width: 100, height: 44, fontSize: fs(20), kind: this.filter === c ? 'primary' : 'ghost', onClick: () => { this.filter = c; this.render(); } });
           b.position.set(20 + i * 110, 0);
           this.body.addChild(b);
         });
         const all = sortCards([...content().cards.values()].filter((c) => c.pool !== false && !['token', 'special', 'basic'].includes(c.rarity) && c.type !== 'status' && c.type !== 'curse' && (this.filter === 'all' || c.faction === this.filter)).map((c) => ({ id: c.id, up: false })));
         const found = all.filter((c) => d.cards.has(c.id)).length;
-        const cnt = new Text({ text: `收集 ${found}/${all.length}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.goldLight } });
+        const cnt = new Text({ text: `收集 ${found}/${all.length}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(24), fill: C.goldLight } });
         cnt.position.set(this.w - 220, 10);
         this.body.addChild(cnt);
         const box = new ScrollBox(this.w, H - 60);
@@ -94,7 +95,7 @@ class CodexPanel extends Container {
           c.addChild(bg);
           const m = maskRect(INSET.tile.x, INSET.tile.y, 184 - INSET.tile.x * 2, 168 - INSET.tile.y, 0);
           assets.with(K.enemy(e.id, e.tier === 'boss'), (t) => { const s = new Sprite(t); const k = Math.min(170 / t.height, 170 / t.width); s.scale.set(k); s.anchor.set(0.5, 1); s.position.set(92, 178); c.addChild(m); s.mask = m; if (!known) { s.tint = 0; s.alpha = 0.6; } c.addChildAt(s, 1); });
-          const n = new Text({ text: known ? e.name : '？？？', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: C.text } });
+          const n = new Text({ text: known ? e.name : '？？？', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: C.text } });
           n.anchor.set(0.5); n.position.set(92, 200);
           c.addChild(n);
           if (known) { c.eventMode = 'static'; c.on('pointerover', () => showTip(new Tooltip([{ title: `${e.name}（第${e.act}幕 · ${{ normal: '普通', elite: '精英', boss: '首领', minion: '仆从' }[e.tier]}）`, body: e.lore }], 420), c.x + 200 + 80, 200)); c.on('pointerout', hideTip); }
@@ -131,12 +132,12 @@ class CodexPanel extends Container {
         for (const cm of content().commanders.values()) {
           const st = session.profile.commanderStats[cm.id];
           const unlocked = session.profile.unlocked.commanders.includes(cm.id);
-          const t = new Text({ text: `${unlocked ? cm.name : '？？？'} 「${cm.title}」 · ${COLOR_INFO[cm.faction].school}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: factionColor(cm.faction), stroke: { color: 0, width: 4 } } });
+          const t = new Text({ text: `${unlocked ? cm.name : '？？？'} 「${cm.title}」 · ${COLOR_INFO[cm.faction].school}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(30), fill: factionColor(cm.faction), stroke: { color: 0, width: 4 } } });
           t.position.set(20, y);
           box.content.addChild(t);
           y += 44;
           const body = unlocked ? `${cm.lore}${st?.wins ? `\n\n【结局】${cm.ending}` : '\n\n（以此主帅通关后解锁结局）'}` : '尚未解锁。';
-          const bt = new Text({ text: body, style: { fontFamily: FONT_BODY, fontSize: 21, fill: C.text, wordWrap: true, wordWrapWidth: this.w - 80, lineHeight: 34, breakWords: true } });
+          const bt = new Text({ text: body, style: { fontFamily: FONT_BODY, fontSize: fs(21), fill: C.text, wordWrap: true, wordWrapWidth: this.w - 80, lineHeight: 34, breakWords: true } });
           bt.position.set(40, y);
           box.content.addChild(bt);
           y += bt.height + 30;
@@ -147,7 +148,7 @@ class CodexPanel extends Container {
       }
       case 'fate': {
         SUITS.forEach((s, row) => {
-          const l = new Text({ text: `${SUIT_INFO[s].name}（${SUIT_INFO[s].yang ? '阳' : '阴'}）`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: SUIT_INFO[s].color } });
+          const l = new Text({ text: `${SUIT_INFO[s].name}（${SUIT_INFO[s].yang ? '阳' : '阴'}）`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: SUIT_INFO[s].color } });
           l.position.set(20, 30 + row * 150);
           this.body.addChild(l);
           for (let r = 1; r <= 13; r++) {
@@ -157,7 +158,7 @@ class CodexPanel extends Container {
             this.body.addChild(v);
           }
         });
-        const n = new Text({ text: '天命牌堆共 52 张，每场战斗重新洗混，双方共享。观星台、遗物与事件可以增删改冒险中的天命牌；逆命 13 起混入「凶兆」。', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, wordWrap: true, wordWrapWidth: this.w - 60, breakWords: true } });
+        const n = new Text({ text: '天命牌堆共 52 张，每场战斗重新洗混，双方共享。观星台、遗物与事件可以增删改冒险中的天命牌；逆命 13 起混入「凶兆」。', style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: C.textDim, wordWrap: true, wordWrapWidth: this.w - 60, breakWords: true } });
         n.position.set(20, 640);
         this.body.addChild(n);
         break;
@@ -167,11 +168,11 @@ class CodexPanel extends Container {
         const box = new ScrollBox(this.w, H);
         let y = 10;
         for (const e of entries) {
-          const t = new Text({ text: `${'category' in e && e.category ? `［${e.category}］` : ''}${e.title}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: C.goldLight } });
+          const t = new Text({ text: `${'category' in e && e.category ? `［${e.category}］` : ''}${e.title}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(30), fill: C.goldLight } });
           t.position.set(20, y);
           box.content.addChild(t);
           y += 44;
-          const bt = new Text({ text: plainRules(e.text), style: { fontFamily: FONT_BODY, fontSize: 21, fill: C.text, wordWrap: true, wordWrapWidth: this.w - 80, lineHeight: 34, breakWords: true } });
+          const bt = new Text({ text: plainRules(e.text), style: { fontFamily: FONT_BODY, fontSize: fs(21), fill: C.text, wordWrap: true, wordWrapWidth: this.w - 80, lineHeight: 34, breakWords: true } });
           bt.position.set(40, y);
           box.content.addChild(bt);
           y += bt.height + 26;
@@ -182,7 +183,7 @@ class CodexPanel extends Container {
       }
       case 'history': {
         const hs = session.profile.history;
-        if (!hs.length) { const t = new Text({ text: '尚无对局记录。', style: { fontFamily: FONT_BODY, fontSize: 26, fill: C.textDim } }); t.position.set(40, 40); this.body.addChild(t); break; }
+        if (!hs.length) { const t = new Text({ text: '尚无对局记录。', style: { fontFamily: FONT_BODY, fontSize: fs(26), fill: C.textDim } }); t.position.set(40, 40); this.body.addChild(t); break; }
         const box = new ScrollBox(this.w, H);
         hs.forEach((h, i) => {
           const cm = content().commanders.get(h.commander);
@@ -191,10 +192,10 @@ class CodexPanel extends Container {
           const bg = uiPanel(this.w - 60, 60, 'row');
           row.addChild(bg);
           const res = h.result === 'win' ? '通关' : h.result === 'abandon' ? '放弃' : '败北';
-          const t = new Text({ text: `${new Date(h.date).toLocaleString('zh-CN')}　${cm?.name ?? h.commander}　逆命${h.ascension}　${res}　第${h.act}幕第${h.floor}层　命数+${h.score}　种子 ${h.seed}`, style: { fontFamily: FONT_BODY, fontSize: 20, fill: h.result === 'win' ? 0x9adfa8 : C.text } });
+          const t = new Text({ text: `${new Date(h.date).toLocaleString('zh-CN')}　${cm?.name ?? h.commander}　逆命${h.ascension}　${res}　第${h.act}幕第${h.floor}层　命数+${h.score}　种子 ${h.seed}`, style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: h.result === 'win' ? 0x9adfa8 : C.text } });
           t.position.set(INSET.row.x, 16);
           row.addChild(t);
-          const cp = new Button('复制种子', { width: 130, height: 44, fontSize: 18, kind: 'ghost', onClick: () => { void navigator.clipboard?.writeText(h.seed); toast('已复制种子'); } });
+          const cp = new Button('复制种子', { width: 130, height: 44, fontSize: fs(18), kind: 'ghost', onClick: () => { void navigator.clipboard?.writeText(h.seed); toast('已复制种子'); } });
           cp.position.set(this.w - 210, 8);
           row.addChild(cp);
           box.content.addChild(row);
@@ -214,7 +215,7 @@ export class CodexScene extends Scene {
     audio.playMusic('camp');
     const t = title('图　鉴', 56);
     t.anchor.set(0.5, 0); t.position.set(960, 14);
-    const back = new Button('← 返回', { width: 150, height: 56, fontSize: 22, kind: 'ghost', onClick: () => void import('./title').then((m) => G.go(new m.TitleScene())) });
+    const back = new Button('← 返回', { width: 150, height: 56, fontSize: fs(22), kind: 'ghost', onClick: () => void import('./title').then((m) => G.go(new m.TitleScene())) });
     back.position.set(24, 20);
     const bg = uiPanel(1860, 960, 'dark');
     bg.position.set(30, 100);

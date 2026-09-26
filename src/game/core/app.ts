@@ -1,5 +1,6 @@
 /** Pixi application shell: design-space scaling, layers, scene manager, keyboard routing. */
 import { Application, Container, Sprite, Texture } from 'pixi.js';
+import { pickProfile, setProfile, isPhone } from '../ui/profile';
 import { uiFill } from '../ui/skin';
 import { tweens, ease } from './tween';
 import { DESIGN_H, DESIGN_W } from '../ui/theme';
@@ -95,9 +96,16 @@ class GameApp {
       this.backdrop.position.set(0, 0);
     }
     this.stageHit();
-    this.compact = vh < 560;
+    // layout profile (ui/profile.ts); ?profile=phone|desktop forces one (testing on a desktop browser)
+    const forced = new URLSearchParams(location.search).get('profile');
+    const changed = setProfile(forced === 'phone' || forced === 'desktop' ? forced : pickProfile(vw, vh));
+    this.compact = isPhone();
     this.fitBackdrop();
+    if (changed && this.scene && this.sceneReady) this.onProfileChange?.();
   }
+
+  /** set by the router: rebuild the current screen when the layout profile flips (e.g. rotating a tablet) */
+  onProfileChange?: () => void;
 
   private stageHit() {
     this.app.stage.hitArea = this.app.screen;

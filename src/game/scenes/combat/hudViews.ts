@@ -1,5 +1,6 @@
 /** Battle HUD pieces (source tray + embers + sacrifice altar, piles, skills, equipment, fields) — generated textures only. */
 import { Container, Text } from 'pixi.js';
+import { fs } from '../../ui/profile';
 import { unchanged } from '../../ui/memo';
 import type { CombatState, Source, Side } from '../../../engine/combat/state';
 import { content } from '../../../engine/content';
@@ -29,7 +30,7 @@ export class SourceTray extends Container {
     const bg = panel(262, 146, 'dark', { cornerScale: 0.55 });
     bg.position.set(SOURCES.x - 14, SOURCES.y - 12);
     this.addChild(bg, this.embers);
-    this.countText = new Text({ text: '', style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: 19, fill: C.text } });
+    this.countText = new Text({ text: '', style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: fs(19), fill: C.text } });
     this.countText.position.set(SOURCES.x + 4, 938);
     this.addChild(this.countText);
     // sacrifice altar: generated bronze ding + selection frame when active
@@ -38,7 +39,7 @@ export class SourceTray extends Container {
     this.altarGlow.addChild(glowFrame);
     const ding = uiSprite('altar', 108, 108);
     ding.position.set(0, -8);
-    const t = new Text({ text: '献', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: WB.white, stroke: { color: WB.ink, width: 5 } } });
+    const t = new Text({ text: '献', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: WB.white, stroke: { color: WB.ink, width: 5 } } });
     t.anchor.set(0.5); t.position.set(0, 40);
     this.altar.addChild(this.altarGlow, ding, t);
     this.altar.position.set(ALTAR.x, ALTAR.y);
@@ -75,7 +76,7 @@ export class SourceTray extends Container {
       e.position.set(SOURCES.x + 20 + i * 36, SOURCES.y + 112);
       this.embers.addChild(e);
     }
-    const lbl = new Text({ text: '余烬·仅应', style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: 15, fill: C.textDim } });
+    const lbl = new Text({ text: '余烬·仅应', style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: fs(15), fill: C.textDim } });
     lbl.position.set(SOURCES.x + 20 + cap * 36, SOURCES.y + 102);
     this.embers.addChild(lbl);
     const permCount = s.sources.filter((x) => !x.temp).length;
@@ -105,9 +106,9 @@ export class Pile extends Container {
     const w = kind === 'exhaust' ? 80 : 108, h = kind === 'exhaust' ? 112 : 152;
     const back = uiFill('card_back', w, h, kind === 'draw' ? {} : { tint: kind === 'discard' ? 0xb0a490 : 0x7a5a4a });
     back.position.set(-w / 2, -h / 2);
-    this.count = new Text({ text: '0', style: { fontFamily: FONT_NUM, fontSize: 32, fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 6 } } });
+    this.count = new Text({ text: '0', style: { fontFamily: FONT_NUM, fontSize: fs(32), fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 6 } } });
     this.count.anchor.set(0.5);
-    const lbl = new Text({ text: kind === 'draw' ? '抽牌' : kind === 'discard' ? '弃牌' : '燃尽', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 20, fill: WB.white, stroke: { color: WB.ink, width: 5 } } });
+    const lbl = new Text({ text: kind === 'draw' ? '抽牌' : kind === 'discard' ? '弃牌' : '燃尽', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(20), fill: WB.white, stroke: { color: WB.ink, width: 5 } } });
     lbl.anchor.set(0.5); lbl.position.set(0, h / 2 - 16);
     this.addChild(back, this.count, lbl);
     this.position.set(x, y);
@@ -141,7 +142,7 @@ export class EquipRow extends Container {
         c.addChild(mini);
         if (slot === 'weapon') {
           const atk = (def.equip?.atk ?? 0) + eq.atkBonus;
-          const t = new Text({ text: `${atk}/${eq.durability}`, style: { fontFamily: FONT_NUM, fontSize: 17, fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 4 } } });
+          const t = new Text({ text: `${atk}/${eq.durability}`, style: { fontFamily: FONT_NUM, fontSize: fs(17), fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 4 } } });
           t.anchor.set(0.5); t.position.set(0, 22);
           c.addChild(t);
         }
@@ -170,11 +171,11 @@ export class SkillRow extends Container {
       c.addChild(uiSprite(def.type === 'passive' ? 'skill_disc' : 'skill_disc_active', 78, 78, sk.from === 'lieutenant' ? { tint: 0xc8f0d8 } : {}));
       if (usable) c.addChild(ring('gold', 94));
       const spent = (def.type === 'limited' && sk.usedCombat) || (def.type === 'active' && sk.used);
-      const t = new Text({ text: def.name.slice(0, 2), style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: spent ? 0x8a8078 : WB.white, stroke: { color: WB.ink, width: 5 } } });
+      const t = new Text({ text: def.name.slice(0, 2), style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(24), fill: spent ? 0x8a8078 : WB.white, stroke: { color: WB.ink, width: 5 } } });
       t.anchor.set(0.5);
       c.addChild(t);
       const typeName = { passive: '被动', active: '主动', limited: '限定', awaken: sk.awakened ? '已觉醒' : '觉醒' }[def.type];
-      const tag = new Text({ text: typeName, style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: 14, fill: C.textDim, stroke: { color: WB.ink, width: 3 } } });
+      const tag = new Text({ text: typeName, style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: fs(14), fill: C.textDim, stroke: { color: WB.ink, width: 3 } } });
       tag.anchor.set(0.5); tag.position.set(0, 48);
       c.addChild(tag);
       c.eventMode = 'static';
@@ -203,7 +204,7 @@ export class FieldSlot extends Container {
     mini.rotation = this.side === 'player' ? -Math.PI / 2 : Math.PI / 2;
     this.addChild(mini);
     if (f.turns !== null) {
-      const t = new Text({ text: String(f.turns), style: { fontFamily: FONT_NUM, fontSize: 20, fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 4 } } });
+      const t = new Text({ text: String(f.turns), style: { fontFamily: FONT_NUM, fontSize: fs(20), fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 4 } } });
       t.anchor.set(0.5); t.position.set(60, -36);
       this.addChild(t);
     }

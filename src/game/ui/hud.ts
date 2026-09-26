@@ -1,5 +1,6 @@
 /** Run HUD: top bar, relic bar, deck/pile viewers, card inspector, card picker. */
 import { Container, Sprite, Text } from 'pixi.js';
+import { fs } from './profile';
 import { content } from '../../engine/content';
 import type { CardRef, RunState } from '../../engine/run/run';
 import { Box } from '../core/layout';
@@ -61,11 +62,11 @@ export class TopBar extends Container {
     });
     row.add(portrait, { width: 64, height: 64 });
     const hpCol = new Box({ dir: 'column', gap: 4 });
-    const nm = new Text({ text: `${cmd.name} · ${cmd.title}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: C.goldLight } });
+    const nm = new Text({ text: `${cmd.name} · ${cmd.title}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: C.goldLight } });
     hpCol.add(nm);
     const hpWrap = new Container();
     hpWrap.addChild(this.hpBar);
-    this.hpText = new Text({ text: '', style: { fontFamily: FONT_NUM, fontSize: 17, fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0x000000, width: 4 } } });
+    this.hpText = new Text({ text: '', style: { fontFamily: FONT_NUM, fontSize: fs(17), fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0x000000, width: 4 } } });
     this.hpText.anchor.set(0.5);
     this.hpText.position.set(110, 11);
     hpWrap.addChild(this.hpText, this.armorBadge);
@@ -76,7 +77,7 @@ export class TopBar extends Container {
     const gi = iconSprite('ui_gold', 40, '金', C.gold);
     gi.position.set(20, 20);
     gold.addChild(gi);
-    this.goldText = new Text({ text: '', style: { fontFamily: FONT_NUM, fontSize: 26, fontWeight: 'bold', fill: C.goldLight, stroke: { color: 0x000000, width: 4 } } });
+    this.goldText = new Text({ text: '', style: { fontFamily: FONT_NUM, fontSize: fs(26), fontWeight: 'bold', fill: C.goldLight, stroke: { color: 0x000000, width: 4 } } });
     this.goldText.position.set(46, 4);
     gold.addChild(this.goldText);
     gold.eventMode = 'static';
@@ -87,17 +88,17 @@ export class TopBar extends Container {
     // center info
     const info = new Text({
       text: `第${NUM_CN[run.act] ?? run.act}幕 · ${actName(run.act)} · 第${Math.max(1, run.floor)}层${run.ascension ? `   逆命 ${run.ascension}` : ''}`,
-      style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: C.text, letterSpacing: 2 },
+      style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: C.text, letterSpacing: 2 },
     });
     const spacer = new Box({ grow: 1, align: 'center', justify: 'center', height: 80 });
     spacer.add(info);
     row.add(spacer);
     // buttons
-    this.deckBtn = new Button(`牌组 ${run.deck.length}`, { width: 128, height: 56, fontSize: 22, kind: 'ghost', onClick: () => (hooks.onDeck ?? (() => openDeck(run.deck, '牌组')))() });
+    this.deckBtn = new Button(`牌组 ${run.deck.length}`, { width: 128, height: 56, fontSize: fs(22), kind: 'ghost', onClick: () => (hooks.onDeck ?? (() => openDeck(run.deck, '牌组')))() });
     row.add(this.deckBtn, { width: 128, height: 56 });
-    if (hooks.onMap) row.add(new Button('地图', { width: 100, height: 56, fontSize: 22, kind: 'ghost', onClick: hooks.onMap }), { width: 100, height: 56 });
-    row.add(new Button('图鉴', { width: 100, height: 56, fontSize: 22, kind: 'ghost', onClick: hooks.onCodex ?? (() => session.router?.call(null)) }), { width: 100, height: 56 });
-    row.add(new Button('设置', { width: 100, height: 56, fontSize: 22, kind: 'ghost', onClick: hooks.onSettings }), { width: 100, height: 56 });
+    if (hooks.onMap) row.add(new Button('地图', { width: 100, height: 56, fontSize: fs(22), kind: 'ghost', onClick: hooks.onMap }), { width: 100, height: 56 });
+    row.add(new Button('图鉴', { width: 100, height: 56, fontSize: fs(22), kind: 'ghost', onClick: hooks.onCodex ?? (() => session.router?.call(null)) }), { width: 100, height: 56 });
+    row.add(new Button('设置', { width: 100, height: 56, fontSize: fs(22), kind: 'ghost', onClick: hooks.onSettings }), { width: 100, height: 56 });
     row.layout(1920, 80);
     this.addChild(row);
     this.relicBar.position.set(16, 100);
@@ -114,7 +115,7 @@ export class TopBar extends Container {
     this.armorBadge.removeChildren();
     if (armor > 0) {
       const b = icon('ui_armor', 30);
-      const t = new Text({ text: String(armor), style: { fontFamily: FONT_NUM, fontSize: 15, fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0, width: 3 } } });
+      const t = new Text({ text: String(armor), style: { fontFamily: FONT_NUM, fontSize: fs(15), fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0, width: 3 } } });
       t.anchor.set(0.5);
       b.position.set(-4, 11); t.position.set(-4, 11);
       this.armorBadge.addChild(b, t);
@@ -162,7 +163,7 @@ export class TopBar extends Container {
       assets.with(K.relic(rs.id), (t) => { const s = new Sprite(t); s.anchor.set(0.5); s.scale.set(38 / Math.max(t.width, t.height)); s.position.set(20, 20); holder.removeChildren(); holder.addChild(s); });
       c.addChild(holder);
       if (rs.counter) {
-        const ct = new Text({ text: String(rs.counter), style: { fontFamily: FONT_NUM, fontSize: 14, fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0, width: 3 } } });
+        const ct = new Text({ text: String(rs.counter), style: { fontFamily: FONT_NUM, fontSize: fs(14), fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0, width: 3 } } });
         ct.position.set(28, 24);
         c.addChild(ct);
       }
@@ -235,7 +236,7 @@ export function openDeck(cards: CardRef[] | { id: string; up: boolean }[], title
   const { box } = cardGrid(list, { width: 1580, height: 800 });
   box.position.set(30, 100);
   m.body.addChild(box);
-  if (o.note) { const n = label(o.note, { fontSize: 18, fill: C.textDim }); n.position.set(40, 900); m.body.addChild(n); }
+  if (o.note) { const n = label(o.note, { fontSize: fs(18), fill: C.textDim }); n.position.set(40, 900); m.body.addChild(n); }
   return m;
 }
 
@@ -254,7 +255,7 @@ export function inspectCard(id: string, up: boolean) {
     other.position.set(810, 450);
     other.alpha = 0.92;
     m.body.addChild(other);
-    const t = label(up ? '升级前' : '升级后', { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: up ? C.textDim : C.jade });
+    const t = label(up ? '升级前' : '升级后', { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: up ? C.textDim : C.jade });
     t.anchor.set(0.5);
     t.position.set(810, 205);
     m.body.addChild(t);
@@ -265,23 +266,23 @@ export function inspectCard(id: string, up: boolean) {
   const tx = hasUp ? 1060 : 760;
   const w = 1500 - INSET.dark.x - 20 - tx; // stay inside the modal border
   for (const l of lines) {
-    const t = new Text({ text: l.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: l.color ?? C.goldLight } });
+    const t = new Text({ text: l.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: l.color ?? C.goldLight } });
     t.position.set(tx, y);
     m.body.addChild(t);
     y += 34;
-    const { texture, result } = richTexture(l.body, { width: w, height: 200, fontSize: 19, color: 0xe8dcc4, align: 'left', vAlign: 'top' });
+    const { texture, result } = richTexture(l.body, { width: w, height: 200, fontSize: fs(19), color: 0xe8dcc4, align: 'left', vAlign: 'top' });
     const s = new Sprite(texture);
     s.position.set(tx, y);
     m.body.addChild(s);
     y += result.usedHeight + 18;
   }
   if (def.flavor) {
-    const f = new Text({ text: `「${def.flavor}」`, style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, fontStyle: 'italic', wordWrap: true, wordWrapWidth: w, breakWords: true } });
+    const f = new Text({ text: `「${def.flavor}」`, style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: C.textDim, fontStyle: 'italic', wordWrap: true, wordWrapWidth: w, breakWords: true } });
     f.position.set(tx, Math.max(y + 10, 700));
     m.body.addChild(f);
   }
   // full art button
-  const artBtn = new Button('欣赏插画', { width: 180, height: 56, fontSize: 22, kind: 'ghost', onClick: () => viewArt(def.faction, id, def.name) });
+  const artBtn = new Button('欣赏插画', { width: 180, height: 56, fontSize: fs(22), kind: 'ghost', onClick: () => viewArt(def.faction, id, def.name) });
   artBtn.position.set(270, 810);
   m.body.addChild(artBtn);
   return m;

@@ -33,7 +33,7 @@ export const UI_TEXTURES = [
   'frame_gold', 'frame_red', 'frame_blue', 'ring_gold', 'ring_red', 'token_frame', 'tag_red', 'tag_gold',
   'skill_disc', 'skill_disc_active', 'equip_slot', 'slot', 'altar', 'seal_response', 'ward_bubble', 'frost_overlay', 'smoke_overlay',
   'arrow_chevron', 'arrow_head', 'path_dot', 'path_dot_red', 'stamp_visited', 'toggle_on', 'toggle_off', 'slider_track', 'slider_knob',
-  'card_back', 'fate_back', 'fate_face', 'art_placeholder', 'tex_paper', 'tex_ink', 'dim_vignette', 'cloud_corner', 'divider', 'shopkeeper',
+  'logo', 'card_back', 'fate_back', 'fate_face', 'art_placeholder', 'tex_paper', 'tex_ink', 'dim_vignette', 'cloud_corner', 'divider', 'shopkeeper',
 ] as const;
 export type UiTex = (typeof UI_TEXTURES)[number];
 

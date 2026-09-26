@@ -1,5 +1,6 @@
 /** Reusable widgets: buttons, labels, tooltips, toasts, modal frames. */
 import { Container, Graphics, Text, type TextStyleOptions, Sprite } from 'pixi.js';
+import { fs } from './profile';
 import { errorText } from './errors';
 import { C, FONT_BODY, FONT_TITLE, FONT_UI } from './theme';
 import { darken } from './draw';
@@ -11,7 +12,7 @@ import { KEYWORDS, STATUSES, TERM_NAMES, EXTRA_TERMS } from '../../engine/glossa
 import { sfx } from '../audio/audio';
 
 export function label(text: string, style: TextStyleOptions = {}): Text {
-  return new Text({ text, style: { fontFamily: FONT_BODY, fontSize: 22, fill: C.text, ...style } });
+  return new Text({ text, style: { fontFamily: FONT_BODY, fontSize: fs(22), fill: C.text, ...style } });
 }
 
 export function title(text: string, size = 48, style: TextStyleOptions = {}): Text {
@@ -57,13 +58,13 @@ export class Button extends Container {
     this.kind = o.kind ?? 'normal';
     this.disabled = !!o.disabled;
     this.onClick = o.onClick;
-    this.txt = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: o.fontSize ?? 30, fill: WB.white, stroke: { color: WB.ink, width: 5 }, letterSpacing: 3 } });
+    this.txt = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(o.fontSize ?? 30), fill: WB.white, stroke: { color: WB.ink, width: 5 }, letterSpacing: 3 } });
     this.txt.anchor.set(0.5);
     this.txt.position.set(this.bw / 2, o.sub ? this.bh * 0.4 : this.bh / 2);
     this.face.addChild(this.txt);
     this.addChild(this.ring, this.shadow, this.face);
     if (o.sub) {
-      this.subTxt = new Text({ text: o.sub, style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: 15, fill: WB.paper, stroke: { color: WB.ink, width: 3 } } });
+      this.subTxt = new Text({ text: o.sub, style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: fs(15), fill: WB.paper, stroke: { color: WB.ink, width: 3 } } });
       this.subTxt.anchor.set(0.5);
       this.subTxt.position.set(this.bw / 2, this.bh * 0.72);
       this.face.addChild(this.subTxt);
@@ -140,12 +141,12 @@ export class Tooltip extends Container {
     const parts: Container[] = [];
     for (const l of lines) {
       if (l.title) {
-        const t = new Text({ text: l.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: l.color ?? C.goldLight } });
+        const t = new Text({ text: l.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(24), fill: l.color ?? C.goldLight } });
         t.position.set(pad, y);
         parts.push(t);
         y += t.height + 4;
       }
-      const { texture, result } = richTexture(l.body, { width: width - pad * 2, height: 400, fontSize: 18, minFontSize: 18, color: 0xeadfc8, align: 'left', vAlign: 'top', termColor: 0xffd27a });
+      const { texture, result } = richTexture(l.body, { width: width - pad * 2, height: 400, fontSize: fs(18), minFontSize: 18, color: 0xeadfc8, align: 'left', vAlign: 'top', termColor: 0xffd27a });
       const s = new Sprite(texture);
       s.position.set(pad, y);
       s.height = texture.height;
@@ -235,7 +236,7 @@ export function glossLines(terms: string[]): { title: string; body: string; colo
 export function toast(text: string, color = C.goldLight, y = 200) {
   text = errorText(text); // engine codes ("unplayable", "not enough gold"…) never reach the player in English
   const c = new Container();
-  const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: color, stroke: { color: 0x000000, width: 5 } } });
+  const t = new Text({ text, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(30), fill: color, stroke: { color: 0x000000, width: 5 } } });
   t.anchor.set(0.5);
   const bg = nine('banner_band', t.width + 160, t.height + 40);
   bg.position.set(-(t.width + 160) / 2, -(t.height + 40) / 2);
@@ -276,7 +277,7 @@ export class Modal extends Container {
       frame.addChild(t);
     }
     if (o.closable !== false) {
-      const x = new Button('✕', { width: 56, height: 56, fontSize: 28, kind: 'ghost', onClick: () => this.close() });
+      const x = new Button('✕', { width: 56, height: 56, fontSize: fs(28), kind: 'ghost', onClick: () => this.close() });
       x.position.set(w - 70, 14);
       frame.addChild(x);
       this.dim.on('pointertap', () => this.close());

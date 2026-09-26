@@ -1,5 +1,6 @@
 /** 商店 (UI研究笔记 §14.4) */
 import { Container, Sprite, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { panel as uiPanel, uiSprite, nine } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
@@ -20,7 +21,7 @@ export class ShopScene extends RunScreen {
     await assets.load(K.ui('shopkeeper'));
     const keeper = assets.get(K.ui('shopkeeper'));
     if (keeper) { const s = new Sprite(keeper); s.anchor.set(0.5, 1); s.scale.set(Math.min(820 / keeper.height, 1)); s.position.set(250, 1060); this.addChildAt(s, 1); }
-    const bubble = new Text({ text: '「客官，看看？命数也能买卖。」', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: C.text, stroke: { color: 0, width: 4 } } });
+    const bubble = new Text({ text: '「客官，看看？命数也能买卖。」', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: C.text, stroke: { color: 0, width: 4 } } });
     bubble.position.set(40, 160);
     this.addChild(bubble);
     this.build();
@@ -50,7 +51,7 @@ export class ShopScene extends RunScreen {
       if (!it.sold) this.content.addChild(this.price(it.price, x, 440));
     });
     // relics
-    const lbl = (t: string, x: number) => { const l = new Text({ text: `── ${t} ──`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: C.goldLight, stroke: { color: 0, width: 4 } } }); l.anchor.set(0.5); l.position.set(x, 540); this.content.addChild(l); };
+    const lbl = (t: string, x: number) => { const l = new Text({ text: `── ${t} ──`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: C.goldLight, stroke: { color: 0, width: 4 } } }); l.anchor.set(0.5); l.position.set(x, 540); this.content.addChild(l); };
     lbl('遗物', 740); lbl('丹药', 1110); lbl('服务', 1480);
     shop.relics.forEach((it, i) => {
       const def = content().relic(it.id);
@@ -92,15 +93,15 @@ export class ShopScene extends RunScreen {
       if (!it.sold) this.content.addChild(this.price(it.price, c.x, 740));
     });
     const full = !r.potions.includes(null);
-    if (full) { const t = new Text({ text: `行囊已满（${r.potions.length}/${r.potions.length}）`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 18, fill: 0xff9a8a } }); t.anchor.set(0.5); t.position.set(1110, 580); this.content.addChild(t); }
+    if (full) { const t = new Text({ text: `行囊已满（${r.potions.length}/${r.potions.length}）`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(18), fill: 0xff9a8a } }); t.anchor.set(0.5); t.position.set(1110, 580); this.content.addChild(t); }
     // removal service
     const svc = new Container();
     svc.position.set(1330, 580);
     const bg = uiPanel(320, 240, 'dark');
     svc.addChild(bg);
-    const t1 = new Text({ text: '除牌', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 40, fill: shop.removed ? C.textDim : C.goldLight } });
+    const t1 = new Text({ text: '除牌', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(40), fill: shop.removed ? C.textDim : C.goldLight } });
     t1.anchor.set(0.5); t1.position.set(160, 80);
-    const t2 = new Text({ text: shop.removed ? '本店已服务' : '从牌组中移除一张牌', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 20, fill: C.textDim } });
+    const t2 = new Text({ text: shop.removed ? '本店已服务' : '从牌组中移除一张牌', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(20), fill: C.textDim } });
     t2.anchor.set(0.5); t2.position.set(160, 124);
     svc.addChild(t1, t2);
     if (!shop.removed) svc.addChild(this.price(shop.removePrice, 160, 168));
@@ -119,7 +120,7 @@ export class ShopScene extends RunScreen {
     const affordable = session.run!.gold >= n;
     const ic = iconSprite('ui_gold', 26, '金', C.gold);
     ic.position.set(-22, 0);
-    const t = new Text({ text: String(n), style: { fontFamily: FONT_NUM, fontSize: 24, fontWeight: 'bold', fill: affordable ? C.goldLight : 0xe05a4a, stroke: { color: 0, width: 4 } } });
+    const t = new Text({ text: String(n), style: { fontFamily: FONT_NUM, fontSize: fs(24), fontWeight: 'bold', fill: affordable ? C.goldLight : 0xe05a4a, stroke: { color: 0, width: 4 } } });
     t.anchor.set(0, 0.5);
     t.position.set(-6, 0);
     c.addChild(ic, t);

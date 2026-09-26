@@ -1,5 +1,6 @@
 /** Minimal in-canvas text input (no DOM): click to focus, type, Backspace, Enter/Esc to blur. */
 import { Container, Text } from 'pixi.js';
+import { fs } from './profile';
 import { nine, INSET } from './skin';
 import { G } from '../core/app';
 import { C, FONT_UI } from './theme';
@@ -8,7 +9,7 @@ export class TextInput extends Container {
   value = '';
   private bg = new Container();
   private txt: Text;
-  private caret = new Text({ text: '｜', style: { fontFamily: FONT_UI, fontSize: 28, fill: C.goldLight } });
+  private caret = new Text({ text: '｜', style: { fontFamily: FONT_UI, fontSize: fs(28), fill: C.goldLight } });
   private focused = false;
   private pop: (() => void) | null = null;
   private t = 0;

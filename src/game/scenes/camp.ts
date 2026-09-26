@@ -1,5 +1,6 @@
 /** 营地 (UI研究笔记 §14.5): 升级 / 删牌 / 休憩 三选一 */
 import { Container, Graphics, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { panel as uiPanel } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
@@ -39,9 +40,9 @@ export class CampScene extends RunScreen {
       c.addChild(bg);
       const ic = iconSprite(o.icon, 96, o.glyph, C.goldLight);
       ic.position.set(170, 104);
-      const t = new Text({ text: o.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 44, fill: o.disabled ? C.textDim : C.goldLight } });
+      const t = new Text({ text: o.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(44), fill: o.disabled ? C.textDim : C.goldLight } });
       t.anchor.set(0.5); t.position.set(170, 196);
-      const s = new Text({ text: o.sub, style: { fontFamily: FONT_BODY, fontSize: 22, fill: C.text, align: 'center' } });
+      const s = new Text({ text: o.sub, style: { fontFamily: FONT_BODY, fontSize: fs(22), fill: C.text, align: 'center' } });
       s.anchor.set(0.5, 0); s.position.set(170, 228);
       c.addChild(ic, t, s);
       if (o.disabled || sc.done) c.alpha = 0.5;
@@ -58,7 +59,7 @@ export class CampScene extends RunScreen {
       this.content.addChild(c);
     });
     if (sc.done) this.continueButton('继续前进 →', () => void act({ t: 'proceed' }), 1560, 960);
-    const hint = new Text({ text: '篝火边，命数暂歇。', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 40, fill: C.text, stroke: { color: 0, width: 5 } } });
+    const hint = new Text({ text: '篝火边，命数暂歇。', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(40), fill: C.text, stroke: { color: 0, width: 5 } } });
     hint.anchor.set(0.5); hint.position.set(960, 300);
     this.addChild(hint);
   }

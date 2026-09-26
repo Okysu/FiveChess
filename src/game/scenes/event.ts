@@ -1,5 +1,6 @@
 /** 事件 (UI研究笔记 §14.9): illustration left, text & options right. */
 import { Container, Sprite, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { panel as uiPanel, maskRect, INSET } from '../ui/skin';
 import { RunScreen } from './common';
 import { session } from '../state';
@@ -39,7 +40,7 @@ export class EventScene extends RunScreen {
       s.alpha = 0;
       void tweens.to(s, { alpha: 1 }, 500);
     }
-    const t = new Text({ text: ev.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 60, fill: C.goldLight, stroke: { color: 0, width: 6 }, letterSpacing: 4 } });
+    const t = new Text({ text: ev.title, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(60), fill: C.goldLight, stroke: { color: 0, width: 6 }, letterSpacing: 4 } });
     t.position.set(960, 150);
     this.addChild(t);
     const page = sc.page ? ev.pages?.find((p) => p.id === sc.page) : null;
@@ -49,7 +50,7 @@ export class EventScene extends RunScreen {
     const rows = options.map((o, i) => this.option(o, i));
     const optsH = rows.reduce((a, r) => a + r.h + 10, 0);
     const maxBodyH = Math.max(160, 1060 - 240 - INSET.dark.y * 2 - 24 - optsH);
-    const { texture, result } = richTexture(body, { width: 920 - INSET.dark.x * 2, height: Math.min(360, maxBodyH), fontSize: 26, minFontSize: 18, color: 0xf0e4cc, align: 'left', vAlign: 'top', lineHeight: 1.6, shadow: true });
+    const { texture, result } = richTexture(body, { width: 920 - INSET.dark.x * 2, height: Math.min(360, maxBodyH), fontSize: fs(26), minFontSize: 18, color: 0xf0e4cc, align: 'left', vAlign: 'top', lineHeight: 1.6, shadow: true });
     const bodyH = Math.min(Math.min(360, maxBodyH), result.usedHeight);
     const panelH = Math.max(420, INSET.dark.y * 2 + bodyH + (rows.length ? 24 + optsH : 0));
     const panel = uiPanel(920, panelH, 'dark');
@@ -74,12 +75,12 @@ export class EventScene extends RunScreen {
     c.x = 940 + INSET.dark.x - 10;
     const RW = 920 - INSET.dark.x * 2 + 20;
     const PADX = 96; // the row plate's scroll ends are wide: text starts past them
-    const txt = new Text({ text: `${o.text}`, style: { fontFamily: FONT_BODY, fontSize: 24, fill: ok ? C.text : C.textDim, wordWrap: true, wordWrapWidth: RW - PADX * 2, breakWords: true, lineHeight: 32 } });
+    const txt = new Text({ text: `${o.text}`, style: { fontFamily: FONT_BODY, fontSize: fs(24), fill: ok ? C.text : C.textDim, wordWrap: true, wordWrapWidth: RW - PADX * 2, breakWords: true, lineHeight: 32 } });
     txt.position.set(PADX, 14);
     let h = 14 + txt.height;
     let hintText: Text | null = null;
     if (o.hint || !ok) {
-      hintText = new Text({ text: !ok ? `（条件不足）${o.hint ?? ''}` : o.hint!, style: { fontFamily: FONT_BODY, fontSize: 19, fill: !ok ? 0xa08070 : hintColor(o.hint!), wordWrap: true, wordWrapWidth: RW - PADX * 2, breakWords: true } });
+      hintText = new Text({ text: !ok ? `（条件不足）${o.hint ?? ''}` : o.hint!, style: { fontFamily: FONT_BODY, fontSize: fs(19), fill: !ok ? 0xa08070 : hintColor(o.hint!), wordWrap: true, wordWrapWidth: RW - PADX * 2, breakWords: true } });
       hintText.position.set(PADX, h + 4);
       h += 4 + hintText.height;
     }

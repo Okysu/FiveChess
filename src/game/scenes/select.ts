@@ -1,5 +1,6 @@
 /** 主帅选择 (UI研究笔记 §14.6) */
 import { Container, Sprite, Text } from 'pixi.js';
+import { fs } from '../ui/profile';
 import { panel as uiPanel, maskRect, pip, INSET } from '../ui/skin';
 import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
@@ -45,7 +46,7 @@ export class SelectScene extends Scene {
     await assets.loadMany([K.bg('recruit'), ...heroes]);
     G.setBackdrop(assets.get(K.bg('recruit')), 0x6a6a6a);
     audio.playMusic('camp');
-    const back = new Button('← 返回', { width: 150, height: 56, fontSize: 22, kind: 'ghost', onClick: () => void import('./title').then((m) => G.go(new m.TitleScene())) });
+    const back = new Button('← 返回', { width: 150, height: 56, fontSize: fs(22), kind: 'ghost', onClick: () => void import('./title').then((m) => G.go(new m.TitleScene())) });
     back.position.set(24, 20);
     const head = title('选择主帅', 52);
     head.anchor.set(0.5, 0);
@@ -55,19 +56,19 @@ export class SelectScene extends Scene {
     this.showCommander(this.selected);
     // ascension + seed + start
     const bottom = new Box({ dir: 'row', gap: 20, align: 'center' });
-    bottom.add(label('逆命', { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: C.goldLight }));
+    bottom.add(label('逆命', { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(30), fill: C.goldLight }));
     bottom.add(new Button('◀', { width: 56, height: 56, kind: 'ghost', onClick: () => this.setAsc(this.asc - 1) }), { width: 56, height: 56 });
-    this.ascText = new Text({ text: '0', style: { fontFamily: FONT_NUM, fontSize: 34, fill: C.goldLight, fontWeight: 'bold' } });
+    this.ascText = new Text({ text: '0', style: { fontFamily: FONT_NUM, fontSize: fs(34), fill: C.goldLight, fontWeight: 'bold' } });
     bottom.add(this.ascText, { width: 50, height: 44 });
     bottom.add(new Button('▶', { width: 56, height: 56, kind: 'ghost', onClick: () => this.setAsc(this.asc + 1) }), { width: 56, height: 56 });
     this.seed = new TextInput(320, 56, '种子（可留空）');
     bottom.add(this.seed, { width: 320, height: 56 });
-    this.startBtn = new Button('启　程', { width: 260, height: 80, fontSize: 36, kind: 'primary', onClick: () => this.start() });
+    this.startBtn = new Button('启　程', { width: 260, height: 80, fontSize: fs(36), kind: 'primary', onClick: () => this.start() });
     bottom.add(this.startBtn, { width: 260, height: 80 });
     bottom.layout();
     bottom.position.set(1860 - bottom.w, 836);
     this.addChild(bottom);
-    this.ascDesc = new Text({ text: '', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim, stroke: { color: 0, width: 3 } } });
+    this.ascDesc = new Text({ text: '', style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: C.textDim, stroke: { color: 0, width: 3 } } });
     this.ascDesc.position.set(1860 - bottom.w, 836 + 70);
     this.ascDesc.eventMode = 'static';
     this.ascDesc.on('pointerover', (e) => { const l = (this.ascDesc as Text & { lines?: string[] }).lines ?? []; if (l.length) showTip(new Tooltip([{ title: `逆命 ${this.asc} 生效的修正`, body: l.map((x, i) => `${i + 1}. ${x}`).join('\n') }], 420), e.global.x, 520, 'above'); });
@@ -93,7 +94,7 @@ export class SelectScene extends Scene {
     const unlocked = session.profile.unlocked.commanders;
     for (const f of groups) {
       const cmds = [...content().commanders.values()].filter((c) => c.faction === f);
-      const tag = new Text({ text: COLOR_INFO[f].name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 30, fill: factionColor(f), stroke: { color: 0, width: 4 } } });
+      const tag = new Text({ text: COLOR_INFO[f].name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(30), fill: factionColor(f), stroke: { color: 0, width: 4 } } });
       tag.position.set(x, 960);
       this.list.addChild(tag);
       x += 40;
@@ -114,7 +115,7 @@ export class SelectScene extends Scene {
           if (locked) { s.tint = 0x000000; s.alpha = 0.7; }
           card.addChildAt(s, 1);
         });
-        const nm = new Text({ text: locked ? '？？？' : c.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 22, fill: C.text, stroke: { color: 0, width: 4 } } });
+        const nm = new Text({ text: locked ? '？？？' : c.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: C.text, stroke: { color: 0, width: 4 } } });
         nm.anchor.set(0.5, 1);
         nm.position.set(52, 124);
         card.addChild(nm);
@@ -163,12 +164,12 @@ export class SelectScene extends Scene {
     const bg = uiPanel(panelW, panelH, 'dark');
     this.details.position.set(960, 90);
     this.details.addChild(bg);
-    const nm = new Text({ text: c.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 64, fill: C.goldLight, stroke: { color: 0, width: 6 } } });
+    const nm = new Text({ text: c.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(64), fill: C.goldLight, stroke: { color: 0, width: 6 } } });
     nm.position.set(PX, PY - 12);
-    const tt = new Text({ text: `「${c.title}」`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 32, fill: factionColor(c.faction), stroke: { color: 0, width: 4 } } });
+    const tt = new Text({ text: `「${c.title}」`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(32), fill: factionColor(c.faction), stroke: { color: 0, width: 4 } } });
     tt.position.set(PX + 6 + nm.width, PY + 12);
     this.details.addChild(nm, tt);
-    const info = new Text({ text: `${COLOR_INFO[c.faction].school}　生命 ${c.hp}　初始源`, style: { fontFamily: FONT_BODY, fontSize: 24, fill: C.text } });
+    const info = new Text({ text: `${COLOR_INFO[c.faction].school}　生命 ${c.hp}　初始源`, style: { fontFamily: FONT_BODY, fontSize: fs(24), fill: C.text } });
     info.position.set(PX, PY + 72);
     this.details.addChild(info);
     c.sources.forEach((col, i) => {
@@ -178,11 +179,11 @@ export class SelectScene extends Scene {
     });
     let y = PY + 118;
     for (const sk of c.skills) {
-      const h = new Text({ text: `【${SKILL_TYPE[sk.type]}】${sk.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 28, fill: sk.type === 'passive' ? C.goldLight : 0xff9a6a } });
+      const h = new Text({ text: `【${SKILL_TYPE[sk.type]}】${sk.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(28), fill: sk.type === 'passive' ? C.goldLight : 0xff9a6a } });
       h.position.set(PX, y);
       this.details.addChild(h);
       y += 40;
-      const { texture, result } = richTexture(sk.text, { width: panelW - PX * 2 - 16, height: 140, fontSize: 21, minFontSize: 16, color: 0xeadfc8, align: 'left', vAlign: 'top' });
+      const { texture, result } = richTexture(sk.text, { width: panelW - PX * 2 - 16, height: 140, fontSize: fs(21), minFontSize: 16, color: 0xeadfc8, align: 'left', vAlign: 'top' });
       const s = new Sprite(texture);
       s.position.set(PX + 16, y);
       s.eventMode = 'static';
@@ -193,18 +194,18 @@ export class SelectScene extends Scene {
     }
     const relic = content().relics.get(c.relic);
     if (relic) {
-      const h = new Text({ text: `专属遗物：${relic.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 26, fill: C.goldLight } });
+      const h = new Text({ text: `专属遗物：${relic.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: C.goldLight } });
       h.position.set(PX, y);
       this.details.addChild(h);
       y += 36;
-      const { texture, result } = richTexture(relic.text, { width: panelW - PX * 2 - 16, height: 100, fontSize: 20, color: 0xd8ccb4, align: 'left', vAlign: 'top' });
+      const { texture, result } = richTexture(relic.text, { width: panelW - PX * 2 - 16, height: 100, fontSize: fs(20), color: 0xd8ccb4, align: 'left', vAlign: 'top' });
       const s = new Sprite(texture);
       s.position.set(PX + 16, y);
       this.details.addChild(s);
       y += result.usedHeight + 16;
     }
     // starter deck mini-cards
-    const deckLbl = new Text({ text: `初始牌组（${c.deck.length}）`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: C.textDim } });
+    const deckLbl = new Text({ text: `初始牌组（${c.deck.length}）`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(24), fill: C.textDim } });
     const deckY = Math.max(y, 460);
     deckLbl.position.set(PX, deckY);
     this.details.addChild(deckLbl);
@@ -218,7 +219,7 @@ export class SelectScene extends Scene {
       v.on('pointertap', () => inspectCard(id, false));
       const n = c.deck.filter((x) => x === id).length;
       if (n > 1) {
-        const badge = new Text({ text: `×${n}`, style: { fontFamily: FONT_NUM, fontSize: 60, fontWeight: 'bold', fill: C.goldLight, stroke: { color: 0, width: 8 } } });
+        const badge = new Text({ text: `×${n}`, style: { fontFamily: FONT_NUM, fontSize: fs(60), fontWeight: 'bold', fill: C.goldLight, stroke: { color: 0, width: 8 } } });
         badge.anchor.set(1, 1);
         badge.position.set(300, 420);
         v.addChild(badge);
@@ -226,10 +227,10 @@ export class SelectScene extends Scene {
       this.details.addChild(v);
     });
     const st = session.profile.commanderStats[c.id];
-    const stats = new Text({ text: st ? `战绩：出征 ${st.runs} · 通关 ${st.wins} · 最高逆命 ${st.highestAsc} · 最远 ${st.bestFloor} 层` : '尚无战绩', style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.textDim } });
+    const stats = new Text({ text: st ? `战绩：出征 ${st.runs} · 通关 ${st.wins} · 最高逆命 ${st.highestAsc} · 最远 ${st.bestFloor} 层` : '尚无战绩', style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: C.textDim } });
     stats.position.set(PX, panelH - PY - 16);
     this.details.addChild(stats);
-    const lore = new Text({ text: c.lore, style: { fontFamily: FONT_BODY, fontSize: 20, fill: C.text, wordWrap: true, wordWrapWidth: 330, lineHeight: 32, breakWords: true } });
+    const lore = new Text({ text: c.lore, style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: C.text, wordWrap: true, wordWrapWidth: 330, lineHeight: 32, breakWords: true } });
     lore.position.set(40, 100);
     lore.alpha = 0.85;
     const loreBox = new Container();
