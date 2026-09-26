@@ -8,6 +8,7 @@ import { session, defaultSettings } from '../state';
 import { G } from '../core/app';
 import { sfx } from '../audio/audio';
 import { isFullscreen, isMobileApp, setFullscreen } from '../platform';
+import { APP_VERSION } from '../version';
 
 type Tab = 'general' | 'combat' | 'display' | 'audio' | 'access';
 
@@ -69,7 +70,13 @@ export function openSettings() {
       note.position.set(290, y);
       body.addChild(note);
       y += 110;
-      const reset = new Button('恢复默认设置', { width: 280, height: 64, kind: 'ghost', onClick: () => { session.settings = defaultSettings(); save(); render(); } });
+      const logBtn = new Button('更新日志', { width: 220, height: 64, onClick: () => void import('../ui/changelog').then((c) => c.openChangelog()) });
+      logBtn.position.set(290, y);
+      const ver = new Text({ text: `当前版本 ${APP_VERSION}`, style: { fontFamily: FONT_BODY, fontSize: fs(22), fill: C.textDim } });
+      ver.position.set(540, y + 18);
+      body.addChild(logBtn, ver);
+      y += 90;
+      const reset = new Button('恢复默认设置', { width: 280, height: 64, kind: 'ghost', onClick: () => { session.settings = { ...defaultSettings(), lastSeenVersion: session.settings.lastSeenVersion }; save(); render(); } });
       reset.position.set(290, y);
       body.addChild(reset);
       y += 100;

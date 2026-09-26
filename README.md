@@ -24,12 +24,29 @@ npm run desktop          # 构建并在 Electron 窗口中运行
 npm run desktop:dev      # 窗口直接连 npm run dev（热更新）
 npm run desktop:smoke    # 启动 → 截图到 .cache/desktop-smoke.png → 报告页面错误 → 退出
 npm run desktop:pack     # release/：mingque-setup-<版本>.exe（安装包）与 mingque-portable-<版本>.exe（免安装）
-npm run android:apk      # release/mingque-debug.apk（调试签名，可直接装到手机测试）
+npm run android:apk      # release/mingque-<版本>-debug.apk（调试签名，可直接装到手机测试）
 ```
 
 - Electron 窗口从私有地址 `https://mingque.game/` 读取打包内的 `dist/`（不联网），存档在应用数据目录；F11 / Alt+Enter 切换全屏，窗口大小与全屏状态会记住。
 - 安卓工程在 `android/`：横屏锁定、全屏沉浸、刘海区域由游戏内「HUD 安全区」处理。需要 JDK 21+ 与 Android SDK 36（`JAVA_HOME` / `ANDROID_HOME`，默认读取 `~/SDK/`）。图标与启动图：`npx tsx scripts/android-assets.ts`。
 - 改了文案或内容后运行 `npm run fonts` 重新生成字体子集。
+
+## 版本与发版
+
+- 版本号只写在 `package.json` 的 `version`：网页构建时注入，PC 安装包直接读取，安卓 `versionName` / `versionCode` 由 Gradle 从同一处读取（1.2.3 → 10203）。
+- 更新日志只维护 `src/data/changelog.json`（新增 / 平衡 / 修复，可按平台标注）。游戏内：标题页显示版本号，更新后首次启动弹出「命书新章」，「设置 → 通用 → 更新日志」可随时查看；`npm run changelog` 校验并生成 [CHANGELOG.md](CHANGELOG.md)，构建时自动执行，缺少当前版本的条目会构建失败。
+- 发版：改好版本号与日志 → 提交 → 推送 `v` 开头的 tag：
+
+```bash
+git tag v1.0.1
+```
+
+```bash
+git push origin v1.0.1
+```
+
+  GitHub Actions（[.github/workflows/release.yml](.github/workflows/release.yml)）会先确认 tag 与 `package.json` 版本一致并跑完测试，然后构建 PC 安装包 + 免安装版（Windows）和 APK（Linux），最后创建 GitHub Release，说明取自该版本的更新日志。
+- 安卓签名：在仓库 Secrets 中配置 `ANDROID_KEYSTORE_BASE64`、`ANDROID_KEYSTORE_PASSWORD`、`ANDROID_KEY_ALIAS`、`ANDROID_KEY_PASSWORD` 后产出正式签名的 `mingque-<版本>.apk`；未配置时产出调试签名的 `mingque-<版本>-debug.apk`（CI 与本机的调试密钥不同，两者不能互相覆盖安装）。
 
 ## 内容规模
 
@@ -42,6 +59,8 @@ npm run android:apk      # release/mingque-debug.apk（调试签名，可直接�
 | 丹药 | 26 |
 | 事件 | 42 |
 | 逆命（难度） | 15 级 |
+| 开局祈命 | 15 支命签（有得有失；9 支随命数解锁） |
+| 主帅精通 | 每位 10 级：第二件起始遗物、「另一面」技能、称号 |
 
 完整表格：`npm run export:tables` → [docs/数据表/](docs/数据表/)。
 

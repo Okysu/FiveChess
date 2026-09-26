@@ -1,11 +1,11 @@
 {
   "name": "tianming-deckbuilder",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run validate && npm run check:ui && tsc --noEmit && npm run credits && vite build",
+    "build": "npm run validate && npm run check:ui && tsc --noEmit && npm run credits && npm run changelog && vite build",
     "pack:atlas": "tsx scripts/pack-atlas.ts",
     "gen:sheets": "tsx scripts/art/sheets.ts",
     "preview": "vite preview",
@@ -23,14 +23,15 @@
     "ui:tour": "tsx scripts/ui-tour.ts",
     "img:avif": "tsx scripts/optimize-images.ts",
     "assets:pack": "npm run pack:atlas && npm run img:avif",
-    "build:native": "npm run validate && tsc --noEmit && npm run credits && vite build --mode native",
+    "build:native": "npm run validate && tsc --noEmit && npm run credits && npm run changelog && vite build --mode native",
     "fonts": "tsx scripts/fonts.ts",
     "desktop": "npm run build:native && electron .",
     "desktop:dev": "electron . --dev",
     "desktop:smoke": "electron . --smoke",
     "desktop:pack": "npm run build:native && electron-builder --win --publish never",
     "android:sync": "npm run build:native && cap sync android",
-    "android:apk": "npm run android:sync && node scripts/android-build.mjs"
+    "android:apk": "npm run android:sync && node scripts/android-build.mjs",
+    "changelog": "tsx scripts/changelog.ts"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",

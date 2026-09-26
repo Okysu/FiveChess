@@ -15,6 +15,8 @@ import { nextUnlock } from '../../engine/meta';
 import intro from '../../data/lore/intro.json';
 import { go } from '../router';
 import { canQuit, quitApp } from '../platform';
+import { APP_VERSION } from '../version';
+import { maybeShowWhatsNew } from '../ui/changelog';
 
 export class TitleScene extends Scene {
   private parts = new Particles();
@@ -71,6 +73,11 @@ ${nu ? `下一解锁：${nu.label}（${nu.xp}）` : '全部内容已解锁'}`, {
     prog.position.set(430, 936);
     this.addChild(prog);
 
+    const ver = label(`v${APP_VERSION}`, { fontSize: fs(18), fill: C.textDim });
+    ver.anchor.set(1, 0);
+    ver.position.set(G.hud.right - 24, G.hud.top + 16);
+    this.addChild(ver);
+
     // opening narration
     const lines = (intro as { opening: string[] }).opening;
     const narr = new Container();
@@ -115,6 +122,9 @@ ${nu ? `下一解锁：${nu.label}（${nu.xp}）` : '全部内容已解锁'}`, {
         box.refresh();
       });
   }
+
+  /** after the fade-in: 命书新章 once per update */
+  override shown() { maybeShowWhatsNew(); }
 
   override update(dt: number) {
     this.acc += dt;

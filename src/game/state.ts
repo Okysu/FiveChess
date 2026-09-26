@@ -1,5 +1,5 @@
 /** Global game session: profile, settings, current run & combat, persistence and scene routing. */
-import { newProfile, lockedContent, recordRun, runScore, type Profile, type RunSummary } from '../engine/meta';
+import { newProfile, lockedContent, recordRun, runScore, blessingPool, blessingCount, effectiveLoadout, type Profile, type RunSummary } from '../engine/meta';
 import { newRun, runAct, combatConfig, type RunState, type RunAction } from '../engine/run/run';
 import { createCombat } from '../engine/combat/api';
 import type { CombatState } from '../engine/combat/state';
@@ -22,12 +22,14 @@ export interface Settings {
   tutorialHints: boolean;
   /** HUD safe-area margin per side, 0 – 0.1 of the screen */
   hudMargin: number;
+  /** the version whose 更新日志 the player has seen (null = never) */
+  lastSeenVersion: string | null;
 }
 
 export const defaultSettings = (): Settings => ({
   volume: { master: 0.8, music: 0.5, sfx: 0.8, ambient: 0.5 }, animSpeed: 1, skipAnims: false, fastJudge: false,
   responseMode: 'smart', responseTimer: 8, confirmEndTurn: false, colorblind: 'none', suitText: false,
-  screenShake: 1, damageNumbers: true, tutorialHints: true, hudMargin: 0,
+  screenShake: 1, damageNumbers: true, tutorialHints: true, hudMargin: 0, lastSeenVersion: null,
 });
 
 interface RunSave { run: RunState; combat: CombatState | null }
@@ -67,7 +69,12 @@ class Session {
   startRun(commander: string, ascension: number, seed?: string) {
     const s = seed && seed.trim() ? seed.trim() : Math.random().toString(36).slice(2, 10).toUpperCase();
     const tutorial = !this.profile.tutorialDone;
-    this.run = newRun({ seed: s, commander, ascension, tutorial, locked: lockedContent(this.profile), unlockedHidden: this.profile.hiddenUnlocked });
+    const loadout = effectiveLoadout(this.profile, commander);
+    this.run = newRun({
+      seed: s, commander, ascension, tutorial, locked: lockedContent(this.profile), unlockedHidden: this.profile.hiddenUnlocked,
+      blessings: { pool: blessingPool(this.profile), count: blessingCount(this.profile, commander, ascension) },
+      altRelic: loadout.altRelic, altSkill: loadout.altSkill,
+    });
     this.combat = null;
     this.recorded = false;
     void this.saveRun();

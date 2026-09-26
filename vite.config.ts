@@ -2,6 +2,8 @@ import { defineConfig, type Plugin } from 'vite';
 import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';
 
+const pkg = JSON.parse(fs.readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as { version: string };
+
 const r = (p: string) => fileURLToPath(new URL(p, import.meta.url));
 
 /** dev-only: POST /__snap?name=x with a PNG data URL body → .cache/snaps/x.png (full-resolution QA captures) */
@@ -41,6 +43,8 @@ function nativeFonts(): Plugin {
 
 export default defineConfig({
   plugins: [snapPlugin(), nativeFonts()],
+  // the one version number (package.json) for the game, the PC installer and the Android build
+  define: { __APP_VERSION__: JSON.stringify(pkg.version) },
   resolve: { alias: { '@engine': r('./src/engine'), '@data': r('./src/data'), '@game': r('./src/game') } },
   // assets/ holds generated art & audio; served as static files
   publicDir: 'assets',
