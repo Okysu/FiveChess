@@ -36,6 +36,6 @@ export default defineConfig({
   esbuild: { target: 'es2022' },
   // Never expose non-VITE_ env vars (the asset API key lives in .env for build scripts only)
   envPrefix: 'VITE_',
-  server: { watch: { ignored: ['**/.cache/**', '**/art-src/**'] } },
+  server: { watch: { ignored: ['**/.cache/**', '**/art-src/**', '**/godot/**', '**/dist/**'] } },
   test: { include: ['tests/**/*.test.ts'], environment: 'node' },
 } as never);

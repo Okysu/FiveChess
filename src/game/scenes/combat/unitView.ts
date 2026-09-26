@@ -293,16 +293,21 @@ export class UnitView extends Container {
   }
 
   setIncoming(total: number, count: number) {
-    this.incoming.removeChildren();
+    this.incoming.removeChildren().forEach((c) => c.destroy({ children: true }));
     if (total <= 0) return;
-    const g = tag('red', 96, 34);
-    g.position.set(-48, -17);
     const t = new Text({ text: `-${total}${count > 1 ? ` (${count})` : ''}`, style: { fontFamily: FONT_NUM, fontSize: 19, fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 3 } } });
     t.anchor.set(0.5);
+    const w = Math.max(72, Math.ceil(t.width) + 34);
+    const g = tag('red', w, 34);
+    g.position.set(-w / 2, -17);
     this.incoming.addChild(g, t);
-    // commanders: beside the body — above them sit the relic row (and on phones the top bar), which would cover it
-    if (this.mode === 'commander' || this.mode === 'boss') this.incoming.position.set(this.bw / 2 + 50, this.topY + 60);
-    else this.incoming.position.set(0, this.topY - (this.mode === 'token' ? 26 : 30));
+    if (this.mode === 'commander' || this.mode === 'boss') {
+      // incoming damage belongs with the HP it will take: at the end of the HP bar facing the board
+      // (the space above the commander is the status column and the relic row)
+      const barY = this.hpBar.y + this.hpBar.bh / 2;
+      const towardBoard = this.mode === 'commander' ? 1 : -1;
+      this.incoming.position.set(towardBoard * (this.hpBar.bw / 2 + 14 + w / 2), barY);
+    } else this.incoming.position.set(0, this.topY - (this.mode === 'token' ? 26 : 30));
   }
 
   setHighlight(state: UnitView['hlState']) {
