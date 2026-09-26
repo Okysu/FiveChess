@@ -23,9 +23,9 @@ export const KEYWORDS: Record<Keyword, GlossEntry> = {
   judge: { name: '判定', text: '翻开天命牌顶，根据命纹或点数决定结果。', icon: 'kw_judge', tint: 0xf2d27a },
   delay: { name: '延时', text: '挂在目标身上，若干回合后判定。', icon: 'kw_delay', tint: 0xd9b45e },
   omen: { name: '天契', text: '当一次判定结果为指定命纹时触发。', icon: 'kw_omen', tint: 0xf7e3a1 },
-  exhaust: { name: '燃尽', text: '打出后移出本场战斗。', icon: 'kw_exhaust', tint: 0xb07a5a },
+  exhaust: { name: '燃尽', text: '移出本场战斗：带燃尽的牌打出后，或被效果燃尽（如回合结束时手中的浮光牌）。', icon: 'kw_exhaust', tint: 0xb07a5a },
   innate: { name: '本命', text: '战斗开始时必定在起手。', icon: 'kw_innate', tint: 0xa8d0e8 },
-  retain: { name: '藏锋', text: '回合结束时不会被弃置。', icon: 'kw_retain', tint: 0x9aa8c8 },
+  retain: { name: '藏锋', text: '回合结束时留在手牌中，不放入弃牌堆。', icon: 'kw_retain', tint: 0x9aa8c8 },
   ethereal: { name: '浮光', text: '回合结束时若仍在手牌中，将其燃尽。', icon: 'kw_ethereal', tint: 0xc8e0f0 },
   combo: { name: '连势', text: '若本回合已打出过至少N张其他牌，获得额外效果。', icon: 'kw_combo', tint: 0xd08ae0 },
   offering: { name: '献', text: '当此牌被献出为源时触发。', icon: 'kw_offering', tint: 0xff9a5a },
@@ -73,6 +73,8 @@ export const TERM_NAMES: Record<string, { kind: 'keyword' | 'status'; id: string
   m['窥视'] = { kind: 'keyword', id: 'peek' };
   m['观星'] = { kind: 'keyword', id: 'stargaze' };
   m['改判'] = { kind: 'keyword', id: 'rejudge' };
+  m['弃置'] = { kind: 'keyword', id: 'discard' };
+  m['手牌上限'] = { kind: 'keyword', id: 'handLimit' };
   return m;
 })();
 
@@ -84,6 +86,8 @@ export const EXTRA_TERMS: Record<string, string> = {
   窥视: '查看天命牌堆顶的若干张。',
   观星: '查看天命牌堆顶若干张，任意重排或置底。',
   改判: '判定牌翻开后，打出一张命签替换它。',
+  手牌上限: '手牌最多 10 张（部分遗物与阵地会改变，战斗中显示在源的下方）。手牌已满时无法再抽牌，新得到的牌直接放入弃牌堆。',
+  弃置: '因牌或技能的效果，把手牌放入弃牌堆。打出的牌、回合结束时剩下的手牌都不算弃置（写明「包括回合结束时的弃牌」的除外）。',
 };
 
 /** plain-text form of card rules: "{a}" → the card's value (suit/pip tokens like {sun} are left for the rich-text renderer) */

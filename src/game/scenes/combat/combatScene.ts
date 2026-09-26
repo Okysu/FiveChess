@@ -1216,6 +1216,13 @@ export class CombatScene extends Scene {
         break;
       }
       case 'relic': this.top.pulseRelic(e.id); sfx('relic'); break;
+      case 'passive': {
+        const sk = s.skills[e.index];
+        const def = sk ? skillDef(s, sk) : undefined;
+        this.skills.pulse(e.index);
+        if (def) this.addLog(`【${def.name}】触发`);
+        break;
+      }
       case 'phaseChange': await this.phaseCeremony(e.uid, e.name, e.text); break;
       case 'stunned': { const v = this.units.get(e.uid); if (v) floatText(this.numLayer, '眩晕！', v.x, v.y + v.topY, { color: 0xf5e16a }); sfx('stun'); await wait(fast ? 50 : 350); break; }
       case 'frozen': { const v = this.units.get(e.uid); if (v) floatText(this.numLayer, '冰封！', v.x, v.y + v.topY, { color: 0x9ad8ff }); sfx('freeze'); await wait(fast ? 50 : 350); break; }

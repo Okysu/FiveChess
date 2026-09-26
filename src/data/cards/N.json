@@ -190,7 +190,7 @@
     "type": "tactic",
     "rarity": "common",
     "cost": { "g": 0 },
-    "text": "抽{n}张牌，然后弃置{k}张牌。",
+    "text": "抽{n}张牌，然后[弃置]{k}张牌。",
     "vars": { "n": 2, "k": 1 },
     "effects": [
       { "op": "draw", "n": "$n" },

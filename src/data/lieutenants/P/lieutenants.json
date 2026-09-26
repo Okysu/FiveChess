@@ -8,7 +8,7 @@
       "id": "sk_lt_p_jiangshu",
       "name": "焚卷",
       "type": "passive",
-      "text": "每当你弃置一张牌，对一名随机敌人造成1点伤害。每当你燃尽一张牌，对一名随机敌人施加2层[灼烧]。",
+      "text": "每当你[弃置]一张牌，对一名随机敌人造成1点伤害。每当你[燃尽]一张牌，对一名随机敌人施加2层[灼烧]。",
       "triggers": [
         { "on": "cardDiscarded", "effects": [{ "op": "damage", "amount": 1, "target": "randomEnemy" }] },
         { "on": "cardExhausted", "effects": [{ "op": "status", "status": "burn", "amount": 2, "target": "randomEnemy" }] }
@@ -65,7 +65,7 @@
       "id": "sk_lt_p_qianshu",
       "name": "千术",
       "type": "passive",
-      "text": "每当你[改判]，抽1张牌。每回合你第一次弃置牌后，收1张[命签]。",
+      "text": "每当你[改判]，抽1张牌。每回合你第一次[弃置]牌后，收1张[命签]。",
       "triggers": [
         { "on": "rejudged", "who": "friendly", "effects": [{ "op": "draw", "n": 1 }] },
         { "on": "cardDiscarded", "limit": "turn", "effects": [{ "op": "sign", "n": 1 }] }

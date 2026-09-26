@@ -174,6 +174,7 @@ export const zTrigger: z.ZodType<Trigger> = z.object({
   limit: z.enum(['turn', 'combat']).optional(),
   status: zStatus.optional(),
   suit: zSuitX.optional(),
+  endOfTurn: z.boolean().optional(),
 }).strict();
 
 export const zModifier: z.ZodType<Modifier> = z.object({

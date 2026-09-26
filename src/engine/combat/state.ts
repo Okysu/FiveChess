@@ -292,6 +292,8 @@ export type CEvent =
   | { t: 'weapon'; side: Side; atk: number; range: number; durability: number }
   | { t: 'field'; side: Side; card: string | null }
   | { t: 'skill'; index: number }
+  /** a passive skill (commander or lieutenant) triggered */
+  | { t: 'passive'; index: number }
   | { t: 'relic'; id: string }
   | { t: 'phaseChange'; uid: number; phase: number; name: string; text: string }
   | { t: 'stunned'; uid: number }

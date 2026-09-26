@@ -74,7 +74,7 @@
     "name": "柳絮",
     "title": "千面客",
     "faction": "P",
-    "hp": 82,
+    "hp": 86,
     "sources": ["P", "P", "N"],
     "deck": [
       "p_basic_strike", "p_basic_strike", "p_basic_strike", "p_basic_strike",
@@ -87,7 +87,7 @@
         "id": "sk_p_liuxu_shade",
         "name": "絮影",
         "type": "passive",
-        "text": "每回合你第一次弃置牌后，将一张[浮光]的「絮影」加入手牌。",
+        "text": "每回合你第一次[弃置]牌后，将一张[浮光]的「絮影」加入手牌。",
         "triggers": [{
           "on": "cardDiscarded",
           "limit": "turn",
@@ -98,7 +98,7 @@
         "id": "sk_p_liuxu_facechange",
         "name": "换面",
         "type": "active",
-        "text": "每回合一次：弃置1张牌，然后从3张随机幽弈坊牌中选择1张加入手牌。",
+        "text": "每回合一次：[弃置]1张牌，然后从3张随机幽弈坊牌中选择1张加入手牌。",
         "cost": { "g": 0 },
         "target": "none",
         "effects": [
@@ -114,7 +114,7 @@
         "id": "sk_p_liuxu_alt",
         "name": "飞絮",
         "type": "active",
-        "text": "每回合一次：弃置2张牌，然后抽3张牌。",
+        "text": "每回合一次：[弃置]2张牌，然后抽3张牌。",
         "cost": {
           "g": 0
         },

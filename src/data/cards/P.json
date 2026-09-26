@@ -84,7 +84,7 @@
     "rarity": "basic",
     "pool": false,
     "cost": { "g": 1 },
-    "text": "抽{n}张牌，然后弃置{m}张牌。",
+    "text": "抽{n}张牌，然后[弃置]{m}张牌。",
     "vars": { "n": 3, "m": 1 },
     "target": "none",
     "effects": [
@@ -162,7 +162,7 @@
     "rarity": "token",
     "pool": false,
     "cost": { "g": 0 },
-    "text": "抽{n}张牌，然后弃置{m}张牌。",
+    "text": "抽{n}张牌，然后[弃置]{m}张牌。",
     "vars": { "n": 1, "m": 1 },
     "target": "none",
     "effects": [
@@ -274,7 +274,7 @@
     "type": "tactic",
     "rarity": "common",
     "cost": { "g": 0 },
-    "text": "抽{a}张牌，然后弃置{b}张牌。若弃置的牌费用不低于{k}，再抽{n}张牌。",
+    "text": "抽{a}张牌，然后[弃置]{b}张牌。若[弃置]的牌费用不低于{k}，再抽{n}张牌。",
     "vars": { "a": 1, "b": 1, "k": 2, "n": 1 },
     "target": "none",
     "effects": [
@@ -418,7 +418,7 @@
     "type": "unit",
     "rarity": "common",
     "cost": { "g": 1, "c": ["P"] },
-    "text": "[起势]：抽{n}张牌，然后弃置{m}张牌。",
+    "text": "[起势]：抽{n}张牌，然后[弃置]{m}张牌。",
     "vars": { "n": 1, "m": 1 },
     "unit": { "atk": 3, "hp": 2 },
     "effects": [
@@ -427,7 +427,7 @@
     ],
     "upgrade": {
       "qualitative": true,
-      "text": "[隐匿]。[起势]：抽{n}张牌，然后弃置{m}张牌。",
+      "text": "[隐匿]。[起势]：抽{n}张牌，然后[弃置]{m}张牌。",
       "unit": { "keywords": ["stealth"] }
     },
     "flavor": "他替坊主看着每一张牌，也看着你。",
@@ -628,14 +628,14 @@
     "type": "tactic",
     "rarity": "rare",
     "cost": { "g": 0, "c": ["P"] },
-    "text": "弃置所有手牌，每弃置一张，抽{n}张牌。[燃尽]",
+    "text": "[弃置]所有手牌，每[弃置]一张，抽{n}张牌。[燃尽]",
     "vars": { "n": 1 },
     "keywords": ["exhaust"],
     "target": "none",
     "effects": [{ "op": "discard", "n": 0, "mode": "all", "each": [{ "op": "draw", "n": "$n" }] }],
     "upgrade": {
       "qualitative": true,
-      "text": "弃置所有手牌，每弃置一张，抽{n}张牌。",
+      "text": "[弃置]所有手牌，每[弃置]一张，抽{n}张牌。",
       "keywords": []
     },
     "flavor": "车马皆可弃，将帅不可失。",
@@ -691,7 +691,7 @@
     "type": "unit",
     "rarity": "rare",
     "cost": { "g": 2, "c": ["P"] },
-    "text": "每当你弃置一张牌，你的主帅获得{a}点[护甲]。",
+    "text": "每当你[弃置]一张牌，你的主帅获得{a}点[护甲]。",
     "vars": { "a": 2 },
     "varKinds": { "a": "armor" },
     "unit": {
@@ -754,7 +754,7 @@
     "type": "field",
     "rarity": "rare",
     "cost": { "g": 1, "c": ["P"] },
-    "text": "阵地，持续{t}回合：回合结束时你不弃置手牌；你的手牌上限+{h}。",
+    "text": "阵地，持续{t}回合：回合结束时手牌留在手中，不放入弃牌堆；你的[手牌上限]+{h}。",
     "vars": { "t": 2, "h": 2 },
     "field": {
       "duration": 2,
@@ -889,7 +889,7 @@
     "type": "unit",
     "rarity": "epic",
     "cost": { "g": 2, "c": ["P"] },
-    "text": "[隐匿]。每当你弃置一张牌，对一名随机敌人施加{p}层[中毒]。",
+    "text": "[隐匿]。每当你[弃置]一张牌，对一名随机敌人施加{p}层[中毒]。",
     "vars": { "p": 1 },
     "varKinds": { "p": "poison" },
     "unit": {
@@ -900,7 +900,7 @@
     },
     "upgrade": {
       "qualitative": true,
-      "text": "[隐匿]。每当你弃置一张牌，对所有敌人施加{p}层[中毒]。",
+      "text": "[隐匿]。每当你[弃置]一张牌，对所有敌人施加{p}层[中毒]。",
       "unit": {
         "triggers": [{ "on": "cardDiscarded", "effects": [{ "op": "status", "status": "poison", "amount": "$p", "target": "allEnemies" }] }]
       }
@@ -957,7 +957,7 @@
     "type": "unit",
     "rarity": "legendary",
     "cost": { "g": 3, "c": ["P"] },
-    "text": "[远射]。[起势]：弃置所有手牌，每弃置一张，抽{n}张牌。每当你弃置一张牌，对一名随机敌人造成{d}点伤害。",
+    "text": "[远射]。[起势]：[弃置]所有手牌，每[弃置]一张，抽{n}张牌。每当你[弃置]一张牌，对一名随机敌人造成{d}点伤害。",
     "vars": { "n": 1, "d": 2 },
     "varKinds": { "d": "damage" },
     "unit": {
@@ -970,7 +970,7 @@
     "effects": [{ "op": "discard", "n": 0, "mode": "all", "each": [{ "op": "draw", "n": "$n" }] }],
     "upgrade": {
       "qualitative": true,
-      "text": "[远射]，[隐匿]。[起势]：弃置所有手牌，每弃置一张，抽{n}张牌。每当你弃置一张牌，对一名随机敌人造成{d}点伤害。",
+      "text": "[远射]，[隐匿]。[起势]：[弃置]所有手牌，每[弃置]一张，抽{n}张牌。每当你[弃置]一张牌，对一名随机敌人造成{d}点伤害。",
       "vars": { "d": 3 },
       "unit": { "keywords": ["ranged", "stealth"] }
     },

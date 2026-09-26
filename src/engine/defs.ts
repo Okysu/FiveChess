@@ -176,6 +176,8 @@ export interface Trigger {
   /** status id filter for statusApplied, suit for judged */
   status?: StatusId;
   suit?: Suit | 'yang' | 'yin';
+  /** cardDiscarded: also react to the hand being cleared at the end of the turn (not a 弃置 otherwise) */
+  endOfTurn?: boolean;
 }
 
 export type ModStat =

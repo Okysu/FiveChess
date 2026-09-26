@@ -551,6 +551,7 @@
     "passives": [
       {
         "on": "cardDiscarded",
+        "endOfTurn": true,
         "who": "enemy",
         "effects": [
           {

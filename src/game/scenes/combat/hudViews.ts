@@ -5,7 +5,7 @@ import { unchanged } from '../../ui/memo';
 import type { CombatState, Source, Side } from '../../../engine/combat/state';
 import { content } from '../../../engine/content';
 import { fillVars } from '../../../engine/glossary';
-import { emberCap } from '../../../engine/combat/core';
+import { emberCap, handLimit, maxSources } from '../../../engine/combat/core';
 import { skillDef } from '../../../engine/combat/skills';
 import { skillUsable } from '../../../engine/combat/api';
 import { C, FONT_NUM, FONT_TITLE, FONT_BODY } from '../../ui/theme';
@@ -20,6 +20,7 @@ export class SourceTray extends Container {
   private gems: Container[] = [];
   private embers = new Container();
   private countText: Text;
+  private handText: Text;
   readonly altar = new Container();
   private altarGlow = new Container();
   highlightIdx = new Set<number>();
@@ -32,7 +33,13 @@ export class SourceTray extends Container {
     this.addChild(bg, this.embers);
     this.countText = new Text({ text: '', style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: fs(19), fill: C.text } });
     this.countText.position.set(SOURCES.x + 4, SOURCES.y + 158);
-    this.addChild(this.countText);
+    // the hand limit (10, changed by some relics) was invisible: "源 x/10" was the only /10 on screen
+    this.handText = new Text({ text: '', style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: fs(17), fill: C.textDim } });
+    this.handText.position.set(SOURCES.x + 4, SOURCES.y + 158 + fs(19) + 6);
+    this.handText.eventMode = 'static';
+    this.handText.on('pointerover', (e) => showTip(new Tooltip(glossLines(['手牌上限'])), e.global.x, e.global.y - 120, 'above'));
+    this.handText.on('pointerout', hideTip);
+    this.addChild(this.countText, this.handText);
     // sacrifice altar: generated bronze ding + selection frame when active
     const glowFrame = frame('gold', 100, 120, 6);
     glowFrame.position.set(-50, -60);
@@ -57,7 +64,10 @@ export class SourceTray extends Container {
   }
 
   sync(s: CombatState) {
-    if (unchanged(this, 'sync', [s.sources, s.active, emberCap(s), [...this.highlightIdx]])) return;
+    const limit = handLimit(s);
+    this.handText.text = `手牌 ${s.hand.length}/${limit}`;
+    this.handText.style.fill = s.hand.length >= limit ? 0xff8a6a : s.hand.length >= limit - 2 ? C.goldLight : C.textDim;
+    if (unchanged(this, 'sync', [s.sources, s.active, emberCap(s), [...this.highlightIdx], maxSources(s)])) return;
     for (const g of this.gems) g.destroy({ children: true });
     this.gems = [];
     s.sources.forEach((src, i) => {
@@ -80,7 +90,7 @@ export class SourceTray extends Container {
     lbl.position.set(SOURCES.x + 20 + cap * 36, SOURCES.y + 102);
     this.embers.addChild(lbl);
     const permCount = s.sources.filter((x) => !x.temp).length;
-    this.countText.text = `源 ${permCount}/10 · 可用 ${ready}`;
+    this.countText.text = `源 ${permCount}/${maxSources(s)} · 可用 ${ready}`;
   }
 
   private gem(src: Source, i: number): Container {
@@ -177,6 +187,12 @@ export class EquipRow extends Container {
 
 export class SkillRow extends Container {
   onUse?: (i: number) => void;
+  /** a passive fired: the disc swells for a moment */
+  pulse(i: number) {
+    const c = this.children[i];
+    if (!c || c.destroyed) return;
+    void (async () => { await tweens.to(c.scale, { x: 1.25, y: 1.25 }, 110); if (!c.destroyed) await tweens.to(c.scale, { x: 1, y: 1 }, 220); })();
+  }
   sync(s: CombatState) {
     if (unchanged(this, 'sync', [s.skills, s.skills.map((_, i) => skillUsable(s, i)), s.phase, s.active, s.turn])) return;
     this.removeChildren().forEach((c) => c.destroy({ children: true }));

@@ -43,7 +43,7 @@
       "id": "sk_lt_r_mojin",
       "name": "焚卷",
       "type": "passive",
-      "text": "每当你弃置一张牌，对随机敌人施加1层[灼烧]；每当你燃尽一张牌，对随机敌人造成2点伤害。",
+      "text": "每当你[弃置]一张牌，对随机敌人施加1层[灼烧]；每当你[燃尽]一张牌，对随机敌人造成2点伤害。",
       "triggers": [
         { "on": "cardDiscarded", "effects": [{ "op": "status", "status": "burn", "amount": 1, "target": "randomEnemy" }] },
         { "on": "cardExhausted", "effects": [{ "op": "damage", "amount": 2, "target": "randomEnemy" }] }

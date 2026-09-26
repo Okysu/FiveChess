@@ -14,7 +14,7 @@
     "name": "柳絮扇",
     "tier": "starter",
     "faction": "P",
-    "text": "你的手牌上限+2。战斗开始时，抽2张牌。",
+    "text": "你的[手牌上限]+2。战斗开始时，抽2张牌。",
     "flavor": "扇面上的人，每次打开都不一样。",
     "modifiers": [{ "stat": "handLimit", "amount": 2 }],
     "triggers": [{ "on": "combatStart", "effects": [{ "op": "draw", "n": 2 }] }],
@@ -49,7 +49,7 @@
     "name": "絮影囊",
     "tier": "starter",
     "faction": "P",
-    "text": "每回合你第一次弃置牌后，对一名随机敌人施加2层[中毒]。",
+    "text": "每回合你第一次[弃置]牌后，对一名随机敌人施加3层[中毒]。",
     "flavor": "柳絮里掺了夜昙的花粉，风一吹，落在谁身上谁就发痒。",
     "triggers": [
       {
@@ -59,7 +59,7 @@
           {
             "op": "status",
             "status": "poison",
-            "amount": 2,
+            "amount": 3,
             "target": "randomEnemy"
           }
         ]

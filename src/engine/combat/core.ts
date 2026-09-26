@@ -59,6 +59,8 @@ interface FireInfo {
   suit?: Suit;
   status?: StatusId;
   judge?: FateCard;
+  /** cardDiscarded from the end-of-turn hand clear */
+  endOfTurn?: boolean;
 }
 
 const SELF_DEFAULT: TriggerOn[] = ['damaged', 'attacked', 'death', 'enter', 'dealtDamage', 'attacking', 'healed', 'armorGained', 'armorBroken', 'statusApplied'];
@@ -93,6 +95,8 @@ export function fire(s: CombatState, on: TriggerOn, info: FireInfo) {
         if (t.suit === 'yin' && YANG.includes(info.suit)) return;
         if (t.suit !== 'yang' && t.suit !== 'yin' && t.suit !== info.suit) return;
       } else if (t.suit && !info.suit) return;
+      // 弃置 means a card effect or skill; the end-of-turn hand clear only counts where a trigger says so
+      if (info.endOfTurn && !t.endOfTurn) return;
       if (t.status && t.status !== info.status) return;
       const key = `${t.limit === 'combat' ? 'combat:' : ''}${label}#${idx}`;
       if (t.limit && (s.triggerUse[key] ?? 0) >= 1) return;
@@ -105,6 +109,9 @@ export function fire(s: CombatState, on: TriggerOn, info: FireInfo) {
       if (t.if && !evalCond(s, t.if, ctx)) return;
       if (t.limit) s.triggerUse[key] = (s.triggerUse[key] ?? 0) + 1;
       found.push({ effects: t.effects, ctx, side: ownerSide, ts, label: key });
+      // presentation: the relic / passive skill that just triggered lights up (e.g. 绛书 焚卷 on each 弃置)
+      if (ctx.owner?.kind === 'relic') emit(s, { t: 'relic', id: String(ctx.owner.ref) });
+      else if (ctx.owner?.kind === 'skill') emit(s, { t: 'passive', index: Number(ctx.owner.ref) });
     });
   };
 
@@ -544,14 +551,14 @@ export function drawCards(s: CombatState, n: number) {
   }
 }
 
-function discardCard(s: CombatState, card: CardInst) {
+function discardCard(s: CombatState, card: CardInst, atTurnEnd = false) {
   const i = s.hand.findIndex((c) => c.uid === card.uid);
   if (i < 0) return;
   s.hand.splice(i, 1);
   if (card.fleeting) { s.exhaust.push(card); emit(s, { t: 'exhaust', card }); fire(s, 'cardExhausted', { side: 'player', card }); return; }
   s.discard.push(card);
   emit(s, { t: 'discard', card });
-  fire(s, 'cardDiscarded', { side: 'player', card });
+  fire(s, 'cardDiscarded', { side: 'player', card, endOfTurn: atTurnEnd });
 }
 
 function exhaustCard(s: CombatState, card: CardInst) {
@@ -652,7 +659,7 @@ function paySources(s: CombatState, idx: number[]) {
   emit(s, { t: 'sources', sources: s.sources.map((x) => ({ ...x })) });
 }
 
-function maxSources(s: CombatState) { return 10 + sumMods(s, 'maxSources', 'player'); }
+export function maxSources(s: CombatState) { return 10 + sumMods(s, 'maxSources', 'player'); }
 
 export function addSource(s: CombatState, color: Color, ready: boolean): boolean {
   if (s.sources.filter((x) => !x.temp).length >= maxSources(s)) return false;
@@ -1537,7 +1544,7 @@ function stepPhase(s: CombatState, name: import('./state').PhaseName) {
         if (kws.includes('ethereal') || c.fleeting) { exhaustCard(s, c); continue; }
         if (kws.includes('retain') || retainAll) continue;
         if (isResponse(d)) { c.held = true; continue; }
-        discardCard(s, c);
+        discardCard(s, c, true);
       }
       for (const c of [...s.hand, ...s.draw, ...s.discard]) if (c.costModUntil === 'turn') { c.costMod = 0; c.costModUntil = undefined; }
       for (const c of s.hand) if (c.free) c.free = undefined;
@@ -1563,7 +1570,7 @@ function stepPhase(s: CombatState, name: import('./state').PhaseName) {
       s.tasks.push({ k: 'phase', name: 'playerTurnStart' });
       endOfTurn(s, 'enemy');
       for (const src of s.sources) src.ready = false;
-      for (const c of [...s.hand]) if (c.held) { c.held = undefined; discardCard(s, c); }
+      for (const c of [...s.hand]) if (c.held) { c.held = undefined; discardCard(s, c, true); }
       for (const u of unitsOf(s, 'enemy', true)) rollIntent(s, u);
       return;
     }

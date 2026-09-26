@@ -83,10 +83,10 @@
     "name": "幽弈残局",
     "tier": "uncommon",
     "faction": "P",
-    "text": "每当你弃置一张牌（包括回合结束时的弃牌），对随机敌人施加1层[中毒]。",
+    "text": "每当你[弃置]一张牌（包括回合结束时的弃牌），对随机敌人施加1层[中毒]。",
     "flavor": "弃子不是输，是把毒藏进对方的棋路。",
     "triggers": [
-      { "on": "cardDiscarded", "effects": [{ "op": "status", "status": "poison", "amount": 1, "target": "randomEnemy" }] }
+      { "on": "cardDiscarded", "endOfTurn": true, "effects": [{ "op": "status", "status": "poison", "amount": 1, "target": "randomEnemy" }] }
     ],
     "art": { "subject": "a go board mid-game with violet and black stones, faint green venom seeping from the captured stones, candlelit" }
   },
