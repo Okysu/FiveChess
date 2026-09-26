@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-25T13:28:18.268Z",
+ "generated": "2026-09-26T05:16:30.367Z",
  "assets": [
   {
    "id": "amb_fire",
@@ -2512,6 +2512,19 @@
    "qa": "ok"
   },
   {
+   "id": "b_mountain_maul",
+   "path": "cards/B/b_mountain_maul.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "a massive stone-headed war maul carved with mountain ridges, its dark iron haft wrapped in blue cord, planted head-down on cracked rock with dust rising Dominant pigments: azurite blue and lamp black with paper white; patterned waves, frost and mountains. Full-bleed square composition, main subject centered slightly above the middle, the lower third kept simple, decorative patterned background. Made as a Chinese woodblock print in the traditional New Year print (nianhua) style: bold carved black outlines of even weight, flat saturated mineral colors (vermilion, malachite green, azurite blue, ochre, lamp black, paper white), visible rice-paper grain, slight color misregistration between print layers, decorative flat composition with patterned clouds, flames and waves, no shading gradients, no airbrush, no 3D rendering, no photorealism, no Western fantasy armor or architecture — Chinese costume and motifs only. Absolutely no text, no letters, no numbers, no calligraphy, no seals, no watermark, no signature.",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "resized≤640px, webp",
+   "hash": "3f5c01857674",
+   "qa": "ok"
+  },
+  {
    "id": "b_mountain_talisman",
    "path": "cards/B/b_mountain_talisman.webp",
    "category": "card",
@@ -4748,6 +4761,19 @@
    "qa": "ok"
   },
   {
+   "id": "n_iron_spear",
+   "path": "cards/N/n_iron_spear.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "a plain iron-spined spear with a red tassel leaning against the wooden wall of a roadside post station, a straw hat hanging beside it Dominant pigments: muted ochre, paper beige and grey-green with lamp black; restrained. Full-bleed square composition, main subject centered slightly above the middle, the lower third kept simple, decorative patterned background. Made as a Chinese woodblock print in the traditional New Year print (nianhua) style: bold carved black outlines of even weight, flat saturated mineral colors (vermilion, malachite green, azurite blue, ochre, lamp black, paper white), visible rice-paper grain, slight color misregistration between print layers, decorative flat composition with patterned clouds, flames and waves, no shading gradients, no airbrush, no 3D rendering, no photorealism, no Western fantasy armor or architecture — Chinese costume and motifs only. Absolutely no text, no letters, no numbers, no calligraphy, no seals, no watermark, no signature.",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "resized≤640px, webp",
+   "hash": "25500c07946d",
+   "qa": "ok"
+  },
+  {
    "id": "n_leech_shaman",
    "path": "cards/N/n_leech_shaman.webp",
    "category": "card",
@@ -6487,6 +6513,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "639957f6192c",
+   "qa": "ok"
+  },
+  {
+   "id": "y_gua_ruler",
+   "path": "cards/Y/y_gua_ruler.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "a long bronze divination ruler engraved with trigram marks and star charts, glowing faintly gold, held edge-on like a blade against a night sky full of constellations Dominant pigments: ochre gold and warm yellow with azurite night blue accents; patterned stars and auspicious clouds. Full-bleed square composition, main subject centered slightly above the middle, the lower third kept simple, decorative patterned background. Made as a Chinese woodblock print in the traditional New Year print (nianhua) style: bold carved black outlines of even weight, flat saturated mineral colors (vermilion, malachite green, azurite blue, ochre, lamp black, paper white), visible rice-paper grain, slight color misregistration between print layers, decorative flat composition with patterned clouds, flames and waves, no shading gradients, no airbrush, no 3D rendering, no photorealism, no Western fantasy armor or architecture — Chinese costume and motifs only. Absolutely no text, no letters, no numbers, no calligraphy, no seals, no watermark, no signature.",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "resized≤640px, webp",
+   "hash": "3b4555b7a340",
    "qa": "ok"
   },
   {

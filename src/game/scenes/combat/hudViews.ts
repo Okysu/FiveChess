@@ -121,6 +121,12 @@ export class Pile extends Container {
 }
 
 const SLOT_NAME = { weapon: '武器', armor: '防具', mount: '坐骑', treasure: '宝物' } as const;
+const EMPTY_SLOT = {
+  weapon: '主帅装备武器后才能攻击（每回合一次，每次攻击消耗1点耐久，耐久耗尽武器损毁）。「主帅攻击时」一类效果都需要武器。武器牌在各派与中立的卡牌奖励、商店中都能找到。',
+  armor: '装备防具牌后生效。',
+  mount: '装备坐骑牌后生效：进击坐骑增加攻击距离，防御坐骑让你的主帅深度+1，更难被够到。',
+  treasure: '装备宝物牌后生效。',
+} as const;
 const SLOT_ICON = { weapon: 'ui_weapon', armor: 'ui_armorslot', mount: 'ui_mount', treasure: 'ui_treasure' } as const;
 
 export class EquipRow extends Container {
@@ -151,6 +157,9 @@ export class EquipRow extends Container {
         c.on('pointerout', hideTip);
       } else {
         c.addChild(icon(SLOT_ICON[slot], 34, { alpha: 0.45 }));
+        c.eventMode = 'static';
+        c.on('pointerover', () => { const p = c.getGlobalPosition(); showTip(new Tooltip([{ title: `${SLOT_NAME[slot]}（空）`, body: EMPTY_SLOT[slot] }]), p.x, p.y - 180, 'above'); });
+        c.on('pointerout', hideTip);
       }
       this.addChild(c);
     });

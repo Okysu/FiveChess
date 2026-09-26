@@ -605,5 +605,20 @@
     },
     "flavor": "万物落进去，只剩一缕白烟，和一粒还在发烫的源。",
     "art": { "subject": "a colossal bronze furnace sunk into a bottomless chasm, cards and relics spiraling down into its white-hot mouth, pale smoke rising in a single column" }
+  },
+  {
+    "id": "n_iron_spear",
+    "name": "铁脊长枪",
+    "faction": "N",
+    "type": "equip",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "武器：攻击力{w}，距离{r}，耐久{u}。",
+    "vars": { "w": 2, "r": 1, "u": 3 },
+    "varKinds": { "w": "attack" },
+    "equip": { "slot": "weapon", "atk": 2, "range": 1, "durability": 3 },
+    "upgrade": { "vars": { "w": 3, "u": 4 }, "equip": { "atk": 3, "durability": 4 } },
+    "flavor": "驿站墙上挂着的那种枪，谁路过谁拿走，谁回来谁挂上。",
+    "art": { "subject": "a plain iron-spined spear with a red tassel leaning against the wooden wall of a roadside post station, a straw hat hanging beside it" }
   }
 ]

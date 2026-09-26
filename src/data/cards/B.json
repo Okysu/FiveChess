@@ -640,5 +640,23 @@
     },
     "flavor": "引一段寒川入曲，曲里便藏了刀。",
     "art": { "subject": "a zither player drawing a ribbon of freezing river water through the air with a sweep of her hand, the ribbon hardening into an icy blade that strikes a distant foe" }
+  },
+  {
+    "id": "b_mountain_maul",
+    "name": "镇岳锤",
+    "faction": "B",
+    "type": "equip",
+    "rarity": "rare",
+    "cost": { "g": 2, "c": ["B"] },
+    "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅每次攻击后，获得{a}点[护甲]。",
+    "vars": { "w": 2, "r": 1, "u": 4, "a": 3 },
+    "varKinds": { "w": "attack", "a": "armor" },
+    "equip": {
+      "slot": "weapon", "atk": 2, "range": 1, "durability": 4,
+      "triggers": [{ "on": "attacking", "effects": [{ "op": "armor", "amount": "$a", "target": "commander" }] }]
+    },
+    "upgrade": { "vars": { "w": 3, "a": 4 }, "equip": { "atk": 3 } },
+    "flavor": "锤头是一块山骨，落下去的时候，脚下的地也跟着沉一寸。",
+    "art": { "subject": "a massive stone-headed war maul carved with mountain ridges, its dark iron haft wrapped in blue cord, planted head-down on cracked rock with dust rising" }
   }
 ]

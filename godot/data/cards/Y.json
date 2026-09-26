@@ -2843,5 +2843,23 @@
     "art": {
       "subject": "a colossal brush of starlight writing a single burning character in the sky above a giant demon king, who stares upward as the ink begins to drip down toward him"
     }
+  },
+  {
+    "id": "y_gua_ruler",
+    "name": "量天卦尺",
+    "faction": "Y",
+    "type": "equip",
+    "rarity": "common",
+    "cost": { "g": 1 },
+    "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅每次攻击后，[观星]{s}。",
+    "vars": { "w": 2, "r": 2, "u": 3, "s": 1 },
+    "varKinds": { "w": "attack", "s": "other" },
+    "equip": {
+      "slot": "weapon", "atk": 2, "range": 2, "durability": 3,
+      "triggers": [{ "on": "attacking", "effects": [{ "op": "stargaze", "n": "$s" }] }]
+    },
+    "upgrade": { "vars": { "s": 2, "u": 4 }, "equip": { "durability": 4 } },
+    "flavor": "尺上刻的不是寸，是卦；量得出天有多高，也敲得碎人的额头。",
+    "art": { "subject": "a long bronze divination ruler engraved with trigram marks and star charts, glowing faintly gold, held edge-on like a blade against a night sky full of constellations" }
   }
 ]
