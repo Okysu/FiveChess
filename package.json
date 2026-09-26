@@ -22,21 +22,39 @@
     "audit": "tsx scripts/audit-reachability.ts --ci",
     "ui:tour": "tsx scripts/ui-tour.ts",
     "img:avif": "tsx scripts/optimize-images.ts",
-    "assets:pack": "npm run pack:atlas && npm run img:avif"
+    "assets:pack": "npm run pack:atlas && npm run img:avif",
+    "build:native": "npm run validate && tsc --noEmit && npm run credits && vite build --mode native",
+    "fonts": "tsx scripts/fonts.ts",
+    "desktop": "npm run build:native && electron .",
+    "desktop:dev": "electron . --dev",
+    "desktop:smoke": "electron . --smoke",
+    "desktop:pack": "npm run build:native && electron-builder --win --publish never",
+    "android:sync": "npm run build:native && cap sync android",
+    "android:apk": "npm run android:sync && node scripts/android-build.mjs"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/core": "^8.5.2",
     "pixi.js": "^8.21.0",
     "yoga-layout": "^3.2.1",
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
     "@types/node": "^26.6.2",
     "dotenv": "^18.0.3",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
     "sharp": "^0.35.4",
+    "subset-font": "^2.9.0",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "undici": "^8.11.2",
     "vite": "^6.4.3",
     "vitest": "^3.2.7"
-  }
+  },
+  "main": "electron/main.cjs",
+  "description": "命阙 — 木版年画风格的 Roguelike 卡牌构筑游戏",
+  "author": "Okysu"
 }

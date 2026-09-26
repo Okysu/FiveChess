@@ -14,6 +14,7 @@ import { session } from '../state';
 import { nextUnlock } from '../../engine/meta';
 import intro from '../../data/lore/intro.json';
 import { go } from '../router';
+import { canQuit, quitApp } from '../platform';
 
 export class TitleScene extends Scene {
   private parts = new Particles();
@@ -44,8 +45,9 @@ export class TitleScene extends Scene {
     void tweens.to(titleText, { alpha: 1 }, 1400, { ease: ease.outQuad, unscaled: true });
     void tweens.to(sub, { alpha: 1 }, 1400, { delay: 500, unscaled: true });
 
-    const menu = new Box({ dir: 'column', gap: 14, align: 'center' });
-    const btn = (t: string, fn: () => void, kind: 'primary' | 'normal' = 'normal', sub2?: string) => { const h = sub2 ? 88 : 74; menu.add(new Button(t, { width: 360, height: h, fontSize: fs(32), kind, onClick: fn, sub: sub2 }), { width: 360, height: h }); };
+    const tight = (session.run ? 1 : 0) + (canQuit ? 1 : 0) >= 2; // six entries still end above the progress line
+    const menu = new Box({ dir: 'column', gap: tight ? 10 : 14, align: 'center' });
+    const btn = (t: string, fn: () => void, kind: 'primary' | 'normal' = 'normal', sub2?: string) => { const h = (sub2 ? 88 : 74) - (tight ? 12 : 0); menu.add(new Button(t, { width: 360, height: h, fontSize: fs(32), kind, onClick: fn, sub: sub2 }), { width: 360, height: h }); };
     if (session.run) {
       const r = session.run;
       btn('继续冒险', () => go(), 'primary', `第${r.act}幕 · 第${r.floor}层`);
@@ -54,6 +56,7 @@ export class TitleScene extends Scene {
     btn('图　　鉴', () => void import('./codex').then((m) => G.go(new m.CodexScene())));
     btn('设　　置', () => void import('./settings').then((m) => m.openSettings()));
     btn('鸣　　谢', () => this.credits());
+    if (canQuit) btn('退出游戏', quitApp);
     menu.layout();
     menu.position.set(430 - 180, 478);
     this.addChild(menu);

@@ -218,6 +218,7 @@ async function hoverAll(): Promise<TourIssue[]> {
   const cv = G.app.canvas, rect = cv.getBoundingClientRect(), k = rect.width / G.app.screen.width;
   const els = walk(G.sceneLayer).filter((x) => x.eventMode === 'static' && x.listenerCount('pointerover') > 0 && visible(x) && x.getBounds().width < 300);
   for (const x of els) {
+    if (x.destroyed || !x.parent) continue; // an earlier hover's sync rebuilt this view
     const b = x.getBounds();
     cv.dispatchEvent(new PointerEvent('pointermove', { clientX: rect.left + (b.x + b.width / 2) * k, clientY: rect.top + (b.y + b.height / 2) * k, pointerType: 'mouse', bubbles: true, pointerId: 1, isPrimary: true }));
     await pump(200);

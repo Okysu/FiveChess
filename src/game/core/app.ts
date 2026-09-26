@@ -65,10 +65,7 @@ class GameApp {
       // a scene only ticks once enter() has built it (enter awaits asset loads)
       if (this.sceneReady) this.scene?.update(t.deltaMS);
     });
-    window.addEventListener('keydown', (e) => {
-      for (let i = this.keyHandlers.length - 1; i >= 0; i--) if (this.keyHandlers[i]!(e)) { e.preventDefault(); return; }
-      if (this.scene?.onKey(e)) e.preventDefault();
-    });
+    window.addEventListener('keydown', (e) => { if (this.dispatchKey(e)) e.preventDefault(); });
   }
 
   /** portrait touch screens: the 16:9 game is drawn rotated 90° so it fills the phone (works with rotation lock) */
@@ -170,6 +167,11 @@ class GameApp {
     return { x: p.x, y: p.y };
   }
 
+  /** top key handler first (modals), then the scene; true when something handled it */
+  dispatchKey(e: KeyboardEvent): boolean {
+    for (let i = this.keyHandlers.length - 1; i >= 0; i--) if (this.keyHandlers[i]!(e)) return true;
+    return !!this.scene?.onKey(e);
+  }
   pushKeys(fn: (e: KeyboardEvent) => boolean) { this.keyHandlers.push(fn); return () => { const i = this.keyHandlers.indexOf(fn); if (i >= 0) this.keyHandlers.splice(i, 1); }; }
 
   private switching = false;

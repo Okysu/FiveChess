@@ -7,6 +7,7 @@ import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
 import { session, defaultSettings } from '../state';
 import { G } from '../core/app';
 import { sfx } from '../audio/audio';
+import { isFullscreen, isMobileApp, setFullscreen } from '../platform';
 
 type Tab = 'general' | 'combat' | 'display' | 'audio' | 'access';
 
@@ -52,7 +53,7 @@ export function openSettings() {
     } else if (tab === 'display') {
       row('屏幕震动', seg(['关', '弱', '标准'], [0, 0.5, 1].indexOf(st.screenShake), (i) => { st.screenShake = [0, 0.5, 1][i]!; save(); }));
       row('伤害数字', toggle(st.damageNumbers, (v) => { st.damageNumbers = v; save(); }));
-      row('全屏', toggle(!!document.fullscreenElement, (v) => { if (v) void document.documentElement.requestFullscreen?.(); else void document.exitFullscreen?.(); }));
+      if (!isMobileApp) row('全屏', toggle(isFullscreen(), (v) => setFullscreen(v)));
       const hudRow = new Container();
       const val = new Text({ text: `${(st.hudMargin * 100).toFixed(1).replace(/\.0$/, '')}%`, style: { fontFamily: FONT_BODY, fontSize: fs(26), fill: C.goldLight } });
       val.position.set(0, 14);

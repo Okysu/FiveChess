@@ -15,6 +15,22 @@ npm test           # 界面检查 + 引擎/内容测试
 
 需要 Node 20+。存档保存在浏览器 IndexedDB（带版本迁移）。
 
+## 客户端（PC / 安卓）
+
+同一套 Web 代码打包成客户端，不维护第二套界面：PC 用 **Electron**，安卓用 **Capacitor**。`npm run build:native` 构建客户端版 `dist/`（字体改为内置的离线子集 `assets/fonts/`，不注册 service worker）。平台差异只在 `src/game/platform.ts`：PC 有「退出游戏」和窗口全屏，安卓返回键等同 Esc（关闭弹窗/取消选择，否则最小化）。
+
+```bash
+npm run desktop          # 构建并在 Electron 窗口中运行
+npm run desktop:dev      # 窗口直接连 npm run dev（热更新）
+npm run desktop:smoke    # 启动 → 截图到 .cache/desktop-smoke.png → 报告页面错误 → 退出
+npm run desktop:pack     # release/：mingque-setup-<版本>.exe（安装包）与 mingque-portable-<版本>.exe（免安装）
+npm run android:apk      # release/mingque-debug.apk（调试签名，可直接装到手机测试）
+```
+
+- Electron 窗口从私有地址 `https://mingque.game/` 读取打包内的 `dist/`（不联网），存档在应用数据目录；F11 / Alt+Enter 切换全屏，窗口大小与全屏状态会记住。
+- 安卓工程在 `android/`：横屏锁定、全屏沉浸、刘海区域由游戏内「HUD 安全区」处理。需要 JDK 21+ 与 Android SDK 36（`JAVA_HOME` / `ANDROID_HOME`，默认读取 `~/SDK/`）。图标与启动图：`npx tsx scripts/android-assets.ts`。
+- 改了文案或内容后运行 `npm run fonts` 重新生成字体子集。
+
 ## 内容规模
 
 | 类别 | 数量 |
@@ -41,6 +57,9 @@ scripts/         数据校验、平衡模拟、美术生成、图集打包、表
 assets/          生成的素材 + manifest.json（每张图的来源、提示词、后处理）+ atlas/
 art-src/         风格参考图（style_refs/）等素材源文件
 docs/            设计文档、DSL、美术风格圣经、UI 研究笔记、平衡报告、数据表
+electron/        PC 客户端外壳（main.cjs / preload.cjs）
+android/         安卓客户端工程（Capacitor 生成）
+godot/           已暂停的 Godot 移植：规则引擎已逐步对齐，界面未完成（改用 Electron / Capacitor）
 ```
 
 ## 常用脚本
@@ -52,6 +71,7 @@ docs/            设计文档、DSL、美术风格圣经、UI 研究笔记、平
 | `npm run export:tables` | 导出内容表（Markdown + JSON） |
 | `npm run pack:atlas` | 把小贴图打包成运行时图集 `assets/atlas/` |
 | `npm run credits` | 由 manifest 生成 `CREDITS.md` 与游戏内鸣谢页数据 |
+| `npm run fonts` | 生成客户端内置字体子集 `assets/fonts/` |
 | `npm run gen:sheets -- --only=card` | 合图生成美术（一次请求多张，再自动切图） |
 | `npm run gen:art -- --only=background` | 单张生成美术（背景等全屏图） |
 

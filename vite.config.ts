@@ -26,8 +26,21 @@ function snapPlugin(): Plugin {
   };
 }
 
+/** `vite build --mode native` (desktop / mobile clients): offline fonts from assets/fonts instead of Google Fonts */
+function nativeFonts(): Plugin {
+  return {
+    name: 'native-fonts',
+    apply: (_c, env) => env.mode === 'native',
+    transformIndexHtml(html) {
+      return html
+        .replace(/\s*<link rel="preconnect"[^>]*>/g, '')
+        .replace(/<link href="https:\/\/fonts\.googleapis\.com[^>]*>/, '<link rel="stylesheet" href="/fonts/fonts.css" />');
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [snapPlugin()],
+  plugins: [snapPlugin(), nativeFonts()],
   resolve: { alias: { '@engine': r('./src/engine'), '@data': r('./src/data'), '@game': r('./src/game') } },
   // assets/ holds generated art & audio; served as static files
   publicDir: 'assets',

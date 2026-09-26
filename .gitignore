@@ -15,3 +15,10 @@ godot/tests/parity/
 godot/build/
 *.apk
 *.aab
+
+# Desktop / mobile clients
+release/
+android/app/build/
+android/build/
+android/.gradle/
+android/app/src/main/assets/public/

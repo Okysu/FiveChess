@@ -1,0 +1,13 @@
+{
+  "appId": "com.okysu.mingque",
+  "appName": "命阙",
+  "webDir": "dist",
+  "android": {
+    "backgroundColor": "#0b0806",
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

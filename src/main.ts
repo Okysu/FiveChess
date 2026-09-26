@@ -8,6 +8,7 @@ import { session } from './game/state';
 import { go } from './game/router';
 import { preloadFx } from './game/fx/fx';
 import { preloadUi, setColorGlyphs } from './game/ui/skin';
+import { isNativeApp, onBackButton } from './game/platform';
 
 const bar = document.getElementById('bootbar');
 const msg = document.getElementById('bootmsg');
@@ -25,7 +26,9 @@ async function boot() {
   setColorGlyphs(session.settings.colorblind !== 'none');
   progress(0.25, '研墨……');
   // fonts: wait briefly for web fonts, fall back to system fonts
-  await Promise.race([document.fonts?.ready ?? Promise.resolve(), new Promise((r) => setTimeout(r, 2500))]);
+  // the clients bundle their fonts (assets/fonts): load them before any canvas text is drawn
+  const bundled = isNativeApp ? Promise.all(['400 20px "Noto Serif SC"', '900 20px "Noto Serif SC"', '20px "Ma Shan Zheng"'].map((f) => document.fonts.load(f, '命阙'))) : Promise.resolve();
+  await Promise.race([Promise.all([bundled, document.fonts?.ready]), new Promise((r) => setTimeout(r, 2500))]);
   // every UI texture + icon is preloaded: the UI is built only from generated woodblock art
   await preloadUi((k) => progress(0.25 + k * 0.4, '唤醒执命者……'));
   await assets.loadMany([...assets.keysByPrefix('ui/icons/'), K.bg('title')], (k) => progress(0.65 + k * 0.25, '点燃灯火……'));
@@ -62,11 +65,13 @@ async function boot() {
       return;
     }
   }
+  // Android back: whatever Escape closes (modal, targeting, deck view); nothing open → minimise
+  void onBackButton(() => G.dispatchKey(new KeyboardEvent('keydown', { key: 'Escape' })));
   await go(true);
 }
 
 // production: cache art/audio locally so repeat visits don't download them again (assets/sw.js)
-if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+if (import.meta.env.PROD && 'serviceWorker' in navigator && !isNativeApp) {
   window.addEventListener('load', () => { void navigator.serviceWorker.register(`${import.meta.env.BASE_URL ?? '/'}sw.js`).catch(() => undefined); });
 }
 
