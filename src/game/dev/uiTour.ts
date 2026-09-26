@@ -18,7 +18,7 @@ import { availableNodes, makeShop, rollLieutenants, runAct } from '../../engine/
 import { ScrollBox } from '../ui/scroll';
 import { richWarnings } from '../ui/richtext';
 
-export interface TourIssue { kind: 'offscreen' | 'unfilled' | 'overlap' | 'blocked' | 'scroll' | 'error' | 'tooltip' | 'english'; detail: string }
+export interface TourIssue { kind: 'offscreen' | 'unfilled' | 'overlap' | 'blocked' | 'scroll' | 'error' | 'tooltip' | 'english' | 'spill'; detail: string }
 export interface TourPage { name: string; issues: TourIssue[] }
 
 const errors: string[] = [];
@@ -73,6 +73,15 @@ function checkPage(): TourIssue[] {
     const b = dBounds(t);
     if (b.x < -4 || b.y < -4 || b.x + b.width > 1924 || b.y + b.height > 1084) issues.push({ kind: 'offscreen', detail: `${label(t)} at ${b.x | 0},${b.y | 0} ${b.width | 0}×${b.height | 0}` });
   }
+  // text spilling out of its panel / plate: nearest ancestor holding a 9-slice background is the box it belongs to
+  for (const t of texts) {
+    if (inScroll(t)) continue;
+    const box = panelOf(t);
+    if (!box) continue;
+    const b = dBounds(t), pb = dBounds(box);
+    const tol = 6;
+    if (b.x < pb.x - tol || b.y < pb.y - tol || b.right > pb.right + tol || b.bottom > pb.bottom + tol) issues.push({ kind: 'spill', detail: `${label(t)} spills out of its panel (${b.x | 0},${b.y | 0} ${b.width | 0}×${b.height | 0} vs ${pb.x | 0},${pb.y | 0} ${pb.width | 0}×${pb.height | 0})` });
+  }
   // overlapping texts (ignore a text over itself / its own shadow copy / hidden-by-mask scroll content)
   const inner = (t: Text) => { const b = dBounds(t); const k = 0.15; return new Rectangle(b.x + b.width * k, b.y + b.height * k, b.width * (1 - 2 * k), b.height * (1 - 2 * k)); };
   const tb = texts.filter((t) => !inScroll(t)).map((t) => ({ t, b: inner(t) }));
@@ -116,6 +125,14 @@ function checkPage(): TourIssue[] {
   for (const w of richWarnings.splice(0)) issues.push({ kind: 'unfilled', detail: `rich text shows ${w}` });
   // one issue per text/detail is enough
   return issues.filter((x, i, arr) => arr.findIndex((y) => y.kind === x.kind && y.detail === x.detail) === i);
+}
+/** the 9-slice background sharing a parent with this text (or an ancestor's), if any */
+function panelOf(t: Text): Container | null {
+  for (let p: Container | null = t.parent; p && p !== G.sceneLayer && p !== G.modalLayer; p = p.parent) {
+    const bg = p.children.find((c) => c !== t && c instanceof Container && c.children.some((k) => k.constructor.name.startsWith('NineSliceSprite')));
+    if (bg) return bg as Container;
+  }
+  return null;
 }
 function isAncestor(a: Container, b: Container): boolean { for (let x: Container | null = b; x; x = x.parent) if (x === a) return true; return false; }
 
@@ -206,7 +223,7 @@ async function hoverAll(): Promise<TourIssue[]> {
     const tip = G.tipLayer.children[0] as Container & { box?: { width: number; height: number } | null } | undefined;
     if (!tip) continue;
     const e0 = G.toDesign(b.x, b.y), e1 = G.toDesign(b.x + b.width, b.y + b.height);
-    const w = tip.box?.width ?? tip.width, h = tip.box?.height ?? tip.height;
+    const w = (tip.box?.width ?? tip.width / tip.scale.x) * tip.scale.x, h = (tip.box?.height ?? tip.height / tip.scale.y) * tip.scale.y;
     const dx = Math.max(0, e0.x - (tip.x + w), tip.x - e1.x), dy = Math.max(0, e0.y - (tip.y + h), tip.y - e1.y);
     if (Math.hypot(dx, dy) > 40) issues.push({ kind: 'tooltip', detail: `tooltip for ${label(x)} at ${e0.x | 0},${e0.y | 0} is ${Math.hypot(dx, dy) | 0}px away` });
   }

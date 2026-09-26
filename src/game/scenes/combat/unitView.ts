@@ -13,7 +13,7 @@ import { iconSprite } from '../../ui/draw';
 import { WB, Bar, uiSprite, uiCover, nine, frame, tag, icon, maskPoly } from '../../ui/skin';
 import { statBadge } from '../../ui/card';
 import { tweens, ease } from '../../core/tween';
-import { TOKEN_W, TOKEN_H } from './layout';
+import { TOKEN_W, TOKEN_H, UNIT_SCALE } from './layout';
 
 type Mode = 'token' | 'figure' | 'commander' | 'boss';
 
@@ -56,6 +56,7 @@ export class UnitView extends Container {
     this.hpBar = new Bar(small0 ? this.bw - 6 : 224, small0 ? 16 : 24, 'red');
     this.addChild(this.highlight, this.base, this.body, this.frame, this.readyLine, this.stealthFx, this.frozenFx, this.wardFx, this.hpBar, this.hpText, this.atkBadge, this.hpBadge, this.armorBadge, this.statusCol, this.kwStrip, this.delayRow, this.incoming, this.intentBox);
     this.buildBody(u);
+    this.scale.set(UNIT_SCALE); // phone profile draws the whole unit (badges, intents, statuses) larger
     this.eventMode = 'static';
     this.cursor = 'pointer';
   }
@@ -299,7 +300,9 @@ export class UnitView extends Container {
     const t = new Text({ text: `-${total}${count > 1 ? ` (${count})` : ''}`, style: { fontFamily: FONT_NUM, fontSize: 19, fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 3 } } });
     t.anchor.set(0.5);
     this.incoming.addChild(g, t);
-    this.incoming.position.set(0, this.topY - (this.mode === 'token' ? 26 : 30));
+    // commanders on the phone layout reach the top bar: their marker goes beside the body instead of above
+    if (UNIT_SCALE > 1 && (this.mode === 'commander' || this.mode === 'boss')) this.incoming.position.set(this.bw / 2 + 40, this.topY + 40);
+    else this.incoming.position.set(0, this.topY - (this.mode === 'token' ? 26 : 30));
   }
 
   setHighlight(state: UnitView['hlState']) {
@@ -315,7 +318,8 @@ export class UnitView extends Container {
 
   /** local hit test rect (for drop targets) */
   hitRect() {
-    return { x: this.x - this.bw / 2 - 10, y: this.y + this.topY - 10, w: this.bw + 20, h: this.bottomY - this.topY + 20 };
+    const k = UNIT_SCALE;
+    return { x: this.x - (this.bw / 2 + 10) * k, y: this.y + (this.topY - 10) * k, w: (this.bw + 20) * k, h: (this.bottomY - this.topY + 20) * k };
   }
 
   flash() {

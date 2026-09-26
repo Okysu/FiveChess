@@ -34,7 +34,7 @@ import { Arrow } from './arrow';
 import { FateArea, FateCardView } from './fateView';
 import { SourceTray, Pile, EquipRow, SkillRow, FieldSlot } from './hudViews';
 import { liveCard, predictCardDamage } from './live';
-import { slotPos, PLAY_LINE_Y, STAGE, PILES, ALTAR, END_BTN, FATE, X, CMD_Y } from './layout';
+import { slotPos, PLAY_LINE_Y, STAGE, PILES, ALTAR, END_BTN, FATE, X, CMD_Y, UNIT_SCALE, HUD } from './layout';
 
 type Targeting =
   | { kind: 'card'; view: CardView; card: CardInst; targets: number[] | null; slots: { row: 'front' | 'back'; slot: number }[] | null; response?: boolean }
@@ -69,8 +69,8 @@ export class CombatScene extends Scene {
   private skills = new SkillRow();
   private pEquip = new EquipRow('player');
   private eEquip = new EquipRow('enemy');
-  private pField = new FieldSlot('player', 770, 690);
-  private eField = new FieldSlot('enemy', 1150, 690);
+  private pField = new FieldSlot('player', HUD.pField.x, HUD.pField.y);
+  private eField = new FieldSlot('enemy', HUD.eField.x, HUD.eField.y);
   private arrow = new Arrow();
   private banner = new Container();
   private logLines: string[] = [];
@@ -232,10 +232,10 @@ export class CombatScene extends Scene {
 
   private buildHud() {
     // commander extras (left)
-    this.skills.position.set(70, 560);
+    this.skills.position.set(HUD.skills.x, HUD.skills.y);
     this.skills.onUse = (i) => this.startSkill(i);
-    this.pEquip.position.set(66, 650);
-    this.eEquip.position.set(1640, 650);
+    this.pEquip.position.set(HUD.pEquip.x, HUD.pEquip.y);
+    this.eEquip.position.set(HUD.eEquip.x, HUD.eEquip.y);
     this.bossHand.position.set(1660, 600);
     this.hudLayer.addChild(this.skills, this.pEquip, this.eEquip, this.bossHand, this.tray);
     this.drawPile = new Pile('draw', PILES.draw.x, PILES.draw.y, () => openDeck([...this.s.draw].sort(() => 0).map((c) => ({ id: c.id, up: c.up })), '抽牌堆', { note: '顺序已隐藏' }));
@@ -1082,9 +1082,9 @@ export class CombatScene extends Scene {
         if (e.fromCard && stage) { this.stage = null; void Promise.all([tweens.to(stage.scale, { x: 0.3, y: 0.3 }, 180), tweens.to(stage, { x: p.x, y: p.y, alpha: 0 }, 180)]).then(() => stage.destroy({ children: true })); }
         v.position.set(p.x, p.y - 120);
         v.alpha = 0;
-        v.scale.set(1.15);
+        v.scale.set(1.15 * UNIT_SCALE);
         const legendary = u.origin === 'card' && content().card(u.def).rarity === 'legendary';
-        await Promise.all([tweens.to(v, { y: p.y, alpha: 1 }, fast ? 80 : 200, { ease: ease.inQuad }), tweens.to(v.scale, { x: 1, y: 1 }, fast ? 80 : 200)]);
+        await Promise.all([tweens.to(v, { y: p.y, alpha: 1 }, fast ? 80 : 200, { ease: ease.inQuad }), tweens.to(v.scale, { x: UNIT_SCALE, y: UNIT_SCALE }, fast ? 80 : 200)]);
         sfx(u.side === 'enemy' ? 'summon' : 'playUnit');
         this.fxLayer.burst(p.x, p.y + v.bottomY, { tex: fxTexture('smoke'), n: 10, speed: [40, 140], life: [0.4, 0.9], angle: -Math.PI / 2, spread: Math.PI, tint: 0x8a7a6a, scale: [0.2, 0.45], scaleEnd: 1.4 });
         if (legendary) { void shake(this.shakeRoot, 10, 300, session.settings.screenShake); this.fxLayer.burst(p.x, p.y, { tex: fxTexture('spark'), n: 30, speed: [150, 420], life: [0.5, 1.1], tint: [0xffd27a, 0xffffff], blend: 'add' }); }
@@ -1148,7 +1148,7 @@ export class CombatScene extends Scene {
       case 'stats': { const v = this.units.get(e.target); const u = s.units[e.target]; if (v && u) v.setNumbers(e.hp, e.maxHp, e.atk, u.armor, u); break; }
       case 'keyword': {
         const v = this.units.get(e.target);
-        if (v) { void (async () => { await tweens.to(v.scale, { x: 1.08, y: 1.08 }, 90); await tweens.to(v.scale, { x: 1, y: 1 }, 140); })(); }
+        if (v) { void (async () => { await tweens.to(v.scale, { x: 1.08 * UNIT_SCALE, y: 1.08 * UNIT_SCALE }, 90); await tweens.to(v.scale, { x: UNIT_SCALE, y: UNIT_SCALE }, 140); })(); }
         break;
       }
       case 'death': {

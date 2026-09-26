@@ -7,13 +7,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadContent } from './load-content';
-import { createCombat, act as combatAct } from '../src/engine/combat/api';
-import { playTurn, autoAnswer, chooseAction, legalActions, aiErrors } from '../src/engine/combat/autoplay';
-import { newRun, runAct, combatConfig, availableNodes, pickCandidates, type RunState, type RunAction } from '../src/engine/run/run';
+import { aiErrors } from '../src/engine/combat/autoplay';
+import { newRun, type RunState } from '../src/engine/run/run';
 import { content } from '../src/engine/content';
 import { commanderOf } from '../src/engine/combat/board';
 import { BY_ACT_TIER, BY_ENCOUNTER } from '../src/engine/combat/tuning';
-import type { CombatState } from '../src/engine/combat/state';
+import { defaultIO, step as policyStep, type SimHooks } from './sim-policy';
 
 const args = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] = a.replace(/^--/, '').split('='); return [k!, v ?? 'true']; }));
 const RUNS = Number(args.runs ?? 20);
@@ -39,135 +38,29 @@ const errors: string[] = [];
 let combatsTotal = 0;
 const t0 = Date.now();
 
-function score(id: string): number {
-  const d = c.card(id);
-  return { basic: 0, common: 1, rare: 2, epic: 3, legendary: 4, token: 0, special: 0 }[d.rarity] + (d.type === 'unit' ? 0.3 : 0);
-}
-
 let stalls = 0;
-/** answer pending decisions; an answer the engine rejects falls back to "pass" so a bad AI answer can't hang the fight */
-function answerAll(s: CombatState) {
-  for (let i = 0; i < 20 && s.pending; i++) {
-    if (combatAct(s, autoAnswer(s)).ok) continue;
-    if (!combatAct(s, { type: 'pass' }).ok) { stalls++; break; }
-  }
-}
-
-function fight(r: RunState): boolean {
-  const s: CombatState = createCombat(combatConfig(r));
-  const encId = r.screen.k === 'combat' ? r.screen.encounter : '?';
-  const hp0 = r.hp;
-  let guard = 0;
-  // --trace=<floor>: print the bot's decisions for the fight on that floor (debugging the AI)
-  const tracing = args.trace !== undefined && Number(args.trace) === r.floor;
-  const nm = (uid: number | null | undefined) => { const u = uid == null ? undefined : s.units[uid]; return u ? `${u.name}${u.hp}` : String(uid); };
-  if (tracing) console.log(`TRACE ${encId} deck: ${r.deck.map((d) => c.card(d.id).name + (d.up ? '+' : '')).join(' ')}`);
-  while (!s.over && guard++ < 60) {
-    answerAll(s);
-    if (s.over) break;
-    const a0 = s.actions.length;
-    if (tracing) {
-      const pc0 = commanderOf(s, 'player');
-      if (args.debug) { console.log("   dbg phase", s.phase, "pending", s.pending?.kind, "tasks", s.tasks.length, "legal", legalActions(s).length, JSON.stringify(chooseAction(s))); }
-      console.log(`T${s.turn} hp ${pc0?.hp}+${pc0?.armor} src ${s.sources.length} hand [${s.hand.map((h) => c.card(h.id).name).join(' ')}] foes ${Object.values(s.units).filter((u) => u.side === 'enemy' && u.hp > 0).map((u) => `${u.name}${u.hp}+${u.armor}`).join(' ')}`);
-    }
-    // playTurn ends the turn itself; only force an end if the AI got stuck on the same turn
-    const turn = s.turn;
-    playTurn(s);
-    answerAll(s);
-    if (s.phase === 'main' && !s.over && s.turn === turn) combatAct(s, { type: 'endTurn' });
-    if (tracing) for (const a of s.actions.slice(a0)) {
-      const card = 'card' in a && typeof a.card === 'number' ? [...s.hand, ...s.discard, ...s.draw, ...s.exhaust, ...s.sacrificed, ...s.limbo].find((x) => x.uid === a.card) : undefined;
-      console.log('   ', a.type, card ? c.card(card.id).name : '', 'target' in a ? nm(a.target as number) : '', 'attacker' in a ? nm(a.attacker) : '', 'slot' in a && a.type === 'potion' ? a.slot : '');
-    }
-  }
-  if (!s.over) s.over = 'lose';
-  const pc = commanderOf(s, 'player');
-  const e = (encStat[encId] ??= { fights: 0, deaths: 0, turns: 0, hpLost: 0 });
-  e.fights++; e.turns += s.turn;
-  e.hpLost += Math.max(0, hp0 - (pc?.hp ?? 0));
-  if (s.over === 'lose') e.deaths++;
-  const sc0 = r.screen.k === 'combat' ? r.screen : null;
-  curFights.push({ enc: encId, act: r.act, tier: sc0?.tier ?? '?', hp0, hp1: pc?.hp ?? 0, maxHp: r.maxHp, turns: s.turn, win: s.over === 'win', dealt: s.stats.damageDealt, deck: r.deck.length });
-  if (args.verbose) console.log(`  act${r.act} f${r.floor} ${encId.padEnd(22)} hp ${hp0}→${pc?.hp ?? 0}/${r.maxHp} turns ${s.turn} ${s.over}${guard >= 60 ? ' (TURN CAP)' : ''} deck ${r.deck.length}`);
-  combatsTotal++;
-  const enemies = Object.values(s.units).filter((u) => u.side === 'enemy' && u.origin === 'enemy').map((u) => u.def);
-  runAct(r, { t: 'combatResult', result: s.over === 'win' ? 'win' : 'lose', hp: pc?.hp ?? 0, gold: s.goldGained, potions: s.potions, relics: s.relics, stats: s.stats, enemies });
-  return s.over === 'win';
-}
-
-function step(r: RunState): boolean {
-  const sc = r.screen;
-  const A = (a: RunAction) => { const err = runAct(r, a); if (err) throw new Error(`${a.t}: ${err} @${sc.k}`); };
-  switch (sc.k) {
-    case 'actStart': A({ t: 'proceed' }); return true;
-    case 'map': {
-      // drink a healing potion that works on the map when low
-      const mp = r.potions.findIndex((p) => !!p && !!c.potions.get(p)?.outOfCombat);
-      if (mp >= 0 && r.hp < r.maxHp * 0.5) { A({ t: 'mapPotion', slot: mp }); return true; }
-      const opts = availableNodes(r);
-      if (!opts.length) throw new Error('no nodes');
-      const hpk = r.hp / r.maxHp;
-      const pref = (t: string) => ({ camp: hpk < 0.5 ? 10 : 2, elite: hpk > 0.7 ? 6 : 0, shop: r.gold > 150 ? 7 : 1, combat: 4, event: 4, chest: 8, recruit: r.lieutenant ? 1 : 9, stargaze: 3, boss: 10 } as Record<string, number>)[t] ?? 1;
-      const best = [...opts].sort((a, b) => pref(b.type) - pref(a.type) || a.col - b.col)[0]!;
-      A({ t: 'go', row: best.row, col: best.col });
-      return true;
-    }
-    case 'combat': fight(r); return true;
-    case 'reward': {
-      const i = sc.items.findIndex((it) => !it.taken);
-      if (i < 0) { A({ t: 'proceed' }); return true; }
-      const it = sc.items[i]!;
-      if (it.k === 'cards') {
-        for (const o of it.options) (cardSeen[o.id] ??= { offered: 0, picked: 0, inWinningDecks: 0, inDecks: 0 }).offered++;
-        const best = [...it.options].map((o, k) => ({ o, k })).sort((a, b) => score(b.o.id) - score(a.o.id))[0];
-        // keep the deck from bloating: commons only while the deck is small (a human skips far more often)
-        const take = best && (r.deck.length < 18 || (score(best.o.id) >= 2 && r.deck.length < 28) || score(best.o.id) >= 3);
-        if (take) cardSeen[best.o.id]!.picked++;
-        A({ t: 'take', i, choice: take ? best!.k : null });
-      } else if (it.k === 'potion' && !r.potions.includes(null)) { it.taken = true; }
-      else A({ t: 'take', i });
-      return true;
-    }
-    case 'bossRelic': A({ t: 'bossRelic', i: 0 }); return true;
-    case 'shop': {
-      if (!sc.shop.removed && r.gold >= sc.shop.removePrice) { A({ t: 'removeService' }); return true; }
-      const ci = sc.shop.cards.findIndex((x) => !x.sold && x.price <= r.gold && score(x.card.id) >= 2);
-      if (ci >= 0) { A({ t: 'buy', what: 'card', i: ci }); return true; }
-      const ri = sc.shop.relics.findIndex((x) => !x.sold && x.price <= r.gold);
-      if (ri >= 0) { A({ t: 'buy', what: 'relic', i: ri }); return true; }
-      A({ t: 'proceed' });
-      return true;
-    }
-    case 'camp': {
-      if (sc.done) { A({ t: 'proceed' }); return true; }
-      const canUp = pickCandidates(r, 'upgrade').length > 0;
-      // preferred option first; fall back when a rule forbids it (e.g. no healing at camps)
-      const prefer: ('heal' | 'upgrade' | 'remove')[] = r.hp / r.maxHp < 0.55 || !canUp ? ['heal', 'upgrade', 'remove'] : ['upgrade', 'heal', 'remove'];
-      if (!prefer.some((opt) => !runAct(r, { t: 'rest', opt }))) A({ t: 'proceed' });
-      return true;
-    }
-    case 'pick': {
-      const cands = pickCandidates(r, sc.kind, sc.filter);
-      const order = [...cands].sort((a, b) => (sc.kind === 'remove' ? score(a.id) - score(b.id) : score(b.id) - score(a.id)));
-      A({ t: 'pick', uids: order.slice(0, sc.n).map((x) => x.uid) });
-      return true;
-    }
-    case 'cardChoice': A({ t: 'pick', uids: sc.options.slice(0, sc.n).map((o) => o.uid) }); return true;
-    case 'event': {
-      if (sc.outcome !== undefined) { A({ t: 'proceed' }); return true; }
-      const ev = c.events.get(sc.id)!;
-      const opts = sc.page ? ev.pages!.find((p) => p.id === sc.page)!.options : ev.options;
-      for (let i = 0; i < opts.length; i++) { const err = runAct(r, { t: 'event', i }); if (!err) return true; }
-      throw new Error(`event ${sc.id}: no valid option`);
-    }
-    case 'recruit': A({ t: 'recruit', i: sc.done ? null : sc.options.length ? 0 : null }); if (sc.done) A({ t: 'proceed' }); return true;
-    case 'stargaze': if (sc.done) { A({ t: 'proceed' }); return true; } A(sc.mode ? { t: 'fate', op: sc.mode, idx: 0, suit: 'sun' } : { t: 'fate', op: 'preview' }); return true;
-    case 'chest': A(sc.opened ? { t: 'proceed' } : { t: 'open' }); return true;
-    case 'hiddenChoice': A({ t: 'hidden', go: false }); return true;
-    case 'victory': case 'defeat': return false;
-  }
-}
+/** stats only — every decision lives in scripts/sim-policy.ts (shared with the Godot parity exporter) */
+const hooks: SimHooks = {
+  traceFloor: args.trace !== undefined ? Number(args.trace) : undefined,
+  debug: !!args.debug,
+  onStall: () => { stalls++; },
+  onCardOffer: (options, picked) => {
+    for (const o of options) (cardSeen[o.id] ??= { offered: 0, picked: 0, inWinningDecks: 0, inDecks: 0 }).offered++;
+    if (picked) cardSeen[picked]!.picked++;
+  },
+  onFightEnd: ({ r, s, encId, hp0, guard }) => {
+    const pc = commanderOf(s, 'player');
+    const e = (encStat[encId] ??= { fights: 0, deaths: 0, turns: 0, hpLost: 0 });
+    e.fights++; e.turns += s.turn;
+    e.hpLost += Math.max(0, hp0 - (pc?.hp ?? 0));
+    if (s.over === 'lose') e.deaths++;
+    const sc0 = r.screen.k === 'combat' ? r.screen : null;
+    curFights.push({ enc: encId, act: r.act, tier: sc0?.tier ?? '?', hp0, hp1: pc?.hp ?? 0, maxHp: r.maxHp, turns: s.turn, win: s.over === 'win', dealt: s.stats.damageDealt, deck: r.deck.length });
+    if (args.verbose) console.log(`  act${r.act} f${r.floor} ${encId.padEnd(22)} hp ${hp0}→${pc?.hp ?? 0}/${r.maxHp} turns ${s.turn} ${s.over}${guard >= 60 ? ' (TURN CAP)' : ''} deck ${r.deck.length}`);
+    combatsTotal++;
+  },
+};
+const step = (r: RunState) => policyStep(r, defaultIO, hooks);
 
 for (const cmd of commanders) {
   for (let i = FROM; i < FROM + RUNS; i++) {

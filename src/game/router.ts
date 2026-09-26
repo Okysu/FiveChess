@@ -20,7 +20,12 @@ export async function go(force = false) {
   current = key;
   switch (k) {
     case 'map': case 'actStart': next = new (await import('./scenes/map')).MapScene(); break;
-    case 'combat': next = new (await import('./scenes/combat/combatScene')).CombatScene(); break;
+    case 'combat': {
+      // geometry must be chosen before the scene's views are constructed
+      (await import('./scenes/combat/layout')).applyCombatLayout();
+      next = new (await import('./scenes/combat/combatScene')).CombatScene();
+      break;
+    }
     case 'reward': case 'bossRelic': next = new (await import('./scenes/reward')).RewardScene(); break;
     case 'shop': next = new (await import('./scenes/shop')).ShopScene(); break;
     case 'camp': next = new (await import('./scenes/camp')).CampScene(); break;
