@@ -179,17 +179,17 @@ export function showTip(tip: Container, x: number, y: number, prefer: 'right' | 
   const a = hoveredAnchor();
   if (a) {
     const gap = 14;
-    const fitsR = a.x + a.width + gap + b.width <= 1912, fitsL = a.x - gap - b.width >= 8;
+    const fitsR = a.x + a.width + gap + b.width <= G.view.right - 8, fitsL = a.x - gap - b.width >= G.view.left + 8;
     if (prefer !== 'above' && (fitsR || fitsL)) {
       tx = prefer === 'left' && fitsL ? a.x - gap - b.width : fitsR ? a.x + a.width + gap : a.x - gap - b.width;
       ty = a.y + a.height / 2 - Math.min(b.height / 2, 60);
     } else {
       tx = a.x + a.width / 2 - b.width / 2;
-      ty = a.y - gap - b.height >= 8 ? a.y - gap - b.height : a.y + a.height + gap;
+      ty = a.y - gap - b.height >= G.view.top + 8 ? a.y - gap - b.height : a.y + a.height + gap;
     }
   }
-  tx = Math.max(8, Math.min(1920 - b.width - 8, tx));
-  ty = Math.max(8, Math.min(1080 - b.height - 8, ty));
+  tx = Math.max(G.view.left + 8, Math.min(G.view.right - b.width - 8, tx));
+  ty = Math.max(G.view.top + 8, Math.min(G.view.bottom - b.height - 8, ty));
   tip.position.set(tx, ty);
   tip.alpha = 0;
   tip.eventMode = 'none';
@@ -263,7 +263,8 @@ export class Modal extends Container {
   constructor(w: number, h: number, o: { title?: string; closable?: boolean; dim?: number } = {}) {
     super();
     this.dim = new Container();
-    this.dim.addChild(dimLayer(1920, 1080, o.dim ?? 0.75), hitRect(0, 0, 1920, 1080));
+    const v = G.view;
+    this.dim.addChild(dimLayer(v.width, v.height, o.dim ?? 0.75, v.left, v.top), hitRect(v.left, v.top, v.width, v.height));
     this.dim.eventMode = 'static';
     this.addChild(this.dim);
     const frame = new Container();

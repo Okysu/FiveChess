@@ -34,7 +34,7 @@ import { Arrow } from './arrow';
 import { FateArea, FateCardView } from './fateView';
 import { SourceTray, Pile, EquipRow, SkillRow, FieldSlot } from './hudViews';
 import { liveCard, predictCardDamage } from './live';
-import { slotPos, PLAY_LINE_Y, STAGE, PILES, ALTAR, END_BTN, FATE, X, CMD_Y, UNIT_SCALE, HUD } from './layout';
+import { slotPos, PLAY_LINE_Y, STAGE, PILES, ALTAR, END_BTN, FATE, X, CMD_Y, UNIT_SCALE, HUD, BOTTOM, LEFT, RIGHT } from './layout';
 
 type Targeting =
   | { kind: 'card'; view: CardView; card: CardInst; targets: number[] | null; slots: { row: 'front' | 'back'; slot: number }[] | null; response?: boolean }
@@ -105,7 +105,7 @@ export class CombatScene extends Scene {
     audio.ambience((['forest', 'water', 'stars', 'void'] as const)[r.act - 1] ?? null);
 
     this.addChild(this.shakeRoot);
-    const bottomBar = dim(1920, 310, 0.45, 0, 770);
+    const bottomBar = dim(RIGHT - LEFT, BOTTOM - 770, 0.45, LEFT, 770 + (BOTTOM - 1080));
     this.shakeRoot.addChild(bottomBar, this.boardLayer, this.unitLayer, this.unitUi, this.fxLayer, this.hudLayer, this.hand, this.dragLayer, this.numLayer, this.sigLayer);
     this.ambientSpawn = this.fxLayer.ambient(r.act === 1 ? 'dust' : r.act === 2 ? 'dust' : r.act === 3 ? 'stars' : 'ink', 1920, 760, 0.2);
 
@@ -160,6 +160,11 @@ export class CombatScene extends Scene {
   }
 
   override async shown() {
+    // a resize mid-battle rebuilds the scene from state (geometry depends on the visible area), without the intro
+    let t: ReturnType<typeof setTimeout> | undefined;
+    const off = G.onView(() => { clearTimeout(t); t = setTimeout(() => { if (!this.destroyed && !this.busy && !this.dragging) { resumeWithoutIntro = true; void import('../../router').then((m) => m.go(true)); } }, 300); });
+    this.on('destroyed', () => { off(); clearTimeout(t); });
+    if (resumeWithoutIntro) { resumeWithoutIntro = false; this.hand.layout(false); return; }
     this.hand.layout(true, 420);
     await this.intro();
     if (this.s.pending) await this.handlePending();
@@ -236,7 +241,7 @@ export class CombatScene extends Scene {
     this.skills.onUse = (i) => this.startSkill(i);
     this.pEquip.position.set(HUD.pEquip.x, HUD.pEquip.y);
     this.eEquip.position.set(HUD.eEquip.x, HUD.eEquip.y);
-    this.bossHand.position.set(1660, 600);
+    this.bossHand.position.set(END_BTN.x, END_BTN.y - 190);
     this.hudLayer.addChild(this.skills, this.pEquip, this.eEquip, this.bossHand, this.tray);
     this.drawPile = new Pile('draw', PILES.draw.x, PILES.draw.y, () => openDeck([...this.s.draw].sort(() => 0).map((c) => ({ id: c.id, up: c.up })), '抽牌堆', { note: '顺序已隐藏' }));
     this.discardPile = new Pile('discard', PILES.discard.x, PILES.discard.y, () => openDeck(this.s.discard.map((c) => ({ id: c.id, up: c.up })), '弃牌堆', { sort: false }));
@@ -245,12 +250,12 @@ export class CombatScene extends Scene {
     this.endBtn = new Button('结束回合', { width: END_BTN.w, height: END_BTN.h, fontSize: fs(32), kind: 'primary', onClick: () => this.endTurn() });
     this.endBtn.position.set(END_BTN.x, END_BTN.y);
     this.respModeBtn = new Button(this.respModeText(), { width: 220, height: 40, fontSize: fs(18), kind: 'ghost', onClick: () => this.cycleRespMode() });
-    this.respModeBtn.position.set(1660, 740);
+    this.respModeBtn.position.set(END_BTN.x + END_BTN.w - 220, END_BTN.y - 50);
     this.hudLayer.addChild(this.endBtn, this.respModeBtn);
     this.tray.altar.on('pointertap', () => { if (this.selected) void this.trySacrifice(this.selected); });
     // log drawer toggle
     const logBtn = new Button('战报', { width: 90, height: 40, fontSize: fs(18), kind: 'ghost', onClick: () => this.showLog() });
-    logBtn.position.set(1560, 740);
+    logBtn.position.set(END_BTN.x + END_BTN.w - 320, END_BTN.y - 50);
     this.hudLayer.addChild(logBtn);
   }
 
@@ -1740,5 +1745,8 @@ function keywordName(k: string) {
 function reasonText(err: string): string {
   return errorText(err);
 }
+
+/** set when a battle is rebuilt after a window resize: skip the encounter intro */
+let resumeWithoutIntro = false;
 
 export { autoAnswer, responseOptions, isResponse, X, CMD_Y, FATE, alive };

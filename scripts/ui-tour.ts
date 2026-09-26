@@ -1,7 +1,7 @@
 /**
  * Headless UI tour: starts the Vite dev server, opens the game in headless Edge/Chrome at 1920×1080,
  * runs src/game/dev/uiTour.ts (visits every screen, snapshots, layout checks) and prints the report.
- *   npm run ui:tour                 (6 events)     npm run ui:tour -- --events=all    --phone (landscape phone profile)    --ci (exit 1 on issues)
+ *   npm run ui:tour                 (6 events)     npm run ui:tour -- --events=all    --phone (landscape phone profile)    --size=1500x1000    --ci (exit 1 on issues)
  * Snapshots: .cache/snaps/tour_*.png · report: .cache/uitour/report.json. No extra dependencies (CDP over WebSocket).
  */
 import fs from 'node:fs';
@@ -49,7 +49,9 @@ try {
 
   // --phone: a landscape phone (812×375 css px, 3× density) with the phone layout profile
   const phone = args.phone === 'true';
-  await cdp('Emulation.setDeviceMetricsOverride', phone ? { width: 812, height: 375, deviceScaleFactor: 3, mobile: true } : { width: 1920, height: 1080, deviceScaleFactor: 1, mobile: false });
+  // --size=WxH: any window shape (e.g. 1500x1000 for 3:2, 2560x1080 for 21:9) — edge-anchored UI must adapt
+  const [sw, sh] = (args.size ?? '1920x1080').split('x').map(Number);
+  await cdp('Emulation.setDeviceMetricsOverride', phone ? { width: 812, height: 375, deviceScaleFactor: 3, mobile: true } : { width: sw, height: sh, deviceScaleFactor: 1, mobile: false });
   await cdp('Page.navigate', { url: `http://localhost:${PORT}/?uitour=${args.events ?? 6}${phone ? '&profile=phone' : ''}` });
   const t0 = Date.now();
   let result: { pages: { name: string; issues: { kind: string; detail: string }[] }[]; summary: string } | undefined;

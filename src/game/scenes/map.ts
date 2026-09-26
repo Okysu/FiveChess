@@ -49,18 +49,21 @@ export class MapScene extends Scene {
     G.setBackdrop(assets.get(K.bg(`map_${r.act}`)));
     audio.playMusic(`map${Math.min(4, r.act)}` as MusicMood);
     audio.ambience((['forest', 'water', 'stars', 'void'] as const)[r.act - 1] ?? null);
-    this.scroll = new ScrollBox(1920, 952, true);
-    this.scroll.position.set(0, 128);
+    // the scrollable map fills the visible screen below the top bar (edge to edge on non-16:9 windows)
+    const v = G.view;
+    this.scroll = new ScrollBox(v.width, v.bottom - (v.top + 128), true);
+    this.scroll.position.set(v.left, v.top + 128);
+    this.scroll.content.y = Math.round((v.bottom - (v.top + 128) - 952) / 2); // node grid stays vertically centred
     this.addChild(this.scroll, this.parts);
     this.spawn = this.parts.ambient(r.act === 1 ? 'dust' : r.act === 2 ? 'dust' : 'stars', 1920, 1080, 0.25);
     this.drawMap();
     this.top = new TopBar(r, { onPotion: (i) => this.usePotion(i), onSettings: () => void import('./settings').then((m) => m.openSettings()), onCodex: () => void import('./codex').then((m) => m.openCodexModal()) });
     this.addChild(this.top);
     const legend = this.legend();
-    legend.position.set(1920 - 316 - 20, 1080 - 336 - 16);
+    legend.position.set(v.right - 316 - 20, v.bottom - 336 - 16);
     this.addChild(legend);
     const title2 = new Text({ text: `第${['', '一', '二', '三', '终'][r.act]}幕 · ${actName(r.act)}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(40), fill: C.textDark, letterSpacing: 6 } });
-    title2.position.set(40, 140);
+    title2.position.set(v.left + 40, v.top + 140);
     this.addChild(title2);
     // center on current
     const cur = r.pos?.row ?? -1;

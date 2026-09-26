@@ -46,12 +46,24 @@ const c = content();
 
 // ───────────── canonical serialization ─────────────
 
+const f64 = new Float64Array(1);
+const f64b = new Uint8Array(f64.buffer);
+/** non-integer numbers travel as their exact IEEE-754 bits ("#f" + 16 hex digits, big-endian): JSON text round-trips
+ *  through Godot's parser are not guaranteed to be correctly rounded, the bits are */
+export function fbits(v: number): string {
+  f64[0] = v;
+  let h = "";
+  for (let i = 7; i >= 0; i--) h += f64b[i]!.toString(16).padStart(2, "0");
+  return `#f${h}`;
+}
+
 export function canon(v: unknown): unknown {
   if (v === undefined || v === null) return null;
   if (typeof v === 'number') {
     if (Number.isNaN(v)) return 'NaN';
     if (!Number.isFinite(v)) return v > 0 ? 'Infinity' : '-Infinity';
-    return v === 0 ? 0 : v;
+    if (Number.isInteger(v) && Math.abs(v) <= Number.MAX_SAFE_INTEGER) return v === 0 ? 0 : v;
+    return fbits(v);
   }
   if (typeof v !== 'object') return v;
   if (Array.isArray(v)) return v.map(canon);
@@ -134,6 +146,62 @@ function combatCfg(cmd: string, ci: number, k: number): CombatConfig {
   };
 }
 
+// ───────────── delta encoding (keeps the trace files small) ─────────────
+
+type Json = null | boolean | number | string | Json[] | { [k: string]: Json };
+type PatchOp = [(string | number)[]] | [(string | number)[], Json];
+
+function jsonEq(a: Json, b: Json): boolean {
+  if (a === b) return true;
+  if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) return false;
+  if (Array.isArray(a) !== Array.isArray(b)) return false;
+  if (Array.isArray(a)) {
+    const bb = b as Json[];
+    if (a.length !== bb.length) return false;
+    for (let i = 0; i < a.length; i++) if (!jsonEq(a[i]!, bb[i]!)) return false;
+    return true;
+  }
+  const ao = a as Record<string, Json>, bo = b as Record<string, Json>;
+  const ka = Object.keys(ao), kb = Object.keys(bo);
+  if (ka.length !== kb.length) return false;
+  for (const k of ka) if (!(k in bo) || !jsonEq(ao[k]!, bo[k]!)) return false;
+  return true;
+}
+
+/** ops turning `a` into `b`: [path] = delete key, [path, value] = set (arrays of a different length are replaced whole) */
+function diffJson(a: Json, b: Json, path: (string | number)[] = [], out: PatchOp[] = []): PatchOp[] {
+  if (jsonEq(a, b)) return out;
+  const isObj = (x: Json) => typeof x === 'object' && x !== null && !Array.isArray(x);
+  if (isObj(a) && isObj(b)) {
+    const ao = a as Record<string, Json>, bo = b as Record<string, Json>;
+    for (const k of Object.keys(ao)) if (!(k in bo)) out.push([[...path, k]]);
+    for (const k of Object.keys(bo)) diffJson(k in ao ? ao[k]! : (undefined as unknown as Json), bo[k]!, [...path, k], out);
+    return out;
+  }
+  if (Array.isArray(a) && Array.isArray(b) && a.length === b.length) {
+    for (let i = 0; i < a.length; i++) diffJson(a[i]!, b[i]!, [...path, i], out);
+    return out;
+  }
+  out.push([path, b]);
+  return out;
+}
+
+/** replace `st` by `d` (a patch against the previous state of the same layer) everywhere but the first state */
+function deltaEncode(steps: Step[]): Step[] {
+  const last: Record<string, Json> = {};
+  return steps.map((st) => {
+    if (!('st' in st)) return st;
+    const layer = st.k === 'start' || st.k === 'act' || st.k === 'lose' ? 'combat' : 'run';
+    const cur = st.st as Json;
+    const prev = last[layer];
+    last[layer] = cur;
+    if (st.k === 'start' || st.k === 'newRun' || prev === undefined) return st;
+    const { st: _drop, ...rest } = st;
+    void _drop;
+    return { ...rest, d: diffJson(prev, cur) } as Step;
+  });
+}
+
 function writeCase(name: string, data: unknown): number {
   const json = JSON.stringify(data);
   fs.writeFileSync(path.join(OUT, `${name}.json`), json);
@@ -161,7 +229,7 @@ commanders.forEach((cmd, ci) => {
       if (JSON.stringify(canonCombat(s2)) !== JSON.stringify(canonCombat(s))) { problems++; console.error(`VERIFY FAILED combat ${cmd} ${k}`); }
     }
     const name = `combat_${cmd}_${k}`;
-    const bytes = writeCase(name, { kind: 'combat', name, cfg: canon(cfg), steps });
+    const bytes = writeCase(name, { kind: 'combat', name, cfg: canon(cfg), steps: deltaEncode(steps) });
     manifest.push({ name, kind: 'combat', steps: steps.length, actions: steps.filter((x) => x.k === 'act').length, bytes, result: `${s.over} t${s.turn} ${cfg.encounter}` });
   }
 });
@@ -197,7 +265,7 @@ commanders.forEach((cmd, ci) => {
       steps.push({ k: 'meta', summary: canon(summary), unlocked, profile: canon(profile), locked: canon(lockedContent(profile)), next: canon(nextUnlock(profile)) });
     }
     const name = `run_${cmd}_${k}`;
-    const bytes = writeCase(name, { kind: 'run', name, opts: canon(opts), steps });
+    const bytes = writeCase(name, { kind: 'run', name, opts: canon(opts), truncated, steps: deltaEncode(steps) });
     manifest.push({ name, kind: 'run', steps: steps.length, actions: steps.filter((x) => x.k === 'act' || x.k === 'run').length, bytes, result: `${r.result ?? (truncated ? 'truncated' : '?')} act${r.act} floor${r.floor}` });
   }
 });

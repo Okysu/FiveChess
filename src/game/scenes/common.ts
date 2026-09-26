@@ -18,7 +18,7 @@ export abstract class RunScreen extends Scene {
     await assets.load(K.bg(o.bg));
     G.setBackdrop(assets.get(K.bg(o.bg)), o.tint ?? 0xffffff);
     if (o.music) audio.playMusic(o.music);
-    if (o.dim) this.addChild(dim(1920, 1080, o.dim));
+    if (o.dim) this.addChild(dim(G.view.width, G.view.height, o.dim, G.view.left, G.view.top));
     this.addChild(this.content);
     this.top = new TopBar(session.run!, {
       onSettings: () => void import('./settings').then((m) => m.openSettings()),

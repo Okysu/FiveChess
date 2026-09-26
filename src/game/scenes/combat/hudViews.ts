@@ -31,7 +31,7 @@ export class SourceTray extends Container {
     bg.position.set(SOURCES.x - 14, SOURCES.y - 12);
     this.addChild(bg, this.embers);
     this.countText = new Text({ text: '', style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: fs(19), fill: C.text } });
-    this.countText.position.set(SOURCES.x + 4, 938);
+    this.countText.position.set(SOURCES.x + 4, SOURCES.y + 158);
     this.addChild(this.countText);
     // sacrifice altar: generated bronze ding + selection frame when active
     const glowFrame = frame('gold', 100, 120, 6);

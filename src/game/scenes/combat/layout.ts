@@ -35,7 +35,7 @@ const DESKTOP: Geometry = {
 /** phone: units drawn 1.3× (pitch 176), columns pushed apart, hand cards 0.8 and a 1.9× focused card */
 const PHONE: Geometry = {
   FRONT_Y: [176, 352, 528, 704], BACK_Y: [264, 440, 616],
-  X: { playerBack: 420, playerFront: 616, enemyFront: 1304, enemyBack: 1500, playerCmd: 176, enemyCmd: 1750 },
+  X: { playerBack: 420, playerFront: 616, enemyFront: 1304, enemyBack: 1500, playerCmd: 200, enemyCmd: 1728 },
   CMD_Y: 318, TOKEN_W: 106, TOKEN_H: 126, UNIT_SCALE: 1.3,
   HAND: { x0: 340, x1: 1580, y: 1004, cardScale: 0.8, hoverScale: 1.9 },
   PLAY_LINE_Y: 800, STAGE: { x: 960, y: 520 },
@@ -63,11 +63,38 @@ export let SOURCES = DESKTOP.SOURCES;
 export let END_BTN = DESKTOP.END_BTN;
 export let HUD = DESKTOP.HUD;
 
-/** select the geometry for the current profile (call before building a battle scene) */
-export function applyCombatLayout() {
+/**
+ * Select the geometry for the current profile and anchor it to the visible screen (call before building a battle
+ * scene). Board and fate stay centred; the hand/piles/tray/end button hug the bottom edge, the left HUD the left
+ * edge and the right HUD the right edge, so a taller or wider window has no dead bands at its borders.
+ * view: visible screen in design coordinates (G.view).
+ */
+export function applyCombatLayout(view = { left: 0, top: 0, right: 1920, bottom: 1080 }) {
   const g = isPhone() ? PHONE : DESKTOP;
-  ({ FRONT_Y, BACK_Y, X, CMD_Y, TOKEN_W, TOKEN_H, UNIT_SCALE, HAND, PLAY_LINE_Y, STAGE, FATE, PILES, ALTAR, SOURCES, END_BTN, HUD } = g);
+  const dl = Math.min(0, view.left), dr = Math.max(0, view.right - 1920), db = Math.max(0, view.bottom - 1080);
+  const BL = <T extends { x: number; y: number }>(p: T): T => ({ ...p, x: p.x + dl, y: p.y + db });
+  const BR = <T extends { x: number; y: number }>(p: T): T => ({ ...p, x: p.x + dr, y: p.y + db });
+  ({ FRONT_Y, BACK_Y, X, CMD_Y, TOKEN_W, TOKEN_H, UNIT_SCALE, STAGE, FATE } = g);
+  X = { ...g.X, playerCmd: g.X.playerCmd + dl, enemyCmd: g.X.enemyCmd + dr };
+  HAND = { ...g.HAND, y: g.HAND.y + db };
+  PLAY_LINE_Y = g.PLAY_LINE_Y + db;
+  PILES = { draw: BL(g.PILES.draw), discard: BR(g.PILES.discard), exhaust: BR(g.PILES.exhaust) };
+  ALTAR = BL(g.ALTAR);
+  SOURCES = BL(g.SOURCES);
+  END_BTN = BR(g.END_BTN);
+  HUD = {
+    skills: { ...g.HUD.skills, x: g.HUD.skills.x + dl }, pEquip: { ...g.HUD.pEquip, x: g.HUD.pEquip.x + dl },
+    eEquip: { ...g.HUD.eEquip, x: g.HUD.eEquip.x + dr }, pField: g.HUD.pField, eField: g.HUD.eField,
+  };
+  BOTTOM = 1080 + db;
+  LEFT = dl;
+  RIGHT = 1920 + dr;
 }
+
+/** visible bottom / left / right edges in design space for the active battle */
+export let BOTTOM = 1080;
+export let LEFT = 0;
+export let RIGHT = 1920;
 
 export function slotPos(side: Side, row: 'front' | 'back' | 'cmd', slot: number): { x: number; y: number } {
   if (row === 'cmd') return { x: side === 'player' ? X.playerCmd : X.enemyCmd, y: CMD_Y };

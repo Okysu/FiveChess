@@ -22,7 +22,7 @@ export async function go(force = false) {
     case 'map': case 'actStart': next = new (await import('./scenes/map')).MapScene(); break;
     case 'combat': {
       // geometry must be chosen before the scene's views are constructed
-      (await import('./scenes/combat/layout')).applyCombatLayout();
+      (await import('./scenes/combat/layout')).applyCombatLayout(G.view);
       next = new (await import('./scenes/combat/combatScene')).CombatScene();
       break;
     }

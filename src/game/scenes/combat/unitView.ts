@@ -300,8 +300,8 @@ export class UnitView extends Container {
     const t = new Text({ text: `-${total}${count > 1 ? ` (${count})` : ''}`, style: { fontFamily: FONT_NUM, fontSize: 19, fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 3 } } });
     t.anchor.set(0.5);
     this.incoming.addChild(g, t);
-    // commanders on the phone layout reach the top bar: their marker goes beside the body instead of above
-    if (UNIT_SCALE > 1 && (this.mode === 'commander' || this.mode === 'boss')) this.incoming.position.set(this.bw / 2 + 40, this.topY + 40);
+    // commanders: beside the body — above them sit the relic row (and on phones the top bar), which would cover it
+    if (this.mode === 'commander' || this.mode === 'boss') this.incoming.position.set(this.bw / 2 + 50, this.topY + 60);
     else this.incoming.position.set(0, this.topY - (this.mode === 'token' ? 26 : 30));
   }
 

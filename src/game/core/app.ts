@@ -73,6 +73,11 @@ class GameApp {
 
   /** portrait touch screens: the 16:9 game is drawn rotated 90° so it fills the phone (works with rotation lock) */
   rotated = false;
+  /** visible screen in design space: the 1920×1080 design sits centred inside it; edge-anchored UI uses these bounds */
+  view = { left: 0, top: 0, right: DESIGN_W, bottom: DESIGN_H, width: DESIGN_W, height: DESIGN_H };
+  private viewFns = new Set<() => void>();
+  /** subscribe to visible-area changes; returns the unsubscribe function */
+  onView(fn: () => void): () => void { this.viewFns.add(fn); return () => this.viewFns.delete(fn); }
 
   layout() {
     const w = window.innerWidth, h = window.innerHeight;
@@ -95,6 +100,11 @@ class GameApp {
       this.backdrop.rotation = 0;
       this.backdrop.position.set(0, 0);
     }
+    const v = { left: -ox / this.scale, top: -oy / this.scale, right: (vw - ox) / this.scale, bottom: (vh - oy) / this.scale, width: vw / this.scale, height: vh / this.scale };
+    const viewChanged = Math.abs(v.width - this.view.width) > 1 || Math.abs(v.height - this.view.height) > 1;
+    this.view = v;
+    this.fade.position.set(v.left, v.top);
+    this.fade.scale.set(v.width / DESIGN_W, v.height / DESIGN_H);
     this.stageHit();
     // layout profile (ui/profile.ts); ?profile=phone|desktop forces one (testing on a desktop browser)
     const forced = new URLSearchParams(location.search).get('profile');
@@ -102,6 +112,7 @@ class GameApp {
     this.compact = isPhone();
     this.fitBackdrop();
     if (changed && this.scene && this.sceneReady) this.onProfileChange?.();
+    else if (viewChanged) for (const fn of [...this.viewFns]) fn();
   }
 
   /** set by the router: rebuild the current screen when the layout profile flips (e.g. rotating a tablet) */

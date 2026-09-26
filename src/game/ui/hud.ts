@@ -1,5 +1,6 @@
 /** Run HUD: top bar, relic bar, deck/pile viewers, card inspector, card picker. */
 import { Container, Sprite, Text } from 'pixi.js';
+import { G } from '../core/app';
 import { fs } from './profile';
 import { content } from '../../engine/content';
 import type { CardRef, RunState } from '../../engine/run/run';
@@ -39,11 +40,16 @@ export class TopBar extends Container {
   private relicBar = new Container();
   private armorBadge = new Container();
 
+  private bg = new Container();
+  private row!: Box;
+  private offView?: () => void;
+
   constructor(private run: RunState, private hooks: TopBarHooks = {}) {
     super();
-    this.addChild(nine('topbar', 1920, 96));
+    this.addChild(this.bg);
 
     const row = new Box({ dir: 'row', align: 'center', gap: 18, padding: [0, 16], width: 1920, height: 80 });
+    this.row = row;
     // portrait
     const cmd = content().commander(run.commander);
     const portrait = new Container();
@@ -99,11 +105,25 @@ export class TopBar extends Container {
     if (hooks.onMap) row.add(new Button('地图', { width: 100, height: 56, fontSize: fs(22), kind: 'ghost', onClick: hooks.onMap }), { width: 100, height: 56 });
     row.add(new Button('图鉴', { width: 100, height: 56, fontSize: fs(22), kind: 'ghost', onClick: hooks.onCodex ?? (() => session.router?.call(null)) }), { width: 100, height: 56 });
     row.add(new Button('设置', { width: 100, height: 56, fontSize: fs(22), kind: 'ghost', onClick: hooks.onSettings }), { width: 100, height: 56 });
-    row.layout(1920, 80);
     this.addChild(row);
     this.relicBar.position.set(16, 100);
     this.addChild(this.relicBar);
     this.refresh();
+    // pinned to the top edge and as wide as the visible screen (windows that aren't 16:9 have no dead band above it)
+    this.fit();
+    this.offView = G.onView(() => this.fit());
+    this.on('destroyed', () => this.offView?.());
+  }
+
+  /** stick to the top-left of the visible screen and span its width */
+  fit() {
+    const v = G.view;
+    this.position.set(v.left, v.top);
+    const w = Math.round(v.width);
+    this.bg.removeChildren().forEach((c) => c.destroy({ children: true }));
+    this.bg.addChild(nine('topbar', w, 96));
+    this.row.node.setWidth(w);
+    this.row.layout(w, 80);
   }
 
   refresh() {
