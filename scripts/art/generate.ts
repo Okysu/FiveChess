@@ -1,6 +1,6 @@
 /**
  * Batch art generation.
- *   npm run gen:art -- [--only=card,enemy,...] [--ids=r_,e1_] [--limit=N] [--concurrency=6] [--model=gpt-image-2.5-flare] [--force] [--dry]
+ *   npm run gen:art -- [--only=card,enemy,...] [--ids=r_,e1_] [--limit=N] [--concurrency=6] [--force] [--dry]
  * Reads content data (art.subject) + static job lists, calls the image API (edits with a style ref),
  * post-processes (chroma-key fallback, resize, webp), writes assets/manifest.json and a log.
  * Build-time only; the API key is read from .env and never bundled.

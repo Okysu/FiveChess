@@ -172,7 +172,14 @@ for (let iter = 0; changed && iter < 50; iter++) {
   for (const d of poolCards()) if (rewardRarities.has(d.rarity)) add(reach.cards, d.id, 'reward/shop pool');
   for (const r of c.relics.values()) {
     const why = reach.relicTiers.get(r.tier);
-    if (r.tier === 'starter') { const cm = [...reachCmd].find((id) => c.commanders.get(id)!.relic === r.id); if (cm) add(reach.relics, r.id, `starter of ${cm}`); continue; }
+    if (r.tier === 'starter') {
+      const cm = [...reachCmd].find((id) => c.commanders.get(id)!.relic === r.id);
+      if (cm) add(reach.relics, r.id, `starter of ${cm}`);
+      // 精通 3: the second starter relic (src/engine/meta.ts effectiveLoadout)
+      const alt = [...reachCmd].find((id) => c.commanders.get(id)!.alt?.relic === r.id);
+      if (alt) add(reach.relics, r.id, `精通 3 starter of ${alt}`);
+      continue;
+    }
     if (why && (!r.faction || r.faction === 'N' || colors().includes(r.faction)) && !permLocked.relics.includes(r.id)) add(reach.relics, r.id, `tier ${r.tier} rolled (${why})`);
   }
   for (const p of c.potions.values()) if (potionRarities.has(p.rarity)) add(reach.potions, p.id, 'rollPotion');
@@ -383,11 +390,12 @@ const stIface = text('src/game/state.ts').match(/export interface Settings \{([\
 const keys = [...stIface.matchAll(/^\s*(\w+)\s*:/gm)].map((m) => m[1]!);
 const gameFiles = [...tsFiles('src/game'), 'src/main.ts'].filter((f) => !f.endsWith('scenes/settings.ts'));
 const settingsUi = text('src/game/scenes/settings.ts');
+// lastSeenVersion is bookkeeping for 命书新章 (ui/changelog.ts), not a player setting
 for (const k of keys) {
   const readers = gameFiles.filter((f) => new RegExp(`\\.${k}\\b`).test(text(f)));
   const ui = new RegExp(`st\\.${k}\\b`).test(settingsUi);
   if (!readers.length) report('10 settings/codex', 'ERROR', `setting '${k}' is never read outside the settings screen${ui ? ' (toggle does nothing)' : ' and has no control'} (${at('src/game/state.ts', new RegExp(`^\\s*${k}:`))}${ui ? `; ${at('src/game/scenes/settings.ts', `st.${k}`)}` : ''})`);
-  else if (!ui) report('10 settings/codex', 'WARN', `setting '${k}' has no control in the settings screen (${at('src/game/state.ts', new RegExp(`^\\s*${k}:`))})`);
+  else if (!ui && k !== 'lastSeenVersion') report('10 settings/codex', 'WARN', `setting '${k}' has no control in the settings screen (${at('src/game/state.ts', new RegExp(`^\\s*${k}:`))})`);
 }
 const codex = 'src/game/scenes/codex.ts';
 for (const lore of ['world', 'rules']) { const f = path.join(DATA_DIR, 'lore', `${lore}.json`); const n = fs.existsSync(f) ? (JSON.parse(fs.readFileSync(f, 'utf8')) as unknown[]).length : 0; report('10 settings/codex', n ? 'INFO' : 'ERROR', `codex tab '${lore}': ${n} entries (${rel(f)})`); }

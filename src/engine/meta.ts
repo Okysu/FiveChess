@@ -1,6 +1,7 @@
 /**
- * Meta progression (局外): unlocks content *breadth* only — commanders, lieutenants, cards, relics, events.
- * No permanent numeric power. Pure functions over a serializable Profile.
+ * Meta progression (局外): unlocks content *breadth* only — commanders, lieutenants, cards, relics, events,
+ * 开局祈命 packs, and per-commander 精通 (alternative starter relic / skill, titles). No permanent numeric power.
+ * Pure functions over a serializable Profile.
  */
 import { content } from './content';
 import type { RunState } from './run/run';
@@ -14,21 +15,25 @@ export interface RunSummary {
 }
 
 export interface Profile {
-  v: 1;
+  v: 2;
   xp: number;
   runs: number;
   wins: number;
   tutorialDone: boolean;
-  unlocked: { commanders: string[]; lieutenants: string[]; cardPacks: number; relicPacks: number; eventPacks: number };
+  unlocked: { commanders: string[]; lieutenants: string[]; cardPacks: number; relicPacks: number; eventPacks: number; blessingPacks: number };
   ascension: Record<string, number>; // highest unlocked ascension per commander
   commanderStats: Record<string, { runs: number; wins: number; bestFloor: number; highestAsc: number }>;
   discovered: { cards: string[]; enemies: string[]; relics: string[] };
   history: RunSummary[];
   hiddenUnlocked: boolean;
+  /** 精通: 命数 earned with each commander */
+  mastery: Record<string, number>;
+  /** chosen 精通 loadout per commander (only honoured once the level allows it) */
+  loadout: Record<string, { altRelic?: boolean; altSkill?: boolean }>;
 }
 
 /** unlock track: thresholds in 命数 (xp) */
-export const UNLOCK_TRACK: { xp: number; commanders?: string[]; cardPack?: boolean; relicPack?: boolean; eventPack?: boolean; lieutenants?: boolean; label: string }[] = [
+export const UNLOCK_TRACK: { xp: number; commanders?: string[]; cardPack?: boolean; relicPack?: boolean; eventPack?: boolean; blessingPack?: boolean; lieutenants?: boolean; label: string }[] = [
   { xp: 0, commanders: ['r_huojin'], label: '初入命阙' },
   { xp: 1, commanders: ['b_shiyun', 'g_qingsi'], lieutenants: true, label: '石韫、青姒 加入' },
   { xp: 400, commanders: ['y_xuanji'], cardPack: true, label: '玄机子 加入 · 新卡牌' },
@@ -38,14 +43,80 @@ export const UNLOCK_TRACK: { xp: number; commanders?: string[]; cardPack?: boole
   { xp: 2600, commanders: ['g_acang'], cardPack: true, label: '阿苍 加入 · 新卡牌' },
   { xp: 3400, commanders: ['y_yanwujiu'], relicPack: true, label: '燕无咎 加入 · 新遗物' },
   { xp: 4300, commanders: ['p_liuxu'], cardPack: true, eventPack: true, label: '柳絮 加入 · 全部内容' },
+  // 1.0.1: the track goes on with 开局祈命 packs (the "pack" field in src/data/blessings.json)
+  { xp: 5000, blessingPack: true, label: '新命签：奇遇、余烬常燃、点化' },
+  { xp: 7000, blessingPack: true, label: '新命签：多源、贵人、轻装' },
+  { xp: 9500, blessingPack: true, label: '新命签：藏珍、改命、孤注一掷' },
+  { xp: 12000, label: '命书圆满（全部命签已解锁）' },
 ];
 
 export function newProfile(): Profile {
   return {
-    v: 1, xp: 0, runs: 0, wins: 0, tutorialDone: false,
-    unlocked: { commanders: ['r_huojin'], lieutenants: [], cardPacks: 0, relicPacks: 0, eventPacks: 0 },
+    v: 2, xp: 0, runs: 0, wins: 0, tutorialDone: false,
+    unlocked: { commanders: ['r_huojin'], lieutenants: [], cardPacks: 0, relicPacks: 0, eventPacks: 0, blessingPacks: 0 },
     ascension: {}, commanderStats: {}, discovered: { cards: [], enemies: [], relics: [] }, history: [], hiddenUnlocked: false,
+    mastery: {}, loadout: {},
   };
+}
+
+/** save v1 → v2 (1.0.1): 精通 from the run history (at least 250 per recorded run), 命签 packs for 命数 already earned */
+export function migrateProfileV1(d: unknown): Profile {
+  const p = d as Omit<Profile, 'v' | 'mastery' | 'loadout'> & { v: number; mastery?: Profile['mastery']; loadout?: Profile['loadout'] };
+  const mastery: Record<string, number> = {};
+  for (const h of p.history ?? []) mastery[h.commander] = (mastery[h.commander] ?? 0) + (h.score ?? 0);
+  for (const [id, st] of Object.entries(p.commanderStats ?? {})) mastery[id] = Math.max(mastery[id] ?? 0, st.runs * 250);
+  const blessingPacks = UNLOCK_TRACK.filter((t) => t.blessingPack && t.xp <= (p.xp ?? 0)).length;
+  return { ...p, v: 2, unlocked: { ...p.unlocked, blessingPacks }, mastery: p.mastery ?? mastery, loadout: p.loadout ?? {} } as Profile;
+}
+
+// ───────────── 精通 ─────────────
+
+/** 命数 needed for 精通 level 1…10 (index = level - 1); about 15 runs to the top */
+export const MASTERY_XP = [0, 200, 500, 900, 1400, 2000, 2700, 3500, 4400, 5400];
+export const MASTERY_MAX = MASTERY_XP.length;
+export const MASTERY_TITLES: Record<number, string> = { 2: '初识', 6: '知己', 10: '命契' };
+
+export function masteryLevel(xp: number): number {
+  let lv = 1;
+  for (let i = 0; i < MASTERY_XP.length; i++) if (xp >= MASTERY_XP[i]!) lv = i + 1;
+  return lv;
+}
+
+/** what reaching a level gives (select screen + the run-end unlock list) */
+export function masteryReward(cmdId: string, lv: number): string | null {
+  const c = content().commanders.get(cmdId);
+  if (!c) return null;
+  if (MASTERY_TITLES[lv]) return `称号「${c.name}·${MASTERY_TITLES[lv]}」`;
+  if (lv === 3 && c.alt) return `第二件起始遗物「${content().relics.get(c.alt.relic)?.name ?? c.alt.relic}」`;
+  if (lv === 5 && c.alt) return `「另一面」技能「${c.alt.skill.name}」`;
+  if (lv === 8) return '开局祈命多一个可选命签';
+  return null;
+}
+
+export function masteryTitle(p: Profile, cmdId: string): string | null {
+  const lv = masteryLevel(p.mastery[cmdId] ?? 0);
+  const best = Object.keys(MASTERY_TITLES).map(Number).filter((l) => l <= lv).sort((a, b) => b - a)[0];
+  return best ? `${content().commander(cmdId).name}·${MASTERY_TITLES[best]}` : null;
+}
+
+/** the loadout this commander may actually use now */
+export function effectiveLoadout(p: Profile, cmdId: string): { altRelic: boolean; altSkill: boolean } {
+  const lv = masteryLevel(p.mastery[cmdId] ?? 0);
+  const want = p.loadout[cmdId] ?? {};
+  const has = !!content().commanders.get(cmdId)?.alt;
+  return { altRelic: has && lv >= 3 && !!want.altRelic, altSkill: has && lv >= 5 && !!want.altSkill };
+}
+
+// ───────────── 开局祈命 ─────────────
+
+/** 命签 unlocked by the 命数 track */
+export function blessingPool(p: Profile): string[] {
+  return [...content().blessings.values()].filter((b) => b.pack <= (p.unlocked.blessingPacks ?? 0)).map((b) => b.id).sort();
+}
+
+/** how many 命签 to offer: 3, only 2 from 逆命 10, one more at 精通 8 with this commander */
+export function blessingCount(p: Profile, cmdId: string, ascension: number): number {
+  return (ascension >= 10 ? 2 : 3) + (masteryLevel(p.mastery[cmdId] ?? 0) >= 8 ? 1 : 0);
 }
 
 /** deterministic locked-content packs derived from content ids */
@@ -94,6 +165,13 @@ export function recordRun(p: Profile, r: RunState, summary: RunSummary): string[
   p.tutorialDone = true;
   const before = p.xp;
   p.xp += summary.score;
+  const mBefore = p.mastery[r.commander] ?? 0;
+  p.mastery[r.commander] = mBefore + summary.score;
+  const lv0 = masteryLevel(mBefore), lv1 = masteryLevel(p.mastery[r.commander]!);
+  for (let lv = lv0 + 1; lv <= lv1; lv++) {
+    const reward = masteryReward(r.commander, lv);
+    unlocked.push(`${content().commander(r.commander).name} 精通 ${lv}${reward ? `：${reward}` : ''}`);
+  }
   const st = (p.commanderStats[r.commander] ??= { runs: 0, wins: 0, bestFloor: 0, highestAsc: 0 });
   st.runs++;
   if (summary.result === 'win') {
@@ -111,6 +189,7 @@ export function recordRun(p: Profile, r: RunState, summary: RunSummary): string[
       if (step.cardPack) p.unlocked.cardPacks++;
       if (step.relicPack) p.unlocked.relicPacks++;
       if (step.eventPack) p.unlocked.eventPacks++;
+      if (step.blessingPack) p.unlocked.blessingPacks = (p.unlocked.blessingPacks ?? 0) + 1;
       if (!unlocked.includes(step.label)) unlocked.push(step.label);
     }
   }

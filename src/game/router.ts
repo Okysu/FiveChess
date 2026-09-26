@@ -22,6 +22,7 @@ export async function go(force = false) {
   current = key;
   switch (k) {
     case 'map': case 'actStart': next = new (await import('./scenes/map')).MapScene(); break;
+    case 'blessing': next = new (await import('./scenes/blessing')).BlessingScene(); break;
     case 'combat': {
       // geometry must be chosen before the scene's views are constructed
       (await import('./scenes/combat/layout')).applyCombatLayout(G.hud);

@@ -172,6 +172,8 @@ export interface CombatConfig {
   seed: string;
   emberCapBonus?: number;
   extraStartSources?: Color[];
+  /** 精通 「另一面」: the commander's alt skill replaces the one it names */
+  altSkill?: boolean;
   /** first-act tutorial gating */
   tutorial?: { noResponse?: boolean; noJudge?: boolean };
 }

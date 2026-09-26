@@ -66,7 +66,9 @@ for (const cmd of commanders) {
   for (let i = FROM; i < FROM + RUNS; i++) {
     // --commonSeeds: the same seeds at every ascension (common random numbers → cleaner difficulty-curve comparisons)
     const seed = args.commonSeeds ? `sim-${cmd}-${i}` : `sim-${cmd}-${ASC}-${i}`;
-    const r = newRun({ seed, commander: cmd, ascension: ASC, unlockedHidden: false });
+    // 1.0.1: --altRelic / --altSkill (精通 loadout), --blessing=<id>|all (开局祈命; all = 3 random of every 命签)
+    const blessing = args.blessing ? { pool: args.blessing === 'all' ? [...c.blessings.keys()] : [String(args.blessing)], count: args.blessing === 'all' ? 3 : 1 } : undefined;
+    const r = newRun({ seed, commander: cmd, ascension: ASC, unlockedHidden: false, altRelic: !!args.altRelic, altSkill: !!args.altSkill, blessings: blessing });
     let guard = 0;
     curFights = [];
     try {

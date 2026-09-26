@@ -2,16 +2,19 @@
  * IndexedDB persistence with per-record schema versions and migrations.
  * Stores: profile (meta progress), settings, run (current adventure, incl. combat replay log).
  */
+import { migrateProfileV1 } from '../../engine/meta';
+
 const DB = 'mingque';
 const STORE = 'kv';
-export const SAVE_VERSION = { profile: 1, settings: 1, run: 1 } as const;
+export const SAVE_VERSION = { profile: 2, settings: 1, run: 1 } as const;
 type Kind = keyof typeof SAVE_VERSION;
 
 interface Envelope<T> { kind: Kind; v: number; t: number; data: T }
 
 /** migrations[kind][fromVersion] upgrades data from v → v+1 */
 const migrations: Record<Kind, Record<number, (d: unknown) => unknown>> = {
-  profile: {},
+  // 1.0.1: 精通 + 开局祈命 (engine/meta.ts)
+  profile: { 1: migrateProfileV1 },
   settings: {},
   run: {},
 };

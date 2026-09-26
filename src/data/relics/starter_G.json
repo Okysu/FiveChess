@@ -25,5 +25,52 @@
       { "on": "unitDied", "who": "friendly", "limit": "turn", "effects": [{ "op": "draw", "n": 1 }] }
     ],
     "art": { "subject": "a bone flute carved from a deer antler, wrapped with a strand of red cord and dried fig leaves, pale green mist curling from its finger holes" }
+  },
+  {
+    "id": "rl_start_qingsi_b",
+    "name": "母树之种",
+    "tier": "starter",
+    "faction": "G",
+    "text": "战斗开始时，召唤2个「灵苗」。",
+    "flavor": "建木落下的种子，一粒能养活一片林。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "tk_g_sprout",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a large glowing seed shaped like a jade teardrop resting in cupped roots, two tiny sapling spirits sprouting from it, soft green light"
+    }
+  },
+  {
+    "id": "rl_start_acang_b",
+    "name": "枯荣鼓",
+    "tier": "starter",
+    "faction": "G",
+    "text": "每当一个友方单位死亡，对一名随机敌人造成3点伤害。",
+    "flavor": "鼓面蒙的是枯叶，敲一下，山里便少一个活物。",
+    "triggers": [
+      {
+        "on": "unitDied",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 3,
+            "target": "randomEnemy"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a small hand drum covered with dried autumn leaves instead of hide, bound with vines, a pale ghostly wisp rising from it"
+    }
   }
 ]

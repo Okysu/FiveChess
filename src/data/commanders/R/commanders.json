@@ -33,6 +33,44 @@
         ]
       }
     ],
+    "alt": {
+      "relic": "rl_start_huojin_b",
+      "replaces": "sk_r_huojin_1",
+      "skill": {
+        "id": "sk_r_huojin_alt",
+        "name": "燎原",
+        "type": "passive",
+        "text": "我方回合结束时，对每个带有[灼烧]的敌人施加1层[灼烧]。",
+        "triggers": [
+          {
+            "on": "turnEnd",
+            "effects": [
+              {
+                "op": "forEach",
+                "sel": {
+                  "side": "enemy",
+                  "kind": "character",
+                  "where": {
+                    "hasStatus": {
+                      "of": "it",
+                      "status": "burn"
+                    }
+                  }
+                },
+                "effects": [
+                  {
+                    "op": "status",
+                    "status": "burn",
+                    "amount": 1,
+                    "target": "it"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
     "lore": "焚阳宗前任执刀，曾一刀斩断北境叛军的火龙阵，刀也随之齐腰而断。宗门要他换刀，他不肯；要他退隐，他也不肯。他说那半截刀尖落进了命阙，刀要找回另一半，人也要找回那一夜没能护住的部下。",
     "ending": "命阙最深处，霍烬终于见到了那截刀尖。它插在命书的装订线上，把一页写满名字的残篇钉在原处——那是当年随他出征、没能回来的三百人。司命说，只要拔出刀尖，他便能改写那一夜，却也会抹去此后自己走过的每一步。霍烬看了很久，最后只是把断刀与刀尖并在一起，用自己的火重新熔成一柄完整的刀，然后把它留在那里，替那三百人守着那一页。他走出命阙时两手空空，北境的人说，那年冬天边关的烽火一夜都没有熄过。",
     "art": { "subject": "a tall scarred general in battered crimson lamellar armor holding a broken broadsword whose sheared edge glows molten, standing in drifting embers, three-quarter view" }
@@ -76,6 +114,28 @@
         }
       }
     ],
+    "alt": {
+      "relic": "rl_start_liyuan_b",
+      "replaces": "sk_r_liyuan_1",
+      "skill": {
+        "id": "sk_r_liyuan_alt",
+        "name": "焚羽",
+        "type": "passive",
+        "text": "每当你献出一张牌，对所有敌人造成2点伤害。",
+        "triggers": [
+          {
+            "on": "cardSacrificed",
+            "effects": [
+              {
+                "op": "damage",
+                "amount": 2,
+                "target": "allEnemies"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "lore": "朱雀祠最后一任祭司。命书撕裂那年，南方神鸟的火种坠入命阙，祠中香火一夜全灭。离鸢自幼被教导：祭品献得越多，神便离人越近。她带着祠里仅剩的一根朱雀翎走进倒塔，要把火种讨回来——哪怕献出的是她自己。",
     "ending": "离鸢在星殿的尽头找到了朱雀。它没有被囚禁，只是蜷在命书的灰烬里睡着了，羽毛黯淡得像一堆旧炭。她这才明白，神鸟从不需要祭品；是人们一代代献上的东西太多，把它压得飞不起来。她没有再献出什么，而是把那根随身的朱雀翎还给了它，然后转身，把一路献出的源一枚一枚点亮，照着来路。朱雀醒来时，看见的是一条通往人间的火光。后来南方再建朱雀祠，祠中不设供案，只挂一盏长明灯。据说灯下常有一名红衣女子扫地，从不自称祭司。",
     "art": { "subject": "a young priestess in flowing vermilion robes with feather-trimmed sleeves, a long red plume in her hair, holding a small flame at her chest, embers rising like feathers around her" }

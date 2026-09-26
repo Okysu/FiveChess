@@ -38,6 +38,27 @@
         }]
       }
     ],
+    "alt": {
+      "relic": "rl_start_qingsi_b",
+      "replaces": "g_qingsi_a",
+      "skill": {
+        "id": "g_qingsi_alt",
+        "name": "春雷",
+        "type": "active",
+        "text": "（每回合一次，支付1枚[源]）本回合所有友方单位+1攻击。",
+        "cost": {
+          "g": 1
+        },
+        "effects": [
+          {
+            "op": "buff",
+            "target": "friendlyUnits",
+            "atk": 1,
+            "until": "turn"
+          }
+        ]
+      }
+    },
     "lore": "万木庭当代灵母，据说是建木落下的一片叶子化成的人形。林中每一株新生的灵苗都认得她的声音。命书上写着建木将在她这一代枯死，万木庭随之星散。青姒不信，也不等——她带着满袖种子走进命阙，要在枯字旁边，种出一个新的字来。",
     "ending": "命书之心没有土，只有一行行凝固的字。青姒在「建木枯」三个字旁跪下，没有提笔，而是把袖中最后一粒种子按进了纸缝。灵苗们围上来，一个个把自己的光喂给那粒种子。它发了芽，根须钻进命书的装订线，把撕裂的残页一页页缝了回去。后来的人说，命阙那一年开了花；万木庭的弟子则说，建木并没有死，只是换了个地方生长——它如今长在命书里，每一页都多了一圈年轮。至于灵母，有人在最高的枝头见过她，也有人说，她就是那片新长出来的叶子。",
     "art": { "subject": "a tall serene woman in flowing green and jade robes with long hair woven with leaves and small blossoms, standing barefoot on a giant root, arms open as dozens of glowing sapling spirits gather around her feet, fireflies drifting in warm light" }
@@ -84,6 +105,30 @@
         }]
       }
     ],
+    "alt": {
+      "relic": "rl_start_acang_b",
+      "replaces": "g_acang_l",
+      "skill": {
+        "id": "g_acang_alt",
+        "name": "百鬼夜行",
+        "type": "limited",
+        "text": "限定技：对所有敌人造成等同于本场战斗已消灭敌方单位数×4的伤害。",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": {
+              "mul": [
+                {
+                  "count": "deadThisCombat"
+                },
+                4
+              ]
+            },
+            "target": "allEnemies"
+          }
+        ]
+      }
+    },
     "lore": "楚地深山里的山鬼，骑赤豹，披薜荔，死过很多次。每一次，命书都把他写回山里，让他再活一遍——不许老，不许散，不许真正离开。阿苍早已记不清第一次死是为了谁。他走进命阙，只想找到写着自己名字的那一页，亲手添上一个“终”字。",
     "ending": "那一页比阿苍想的要薄。上面密密麻麻写满了“复生”，一行压着一行，墨迹新旧不一，像山里一层叠一层的落叶。他本想把“终”字写上去，笔尖悬了很久，最后却把整页撕了下来，埋进命书之心的尘土里。纸烂成泥，泥里长出一棵小小的苍树。阿苍在树下坐了一夜，天亮时发现自己的手第一次有了皱纹。他笑了——原来他要的不是死，而是能老。后来山里的采药人偶尔会遇见一个白发老人，骑着一头走不快的老豹，他说自己叫阿苍，只是个守山的。",
     "art": { "subject": "a wild-haired mountain spirit man wrapped in fig vines and moss, a bark mask pushed up on his head, riding a lean red leopard along a misty cliff path, holding a bone flute, ghostly green wisps circling him" }

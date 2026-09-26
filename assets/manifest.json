@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-26T08:46:14.292Z",
+ "generated": "2026-09-26T10:01:45.158Z",
  "assets": [
   {
    "id": "amb_fire",
@@ -11514,6 +11514,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_start_acang_b",
+   "path": "ui/relics/rl_start_acang_b.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#mui7y0lw-0 cell 4] a small hand drum covered with dried autumn leaves instead of hide, bound with vines, a pale ghostly wisp rising from it",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "409f89078881",
+   "qa": "ok"
+  },
+  {
    "id": "rl_start_acang",
    "path": "ui/relics/rl_start_acang.webp",
    "category": "relic",
@@ -11524,6 +11537,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "3774befd51ae",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_start_huojin_b",
+   "path": "ui/relics/rl_start_huojin_b.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#mui7y0lw-0 cell 7] a small bronze brazier cupped in two scarred hands, a tiny sun-bright ember vividly printed inside it, sparks drifting upward",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "a152b6ebc0f7",
    "qa": "ok"
   },
   {
@@ -11540,6 +11566,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_start_liuxu_b",
+   "path": "ui/relics/rl_start_liuxu_b.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#mui7y0lw-0 cell 6] a small silk pouch stuffed with drifting white willow catkins, some floating out of its mouth, pale violet ribbon",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "78efe0b9f6d1",
+   "qa": "ok"
+  },
+  {
    "id": "rl_start_liuxu",
    "path": "ui/relics/rl_start_liuxu.webp",
    "category": "relic",
@@ -11550,6 +11589,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "248c87f9b38c",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_start_liyuan_b",
+   "path": "ui/relics/rl_start_liyuan_b.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#mui7y0lw-0 cell 8] a single long vermilion tail feather with golden eyes along its vane, faint flames flickering at its tip, floating over ash",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "0c7436c98f82",
    "qa": "ok"
   },
   {
@@ -11566,6 +11618,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_start_qingsi_b",
+   "path": "ui/relics/rl_start_qingsi_b.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#mui7y0lw-0 cell 3] a large vividly printed seed shaped like a jade teardrop resting in cupped roots, two tiny sapling spirits sprouting from it, soft green light",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "e2cf785c574c",
+   "qa": "ok"
+  },
+  {
    "id": "rl_start_qingsi",
    "path": "ui/relics/rl_start_qingsi.webp",
    "category": "relic",
@@ -11576,6 +11641,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "c252aa479c2b",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_start_shiyun_b",
+   "path": "ui/relics/rl_start_shiyun_b.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#mui7y0lw-0 cell 1] a jagged fragment of a carved mountain gate stone engraved with protective runes, standing upright on cracked earth, dust around it",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "c7f7ac61a5ea",
    "qa": "ok"
   },
   {
@@ -11592,6 +11670,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_start_suxian_b",
+   "path": "ui/relics/rl_start_suxian_b.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#mui7y0lw-0 cell 2] a snapped zither string coiled in the air like a silver whip, frost jade along its broken end, dark wood background",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "f34eaad8c3d5",
+   "qa": "ok"
+  },
+  {
    "id": "rl_start_suxian",
    "path": "ui/relics/rl_start_suxian.webp",
    "category": "relic",
@@ -11602,6 +11693,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "2c0b1beefdbe",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_start_xuanji_b",
+   "path": "ui/relics/rl_start_xuanji_b.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#mui7y0lw-0 cell 9] a round bronze star plate with rotating rings engraved with constellations and trigrams, faintly vividly printed gold, on dark silk",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "9768ec495ad9",
    "qa": "ok"
   },
   {
@@ -11618,6 +11722,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_start_yanwujiu_b",
+   "path": "ui/relics/rl_start_yanwujiu_b.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#mui7y0lw-0 cell 10] three old bronze divination coins tied on a red cord, one of them shining bright gold, hanging against a night sky",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "c93a9da3d213",
+   "qa": "ok"
+  },
+  {
    "id": "rl_start_yanwujiu",
    "path": "ui/relics/rl_start_yanwujiu.webp",
    "category": "relic",
@@ -11628,6 +11745,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "5dd949efc11b",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_start_yetan_b",
+   "path": "ui/relics/rl_start_yetan_b.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#mui7y0lw-0 cell 5] a slender incense stick in a violet lacquer holder, sickly green-purple smoke curling into the shape of blossoms, dark background",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "3d67512fd1ae",
    "qa": "ok"
   },
   {

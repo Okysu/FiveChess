@@ -43,7 +43,8 @@ export function createCombat(cfg: CombatConfig): CombatState {
   s.units[pc.uid] = pc;
   s.sides.player.commander = pc.uid;
   // skills
-  cmdDef.skills.forEach((sk) => s.skills.push({ id: sk.id, used: false, usedCombat: false, awakened: false, from: 'commander' }));
+  const alt = cfg.altSkill ? cmdDef.alt : undefined;
+  cmdDef.skills.forEach((sk) => s.skills.push({ id: alt && alt.replaces === sk.id ? alt.skill.id : sk.id, used: false, usedCombat: false, awakened: false, from: 'commander' }));
   if (cfg.lieutenant) {
     const l = c.lieutenants.get(cfg.lieutenant);
     if (l) s.skills.push({ id: l.skill.id, used: false, usedCombat: false, awakened: false, from: 'lieutenant' });

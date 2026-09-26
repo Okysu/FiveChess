@@ -59,5 +59,51 @@
     "art": {
       "subject": "a worn cylinder made from a tortoise shell, cracked all over, with three bronze coins and a folded talisman peeking out of the top"
     }
+  },
+  {
+    "id": "rl_start_xuanji_b",
+    "name": "星盘",
+    "tier": "starter",
+    "faction": "Y",
+    "text": "每当你进行一次[判定]，获得1点[护甲]。",
+    "flavor": "盘上星位一转，灾星便偏开半寸。",
+    "triggers": [
+      {
+        "on": "judged",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 1,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a round bronze star plate with rotating rings engraved with constellations and trigrams, faintly glowing gold, on dark silk"
+    }
+  },
+  {
+    "id": "rl_start_yanwujiu_b",
+    "name": "悬卦钱",
+    "tier": "starter",
+    "faction": "Y",
+    "text": "战斗开始时，抽2张牌。",
+    "flavor": "三枚铜钱系在卦绳上，一枚总是比别的亮。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "three old bronze divination coins tied on a red cord, one of them shining bright gold, hanging against a night sky"
+    }
   }
 ]

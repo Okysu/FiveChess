@@ -11,14 +11,14 @@ import { content } from '../../engine/content';
 import type { CommanderDef, Color } from '../../engine/defs';
 import { COLOR_INFO } from '../../engine/glossary';
 import { richTexture } from '../ui/richtext';
-import { CardView } from '../ui/card';
+import { CardView, CARD_H } from '../ui/card';
 import { tweens, ease } from '../core/tween';
 import { session } from '../state';
 import { audio, sfx } from '../audio/audio';
 import { TextInput } from '../ui/input';
 import { go } from '../router';
 import { inspectCard, termsOf } from '../ui/hud';
-import { UNLOCK_TRACK, ASCENSION_TEXT } from '../../engine/meta';
+import { UNLOCK_TRACK, ASCENSION_TEXT, MASTERY_XP, MASTERY_MAX, masteryLevel, masteryTitle, effectiveLoadout } from '../../engine/meta';
 
 const SKILL_TYPE: Record<string, string> = { passive: '被动', active: '主动', limited: '限定技', awaken: '觉醒技' };
 
@@ -177,11 +177,39 @@ export class SelectScene extends Scene {
       pp.position.set(PX + 30 + info.width + i * 46, PY + 88);
       this.details.addChild(pp);
     });
+    const prof = session.profile;
+    const mLv = masteryLevel(prof.mastery[c.id] ?? 0);
+    const use = effectiveLoadout(prof, c.id);
+    const setLoadout = (k: 'altRelic' | 'altSkill', v: boolean) => {
+      prof.loadout[c.id] = { ...(prof.loadout[c.id] ?? {}), [k]: v };
+      void session.saveProfile();
+      sfx('click');
+      this.showCommander(c);
+    };
+    /** the 精通 switch at the right end of a header row, or the level that unlocks it */
+    const altSwitch = (y0: number, need: number, on: boolean, k: 'altRelic' | 'altSkill', altName: string, baseName: string, preview: { title: string; body: string }) => {
+      if (mLv >= need) {
+        const b = new Button(on ? `换回「${baseName}」` : `换为「${altName}」`, { width: 250, height: 46, fontSize: fs(19), kind: 'ghost', onClick: () => setLoadout(k, !on) });
+        b.position.set(panelW - PX - 250, y0 - 4);
+        this.details.addChild(b);
+        return;
+      }
+      const lock = new Text({ text: `精通 ${need} 解锁「${altName}」`, style: { fontFamily: FONT_BODY, fontSize: fs(19), fill: C.textDim } });
+      lock.anchor.set(1, 0);
+      lock.position.set(panelW - PX, y0 + 6);
+      lock.eventMode = 'static';
+      lock.on('pointerover', (e) => showTip(new Tooltip([preview, ...glossLines(termsOf(preview.body))], 420), e.global.x, e.global.y));
+      lock.on('pointerout', hideTip);
+      this.details.addChild(lock);
+    };
     let y = PY + 118;
-    for (const sk of c.skills) {
-      const h = new Text({ text: `【${SKILL_TYPE[sk.type]}】${sk.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(28), fill: sk.type === 'passive' ? C.goldLight : 0xff9a6a } });
+    for (const base of c.skills) {
+      const replaceable = !!c.alt && c.alt.replaces === base.id;
+      const sk = replaceable && use.altSkill ? c.alt!.skill : base;
+      const h = new Text({ text: `【${SKILL_TYPE[sk.type]}】${sk.name}${sk !== base ? '（另一面）' : ''}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(28), fill: sk.type === 'passive' ? C.goldLight : 0xff9a6a } });
       h.position.set(PX, y);
       this.details.addChild(h);
+      if (replaceable) altSwitch(y, 5, use.altSkill, 'altSkill', c.alt!.skill.name, base.name, { title: `另一面 · ${c.alt!.skill.name}（替换「${base.name}」）`, body: c.alt!.skill.text });
       y += 40;
       const { texture, result } = richTexture(sk.text, { width: panelW - PX * 2 - 16, height: 140, fontSize: fs(21), minFontSize: 16, color: 0xeadfc8, align: 'left', vAlign: 'top' });
       const s = new Sprite(texture);
@@ -192,11 +220,14 @@ export class SelectScene extends Scene {
       this.details.addChild(s);
       y += result.usedHeight + 16;
     }
-    const relic = content().relics.get(c.relic);
+    const relic = content().relics.get(use.altRelic && c.alt ? c.alt.relic : c.relic);
     if (relic) {
       const h = new Text({ text: `专属遗物：${relic.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: C.goldLight } });
       h.position.set(PX, y);
       this.details.addChild(h);
+      const altRelic = c.alt ? content().relics.get(c.alt.relic) : undefined;
+      const baseRelic = content().relics.get(c.relic);
+      if (altRelic && baseRelic) altSwitch(y, 3, use.altRelic, 'altRelic', altRelic.name, baseRelic.name, { title: `第二件起始遗物 · ${altRelic.name}`, body: altRelic.text });
       y += 36;
       const { texture, result } = richTexture(relic.text, { width: panelW - PX * 2 - 16, height: 100, fontSize: fs(20), color: 0xd8ccb4, align: 'left', vAlign: 'top' });
       const s = new Sprite(texture);
@@ -210,10 +241,12 @@ export class SelectScene extends Scene {
     deckLbl.position.set(PX, deckY);
     this.details.addChild(deckLbl);
     const uniq = [...new Set(c.deck)];
+    // the mini cards take the room left above the bottom stats line (long skill texts push the row down)
+    const cardK = Math.max(0.24, Math.min(0.34, (panelH - PY - (deckY + 40)) / CARD_H));
     uniq.forEach((id, i) => {
       const v = new CardView({ id, up: false });
-      v.scale.set(0.34);
-      v.position.set(PX + 52 + i * 112, deckY + 112);
+      v.scale.set(cardK);
+      v.position.set(PX + 52 + i * 112, deckY + 40 + (CARD_H * cardK) / 2);
       v.eventMode = 'static';
       v.cursor = 'pointer';
       v.on('pointertap', () => inspectCard(id, false));
@@ -227,8 +260,19 @@ export class SelectScene extends Scene {
       this.details.addChild(v);
     });
     const st = session.profile.commanderStats[c.id];
-    const stats = new Text({ text: st ? `战绩：出征 ${st.runs} · 通关 ${st.wins} · 最高逆命 ${st.highestAsc} · 最远 ${st.bestFloor} 层` : '尚无战绩', style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: C.textDim } });
-    stats.position.set(PX, panelH - PY - 16);
+    const xp = prof.mastery[c.id] ?? 0;
+    const next = MASTERY_XP[mLv];
+    const ttl = masteryTitle(prof, c.id);
+    const mastery = `精通 ${mLv}${mLv < MASTERY_MAX && next !== undefined ? `（${xp}/${next}）` : '（满）'}${ttl ? ` · ${ttl}` : ''}`;
+    // 精通 sits top-right of the panel (the bottom line is shared with the starter deck row)
+    const mText = new Text({ text: mastery, style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: C.goldLight } });
+    mText.anchor.set(1, 0);
+    mText.position.set(panelW - PX, PY - 4);
+    this.details.addChild(mText);
+    // on the deck label row, right-aligned: the bottom of the panel belongs to the mini cards
+    const stats = new Text({ text: st ? `出征 ${st.runs} · 通关 ${st.wins} · 逆命 ${st.highestAsc} · 最远 ${st.bestFloor} 层` : '尚无战绩', style: { fontFamily: FONT_BODY, fontSize: fs(18), fill: C.textDim } });
+    stats.anchor.set(1, 0);
+    stats.position.set(panelW - PX, deckY + 4);
     this.details.addChild(stats);
     const lore = new Text({ text: c.lore, style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: C.text, wordWrap: true, wordWrapWidth: 330, lineHeight: 32, breakWords: true } });
     lore.position.set(40, 100);

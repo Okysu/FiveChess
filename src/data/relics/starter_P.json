@@ -19,5 +19,54 @@
     "modifiers": [{ "stat": "handLimit", "amount": 2 }],
     "triggers": [{ "on": "combatStart", "effects": [{ "op": "draw", "n": 2 }] }],
     "art": { "subject": "a half-open folding fan painted with a faceless woman beneath willow branches, catkins seeming to drift off the paper, soft lamplight" }
+  },
+  {
+    "id": "rl_start_yetan_b",
+    "name": "蚀骨香",
+    "tier": "starter",
+    "faction": "P",
+    "text": "战斗开始时，对所有敌人施加2层[中毒]。",
+    "flavor": "点一炷，满屋都是花香；闻久了，骨头会疼。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": 2,
+            "target": "allEnemies"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a slender incense stick in a violet lacquer holder, sickly green-purple smoke curling into the shape of blossoms, dark background"
+    }
+  },
+  {
+    "id": "rl_start_liuxu_b",
+    "name": "絮影囊",
+    "tier": "starter",
+    "faction": "P",
+    "text": "每回合你第一次弃置牌后，对一名随机敌人施加2层[中毒]。",
+    "flavor": "柳絮里掺了夜昙的花粉，风一吹，落在谁身上谁就发痒。",
+    "triggers": [
+      {
+        "on": "cardDiscarded",
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": 2,
+            "target": "randomEnemy"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a small silk pouch stuffed with drifting white willow catkins, some floating out of its mouth, pale violet ribbon"
+    }
   }
 ]

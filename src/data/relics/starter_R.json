@@ -18,5 +18,52 @@
     "flavor": "祭司把它插在发间，它便每天替她落下一粒火。",
     "triggers": [{ "on": "combatStart", "effects": [{ "op": "create", "card": "tk_r_spark", "to": "hand" }] }],
     "art": { "subject": "a single long vermilion tail feather floating upright in darkness, its tip smoldering and shedding one glowing ember" }
+  },
+  {
+    "id": "rl_start_huojin_b",
+    "name": "焚阳火种",
+    "tier": "starter",
+    "faction": "R",
+    "text": "战斗开始时，对一名随机敌人施加3层[灼烧]。（不再自带断焰刀）",
+    "flavor": "刀留在了北境，火种却一直揣在怀里。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": 3,
+            "target": "randomEnemy"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a small bronze brazier cupped in two scarred hands, a tiny sun-bright ember glowing inside it, sparks drifting upward"
+    }
+  },
+  {
+    "id": "rl_start_liyuan_b",
+    "name": "朱雀尾羽",
+    "tier": "starter",
+    "faction": "R",
+    "text": "每当你献出一张牌，获得1点[护甲]。",
+    "flavor": "尾羽不烧人，只替主人挡火。",
+    "triggers": [
+      {
+        "on": "cardSacrificed",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 1,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a single long vermilion tail feather with golden eyes along its vane, faint flames flickering at its tip, floating over ash"
+    }
   }
 ]

@@ -62,6 +62,7 @@ export const bundle: ContentBundle = {
   relics: [{ id: 't_relic', name: '遗', tier: 'starter', text: '', art }],
   potions: [],
   events: [],
+  blessings: [],
 };
 
 export function validateBundle() {

@@ -317,10 +317,24 @@ export interface CommanderDef {
   deck: string[];
   relic: string;
   skills: SkillDef[];
+  /** 精通 rewards: a second starter relic (level 3) and 「另一面」, a skill that replaces one of the two (level 5) */
+  alt?: { relic: string; replaces: string; skill: SkillDef };
   lore: string;
   ending: string;
   unlock?: string;
   art: ArtSpec;
+}
+
+/** 开局祈命: one of these is chosen at the start of a run (src/data/blessings.json) */
+export interface BlessingDef {
+  id: string;
+  name: string;
+  /** trade = a boon with a price; boon = a small pure boon (小吉) */
+  kind: 'trade' | 'boon';
+  /** unlock pack on the 命数 track (0 = from the start) */
+  pack: number;
+  text: string;
+  effects: RunEffect[];
 }
 
 export interface LieutenantDef {
@@ -459,7 +473,7 @@ export type RunEffect =
   | { op: 'lieutenant'; id?: string }
   | { op: 'flag'; key: string }
   | { op: 'emberCap'; n: number }
-  | { op: 'startSource'; color: Color };
+  | { op: 'startSource'; color: Color | 'own' };
 
 export type RunCondition =
   | { gold: number } | { hpAbove: number } | { commander: string } | { lieutenant: string } | { faction: Color }

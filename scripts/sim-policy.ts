@@ -62,6 +62,8 @@ export function playTurnVia(s: CombatState, io: SimIO, maxActions = 30): void {
 }
 
 export interface SimHooks {
+  /** 开局祈命: index of the 命签 to take (null = skip); default the first offered */
+  blessing?: (options: string[]) => number | null;
   /** simulator --trace=<floor> / --debug */
   traceFloor?: number;
   debug?: boolean;
@@ -141,6 +143,7 @@ export function step(r: RunState, io: SimIO = defaultIO, hooks: SimHooks = {}): 
   const A = (a: RunAction) => { const err = io.runAct(r, a); if (err) throw new Error(`${a.t}: ${err} @${sc.k}`); };
   switch (sc.k) {
     case 'actStart': A({ t: 'proceed' }); return true;
+    case 'blessing': A({ t: 'blessing', i: hooks.blessing ? hooks.blessing(sc.options) : 0 }); return true;
     case 'map': {
       // drink a healing potion that works on the map when low
       const mp = r.potions.findIndex((p) => !!p && !!c.potions.get(p)?.outOfCombat);

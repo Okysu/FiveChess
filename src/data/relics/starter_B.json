@@ -14,5 +14,58 @@
     "flavor": "冰蚕吐的丝，弹一声，寒三分。",
     "triggers": [ { "on": "responsePlayed", "effects": [ { "op": "armor", "amount": 3, "target": "commander" } ] } ],
     "art": { "subject": "a coil of translucent silk string spun by an ice silkworm, glittering with frost, the small pale silkworm resting on the coil, close-up on dark wood" }
+  },
+  {
+    "id": "rl_start_shiyun_b",
+    "name": "崩山石",
+    "tier": "starter",
+    "faction": "B",
+    "text": "第3回合开始时，召唤一个「山岩」（[坚守]）。",
+    "flavor": "护山大阵崩落的一角，落地便成了墙。",
+    "triggers": [
+      {
+        "on": "turnStart",
+        "if": {
+          "eq": [
+            {
+              "count": "turn"
+            },
+            3
+          ]
+        },
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "tk_b_rock"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a jagged fragment of a carved mountain gate stone engraved with protective runes, standing upright on cracked earth, dust around it"
+    }
+  },
+  {
+    "id": "rl_start_suxian_b",
+    "name": "断弦",
+    "tier": "starter",
+    "faction": "B",
+    "text": "每当你在应对中打出牌，对一名随机敌人造成3点伤害。",
+    "flavor": "弦断了，音还在，只是变得锋利。",
+    "triggers": [
+      {
+        "on": "responsePlayed",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 3,
+            "target": "randomEnemy"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a snapped zither string coiled in the air like a silver whip, frost crystals along its broken end, dark wood background"
+    }
   }
 ]

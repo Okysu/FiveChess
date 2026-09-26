@@ -5,7 +5,7 @@
 import path from 'node:path';
 import { z } from 'zod';
 import { readBundle } from './load-content';
-import { zCard, zCommander, zEnemy, zEncounter, zEvent, zLieutenant, zPotion, zRelic } from '../src/engine/schema';
+import { zBlessing, zCard, zCommander, zEnemy, zEncounter, zEvent, zLieutenant, zPotion, zRelic } from '../src/engine/schema';
 import { TERM_NAMES } from '../src/engine/glossary';
 import type { Effect, RunEffect, Trigger, JudgeBranches } from '../src/engine/defs';
 
@@ -26,6 +26,8 @@ for (const [file, data] of Object.entries(files)) {
   else if (p.includes('/relics')) schema = zRelic;
   else if (p.endsWith('/potions.json')) schema = zPotion;
   else if (p.includes('/events')) schema = zEvent;
+  else if (p.endsWith('/blessings.json')) schema = zBlessing;
+  else if (p.endsWith('/changelog.json')) continue; // checked by scripts/changelog.ts
   if (!schema) { warn.push(`unrecognised data file ${path.basename(file)}`); continue; }
   if (!Array.isArray(data)) { errors.push(`${file}: top level must be an array`); continue; }
   data.forEach((item, i) => {

@@ -330,9 +330,12 @@ function force(sc: Sc, k: Case, v: Variant): ForceResult | string {
       if (!creationFired || k.kind === 'awakened') { fire(s, 'combatStart', { side: 'player' }); settle(sc); }
       break;
     case 'combatEnd': kill(sc, commanderOf(s, 'enemy')!, 'player'); break;
-    case 'turnStart': case 'turnEnd': case 'opponentTurnStart': case 'opponentTurnEnd': case 'actionDeclared':
-      doAct(sc, { type: 'endTurn' });
+    case 'turnStart': case 'turnEnd': case 'opponentTurnStart': case 'opponentTurnEnd': case 'actionDeclared': {
+      // triggers gated on a turn number (e.g. 崩山石 on turn 3) need that many rounds
+      const rounds = JSON.stringify(k.trig.if ?? {}).includes('"turn"') ? 4 : 1;
+      for (let i = 0; i < rounds && !s.over; i++) doAct(sc, { type: 'endTurn' });
       break;
+    }
     case 'enter': case 'unitSummoned': {
       if (who === 'self') {
         const side = O;

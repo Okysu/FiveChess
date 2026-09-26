@@ -174,8 +174,14 @@ export async function runUiTour(o: { events?: 'all' | number } = {}): Promise<To
 
   // a fresh run
   session.profile.tutorialDone = true;
+  // 精通 5 with both alternatives on: the select screen shows the switches, the run starts with 焚阳火种 + 燎原
+  session.profile.mastery.r_huojin = 1500;
+  session.profile.loadout.r_huojin = { altRelic: true, altSkill: true };
+  await page('select_mastery', pages, () => scene(async () => new (await import('../scenes/select')).SelectScene()));
   session.startRun('r_huojin', 0, 'UITOUR');
   const r = session.run!;
+  await page('blessing', pages, route);
+  runAct(r, { t: 'blessing', i: null });
   runAct(r, { t: 'proceed' });
   await page('map_start', pages, route);
   const first = availableNodes(r).find((n) => n.type === 'combat')!;

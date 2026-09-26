@@ -30,7 +30,7 @@ async function runAll() {
     while (next < jobs.length) {
       const j = jobs[next++]!;
       await new Promise<void>((res, rej) => {
-        const p = spawn(process.execPath, ['--import', 'tsx', 'scripts/simulate.ts', `--runs=${j.n}`, `--from=${j.from}`, `--asc=${j.asc}`, `--commanders=${j.cmd}`, '--noReport', `--out=${j.out}`, ...(args.patch ? [`--patch=${args.patch}`] : []), ...(args.commonSeeds ? ['--commonSeeds'] : [])], { stdio: ['ignore', 'ignore', 'inherit'] });
+        const p = spawn(process.execPath, ['--import', 'tsx', 'scripts/simulate.ts', `--runs=${j.n}`, `--from=${j.from}`, `--asc=${j.asc}`, `--commanders=${j.cmd}`, '--noReport', `--out=${j.out}`, ...(args.patch ? [`--patch=${args.patch}`] : []), ...(args.commonSeeds ? ['--commonSeeds'] : []), ...(args.altRelic ? ['--altRelic'] : []), ...(args.altSkill ? ['--altSkill'] : []), ...(args.blessing ? [`--blessing=${args.blessing}`] : [])], { stdio: ['ignore', 'ignore', 'inherit'] });
         p.on('exit', (code) => (code === 0 ? res() : rej(new Error(`${j.cmd}@${j.asc} exited ${code}`))));
       });
     }

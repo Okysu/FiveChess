@@ -1,6 +1,6 @@
 /**
  * Sprite-sheet art generation: many items per request, then sliced. ~6x fewer API calls than one image per item.
- *   npx tsx scripts/art/sheets.ts --only=card,enemy [--model=gpt-image-2.5-flare] [--max-calls=40] [--concurrency=3] [--dry]
+ *   npx tsx scripts/art/sheets.ts --only=card,enemy [--max-calls=40] [--concurrency=3] [--dry]
  * Layout per category (cells sized to how large the art is actually shown in game):
  *   card 3x3 (≈512x341, card art window is 248x180)   event 2x2 (768x512)
  *   enemy 4x2 cutouts   boss / hero 3x1 cutouts   icon / relic / potion 4x3 cutouts

@@ -4,6 +4,7 @@
  */
 import { z } from 'zod';
 import type {
+  BlessingDef,
   CardDef, CommanderDef, Condition, Effect, EncounterDef, EnemyAI, EnemyDef, EventDef, LieutenantDef,
   Modifier, PotionDef, RelicDef, RunCondition, RunEffect, Selector, Trigger, Value, SkillDef, JudgeBranches,
 } from './defs';
@@ -259,6 +260,7 @@ export const zSkill: z.ZodType<SkillDef> = z.lazy(() => z.object({
 export const zCommander: z.ZodType<CommanderDef> = z.object({
   id: z.string(), name: z.string(), title: z.string(), faction: zColor.exclude(['N']), hp: z.number().int(),
   sources: z.array(zColor), deck: z.array(z.string()).min(10).max(12), relic: z.string(), skills: z.array(zSkill).length(2),
+  alt: z.object({ relic: z.string(), replaces: z.string(), skill: zSkill }).strict().optional(),
   lore: z.string(), ending: z.string(), unlock: z.string().optional(), art: zArt,
 }).strict() as z.ZodType<CommanderDef>;
 
@@ -333,7 +335,7 @@ export const zRunEffect: z.ZodType<RunEffect> = z.lazy(() => z.discriminatedUnio
   o('lieutenant', { id: z.string().optional() }),
   o('flag', { key: z.string() }),
   o('emberCap', { n: z.number() }),
-  o('startSource', { color: zColor }),
+  o('startSource', { color: z.union([zColor, z.literal('own')]) }),
 ])) as z.ZodType<RunEffect>;
 
 const zRunRule = z.union([
@@ -371,3 +373,7 @@ export const zEvent: z.ZodType<EventDef> = z.object({
   pages: z.array(z.object({ id: z.string(), text: z.string(), options: z.array(zEventOption).min(1) }).strict()).optional(),
   art: zArt,
 }).strict() as z.ZodType<EventDef>;
+
+export const zBlessing: z.ZodType<BlessingDef> = z.object({
+  id: z.string(), name: z.string(), kind: z.enum(['trade', 'boon']), pack: z.number().int().min(0).max(3), text: z.string(), effects: z.array(zRunEffect).min(1),
+}).strict() as z.ZodType<BlessingDef>;

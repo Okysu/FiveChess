@@ -42,6 +42,7 @@ export type Screen =
   | { k: 'pick'; kind: PickKind; n: number; optional: boolean; source: 'camp' | 'event' | 'shop' | 'relic'; filter?: CardFilter }
   | { k: 'cardChoice'; options: CardRef[]; n: number }
   | { k: 'actStart'; act: number }
+  | { k: 'blessing'; options: string[] }
   | { k: 'victory' }
   | { k: 'hiddenChoice' }
   | { k: 'defeat' };
@@ -53,6 +54,11 @@ export interface RunOpts {
   tutorial?: boolean;
   locked?: { cards?: string[]; relics?: string[]; events?: string[]; lieutenants?: string[] };
   unlockedHidden?: boolean;
+  /** 开局祈命: the unlocked 命签 and how many to offer (none → the run starts straight away) */
+  blessings?: { pool: string[]; count: number };
+  /** 精通 loadout: the second starter relic / 「另一面」 instead of the originals */
+  altRelic?: boolean;
+  altSkill?: boolean;
 }
 
 export interface RunState {
@@ -95,6 +101,10 @@ export interface RunState {
   log: RunAction[];
   result: null | 'win' | 'lose';
   nemesis?: string;
+  /** the 命签 chosen at the start (null = skipped) */
+  blessing?: string | null;
+  /** 精通: this run uses the commander's 「另一面」 skill */
+  altSkill?: boolean;
 }
 
 export type RunAction =
@@ -113,6 +123,7 @@ export type RunAction =
   | { t: 'discardPotion'; slot: number }
   | { t: 'mapPotion'; slot: number }
   | { t: 'hidden'; go: boolean }
+  | { t: 'blessing'; i: number | null }
   | { t: 'combatResult'; result: 'win' | 'lose'; hp: number; gold: number; potions: (string | null)[]; relics: RelicState[]; stats: CombatState['stats']; enemies: string[] };
 
 // ───────────── setup ─────────────
@@ -127,22 +138,24 @@ export function fullFateDeck(): FateSpec[] {
 export function newRun(o: RunOpts): RunState {
   const c = content();
   const cmd = c.commander(o.commander);
+  const starter = o.altRelic && cmd.alt && c.relics.has(cmd.alt.relic) ? cmd.alt.relic : cmd.relic;
   let maxHp = cmd.hp;
   if (o.ascension >= 6) maxHp = Math.round(maxHp * 0.9);
   const r: RunState = {
     v: 1, seed: o.seed, ascension: o.ascension, tutorial: !!o.tutorial, commander: cmd.id, lieutenant: null,
-    hp: maxHp, maxHp, gold: 99, deck: [], relics: [{ id: cmd.relic, counter: 0 }], potions: [null, null, null],
+    hp: maxHp, maxHp, gold: 99, deck: [], relics: [{ id: starter, counter: 0 }], potions: [null, null, null],
     fateDeck: fullFateDeck(), act: 1, floor: 0, map: { act: 1, rows: [], boss: null, width: 7, height: 15 }, pos: null, bosses: {},
     screen: { k: 'actStart', act: 1 }, stack: [], pending: [], flags: [], emberCapBonus: 0, extraStartSources: [],
-    seenEvents: [], seenRelics: [cmd.relic], relicBags: {}, previews: {}, rarityOffset: -5, potionChance: 40, nextUid: 1,
+    seenEvents: [], seenRelics: [starter], relicBags: {}, previews: {}, rarityOffset: -5, potionChance: 40, nextUid: 1,
     locked: o.locked ?? {}, unlockedHidden: !!o.unlockedHidden,
     stats: { floors: 0, combats: 0, elites: 0, bosses: 0, goldEarned: 0, damageTaken: 0, cardsPlayed: 0, turns: 0, maxDamage: 0 },
-    history: [], discovered: { cards: [], enemies: [], relics: [cmd.relic] }, log: [], result: null,
+    history: [], discovered: { cards: [], enemies: [], relics: [starter] }, log: [], result: null,
+    altSkill: !!(o.altSkill && cmd.alt),
   };
   for (const id of cmd.deck) addCardToDeck(r, id, false);
   if (o.ascension >= 10 && c.cards.has('cu_suye')) addCardToDeck(r, 'cu_suye', false);
   if (o.ascension >= 13) for (let i = 0; i < 4; i++) r.fateDeck.push({ suit: 'thunder', rank: 13, omen: true });
-  const rel = c.relic(cmd.relic);
+  const rel = c.relic(starter);
   if (rel.onPickup) r.pending.push(...rel.onPickup);
   // choose the act bosses up-front
   for (const act of [1, 2, 3, 4]) {
@@ -151,6 +164,11 @@ export function newRun(o: RunOpts): RunState {
     if (b) r.bosses[act] = b.id;
   }
   startAct(r, 1);
+  // 开局祈命: offer N of the unlocked 命签 before the first map
+  const pool = (o.blessings?.pool ?? []).filter((id) => c.blessings.has(id)).sort();
+  if (!r.tutorial && pool.length && (o.blessings?.count ?? 0) > 0) {
+    r.screen = { k: 'blessing', options: sample(rngFor(r, 'blessing'), pool, o.blessings!.count) };
+  }
   return r;
 }
 
@@ -192,7 +210,7 @@ export function combatConfig(r: RunState): CombatConfig {
     commander: r.commander, lieutenant: r.lieutenant, hp: r.hp, maxHp: r.maxHp,
     deck: r.deck.map((d) => ({ id: d.id, up: d.up })), relics: r.relics.map((x) => ({ ...x })), potions: [...r.potions],
     fateDeck: r.fateDeck.map((f) => ({ ...f })), encounter: sc.encounter, ascension: r.ascension, seed: sc.seed,
-    emberCapBonus: r.emberCapBonus, extraStartSources: [...r.extraStartSources],
+    emberCapBonus: r.emberCapBonus, extraStartSources: [...r.extraStartSources], altSkill: !!r.altSkill,
   };
 }
 
@@ -450,7 +468,7 @@ function applyRunEffect(r: RunState, e: RunEffect): boolean {
     }
     case 'flag': if (!r.flags.includes(e.key)) r.flags.push(e.key); return false;
     case 'emberCap': r.emberCapBonus += e.n; return false;
-    case 'startSource': r.extraStartSources.push(e.color); return false;
+    case 'startSource': r.extraStartSources.push(e.color === 'own' ? content().commander(r.commander).faction : e.color); return false;
   }
 }
 
@@ -690,6 +708,15 @@ function applyRun(r: RunState, a: RunAction): string | null {
       if (sc.k === 'pick') { if (!sc.optional) return 'must pick'; popScreen(r); return null; }
       if (sc.k === 'cardChoice') { popScreen(r); return null; }
       leaveToMap(r);
+      return null;
+    }
+    case 'blessing': {
+      if (sc.k !== 'blessing') return 'no blessing';
+      const id = a.i === null ? null : sc.options[a.i];
+      if (a.i !== null && !id) return 'bad option';
+      r.blessing = id;
+      r.screen = { k: 'actStart', act: r.act };
+      if (id) r.pending.push(...content().blessings.get(id)!.effects);
       return null;
     }
     case 'bossRelic': {
