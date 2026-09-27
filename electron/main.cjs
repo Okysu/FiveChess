@@ -84,6 +84,17 @@ function runSmoke(w) {
 }
 
 ipcMain.on('mq:quit', () => app.quit());
+// update check: fetched here (no page CORS; GitHub's release downloads redirect to a host without CORS headers)
+ipcMain.handle('mq:fetch', async (_e, url, ms) => {
+  if (typeof url !== 'string' || !url.startsWith('https://')) return { ok: false, status: 0, text: '' };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), Math.min(Number(ms) || 5000, 20000));
+  try {
+    const r = await net.fetch(url, { signal: ctrl.signal, redirect: 'follow', bypassCustomProtocolHandlers: true, cache: 'no-store' });
+    return { ok: r.ok, status: r.status, text: r.ok ? await r.text() : '' };
+  } catch { return { ok: false, status: 0, text: '' }; } finally { clearTimeout(timer); }
+});
+ipcMain.on('mq:openExternal', (_e, url) => { if (typeof url === 'string' && url.startsWith('https://')) void shell.openExternal(url); });
 ipcMain.on('mq:fullscreen', (_e, on) => { if (win) win.setFullScreen(!!on); });
 ipcMain.on('mq:isFullscreen', (e) => { e.returnValue = !!win && win.isFullScreen(); });
 

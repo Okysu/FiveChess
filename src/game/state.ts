@@ -24,6 +24,8 @@ export interface Settings {
   hudMargin: number;
   /** the version whose 更新日志 the player has seen (null = never) */
   lastSeenVersion: string | null;
+  /** 检查更新: a release the player chose to skip (no automatic prompt for it) */
+  skippedVersion?: string | null;
 }
 
 export const defaultSettings = (): Settings => ({

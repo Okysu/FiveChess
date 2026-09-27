@@ -119,6 +119,9 @@ jobs:
           merge-multiple: true
       - name: Release notes from the changelog
         run: npx tsx scripts/changelog.ts --notes="${{ needs.check.outputs.version }}" > release-notes.md
+      # the clients' update check reads releases/latest/download/latest.json
+      - name: Update manifest
+        run: npx tsx scripts/release-manifest.ts --out=dist-release/latest.json
       - name: Publish GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}

@@ -7,7 +7,7 @@ import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
 import { session, defaultSettings } from '../state';
 import { G } from '../core/app';
 import { sfx } from '../audio/audio';
-import { isFullscreen, isMobileApp, setFullscreen } from '../platform';
+import { isFullscreen, isMobileApp, isNativeApp, setFullscreen } from '../platform';
 import { APP_VERSION } from '../version';
 
 type Tab = 'general' | 'combat' | 'display' | 'audio' | 'access';
@@ -75,6 +75,11 @@ export function openSettings() {
       const ver = new Text({ text: `当前版本 ${APP_VERSION}`, style: { fontFamily: FONT_BODY, fontSize: fs(22), fill: C.textDim } });
       ver.position.set(540, y + 18);
       body.addChild(logBtn, ver);
+      if (isNativeApp) {
+        const chk = new Button('检查更新', { width: 220, height: 64, onClick: () => void import('../updateCheck').then((u) => u.runUpdateCheck(true)) });
+        chk.position.set(860, y);
+        body.addChild(chk);
+      }
       y += 90;
       const reset = new Button('恢复默认设置', { width: 280, height: 64, kind: 'ghost', onClick: () => { session.settings = { ...defaultSettings(), lastSeenVersion: session.settings.lastSeenVersion }; save(); render(); } });
       reset.position.set(290, y);

@@ -2,6 +2,34 @@
   "$comment": "Player-facing update log (newest first). Shown in game (命书新章 / 设置 → 更新日志), written to CHANGELOG.md by `npm run changelog`, and used as the GitHub Release notes for tag v<version>. platforms: omit = every platform; otherwise any of web / pc / android.",
   "versions": [
     {
+      "version": "1.0.3",
+      "date": "2026-09-27",
+      "title": "有信自远方",
+      "sections": {
+        "新增": [
+          {
+            "text": "客户端检查更新：启动后在标题页自动检查 GitHub 上的最新版本，有新版本时列出更新内容，可以直接下载安装版、免安装版或安装包；也可以跳过这个版本，或在「设置 → 通用」里手动检查。",
+            "platforms": [
+              "pc",
+              "android"
+            ]
+          },
+          {
+            "text": "下载线路自动选择：先直连 GitHub，连不上或太慢时依次改用 gh-proxy 加速镜像，下载链接走同一条线路。",
+            "platforms": [
+              "pc",
+              "android"
+            ]
+          }
+        ],
+        "修复": [
+          {
+            "text": "更新日志中的中文长句不再在数字前后断行。"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.2",
       "date": "2026-09-27",
       "title": "兵器谱",

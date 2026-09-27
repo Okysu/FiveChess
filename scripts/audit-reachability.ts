@@ -395,7 +395,7 @@ for (const k of keys) {
   const readers = gameFiles.filter((f) => new RegExp(`\\.${k}\\b`).test(text(f)));
   const ui = new RegExp(`st\\.${k}\\b`).test(settingsUi);
   if (!readers.length) report('10 settings/codex', 'ERROR', `setting '${k}' is never read outside the settings screen${ui ? ' (toggle does nothing)' : ' and has no control'} (${at('src/game/state.ts', new RegExp(`^\\s*${k}:`))}${ui ? `; ${at('src/game/scenes/settings.ts', `st.${k}`)}` : ''})`);
-  else if (!ui && k !== 'lastSeenVersion') report('10 settings/codex', 'WARN', `setting '${k}' has no control in the settings screen (${at('src/game/state.ts', new RegExp(`^\\s*${k}:`))})`);
+  else if (!ui && k !== 'lastSeenVersion' && k !== 'skippedVersion') report('10 settings/codex', 'WARN', `setting '${k}' has no control in the settings screen (${at('src/game/state.ts', new RegExp(`^\\s*${k}:`))})`);
 }
 const codex = 'src/game/scenes/codex.ts';
 for (const lore of ['world', 'rules']) { const f = path.join(DATA_DIR, 'lore', `${lore}.json`); const n = fs.existsSync(f) ? (JSON.parse(fs.readFileSync(f, 'utf8')) as unknown[]).length : 0; report('10 settings/codex', n ? 'INFO' : 'ERROR', `codex tab '${lore}': ${n} entries (${rel(f)})`); }

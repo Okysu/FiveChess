@@ -17,6 +17,7 @@ import { go } from '../router';
 import { canQuit, quitApp } from '../platform';
 import { APP_VERSION } from '../version';
 import { maybeShowWhatsNew } from '../ui/changelog';
+import { runUpdateCheck } from '../updateCheck';
 
 export class TitleScene extends Scene {
   private parts = new Particles();
@@ -124,7 +125,7 @@ ${nu ? `下一解锁：${nu.label}（${nu.xp}）` : '全部内容已解锁'}`, {
   }
 
   /** after the fade-in: 命书新章 once per update */
-  override shown() { maybeShowWhatsNew(); }
+  override shown() { maybeShowWhatsNew(); void runUpdateCheck(false); }
 
   override update(dt: number) {
     this.acc += dt;
