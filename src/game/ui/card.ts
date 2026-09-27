@@ -9,6 +9,7 @@ import { content } from '../../engine/content';
 import { assets, K } from '../assets';
 import { FONT_NUM, FONT_TITLE } from './theme';
 import { richTexture, type VarInfo } from './richtext';
+import { COLOR_INFO } from '../../engine/glossary';
 import { WB, uiCover, uiFill, uiSprite, nine, gem, pip, frame, maskPoly, maskRect } from './skin';
 
 export const CARD_W = 300;
@@ -252,3 +253,21 @@ export function cardBackTexture(): Texture {
 }
 
 export { maskRect };
+
+/**
+ * The cost disc explained: it shows the TOTAL sources needed; the pips under it are the part that must be a given
+ * color (横刀: disc 2 + one 赤 pip = 2 sources, one of them 赤 — not 3). With a live cost, changes are called out.
+ */
+export function costExplain(def: CardDef, live?: { g: number; c: Color[]; x: boolean }): { title: string; body: string } {
+  const printedG = def.cost.g === 'X' ? 0 : def.cost.g;
+  const cost = live ?? { g: printedG, c: def.cost.c ?? [], x: def.cost.g === 'X' };
+  const colors = new Map<Color, number>();
+  for (const col of cost.c) colors.set(col, (colors.get(col) ?? 0) + 1);
+  const colored = [...colors.entries()].map(([col, n]) => `${n} 枚须为${COLOR_INFO[col].name}源`).join('、');
+  if (cost.x) return { title: '费用', body: `X：打出时支付所有可用的源，X 等于支付的数量${colored ? `（其中 ${colored}）` : ''}。` };
+  const total = cost.g + cost.c.length;
+  const printed = printedG + (def.cost.c ?? []).length;
+  const change = live && total !== printed ? `（原价 ${printed}，当前${total < printed ? '减少' : '增加'} ${Math.abs(total - printed)}）` : '';
+  if (total === 0) return { title: '费用', body: `不消耗源。${change}` };
+  return { title: '费用', body: `共需 ${total} 枚源${colored ? `，其中 ${colored}` : '，颜色不限'}。圆盘上的数字是总数，下方色标是其中须对应颜色的部分。${change}` };
+}

@@ -10,7 +10,7 @@ import { C, FONT_NUM, FONT_TITLE, FONT_UI, FONT_BODY, TYPE_NAME } from './theme'
 import { iconSprite } from './draw';
 import { Bar, nine, uiSprite, maskCircle, icon, INSET } from './skin';
 import { Button, Modal, Tooltip, glossLines, hideTip, label, showTip, toast } from './widgets';
-import { CardView, CARD_W, CARD_H } from './card';
+import { CardView, CARD_W, CARD_H, costExplain } from './card';
 import { ScrollBox } from './scroll';
 import { assets, K } from '../assets';
 import { tweens, ease } from '../core/tween';
@@ -339,7 +339,7 @@ export function inspectCard(id: string, up: boolean) {
     m.body.addChild(t);
   }
   const terms = termsOf(def.text + ' ' + (content().card(id).upgrade?.text ?? ''));
-  const lines = glossLines(terms);
+  const lines: { title: string; body: string; color?: number }[] = [costExplain(def), ...glossLines(terms)];
   let y = 130;
   const tx = hasUp ? 1060 : 760;
   const w = 1500 - INSET.dark.x - 20 - tx; // stay inside the modal border

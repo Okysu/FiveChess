@@ -22,7 +22,7 @@ import { content } from '../../../engine/content';
 import { STATUSES, SUIT_INFO, fillVars } from '../../../engine/glossary';
 import { TopBar, openDeck, inspectCard, pickCards, termsOf, sortCards } from '../../ui/hud';
 import { Button, Modal, Tooltip, glossLines, hideTip, label, showTip, title, toast } from '../../ui/widgets';
-import { CardView, CARD_H } from '../../ui/card';
+import { CardView, CARD_H, costExplain } from '../../ui/card';
 import { C, FONT_BODY, FONT_NUM, FONT_TITLE } from '../../ui/theme';
 import { WB, uiSprite, dim, screenDim, hitRect, nine, panel, INSET, frame, ring as ringSprite, sectorMask, maskCircle } from '../../ui/skin';
 import { tweens, ease, wait } from '../../core/tween';
@@ -439,8 +439,8 @@ export class CombatScene extends Scene {
     const info = playableInfo(this.s, card);
     const plan = info.payment ?? planPayment(this.s, effectiveCost(this.s, card), card);
     this.tray.highlight(plan ?? null, this.s);
-    const lines = glossLines(v.rulesTerms);
-    if (lines.length) showTip(new Tooltip(lines, 340), v.x + 160, 560);
+    const lines = [costExplain(cardDef(card), effectiveCost(this.s, card)), ...glossLines(v.rulesTerms)];
+    showTip(new Tooltip(lines, 340), v.x + 160, 560);
   }
 
   private onCardPress(v: CardView, e: FederatedPointerEvent) {
