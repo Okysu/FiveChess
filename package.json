@@ -1,7 +1,7 @@
 {
   "name": "tianming-deckbuilder",
   "private": true,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -31,7 +31,8 @@
     "desktop:pack": "npm run build:native && electron-builder --win --publish never",
     "android:sync": "npm run build:native && cap sync android",
     "android:apk": "npm run android:sync && node scripts/android-build.mjs",
-    "changelog": "tsx scripts/changelog.ts"
+    "changelog": "tsx scripts/changelog.ts",
+    "redeem": "tsx scripts/redeem.ts"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",

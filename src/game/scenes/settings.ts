@@ -75,6 +75,9 @@ export function openSettings() {
       const ver = new Text({ text: `当前版本 ${APP_VERSION}`, style: { fontFamily: FONT_BODY, fontSize: fs(22), fill: C.textDim } });
       ver.position.set(540, y + 18);
       body.addChild(logBtn, ver);
+      const redeemBtn = new Button('兑换码', { width: 180, height: 64, onClick: () => void import('../ui/redeemDialog').then((r) => r.openRedeem()) });
+      redeemBtn.position.set(isNativeApp ? 1100 : 860, y);
+      body.addChild(redeemBtn);
       if (isNativeApp) {
         const chk = new Button('检查更新', { width: 220, height: 64, onClick: () => void import('../updateCheck').then((u) => u.runUpdateCheck(true)) });
         chk.position.set(860, y);

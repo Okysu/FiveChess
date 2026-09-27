@@ -67,7 +67,12 @@ class GameApp {
       // a scene only ticks once enter() has built it (enter awaits asset loads)
       if (this.sceneReady) this.scene?.update(t.deltaMS);
     });
-    window.addEventListener('keydown', (e) => { if (this.dispatchKey(e)) e.preventDefault(); });
+    window.addEventListener('keydown', (e) => {
+      // typing into a text field (ui/input.ts) is not a game hotkey
+      const tgt = e.target as HTMLElement | null;
+      if (tgt && (tgt.tagName === 'INPUT' || tgt.tagName === 'TEXTAREA')) return;
+      if (this.dispatchKey(e)) e.preventDefault();
+    });
   }
 
   /** portrait touch screens: the 16:9 game is drawn rotated 90° so it fills the phone (works with rotation lock) */

@@ -2,6 +2,21 @@
   "$comment": "Player-facing update log (newest first). Shown in game (命书新章 / 设置 → 更新日志), written to CHANGELOG.md by `npm run changelog`, and used as the GitHub Release notes for tag v<version>. platforms: omit = every platform; otherwise any of web / pc / android.",
   "versions": [
     {
+      "version": "1.0.4",
+      "date": "2026-09-27",
+      "title": "一纸兑命",
+      "sections": {
+        "新增": [
+          {
+            "text": "兑换码：在「设置 → 通用 → 兑换码」输入官方发放的兑换码，可直接获得命数，快速解锁新主将、卡牌与遗物。兑换码离线校验、带有效期，每个码在一个存档里只能使用一次。"
+          },
+          {
+            "text": "文字输入框支持手机软键盘和粘贴（Ctrl+V、长按粘贴，或点「粘贴」按钮）。"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.3",
       "date": "2026-09-27",
       "title": "有信自远方",

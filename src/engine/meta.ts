@@ -35,6 +35,8 @@ export interface Profile {
   seenHints?: string[];
   /** 命途 claimed (engine/achievements.ts) */
   achievements?: string[];
+  /** 兑换码 already used (engine/redeem.ts redeemKey) */
+  redeemed?: string[];
 }
 
 /** unlock track: thresholds in 命数 (xp) */
@@ -190,20 +192,27 @@ export function recordRun(p: Profile, r: RunState, summary: RunSummary): string[
   for (const k of ['cards', 'enemies', 'relics'] as const) for (const id of r.discovered[k]) if (!p.discovered[k].includes(id)) p.discovered[k].push(id);
   // 命途: before the unlock track, so their 命数 can open an unlock this run
   unlocked.push(...checkAchievements(p, r, summary));
+  for (const label of applyUnlockTrack(p, before, p.runs === 1)) if (!unlocked.includes(label)) unlocked.push(label);
+  p.history.unshift(summary);
+  p.history = p.history.slice(0, 60);
+  return unlocked;
+}
+
+/** grant every unlock-track step whose threshold lies in (before, p.xp] — for run rewards and 兑换码 alike */
+export function applyUnlockTrack(p: Profile, before: number, firstRun = false): string[] {
+  const out: string[] = [];
   for (const step of UNLOCK_TRACK) {
-    if (step.xp > before && step.xp <= p.xp || (step.xp === 1 && p.runs === 1)) {
+    if ((step.xp > before && step.xp <= p.xp) || (firstRun && step.xp === 1)) {
       if (step.commanders) for (const c of step.commanders) if (!p.unlocked.commanders.includes(c)) p.unlocked.commanders.push(c);
       if (step.lieutenants && !p.unlocked.lieutenants.length) p.unlocked.lieutenants = ['*'];
       if (step.cardPack) p.unlocked.cardPacks++;
       if (step.relicPack) p.unlocked.relicPacks++;
       if (step.eventPack) p.unlocked.eventPacks++;
       if (step.blessingPack) p.unlocked.blessingPacks = (p.unlocked.blessingPacks ?? 0) + 1;
-      if (!unlocked.includes(step.label)) unlocked.push(step.label);
+      out.push(step.label);
     }
   }
-  p.history.unshift(summary);
-  p.history = p.history.slice(0, 60);
-  return unlocked;
+  return out;
 }
 
 export function nextUnlock(p: Profile) {

@@ -94,6 +94,19 @@ godot/           已暂停的 Godot 移植：规则引擎已逐步对齐，界�
 | `npm run gen:sheets -- --only=card` | 合图生成美术（一次请求多张，再自动切图） |
 | `npm run gen:art -- --only=background` | 单张生成美术（背景等全屏图） |
 
+### 兑换码
+
+离线兑换码（官方“作弊码”，便于玩家快速解锁新内容）：不联网，由公式计算与校验，见 `src/engine/redeem.ts`。每个码包含类型、数量、有效期和序号，带 32 位校验，输错任何一个字符都会被拒绝；同一存档内每个码（类型 + 序号）只能用一次。目前支持的类型：`xp`（命数）。
+
+```bash
+npm run redeem -- --type=xp --amount=5000                          # 一个永久码，随机序号
+npm run redeem -- --amount=2000 --days=30 --count=10 --serial=100  # 10 个码（序号 100…109），30 天有效
+npm run redeem -- --amount=800 --until=2026-12-31                  # 有效至某日（UTC 当天结束）
+npm run redeem -- --decode=XXXXX-XXXXX-XXXXX-XXXXX-XXXXX           # 查看码的内容
+```
+
+玩家在「设置 → 通用 → 兑换码」输入。新增奖励类型：在 `REDEEM_TYPES` 里加一项（新的 id、名称、`apply`）。
+
 ## 美术生成
 
 美术只在本地/构建期生成，**密钥绝不进入前端产物**：
