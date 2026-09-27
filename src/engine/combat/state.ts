@@ -222,6 +222,11 @@ export interface CombatState {
     damageTaken: number;
     cardsPlayed: number;
     turns: number;
+    /** 1.0.2 (命途): optional so combats saved by 1.0.1 still load */
+    sacrifices?: number;
+    discards?: number;
+    judges?: number;
+    cmdAttacks?: number;
   };
   goldGained: number;
   events: CEvent[];

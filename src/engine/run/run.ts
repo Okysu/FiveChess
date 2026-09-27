@@ -95,7 +95,12 @@ export interface RunState {
   nextUid: number;
   locked: NonNullable<RunOpts['locked']>;
   unlockedHidden: boolean;
-  stats: { floors: number; combats: number; elites: number; bosses: number; goldEarned: number; damageTaken: number; cardsPlayed: number; turns: number; maxDamage: number };
+  stats: {
+    floors: number; combats: number; elites: number; bosses: number; goldEarned: number; damageTaken: number; cardsPlayed: number; turns: number; maxDamage: number;
+    /** 1.0.2 (命途), optional for runs saved by 1.0.1 */
+    sacrifices?: number; discards?: number; judges?: number; responses?: number; kills?: number; cmdAttacks?: number;
+    flawless?: number; flawlessBoss?: number; maxGold?: number;
+  };
   history: { act: number; row: number; col?: number; type: NodeType | 'event-fight' | 'recruit'; detail: string }[];
   discovered: { cards: string[]; enemies: string[]; relics: string[] };
   log: RunAction[];
@@ -254,6 +259,14 @@ export function applyCombatResult(r: RunState, a: Extract<RunAction, { t: 'comba
   r.stats.cardsPlayed += a.stats.cardsPlayed;
   r.stats.turns += a.stats.turns;
   r.stats.maxDamage = Math.max(r.stats.maxDamage, a.stats.damageDealt);
+  const st = r.stats, cs = a.stats;
+  st.sacrifices = (st.sacrifices ?? 0) + (cs.sacrifices ?? 0);
+  st.discards = (st.discards ?? 0) + (cs.discards ?? 0);
+  st.judges = (st.judges ?? 0) + (cs.judges ?? 0);
+  st.responses = (st.responses ?? 0) + cs.responses;
+  st.kills = (st.kills ?? 0) + cs.dead;
+  st.cmdAttacks = (st.cmdAttacks ?? 0) + (cs.cmdAttacks ?? 0);
+  if (a.result === 'win' && a.hp >= r.hp) { st.flawless = (st.flawless ?? 0) + 1; if (sc.tier === 'boss') st.flawlessBoss = (st.flawlessBoss ?? 0) + 1; }
   r.hp = Math.max(0, a.hp);
   r.potions = [...a.potions];
   r.relics = a.relics.map((x) => ({ ...x }));
@@ -653,7 +666,7 @@ export function availableNodes(r: RunState): MapNode[] {
 
 export function runAct(r: RunState, a: RunAction): string | null {
   const err = applyRun(r, a);
-  if (!err) { r.log.push(a); drainPending(r); }
+  if (!err) { r.log.push(a); drainPending(r); r.stats.maxGold = Math.max(r.stats.maxGold ?? 0, r.gold); }
   return err;
 }
 

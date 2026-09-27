@@ -216,6 +216,7 @@ function sacrifice(s: CombatState, uid: number): string | null {
   const color: Color = def.type === 'status' || def.type === 'curse' ? 'N' : def.faction;
   const gained = addSource(s, color, true);
   emit(s, { t: 'sacrifice', card, color, gained });
+  s.stats.sacrifices = (s.stats.sacrifices ?? 0) + 1;
   fire(s, 'cardSacrificed', { side: 'player', card });
   if (def.onSacrifice) pushFx(s, def.onSacrifice, cardCtx(s, 'player', card, null));
   return null;

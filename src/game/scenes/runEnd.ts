@@ -8,7 +8,9 @@ import { session } from '../state';
 import { act } from '../router';
 import { content } from '../../engine/content';
 import { runScore } from '../../engine/meta';
-import { Button, title } from '../ui/widgets';
+import { Button, Modal, title } from '../ui/widgets';
+import { ScrollBox } from '../ui/scroll';
+import { hintOnce } from '../ui/hints';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
 import { tweens } from '../core/tween';
 import { audio, sfx } from '../audio/audio';
@@ -60,11 +62,16 @@ export class RunEndScene extends Scene {
       nt.anchor.set(0.5); nt.position.set(960, 840);
       this.addChild(nt);
     }
+    // unlocks, 精通 levels and 命途 can be many: three lines, then a link to the full list
     const unlocks = session.lastUnlocks;
-    unlocks.forEach((u, i) => {
-      const ut = new Text({ text: `✦ ${u}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: 0x9adfa8, stroke: { color: 0, width: 4 } } });
+    const shown = unlocks.length > 4 ? unlocks.slice(0, 3) : unlocks;
+    const lines = [...shown.map((u) => `✦ ${u}`), ...(unlocks.length > shown.length ? [`……另有 ${unlocks.length - shown.length} 项新解锁（点此查看全部）`] : [])];
+    lines.forEach((u, i) => {
+      const more = i === shown.length;
+      const ut = new Text({ text: u, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(more ? 22 : 26), fill: more ? C.goldLight : 0x9adfa8, stroke: { color: 0, width: 4 } } });
       ut.anchor.set(0.5); ut.position.set(960, 890 + i * 36);
       ut.alpha = 0;
+      if (more) { ut.eventMode = 'static'; ut.cursor = 'pointer'; ut.on('pointertap', () => this.allUnlocks(unlocks)); }
       this.addChild(ut);
       void tweens.to(ut, { alpha: 1 }, 400, { delay: 800 + i * 300 });
     });
@@ -72,6 +79,24 @@ export class RunEndScene extends Scene {
     b.position.set(1620, 980);
     this.addChild(b);
   }
+
+  private allUnlocks(list: string[]) {
+    const m = new Modal(1100, 820, { title: '本局解锁' });
+    const box = new ScrollBox(1100 - INSET.dark.x * 2, 820 - 110 - INSET.dark.y);
+    box.position.set(INSET.dark.x, 110);
+    let y = 0;
+    for (const u of list) {
+      const t = new Text({ text: `✦ ${u}`, style: { fontFamily: FONT_BODY, fontSize: fs(23), fill: C.text, wordWrap: true, wordWrapWidth: 1100 - INSET.dark.x * 2 - 40, breakWords: true } });
+      t.position.set(10, y);
+      box.content.addChild(t);
+      y += t.height + 10;
+    }
+    box.refresh();
+    m.body.addChild(box);
+  }
+
+  /** first 精通 level-up: explain what 精通 gives */
+  override shown() { if (session.lastUnlocks.some((u) => / 精通 \d/.test(u))) hintOnce('mastery'); }
 
   private async hidden() {
     await assets.load(K.bg('battle_4'));

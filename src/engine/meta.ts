@@ -5,6 +5,7 @@
  */
 import { content } from './content';
 import type { RunState } from './run/run';
+import { checkAchievements } from './achievements';
 
 export interface RunSummary {
   seed: string; commander: string; lieutenant: string | null; ascension: number; result: 'win' | 'lose' | 'abandon';
@@ -30,6 +31,10 @@ export interface Profile {
   mastery: Record<string, number>;
   /** chosen 精通 loadout per commander (only honoured once the level allows it) */
   loadout: Record<string, { altRelic?: boolean; altSkill?: boolean }>;
+  /** one-time tips already shown (ui/hints.ts) */
+  seenHints?: string[];
+  /** 命途 claimed (engine/achievements.ts) */
+  achievements?: string[];
 }
 
 /** unlock track: thresholds in 命数 (xp) */
@@ -182,6 +187,9 @@ export function recordRun(p: Profile, r: RunState, summary: RunSummary): string[
     if (!p.hiddenUnlocked) { p.hiddenUnlocked = true; unlocked.push('命书深处似乎还有什么在等待……'); }
   }
   st.bestFloor = Math.max(st.bestFloor, summary.floor);
+  for (const k of ['cards', 'enemies', 'relics'] as const) for (const id of r.discovered[k]) if (!p.discovered[k].includes(id)) p.discovered[k].push(id);
+  // 命途: before the unlock track, so their 命数 can open an unlock this run
+  unlocked.push(...checkAchievements(p, r, summary));
   for (const step of UNLOCK_TRACK) {
     if (step.xp > before && step.xp <= p.xp || (step.xp === 1 && p.runs === 1)) {
       if (step.commanders) for (const c of step.commanders) if (!p.unlocked.commanders.includes(c)) p.unlocked.commanders.push(c);
@@ -193,7 +201,6 @@ export function recordRun(p: Profile, r: RunState, summary: RunSummary): string[
       if (!unlocked.includes(step.label)) unlocked.push(step.label);
     }
   }
-  for (const k of ['cards', 'enemies', 'relics'] as const) for (const id of r.discovered[k]) if (!p.discovered[k].includes(id)) p.discovered[k].push(id);
   p.history.unshift(summary);
   p.history = p.history.slice(0, 60);
   return unlocked;

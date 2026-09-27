@@ -121,3 +121,22 @@ describe('存档 v1 → v2', () => {
     expect(p.loadout).toEqual({});
   });
 });
+
+describe('命途', () => {
+  it('claims once, pays 命数, and counts toward the unlock track in the same run', async () => {
+    const { recordRun } = await import('../src/engine/meta');
+    const { achievements } = await import('../src/engine/achievements');
+    expect(achievements().length).toBeGreaterThanOrEqual(40);
+    expect(new Set(achievements().map((a) => a.id)).size).toBe(achievements().length);
+    const p = newProfile();
+    const r = newRun({ seed: 'ach', commander: 'r_huojin', ascension: 0 });
+    r.result = 'lose';
+    const summary = { seed: 'ach', commander: 'r_huojin', lieutenant: null, ascension: 0, result: 'lose' as const, act: 1, floor: 3, score: 20, date: 0, deck: [], relics: [], turns: 5, maxDamage: 10 };
+    const notes = recordRun(p, r, summary);
+    expect(p.achievements).toContain('ach_first_run');
+    expect(notes.some((n) => n.includes('初入命阙'))).toBe(true);
+    expect(p.xp).toBe(20 + 50);
+    const again = recordRun(p, r, summary);
+    expect(again.some((n) => n.includes('初入命阙'))).toBe(false);
+  });
+});

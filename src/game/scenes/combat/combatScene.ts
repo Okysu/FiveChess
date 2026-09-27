@@ -34,6 +34,7 @@ import { Arrow } from './arrow';
 import { FateArea, FateCardView } from './fateView';
 import { SourceTray, Pile, EquipRow, SkillRow, FieldSlot } from './hudViews';
 import { liveCard, predictCardDamage } from './live';
+import { hintOnce } from '../../ui/hints';
 import { slotPos, PLAY_LINE_Y, STAGE, PILES, ALTAR, END_BTN, FATE, X, CMD_Y, UNIT_SCALE, HUD, BOTTOM, LEFT, RIGHT } from './layout';
 
 type Targeting =
@@ -1337,6 +1338,9 @@ export class CombatScene extends Scene {
       await this.turnBanner(enc?.tier === 'elite' ? '精 英 来 袭' : '遭 遇 敌 人', enc?.tier === 'elite' ? 0xff7a5a : 0xffd27a);
     }
     if (session.run?.tutorial && session.settings.tutorialHints) this.tutorialHints();
+    // one-time tips for systems met after the tutorial: 破甲 at the first boss, weapons when the commander has none
+    else if (enc?.tier === 'boss') hintOnce('sunder');
+    else if (!this.s.sides.player.equip.weapon) hintOnce('weapon');
   }
 
   private tutorialHints() {

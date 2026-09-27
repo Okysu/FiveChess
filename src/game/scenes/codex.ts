@@ -18,9 +18,12 @@ import { FateCardView } from './combat/fateView';
 import world from '../../data/lore/world.json';
 import rules from '../../data/lore/rules.json';
 import { audio } from '../audio/audio';
+import { codexProgress } from '../../engine/collection';
+import { achievements } from '../../engine/achievements';
+import { masteryLevel } from '../../engine/meta';
 
-type Tab = 'cards' | 'enemies' | 'relics' | 'commanders' | 'fate' | 'world' | 'rules' | 'history';
-const TABS: [Tab, string][] = [['cards', '卡牌'], ['enemies', '敌人'], ['relics', '遗物'], ['commanders', '主帅'], ['fate', '天命'], ['world', '世界'], ['rules', '规则'], ['history', '对局记录']];
+type Tab = 'cards' | 'enemies' | 'relics' | 'commanders' | 'fate' | 'world' | 'rules' | 'history' | 'stats' | 'achievements';
+const TABS: [Tab, string][] = [['cards', '卡牌'], ['enemies', '敌人'], ['relics', '遗物'], ['commanders', '主帅'], ['fate', '天命'], ['world', '世界'], ['rules', '规则'], ['history', '对局记录'], ['stats', '统计'], ['achievements', '命途']];
 
 class CodexPanel extends Container {
   private tab: Tab = 'cards';
@@ -181,6 +184,14 @@ class CodexPanel extends Container {
         this.body.addChild(box);
         break;
       }
+      case 'stats': {
+        this.body.addChild(statsView(this.w, H));
+        break;
+      }
+      case 'achievements': {
+        this.body.addChild(achievementsView(this.w, H));
+        break;
+      }
       case 'history': {
         const hs = session.profile.history;
         if (!hs.length) { const t = new Text({ text: '尚无对局记录。', style: { fontFamily: FONT_BODY, fontSize: fs(26), fill: C.textDim } }); t.position.set(40, 40); this.body.addChild(t); break; }
@@ -206,6 +217,108 @@ class CodexPanel extends Container {
       }
     }
   }
+}
+
+/** 统计: overall record, per-commander table, what ends runs, favourite cards (from the last 60 runs) */
+function statsView(w: number, h: number): Container {
+  const p = session.profile;
+  const box = new ScrollBox(w, h);
+  let y = 10;
+  const line = (text: string, o: { size?: number; color?: number; x?: number; bold?: boolean } = {}) => {
+    const t = new Text({ text, style: { fontFamily: o.bold ? FONT_TITLE : FONT_BODY, fontWeight: o.bold ? '900' : 'normal', fontSize: fs(o.size ?? 22), fill: o.color ?? C.text, wordWrap: true, wordWrapWidth: w - 80, breakWords: true } });
+    t.position.set(o.x ?? 20, y);
+    box.content.addChild(t);
+    y += t.height + 8;
+    return t;
+  };
+  const cp = codexProgress(p);
+  const pct = (a: number, b: number) => (b ? `${Math.round((100 * a) / b)}%` : '—');
+  line('总览', { size: 30, color: C.goldLight, bold: true });
+  line(`出征 ${p.runs} · 通关 ${p.wins}（胜率 ${pct(p.wins, p.runs)}）· 命数 ${p.xp}`);
+  line(`图鉴收集 ${Math.round(cp.pct * 100)}%：卡牌 ${cp.cards[0]}/${cp.cards[1]} · 敌人 ${cp.enemies[0]}/${cp.enemies[1]} · 遗物 ${cp.relics[0]}/${cp.relics[1]}`);
+  y += 16;
+  line('主帅', { size: 30, color: C.goldLight, bold: true });
+  const cols = [0, 200, 330, 460, 590, 740, 900];
+  const head = ['主帅', '出征', '通关', '胜率', '最远层数', '最高逆命', '精通'];
+  head.forEach((hd, i) => { const t = new Text({ text: hd, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(21), fill: C.textDim } }); t.position.set(20 + cols[i]!, y); box.content.addChild(t); });
+  y += 40;
+  for (const id of p.unlocked.commanders) {
+    const cm = content().commanders.get(id);
+    if (!cm) continue;
+    const st = p.commanderStats[id];
+    const cells = [cm.name, String(st?.runs ?? 0), String(st?.wins ?? 0), pct(st?.wins ?? 0, st?.runs ?? 0), String(st?.bestFloor ?? 0), String(st?.highestAsc ?? 0), `${masteryLevel(p.mastery[id] ?? 0)} 级`];
+    cells.forEach((c, i) => { const t = new Text({ text: c, style: { fontFamily: FONT_BODY, fontSize: fs(21), fill: i === 0 ? factionColor(cm.faction) : C.text } }); t.position.set(20 + cols[i]!, y); box.content.addChild(t); });
+    y += 36;
+  }
+  y += 16;
+  const hs = p.history.filter((x) => x.result !== 'abandon');
+  line(`最近 ${hs.length} 局`, { size: 30, color: C.goldLight, bold: true });
+  if (!hs.length) line('尚无对局记录。', { color: C.textDim });
+  else {
+    const avg = hs.reduce((a, x) => a + x.floor + (x.act - 1) * 15, 0) / hs.length;
+    line(`平均走到第 ${Math.round(avg)} 层（按全程计）· 通关 ${hs.filter((x) => x.result === 'win').length} 局`);
+    const count = (ids: string[]) => { const m = new Map<string, number>(); for (const id of ids) m.set(id, (m.get(id) ?? 0) + 1); return [...m.entries()].sort((a, b) => b[1] - a[1]); };
+    const nem = count(hs.filter((x) => x.result === 'lose' && x.nemesis).map((x) => x.nemesis!)).slice(0, 5);
+    const encName = (id: string) => { const e = content().encounters.get(id); const first = e?.enemies[0]?.id; return (first && content().enemies.get(first)?.name) ?? id; };
+    line('最常止步于：' + (nem.length ? nem.map(([id, n]) => `${encName(id)} ×${n}`).join('　') : '—'));
+    const cards = count(hs.flatMap((x) => [...new Set(x.deck)]).filter((id) => { const d = content().cards.get(id); return d && d.rarity !== 'basic' && d.type !== 'curse' && d.type !== 'status'; })).slice(0, 8);
+    line('最常带上的牌：' + (cards.length ? cards.map(([id, n]) => `${content().cards.get(id)!.name} ×${n}`).join('　') : '—'));
+    const relics = count(hs.flatMap((x) => x.relics).filter((id) => content().relics.get(id)?.tier !== 'starter')).slice(0, 6);
+    line('最常拿到的遗物：' + (relics.length ? relics.map(([id, n]) => `${content().relics.get(id)?.name ?? id} ×${n}`).join('　') : '—'));
+  }
+  box.refresh();
+  return box;
+}
+
+/** 命途: every achievement by group, claimed ones lit, open ones with their progress */
+function achievementsView(w: number, h: number): Container {
+  const p = session.profile;
+  const got = new Set(p.achievements ?? []);
+  const list = achievements();
+  const box = new ScrollBox(w, h);
+  let y = 10;
+  const head = new Text({ text: `已达成 ${list.filter((a) => got.has(a.id)).length} / ${list.length}　·　每项首次达成时获得一次命数`, style: { fontFamily: FONT_BODY, fontSize: fs(22), fill: C.textDim } });
+  head.position.set(20, y);
+  box.content.addChild(head);
+  y += 50;
+  for (const group of ['征途', '主帅', '逆命', '战技', '行囊', '收藏'] as const) {
+    const gt = new Text({ text: group, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(28), fill: C.goldLight } });
+    gt.position.set(20, y);
+    box.content.addChild(gt);
+    y += 46;
+    const items = list.filter((a) => a.group === group);
+    const colW = Math.floor((w - 60) / 2);
+    // build first: a row is as tall as its text (phone fonts wrap), both cells of a line share the taller height
+    const cells = items.map((a) => {
+      const done = got.has(a.id);
+      const nm = new Text({ text: `${done ? '✓ ' : ''}${a.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: done ? 0x9adfa8 : C.text } });
+      const pr = !done && a.progress ? a.progress(p) : null;
+      const right = new Text({ text: pr ? `${Math.min(pr[0], pr[1])}/${pr[1]}　命数 +${a.reward}` : `命数 +${a.reward}`, style: { fontFamily: FONT_BODY, fontSize: fs(18), fill: done ? C.textDim : C.goldLight } });
+      const tx = new Text({ text: a.text, style: { fontFamily: FONT_BODY, fontSize: fs(18), fill: C.textDim, wordWrap: true, wordWrapWidth: colW - INSET.row.x * 2, breakWords: true } });
+      const top = 12 + nm.height + 4;
+      return { done, nm, right, tx, top, h: Math.max(84, top + tx.height + 16) };
+    });
+    for (let i = 0; i < cells.length; i += 2) {
+      const rowH = Math.max(cells[i]!.h, cells[i + 1]?.h ?? 0);
+      for (const [k, cell] of [cells[i], cells[i + 1]].entries()) {
+        if (!cell) continue;
+        const row = new Container();
+        row.position.set(20 + k * (colW + 20), y);
+        const bg = uiPanel(colW, rowH, 'row');
+        bg.alpha = cell.done ? 1 : 0.55;
+        cell.nm.position.set(INSET.row.x, 12);
+        cell.right.anchor.set(1, 0);
+        cell.right.position.set(colW - INSET.row.x, 15);
+        cell.tx.position.set(INSET.row.x, cell.top);
+        row.addChild(bg, cell.nm, cell.right, cell.tx);
+        box.content.addChild(row);
+      }
+      y += rowH + 8;
+    }
+    y += 12;
+  }
+  box.refresh();
+  return box;
 }
 
 export class CodexScene extends Scene {

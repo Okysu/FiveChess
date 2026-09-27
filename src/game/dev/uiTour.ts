@@ -164,7 +164,7 @@ export async function runUiTour(o: { events?: 'all' | number } = {}): Promise<To
   await page('credits', pages, () => (G.scene as unknown as { credits(): void }).credits(), 2500);
   closeModals();
   await page('select', pages, () => scene(async () => new (await import('../scenes/select')).SelectScene()));
-  for (const tab of ['cards', 'enemies', 'relics', 'commanders', 'fate', 'world', 'rules', 'history'] as const) {
+  for (const tab of ['cards', 'enemies', 'relics', 'commanders', 'fate', 'world', 'rules', 'history', 'stats', 'achievements'] as const) {
     await page(`codex_${tab}`, pages, async () => {
       if (!(G.scene?.constructor.name === 'CodexScene')) await scene(async () => new (await import('../scenes/codex')).CodexScene());
       const panel = walk(G.sceneLayer).find((x) => x.constructor.name === 'CodexPanel') as unknown as { tab: string; render(): void } | undefined;

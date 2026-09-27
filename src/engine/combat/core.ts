@@ -357,6 +357,7 @@ export function performAttack(s: CombatState, attackerUid: number, targetUid: nu
   const t = unit(s, targetUid);
   if (!alive(a) || !alive(t)) return;
   emit(s, { t: 'attack', attacker: a.uid, target: t.uid });
+  if (a.side === 'player' && a.kind === 'commander') s.stats.cmdAttacks = (s.stats.cmdAttacks ?? 0) + 1;
   fire(s, 'attacking', { subject: a.uid, side: a.side, target: t.uid, source: a.uid });
   fire(s, 'attacked', { subject: t.uid, side: t.side, source: a.uid });
   const ranged = isRangedAttacker(s, a);
@@ -558,6 +559,7 @@ function discardCard(s: CombatState, card: CardInst, atTurnEnd = false) {
   if (card.fleeting) { s.exhaust.push(card); emit(s, { t: 'exhaust', card }); fire(s, 'cardExhausted', { side: 'player', card }); return; }
   s.discard.push(card);
   emit(s, { t: 'discard', card });
+  if (!atTurnEnd) s.stats.discards = (s.stats.discards ?? 0) + 1;
   fire(s, 'cardDiscarded', { side: 'player', card, endOfTurn: atTurnEnd });
 }
 
@@ -1029,6 +1031,7 @@ function execEffect(s: CombatState, task: FxTask, eff: AnyEffect) {
       s.fate.discard.push(card);
       s.stats.judgesThisTurn[card.suit] = (s.stats.judgesThisTurn[card.suit] ?? 0) + 1;
       emit(s, { t: 'judgeResult', card, branch: eff.branch });
+      if (ctx.side === 'player') s.stats.judges = (s.stats.judges ?? 0) + 1;
       fire(s, 'judged', { side: ctx.side, suit: card.suit, judge: card, subject: ctx.target });
       return;
     }

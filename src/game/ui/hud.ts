@@ -6,7 +6,7 @@ import { fs } from './profile';
 import { content } from '../../engine/content';
 import type { CardRef, RunState } from '../../engine/run/run';
 import { Box } from '../core/layout';
-import { C, FONT_NUM, FONT_TITLE, FONT_UI, FONT_BODY } from './theme';
+import { C, FONT_NUM, FONT_TITLE, FONT_UI, FONT_BODY, TYPE_NAME } from './theme';
 import { iconSprite } from './draw';
 import { Bar, nine, uiSprite, maskCircle, icon, INSET } from './skin';
 import { Button, Modal, Tooltip, glossLines, hideTip, label, showTip, toast } from './widgets';
@@ -285,9 +285,35 @@ export function cardGrid(cards: { id: string; up: boolean; uid?: number }[], opt
 export function openDeck(cards: CardRef[] | { id: string; up: boolean }[], titleText: string, o: { sort?: boolean; note?: string } = {}) {
   const m = new Modal(1640, 940, { title: `${titleText}（${cards.length}）` });
   const list = o.sort === false ? cards : sortCards(cards);
-  const { box } = cardGrid(list, { width: 1580, height: 800 });
-  box.position.set(30, 100);
-  m.body.addChild(box);
+  // filters: card type and cost (only offered when there is something to filter)
+  let type = 'all', cost = -1;
+  const bar = new Container();
+  const gridHolder = new Container();
+  m.body.addChild(bar, gridHolder);
+  const types = ['all', ...TYPE_ORDER.filter((t) => list.some((c) => content().card(c.id, c.up).type === t))];
+  const costOf = (c: { id: string; up: boolean }) => { const g = content().card(c.id, c.up).cost.g; return g === 'X' ? 0 : g; };
+  const render = () => {
+    bar.removeChildren().forEach((x) => x.destroy({ children: true }));
+    let x = 30;
+    if (list.length > 8) {
+      for (const t of types) {
+        const b = new Button(t === 'all' ? '全部' : TYPE_NAME[t] ?? t, { width: 96, height: 44, fontSize: fs(19), kind: type === t ? 'primary' : 'ghost', onClick: () => { type = t; render(); } });
+        b.position.set(x, 96); bar.addChild(b); x += 104;
+      }
+      x += 30;
+      for (const [cv, name] of [[-1, '任意费用'], [0, '0 费'], [1, '1 费'], [2, '2 费'], [3, '3 费+']] as [number, string][]) {
+        const b = new Button(name, { width: cv < 0 ? 128 : 88, height: 44, fontSize: fs(19), kind: cost === cv ? 'primary' : 'ghost', onClick: () => { cost = cv; render(); } });
+        b.position.set(x, 96); bar.addChild(b); x += (cv < 0 ? 128 : 88) + 8;
+      }
+    }
+    const shown = list.filter((c) => (type === 'all' || content().card(c.id, c.up).type === type) && (cost < 0 || (cost >= 3 ? costOf(c) >= 3 : costOf(c) === cost)));
+    gridHolder.removeChildren().forEach((g) => g.destroy({ children: true }));
+    const top = list.length > 8 ? 152 : 100;
+    const { box } = cardGrid(shown, { width: 1580, height: 900 - top });
+    box.position.set(30, top);
+    gridHolder.addChild(box);
+  };
+  render();
   if (o.note) { const n = label(o.note, { fontSize: fs(18), fill: C.textDim }); n.position.set(40, 900); m.body.addChild(n); }
   return m;
 }
