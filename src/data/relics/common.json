@@ -273,5 +273,9 @@
       { "on": "responsePlayed", "limit": "turn", "effects": [{ "op": "draw", "n": 1 }] }
     ],
     "art": { "subject": "a small bronze wind bell with a jade clapper swaying on a red string, motion blur, sharp wind" }
-  }
+  },
+  {"id":"rl_blade_oil","name":"刀油布","tier":"common","text":"每当你装备任意装备后，若你装备着武器，武器耐久+2。","flavor":"擦一遍，刀就能多挨几回。","triggers":[{"on":"equipped","if":{"hasEquip":"weapon"},"effects":[{"op":"weapon","durability":2}]}],"art":{"subject":"a folded square of oiled cloth with a small clay oil pot, a blade edge gleaming beside it, warm lamplight"}},
+  {"id":"rl_small_drum","name":"行军小鼓","tier":"common","text":"每场战斗中主帅第一次攻击后，抽1张牌。","flavor":"鼓点一响，第二刀就跟上了。","triggers":[{"on":"attacking","limit":"combat","effects":[{"op":"draw","n":1}]}],"art":{"subject":"a small hand drum with a red lacquered frame and a strap, two short drumsticks crossed over it, dust in the air"}},
+  {"id":"rl_fire_striker","name":"火折子","tier":"common","text":"战斗开始时，对一名随机敌人施加2层[灼烧]。","flavor":"吹一口，火就来了。","triggers":[{"on":"combatStart","effects":[{"op":"status","status":"burn","amount":2,"target":"randomEnemy"}]}],"art":{"subject":"a bamboo fire-starter tube with its cap off, a glowing ember at its tip and a thin curl of smoke, dark background"}},
+  {"id":"rl_bare_hand_pendant","name":"无锋佩","tier":"common","text":"战斗开始时，若你没有装备武器，获得6点[护甲]。","flavor":"不带刀的人，要把自己当成盾。","triggers":[{"on":"combatStart","if":{"not":{"hasEquip":"weapon"}},"effects":[{"op":"armor","amount":6,"target":"commander"}]}],"art":{"subject":"a smooth round jade pendant without any blade motif, a plain cord, a faint protective glow around it, on grey stone"}}
 ]

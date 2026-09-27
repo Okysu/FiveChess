@@ -4,7 +4,7 @@
     "name": "夜昙",
     "title": "影罗刹",
     "faction": "P",
-    "hp": 74,
+    "hp": 78,
     "sources": ["P", "P", "N"],
     "deck": [
       "p_basic_strike", "p_basic_strike", "p_basic_strike", "p_basic_strike",

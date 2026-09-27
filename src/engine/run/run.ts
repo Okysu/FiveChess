@@ -590,8 +590,9 @@ function pickEvent(r: RunState, n: MapNode): string | null {
   if (r.previews[key]) return r.previews[key]!;
   const locked = new Set(r.locked.events ?? []);
   const pool = [...content().events.values()].filter((e) => e.acts.includes(r.act) && !r.seenEvents.includes(e.id) && !locked.has(e.id) && (!e.requires || checkCond(r, e.requires))).sort((a, b) => a.id.localeCompare(b.id));
-  // commander-specific events are weighted up
-  const ev = weightedPick(rngFor(r, `event:${key}`), pool, (e) => (e.requires && 'commander' in e.requires ? 4 : 1));
+  // commander-specific events are weighted up; chain events (requires a flag set earlier) much more, so a story
+  // that was started usually continues
+  const ev = weightedPick(rngFor(r, `event:${key}`), pool, (e) => (e.requires && 'flag' in e.requires ? 10 : e.requires && 'commander' in e.requires ? 4 : 1));
   return ev?.id ?? null;
 }
 

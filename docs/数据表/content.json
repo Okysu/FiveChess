@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-26T09:01:03.364Z",
+ "generated": "2026-09-27T02:31:05.445Z",
  "cards": [
   {
    "id": "b_armor_smith",
@@ -299,6 +299,61 @@
    }
   },
   {
+   "id": "b_counter_stance",
+   "name": "以守为攻",
+   "faction": "B",
+   "type": "response",
+   "rarity": "common",
+   "cost": {
+    "g": 1
+   },
+   "keywords": [
+    "response"
+   ],
+   "text": "[应]：获得{a}点[护甲]；若在应对中打出且你装备着武器，主帅攻击宣告行动的敌人。",
+   "vars": {
+    "a": 5
+   },
+   "varKinds": {
+    "a": "armor"
+   },
+   "effects": [
+    {
+     "op": "armor",
+     "amount": "$a",
+     "target": "commander"
+    },
+    {
+     "op": "if",
+     "cond": {
+      "and": [
+       {
+        "inWindow": true
+       },
+       {
+        "hasEquip": "weapon"
+       }
+      ]
+     },
+     "then": [
+      {
+       "op": "attack",
+       "target": "declaredActor"
+      }
+     ]
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "a": 8
+    }
+   },
+   "flavor": "他等你先出手。",
+   "art": {
+    "subject": "a swordsman in dark lamellar armor deflecting an incoming blade with his shield while his own spear thrusts back in the same motion"
+   }
+  },
+  {
    "id": "b_ember_sage",
    "name": "守烬真人",
    "faction": "B",
@@ -586,6 +641,63 @@
    "flavor": "魄散则形凝。",
    "art": {
     "subject": "a glowing shard of blue ice spirit-light piercing a charging beast, the beast's limbs freezing mid-stride, frozen mist trailing behind the shard"
+   }
+  },
+  {
+   "id": "b_frost_spear",
+   "name": "寒铁枪",
+   "faction": "B",
+   "type": "equip",
+   "rarity": "rare",
+   "cost": {
+    "g": 2,
+    "c": [
+     "B"
+    ]
+   },
+   "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击单位后，对其施加{f}层[冰冻]。",
+   "vars": {
+    "w": 2,
+    "r": 2,
+    "u": 3,
+    "f": 1
+   },
+   "varKinds": {
+    "w": "attack"
+   },
+   "equip": {
+    "slot": "weapon",
+    "atk": 2,
+    "range": 2,
+    "durability": 3,
+    "triggers": [
+     {
+      "on": "attacking",
+      "if": {
+       "isUnit": "eventTarget"
+      },
+      "effects": [
+       {
+        "op": "status",
+        "status": "freeze",
+        "amount": "$f",
+        "target": "eventTarget"
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "w": 3
+    },
+    "equip": {
+     "atk": 3
+    }
+   },
+   "flavor": "枪头是北冥的冰铸的，刺进去，血就凝住了。",
+   "art": {
+    "subject": "a long spear with a pale blue frost-crusted iron head, icicles hanging from the crossguard, planted in snow under grey sky"
    }
   },
   {
@@ -1112,6 +1224,55 @@
    }
   },
   {
+   "id": "b_mountain_guard",
+   "name": "岳守",
+   "faction": "B",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 1,
+    "c": [
+     "B"
+    ]
+   },
+   "text": "获得{a}点[护甲]。若你装备着武器，武器耐久+{u}。",
+   "vars": {
+    "a": 6,
+    "u": 1
+   },
+   "varKinds": {
+    "a": "armor"
+   },
+   "effects": [
+    {
+     "op": "armor",
+     "amount": "$a",
+     "target": "commander"
+    },
+    {
+     "op": "if",
+     "cond": {
+      "hasEquip": "weapon"
+     },
+     "then": [
+      {
+       "op": "weapon",
+       "durability": "$u"
+      }
+     ]
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "a": 9
+    }
+   },
+   "flavor": "守住了，才有下一刀。",
+   "art": {
+    "subject": "a warrior bracing behind a heavy stone-patterned shield with a spear held ready, mountain silhouettes behind, calm stance"
+   }
+  },
+  {
    "id": "b_mountain_maul",
    "name": "镇岳锤",
    "faction": "B",
@@ -1259,6 +1420,66 @@
    "flavor": "符上画的是山。命里若也有山，便稳了。",
    "art": {
     "subject": "a yellowed talisman bearing a brushed mountain glyph pasted onto a warrior's breastplate, the glyph glowing green-gold as a translucent mountain rises behind him"
+   }
+  },
+  {
+   "id": "b_mountain_temper",
+   "name": "淬岳",
+   "faction": "B",
+   "type": "tactic",
+   "rarity": "epic",
+   "cost": {
+    "g": 1,
+    "c": [
+     "B"
+    ]
+   },
+   "text": "若你装备着武器，武器攻击力增加你[护甲]值的四分之一（至少1）；否则装备一把「镇岳锤」。",
+   "vars": {},
+   "effects": [
+    {
+     "op": "if",
+     "cond": {
+      "hasEquip": "weapon"
+     },
+     "then": [
+      {
+       "op": "weapon",
+       "atk": {
+        "max": [
+         1,
+         {
+          "div": [
+           {
+            "count": "armor",
+            "of": "commander"
+           },
+           4
+          ]
+         }
+        ]
+       }
+      }
+     ],
+     "else": [
+      {
+       "op": "equip",
+       "card": "b_mountain_maul"
+      }
+     ]
+    }
+   ],
+   "upgrade": {
+    "cost": {
+     "g": 0,
+     "c": [
+      "B"
+     ]
+    }
+   },
+   "flavor": "把山的重量，淬进一把兵器里。",
+   "art": {
+    "subject": "a heavy war hammer being plunged into a crack in a mountain, blue light and stone dust erupting, the weapon glowing with mountain patterns"
    }
   },
   {
@@ -2076,6 +2297,55 @@
    }
   },
   {
+   "id": "b_stone_sentry",
+   "name": "石卫",
+   "faction": "B",
+   "type": "unit",
+   "rarity": "common",
+   "cost": {
+    "g": 2,
+    "c": [
+     "B"
+    ]
+   },
+   "text": "[坚守]。[起势]：你的主帅获得{a}点[护甲]。",
+   "vars": {
+    "a": 4
+   },
+   "varKinds": {
+    "a": "armor"
+   },
+   "keywords": [
+    "battlecry"
+   ],
+   "unit": {
+    "atk": 1,
+    "hp": 5,
+    "keywords": [
+     "taunt"
+    ]
+   },
+   "effects": [
+    {
+     "op": "armor",
+     "amount": "$a",
+     "target": "commander"
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "a": 6
+    },
+    "unit": {
+     "hp": 6
+    }
+   },
+   "flavor": "石头雕的卫士，站了三百年，今天第一次动。",
+   "art": {
+    "subject": "a stone guardian statue with a halberd coming to life, cracks of blue light across its body, moss on its shoulders, temple steps"
+   }
+  },
+  {
    "id": "b_thorn_guard",
    "name": "荆盾卫",
    "faction": "B",
@@ -2375,6 +2645,60 @@
    }
   },
   {
+   "id": "g_ancient_bark",
+   "name": "古树皮甲",
+   "faction": "G",
+   "type": "equip",
+   "rarity": "epic",
+   "cost": {
+    "g": 2,
+    "c": [
+     "G"
+    ]
+   },
+   "text": "防具：装备时，获得{a}点[护甲]。每当友方单位入场，你的主帅获得{b}点[护甲]。",
+   "vars": {
+    "a": 5,
+    "b": 2
+   },
+   "varKinds": {
+    "a": "armor",
+    "b": "armor"
+   },
+   "equip": {
+    "slot": "armor",
+    "triggers": [
+     {
+      "on": "unitSummoned",
+      "who": "friendly",
+      "effects": [
+       {
+        "op": "armor",
+        "amount": "$b",
+        "target": "commander"
+       }
+      ]
+     }
+    ]
+   },
+   "effects": [
+    {
+     "op": "armor",
+     "amount": "$a",
+     "target": "commander"
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "b": 3
+    }
+   },
+   "flavor": "一层树皮，就是一圈年轮的守护。",
+   "art": {
+    "subject": "a suit of armor made from overlapping plates of ancient bark and moss, small shoots growing between the plates, on a wooden stand"
+   }
+  },
+  {
    "id": "g_ancient_quake",
    "name": "古木撼地",
    "faction": "G",
@@ -2635,6 +2959,40 @@
    "flavor": "藤不争高，只争这一抽。",
    "art": {
     "subject": "a thick green vine lashing forward like a whip through a misty forest clearing, leaves scattering from the impact, warm light from the upper left"
+   }
+  },
+  {
+   "id": "g_beast_horn",
+   "name": "兽王号",
+   "faction": "G",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 1,
+    "c": [
+     "G"
+    ]
+   },
+   "text": "本回合所有友方单位+{a}攻击。",
+   "vars": {
+    "a": 2
+   },
+   "effects": [
+    {
+     "op": "buff",
+     "target": "friendlyUnits",
+     "atk": "$a",
+     "until": "turn"
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "a": 3
+    }
+   },
+   "flavor": "号角一响，林子里的东西都抬起了头。",
+   "art": {
+    "subject": "a curved horn carved from a great beast, a hunter blowing it in a misty forest, spectral animal shapes rising from the sound"
    }
   },
   {
@@ -3587,6 +3945,50 @@
    }
   },
   {
+   "id": "g_seed_arrow",
+   "name": "种矢",
+   "faction": "G",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 1,
+    "c": [
+     "G"
+    ]
+   },
+   "text": "造成{d}点伤害。召唤{n}个「灵苗」。",
+   "vars": {
+    "d": 4,
+    "n": 1
+   },
+   "varKinds": {
+    "d": "attack"
+   },
+   "target": "enemy",
+   "effects": [
+    {
+     "op": "damage",
+     "amount": "$d",
+     "target": "target",
+     "attack": true
+    },
+    {
+     "op": "summon",
+     "unit": "tk_g_sprout",
+     "n": "$n"
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "d": 6
+    }
+   },
+   "flavor": "箭落下的地方，第二天会长出一棵树。",
+   "art": {
+    "subject": "a wooden arrow striking the ground and sprouting a small glowing sapling at its point, roots spreading, forest light"
+   }
+  },
+  {
    "id": "g_seed_pod",
    "name": "荚灵",
    "faction": "G",
@@ -4108,6 +4510,59 @@
    }
   },
   {
+   "id": "g_thorn_whip",
+   "name": "荆棘鞭",
+   "faction": "G",
+   "type": "equip",
+   "rarity": "common",
+   "cost": {
+    "g": 1,
+    "c": [
+     "G"
+    ]
+   },
+   "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击后，随机一个友方单位获得+1/+1。",
+   "vars": {
+    "w": 1,
+    "r": 2,
+    "u": 4
+   },
+   "varKinds": {
+    "w": "attack"
+   },
+   "equip": {
+    "slot": "weapon",
+    "atk": 1,
+    "range": 2,
+    "durability": 4,
+    "triggers": [
+     {
+      "on": "attacking",
+      "effects": [
+       {
+        "op": "buff",
+        "target": "randomFriendlyUnit",
+        "atk": 1,
+        "hp": 1
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "w": 2
+    },
+    "equip": {
+     "atk": 2
+    }
+   },
+   "flavor": "鞭子上长着刺，也长着叶子。",
+   "art": {
+    "subject": "a coiled whip made of a living thorny vine with small green leaves and tiny blossoms, lying on moss, dew drops on the thorns"
+   }
+  },
+  {
    "id": "g_thornback_boar",
    "name": "棘背山猪",
    "faction": "G",
@@ -4469,6 +4924,63 @@
    "flavor": "死去的那棵，根还醒着。",
    "art": {
     "subject": "a blackened dead stump with a single bright green shoot bursting from its center, spring rain falling, soft light breaking through clouds"
+   }
+  },
+  {
+   "id": "g_wood_warden",
+   "name": "木灵卫",
+   "faction": "G",
+   "type": "unit",
+   "rarity": "rare",
+   "cost": {
+    "g": 2,
+    "c": [
+     "G"
+    ]
+   },
+   "text": "[坚守]。主帅攻击后，此单位恢复{h}点生命并获得+1攻击。",
+   "vars": {
+    "h": 2
+   },
+   "varKinds": {
+    "h": "heal"
+   },
+   "unit": {
+    "atk": 2,
+    "hp": 5,
+    "keywords": [
+     "taunt"
+    ],
+    "triggers": [
+     {
+      "on": "attacking",
+      "who": "friendly",
+      "if": {
+       "isCommander": "eventSource"
+      },
+      "effects": [
+       {
+        "op": "heal",
+        "amount": "$h",
+        "target": "self"
+       },
+       {
+        "op": "buff",
+        "target": "self",
+        "atk": 1
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "unit": {
+     "hp": 7
+    }
+   },
+   "flavor": "老树变成的卫士，听见刀声就长。",
+   "art": {
+    "subject": "a towering guardian made of living wood and bark with a spear of branches, glowing green eyes, leaves growing on its shoulders"
    }
   },
   {
@@ -8364,6 +8876,42 @@
    }
   },
   {
+   "id": "n_armory",
+   "name": "武库",
+   "faction": "N",
+   "type": "field",
+   "rarity": "rare",
+   "cost": {
+    "g": 2
+   },
+   "text": "持续{n}回合。你的主帅获得[连斩]。",
+   "vars": {
+    "n": 3
+   },
+   "field": {
+    "duration": 3,
+    "modifiers": [
+     {
+      "stat": "keyword",
+      "keyword": "twinStrike",
+      "who": "commander"
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "n": 4
+    },
+    "field": {
+     "duration": 4
+    }
+   },
+   "flavor": "满墙的刀枪，总有一件趁手。",
+   "art": {
+    "subject": "the interior of an ancient armory hall with walls lined by spears, sabers and halberds on racks, shafts of light through high windows"
+   }
+  },
+  {
    "id": "n_brace",
    "name": "横刀格挡",
    "faction": "N",
@@ -8474,6 +9022,70 @@
    "flavor": "三枚铜钱落地，字面朝天者进，背面朝天者守。",
    "art": {
     "subject": "three bronze square-holed coins spinning in midair above an open palm, one landing face up on a cracked tile floor, lantern light glinting off their rims"
+   }
+  },
+  {
+   "id": "n_draw_blade",
+   "name": "拔刀式",
+   "faction": "N",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 0
+   },
+   "text": "若你装备着武器，主帅攻击目标；否则抽1张牌。",
+   "target": "enemy",
+   "effects": [
+    {
+     "op": "if",
+     "cond": {
+      "hasEquip": "weapon"
+     },
+     "then": [
+      {
+       "op": "attack",
+       "target": "target"
+      }
+     ],
+     "else": [
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "upgrade": {
+    "qualitative": true,
+    "text": "若你装备着武器，主帅攻击目标并抽1张牌；否则抽2张牌。",
+    "effects": [
+     {
+      "op": "if",
+      "cond": {
+       "hasEquip": "weapon"
+      },
+      "then": [
+       {
+        "op": "attack",
+        "target": "target"
+       },
+       {
+        "op": "draw",
+        "n": 1
+       }
+      ],
+      "else": [
+       {
+        "op": "draw",
+        "n": 2
+       }
+      ]
+     }
+    ]
+   },
+   "flavor": "刀出鞘的那一下，比砍下去的那一下更要紧。",
+   "art": {
+    "subject": "a swordsman in a low stance drawing a curved blade from its sheath in one flash, the air cut into a bright arc, dust kicked up"
    }
   },
   {
@@ -8969,6 +9581,58 @@
    }
   },
   {
+   "id": "n_long_halberd",
+   "name": "方天画戟",
+   "faction": "N",
+   "type": "equip",
+   "rarity": "rare",
+   "cost": {
+    "g": 2
+   },
+   "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击后，对一名随机敌人造成{d}点伤害。",
+   "vars": {
+    "w": 3,
+    "r": 2,
+    "u": 3,
+    "d": 2
+   },
+   "varKinds": {
+    "w": "attack",
+    "d": "damage"
+   },
+   "equip": {
+    "slot": "weapon",
+    "atk": 3,
+    "range": 2,
+    "durability": 3,
+    "triggers": [
+     {
+      "on": "attacking",
+      "effects": [
+       {
+        "op": "damage",
+        "amount": "$d",
+        "target": "randomEnemy"
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "w": 4,
+     "d": 3
+    },
+    "equip": {
+     "atk": 4
+    }
+   },
+   "flavor": "戟有两刃，一刃向人，一刃向命。",
+   "art": {
+    "subject": "an ornate halberd with a crescent blade on both sides and a red tassel, displayed on a lacquered weapon rack, dramatic side light"
+   }
+  },
+  {
    "id": "n_night_market",
    "name": "野市",
    "faction": "N",
@@ -9344,7 +10008,7 @@
    "cost": {
     "g": 0
    },
-   "text": "抽{n}张牌，然后弃置{k}张牌。",
+   "text": "抽{n}张牌，然后[弃置]{k}张牌。",
    "vars": {
     "n": 2,
     "k": 1
@@ -9644,6 +10308,106 @@
    }
   },
   {
+   "id": "n_weapon_smith",
+   "name": "铸兵匠",
+   "faction": "N",
+   "type": "unit",
+   "rarity": "common",
+   "cost": {
+    "g": 1
+   },
+   "text": "[起势]：若你装备着武器，武器耐久+{u}；否则装备一把「铁脊长枪」。",
+   "vars": {
+    "u": 2
+   },
+   "keywords": [
+    "battlecry"
+   ],
+   "unit": {
+    "atk": 1,
+    "hp": 3
+   },
+   "effects": [
+    {
+     "op": "if",
+     "cond": {
+      "hasEquip": "weapon"
+     },
+     "then": [
+      {
+       "op": "weapon",
+       "durability": "$u"
+      }
+     ],
+     "else": [
+      {
+       "op": "equip",
+       "card": "n_iron_spear"
+      }
+     ]
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "u": 3
+    },
+    "unit": {
+     "hp": 4
+    }
+   },
+   "flavor": "他打的兵器不出名，可从没断过。",
+   "art": {
+    "subject": "a stocky blacksmith with a leather apron and soot-streaked arms holding up a freshly forged spear head, glowing forge behind him, half body"
+   }
+  },
+  {
+   "id": "n_whetstone",
+   "name": "磨刀石",
+   "faction": "N",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 1
+   },
+   "text": "若你装备着武器，武器攻击力+{a}；否则装备一把「铁脊长枪」。抽1张牌。",
+   "vars": {
+    "a": 2
+   },
+   "effects": [
+    {
+     "op": "if",
+     "cond": {
+      "hasEquip": "weapon"
+     },
+     "then": [
+      {
+       "op": "weapon",
+       "atk": "$a"
+      }
+     ],
+     "else": [
+      {
+       "op": "equip",
+       "card": "n_iron_spear"
+      }
+     ]
+    },
+    {
+     "op": "draw",
+     "n": 1
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "a": 3
+    }
+   },
+   "flavor": "刀钝了不要紧，磨一磨，还是刀。",
+   "art": {
+    "subject": "a worn grey whetstone on a wooden bench with water droplets, a blade edge being sharpened across it, sparks and a thin line of light"
+   }
+  },
+  {
    "id": "n_whirling_blade",
    "name": "回风斩",
    "faction": "N",
@@ -9894,7 +10658,7 @@
      "P"
     ]
    },
-   "text": "弃置所有手牌，每弃置一张，抽{n}张牌。[燃尽]",
+   "text": "[弃置]所有手牌，每[弃置]一张，抽{n}张牌。[燃尽]",
    "vars": {
     "n": 1
    },
@@ -9917,7 +10681,7 @@
    ],
    "upgrade": {
     "qualitative": true,
-    "text": "弃置所有手牌，每弃置一张，抽{n}张牌。",
+    "text": "[弃置]所有手牌，每[弃置]一张，抽{n}张牌。",
     "keywords": []
    },
    "flavor": "车马皆可弃，将帅不可失。",
@@ -10124,7 +10888,7 @@
      "P"
     ]
    },
-   "text": "[起势]：抽{n}张牌，然后弃置{m}张牌。",
+   "text": "[起势]：抽{n}张牌，然后[弃置]{m}张牌。",
    "vars": {
     "n": 1,
     "m": 1
@@ -10146,7 +10910,7 @@
    ],
    "upgrade": {
     "qualitative": true,
-    "text": "[隐匿]。[起势]：抽{n}张牌，然后弃置{m}张牌。",
+    "text": "[隐匿]。[起势]：抽{n}张牌，然后[弃置]{m}张牌。",
     "unit": {
      "keywords": [
       "stealth"
@@ -10360,7 +11124,7 @@
      "P"
     ]
    },
-   "text": "每当你弃置一张牌，你的主帅获得{a}点[护甲]。",
+   "text": "每当你[弃置]一张牌，你的主帅获得{a}点[护甲]。",
    "vars": {
     "a": 2
    },
@@ -10662,7 +11426,7 @@
      "P"
     ]
    },
-   "text": "阵地，持续{t}回合：回合结束时你不弃置手牌；你的手牌上限+{h}。",
+   "text": "阵地，持续{t}回合：回合结束时手牌留在手中，不放入弃牌堆；你的[手牌上限]+{h}。",
    "vars": {
     "t": 2,
     "h": 2
@@ -10705,7 +11469,7 @@
      "P"
     ]
    },
-   "text": "[远射]。[起势]：弃置所有手牌，每弃置一张，抽{n}张牌。每当你弃置一张牌，对一名随机敌人造成{d}点伤害。",
+   "text": "[远射]。[起势]：[弃置]所有手牌，每[弃置]一张，抽{n}张牌。每当你[弃置]一张牌，对一名随机敌人造成{d}点伤害。",
    "vars": {
     "n": 1,
     "d": 2
@@ -10748,7 +11512,7 @@
    ],
    "upgrade": {
     "qualitative": true,
-    "text": "[远射]，[隐匿]。[起势]：弃置所有手牌，每弃置一张，抽{n}张牌。每当你弃置一张牌，对一名随机敌人造成{d}点伤害。",
+    "text": "[远射]，[隐匿]。[起势]：[弃置]所有手牌，每[弃置]一张，抽{n}张牌。每当你[弃置]一张牌，对一名随机敌人造成{d}点伤害。",
     "vars": {
      "d": 3
     },
@@ -10817,6 +11581,68 @@
    "flavor": "一刀叠一刀，最后那刀最重。",
    "art": {
     "subject": "multiple translucent violet blade arcs stacked in the air converging on one point, a swordswoman at the end of the sequence, dark background"
+   }
+  },
+  {
+   "id": "p_masked_cutpurse",
+   "name": "面具窃贼",
+   "faction": "P",
+   "type": "unit",
+   "rarity": "epic",
+   "cost": {
+    "g": 1,
+    "c": [
+     "P"
+    ]
+   },
+   "text": "[隐匿]。每当你[弃置]一张牌，此单位获得+1攻击；攻击后，对目标施加{p}层[中毒]。",
+   "vars": {
+    "p": 2
+   },
+   "varKinds": {
+    "p": "poison"
+   },
+   "unit": {
+    "atk": 1,
+    "hp": 3,
+    "keywords": [
+     "stealth"
+    ],
+    "triggers": [
+     {
+      "on": "cardDiscarded",
+      "effects": [
+       {
+        "op": "buff",
+        "target": "self",
+        "atk": 1
+       }
+      ]
+     },
+     {
+      "on": "attacking",
+      "effects": [
+       {
+        "op": "status",
+        "status": "poison",
+        "amount": "$p",
+        "target": "eventTarget"
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "p": 3
+    },
+    "unit": {
+     "hp": 4
+    }
+   },
+   "flavor": "你丢掉的东西，他都捡走了。",
+   "art": {
+    "subject": "a slim thief in a white opera mask and violet cloak crouching on a rooftop, juggling stolen cards and a small dagger, moonlit"
    }
   },
   {
@@ -11072,6 +11898,71 @@
    }
   },
   {
+   "id": "p_poison_edge",
+   "name": "淬毒",
+   "faction": "P",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 1,
+    "c": [
+     "P"
+    ]
+   },
+   "text": "若你装备着武器，武器攻击力+1，主帅攻击目标并对其施加{p}层[中毒]；否则对目标施加{q}层[中毒]。",
+   "vars": {
+    "p": 2,
+    "q": 4
+   },
+   "varKinds": {
+    "p": "poison",
+    "q": "poison"
+   },
+   "target": "enemy",
+   "effects": [
+    {
+     "op": "if",
+     "cond": {
+      "hasEquip": "weapon"
+     },
+     "then": [
+      {
+       "op": "weapon",
+       "atk": 1
+      },
+      {
+       "op": "attack",
+       "target": "target"
+      },
+      {
+       "op": "status",
+       "status": "poison",
+       "amount": "$p",
+       "target": "target"
+      }
+     ],
+     "else": [
+      {
+       "op": "status",
+       "status": "poison",
+       "amount": "$q",
+       "target": "target"
+      }
+     ]
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "p": 3,
+     "q": 6
+    }
+   },
+   "flavor": "刀刃上抹一层，伤口就不会好。",
+   "art": {
+    "subject": "a hand in a violet glove brushing green venom along the edge of a thin blade with a small brush, a vial beside it, candlelight"
+   }
+  },
+  {
    "id": "p_poison_moth",
    "name": "毒蛾",
    "faction": "P",
@@ -11186,7 +12077,7 @@
    "cost": {
     "g": 0
    },
-   "text": "抽{a}张牌，然后弃置{b}张牌。若弃置的牌费用不低于{k}，再抽{n}张牌。",
+   "text": "抽{a}张牌，然后[弃置]{b}张牌。若[弃置]的牌费用不低于{k}，再抽{n}张牌。",
    "vars": {
     "a": 1,
     "b": 1,
@@ -11471,7 +12362,7 @@
    "cost": {
     "g": 1
    },
-   "text": "抽{n}张牌，然后弃置{m}张牌。",
+   "text": "抽{n}张牌，然后[弃置]{m}张牌。",
    "vars": {
     "n": 3,
     "m": 1
@@ -11736,6 +12627,49 @@
    }
   },
   {
+   "id": "p_smoke_vanish",
+   "name": "金蝉脱壳",
+   "faction": "P",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 0
+   },
+   "text": "[弃置]1张牌，抽{n}张牌，获得{a}点[护甲]。",
+   "vars": {
+    "n": 2,
+    "a": 3
+   },
+   "varKinds": {
+    "a": "armor"
+   },
+   "effects": [
+    {
+     "op": "discard",
+     "n": 1,
+     "mode": "choose"
+    },
+    {
+     "op": "draw",
+     "n": "$n"
+    },
+    {
+     "op": "armor",
+     "amount": "$a",
+     "target": "commander"
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "n": 3
+    }
+   },
+   "flavor": "一团烟，一个人就不见了；地上只剩一张牌。",
+   "art": {
+    "subject": "a masked figure vanishing in a burst of violet smoke on a moonlit rooftop, a single playing card fluttering down where he stood"
+   }
+  },
+  {
    "id": "p_smoke_veil",
    "name": "烟遁",
    "faction": "P",
@@ -11890,7 +12824,7 @@
      "P"
     ]
    },
-   "text": "[隐匿]。每当你弃置一张牌，对一名随机敌人施加{p}层[中毒]。",
+   "text": "[隐匿]。每当你[弃置]一张牌，对一名随机敌人施加{p}层[中毒]。",
    "vars": {
     "p": 1
    },
@@ -11919,7 +12853,7 @@
    },
    "upgrade": {
     "qualitative": true,
-    "text": "[隐匿]。每当你弃置一张牌，对所有敌人施加{p}层[中毒]。",
+    "text": "[隐匿]。每当你[弃置]一张牌，对所有敌人施加{p}层[中毒]。",
     "unit": {
      "triggers": [
       {
@@ -11939,6 +12873,43 @@
    "flavor": "撕下一张脸，就有一个人倒下。",
    "art": {
     "subject": "a slim man in violet peeling a paper mask from his face, the discarded mask crumbling into green poison dust drifting toward distant figures"
+   }
+  },
+  {
+   "id": "p_toxic_mist",
+   "name": "毒雾",
+   "faction": "P",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 2,
+    "c": [
+     "P"
+    ]
+   },
+   "text": "对所有敌人施加{p}层[中毒]。",
+   "vars": {
+    "p": 3
+   },
+   "varKinds": {
+    "p": "poison"
+   },
+   "effects": [
+    {
+     "op": "status",
+     "status": "poison",
+     "amount": "$p",
+     "target": "allEnemies"
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "p": 5
+    }
+   },
+   "flavor": "雾里有花香，也有别的。",
+   "art": {
+    "subject": "a thick violet-green poison mist rolling across a battlefield at night, silhouettes of soldiers coughing, blossoms in the fog"
    }
   },
   {
@@ -12031,6 +13002,61 @@
    "flavor": "淬一次是药，淬七次是命。",
    "art": {
     "subject": "a row of fine needles soaking in a porcelain dish of glowing green liquid, a gloved hand lifting one with tweezers, candlelight"
+   }
+  },
+  {
+   "id": "p_viper_fang",
+   "name": "蛇牙刺",
+   "faction": "P",
+   "type": "equip",
+   "rarity": "rare",
+   "cost": {
+    "g": 2,
+    "c": [
+     "P"
+    ]
+   },
+   "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击后，对目标施加等同于武器攻击力的[中毒]。",
+   "vars": {
+    "w": 2,
+    "r": 1,
+    "u": 3
+   },
+   "varKinds": {
+    "w": "attack"
+   },
+   "equip": {
+    "slot": "weapon",
+    "atk": 2,
+    "range": 1,
+    "durability": 3,
+    "triggers": [
+     {
+      "on": "attacking",
+      "effects": [
+       {
+        "op": "status",
+        "status": "poison",
+        "amount": {
+         "count": "weaponAtk"
+        },
+        "target": "eventTarget"
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "w": 3
+    },
+    "equip": {
+     "atk": 3
+    }
+   },
+   "flavor": "两根牙，一根取命，一根取信。",
+   "art": {
+    "subject": "a slender stiletto shaped like a serpent fang, dripping violet venom, its hilt wrapped with a snake, on dark silk"
    }
   },
   {
@@ -12196,7 +13222,7 @@
    "cost": {
     "g": 0
    },
-   "text": "抽{n}张牌，然后弃置{m}张牌。",
+   "text": "抽{n}张牌，然后[弃置]{m}张牌。",
    "vars": {
     "n": 1,
     "m": 1
@@ -12513,6 +13539,71 @@
    "flavor": "刀卫不求名，只求替将军多磨一寸刃。",
    "art": {
     "subject": "a stern guard in red lacquered armor kneeling to run a whetstone along a general's sword, sparks falling on the ground, half body"
+   }
+  },
+  {
+   "id": "r_blazing_charge",
+   "name": "燎原冲阵",
+   "faction": "R",
+   "type": "tactic",
+   "rarity": "rare",
+   "cost": {
+    "g": 2,
+    "c": [
+     "R"
+    ]
+   },
+   "text": "若你装备着武器，主帅依次攻击每个敌方前阵单位；否则对所有敌人造成{d}点伤害。然后对所有敌人施加{b}层[灼烧]。",
+   "vars": {
+    "d": 5,
+    "b": 2
+   },
+   "varKinds": {
+    "d": "damage",
+    "b": "burn"
+   },
+   "effects": [
+    {
+     "op": "if",
+     "cond": {
+      "hasEquip": "weapon"
+     },
+     "then": [
+      {
+       "op": "forEach",
+       "sel": "enemyFront",
+       "effects": [
+        {
+         "op": "attack",
+         "target": "it"
+        }
+       ]
+      }
+     ],
+     "else": [
+      {
+       "op": "damage",
+       "amount": "$d",
+       "target": "allEnemies"
+      }
+     ]
+    },
+    {
+     "op": "status",
+     "status": "burn",
+     "amount": "$b",
+     "target": "allEnemies"
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "d": 7,
+     "b": 3
+    }
+   },
+   "flavor": "一骑冲阵，身后是一线火。",
+   "art": {
+    "subject": "an armored rider charging through an enemy line with a blazing saber, a trail of fire left along the ground behind the horse"
    }
   },
   {
@@ -12885,6 +13976,63 @@
    "flavor": "焚阳宗开山祖师以此刀斩断一座山，那山至今还在烧。",
    "art": {
     "subject": "a colossal two-handed greatsword with a blade of dark iron veined with molten fire, planted in a split mountain whose cleft glows like lava"
+   }
+  },
+  {
+   "id": "r_ember_blade",
+   "name": "余烬刀",
+   "faction": "R",
+   "type": "equip",
+   "rarity": "common",
+   "cost": {
+    "g": 1,
+    "c": [
+     "R"
+    ]
+   },
+   "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击带有[灼烧]的目标后，抽1张牌。",
+   "vars": {
+    "w": 2,
+    "r": 1,
+    "u": 3
+   },
+   "varKinds": {
+    "w": "attack"
+   },
+   "equip": {
+    "slot": "weapon",
+    "atk": 2,
+    "range": 1,
+    "durability": 3,
+    "triggers": [
+     {
+      "on": "attacking",
+      "if": {
+       "hasStatus": {
+        "of": "eventTarget",
+        "status": "burn"
+       }
+      },
+      "effects": [
+       {
+        "op": "draw",
+        "n": 1
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "w": 3
+    },
+    "equip": {
+     "atk": 3
+    }
+   },
+   "flavor": "刀身里埋着没熄的炭，一碰到火就醒。",
+   "art": {
+    "subject": "a short single-edged saber whose blade glows with embers along a cracked dark surface, smoke curling off it, resting on charred wood"
    }
   },
   {
@@ -13340,6 +14488,62 @@
    "flavor": "火势一旦找到了路，就不再需要人。",
    "art": {
     "subject": "a pillar of fire surging upward and doubling back on itself like a breaking wave, engulfing a silhouetted beast"
+   }
+  },
+  {
+   "id": "r_forge_fire",
+   "name": "炉火纯青",
+   "faction": "R",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 1,
+    "c": [
+     "R"
+    ]
+   },
+   "text": "若你装备着武器，武器攻击力+{a}、耐久+{u}，并获得等同于武器攻击力的[护甲]；否则装备一把「断焰刀」。",
+   "vars": {
+    "a": 1,
+    "u": 1
+   },
+   "effects": [
+    {
+     "op": "if",
+     "cond": {
+      "hasEquip": "weapon"
+     },
+     "then": [
+      {
+       "op": "weapon",
+       "atk": "$a",
+       "durability": "$u"
+      },
+      {
+       "op": "armor",
+       "amount": {
+        "count": "weaponAtk"
+       },
+       "target": "commander"
+      }
+     ],
+     "else": [
+      {
+       "op": "equip",
+       "card": "tk_r_duanyan"
+      }
+     ]
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "a": 2,
+     "u": 2
+    }
+   },
+   "flavor": "炉火转青的时候，铁就听话了。",
+   "art": {
+    "subject": "a forge fire burning with clean blue-green flame at its heart, a blade laid across the coals turning bright, bellows in the background"
    }
   },
   {
@@ -14223,6 +15427,65 @@
    }
   },
   {
+   "id": "r_sun_bannerman",
+   "name": "焚阳旗手",
+   "faction": "R",
+   "type": "unit",
+   "rarity": "epic",
+   "cost": {
+    "g": 2,
+    "c": [
+     "R"
+    ]
+   },
+   "text": "主帅每次攻击后，此单位获得+{a}攻击，并对目标施加{b}层[灼烧]。",
+   "vars": {
+    "a": 1,
+    "b": 1
+   },
+   "varKinds": {
+    "b": "burn"
+   },
+   "unit": {
+    "atk": 2,
+    "hp": 5,
+    "triggers": [
+     {
+      "on": "attacking",
+      "who": "friendly",
+      "if": {
+       "isCommander": "eventSource"
+      },
+      "effects": [
+       {
+        "op": "buff",
+        "target": "self",
+        "atk": "$a"
+       },
+       {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "eventTarget"
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "b": 2
+    },
+    "unit": {
+     "hp": 6
+    }
+   },
+   "flavor": "旗倒了，火就灭了；所以他从不让旗倒。",
+   "art": {
+    "subject": "a young standard bearer in red armor holding a tall flaming sun banner, flames streaming from the cloth, determined face, full body"
+   }
+  },
+  {
    "id": "r_sun_halberd",
    "name": "焚阳长戟",
    "faction": "R",
@@ -14448,6 +15711,76 @@
    "flavor": "将军的刀往哪里落，她的剑就往哪里去，从不迟半拍。",
    "art": {
     "subject": "a young swordswoman in red and black following just behind a larger armored figure, both striking in the same direction, mirrored poses"
+   }
+  },
+  {
+   "id": "r_tempered_edge",
+   "name": "回火",
+   "faction": "R",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 1,
+    "c": [
+     "R"
+    ]
+   },
+   "text": "造成等同于武器攻击力×2的伤害（没有武器则为{d}点）。施加{b}层[灼烧]。",
+   "vars": {
+    "d": 5,
+    "b": 2
+   },
+   "varKinds": {
+    "d": "attack",
+    "b": "burn"
+   },
+   "target": "enemy",
+   "effects": [
+    {
+     "op": "if",
+     "cond": {
+      "hasEquip": "weapon"
+     },
+     "then": [
+      {
+       "op": "damage",
+       "amount": {
+        "mul": [
+         {
+          "count": "weaponAtk"
+         },
+         2
+        ]
+       },
+       "target": "target",
+       "attack": true
+      }
+     ],
+     "else": [
+      {
+       "op": "damage",
+       "amount": "$d",
+       "target": "target",
+       "attack": true
+      }
+     ]
+    },
+    {
+     "op": "status",
+     "status": "burn",
+     "amount": "$b",
+     "target": "target"
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "d": 7,
+     "b": 3
+    }
+   },
+   "flavor": "刀要回一次火，才知道自己有多硬。",
+   "art": {
+    "subject": "a glowing red blade plunged into a barrel of water, a violent burst of steam and sparks, a gauntleted hand gripping the hilt"
    }
   },
   {
@@ -15473,6 +16806,73 @@
    }
   },
   {
+   "id": "y_court_astrologer",
+   "name": "司天监",
+   "faction": "Y",
+   "type": "unit",
+   "rarity": "epic",
+   "cost": {
+    "g": 2,
+    "c": [
+     "Y"
+    ]
+   },
+   "text": "[远射]。[起势]：进行一次[判定]：点数不小于{k}——抽2张牌；否则收取1张[命签]。",
+   "vars": {
+    "k": 7
+   },
+   "keywords": [
+    "battlecry"
+   ],
+   "unit": {
+    "atk": 2,
+    "hp": 3,
+    "keywords": [
+     "ranged"
+    ],
+    "prefersBack": true
+   },
+   "effects": [
+    {
+     "op": "judge",
+     "branches": {
+      "ranks": [
+       {
+        "min": 7,
+        "max": 13,
+        "effects": [
+         {
+          "op": "draw",
+          "n": 2
+         }
+        ]
+       },
+       {
+        "min": 1,
+        "max": 6,
+        "effects": [
+         {
+          "op": "sign",
+          "n": 1
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "upgrade": {
+    "unit": {
+     "atk": 3,
+     "hp": 4
+    }
+   },
+   "flavor": "宫里的星官，看的是天，说的是人。",
+   "art": {
+    "subject": "an imperial court astrologer in golden robes and a tall hat holding a bronze astrolabe, stars reflected in his eyes, half body"
+   }
+  },
+  {
    "faction": "Y",
    "id": "y_eclipse_hex",
    "name": "蚀月咒",
@@ -15989,6 +17389,60 @@
    }
   },
   {
+   "id": "y_hexagram_shield",
+   "name": "卦盾",
+   "faction": "Y",
+   "type": "equip",
+   "rarity": "common",
+   "cost": {
+    "g": 1,
+    "c": [
+     "Y"
+    ]
+   },
+   "text": "防具：装备时，获得{a}点[护甲]。每当你进行[判定]，获得{b}点[护甲]。",
+   "vars": {
+    "a": 3,
+    "b": 2
+   },
+   "varKinds": {
+    "a": "armor",
+    "b": "armor"
+   },
+   "equip": {
+    "slot": "armor",
+    "triggers": [
+     {
+      "on": "judged",
+      "who": "friendly",
+      "effects": [
+       {
+        "op": "armor",
+        "amount": "$b",
+        "target": "commander"
+       }
+      ]
+     }
+    ]
+   },
+   "effects": [
+    {
+     "op": "armor",
+     "amount": "$a",
+     "target": "commander"
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "b": 3
+    }
+   },
+   "flavor": "盾面刻着八卦，挡的是刀，也是命。",
+   "art": {
+    "subject": "a round bronze shield engraved with the eight trigrams around a yin-yang center, faint golden light tracing the lines"
+   }
+  },
+  {
    "faction": "Y",
    "id": "y_inexorable_fate",
    "name": "天命难违",
@@ -16439,6 +17893,63 @@
    "flavor": "台高九丈，离天近了，命也就近了。",
    "art": {
     "subject": "a tall tiered stone observatory tower under a sky thick with stars, armillary spheres turning on its top terrace, golden lanterns along the stairs"
+   }
+  },
+  {
+   "id": "y_omen_strike",
+   "name": "凶兆击",
+   "faction": "Y",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 1,
+    "c": [
+     "Y"
+    ]
+   },
+   "keywords": [
+    "judge"
+   ],
+   "text": "造成{d}点伤害。[判定]：{thunder}雷纹——再造成{e}点伤害。",
+   "vars": {
+    "d": 5,
+    "e": 5
+   },
+   "varKinds": {
+    "d": "attack",
+    "e": "attack"
+   },
+   "target": "enemy",
+   "effects": [
+    {
+     "op": "damage",
+     "amount": "$d",
+     "target": "target",
+     "attack": true
+    },
+    {
+     "op": "judge",
+     "branches": {
+      "thunder": [
+       {
+        "op": "damage",
+        "amount": "$e",
+        "target": "target",
+        "attack": true
+       }
+      ]
+     }
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "d": 7,
+     "e": 7
+    }
+   },
+   "flavor": "雷打下来之前，天会先暗一下。",
+   "art": {
+    "subject": "a diviner pointing a bronze ruler at a storm cloud, a lightning bolt striking down onto a foe, trigram symbols glowing in the air"
    }
   },
   {
@@ -16901,6 +18412,39 @@
    }
   },
   {
+   "id": "y_star_chart",
+   "name": "星图",
+   "faction": "Y",
+   "type": "tactic",
+   "rarity": "common",
+   "cost": {
+    "g": 0
+   },
+   "text": "[观星]{s}。抽1张牌。",
+   "vars": {
+    "s": 3
+   },
+   "effects": [
+    {
+     "op": "stargaze",
+     "n": "$s"
+    },
+    {
+     "op": "draw",
+     "n": 1
+    }
+   ],
+   "upgrade": {
+    "vars": {
+     "s": 5
+    }
+   },
+   "flavor": "把明天的天空，先画在纸上。",
+   "art": {
+    "subject": "an unrolled scroll of an ancient star chart with gold ink constellations, a brush and an armillary sphere beside it, candlelight"
+   }
+  },
+  {
    "faction": "Y",
    "id": "y_star_reading",
    "name": "夜观星象",
@@ -16938,6 +18482,68 @@
    "flavor": "星子不会说谎，只会换个顺序。",
    "art": {
     "subject": "an astrologer lying on the roof of a pagoda at night, hands framing a cluster of stars as if rearranging them, the stars trailing faint lines between his fingers"
+   }
+  },
+  {
+   "id": "y_star_spear",
+   "name": "星陨枪",
+   "faction": "Y",
+   "type": "equip",
+   "rarity": "rare",
+   "cost": {
+    "g": 2,
+    "c": [
+     "Y"
+    ]
+   },
+   "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击后进行[判定]：{sun}日纹——再对目标造成{d}点伤害。",
+   "vars": {
+    "w": 3,
+    "r": 2,
+    "u": 2,
+    "d": 4
+   },
+   "varKinds": {
+    "w": "attack",
+    "d": "damage"
+   },
+   "equip": {
+    "slot": "weapon",
+    "atk": 3,
+    "range": 2,
+    "durability": 2,
+    "triggers": [
+     {
+      "on": "attacking",
+      "effects": [
+       {
+        "op": "judge",
+        "branches": {
+         "sun": [
+          {
+           "op": "damage",
+           "amount": "$d",
+           "target": "eventTarget"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "upgrade": {
+    "vars": {
+     "u": 3,
+     "d": 6
+    },
+    "equip": {
+     "durability": 3
+    }
+   },
+   "flavor": "枪尖是一块落下来的星，还在发烫。",
+   "art": {
+    "subject": "a golden spear whose head is a fragment of a fallen star glowing white-gold, trailing sparks, held against a night sky full of constellations"
    }
   },
   {
@@ -17657,6 +19263,96 @@
    }
   },
   {
+   "id": "rl_blood_contract",
+   "name": "血契",
+   "tier": "boss",
+   "ruleChanging": true,
+   "text": "每当你献出一张牌，抽1张牌。我方回合开始时，失去1点生命。",
+   "flavor": "契约写在掌心，每一笔都要拿血来描。",
+   "triggers": [
+    {
+     "on": "cardSacrificed",
+     "effects": [
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    },
+    {
+     "on": "turnStart",
+     "effects": [
+      {
+       "op": "loseHp",
+       "amount": 1,
+       "target": "commander"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a narrow scroll of pale paper signed with a bloody handprint and red seal, a thin trail of blood seeping along its edge"
+   }
+  },
+  {
+   "id": "rl_bronze_sparrow",
+   "name": "铜雀台",
+   "tier": "boss",
+   "ruleChanging": true,
+   "text": "每回合你打出第3张牌后，获得1枚本回合的[源]。拾取时，失去所有金币。",
+   "flavor": "台上歌舞从不停歇，台下的金子一夜散尽。",
+   "onPickup": [
+    {
+     "op": "gold",
+     "n": -9999
+    }
+   ],
+   "triggers": [
+    {
+     "on": "cardPlayed",
+     "if": {
+      "eq": [
+       {
+        "count": "cardsPlayed"
+       },
+       3
+      ]
+     },
+     "effects": [
+      {
+       "op": "energy",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a small bronze sparrow statue perched on a miniature terrace pavilion, gold coins scattered and falling from the terrace edge"
+   }
+  },
+  {
+   "id": "rl_cold_mountain_bell",
+   "name": "寒山钟",
+   "tier": "boss",
+   "faction": "B",
+   "text": "我方回合开始时，至多保留10点[护甲]。你的攻击伤害-1。",
+   "flavor": "钟声一响，山里的寒气就不再散。",
+   "modifiers": [
+    {
+     "stat": "armorKeep",
+     "amount": 10
+    },
+    {
+     "stat": "attackDamage",
+     "amount": -1,
+     "who": "friendly"
+    }
+   ],
+   "art": {
+    "subject": "a heavy bronze temple bell rimmed with frost and icicles, mountain pattern cast on its side, hanging in cold blue mist"
+   }
+  },
+  {
    "id": "rl_drowned_king_seal",
    "name": "沉渊王印",
    "tier": "boss",
@@ -17681,6 +19377,27 @@
    ],
    "art": {
     "subject": "a heavy jade royal seal covered in barnacles and dripping black water, a drowned dragon carved on top, eerie green glow"
+   }
+  },
+  {
+   "id": "rl_falling_star_lamp",
+   "name": "坠星灯",
+   "tier": "boss",
+   "text": "你的[判定]点数+2。敌人的攻击伤害+1。",
+   "flavor": "星星落进灯里，照亮了命数，也照亮了你。",
+   "modifiers": [
+    {
+     "stat": "judgeRank",
+     "amount": 2
+    },
+    {
+     "stat": "attackDamage",
+     "amount": 1,
+     "who": "enemy"
+    }
+   ],
+   "art": {
+    "subject": "a hanging paper lantern with a small falling star trapped inside, trailing golden sparks, starry night background"
    }
   },
   {
@@ -17750,6 +19467,84 @@
    }
   },
   {
+   "id": "rl_heaven_compass",
+   "name": "天机罗盘",
+   "tier": "boss",
+   "ruleChanging": true,
+   "text": "每回合多抽1张牌。拾取时，天命牌堆中加入3张1点{thunder}雷纹命牌。",
+   "flavor": "指针永远指向下一张牌，只是那张牌常常不吉。",
+   "modifiers": [
+    {
+     "stat": "draw",
+     "amount": 1
+    }
+   ],
+   "onPickup": [
+    {
+     "op": "fate",
+     "action": "add",
+     "suit": "thunder",
+     "rank": 1,
+     "n": 3
+    }
+   ],
+   "art": {
+    "subject": "an ornate bronze divination compass with a spinning needle shaped like a tiny card, thunder sigils etched on its rim, crackling with faint lightning"
+   }
+  },
+  {
+   "id": "rl_iron_oath",
+   "name": "铁誓兵符",
+   "tier": "boss",
+   "ruleChanging": true,
+   "text": "战斗开始时，获得12点[护甲]。每回合少抽1张牌。",
+   "flavor": "半枚虎符，另一半在一个再也回不来的人手里。",
+   "modifiers": [
+    {
+     "stat": "draw",
+     "amount": -1
+    }
+   ],
+   "triggers": [
+    {
+     "on": "combatStart",
+     "effects": [
+      {
+       "op": "armor",
+       "amount": 12,
+       "target": "commander"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "half of an ancient bronze tiger-shaped military tally with inlaid gold script, its broken edge jagged, resting on dark iron armor scales"
+   }
+  },
+  {
+   "id": "rl_lone_blade",
+   "name": "孤注之刃",
+   "tier": "boss",
+   "ruleChanging": true,
+   "text": "你的攻击伤害+2。你无法在营地休息恢复生命。",
+   "flavor": "只有一刀，所以要比谁都快。",
+   "run": [
+    {
+     "rule": "noHealAtRest"
+    }
+   ],
+   "modifiers": [
+    {
+     "stat": "attackDamage",
+     "amount": 2,
+     "who": "friendly"
+    }
+   ],
+   "art": {
+    "subject": "a single straight blade with no guard stabbed into bare rock, a strip of red cloth tied to its hilt, sharp moonlight on the edge"
+   }
+  },
+  {
    "id": "rl_mother_tree_seed",
    "name": "母树之种",
    "tier": "boss",
@@ -17809,6 +19604,30 @@
    }
   },
   {
+   "id": "rl_myriad_poison_gourd",
+   "name": "万毒葫芦",
+   "tier": "boss",
+   "faction": "P",
+   "text": "敌人受到的[中毒]伤害+2。拾取时，最大生命-10。",
+   "flavor": "葫芦里装的不是药，是一万种不肯救人的法子。",
+   "onPickup": [
+    {
+     "op": "maxHp",
+     "n": -10
+    }
+   ],
+   "modifiers": [
+    {
+     "stat": "poisonDamage",
+     "amount": 2,
+     "who": "enemy"
+    }
+   ],
+   "art": {
+    "subject": "a lacquered double gourd painted with violet serpents, a thin green venom mist leaking from its cork stopper"
+   }
+  },
+  {
    "id": "rl_name_eater_tail",
    "name": "噬名狐尾",
    "tier": "boss",
@@ -17834,6 +19653,34 @@
    ],
    "art": {
     "subject": "a single luxurious silver fox tail with faint ghostly faces shimmering within its fur, coiled on a dark altar"
+   }
+  },
+  {
+   "id": "rl_nine_furnace",
+   "name": "九转丹炉",
+   "tier": "boss",
+   "text": "每场战斗结束时，恢复8点生命。拾取时，最大生命-4。",
+   "flavor": "九转之后，炉里炼出的是时间；你用来养伤。",
+   "onPickup": [
+    {
+     "op": "maxHp",
+     "n": -4
+    }
+   ],
+   "triggers": [
+    {
+     "on": "combatEnd",
+     "effects": [
+      {
+       "op": "heal",
+       "amount": 8,
+       "target": "commander"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a small three-legged bronze alchemy furnace with nine rings on its lid, soft golden steam curling out, glowing coals beneath"
    }
   },
   {
@@ -17873,7 +19720,7 @@
    "name": "千机匣",
    "tier": "boss",
    "ruleChanging": true,
-   "text": "回合结束时，你不再弃置手牌。手牌上限-3。",
+   "text": "回合结束时，手牌留在手中，不再放入弃牌堆。代价：[手牌上限]从 10 降为 7。",
    "flavor": "千机傀儡师的匣子。放进去的东西，一件也拿不出来。",
    "modifiers": [
     {
@@ -17919,6 +19766,55 @@
    }
   },
   {
+   "id": "rl_war_banner",
+   "name": "燎天军旗",
+   "tier": "boss",
+   "text": "友方单位攻击力+1。你的主帅受到的伤害+1。",
+   "flavor": "旗在，阵就在；旗手总是第一个中箭。",
+   "modifiers": [
+    {
+     "stat": "atk",
+     "amount": 1,
+     "who": "friendlyUnits"
+    },
+    {
+     "stat": "damageTaken",
+     "amount": 1,
+     "who": "commander"
+    }
+   ],
+   "art": {
+    "subject": "a tattered crimson war banner on a tall spear pole, embroidered with a flaming character, whipping in the wind above smoke"
+   }
+  },
+  {
+   "id": "rl_bare_hand_pendant",
+   "name": "无锋佩",
+   "tier": "common",
+   "text": "战斗开始时，若你没有装备武器，获得6点[护甲]。",
+   "flavor": "不带刀的人，要把自己当成盾。",
+   "triggers": [
+    {
+     "on": "combatStart",
+     "if": {
+      "not": {
+       "hasEquip": "weapon"
+      }
+     },
+     "effects": [
+      {
+       "op": "armor",
+       "amount": 6,
+       "target": "commander"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a smooth round jade pendant without any blade motif, a plain cord, a faint protective glow around it, on grey stone"
+   }
+  },
+  {
    "id": "rl_black_iron_scale",
    "name": "玄铁甲片",
    "tier": "common",
@@ -17934,6 +19830,30 @@
    ],
    "art": {
     "subject": "a single overlapping dark iron armor scale engraved with mountain patterns, frost on its edge, cold blue light"
+   }
+  },
+  {
+   "id": "rl_blade_oil",
+   "name": "刀油布",
+   "tier": "common",
+   "text": "每当你装备任意装备后，若你装备着武器，武器耐久+2。",
+   "flavor": "擦一遍，刀就能多挨几回。",
+   "triggers": [
+    {
+     "on": "equipped",
+     "if": {
+      "hasEquip": "weapon"
+     },
+     "effects": [
+      {
+       "op": "weapon",
+       "durability": 2
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a folded square of oiled cloth with a small clay oil pot, a blade edge gleaming beside it, warm lamplight"
    }
   },
   {
@@ -18061,6 +19981,29 @@
    ],
    "art": {
     "subject": "a small three-legged bronze brazier filled with grey ash, a few glowing red embers buried inside, night darkness"
+   }
+  },
+  {
+   "id": "rl_fire_striker",
+   "name": "火折子",
+   "tier": "common",
+   "text": "战斗开始时，对一名随机敌人施加2层[灼烧]。",
+   "flavor": "吹一口，火就来了。",
+   "triggers": [
+    {
+     "on": "combatStart",
+     "effects": [
+      {
+       "op": "status",
+       "status": "burn",
+       "amount": 2,
+       "target": "randomEnemy"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a bamboo fire-starter tube with its cap off, a glowing ember at its tip and a thin curl of smoke, dark background"
    }
   },
   {
@@ -18323,6 +20266,28 @@
    ],
    "art": {
     "subject": "a round rusted iron breastplate mirror hanging from a leather cord, dented at the center, reflecting cold light"
+   }
+  },
+  {
+   "id": "rl_small_drum",
+   "name": "行军小鼓",
+   "tier": "common",
+   "text": "每场战斗中主帅第一次攻击后，抽1张牌。",
+   "flavor": "鼓点一响，第二刀就跟上了。",
+   "triggers": [
+    {
+     "on": "attacking",
+     "limit": "combat",
+     "effects": [
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a small hand drum with a red lacquered frame and a strap, two short drumsticks crossed over it, dust in the air"
    }
   },
   {
@@ -18779,6 +20744,29 @@
    }
   },
   {
+   "id": "rl_frost_scabbard",
+   "name": "霜鞘",
+   "tier": "rare",
+   "faction": "B",
+   "text": "主帅每次攻击后，获得3点[护甲]。",
+   "flavor": "刀收回鞘里的时候，鞘上结了一层霜。",
+   "triggers": [
+    {
+     "on": "attacking",
+     "effects": [
+      {
+       "op": "armor",
+       "amount": 3,
+       "target": "commander"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a dark scabbard coated in frost with blue cord bindings, a blade half drawn from it showing an icy gleam, snow flakes"
+   }
+  },
+  {
    "id": "rl_golden_crow_sun",
    "name": "金乌衔日",
    "tier": "rare",
@@ -18889,6 +20877,29 @@
    }
   },
   {
+   "id": "rl_star_pendant",
+   "name": "星坠",
+   "tier": "rare",
+   "text": "每回合你第一次进行[判定]后，获得1枚本回合的[源]。",
+   "flavor": "坠子是一小块星石，判一次，亮一次。",
+   "triggers": [
+    {
+     "on": "judged",
+     "who": "friendly",
+     "limit": "turn",
+     "effects": [
+      {
+       "op": "energy",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a pendant holding a small fragment of star stone glowing gold, hanging from a fine chain, tiny constellations reflected on it"
+   }
+  },
+  {
    "id": "rl_sunforge_heart",
    "name": "焚天炉心",
    "tier": "rare",
@@ -18905,6 +20916,23 @@
    ],
    "art": {
     "subject": "a pulsing molten core inside a cracked black iron furnace heart, rivers of fire flowing from its seams"
+   }
+  },
+  {
+   "id": "rl_sword_manual",
+   "name": "剑谱残页",
+   "tier": "rare",
+   "text": "你的主帅获得[连斩]（每回合可攻击两次）。",
+   "flavor": "只剩半页，写的是第二剑。",
+   "modifiers": [
+    {
+     "stat": "keyword",
+     "keyword": "twinStrike",
+     "who": "commander"
+    }
+   ],
+   "art": {
+    "subject": "a torn yellowed page of a sword manual with ink drawings of a swordsman in two poses, brush annotations, slightly burnt edges"
    }
   },
   {
@@ -19162,6 +21190,30 @@
    }
   },
   {
+   "id": "rl_start_acang_b",
+   "name": "枯荣鼓",
+   "tier": "starter",
+   "faction": "G",
+   "text": "每当一个友方单位死亡，对一名随机敌人造成3点伤害。",
+   "flavor": "鼓面蒙的是枯叶，敲一下，山里便少一个活物。",
+   "triggers": [
+    {
+     "on": "unitDied",
+     "who": "friendly",
+     "effects": [
+      {
+       "op": "damage",
+       "amount": 3,
+       "target": "randomEnemy"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a small hand drum covered with dried autumn leaves instead of hide, bound with vines, a pale ghostly wisp rising from it"
+   }
+  },
+  {
    "id": "rl_start_huojin",
    "name": "断焰刀鞘",
    "tier": "starter",
@@ -19184,11 +21236,35 @@
    }
   },
   {
+   "id": "rl_start_huojin_b",
+   "name": "焚阳火种",
+   "tier": "starter",
+   "faction": "R",
+   "text": "战斗开始时，对一名随机敌人施加3层[灼烧]。（不再自带断焰刀）",
+   "flavor": "刀留在了北境，火种却一直揣在怀里。",
+   "triggers": [
+    {
+     "on": "combatStart",
+     "effects": [
+      {
+       "op": "status",
+       "status": "burn",
+       "amount": 3,
+       "target": "randomEnemy"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a small bronze brazier cupped in two scarred hands, a tiny sun-bright ember glowing inside it, sparks drifting upward"
+   }
+  },
+  {
    "id": "rl_start_liuxu",
    "name": "柳絮扇",
    "tier": "starter",
    "faction": "P",
-   "text": "你的手牌上限+2。战斗开始时，抽2张牌。",
+   "text": "你的[手牌上限]+2。战斗开始时，抽2张牌。",
    "flavor": "扇面上的人，每次打开都不一样。",
    "modifiers": [
     {
@@ -19212,6 +21288,31 @@
    }
   },
   {
+   "id": "rl_start_liuxu_b",
+   "name": "絮影囊",
+   "tier": "starter",
+   "faction": "P",
+   "text": "每回合你第一次[弃置]牌后，对一名随机敌人施加3层[中毒]。",
+   "flavor": "柳絮里掺了夜昙的花粉，风一吹，落在谁身上谁就发痒。",
+   "triggers": [
+    {
+     "on": "cardDiscarded",
+     "limit": "turn",
+     "effects": [
+      {
+       "op": "status",
+       "status": "poison",
+       "amount": 3,
+       "target": "randomEnemy"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a small silk pouch stuffed with drifting white willow catkins, some floating out of its mouth, pale violet ribbon"
+   }
+  },
+  {
    "id": "rl_start_liyuan",
    "name": "朱雀翎",
    "tier": "starter",
@@ -19232,6 +21333,29 @@
    ],
    "art": {
     "subject": "a single long vermilion tail feather floating upright in darkness, its tip smoldering and shedding one glowing ember"
+   }
+  },
+  {
+   "id": "rl_start_liyuan_b",
+   "name": "朱雀尾羽",
+   "tier": "starter",
+   "faction": "R",
+   "text": "每当你献出一张牌，获得1点[护甲]。",
+   "flavor": "尾羽不烧人，只替主人挡火。",
+   "triggers": [
+    {
+     "on": "cardSacrificed",
+     "effects": [
+      {
+       "op": "armor",
+       "amount": 1,
+       "target": "commander"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a single long vermilion tail feather with golden eyes along its vane, faint flames flickering at its tip, floating over ash"
    }
   },
   {
@@ -19266,6 +21390,29 @@
    }
   },
   {
+   "id": "rl_start_qingsi_b",
+   "name": "建木新芽",
+   "tier": "starter",
+   "faction": "G",
+   "text": "战斗开始时，召唤2个「灵苗」。",
+   "flavor": "建木落下的种子，一粒能养活一片林。",
+   "triggers": [
+    {
+     "on": "combatStart",
+     "effects": [
+      {
+       "op": "summon",
+       "unit": "tk_g_sprout",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a large glowing seed shaped like a jade teardrop resting in cupped roots, two tiny sapling spirits sprouting from it, soft green light"
+   }
+  },
+  {
    "id": "rl_start_shiyun",
    "name": "山君石心",
    "tier": "starter",
@@ -19289,6 +21436,36 @@
    }
   },
   {
+   "id": "rl_start_shiyun_b",
+   "name": "崩山石",
+   "tier": "starter",
+   "faction": "B",
+   "text": "第3回合开始时，召唤一个「山岩」（[坚守]）。",
+   "flavor": "护山大阵崩落的一角，落地便成了墙。",
+   "triggers": [
+    {
+     "on": "turnStart",
+     "if": {
+      "eq": [
+       {
+        "count": "turn"
+       },
+       3
+      ]
+     },
+     "effects": [
+      {
+       "op": "summon",
+       "unit": "tk_b_rock"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a jagged fragment of a carved mountain gate stone engraved with protective runes, standing upright on cracked earth, dust around it"
+   }
+  },
+  {
    "id": "rl_start_suxian",
    "name": "冰蚕弦",
    "tier": "starter",
@@ -19309,6 +21486,29 @@
    ],
    "art": {
     "subject": "a coil of translucent silk string spun by an ice silkworm, glittering with frost, the small pale silkworm resting on the coil, close-up on dark wood"
+   }
+  },
+  {
+   "id": "rl_start_suxian_b",
+   "name": "断弦",
+   "tier": "starter",
+   "faction": "B",
+   "text": "每当你在应对中打出牌，对一名随机敌人造成3点伤害。",
+   "flavor": "弦断了，音还在，只是变得锋利。",
+   "triggers": [
+    {
+     "on": "responsePlayed",
+     "effects": [
+      {
+       "op": "damage",
+       "amount": 3,
+       "target": "randomEnemy"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a snapped zither string coiled in the air like a silver whip, frost crystals along its broken end, dark wood background"
    }
   },
   {
@@ -19345,6 +21545,30 @@
    }
   },
   {
+   "id": "rl_start_xuanji_b",
+   "name": "星盘",
+   "tier": "starter",
+   "faction": "Y",
+   "text": "每当你进行一次[判定]，获得1点[护甲]。",
+   "flavor": "盘上星位一转，灾星便偏开半寸。",
+   "triggers": [
+    {
+     "on": "judged",
+     "who": "friendly",
+     "effects": [
+      {
+       "op": "armor",
+       "amount": 1,
+       "target": "commander"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a round bronze star plate with rotating rings engraved with constellations and trigrams, faintly glowing gold, on dark silk"
+   }
+  },
+  {
    "id": "rl_start_yanwujiu",
    "name": "龟甲卦筒",
    "tier": "starter",
@@ -19373,6 +21597,28 @@
    }
   },
   {
+   "id": "rl_start_yanwujiu_b",
+   "name": "悬卦钱",
+   "tier": "starter",
+   "faction": "Y",
+   "text": "战斗开始时，抽2张牌。",
+   "flavor": "三枚铜钱系在卦绳上，一枚总是比别的亮。",
+   "triggers": [
+    {
+     "on": "combatStart",
+     "effects": [
+      {
+       "op": "draw",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "three old bronze divination coins tied on a red cord, one of them shining bright gold, hanging against a night sky"
+   }
+  },
+  {
    "id": "rl_start_yetan",
    "name": "昙香囊",
    "tier": "starter",
@@ -19388,6 +21634,30 @@
    ],
    "art": {
     "subject": "a small embroidered violet sachet tied with black cord, a withered white night flower peeking out, faint green vapor seeping from the seams"
+   }
+  },
+  {
+   "id": "rl_start_yetan_b",
+   "name": "蚀骨香",
+   "tier": "starter",
+   "faction": "P",
+   "text": "战斗开始时，对所有敌人施加2层[中毒]。",
+   "flavor": "点一炷，满屋都是花香；闻久了，骨头会疼。",
+   "triggers": [
+    {
+     "on": "combatStart",
+     "effects": [
+      {
+       "op": "status",
+       "status": "poison",
+       "amount": 2,
+       "target": "allEnemies"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a slender incense stick in a violet lacquer holder, sickly green-purple smoke curling into the shape of blossoms, dark background"
    }
   },
   {
@@ -19560,11 +21830,12 @@
    "name": "幽弈残局",
    "tier": "uncommon",
    "faction": "P",
-   "text": "每当你弃置一张牌（包括回合结束时的弃牌），对随机敌人施加1层[中毒]。",
+   "text": "每当你[弃置]一张牌（包括回合结束时的弃牌），对随机敌人施加1层[中毒]。",
    "flavor": "弃子不是输，是把毒藏进对方的棋路。",
    "triggers": [
     {
      "on": "cardDiscarded",
+     "endOfTurn": true,
      "effects": [
       {
        "op": "status",
@@ -19686,6 +21957,33 @@
    ],
    "art": {
     "subject": "a tattered dark blue war banner embroidered with a mountain emblem planted in rocky ground, wind whipping it"
+   }
+  },
+  {
+   "id": "rl_poison_ring",
+   "name": "碧磷戒",
+   "tier": "uncommon",
+   "faction": "P",
+   "text": "每回合你第一次对敌人施加[中毒]后，再对其施加1层。",
+   "flavor": "戒面下藏着一粒碧磷，指一动，就落了。",
+   "triggers": [
+    {
+     "on": "statusApplied",
+     "who": "enemy",
+     "status": "poison",
+     "limit": "turn",
+     "effects": [
+      {
+       "op": "status",
+       "status": "poison",
+       "amount": 1,
+       "target": "eventTarget"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "a silver ring set with a glowing green phosphor stone, a hidden compartment open under the stone, violet velvet"
    }
   },
   {
@@ -19828,6 +22126,47 @@
    ],
    "art": {
     "subject": "a single curved horn broken from a stone tomb guardian beast, carved with snarling patterns, dust and dim torchlight"
+   }
+  },
+  {
+   "id": "rl_vine_knot",
+   "name": "青藤结",
+   "tier": "uncommon",
+   "faction": "G",
+   "text": "每当友方单位入场，你的主帅获得1点[护甲]。",
+   "flavor": "藤结打得越多，林子越密。",
+   "triggers": [
+    {
+     "on": "unitSummoned",
+     "who": "friendly",
+     "effects": [
+      {
+       "op": "armor",
+       "amount": 1,
+       "target": "commander"
+      }
+     ]
+    }
+   ],
+   "art": {
+    "subject": "an intricate knot tied from living green vine with a few leaves and a small white flower, resting on moss"
+   }
+  },
+  {
+   "id": "rl_weapon_rack",
+   "name": "兵器架",
+   "tier": "uncommon",
+   "text": "你的主帅攻击力+1（主帅需要武器才能攻击）。",
+   "flavor": "兵器摆整齐了，拿起来才顺手。",
+   "modifiers": [
+    {
+     "stat": "atk",
+     "amount": 1,
+     "who": "commander"
+    }
+   ],
+   "art": {
+    "subject": "a lacquered wooden weapon rack holding a spear, a saber and a halberd upright, red cloth draped over its top rail"
    }
   }
  ],
@@ -22166,6 +24505,7 @@
    "passives": [
     {
      "on": "cardDiscarded",
+     "endOfTurn": true,
      "who": "enemy",
      "effects": [
       {
@@ -30647,6 +32987,71 @@
  ],
  "events": [
   {
+   "id": "ev_bookseller_1",
+   "title": "卖命书的人",
+   "acts": [
+    1
+   ],
+   "text": "碑林路口支着一个小摊，摊主是个看不清年纪的书生，面前摆着一摞散页。他说这些都是从命书上掉下来的残页，“一页一个人，你的也在里面。”他抽出一页递过来，纸上的字你认得——那是你昨天做过的事，一字不差。",
+   "options": [
+    {
+     "text": "买下写着你名字的那一页",
+     "hint": "失去 60 金 · 升级 1 张牌 · 书生会记住你",
+     "requires": {
+      "gold": 60
+     },
+     "effects": [
+      {
+       "op": "gold",
+       "n": -60
+      },
+      {
+       "op": "upgradeCard",
+       "n": 1,
+       "mode": "choose"
+      },
+      {
+       "op": "flag",
+       "key": "bookseller_met"
+      }
+     ],
+     "outcome": "你付了钱。书生把那页纸对折两次塞进你手里：“后面的，下次再卖你。”你展开来看，最后一行的墨还没干，写的是你接下来要走的路。"
+    },
+    {
+     "text": "拿一段记忆和他换",
+     "hint": "最大生命 -5 · 从 3 张本派稀有牌中选 1 张 · 书生会记住你",
+     "effects": [
+      {
+       "op": "maxHp",
+       "n": -5
+      },
+      {
+       "op": "addCard",
+       "pool": {
+        "rarity": "rare",
+        "faction": "own"
+       },
+       "choose": 3
+      },
+      {
+       "op": "flag",
+       "key": "bookseller_met"
+      }
+     ],
+     "outcome": "书生伸出两根手指在你额前一点，你想不起来自己忘了什么。他满意地在账本上记了一笔：“这笔买卖，我们还没做完。”"
+    },
+    {
+     "text": "摇头离开",
+     "hint": "什么也不发生",
+     "effects": [],
+     "outcome": "你转身走开。身后传来翻纸的声音，书生自言自语：“不急，你总会回来翻自己的那一页。”"
+    }
+   ],
+   "art": {
+    "subject": "a shadowy scholar peddler sitting at a small roadside stall piled with loose ancient pages, a stone stele forest in mist behind him, one page glowing faintly in his hand"
+   }
+  },
+  {
    "id": "ev_canpo_guanxingtai",
    "title": "残破的观星台",
    "acts": [
@@ -31631,6 +34036,64 @@
    }
   },
   {
+   "id": "ev_sword_tomb",
+   "title": "剑冢",
+   "acts": [
+    1
+   ],
+   "text": "一片荒坡上插满了锈剑，密得像一片枯林。有些剑柄上还缠着褪色的红绳。坡顶那一柄最直，剑身几乎没锈，四周的土却是黑的，像被血浸过很多年。",
+   "options": [
+    {
+     "text": "拔出坡顶那一柄",
+     "hint": "失去 6 生命 · 获得「方天画戟」",
+     "requires": {
+      "hpAbove": 6
+     },
+     "effects": [
+      {
+       "op": "hp",
+       "n": -6
+      },
+      {
+       "op": "addCard",
+       "card": "n_long_halberd"
+      }
+     ],
+     "outcome": "拔出来的不是剑，是一杆被剑林埋住的画戟。它离土的那一刻，满坡的锈剑一齐轻轻一颤，像在送行。"
+    },
+    {
+     "text": "挑一柄锈剑磨一磨",
+     "hint": "获得「磨刀石」与「铁脊长枪」",
+     "effects": [
+      {
+       "op": "addCard",
+       "card": "n_whetstone"
+      },
+      {
+       "op": "addCard",
+       "card": "n_iron_spear"
+      }
+     ],
+     "outcome": "你在坡下找了块青石，把一柄长枪磨得能照见人影。石头也顺手揣上了。"
+    },
+    {
+     "text": "在冢前拜一拜",
+     "hint": "升级 1 张牌",
+     "effects": [
+      {
+       "op": "upgradeCard",
+       "n": 1,
+       "mode": "choose"
+      }
+     ],
+     "outcome": "你拜了三拜。起身时，身上的兵器仿佛也轻了几分。"
+    }
+   ],
+   "art": {
+    "subject": "a barren hillside covered with hundreds of rusted swords planted in the earth like a dead forest, faded red cords on the hilts, one straight blade at the top under a grey sky"
+   }
+  },
+  {
    "id": "ev_tabei_ren",
    "title": "拓碑人",
    "acts": [
@@ -32252,6 +34715,71 @@
    }
   },
   {
+   "id": "ev_bookseller_2",
+   "title": "卖命书的人 · 再会",
+   "acts": [
+    2
+   ],
+   "requires": {
+    "flag": "bookseller_met"
+   },
+   "text": "沉渊城的集市上，你又看见了那个小摊。书生面前的散页少了一半，他却像早知道你会来：“你那一页后面还有两页。一页写你赢，一页写你输——我也不知道哪一页是真的。”",
+   "options": [
+    {
+     "text": "买写着“赢”的那一页",
+     "hint": "失去 80 金 · 获得 1 件罕见遗物 · 故事继续",
+     "requires": {
+      "gold": 80
+     },
+     "effects": [
+      {
+       "op": "gold",
+       "n": -80
+      },
+      {
+       "op": "addRelic",
+       "tier": "uncommon"
+      },
+      {
+       "op": "flag",
+       "key": "bookseller_win_page"
+      }
+     ],
+     "outcome": "那页纸上画着一场你还没打过的仗，你赢了，却看不清对面是谁。书生收了钱，低声说：“最后一页不卖，我要亲手交给你。”"
+    },
+    {
+     "text": "两页都撕掉",
+     "hint": "从牌组中移除 2 张牌 · 故事继续",
+     "effects": [
+      {
+       "op": "removeCard",
+       "n": 2,
+       "mode": "choose"
+      },
+      {
+       "op": "flag",
+       "key": "bookseller_torn"
+      }
+     ],
+     "outcome": "你把两页纸一起撕碎。书生没有拦你，只是看着碎纸飘进河里：“有意思。那我就只能把最后一页写完再给你了。”"
+    },
+    {
+     "text": "不再理会他",
+     "hint": "获得 40 金",
+     "effects": [
+      {
+       "op": "gold",
+       "n": 40
+      }
+     ],
+     "outcome": "你丢给他一句“我的命不用你卖”，顺手接住他扔回来的一袋钱：“那你那一页的钱，退你。”"
+    }
+   ],
+   "art": {
+    "subject": "a busy underwater-city market at dusk with lanterns, the same scholar peddler at his stall with only a few pages left, two pages held up in his hands"
+   }
+  },
+  {
    "id": "ev_chen_zhong",
    "title": "沉钟",
    "acts": [
@@ -32404,6 +34932,68 @@
    ],
    "art": {
     "subject": "a narrow apothecary at the end of a sunken alley under a purple paper lantern, a pale clerk sorting herbs into three drawers behind a wooden counter, strange vials glowing faintly on the shelves"
+   }
+  },
+  {
+   "id": "ev_frozen_ferry",
+   "title": "寒渡",
+   "acts": [
+    2
+   ],
+   "text": "冰河上只有一条渡船，船夫裹着蓑衣，斗笠压得很低。他说过河的规矩很简单：留下点东西。上一个客人留下的是一只手套，里面还有手。",
+   "options": [
+    {
+     "text": "付船钱",
+     "hint": "失去 50 金 · 恢复 30% 生命",
+     "requires": {
+      "gold": 50
+     },
+     "effects": [
+      {
+       "op": "gold",
+       "n": -50
+      },
+      {
+       "op": "hpPct",
+       "pct": 30
+      }
+     ],
+     "outcome": "船夫收了钱，递给你一碗热酒。过河的这一程很慢，你竟在船上睡着了。"
+    },
+    {
+     "text": "留下一张牌",
+     "hint": "从牌组中移除 1 张牌 · 获得 1 件普通遗物",
+     "effects": [
+      {
+       "op": "removeCard",
+       "n": 1,
+       "mode": "choose"
+      },
+      {
+       "op": "addRelic",
+       "tier": "common"
+      }
+     ],
+     "outcome": "船夫把那张牌收进怀里，拿出一样旧物塞给你：“上一个留牌的人落下的。”"
+    },
+    {
+     "text": "自己游过去",
+     "hint": "失去 10 生命 · 获得 60 金",
+     "effects": [
+      {
+       "op": "hp",
+       "n": -10
+      },
+      {
+       "op": "gold",
+       "n": 60
+      }
+     ],
+     "outcome": "河水冷得像刀。你爬上对岸时，手里攥着一把从河底摸上来的铜钱。"
+    }
+   ],
+   "art": {
+    "subject": "a lone ferryman in a straw raincoat and wide hat poling a small boat across a frozen river, ice floes and snow, a pale lantern at the bow"
    }
   },
   {
@@ -33158,6 +35748,98 @@
    }
   },
   {
+   "id": "ev_bookseller_3",
+   "title": "卖命书的人 · 最后一页",
+   "acts": [
+    3
+   ],
+   "requires": {
+    "flag": "bookseller_met"
+   },
+   "text": "星穹下的路尽头，书生的小摊只剩一张空桌。他站起来，把最后一页纸放在桌上，你终于看清了他的脸——那是你在命书里见过的笔迹，一个替司命抄书的书吏。“命书是我抄的，”他说，“抄错了一个字，才有了你。”",
+   "options": [
+    {
+     "text": "收下最后一页",
+     "hint": "获得 1 件稀有遗物 · 司命会认出这页纸",
+     "effects": [
+      {
+       "op": "addRelic",
+       "tier": "rare"
+      },
+      {
+       "op": "flag",
+       "key": "bookseller_last_page"
+      }
+     ],
+     "outcome": "纸上只有一个字，是你名字里的那个字，墨迹新得像刚写上去。书吏深深一揖：“到了命书之心，把它还给司命。他会明白的。”"
+    },
+    {
+     "text": "【买过“赢”的那一页】把它也还给他",
+     "requires": {
+      "flag": "bookseller_win_page"
+     },
+     "hint": "升级 2 张牌 · 获得 1 件稀有遗物 · 司命会认出这页纸",
+     "effects": [
+      {
+       "op": "upgradeCard",
+       "n": 2,
+       "mode": "choose"
+      },
+      {
+       "op": "addRelic",
+       "tier": "rare"
+      },
+      {
+       "op": "flag",
+       "key": "bookseller_last_page"
+      }
+     ],
+     "outcome": "你把那页写着“赢”的纸还给他。书吏看了一眼，笑了：“这一页是我替你编的——你竟真的走到了这里。”他把两页叠在一起，交还给你的却只有一页。"
+    },
+    {
+     "text": "【撕过两页】请他为你写一页新的",
+     "requires": {
+      "flag": "bookseller_torn"
+     },
+     "hint": "从 3 张本派史诗牌中选 1 张 · 司命会认出这页纸",
+     "effects": [
+      {
+       "op": "addCard",
+       "pool": {
+        "rarity": "epic",
+        "faction": "own"
+       },
+       "choose": 3
+      },
+      {
+       "op": "flag",
+       "key": "bookseller_last_page"
+      }
+     ],
+     "outcome": "“撕了我两页的人，还是头一个。”书吏铺开一张白纸，把笔递给你：“那这一页，你自己写。”"
+    },
+    {
+     "text": "让他把错字改回来",
+     "hint": "最大生命 +8 · 升级 2 张牌",
+     "effects": [
+      {
+       "op": "maxHp",
+       "n": 8
+      },
+      {
+       "op": "upgradeCard",
+       "n": 2,
+       "mode": "random"
+      }
+     ],
+     "outcome": "书吏提笔，犹豫了很久，最后只在那个字旁边添了一个小小的圈。“改不回来了，”他说，“那就圈起来，算你自己的。”"
+    }
+   ],
+   "art": {
+    "subject": "a starry cosmic road ending at an empty wooden table under a vast night sky, the scholar peddler revealed as an imperial scribe in robes holding a single page with one glowing character"
+   }
+  },
+  {
    "id": "ev_hanjiang_diaoyu",
    "title": "垂钓星河",
    "acts": [
@@ -33485,6 +36167,67 @@
    ],
    "art": {
     "subject": "a sealed letter bearing an official observatory seal resting on a dusty desk in a corner of a celestial hall, a hand-drawn star chart slipping out, a single drawn eye on the last page, candlelight"
+   }
+  },
+  {
+   "id": "ev_star_market",
+   "title": "星市",
+   "acts": [
+    3
+   ],
+   "text": "星穹之下有一处夜市，摊贩卖的都是命数：一斤好运，半两晴天，一整夜不做噩梦。价钱写在星光里，要看你拿什么换。",
+   "options": [
+    {
+     "text": "买一斤好运",
+     "hint": "失去 80 金 · 天命牌堆中 2 张命牌改为日纹",
+     "requires": {
+      "gold": 80
+     },
+     "effects": [
+      {
+       "op": "gold",
+       "n": -80
+      },
+      {
+       "op": "fate",
+       "action": "changeSuit",
+       "suit": "sun",
+       "n": 2
+      }
+     ],
+     "outcome": "摊主舀了一勺星光倒进你的袖子，天命牌堆里有两张牌悄悄换了颜色。"
+    },
+    {
+     "text": "用一场噩梦换一瓶药",
+     "hint": "牌组加入 1 张「心魔」 · 获得 2 瓶随机丹药",
+     "effects": [
+      {
+       "op": "addCard",
+       "card": "cu_xinmo"
+      },
+      {
+       "op": "addPotion"
+      },
+      {
+       "op": "addPotion"
+      }
+     ],
+     "outcome": "你把最怕的那个梦卖了，换回两只小瓶。只是那个梦的空位，很快又被别的东西填上了。"
+    },
+    {
+     "text": "只是逛逛",
+     "hint": "恢复 10 生命",
+     "effects": [
+      {
+       "op": "hp",
+       "n": 10
+      }
+     ],
+     "outcome": "你什么也没买，只是在星光里走了一圈。回来时，身上的伤轻了一些。"
+    }
+   ],
+   "art": {
+    "subject": "a night market floating among the stars, stalls lit by lanterns selling glowing bottles of starlight and luck, merchants in robes, a vast galaxy overhead"
    }
   },
   {
@@ -34179,6 +36922,35 @@
      ]
     }
    ],
+   "alt": {
+    "relic": "rl_start_shiyun_b",
+    "replaces": "b_shiyun_a",
+    "skill": {
+     "id": "b_shiyun_alt",
+     "name": "移山",
+     "type": "active",
+     "text": "（每回合一次，支付2枚[源]）对所有敌人造成等同于你[护甲]值四分之一的伤害。",
+     "cost": {
+      "g": 2
+     },
+     "effects": [
+      {
+       "op": "damage",
+       "amount": {
+        "div": [
+         {
+          "count": "armor",
+          "of": "commander"
+         },
+         4
+        ]
+       },
+       "target": "allEnemies",
+       "attack": true
+      }
+     ]
+    }
+   },
    "lore": "镇岳门第三十一代门主，生来骨重如石，三岁方能行走。命书在他那一行只写了四个字：“山崩身死”。于是他把自己炼成了山——不言、不退、不崩。命阙开裂那年，镇岳门的护山大阵随之出现裂痕，石韫独自下塔，要去找那个写下“山崩”的人，问一句凭什么。",
    "ending": "命书之心寂静无声。石韫在装订线旁找到了属于自己的那一页，墨迹早已干透：“山崩身死”。他看了很久，没有撕，也没有改。他只是把手掌按在那四个字上，任由护甲一层层剥落，露出底下那副从未示人的、会疼会累的血肉之躯。“山会崩，”他说，“但崩之前，它护过的东西，都还在。”他提笔在那行字后添了半句：“——崩而后，草木生。”回到镇岳门时，护山大阵的裂痕里长出了第一株青苔。弟子们说山君变了，笑得多了些，也终于肯在雨天卸甲。只有他自己知道，那副甲并没有卸下，只是换了个地方，搁在了心里。",
    "art": {
@@ -34292,6 +37064,34 @@
      }
     }
    ],
+   "alt": {
+    "relic": "rl_start_suxian_b",
+    "replaces": "b_suxian_p",
+    "skill": {
+     "id": "b_suxian_alt",
+     "name": "余韵",
+     "type": "passive",
+     "text": "你的[余烬]上限+1。每回合你首次在应对中打出牌后，抽1张牌。",
+     "modifiers": [
+      {
+       "stat": "emberCap",
+       "amount": 1
+      }
+     ],
+     "triggers": [
+      {
+       "on": "responsePlayed",
+       "limit": "turn",
+       "effects": [
+        {
+         "op": "draw",
+         "n": 1
+        }
+       ]
+      }
+     ]
+    }
+   },
    "lore": "寒川边的琴师，琴只有七弦，却从不先弹第一声。她说琴是答，不是问——别人出手，她才落指；落指之时，来势已冻在半空。命书写她“一生为人伴奏”，她不服，抱琴入了命阙，想弹一首只属于自己的曲子。",
    "ending": "命书之心没有风，琴弦却自己颤了起来。素弦坐下，第一次没有等任何人先出手，先拨了第一声。那声音很轻，像寒川解冻时冰层下第一道水流。命书的书页一页页翻动，把她这一路的应和都记了下来——每一次后手、每一次封冻、每一次在刀锋落下前的那一拍。她这才明白，“为人伴奏”四个字并不卑微：天地万物出声，总得有人去接。她没有改那行字，只在页边添了一枚小小的休止符。回到寒川后，她开了一间琴馆，只教一样东西：如何听。来学琴的人都说，她的曲子开头总是一段很长的静默，而那段静默，比任何旋律都好听。",
    "art": {
@@ -34411,6 +37211,27 @@
      ]
     }
    ],
+   "alt": {
+    "relic": "rl_start_qingsi_b",
+    "replaces": "g_qingsi_a",
+    "skill": {
+     "id": "g_qingsi_alt",
+     "name": "春雷",
+     "type": "active",
+     "text": "（每回合一次，支付1枚[源]）本回合所有友方单位+1攻击。",
+     "cost": {
+      "g": 1
+     },
+     "effects": [
+      {
+       "op": "buff",
+       "target": "friendlyUnits",
+       "atk": 1,
+       "until": "turn"
+      }
+     ]
+    }
+   },
    "lore": "万木庭当代灵母，据说是建木落下的一片叶子化成的人形。林中每一株新生的灵苗都认得她的声音。命书上写着建木将在她这一代枯死，万木庭随之星散。青姒不信，也不等——她带着满袖种子走进命阙，要在枯字旁边，种出一个新的字来。",
    "ending": "命书之心没有土，只有一行行凝固的字。青姒在「建木枯」三个字旁跪下，没有提笔，而是把袖中最后一粒种子按进了纸缝。灵苗们围上来，一个个把自己的光喂给那粒种子。它发了芽，根须钻进命书的装订线，把撕裂的残页一页页缝了回去。后来的人说，命阙那一年开了花；万木庭的弟子则说，建木并没有死，只是换了个地方生长——它如今长在命书里，每一页都多了一圈年轮。至于灵母，有人在最高的枝头见过她，也有人说，她就是那片新长出来的叶子。",
    "art": {
@@ -34509,6 +37330,30 @@
      ]
     }
    ],
+   "alt": {
+    "relic": "rl_start_acang_b",
+    "replaces": "g_acang_l",
+    "skill": {
+     "id": "g_acang_alt",
+     "name": "百鬼夜行",
+     "type": "limited",
+     "text": "限定技：对所有敌人造成等同于本场战斗已消灭敌方单位数×4的伤害。",
+     "effects": [
+      {
+       "op": "damage",
+       "amount": {
+        "mul": [
+         {
+          "count": "deadThisCombat"
+         },
+         4
+        ]
+       },
+       "target": "allEnemies"
+      }
+     ]
+    }
+   },
    "lore": "楚地深山里的山鬼，骑赤豹，披薜荔，死过很多次。每一次，命书都把他写回山里，让他再活一遍——不许老，不许散，不许真正离开。阿苍早已记不清第一次死是为了谁。他走进命阙，只想找到写着自己名字的那一页，亲手添上一个“终”字。",
    "ending": "那一页比阿苍想的要薄。上面密密麻麻写满了“复生”，一行压着一行，墨迹新旧不一，像山里一层叠一层的落叶。他本想把“终”字写上去，笔尖悬了很久，最后却把整页撕了下来，埋进命书之心的尘土里。纸烂成泥，泥里长出一棵小小的苍树。阿苍在树下坐了一夜，天亮时发现自己的手第一次有了皱纹。他笑了——原来他要的不是死，而是能老。后来山里的采药人偶尔会遇见一个白发老人，骑着一头走不快的老豹，他说自己叫阿苍，只是个守山的。",
    "art": {
@@ -34520,7 +37365,7 @@
    "name": "夜昙",
    "title": "影罗刹",
    "faction": "P",
-   "hp": 74,
+   "hp": 78,
    "sources": [
     "P",
     "P",
@@ -34593,6 +37438,37 @@
      ]
     }
    ],
+   "alt": {
+    "relic": "rl_start_yetan_b",
+    "replaces": "sk_p_yetan_shadow",
+    "skill": {
+     "id": "sk_p_yetan_alt",
+     "name": "夜毒",
+     "type": "passive",
+     "text": "每回合你打出第2张牌后，对一名随机敌人施加3层[中毒]。",
+     "triggers": [
+      {
+       "on": "cardPlayed",
+       "if": {
+        "eq": [
+         {
+          "count": "cardsPlayed"
+         },
+         2
+        ]
+       },
+       "effects": [
+        {
+         "op": "status",
+         "status": "poison",
+         "amount": 3,
+         "target": "randomEnemy"
+        }
+       ]
+      }
+     ]
+    }
+   },
    "lore": "幽弈坊的头牌刺客，人称影罗刹。她生在沉渊城下的蛊窟，自幼与百虫同眠，十四岁那年一夜毒杀满堂宾客，只为替被写成“早夭”的妹妹讨一句公道。命书上她的名字只有一行：昙花一现。她不信，便提着针走进了命阙。",
    "ending": "命书之心的装订线在她指间断开时，夜昙闻到了昙花的香气。她翻到写着妹妹名字的那一页——“早夭”二字早已褪色，墨迹里爬出一只小小的紫蛊，咬掉了那两个字。她没有替妹妹写下新的命，只在空白处留了一枚针孔。“命该由她自己去写，我只负责把碍事的人扎死。”回到幽弈坊那夜，坊主问她赢了什么。她把一朵昙花插进棋盒：“赢了一夜。够了，花本来就只开一夜。”此后坊中每逢月晦，总有人看见一个提灯的少女，在棋盘边等她下完这一局。",
    "art": {
@@ -34604,7 +37480,7 @@
    "name": "柳絮",
    "title": "千面客",
    "faction": "P",
-   "hp": 82,
+   "hp": 86,
    "sources": [
     "P",
     "P",
@@ -34628,7 +37504,7 @@
      "id": "sk_p_liuxu_shade",
      "name": "絮影",
      "type": "passive",
-     "text": "每回合你第一次弃置牌后，将一张[浮光]的「絮影」加入手牌。",
+     "text": "每回合你第一次[弃置]牌后，将一张[浮光]的「絮影」加入手牌。",
      "triggers": [
       {
        "on": "cardDiscarded",
@@ -34648,7 +37524,7 @@
      "id": "sk_p_liuxu_facechange",
      "name": "换面",
      "type": "active",
-     "text": "每回合一次：弃置1张牌，然后从3张随机幽弈坊牌中选择1张加入手牌。",
+     "text": "每回合一次：[弃置]1张牌，然后从3张随机幽弈坊牌中选择1张加入手牌。",
      "cost": {
       "g": 0
      },
@@ -34668,6 +37544,30 @@
      ]
     }
    ],
+   "alt": {
+    "relic": "rl_start_liuxu_b",
+    "replaces": "sk_p_liuxu_facechange",
+    "skill": {
+     "id": "sk_p_liuxu_alt",
+     "name": "飞絮",
+     "type": "active",
+     "text": "每回合一次：[弃置]2张牌，然后抽3张牌。",
+     "cost": {
+      "g": 0
+     },
+     "effects": [
+      {
+       "op": "discard",
+       "n": 2,
+       "mode": "choose"
+      },
+      {
+       "op": "draw",
+       "n": 3
+      }
+     ]
+    }
+   },
    "lore": "没人见过柳絮的真面目，连幽弈坊主也只认得她的笑声。她替人换脸、替人顶罪、替人活一段不属于自己的日子，收的价钱是对方命书上的一行字。攒了三百张面皮之后，她发现自己已经想不起原来的脸，于是走进命阙，去找命书上写着“柳絮”的那一页。",
    "ending": "命书之心里，她终于找到了那一页，可上面只写着两个字：柳絮。没有生辰，没有来处，没有容貌，风一吹，墨迹就散成了细白的绒。柳絮笑了很久。原来她本就没有一张非找回不可的脸——命书写不住的人，才能戴上千张面孔。她把那三百行别人的命数一行行还了回去，只留下最后一张空白面皮，贴在自己脸上。回到人间的那天是暮春，满城飞絮。有人说在渡口看见一个陌生女子，替船夫补网，替孩童折柳，谁也说不清她长什么样子，只记得她走时回头一笑，像是认识每一个人。",
    "art": {
@@ -34749,6 +37649,44 @@
      ]
     }
    ],
+   "alt": {
+    "relic": "rl_start_huojin_b",
+    "replaces": "sk_r_huojin_1",
+    "skill": {
+     "id": "sk_r_huojin_alt",
+     "name": "燎原",
+     "type": "passive",
+     "text": "我方回合结束时，对每个带有[灼烧]的敌人施加1层[灼烧]。",
+     "triggers": [
+      {
+       "on": "turnEnd",
+       "effects": [
+        {
+         "op": "forEach",
+         "sel": {
+          "side": "enemy",
+          "kind": "character",
+          "where": {
+           "hasStatus": {
+            "of": "it",
+            "status": "burn"
+           }
+          }
+         },
+         "effects": [
+          {
+           "op": "status",
+           "status": "burn",
+           "amount": 1,
+           "target": "it"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
    "lore": "焚阳宗前任执刀，曾一刀斩断北境叛军的火龙阵，刀也随之齐腰而断。宗门要他换刀，他不肯；要他退隐，他也不肯。他说那半截刀尖落进了命阙，刀要找回另一半，人也要找回那一夜没能护住的部下。",
    "ending": "命阙最深处，霍烬终于见到了那截刀尖。它插在命书的装订线上，把一页写满名字的残篇钉在原处——那是当年随他出征、没能回来的三百人。司命说，只要拔出刀尖，他便能改写那一夜，却也会抹去此后自己走过的每一步。霍烬看了很久，最后只是把断刀与刀尖并在一起，用自己的火重新熔成一柄完整的刀，然后把它留在那里，替那三百人守着那一页。他走出命阙时两手空空，北境的人说，那年冬天边关的烽火一夜都没有熄过。",
    "art": {
@@ -34834,6 +37772,28 @@
      }
     }
    ],
+   "alt": {
+    "relic": "rl_start_liyuan_b",
+    "replaces": "sk_r_liyuan_1",
+    "skill": {
+     "id": "sk_r_liyuan_alt",
+     "name": "焚羽",
+     "type": "passive",
+     "text": "每当你献出一张牌，对所有敌人造成2点伤害。",
+     "triggers": [
+      {
+       "on": "cardSacrificed",
+       "effects": [
+        {
+         "op": "damage",
+         "amount": 2,
+         "target": "allEnemies"
+        }
+       ]
+      }
+     ]
+    }
+   },
    "lore": "朱雀祠最后一任祭司。命书撕裂那年，南方神鸟的火种坠入命阙，祠中香火一夜全灭。离鸢自幼被教导：祭品献得越多，神便离人越近。她带着祠里仅剩的一根朱雀翎走进倒塔，要把火种讨回来——哪怕献出的是她自己。",
    "ending": "离鸢在星殿的尽头找到了朱雀。它没有被囚禁，只是蜷在命书的灰烬里睡着了，羽毛黯淡得像一堆旧炭。她这才明白，神鸟从不需要祭品；是人们一代代献上的东西太多，把它压得飞不起来。她没有再献出什么，而是把那根随身的朱雀翎还给了它，然后转身，把一路献出的源一枚一枚点亮，照着来路。朱雀醒来时，看见的是一条通往人间的火光。后来南方再建朱雀祠，祠中不设供案，只挂一盏长明灯。据说灯下常有一名红衣女子扫地，从不自称祭司。",
    "art": {
@@ -34935,6 +37895,34 @@
      }
     }
    ],
+   "alt": {
+    "relic": "rl_start_xuanji_b",
+    "replaces": "y_xuanji_sitian",
+    "skill": {
+     "id": "y_xuanji_alt",
+     "name": "推演",
+     "type": "passive",
+     "text": "每回合你第一次进行[判定]后，若点数不小于10，抽1张牌。",
+     "triggers": [
+      {
+       "on": "judged",
+       "who": "friendly",
+       "limit": "turn",
+       "if": {
+        "rank": {
+         "min": 10
+        }
+       },
+       "effects": [
+        {
+         "op": "draw",
+         "n": 1
+        }
+       ]
+      }
+     ]
+    }
+   },
    "lore": "观星阁第七代司天监，三十年夜夜登台，替朝廷记下命书残页坠落的轨迹。某夜他在星图里看见了自己的死期，就写在命阙最深处的那一页上。他没有上报，只是把浑天仪拆成三截背在身后，独自下了塔——他想看看，自己能不能比天先落笔。",
    "ending": "命书之心没有门，只有一张摊开的书页。玄机子认出了那行字：某年某月，司天监死于命阙。墨迹未干。他没有去擦，也没有去改，而是提笔在旁边添了一行小注：“此日，星位有误。”书页静了很久，然后那行字自己淡了下去。回到观星阁时，弟子们发现老师把三十年的星图全烧了。他说，从今往后观星阁只记一件事：天也会算错。有人问他那夜究竟看见了什么，他只是笑，说自己第一次看见星星在等人点头。",
    "art": {
@@ -34946,7 +37934,7 @@
    "name": "燕无咎",
    "title": "卜者",
    "faction": "Y",
-   "hp": 74,
+   "hp": 78,
    "sources": [
     "Y",
     "Y",
@@ -35033,6 +38021,27 @@
      ]
     }
    ],
+   "alt": {
+    "relic": "rl_start_yanwujiu_b",
+    "replaces": "y_yanwujiu_chengchen",
+    "skill": {
+     "id": "y_yanwujiu_alt",
+     "name": "卜筮",
+     "type": "active",
+     "text": "（每回合一次）从3张随机[延时]牌中选择1张加入手牌。",
+     "cost": {
+      "g": 0
+     },
+     "effects": [
+      {
+       "op": "discover",
+       "pool": {
+        "type": "delay"
+       }
+      }
+     ]
+    }
+   },
    "lore": "江湖卜者，一张布幡、三枚铜钱，从南走到北。他的卦从不当场应验，总要隔一夜、隔一场雨，所以没人找得到他退钱。有人说他卦卦皆准，唯独算不出自己从哪里来。直到某天，他在自己的卦里看见一座倒着长的塔。",
    "ending": "他在命书之心摆了个摊，布幡插在司命的书页上，三枚铜钱排成一行。“给你算一卦？不准不要钱。”他的卦照旧没有当场应验。他收了摊，转身往上走，走了七天七夜，走到第一缕天光照进命阙的地方，身后才传来书页合拢的声音——很轻，像是谁终于认了命。燕无咎没有回头。他在出口的石头上刻了四个字：卦不过夜。后来江湖上再也没人见过他摆摊，只是每逢久旱逢雨的夜里，总有人在屋檐下捡到三枚铜钱。",
    "art": {
@@ -35333,7 +38342,7 @@
     "id": "sk_lt_p_jiangshu",
     "name": "焚卷",
     "type": "passive",
-    "text": "每当你弃置一张牌，对一名随机敌人造成1点伤害。每当你燃尽一张牌，对一名随机敌人施加2层[灼烧]。",
+    "text": "每当你[弃置]一张牌，对一名随机敌人造成1点伤害。每当你[燃尽]一张牌，对一名随机敌人施加2层[灼烧]。",
     "triggers": [
      {
       "on": "cardDiscarded",
@@ -35450,7 +38459,7 @@
     "id": "sk_lt_p_qianshu",
     "name": "千术",
     "type": "passive",
-    "text": "每当你[改判]，抽1张牌。每回合你第一次弃置牌后，收1张[命签]。",
+    "text": "每当你[改判]，抽1张牌。每回合你第一次[弃置]牌后，收1张[命签]。",
     "triggers": [
      {
       "on": "rejudged",
@@ -35552,7 +38561,7 @@
     "id": "sk_lt_r_mojin",
     "name": "焚卷",
     "type": "passive",
-    "text": "每当你弃置一张牌，对随机敌人施加1层[灼烧]；每当你燃尽一张牌，对随机敌人造成2点伤害。",
+    "text": "每当你[弃置]一张牌，对随机敌人施加1层[灼烧]；每当你[燃尽]一张牌，对随机敌人造成2点伤害。",
     "triggers": [
      {
       "on": "cardDiscarded",
@@ -35751,7 +38760,7 @@
     "id": "lt_y_xiejiuchou_skill",
     "name": "千术",
     "type": "active",
-    "text": "每回合一次：弃置1张手牌，收取1张[命签]。被动：每当你[改判]后，抽1张牌。",
+    "text": "每回合一次：[弃置]1张手牌，收取1张[命签]。被动：每当你[改判]后，抽1张牌。",
     "effects": [
      {
       "op": "discard",

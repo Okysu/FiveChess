@@ -215,5 +215,8 @@
     "flavor": "行脚僧的钵里只装一顿饭。多余的，都得放下。",
     "onPickup": [{ "op": "removeCard", "n": 2, "mode": "choose" }],
     "art": { "subject": "a battered copper alms bowl held in weathered hands, empty, on a dusty mountain road at dusk" }
-  }
+  },
+  {"id":"rl_weapon_rack","name":"兵器架","tier":"uncommon","text":"你的主帅攻击力+1（主帅需要武器才能攻击）。","flavor":"兵器摆整齐了，拿起来才顺手。","modifiers":[{"stat":"atk","amount":1,"who":"commander"}],"art":{"subject":"a lacquered wooden weapon rack holding a spear, a saber and a halberd upright, red cloth draped over its top rail"}},
+  {"id":"rl_vine_knot","name":"青藤结","tier":"uncommon","faction":"G","text":"每当友方单位入场，你的主帅获得1点[护甲]。","flavor":"藤结打得越多，林子越密。","triggers":[{"on":"unitSummoned","who":"friendly","effects":[{"op":"armor","amount":1,"target":"commander"}]}],"art":{"subject":"an intricate knot tied from living green vine with a few leaves and a small white flower, resting on moss"}},
+  {"id":"rl_poison_ring","name":"碧磷戒","tier":"uncommon","faction":"P","text":"每回合你第一次对敌人施加[中毒]后，再对其施加1层。","flavor":"戒面下藏着一粒碧磷，指一动，就落了。","triggers":[{"on":"statusApplied","who":"enemy","status":"poison","limit":"turn","effects":[{"op":"status","status":"poison","amount":1,"target":"eventTarget"}]}],"art":{"subject":"a silver ring set with a glowing green phosphor stone, a hidden compartment open under the stone, violet velvet"}}
 ]

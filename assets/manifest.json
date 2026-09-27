@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-26T17:41:45.107Z",
+ "generated": "2026-09-27T02:16:05.935Z",
  "assets": [
   {
    "id": "amb_fire",
@@ -1342,6 +1342,45 @@
    "qa": "ok"
   },
   {
+   "id": "ev_bookseller_1",
+   "path": "backgrounds/events/ev_bookseller_1.webp",
+   "category": "event",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet event/1#muj6lm8d-7 cell 1] a shadowy scholar peddler sitting at a small roadside stall piled with loose ancient pages, a stone stele forest in mist behind him, one page glowing faintly in his hand",
+   "reference": "art-src/style_refs/wb_background.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤1200px, webp",
+   "hash": "53c6dfb22764",
+   "qa": "ok"
+  },
+  {
+   "id": "ev_bookseller_2",
+   "path": "backgrounds/events/ev_bookseller_2.webp",
+   "category": "event",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet event/2#muj6lm8d-8 cell 1] a busy underwater-city market at dusk with lanterns, the same scholar peddler at his stall with only a few pages left, two pages held up in his hands",
+   "reference": "art-src/style_refs/wb_background.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤1200px, webp",
+   "hash": "cf87d4c27e4a",
+   "qa": "ok"
+  },
+  {
+   "id": "ev_bookseller_3",
+   "path": "backgrounds/events/ev_bookseller_3.webp",
+   "category": "event",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet event/3#muj6lm8d-9 cell 1] a starry cosmic road ending at an empty wooden table under a vast night sky, the scholar peddler revealed as an imperial scribe in robes holding a single page with one glowing character",
+   "reference": "art-src/style_refs/wb_background.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤1200px, webp",
+   "hash": "d94780265108",
+   "qa": "ok"
+  },
+  {
    "id": "ev_canpo_guanxingtai",
    "path": "backgrounds/events/ev_canpo_guanxingtai.webp",
    "category": "event",
@@ -1404,6 +1443,19 @@
    "reference": "art-src/style_refs/wb_background.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤1200px, webp",
    "hash": "22d62cd4c0a8",
+   "qa": "ok"
+  },
+  {
+   "id": "ev_frozen_ferry",
+   "path": "backgrounds/events/ev_frozen_ferry.webp",
+   "category": "event",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet event/2#muj6lm8d-8 cell 2] a lone ferryman in a straw raincoat and wide hat poling a small boat across a frozen river, ice floes and snow, a pale lantern at the bow",
+   "reference": "art-src/style_refs/wb_background.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤1200px, webp",
+   "hash": "fa8913920982",
    "qa": "ok"
   },
   {
@@ -1667,6 +1719,19 @@
    "qa": "ok"
   },
   {
+   "id": "ev_star_market",
+   "path": "backgrounds/events/ev_star_market.webp",
+   "category": "event",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet event/3#muj6lm8d-9 cell 2] a night market floating among the stars, stalls lit by lanterns selling glowing bottles of starlight and luck, merchants in robes, a vast galaxy overhead",
+   "reference": "art-src/style_refs/wb_background.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤1200px, webp",
+   "hash": "d0bf98924e81",
+   "qa": "ok"
+  },
+  {
    "id": "ev_suye_zhi_ying",
    "path": "backgrounds/events/ev_suye_zhi_ying.webp",
    "category": "event",
@@ -1677,6 +1742,19 @@
    "reference": "art-src/style_refs/wb_background.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤1200px, webp",
    "hash": "9e5ef18303d1",
+   "qa": "ok"
+  },
+  {
+   "id": "ev_sword_tomb",
+   "path": "backgrounds/events/ev_sword_tomb.webp",
+   "category": "event",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet event/1#muj6lm8d-7 cell 2] a barren hillside covered with hundreds of rusted swords planted in the earth like a dead forest, faded red cords on the hilts, one straight blade at the top under a grey sky",
+   "reference": "art-src/style_refs/wb_background.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤1200px, webp",
+   "hash": "7944f7435cbb",
    "qa": "ok"
   },
   {
@@ -2330,6 +2408,19 @@
    "qa": "ok"
   },
   {
+   "id": "b_counter_stance",
+   "path": "cards/B/b_counter_stance.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/B#muj6lm8d-0 cell 3] a swordsman in dark lamellar armor deflecting an incoming blade with his shield while his own spear thrusts back in the same motion",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "636d14553d06",
+   "qa": "ok"
+  },
+  {
    "id": "b_ember_sage",
    "path": "cards/B/b_ember_sage.webp",
    "category": "card",
@@ -2392,6 +2483,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "resized≤640px, webp",
    "hash": "8869b190ea7e",
+   "qa": "ok"
+  },
+  {
+   "id": "b_frost_spear",
+   "path": "cards/B/b_frost_spear.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/B#muj6lm8d-0 cell 1] a long spear with a pale blue frost-crusted iron head, icicles hanging from the crossguard, planted in snow under grey sky",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "51dc8b7acf07",
    "qa": "ok"
   },
   {
@@ -2512,6 +2616,19 @@
    "qa": "ok"
   },
   {
+   "id": "b_mountain_guard",
+   "path": "cards/B/b_mountain_guard.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/B#muj6lm8d-0 cell 2] a warrior bracing behind a heavy stone-patterned shield with a spear held ready, mountain silhouettes behind, calm stance",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "3af07ff8f0bd",
+   "qa": "ok"
+  },
+  {
    "id": "b_mountain_maul",
    "path": "cards/B/b_mountain_maul.webp",
    "category": "card",
@@ -2535,6 +2652,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "resized≤640px, webp",
    "hash": "0136ba6e1a42",
+   "qa": "ok"
+  },
+  {
+   "id": "b_mountain_temper",
+   "path": "cards/B/b_mountain_temper.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/B#muj6lm8d-0 cell 5] a heavy war hammer being plunged into a crack in a mountain, blue light and stone dust erupting, the weapon glowing with mountain patterns",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "9df42901c6bb",
    "qa": "ok"
   },
   {
@@ -2746,6 +2876,19 @@
    "qa": "ok"
   },
   {
+   "id": "b_stone_sentry",
+   "path": "cards/B/b_stone_sentry.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/B#muj6lm8d-0 cell 4] a stone guardian statue with a halberd coming to life, cracks of blue light across its body, moss on its shoulders, temple steps",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "2a7564e6f10e",
+   "qa": "ok"
+  },
+  {
    "id": "b_thorn_guard",
    "path": "cards/B/b_thorn_guard.webp",
    "category": "card",
@@ -2824,6 +2967,19 @@
    "qa": "ok"
   },
   {
+   "id": "g_ancient_bark",
+   "path": "cards/G/g_ancient_bark.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "a suit of armor made from overlapping plates of ancient bark and moss, small shoots growing between the plates, on a wooden stand Dominant pigments: malachite green with ochre and lamp black; patterned leaves, vines and roots. Full-bleed square composition, main subject centered slightly above the middle, the lower third kept simple, decorative patterned background. Made as a Chinese woodblock print in the traditional New Year print (nianhua) style: bold carved black outlines of even weight, flat saturated mineral colors (vermilion, malachite green, azurite blue, ochre, lamp black, paper white), visible rice-paper grain, slight color misregistration between print layers, decorative flat composition with patterned clouds, flames and waves, no shading gradients, no airbrush, no 3D rendering, no photorealism, no Western fantasy armor or architecture — Chinese costume and motifs only. Absolutely no text, no letters, no numbers, no calligraphy, no seals, no watermark, no signature.",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "resized≤640px, webp",
+   "hash": "7f07c2c47f33",
+   "qa": "ok"
+  },
+  {
    "id": "g_ancient_quake",
    "path": "cards/G/g_ancient_quake.webp",
    "category": "card",
@@ -2886,6 +3042,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "d611b1cee8d9",
+   "qa": "ok"
+  },
+  {
+   "id": "g_beast_horn",
+   "path": "cards/G/g_beast_horn.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "a curved horn carved from a great beast, a hunter blowing it in a misty forest, spectral animal shapes rising from the sound Dominant pigments: malachite green with ochre and lamp black; patterned leaves, vines and roots. Full-bleed square composition, main subject centered slightly above the middle, the lower third kept simple, decorative patterned background. Made as a Chinese woodblock print in the traditional New Year print (nianhua) style: bold carved black outlines of even weight, flat saturated mineral colors (vermilion, malachite green, azurite blue, ochre, lamp black, paper white), visible rice-paper grain, slight color misregistration between print layers, decorative flat composition with patterned clouds, flames and waves, no shading gradients, no airbrush, no 3D rendering, no photorealism, no Western fantasy armor or architecture — Chinese costume and motifs only. Absolutely no text, no letters, no numbers, no calligraphy, no seals, no watermark, no signature.",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "resized≤640px, webp",
+   "hash": "1547567d981e",
    "qa": "ok"
   },
   {
@@ -3123,6 +3292,19 @@
    "qa": "ok"
   },
   {
+   "id": "g_seed_arrow",
+   "path": "cards/G/g_seed_arrow.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "a wooden arrow striking the ground and sprouting a small glowing sapling at its point, roots spreading, forest light Dominant pigments: malachite green with ochre and lamp black; patterned leaves, vines and roots. Full-bleed square composition, main subject centered slightly above the middle, the lower third kept simple, decorative patterned background. Made as a Chinese woodblock print in the traditional New Year print (nianhua) style: bold carved black outlines of even weight, flat saturated mineral colors (vermilion, malachite green, azurite blue, ochre, lamp black, paper white), visible rice-paper grain, slight color misregistration between print layers, decorative flat composition with patterned clouds, flames and waves, no shading gradients, no airbrush, no 3D rendering, no photorealism, no Western fantasy armor or architecture — Chinese costume and motifs only. Absolutely no text, no letters, no numbers, no calligraphy, no seals, no watermark, no signature.",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "resized≤640px, webp",
+   "hash": "9d468341c4bf",
+   "qa": "ok"
+  },
+  {
    "id": "g_seed_pod",
    "path": "cards/G/g_seed_pod.webp",
    "category": "card",
@@ -3266,6 +3448,19 @@
    "qa": "ok"
   },
   {
+   "id": "g_thorn_whip",
+   "path": "cards/G/g_thorn_whip.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/G#muj6lm8d-1 cell 1] a coiled whip made of a living thorny vine with small green leaves and tiny blossoms, lying on moss, dew drops on the thorns",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "261375a5e5f5",
+   "qa": "ok"
+  },
+  {
    "id": "g_thornback_boar",
    "path": "cards/G/g_thornback_boar.webp",
    "category": "card",
@@ -3367,6 +3562,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "511d0ca45027",
+   "qa": "ok"
+  },
+  {
+   "id": "g_wood_warden",
+   "path": "cards/G/g_wood_warden.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/G#muj6lm8d-1 cell 4] a towering guardian made of living wood and bark with a spear of branches, glowing green eyes, leaves growing on its shoulders",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "000c27a8d893",
    "qa": "ok"
   },
   {
@@ -4644,6 +4852,19 @@
    "qa": "ok"
   },
   {
+   "id": "n_armory",
+   "path": "cards/N/n_armory.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/N#muj6lm8d-2 cell 5] the interior of an ancient armory hall with walls lined by spears, sabers and halberds on racks, shafts of light through high windows",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "945b13e67e7f",
+   "qa": "ok"
+  },
+  {
    "id": "n_brace",
    "path": "cards/N/n_brace.webp",
    "category": "card",
@@ -4667,6 +4888,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "eb316928dc2b",
+   "qa": "ok"
+  },
+  {
+   "id": "n_draw_blade",
+   "path": "cards/N/n_draw_blade.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/N#muj6lm8d-2 cell 2] a swordsman in a low stance drawing a curved blade from its sheath in one flash, the air cut into a bright arc, dust kicked up",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "77734d12551a",
    "qa": "ok"
   },
   {
@@ -4784,6 +5018,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "1a1fd60eabd0",
+   "qa": "ok"
+  },
+  {
+   "id": "n_long_halberd",
+   "path": "cards/N/n_long_halberd.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/N#muj6lm8d-2 cell 4] an ornate halberd with a crescent blade on both sides and a red tassel, displayed on a lacquered weapon rack, dramatic side light",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "7346612b7e35",
    "qa": "ok"
   },
   {
@@ -5005,6 +5252,32 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "dcb5a5a5f68d",
+   "qa": "ok"
+  },
+  {
+   "id": "n_weapon_smith",
+   "path": "cards/N/n_weapon_smith.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/N#muj6lm8d-2 cell 3] a stocky blacksmith with a leather apron and soot-streaked arms holding up a freshly forged spear head, glowing forge behind him, half body",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "80a7c54b829b",
+   "qa": "ok"
+  },
+  {
+   "id": "n_whetstone",
+   "path": "cards/N/n_whetstone.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/N#muj6lm8d-2 cell 1] a worn grey whetstone on a wooden bench with water droplets, a blade edge being sharpened across it, sparks and a thin line of light",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "1522b6f03c65",
    "qa": "ok"
   },
   {
@@ -5359,6 +5632,19 @@
    "qa": "ok"
   },
   {
+   "id": "p_masked_cutpurse",
+   "path": "cards/P/p_masked_cutpurse.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/P#muj6lm8d-3 cell 4] a slim thief in a white opera mask and violet cloak crouching on a rooftop, juggling stolen cards and a small dagger, moonlit",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "27ebdf21767e",
+   "qa": "ok"
+  },
+  {
    "id": "p_miasma",
    "path": "cards/P/p_miasma.webp",
    "category": "card",
@@ -5421,6 +5707,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "e9f94a08099b",
+   "qa": "ok"
+  },
+  {
+   "id": "p_poison_edge",
+   "path": "cards/P/p_poison_edge.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/P#muj6lm8d-3 cell 3] a hand in a violet glove brushing green venom along the edge of a thin blade with a small brush, a vial beside it, candlelight",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "b93565d2095c",
    "qa": "ok"
   },
   {
@@ -5580,6 +5879,19 @@
    "qa": "ok"
   },
   {
+   "id": "p_smoke_vanish",
+   "path": "cards/P/p_smoke_vanish.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/P#muj6lm8d-3 cell 5] a masked figure vanishing in a burst of violet smoke on a moonlit rooftop, a single playing card fluttering down where he stood",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "396807136e3b",
+   "qa": "ok"
+  },
+  {
    "id": "p_smoke_veil",
    "path": "cards/P/p_smoke_veil.webp",
    "category": "card",
@@ -5632,6 +5944,19 @@
    "qa": "ok"
   },
   {
+   "id": "p_toxic_mist",
+   "path": "cards/P/p_toxic_mist.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/P#muj6lm8d-3 cell 2] a thick violet-green poison mist rolling across a battlefield at night, silhouettes of soldiers coughing, blossoms in the fog",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "203056e3c787",
+   "qa": "ok"
+  },
+  {
    "id": "p_venom_dagger",
    "path": "cards/P/p_venom_dagger.webp",
    "category": "card",
@@ -5655,6 +5980,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "a05fbb177508",
+   "qa": "ok"
+  },
+  {
+   "id": "p_viper_fang",
+   "path": "cards/P/p_viper_fang.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/P#muj6lm8d-3 cell 1] a slender stiletto shaped like a serpent fang, dripping violet venom, its hilt wrapped with a snake, on dark silk",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "43adddf547ea",
    "qa": "ok"
   },
   {
@@ -5801,6 +6139,19 @@
    "qa": "ok"
   },
   {
+   "id": "r_blazing_charge",
+   "path": "cards/R/r_blazing_charge.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/R#muj6lm8d-4 cell 4] an armored rider charging through an enemy line with a blazing saber, a trail of fire left along the ground behind the horse",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "a2c40a997f12",
+   "qa": "ok"
+  },
+  {
    "id": "r_bone_burn",
    "path": "cards/R/r_bone_burn.webp",
    "category": "card",
@@ -5876,6 +6227,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "1e421f1e5ad4",
+   "qa": "ok"
+  },
+  {
+   "id": "r_ember_blade",
+   "path": "cards/R/r_ember_blade.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/R#muj6lm8d-4 cell 1] a short single-edged saber whose blade glows with embers along a cracked dark surface, smoke curling off it, resting on charred wood",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "2ccf047f491d",
    "qa": "ok"
   },
   {
@@ -5967,6 +6331,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "8cded6fd261c",
+   "qa": "ok"
+  },
+  {
+   "id": "r_forge_fire",
+   "path": "cards/R/r_forge_fire.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/R#muj6lm8d-4 cell 3] a forge fire burning with clean blue-green flame at its heart, a blade laid across the coals turning bright, bellows in the background",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "85ee57484881",
    "qa": "ok"
   },
   {
@@ -6178,6 +6555,19 @@
    "qa": "ok"
   },
   {
+   "id": "r_sun_bannerman",
+   "path": "cards/R/r_sun_bannerman.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/R#muj6lm8d-4 cell 5] a young standard bearer in red armor holding a tall flaming sun banner, flames streaming from the cloth, determined face, full body",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "81736671466f",
+   "qa": "ok"
+  },
+  {
    "id": "r_sun_halberd",
    "path": "cards/R/r_sun_halberd.webp",
    "category": "card",
@@ -6227,6 +6617,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "f9ef1e576716",
+   "qa": "ok"
+  },
+  {
+   "id": "r_tempered_edge",
+   "path": "cards/R/r_tempered_edge.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/R#muj6lm8d-4 cell 2] a glowing red blade plunged into a barrel of water, a violent burst of steam and sparks, a gauntleted hand gripping the hilt",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "6fe7e886dfad",
    "qa": "ok"
   },
   {
@@ -6464,6 +6867,19 @@
    "qa": "ok"
   },
   {
+   "id": "y_court_astrologer",
+   "path": "cards/Y/y_court_astrologer.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/Y#muj6lm8d-5 cell 5] an imperial court astrologer in golden robes and a tall hat holding a bronze astrolabe, stars reflected in his eyes, half body",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "1b0ff46b12b6",
+   "qa": "ok"
+  },
+  {
    "id": "y_eclipse_hex",
    "path": "cards/Y/y_eclipse_hex.webp",
    "category": "card",
@@ -6568,6 +6984,19 @@
    "qa": "ok"
   },
   {
+   "id": "y_hexagram_shield",
+   "path": "cards/Y/y_hexagram_shield.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/Y#muj6lm8d-5 cell 4] a round bronze shield engraved with the eight trigrams around a yin-yang center, faint golden light tracing the lines",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "26dfe94cb0e5",
+   "qa": "ok"
+  },
+  {
    "id": "y_inexorable_fate",
    "path": "cards/Y/y_inexorable_fate.webp",
    "category": "card",
@@ -6656,6 +7085,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "55d239a3e50c",
+   "qa": "ok"
+  },
+  {
+   "id": "y_omen_strike",
+   "path": "cards/Y/y_omen_strike.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/Y#muj6lm8d-5 cell 2] a diviner pointing a bronze ruler at a storm cloud, a lightning bolt striking down onto a foe, trigram symbols glowing in the air",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "805928037aa1",
    "qa": "ok"
   },
   {
@@ -6750,6 +7192,19 @@
    "qa": "ok"
   },
   {
+   "id": "y_star_chart",
+   "path": "cards/Y/y_star_chart.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/Y#muj6lm8d-5 cell 3] an unrolled scroll of an ancient star chart with gold ink constellations, a brush and an armillary sphere beside it, candlelight",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "ae36ccdb02f5",
+   "qa": "ok"
+  },
+  {
    "id": "y_star_reading",
    "path": "cards/Y/y_star_reading.webp",
    "category": "card",
@@ -6760,6 +7215,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "a9edadc054c3",
+   "qa": "ok"
+  },
+  {
+   "id": "y_star_spear",
+   "path": "cards/Y/y_star_spear.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/Y#muj6lm8d-5 cell 1] a golden spear whose head is a fragment of a fallen star glowing white-gold, trailing sparks, held against a night sky full of constellations",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "926372fdb4ac",
    "qa": "ok"
   },
   {
@@ -10721,6 +11189,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_bare_hand_pendant",
+   "path": "ui/relics/rl_bare_hand_pendant.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muj6lm8d-6 cell 4] a smooth round jade pendant without any blade motif, a plain cord, a faint protective bright flat-printed around it, on grey stone",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "d5ba41f17a77",
+   "qa": "ok"
+  },
+  {
    "id": "rl_black_iron_scale",
    "path": "ui/relics/rl_black_iron_scale.webp",
    "category": "relic",
@@ -10731,6 +11212,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "f3cf6d0bf95b",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_blade_oil",
+   "path": "ui/relics/rl_blade_oil.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muj6lm8d-6 cell 1] a folded square of oiled cloth with a small clay oil pot, a blade edge gleaming beside it, warm lamplight",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "7753e5ecc755",
    "qa": "ok"
   },
   {
@@ -11059,6 +11553,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_fire_striker",
+   "path": "ui/relics/rl_fire_striker.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muj6lm8d-6 cell 3] a bamboo fire-starter tube with its cap off, a vividly printed ember at its tip and a thin curl of smoke, dark background",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "0213d1b9bb1a",
+   "qa": "ok"
+  },
+  {
    "id": "rl_fox_mother_pompom",
    "path": "ui/relics/rl_fox_mother_pompom.webp",
    "category": "relic",
@@ -11082,6 +11589,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "7706422c15eb",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_frost_scabbard",
+   "path": "ui/relics/rl_frost_scabbard.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muj6lm8d-6 cell 7] a dark scabbard coated in frost with blue cord bindings, a blade half drawn from it showing an icy gleam, snow flakes",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "5f550ab0ea58",
    "qa": "ok"
   },
   {
@@ -11488,6 +12008,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_poison_ring",
+   "path": "ui/relics/rl_poison_ring.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muj6lm8d-6 cell 10] a silver ring set with a vividly printed green phosphor stone, a hidden compartment open under the stone, violet velvet",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "83227e0862b3",
+   "qa": "ok"
+  },
+  {
    "id": "rl_rebirth_seedbag",
    "path": "ui/relics/rl_rebirth_seedbag.webp",
    "category": "relic",
@@ -11566,6 +12099,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_small_drum",
+   "path": "ui/relics/rl_small_drum.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muj6lm8d-6 cell 2] a small hand drum with a red lacquered frame and a strap, two short drumsticks crossed over it, dust in the air",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "b421c262be5c",
+   "qa": "ok"
+  },
+  {
    "id": "rl_soul_parting_lamp",
    "path": "ui/relics/rl_soul_parting_lamp.webp",
    "category": "relic",
@@ -11628,6 +12174,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "1521fbb0ae83",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_star_pendant",
+   "path": "ui/relics/rl_star_pendant.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muj6lm8d-6 cell 6] a pendant holding a small fragment of star stone vividly printed gold, hanging from a fine chain, tiny constellations reflected on it",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "5c2d97b9dafa",
    "qa": "ok"
   },
   {
@@ -11956,6 +12515,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_sword_manual",
+   "path": "ui/relics/rl_sword_manual.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muj6lm8d-6 cell 5] a torn yellowed page of a sword manual with ink drawings of a swordsman in two poses, brush annotations, slightly burnt edges",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "624afc1a76ea",
+   "qa": "ok"
+  },
+  {
    "id": "rl_temple_cushion",
    "path": "ui/relics/rl_temple_cushion.webp",
    "category": "relic",
@@ -12112,6 +12684,19 @@
    "qa": "ok"
   },
   {
+   "id": "rl_vine_knot",
+   "path": "ui/relics/rl_vine_knot.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muj6lm8d-6 cell 9] an intricate knot tied from living green vine with a few leaves and a small white flower, resting on moss",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "3df874c92b5b",
+   "qa": "ok"
+  },
+  {
    "id": "rl_war_banner",
    "path": "ui/relics/rl_war_banner.webp",
    "category": "relic",
@@ -12122,6 +12707,19 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
    "hash": "278a1a4f4367",
+   "qa": "ok"
+  },
+  {
+   "id": "rl_weapon_rack",
+   "path": "ui/relics/rl_weapon_rack.webp",
+   "category": "relic",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet relic/-#muj6lm8d-6 cell 8] a lacquered wooden weapon rack holding a spear, a saber and a halberd upright, red cloth draped over its top rail",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤256px, webp",
+   "hash": "c04d58c6192a",
    "qa": "ok"
   },
   {

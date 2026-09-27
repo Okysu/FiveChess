@@ -166,5 +166,8 @@
       ] }
     ],
     "art": { "subject": "a waterlogged royal pearl crown dripping water, strands of pearls tangled with river weed, dark green depths" }
-  }
+  },
+  {"id":"rl_sword_manual","name":"剑谱残页","tier":"rare","text":"你的主帅获得[连斩]（每回合可攻击两次）。","flavor":"只剩半页，写的是第二剑。","modifiers":[{"stat":"keyword","keyword":"twinStrike","who":"commander"}],"art":{"subject":"a torn yellowed page of a sword manual with ink drawings of a swordsman in two poses, brush annotations, slightly burnt edges"}},
+  {"id":"rl_star_pendant","name":"星坠","tier":"rare","text":"每回合你第一次进行[判定]后，获得1枚本回合的[源]。","flavor":"坠子是一小块星石，判一次，亮一次。","triggers":[{"on":"judged","who":"friendly","limit":"turn","effects":[{"op":"energy","n":1}]}],"art":{"subject":"a pendant holding a small fragment of star stone glowing gold, hanging from a fine chain, tiny constellations reflected on it"}},
+  {"id":"rl_frost_scabbard","name":"霜鞘","tier":"rare","faction":"B","text":"主帅每次攻击后，获得3点[护甲]。","flavor":"刀收回鞘里的时候，鞘上结了一层霜。","triggers":[{"on":"attacking","effects":[{"op":"armor","amount":3,"target":"commander"}]}],"art":{"subject":"a dark scabbard coated in frost with blue cord bindings, a blade half drawn from it showing an icy gleam, snow flakes"}}
 ]
