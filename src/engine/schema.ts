@@ -6,8 +6,7 @@ import { z } from 'zod';
 import type {
   BlessingDef,
   CardDef, CommanderDef, Condition, Effect, EncounterDef, EnemyAI, EnemyDef, EventDef, LieutenantDef,
-  Modifier, PotionDef, RelicDef, RunCondition, RunEffect, Selector, Trigger, Value, SkillDef, JudgeBranches,
-} from './defs';
+  Modifier, PotionDef, RelicDef, RunCondition, RunEffect, Selector, Trigger, Value, SkillDef, JudgeBranches, AffixDef } from './defs';
 
 export const zColor = z.enum(['R', 'B', 'G', 'Y', 'P', 'N']);
 export const zSuit = z.enum(['sun', 'thunder', 'moon', 'mountain']);
@@ -299,7 +298,14 @@ export const zEnemy: z.ZodType<EnemyDef> = z.object({
   lore: z.string(),
   dialogue: z.object({ intro: z.string().optional(), phase: z.string().optional(), defeat: z.string().optional() }).strict().optional(),
   art: zArt,
+  variants: z.array(z.string()).optional(), variantOf: z.string().optional(), commander: z.string().optional(),
 }).strict() as z.ZodType<EnemyDef>;
+
+export const zAffix: z.ZodType<AffixDef> = z.object({
+  id: z.string(), name: z.string(), text: z.string(),
+  passives: z.array(zTrigger).optional(), modifiers: z.array(zModifier).optional(), keywords: z.array(zKeyword).optional(),
+  onStart: z.array(zEffect).optional(),
+}).strict() as z.ZodType<AffixDef>;
 
 export const zEncounter: z.ZodType<EncounterDef> = z.object({
   id: z.string(), act: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]), tier: z.enum(['normal', 'elite', 'boss']),

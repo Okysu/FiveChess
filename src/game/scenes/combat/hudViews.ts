@@ -243,7 +243,8 @@ export class FieldSlot extends Container {
     this.addChild(mini);
     if (f.turns !== null) {
       const t = new Text({ text: String(f.turns), style: { fontFamily: FONT_NUM, fontSize: fs(20), fontWeight: '900', fill: WB.white, stroke: { color: WB.ink, width: 4 } } });
-      t.anchor.set(0.5); t.position.set(60, -36);
+      // top-right corner, inside the slot frame
+      t.anchor.set(1, 0); t.position.set(70, -46);
       this.addChild(t);
     }
     this.eventMode = 'static';

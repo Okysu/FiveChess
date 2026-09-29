@@ -2578,5 +2578,1930 @@
     "art": {
       "subject": "two conjoined judges seated at a single long bench in a flooded courthouse, one robed in white with a sun crown and one in black with a moon crown, a giant ledger open between them, candle flames burning underwater"
     }
+  },
+  {
+    "id": "e2_boss_chancellor",
+    "name": "宰辅·沈",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      340,
+      340
+    ],
+    "atk": 10,
+    "row": "commander",
+    "passives": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "sun": [
+                {
+                  "op": "field",
+                  "card": "ec_edict_offer"
+                }
+              ],
+              "thunder": [
+                {
+                  "op": "field",
+                  "card": "ec_edict_three"
+                }
+              ],
+              "moon": [
+                {
+                  "op": "field",
+                  "card": "ec_edict_diligent"
+                }
+              ],
+              "mountain": [
+                {
+                  "op": "field",
+                  "card": "ec_edict_units"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "on": "turnEnd",
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "sun": [
+                {
+                  "op": "field",
+                  "card": "ec_edict_offer"
+                }
+              ],
+              "thunder": [
+                {
+                  "op": "field",
+                  "card": "ec_edict_three"
+                }
+              ],
+              "moon": [
+                {
+                  "op": "field",
+                  "card": "ec_edict_diligent"
+                }
+              ],
+              "mountain": [
+                {
+                  "op": "field",
+                  "card": "ec_edict_units"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "cane": {
+        "name": "廷杖",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 13
+          }
+        ]
+      },
+      "accuse": {
+        "name": "问罪",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 8,
+            "times": 2,
+            "target": "enemyCommander",
+            "attack": true
+          }
+        ]
+      },
+      "confiscate": {
+        "name": "抄没",
+        "intent": [
+          "defend",
+          "debuff"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 10,
+            "target": "self"
+          },
+          {
+            "op": "create",
+            "card": "cu_jiasuo",
+            "to": "discard"
+          }
+        ]
+      },
+      "court": {
+        "name": "百官朝拜",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e2m_drowned_courtier",
+            "n": 2
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cane"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cane": 3,
+          "accuse": 2,
+          "confiscate": 2,
+          "court": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "矫诏",
+        "text": "圣旨是本相写的。本相说你有罪，你便有罪。",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cane": 3,
+            "accuse": 3,
+            "confiscate": 1,
+            "court": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "殷朝最后一任宰辅，王城沉没那天，他还在拟旨。每个回合结束时他都掷签颁下一道圣旨（日：禁献；雷：限三；月：勤政；山：禁兵），圣旨只管你的下一个回合。抗旨要吃一记伤害并让他更强——但有时抗旨才是对的。持有命签时，可以改判他掷出的签。",
+    "dialogue": {
+      "intro": "跪接圣旨——哦，你站着。无妨，抗旨也是一种罪。",
+      "phase": "来人，拟旨！",
+      "defeat": "臣……臣还有一本……没奏完……"
+    },
+    "art": {
+      "subject": "a drowned prime minister in soaked crimson court robes and a winged official hat, holding an unrolled imperial edict and a vermilion brush, water dripping from his long sleeves, sunken palace hall"
+    }
+  },
+  {
+    "id": "e2_boss_lost_seeker",
+    "name": "迷途执命者",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variants": [
+      "e2_boss_seeker_r_huojin",
+      "e2_boss_seeker_r_liyuan",
+      "e2_boss_seeker_b_shiyun",
+      "e2_boss_seeker_b_suxian",
+      "e2_boss_seeker_g_qingsi",
+      "e2_boss_seeker_g_acang",
+      "e2_boss_seeker_y_xuanji",
+      "e2_boss_seeker_y_yanwujiu",
+      "e2_boss_seeker_p_yetan",
+      "e2_boss_seeker_p_liuxu"
+    ],
+    "moves": {
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "strike"
+      ]
+    },
+    "lore": "走进命阙的执命者，大多没有回来——他们也没有离开。命阙把他们拓成了影子，留在沉渊城的街巷里。你遇到的，会是另一条命途上的某位执命者：用着他的牌，说着他的话，只是走错了一步。",
+    "dialogue": {
+      "intro": "……又一个执命者。",
+      "defeat": "……这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "a hooded wanderer whose face is an empty page, cloak made of torn fate-book pages, holding a lantern with a guttering flame in a flooded alley"
+    }
+  },
+  {
+    "id": "e2_boss_seeker_r_huojin",
+    "name": "迷途·霍烬",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variantOf": "e2_boss_lost_seeker",
+    "commander": "r_huojin",
+    "deck": [
+      "r_kindle",
+      "r_kindle",
+      "r_wildfire",
+      "r_crimson_fox",
+      "r_ember_moth",
+      "r_flame_surge",
+      "r_sunfall",
+      "r_bone_burn"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "cast": {
+        "name": "出牌",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      },
+      "guard": {
+        "name": "守心",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      },
+      "sig": {
+        "name": "焚身斩",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": 4,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cast"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cast": 3,
+          "strike": 2,
+          "sig": 2,
+          "guard": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "执念未散",
+        "text": "我还没有走完……",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cast": 3,
+            "strike": 2,
+            "sig": 3,
+            "guard": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "另一条命途上的霍烬。命阙把走错一步的执命者拓成了影子，霍烬的影子至今还在沉渊城里，用着他当年的牌。",
+    "dialogue": {
+      "intro": "刀尖……你也在找那半截刀尖？别找了。我找了三百年，它就插在我自己身上。",
+      "phase": "我还没有走完……",
+      "defeat": "……原来走错的，不止我一个。这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "shadow of the commander r_huojin"
+    }
+  },
+  {
+    "id": "e2_boss_seeker_r_liyuan",
+    "name": "迷途·离鸢",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variantOf": "e2_boss_lost_seeker",
+    "commander": "r_liyuan",
+    "deck": [
+      "r_kindle",
+      "r_kindle",
+      "r_wildfire",
+      "r_crimson_fox",
+      "r_ember_moth",
+      "r_flame_surge",
+      "r_sunfall",
+      "r_bone_burn"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "cast": {
+        "name": "出牌",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      },
+      "guard": {
+        "name": "守心",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      },
+      "sig": {
+        "name": "焚身斩",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": 4,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cast"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cast": 3,
+          "strike": 2,
+          "sig": 2,
+          "guard": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "执念未散",
+        "text": "我还没有走完……",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cast": 3,
+            "strike": 2,
+            "sig": 3,
+            "guard": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "另一条命途上的离鸢。命阙把走错一步的执命者拓成了影子，离鸢的影子至今还在沉渊城里，用着他当年的牌。",
+    "dialogue": {
+      "intro": "你还在献？献到最后，神没有来。来的是命阙。",
+      "phase": "我还没有走完……",
+      "defeat": "……原来走错的，不止我一个。这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "shadow of the commander r_liyuan"
+    }
+  },
+  {
+    "id": "e2_boss_seeker_b_shiyun",
+    "name": "迷途·石韫",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variantOf": "e2_boss_lost_seeker",
+    "commander": "b_shiyun",
+    "deck": [
+      "b_layered_peaks",
+      "b_layered_peaks",
+      "b_frost_palm",
+      "b_north_wind",
+      "b_quake_hammer",
+      "b_thorn_guard",
+      "b_mountain_wrath",
+      "b_body_slam"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "cast": {
+        "name": "出牌",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      },
+      "guard": {
+        "name": "守心",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      },
+      "sig": {
+        "name": "镇岳",
+        "intent": [
+          "defend",
+          "buff"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 24,
+            "target": "self"
+          },
+          {
+            "op": "status",
+            "status": "tenacity",
+            "amount": 2,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cast"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cast": 3,
+          "strike": 2,
+          "sig": 2,
+          "guard": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "执念未散",
+        "text": "我还没有走完……",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cast": 3,
+            "strike": 2,
+            "sig": 3,
+            "guard": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "另一条命途上的石韫。命阙把走错一步的执命者拓成了影子，石韫的影子至今还在沉渊城里，用着他当年的牌。",
+    "dialogue": {
+      "intro": "山崩身死——我终究没能不崩。你呢？",
+      "phase": "我还没有走完……",
+      "defeat": "……原来走错的，不止我一个。这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "shadow of the commander b_shiyun"
+    }
+  },
+  {
+    "id": "e2_boss_seeker_b_suxian",
+    "name": "迷途·素弦",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variantOf": "e2_boss_lost_seeker",
+    "commander": "b_suxian",
+    "deck": [
+      "b_layered_peaks",
+      "b_layered_peaks",
+      "b_frost_palm",
+      "b_north_wind",
+      "b_quake_hammer",
+      "b_thorn_guard",
+      "b_mountain_wrath",
+      "b_body_slam"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "cast": {
+        "name": "出牌",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      },
+      "guard": {
+        "name": "守心",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      },
+      "sig": {
+        "name": "镇岳",
+        "intent": [
+          "defend",
+          "buff"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 24,
+            "target": "self"
+          },
+          {
+            "op": "status",
+            "status": "tenacity",
+            "amount": 2,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cast"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cast": 3,
+          "strike": 2,
+          "sig": 2,
+          "guard": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "执念未散",
+        "text": "我还没有走完……",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cast": 3,
+            "strike": 2,
+            "sig": 3,
+            "guard": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "另一条命途上的素弦。命阙把走错一步的执命者拓成了影子，素弦的影子至今还在沉渊城里，用着他当年的牌。",
+    "dialogue": {
+      "intro": "我等了很久，没有人先出手……于是我成了先出手的那个。",
+      "phase": "我还没有走完……",
+      "defeat": "……原来走错的，不止我一个。这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "shadow of the commander b_suxian"
+    }
+  },
+  {
+    "id": "e2_boss_seeker_g_qingsi",
+    "name": "迷途·青姒",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variantOf": "e2_boss_lost_seeker",
+    "commander": "g_qingsi",
+    "deck": [
+      "g_swarm_forth",
+      "g_swarm_forth",
+      "g_seed_arrow",
+      "g_swarm_pounce",
+      "g_thornback_boar",
+      "g_vine_maiden",
+      "g_beast_horn",
+      "g_spirit_matron"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "passives": [
+      {
+        "on": "unitDied",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "heal",
+            "amount": 6,
+            "target": "self"
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "cast": {
+        "name": "出牌",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      },
+      "guard": {
+        "name": "守心",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      },
+      "sig": {
+        "name": "万灵",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "tk_g_sprout",
+            "n": 2
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cast"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cast": 3,
+          "strike": 2,
+          "sig": 2,
+          "guard": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "执念未散",
+        "text": "我还没有走完……",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cast": 3,
+            "strike": 2,
+            "sig": 3,
+            "guard": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "另一条命途上的青姒。命阙把走错一步的执命者拓成了影子，青姒的影子至今还在沉渊城里，用着他当年的牌。",
+    "dialogue": {
+      "intro": "建木还是枯了。你走的这条路，也会走到那棵枯树下。",
+      "phase": "我还没有走完……",
+      "defeat": "……原来走错的，不止我一个。这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "shadow of the commander g_qingsi"
+    }
+  },
+  {
+    "id": "e2_boss_seeker_g_acang",
+    "name": "迷途·阿苍",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variantOf": "e2_boss_lost_seeker",
+    "commander": "g_acang",
+    "deck": [
+      "g_swarm_forth",
+      "g_swarm_forth",
+      "g_seed_arrow",
+      "g_swarm_pounce",
+      "g_thornback_boar",
+      "g_vine_maiden",
+      "g_beast_horn",
+      "g_spirit_matron"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "passives": [
+      {
+        "on": "unitDied",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "heal",
+            "amount": 6,
+            "target": "self"
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "cast": {
+        "name": "出牌",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      },
+      "guard": {
+        "name": "守心",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      },
+      "sig": {
+        "name": "万灵",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "tk_g_sprout",
+            "n": 2
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cast"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cast": 3,
+          "strike": 2,
+          "sig": 2,
+          "guard": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "执念未散",
+        "text": "我还没有走完……",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cast": 3,
+            "strike": 2,
+            "sig": 3,
+            "guard": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "另一条命途上的阿苍。命阙把走错一步的执命者拓成了影子，阿苍的影子至今还在沉渊城里，用着他当年的牌。",
+    "dialogue": {
+      "intro": "这一世，命书没有把我写回山里。你猜，它会不会把你写回去？",
+      "phase": "我还没有走完……",
+      "defeat": "……原来走错的，不止我一个。这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "shadow of the commander g_acang"
+    }
+  },
+  {
+    "id": "e2_boss_seeker_y_xuanji",
+    "name": "迷途·玄机子",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variantOf": "e2_boss_lost_seeker",
+    "commander": "y_xuanji",
+    "deck": [
+      "y_urging_talisman",
+      "y_urging_talisman",
+      "y_point_star",
+      "y_thunder_verdict",
+      "y_omen_strike",
+      "y_array_diviner",
+      "y_myriad_return",
+      "y_coin_diviner"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "cast": {
+        "name": "出牌",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      },
+      "guard": {
+        "name": "守心",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      },
+      "sig": {
+        "name": "卜命",
+        "intent": [
+          "judge"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "sun": [
+                {
+                  "op": "damage",
+                  "amount": 14,
+                  "target": "enemyCommander",
+                  "attack": true
+                }
+              ],
+              "thunder": [
+                {
+                  "op": "damage",
+                  "amount": 8,
+                  "target": "enemyCommander",
+                  "attack": true
+                },
+                {
+                  "op": "status",
+                  "status": "weak",
+                  "amount": 2,
+                  "target": "enemyCommander"
+                }
+              ],
+              "moon": [
+                {
+                  "op": "heal",
+                  "amount": 16,
+                  "target": "self"
+                }
+              ],
+              "mountain": [
+                {
+                  "op": "armor",
+                  "amount": 18,
+                  "target": "self"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cast"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cast": 3,
+          "strike": 2,
+          "sig": 2,
+          "guard": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "执念未散",
+        "text": "我还没有走完……",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cast": 3,
+            "strike": 2,
+            "sig": 3,
+            "guard": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "另一条命途上的玄机子。命阙把走错一步的执命者拓成了影子，玄机子的影子至今还在沉渊城里，用着他当年的牌。",
+    "dialogue": {
+      "intro": "我看过我的死期，就在这一页。你想看看你的吗？",
+      "phase": "我还没有走完……",
+      "defeat": "……原来走错的，不止我一个。这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "shadow of the commander y_xuanji"
+    }
+  },
+  {
+    "id": "e2_boss_seeker_y_yanwujiu",
+    "name": "迷途·燕无咎",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variantOf": "e2_boss_lost_seeker",
+    "commander": "y_yanwujiu",
+    "deck": [
+      "y_urging_talisman",
+      "y_urging_talisman",
+      "y_point_star",
+      "y_thunder_verdict",
+      "y_omen_strike",
+      "y_array_diviner",
+      "y_myriad_return",
+      "y_coin_diviner"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "cast": {
+        "name": "出牌",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      },
+      "guard": {
+        "name": "守心",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      },
+      "sig": {
+        "name": "卜命",
+        "intent": [
+          "judge"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "sun": [
+                {
+                  "op": "damage",
+                  "amount": 14,
+                  "target": "enemyCommander",
+                  "attack": true
+                }
+              ],
+              "thunder": [
+                {
+                  "op": "damage",
+                  "amount": 8,
+                  "target": "enemyCommander",
+                  "attack": true
+                },
+                {
+                  "op": "status",
+                  "status": "weak",
+                  "amount": 2,
+                  "target": "enemyCommander"
+                }
+              ],
+              "moon": [
+                {
+                  "op": "heal",
+                  "amount": 16,
+                  "target": "self"
+                }
+              ],
+              "mountain": [
+                {
+                  "op": "armor",
+                  "amount": 18,
+                  "target": "self"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cast"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cast": 3,
+          "strike": 2,
+          "sig": 2,
+          "guard": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "执念未散",
+        "text": "我还没有走完……",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cast": 3,
+            "strike": 2,
+            "sig": 3,
+            "guard": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "另一条命途上的燕无咎。命阙把走错一步的执命者拓成了影子，燕无咎的影子至今还在沉渊城里，用着他当年的牌。",
+    "dialogue": {
+      "intro": "我的卦终于应验了——应在我自己身上。下一卦，是你的。",
+      "phase": "我还没有走完……",
+      "defeat": "……原来走错的，不止我一个。这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "shadow of the commander y_yanwujiu"
+    }
+  },
+  {
+    "id": "e2_boss_seeker_p_yetan",
+    "name": "迷途·夜昙",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variantOf": "e2_boss_lost_seeker",
+    "commander": "p_yetan",
+    "deck": [
+      "p_venom_needle",
+      "p_venom_needle",
+      "p_miasma",
+      "p_bone_rot",
+      "p_catalyze",
+      "p_poison_moth",
+      "p_plague",
+      "p_toxic_mist"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "cast": {
+        "name": "出牌",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      },
+      "guard": {
+        "name": "守心",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      },
+      "sig": {
+        "name": "淬毒",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": 5,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cast"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cast": 3,
+          "strike": 2,
+          "sig": 2,
+          "guard": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "执念未散",
+        "text": "我还没有走完……",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cast": 3,
+            "strike": 2,
+            "sig": 3,
+            "guard": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "另一条命途上的夜昙。命阙把走错一步的执命者拓成了影子，夜昙的影子至今还在沉渊城里，用着他当年的牌。",
+    "dialogue": {
+      "intro": "妹妹的公道，我讨到了。代价是再也走不出这座塔。",
+      "phase": "我还没有走完……",
+      "defeat": "……原来走错的，不止我一个。这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "shadow of the commander p_yetan"
+    }
+  },
+  {
+    "id": "e2_boss_seeker_p_liuxu",
+    "name": "迷途·柳絮",
+    "act": 2,
+    "tier": "boss",
+    "hp": [
+      380,
+      380
+    ],
+    "atk": 10,
+    "row": "commander",
+    "variantOf": "e2_boss_lost_seeker",
+    "commander": "p_liuxu",
+    "deck": [
+      "p_venom_needle",
+      "p_venom_needle",
+      "p_miasma",
+      "p_bone_rot",
+      "p_catalyze",
+      "p_poison_moth",
+      "p_plague",
+      "p_toxic_mist"
+    ],
+    "energy": {
+      "start": 2,
+      "perTurn": 2,
+      "max": 5
+    },
+    "moves": {
+      "cast": {
+        "name": "出牌",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "bossCast"
+          }
+        ]
+      },
+      "strike": {
+        "name": "执念",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      },
+      "guard": {
+        "name": "守心",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 14,
+            "target": "self"
+          }
+        ]
+      },
+      "sig": {
+        "name": "淬毒",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": 5,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "cast"
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "cast": 3,
+          "strike": 2,
+          "sig": 2,
+          "guard": 1
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "执念未散",
+        "text": "我还没有走完……",
+        "atk": 12,
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "weighted",
+          "weights": {
+            "cast": 3,
+            "strike": 2,
+            "sig": 3,
+            "guard": 1
+          },
+          "noRepeat": 1
+        }
+      }
+    ],
+    "lore": "另一条命途上的柳絮。命阙把走错一步的执命者拓成了影子，柳絮的影子至今还在沉渊城里，用着他当年的牌。",
+    "dialogue": {
+      "intro": "这张脸是你的。我借来穿了三百年，今天还给你——连同这一身命债。",
+      "phase": "我还没有走完……",
+      "defeat": "……原来走错的，不止我一个。这一次，换你走下去。"
+    },
+    "art": {
+      "subject": "shadow of the commander p_liuxu"
+    }
+  },
+  {
+    "id": "e2_iron_warden",
+    "name": "铁锁典狱",
+    "act": 2,
+    "tier": "elite",
+    "hp": [
+      175,
+      175
+    ],
+    "atk": 9,
+    "row": "commander",
+    "moves": {
+      "lock": {
+        "name": "上锁",
+        "intent": [
+          "debuff",
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "script",
+            "id": "lockTop",
+            "args": {
+              "n": 3,
+              "amount": 1
+            }
+          },
+          {
+            "op": "armor",
+            "amount": 12,
+            "target": "self"
+          }
+        ]
+      },
+      "lash": {
+        "name": "铁链抽",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 8,
+            "times": 2,
+            "target": "enemyCommander",
+            "attack": true
+          }
+        ]
+      },
+      "drag": {
+        "name": "拖入水牢",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 20
+          },
+          {
+            "op": "status",
+            "status": "vulnerable",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "lock",
+        "lash",
+        "lock",
+        "drag"
+      ]
+    },
+    "lore": "沉渊城水牢的典狱长，钥匙早就锈进了锁里。他会用铁链缠住你牌库顶的牌——下回合抽到它们时，每张费用+1。",
+    "dialogue": {
+      "intro": "进了水牢的，没有一个带着手出去。",
+      "defeat": "钥匙……钥匙呢……"
+    },
+    "art": {
+      "subject": "a hulking drowned jailer wrapped in rusted iron chains, a ring of huge corroded keys at his belt, dragging a chain through knee-deep water in a flooded dungeon"
+    }
+  },
+  {
+    "id": "e2_sunken_bell",
+    "name": "沉钟",
+    "act": 2,
+    "tier": "elite",
+    "hp": [
+      190,
+      190
+    ],
+    "atk": 0,
+    "row": "commander",
+    "passives": [
+      {
+        "on": "damaged",
+        "effects": [
+          {
+            "op": "script",
+            "id": "bellHit",
+            "args": {
+              "need": 30,
+              "move": "toll"
+            }
+          }
+        ]
+      },
+      {
+        "on": "opponentTurnStart",
+        "effects": [
+          {
+            "op": "script",
+            "id": "memReset",
+            "args": {
+              "keys": [
+                "hit",
+                "cracked"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "hum1": {
+        "name": "钟鸣将起",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 12,
+            "target": "self"
+          }
+        ]
+      },
+      "hum2": {
+        "name": "钟声渐沉",
+        "intent": [
+          "defend",
+          "buff"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 12,
+            "target": "self"
+          },
+          {
+            "op": "buff",
+            "target": "friendlyUnits",
+            "atk": 2
+          }
+        ]
+      },
+      "toll": {
+        "name": "沉钟一响（本回合受 30 伤害可打断）",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 18,
+            "target": "allEnemies",
+            "attack": true
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "hum1",
+        "hum2",
+        "toll"
+      ]
+    },
+    "lore": "王城钟楼沉进湖底，钟还在敲。每三回合敲响一次，震伤你全军。它准备敲响的那个回合里，只要对它造成 30 点伤害，钟声就会被打断（[眩晕]）；冰冻也能让它敲不响。",
+    "dialogue": {
+      "intro": "（湖底传来第一声钟响，水面一圈圈荡开。）",
+      "defeat": "（钟身裂开，最后一声钟响沉入了湖底。）"
+    },
+    "art": {
+      "subject": "a giant cracked bronze temple bell covered in barnacles and water weeds, hanging from a broken beam under dark water, ghostly sound ripples spreading from it"
+    }
   }
 ]

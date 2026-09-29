@@ -28,6 +28,7 @@ export function buildJobs(): ArtJob[] {
       prompt: cutoutPrompt(`Full-body portrait: ${lt.art.subject}`, FACTION_TONE[lt.faction]), ref: REF('wb_commander'), px: 900, subject: lt.art.subject, group: lt.faction });
   }
   for (const e of c.enemies.values()) {
+    if (e.variantOf) continue; // 迷途执命者 shadows wear their commander's portrait
     const act = Math.min(4, Math.max(1, e.act));
     const boss = e.tier === 'boss';
     jobs.push({ id: e.id, category: boss ? 'boss' : 'enemy', out: `${boss ? 'bosses' : 'enemies'}/${e.id}`, size: boss ? '1024x1536' : '1024x1024', transparent: true,

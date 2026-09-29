@@ -219,11 +219,21 @@ export class TopBar extends Container {
         ct.position.set(28, 24);
         c.addChild(ct);
       }
+      if (this.sealed?.has(rs.id)) c.alpha = 0.28;
       c.eventMode = 'static';
       c.on('pointerover', (e) => showTip(new Tooltip([{ title: def.name, body: def.text, color: def.tier === 'boss' ? 0xff8a6a : C.goldLight }, ...(def.flavor ? [{ body: def.flavor, color: C.textDim }] : []), ...glossLines(termsOf(def.text))]), e.global.x, 140));
       c.on('pointerout', hideTip);
       this.relicBar.addChild(c);
     });
+  }
+
+  /** 无面书吏: a sealed relic is shown faded (its words erased) until the fight gives it back */
+  private sealed = new Set<string>();
+  setRelicSealed(id: string, sealed: boolean) {
+    if (sealed) this.sealed.add(id); else this.sealed.delete(id);
+    const i = this.run.relics.findIndex((r) => r.id === id);
+    const c = this.relicBar.children[i];
+    if (c) c.alpha = sealed ? 0.28 : 1;
   }
 
   /** flash a relic icon when it triggers */

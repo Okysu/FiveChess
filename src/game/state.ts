@@ -1,6 +1,7 @@
 /** Global game session: profile, settings, current run & combat, persistence and scene routing. */
 import { newProfile, lockedContent, recordRun, runScore, blessingPool, blessingCount, effectiveLoadout, type Profile, type RunSummary } from '../engine/meta';
 import { newRun, runAct, combatConfig, type RunState, type RunAction } from '../engine/run/run';
+import { content } from '../engine/content';
 import { createCombat } from '../engine/combat/api';
 import type { CombatState } from '../engine/combat/state';
 import { load, save, clear } from './save/db';
@@ -104,7 +105,8 @@ class Session {
     const c = this.combat;
     const r = this.run;
     if (!c || !r) return;
-    const enemies = Object.values(c.units).filter((u) => u.side === 'enemy' && u.origin === 'enemy').map((u) => u.def);
+    // a variant (迷途执命者's shadows) is discovered as its base enemy
+    const enemies = Object.values(c.units).filter((u) => u.side === 'enemy' && u.origin === 'enemy').map((u) => content().enemy(u.def).variantOf ?? u.def);
     const pc = c.units[c.sides.player.commander!]!;
     runAct(r, { t: 'combatResult', result: c.over === 'win' ? 'win' : 'lose', hp: pc.hp, gold: c.goldGained, potions: c.potions, relics: c.relics, stats: c.stats, enemies: [...new Set(enemies)] });
     this.combat = null;

@@ -1,8 +1,8 @@
 /** Public combat API: create a combat, apply player actions, query legal moves. */
 import { content } from '../content';
-import type { Color } from '../defs';
-import { seedRng, shuffle } from '../rng';
-import type { CardInst, CombatConfig, CombatState, CEvent, PlayerAction, Side, Unit, SideState } from './state';
+import type { Color, Effect } from '../defs';
+import { rand, seedRng, shuffle } from '../rng';
+import type { CardInst, CombatConfig, CombatState, CEvent, Ctx, PlayerAction, Side, Unit, SideState } from './state';
 import { other } from './state';
 import {
   alive, attackTargets, canAttack, commanderOf, emptySlots, unit, unitsOf, BACK, FRONT, reach,
@@ -13,6 +13,7 @@ import {
 } from './core';
 import { skillDef } from './skills';
 import './enemycast';
+import './bossScripts';
 
 function emptySide(): SideState {
   return { commander: null, front: Array(FRONT).fill(null), back: Array(BACK).fill(null), equip: {}, field: null, hand: [], deck: [], energy: 0, signs: [] };
@@ -72,7 +73,9 @@ export function createCombat(cfg: CombatConfig): CombatState {
   if (!enc) throw new Error(`unknown encounter ${cfg.encounter}`);
   const counters = { front: 0, back: 0 };
   for (const e of enc.enemies) {
-    const def = c.enemy(e.id);
+    let def = c.enemy(e.id);
+    // 迷途执命者: a shadow of a commander the player is not playing
+    if (def.variants?.length) def = c.enemy(pickVariant(s, def.variants, cmdDef.id));
     const row = e.row ?? def.row;
     if (row === 'commander') {
       const hp = scaleEnemyHp(s, def.tier, def.hp[0]);
@@ -93,13 +96,42 @@ export function createCombat(cfg: CombatConfig): CombatState {
     }
     const r: 'front' | 'back' = row === 'back' ? 'back' : 'front';
     const slot = e.slot ?? counters[r]++;
-    placeUnitSilently(s, r, slot, e.id);
+    placeUnitSilently(s, r, slot, def.id);
   }
+  const affixJobs = applyAffixes(s);
   s.events = [];
   s.tasks.push({ k: 'phase', name: 'playerTurnStart' });
   s.tasks.push({ k: 'phase', name: 'combatStart' });
+  for (const j of affixJobs) pushFx(s, j.effects, j.ctx);
   run(s);
   return s;
+}
+
+/** a variant whose commander is not the player's own — another school if possible */
+function pickVariant(s: CombatState, ids: string[], commander: string): string {
+  const c = content();
+  const own = c.commander(commander).faction;
+  const others = ids.filter((id) => c.enemy(id).commander !== commander);
+  const otherSchool = others.filter((id) => { const cm = c.enemy(id).commander; return !cm || c.commander(cm).faction !== own; });
+  const pool = otherSchool.length ? otherSchool : others.length ? others : ids;
+  return pool[Math.floor(rand(s.rng) * pool.length)]!;
+}
+
+/** 精英词缀: every elite-tier enemy of the fight carries the rolled affixes; their opening effects run first */
+function applyAffixes(s: CombatState): { effects: Effect[]; ctx: Ctx }[] {
+  const ids = (s.cfg.affixes ?? []).filter((a) => content().affixes.has(a));
+  const jobs: { effects: Effect[]; ctx: Ctx }[] = [];
+  if (!ids.length) return jobs;
+  for (const u of unitsOf(s, 'enemy', true)) {
+    if (u.origin !== 'enemy' || content().enemy(u.def).tier !== 'elite') continue;
+    u.affixes = [...ids];
+    for (const id of ids) {
+      const a = content().affixes.get(id)!;
+      for (const k of a.keywords ?? []) if (!u.extraKeywords.includes(k)) u.extraKeywords.push(k);
+      if (a.onStart?.length) jobs.push({ effects: a.onStart, ctx: { side: 'enemy', source: u.uid, kind: 'unit', target: null, vars: {} } });
+    }
+  }
+  return jobs;
 }
 
 import { placeUnit, scaleEnemyHp } from './core';

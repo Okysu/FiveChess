@@ -28,7 +28,7 @@ function refill(s: CombatState, bossId: string) {
   }
 }
 
-function chooseTarget(s: CombatState, card: CardInst): number | null | undefined {
+export function chooseTarget(s: CombatState, card: CardInst): number | null | undefined {
   const def = cardDef(card);
   const tg = cardTargets(s, 'enemy', def);
   if (tg === null) return null;

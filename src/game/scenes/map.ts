@@ -9,8 +9,10 @@ import { Button, Modal, Tooltip, hideTip, label, showTip, title, toast } from '.
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
 import { ScrollBox } from '../ui/scroll';
 import { iconSprite } from '../ui/draw';
-import { availableNodes, bossNode, type MapNode, type NodeType } from '../../engine/run/run';
+import { availableNodes, bossNode, nodeAffixes, type MapNode, type NodeType } from '../../engine/run/run';
 import { content } from '../../engine/content';
+import { plainRules } from '../../engine/glossary';
+import { fitWidth } from '../ui/textwrap';
 import { session } from '../state';
 import { act, go } from '../router';
 import { tweens, ease } from '../core/tween';
@@ -29,6 +31,10 @@ const NODE_INFO: Record<NodeType, { name: string; desc: string; glyph: string; t
   stargaze: { name: '观星台', desc: '删改天命牌堆，或预览前路的具体内容。', glyph: '星', tint: 0xf0d27a },
   boss: { name: '首领', desc: '本幕首领。', glyph: '魁', tint: 0xff5a3a },
 };
+/** 命劫: a fated elite node (one per act) */
+/** three columns of nine entries: shorter than two columns, so it hides fewer nodes in the corner */
+const LEGEND_W = 470, LEGEND_H = 274;
+const FATED = { name: '命劫', desc: '可选的强敌：精英带两个词缀。胜利后额外获得一件首领遗物，每个词缀再多 25 金。', glyph: '劫', tint: 0xff3a3a };
 
 const ROW_W = 210;
 const COL_H = 118;
@@ -45,7 +51,7 @@ export class MapScene extends Scene {
 
   override async enter() {
     const r = session.run!;
-    await assets.loadMany([K.bg(`map_${r.act}`), ...Object.keys(NODE_INFO).map((t) => K.icon(`node_${t}`))]);
+    await assets.loadMany([K.bg(`map_${r.act}`), ...Object.keys(NODE_INFO).map((t) => K.icon(`node_${t}`)), K.icon('node_fated')]);
     G.setBackdrop(assets.get(K.bg(`map_${r.act}`)));
     audio.playMusic(`map${Math.min(4, r.act)}` as MusicMood);
     audio.ambience((['forest', 'water', 'stars', 'void'] as const)[r.act - 1] ?? null);
@@ -61,7 +67,7 @@ export class MapScene extends Scene {
     this.top = new TopBar(r, { onPotion: (i) => this.usePotion(i), onSettings: () => void import('./settings').then((m) => m.openSettings()), onCodex: () => void import('./codex').then((m) => m.openCodexModal()) });
     this.addChild(this.top);
     const legend = this.legend();
-    legend.position.set(G.hud.right - 316 - 20, G.hud.bottom - 336 - 16);
+    legend.position.set(G.hud.right - LEGEND_W - 20, G.hud.bottom - LEGEND_H - 16);
     this.addChild(legend);
     const title2 = new Text({ text: `第${['', '一', '二', '三', '终'][r.act]}幕 · ${actName(r.act)}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(40), fill: C.textDark, letterSpacing: 6 } });
     title2.position.set(G.hud.left + 40, G.hud.top + 140);
@@ -107,12 +113,12 @@ export class MapScene extends Scene {
     // nodes
     for (const row of r.map.rows) for (const n of row) {
       const p = this.nodePos(n);
-      const info = NODE_INFO[n.type];
+      const info = n.fated ? FATED : NODE_INFO[n.type];
       const node = new Container();
       node.position.set(p.x, p.y);
       const done = onPath(n);
       const avl = isAvail(n);
-      const ic = iconSprite(`node_${n.type}`, 64, info.glyph, info.tint);
+      const ic = iconSprite(n.fated ? 'node_fated' : `node_${n.type}`, n.fated ? 76 : 64, info.glyph, info.tint);
       node.addChild(ic);
       if (done) {
         const stamp = uiSprite('stamp_visited', 96, 96, { alpha: 0.9 });
@@ -133,6 +139,8 @@ export class MapScene extends Scene {
       node.on('pointerover', (e) => {
         if (avl) void tweens.to(node.scale, { x: 1.15, y: 1.15 }, 120, { unscaled: true });
         const lines = [{ title: info.name, body: info.desc }];
+        const affixes = nodeAffixes(r, n).map((a) => content().affixes.get(a)).filter((a) => !!a);
+        if (affixes.length) lines.push({ title: `精英词缀：${affixes.map((a) => a.name).join('、')}`, body: affixes.map((a) => `${a.name}：${plainRules(a.text)}`).join('\n') });
         if (prevLabel) lines.push({ title: '观星所见', body: previewText(prevLabel) });
         showTip(new Tooltip(lines, 360), G.toDesign(e.global.x, e.global.y).x + 20, 300);
       });
@@ -197,15 +205,17 @@ export class MapScene extends Scene {
   private legend(): Container {
     const c = new Container();
     // the panel's carved border is ~44px: keep entries inside the plain field
-    const bg = uiPanel(316, 336, 'dark');
+    const bg = uiPanel(LEGEND_W, LEGEND_H, 'dark');
     c.addChild(bg);
-    const types: NodeType[] = ['combat', 'elite', 'event', 'shop', 'camp', 'chest', 'recruit', 'stargaze'];
+    const types: (NodeType | 'fated')[] = ['combat', 'elite', 'event', 'shop', 'camp', 'chest', 'recruit', 'stargaze', 'fated'];
     types.forEach((t, i) => {
-      const x = 46 + (i % 2) * 118, y = 46 + Math.floor(i / 2) * 62;
-      const ic = iconSprite(`node_${t}`, 40, NODE_INFO[t].glyph, NODE_INFO[t].tint);
+      const x = 46 + (i % 3) * 130, y = 46 + Math.floor(i / 3) * 62;
+      const info = t === 'fated' ? FATED : NODE_INFO[t];
+      const ic = iconSprite(`node_${t}`, 40, info.glyph, info.tint);
       ic.position.set(x + 20, y + 20);
-      const l = label(NODE_INFO[t].name, { fontSize: fs(18), fill: C.text });
+      const l = label(info.name, { fontSize: fs(18), fill: C.text });
       l.position.set(x + 44, y + 8);
+      fitWidth(l, 84);
       c.addChild(ic, l);
     });
     return c;

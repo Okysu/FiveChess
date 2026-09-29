@@ -1,0 +1,151 @@
+[
+  {
+    "id": "af_tough",
+    "name": "坚韧",
+    "text": "每回合开始时获得 8 点[护甲]。",
+    "passives": [
+      {
+        "on": "turnStart",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 8,
+            "target": "self"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "af_leech",
+    "name": "嗜血",
+    "text": "造成伤害时，回复一半伤害值的生命。",
+    "passives": [
+      {
+        "on": "dealtDamage",
+        "effects": [
+          {
+            "op": "heal",
+            "amount": {
+              "div": [
+                {
+                  "count": "eventAmount"
+                },
+                2
+              ]
+            },
+            "target": "self"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "af_guarded",
+    "name": "护主",
+    "text": "开战时召唤 1 个「墨鬼」。",
+    "onStart": [
+      {
+        "op": "summon",
+        "unit": "e3_ink_imp",
+        "n": 1
+      }
+    ]
+  },
+  {
+    "id": "af_backlash",
+    "name": "反噬",
+    "text": "每回合第一次受到伤害时，将 1 张「恍惚」洗入你的抽牌堆。",
+    "passives": [
+      {
+        "on": "damaged",
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "create",
+            "card": "st_dazed",
+            "to": "draw"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "af_warded",
+    "name": "结界",
+    "text": "开战时获得 2 层[灵障]。",
+    "onStart": [
+      {
+        "op": "ward",
+        "amount": 2,
+        "target": "self"
+      }
+    ]
+  },
+  {
+    "id": "af_split",
+    "name": "分裂",
+    "text": "死亡时分裂出 2 个「墨鬼」。",
+    "passives": [
+      {
+        "on": "death",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e3_ink_imp",
+            "n": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "af_enrage",
+    "name": "狂怒",
+    "text": "生命首次降到一半以下时，获得 4 层[锋锐]。",
+    "passives": [
+      {
+        "on": "damaged",
+        "limit": "combat",
+        "if": {
+          "lte": [
+            {
+              "count": "hp",
+              "of": "self"
+            },
+            {
+              "div": [
+                {
+                  "count": "maxHp",
+                  "of": "self"
+                },
+                2
+              ]
+            }
+          ]
+        },
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 4,
+            "target": "self"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "af_thorny",
+    "name": "荆棘",
+    "text": "获得 3 层[棘刺]（近战攻击它会受到反伤）。",
+    "onStart": [
+      {
+        "op": "addKeyword",
+        "target": "self",
+        "keyword": "thorns",
+        "value": 3
+      }
+    ]
+  }
+]

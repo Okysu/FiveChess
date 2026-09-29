@@ -4,6 +4,7 @@
  * sheet once and registers every frame, so hundreds of icons cost a handful of requests.
  */
 import { Assets, Texture, type Spritesheet } from 'pixi.js';
+import { content } from '../engine/content';
 
 interface ManifestEntry { id: string; path: string; category: string }
 
@@ -123,6 +124,12 @@ export const K = {
   card: (faction: string, id: string) => `cards/${faction}/${id}`,
   hero: (id: string) => `heroes/${id}`,
   enemy: (id: string, boss = false) => (boss ? `bosses/${id}` : `enemies/${id}`),
+  /** the art an enemy is drawn with: a shadow of a commander (迷途执命者) wears that commander's portrait */
+  enemyArt: (id: string) => {
+    const e = content().enemies.get(id);
+    if (e?.commander) return `heroes/${e.commander}`;
+    return e?.tier === 'boss' ? `bosses/${id}` : `enemies/${id}`;
+  },
   relic: (id: string) => `ui/relics/${id}`,
   potion: (id: string) => `ui/potions/${id}`,
   icon: (id: string) => `ui/icons/${id}`,

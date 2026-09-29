@@ -26,6 +26,9 @@ export const BY_ENCOUNTER: Record<string, Tune> = {
   enc1_boss_blank_stele: { hp: 0.95, dmg: 0.9 },
   enc1_boss_fox_mother: { hp: 0.95, dmg: 0.88 },
   enc1_boss_rust_general: { hp: 0.92, dmg: 0.92 },
+  // 1.1 (百鬼夜行) — first sweep, docs/难度评估.md
+  enc1_boss_paper_king: { hp: 0.95, dmg: 0.95 },
+  enc1_boss_rubbing_ghost: { hp: 1.05, dmg: 1.1 },
   // act 2
   enc2_silt_swarm: { hp: 1, dmg: 0.8 }, // bell ringer stacks might on the crawlers
   enc2_clerks: { hp: 0.9, dmg: 0.75 },
@@ -38,6 +41,9 @@ export const BY_ENCOUNTER: Record<string, Tune> = {
   enc2_boss_twin_judges: { hp: 0.72, dmg: 0.72 }, // reviving sidekick + delay combos make it a damage race
   enc2_boss_puppeteer: { hp: 0.82, dmg: 0.78 },
   enc2_boss_drowned_king: { hp: 0.9, dmg: 0.9 },
+  enc2_boss_chancellor: { hp: 0.9, dmg: 0.88 },
+  enc2_boss_lost_seeker: { hp: 1.1, dmg: 1.2 },
+  enc2_elite_iron_warden: { hp: 1, dmg: 1 },
   // act 3
   enc3_flock_of_stars: { hp: 0.75, dmg: 0.7 }, // shepherd summons + chain buffs + a healer
   enc3_night_ink: { hp: 0.8, dmg: 0.72 },
@@ -51,6 +57,9 @@ export const BY_ENCOUNTER: Record<string, Tune> = {
   enc3_boss_sunbird_shadow: { hp: 0.72, dmg: 0.7 }, // burn-heavy: 63–68% bot deaths vs 25–31% for the other act-3 bosses
   enc3_elite_ink_leviathan: { hp: 0.9, dmg: 0.85 },
   enc3_boss_eclipse_tengu: { hp: 0.9, dmg: 0.9 },
+  enc3_boss_armillary: { hp: 0.78, dmg: 0.8 },
+  enc3_boss_bookworm: { hp: 1.25, dmg: 1.5 },
+  enc3_elite_faceless_scribe: { hp: 1.1, dmg: 1.15 },
 };
 
 const cache = new Map<string, Tune>();

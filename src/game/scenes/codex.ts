@@ -20,10 +20,10 @@ import rules from '../../data/lore/rules.json';
 import { audio } from '../audio/audio';
 import { codexProgress } from '../../engine/collection';
 import { achievements } from '../../engine/achievements';
-import { masteryLevel } from '../../engine/meta';
+import { masteryLevel, PAGES } from '../../engine/meta';
 
-type Tab = 'cards' | 'enemies' | 'relics' | 'commanders' | 'fate' | 'world' | 'rules' | 'history' | 'stats' | 'achievements';
-const TABS: [Tab, string][] = [['cards', '卡牌'], ['enemies', '敌人'], ['relics', '遗物'], ['commanders', '主帅'], ['fate', '天命'], ['world', '世界'], ['rules', '规则'], ['history', '对局记录'], ['stats', '统计'], ['achievements', '命途']];
+type Tab = 'cards' | 'enemies' | 'relics' | 'commanders' | 'fate' | 'world' | 'pages' | 'rules' | 'history' | 'stats' | 'achievements';
+const TABS: [Tab, string][] = [['cards', '卡牌'], ['enemies', '敌人'], ['relics', '遗物'], ['commanders', '主帅'], ['fate', '天命'], ['world', '世界'], ['pages', '残卷'], ['rules', '规则'], ['history', '对局记录'], ['stats', '统计'], ['achievements', '命途']];
 
 class CodexPanel extends Container {
   private tab: Tab = 'cards';
@@ -88,7 +88,7 @@ class CodexPanel extends Container {
       }
       case 'enemies': {
         const box = new ScrollBox(this.w, H);
-        const list = [...content().enemies.values()].filter((e) => e.tier !== 'minion' || d.enemies.has(e.id)).filter((e) => !e.id.startsWith('sandbox')).sort((a, b) => a.act - b.act || ['normal', 'elite', 'boss', 'minion'].indexOf(a.tier) - ['normal', 'elite', 'boss', 'minion'].indexOf(b.tier));
+        const list = [...content().enemies.values()].filter((e) => e.tier !== 'minion' || d.enemies.has(e.id)).filter((e) => !e.id.startsWith('sandbox') && !e.variantOf).sort((a, b) => a.act - b.act || ['normal', 'elite', 'boss', 'minion'].indexOf(a.tier) - ['normal', 'elite', 'boss', 'minion'].indexOf(b.tier));
         const per = Math.floor(this.w / 200);
         list.forEach((e, i) => {
           const known = d.enemies.has(e.id);
@@ -125,6 +125,30 @@ class CodexPanel extends Container {
           c.on('pointerout', hideTip);
           box.content.addChild(c);
         });
+        box.refresh();
+        this.body.addChild(box);
+        break;
+      }
+      case 'pages': {
+        // 命书残页: one per boss, the story of the night the book was torn
+        const box = new ScrollBox(this.w, H);
+        const have = new Set(session.profile.pages ?? []);
+        const head = new Text({ text: `命书残页 · 已收集 ${PAGES.filter((p) => have.has(p.id)).length}/${PAGES.length}　　每位首领第一次倒下时，会留下一页。`, style: { fontFamily: FONT_BODY, fontSize: fs(22), fill: C.textDim } });
+        head.position.set(20, 10);
+        box.content.addChild(head);
+        let y = 10 + head.height + 24;
+        for (const pg of PAGES) {
+          const got = have.has(pg.id);
+          const boss = content().enemies.get(pg.boss)?.name ?? pg.boss;
+          const t = new Text({ text: got ? `残页·${pg.title}` : '残页·？？？', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(28), fill: got ? C.goldLight : C.textDim, stroke: { color: 0, width: 4 } } });
+          t.position.set(20, y);
+          box.content.addChild(t);
+          y += t.height + 8;
+          const bt = new Text({ text: got ? pg.text : `（残缺——击败「${boss}」后可得）`, style: { fontFamily: FONT_BODY, fontSize: fs(21), fill: got ? C.text : C.textDim, wordWrap: true, wordWrapWidth: this.w - 80, lineHeight: Math.round(fs(21) * 1.6), breakWords: true } });
+          bt.position.set(40, y);
+          box.content.addChild(bt);
+          y += bt.height + 28;
+        }
         box.refresh();
         this.body.addChild(box);
         break;

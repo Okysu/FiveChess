@@ -36,7 +36,8 @@ const DESKTOP: Geometry = {
 const PHONE: Geometry = {
   FRONT_Y: [176, 352, 528, 704], BACK_Y: [264, 440, 616],
   X: { playerBack: 420, playerFront: 616, enemyFront: 1304, enemyBack: 1500, playerCmd: 200, enemyCmd: 1728 },
-  CMD_Y: 318, TOKEN_W: 106, TOKEN_H: 126, UNIT_SCALE: 1.3,
+  // commanders low enough that a boss's head and its intent clear the top bar
+  CMD_Y: 372, TOKEN_W: 106, TOKEN_H: 126, UNIT_SCALE: 1.3,
   HAND: { x0: 340, x1: 1580, y: 1004, cardScale: 0.8, hoverScale: 1.9 },
   PLAY_LINE_Y: 800, STAGE: { x: 960, y: 520 },
   FATE: { deck: { x: 960, y: 210 }, discard: { x: 1086, y: 232 }, signs: { x: 822, y: 210 }, judge: { x: 960, y: 440 } },

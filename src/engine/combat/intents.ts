@@ -7,6 +7,14 @@ import { alive, attackTargets, atkOf, commanderOf, depth, hasKw, maxHpOf, reach,
 import { evalCond, evalValue } from './eval';
 import { calcDamage, emit } from './core';
 
+/** a move's display name: "{key}" is replaced by the name of the card the enemy remembers under that key */
+export function moveName(u: Unit, mv: EnemyMove): string {
+  return mv.name.replace(/\{(\w+)\}/g, (_, k: string) => {
+    const id = u.mem?.[k];
+    return typeof id === 'string' && content().cards.has(id) ? content().card(id).name : '——';
+  });
+}
+
 export function enemyMoves(u: Unit): Record<string, EnemyMove> {
   const def = content().enemy(u.def);
   const ph = u.phase ? def.phases?.[u.phase - 1] : undefined;
@@ -166,7 +174,7 @@ export function intentPreview(s: CombatState, u: Unit): IntentPreview | null {
   if (!mv) return null;
   const ctx = { side: u.side, source: u.uid, kind: 'move' as const, target: u.intent.target, vars: { atk: atkOf(s, u) } };
   const tgt = unit(s, u.intent.target);
-  const out: IntentPreview = { types: mv.intent, name: mv.name, target: u.intent.target, statuses: [] };
+  const out: IntentPreview = { types: mv.intent, name: moveName(u, mv), target: u.intent.target, statuses: [] };
   const walk = (effs: Effect[]) => {
     for (const e of effs) {
       if (e.op === 'attack') {

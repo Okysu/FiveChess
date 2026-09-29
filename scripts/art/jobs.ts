@@ -117,6 +117,7 @@ export const ICONS: ArtJob[] = [
   icon('node_recruit', 'a banner flag with a helmet', 'teal'),
   icon('node_stargaze', 'an armillary sphere', 'gold'),
   icon('node_boss', 'a fierce dragon-headed demon face', 'crimson'),
+  icon('node_fated', 'a cracked red fate talisman wrapped around a horned demon mask, with a jagged lightning crack through it', 'blood red'),
   // misc ui
   icon('ui_gold', 'a stack of gold coins', 'gold'),
   icon('ui_hp', 'a red heart-shaped lotus', 'red'),

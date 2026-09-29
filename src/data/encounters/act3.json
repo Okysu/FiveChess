@@ -1,119 +1,588 @@
 [
-  { "id": "enc3_lamp_vigil", "act": 3, "tier": "normal", "pool": "easy", "enemies": [
-    { "id": "e3_lamp_warden", "row": "front", "slot": 1 },
-    { "id": "e3_fallen_lamp", "row": "back", "slot": 1 }
-  ] },
-  { "id": "enc3_hound_pack", "act": 3, "tier": "normal", "pool": "easy", "enemies": [
-    { "id": "e3_eclipse_hound", "row": "front", "slot": 1 },
-    { "id": "e3_eclipse_hound", "row": "front", "slot": 2 }
-  ] },
-  { "id": "enc3_scriptorium", "act": 3, "tier": "normal", "pool": "easy", "enemies": [
-    { "id": "e3_armillary_guard", "row": "front", "slot": 1 },
-    { "id": "e3_ink_clerk", "row": "back", "slot": 1 }
-  ] },
-  { "id": "enc3_ink_well", "act": 3, "tier": "normal", "pool": "easy", "enemies": [
-    { "id": "e3_ink_golem", "row": "front", "slot": 1 },
-    { "id": "e3_page_moth", "row": "back", "slot": 1 }
-  ] },
-  { "id": "enc3_broken_brush", "act": 3, "tier": "normal", "pool": "easy", "enemies": [
-    { "id": "e3_lamp_warden", "row": "front", "slot": 1 },
-    { "id": "e3_brush_assassin", "row": "back", "slot": 1 }
-  ] },
-  { "id": "enc3_bell_mirror", "act": 3, "tier": "normal", "pool": "easy", "enemies": [
-    { "id": "e3_bronze_mirror", "row": "front", "slot": 1 },
-    { "id": "e3_hour_bell", "row": "back", "slot": 1 }
-  ] },
-
-  { "id": "enc3_lamp_procession", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_lamp_warden", "row": "front", "slot": 1 },
-    { "id": "e3_eclipse_hound", "row": "front", "slot": 2 },
-    { "id": "e3_fallen_lamp", "row": "back", "slot": 0 },
-    { "id": "e3_lamp_maid", "row": "back", "slot": 2 }
-  ] },
-  { "id": "enc3_star_bureau", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_armillary_guard", "row": "front", "slot": 1 },
-    { "id": "e3_ink_clerk", "row": "back", "slot": 0 },
-    { "id": "e3_star_diviner", "row": "back", "slot": 2 }
-  ] },
-  { "id": "enc3_flock_of_stars", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_star_broom", "row": "front", "slot": 1 },
-    { "id": "e3_star_shepherd", "row": "back", "slot": 1 },
-    { "id": "e3_lamp_maid", "row": "back", "slot": 2 }
-  ] },
-  { "id": "enc3_meteor_charge", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_meteor_knight", "row": "front", "slot": 1 },
-    { "id": "e3_bronze_mirror", "row": "front", "slot": 2 },
-    { "id": "e3_fallen_lamp", "row": "back", "slot": 1 }
-  ] },
-  { "id": "enc3_night_ink", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_ink_golem", "row": "front", "slot": 1 },
-    { "id": "e3_brush_assassin", "row": "back", "slot": 0 },
-    { "id": "e3_page_moth", "row": "back", "slot": 2 }
-  ] },
-  { "id": "enc3_frost_hunt", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_eclipse_hound", "row": "front", "slot": 1 },
-    { "id": "e3_eclipse_hound", "row": "back", "slot": 1 },
-    { "id": "e3_frost_hare", "row": "back", "slot": 2 }
-  ] },
-  { "id": "enc3_tolling_hall", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_lamp_warden", "row": "front", "slot": 1 },
-    { "id": "e3_hour_bell", "row": "back", "slot": 0 },
-    { "id": "e3_star_diviner", "row": "back", "slot": 2 }
-  ] },
-  { "id": "enc3_hall_of_mirrors", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_bronze_mirror", "row": "front", "slot": 1 },
-    { "id": "e3_bronze_mirror", "row": "front", "slot": 2 },
-    { "id": "e3_brush_assassin", "row": "back", "slot": 1 },
-    { "id": "e3_lamp_maid", "row": "back", "slot": 2 }
-  ] },
-  { "id": "enc3_sweeping_dust", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_star_broom", "row": "front", "slot": 1 },
-    { "id": "e3_meteor_knight", "row": "front", "slot": 2 },
-    { "id": "e3_frost_hare", "row": "back", "slot": 1 }
-  ] },
-  { "id": "enc3_forbidden_stacks", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_lamp_warden", "row": "front", "slot": 1 },
-    { "id": "e3_ink_golem", "row": "front", "slot": 2 },
-    { "id": "e3_page_moth", "row": "back", "slot": 0 },
-    { "id": "e3_ink_clerk", "row": "back", "slot": 2 }
-  ] },
-  { "id": "enc3_orrery", "act": 3, "tier": "normal", "pool": "hard", "enemies": [
-    { "id": "e3_armillary_guard", "row": "front", "slot": 1 },
-    { "id": "e3_eclipse_hound", "row": "back", "slot": 1 },
-    { "id": "e3_star_shepherd", "row": "back", "slot": 2 }
-  ] },
-
-  { "id": "enc3_elite_star_judge", "act": 3, "tier": "elite", "enemies": [
-    { "id": "e3_star_judge", "row": "commander" },
-    { "id": "e3_court_bailiff", "row": "front", "slot": 1 },
-    { "id": "e3_ink_clerk", "row": "back", "slot": 1 }
-  ] },
-  { "id": "enc3_elite_ink_leviathan", "act": 3, "tier": "elite", "enemies": [
-    { "id": "e3_ink_leviathan", "row": "commander" },
-    { "id": "e3_ink_imp", "row": "back", "slot": 0 },
-    { "id": "e3_ink_imp", "row": "back", "slot": 2 }
-  ] },
-  { "id": "enc3_elite_lamp_abbess", "act": 3, "tier": "elite", "enemies": [
-    { "id": "e3_lamp_abbess", "row": "commander" },
-    { "id": "e3_lamp_warden", "row": "front", "slot": 1 },
-    { "id": "e3_lamp_maid", "row": "back", "slot": 1 }
-  ] },
-  { "id": "enc3_elite_star_toad", "act": 3, "tier": "elite", "enemies": [
-    { "id": "e3_star_toad", "row": "commander" },
-    { "id": "e3_star_mote", "row": "front", "slot": 1 },
-    { "id": "e3_star_mote", "row": "front", "slot": 2 }
-  ] },
-
-  { "id": "enc3_boss_eclipse_tengu", "act": 3, "tier": "boss", "enemies": [
-    { "id": "e3_eclipse_tengu", "row": "commander" },
-    { "id": "e3_tengu_cub", "row": "front", "slot": 1 }
-  ] },
-  { "id": "enc3_boss_brush_child", "act": 3, "tier": "boss", "enemies": [
-    { "id": "e3_brush_child", "row": "commander" },
-    { "id": "e3_ink_imp", "row": "back", "slot": 1 }
-  ] },
-  { "id": "enc3_boss_sunbird_shadow", "act": 3, "tier": "boss", "enemies": [
-    { "id": "e3_sunbird_shadow", "row": "commander" },
-    { "id": "e3_sun_crow", "row": "back", "slot": 1 }
-  ] }
+  {
+    "id": "enc3_lamp_vigil",
+    "act": 3,
+    "tier": "normal",
+    "pool": "easy",
+    "enemies": [
+      {
+        "id": "e3_lamp_warden",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_fallen_lamp",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_hound_pack",
+    "act": 3,
+    "tier": "normal",
+    "pool": "easy",
+    "enemies": [
+      {
+        "id": "e3_eclipse_hound",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_eclipse_hound",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_scriptorium",
+    "act": 3,
+    "tier": "normal",
+    "pool": "easy",
+    "enemies": [
+      {
+        "id": "e3_armillary_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_ink_clerk",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_ink_well",
+    "act": 3,
+    "tier": "normal",
+    "pool": "easy",
+    "enemies": [
+      {
+        "id": "e3_ink_golem",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_page_moth",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_broken_brush",
+    "act": 3,
+    "tier": "normal",
+    "pool": "easy",
+    "enemies": [
+      {
+        "id": "e3_lamp_warden",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_brush_assassin",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_bell_mirror",
+    "act": 3,
+    "tier": "normal",
+    "pool": "easy",
+    "enemies": [
+      {
+        "id": "e3_bronze_mirror",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_hour_bell",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_lamp_procession",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_lamp_warden",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_eclipse_hound",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e3_fallen_lamp",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e3_lamp_maid",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_star_bureau",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_armillary_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_ink_clerk",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e3_star_diviner",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_flock_of_stars",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_star_broom",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_star_shepherd",
+        "row": "back",
+        "slot": 1
+      },
+      {
+        "id": "e3_lamp_maid",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_meteor_charge",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_meteor_knight",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_bronze_mirror",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e3_fallen_lamp",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_night_ink",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_ink_golem",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_brush_assassin",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e3_page_moth",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_frost_hunt",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_eclipse_hound",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_eclipse_hound",
+        "row": "back",
+        "slot": 1
+      },
+      {
+        "id": "e3_frost_hare",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_tolling_hall",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_lamp_warden",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_hour_bell",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e3_star_diviner",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_hall_of_mirrors",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_bronze_mirror",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_bronze_mirror",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e3_brush_assassin",
+        "row": "back",
+        "slot": 1
+      },
+      {
+        "id": "e3_lamp_maid",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_sweeping_dust",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_star_broom",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_meteor_knight",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e3_frost_hare",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_forbidden_stacks",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_lamp_warden",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_ink_golem",
+        "row": "front",
+        "slot": 2
+      },
+      {
+        "id": "e3_page_moth",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e3_ink_clerk",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_orrery",
+    "act": 3,
+    "tier": "normal",
+    "pool": "hard",
+    "enemies": [
+      {
+        "id": "e3_armillary_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_eclipse_hound",
+        "row": "back",
+        "slot": 1
+      },
+      {
+        "id": "e3_star_shepherd",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_elite_star_judge",
+    "act": 3,
+    "tier": "elite",
+    "enemies": [
+      {
+        "id": "e3_star_judge",
+        "row": "commander"
+      },
+      {
+        "id": "e3_court_bailiff",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_ink_clerk",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_elite_ink_leviathan",
+    "act": 3,
+    "tier": "elite",
+    "enemies": [
+      {
+        "id": "e3_ink_leviathan",
+        "row": "commander"
+      },
+      {
+        "id": "e3_ink_imp",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e3_ink_imp",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_elite_lamp_abbess",
+    "act": 3,
+    "tier": "elite",
+    "enemies": [
+      {
+        "id": "e3_lamp_abbess",
+        "row": "commander"
+      },
+      {
+        "id": "e3_lamp_warden",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_lamp_maid",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_elite_star_toad",
+    "act": 3,
+    "tier": "elite",
+    "enemies": [
+      {
+        "id": "e3_star_toad",
+        "row": "commander"
+      },
+      {
+        "id": "e3_star_mote",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_star_mote",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_boss_eclipse_tengu",
+    "act": 3,
+    "tier": "boss",
+    "enemies": [
+      {
+        "id": "e3_eclipse_tengu",
+        "row": "commander"
+      },
+      {
+        "id": "e3_tengu_cub",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_boss_brush_child",
+    "act": 3,
+    "tier": "boss",
+    "enemies": [
+      {
+        "id": "e3_brush_child",
+        "row": "commander"
+      },
+      {
+        "id": "e3_ink_imp",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_boss_sunbird_shadow",
+    "act": 3,
+    "tier": "boss",
+    "enemies": [
+      {
+        "id": "e3_sunbird_shadow",
+        "row": "commander"
+      },
+      {
+        "id": "e3_sun_crow",
+        "row": "back",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_boss_bookworm",
+    "act": 3,
+    "tier": "boss",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e3_boss_bookworm",
+        "row": "commander"
+      }
+    ]
+  },
+  {
+    "id": "enc3_boss_armillary",
+    "act": 3,
+    "tier": "boss",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e3_boss_armillary",
+        "row": "commander"
+      },
+      {
+        "id": "e3m_ring_sun",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3m_ring_moon",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e3m_ring_star",
+        "row": "back",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc3_elite_faceless_scribe",
+    "act": 3,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e3_faceless_scribe",
+        "row": "commander"
+      },
+      {
+        "id": "e3_ink_clerk",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc3_elite_star_envoy",
+    "act": 3,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e3_star_envoy",
+        "row": "commander"
+      },
+      {
+        "id": "e3_star_mote",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e3_star_mote",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  }
 ]

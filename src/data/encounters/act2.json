@@ -521,5 +521,73 @@
         "slot": 1
       }
     ]
+  },
+  {
+    "id": "enc2_boss_chancellor",
+    "act": 2,
+    "tier": "boss",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_boss_chancellor",
+        "row": "commander"
+      },
+      {
+        "id": "e2m_drowned_courtier",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_boss_lost_seeker",
+    "act": 2,
+    "tier": "boss",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_boss_lost_seeker",
+        "row": "commander"
+      }
+    ]
+  },
+  {
+    "id": "enc2_elite_iron_warden",
+    "act": 2,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_iron_warden",
+        "row": "commander"
+      },
+      {
+        "id": "e2_drowned_guard",
+        "row": "front",
+        "slot": 1
+      }
+    ]
+  },
+  {
+    "id": "enc2_elite_sunken_bell",
+    "act": 2,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e2_sunken_bell",
+        "row": "commander"
+      },
+      {
+        "id": "e2_bell_ringer",
+        "row": "back",
+        "slot": 0
+      },
+      {
+        "id": "e2_bell_ringer",
+        "row": "back",
+        "slot": 2
+      }
+    ]
   }
 ]

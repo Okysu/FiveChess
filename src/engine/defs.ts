@@ -354,6 +354,7 @@ export type IntentType = 'attack' | 'defend' | 'buff' | 'debuff' | 'summon' | 'j
 export type EnemyTargetRule = 'default' | 'commander' | 'randomUnit' | 'lowestHp' | 'highestAtk' | 'self' | 'ally' | 'allyLowest' | 'none';
 
 export interface EnemyMove {
+  /** may name a remembered card: "拓印「{rub}」" shows the card the enemy holds in its memory under that key */
   name: string;
   intent: IntentType[];
   effects: Effect[];
@@ -399,6 +400,24 @@ export interface EnemyDef {
   lore: string;
   dialogue?: { intro?: string; phase?: string; defeat?: string };
   art: ArtSpec;
+  /** 迷途执命者: the fight takes one of these instead (a shadow of a commander the player is not playing) */
+  variants?: string[];
+  /** a variant of that enemy: not listed on its own (codex, art jobs) */
+  variantOf?: string;
+  /** the commander this variant borrows (portrait, lines) */
+  commander?: string;
+}
+
+/** 精英词缀: a trait an elite may roll (src/data/affixes.json) */
+export interface AffixDef {
+  id: string;
+  name: string;
+  text: string;
+  passives?: Trigger[];
+  modifiers?: Modifier[];
+  keywords?: Keyword[];
+  /** run once when the fight starts, as the enemy */
+  onStart?: Effect[];
 }
 
 export interface EncounterDef {

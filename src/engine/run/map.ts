@@ -3,7 +3,7 @@ import { randInt, seedRng, weightedPick, type RngState } from '../rng';
 
 export type NodeType = 'combat' | 'elite' | 'event' | 'shop' | 'camp' | 'chest' | 'recruit' | 'stargaze' | 'boss';
 
-export interface MapNode { row: number; col: number; type: NodeType; next: number[]; x: number; y: number }
+export interface MapNode { row: number; col: number; type: NodeType; next: number[]; x: number; y: number; /** 命劫: an optional elite with two affixes and a boss relic */ fated?: boolean }
 export interface MapData { act: number; rows: MapNode[][]; boss: string | null; width: number; height: number }
 
 export const MAP_COLS = 7;
@@ -50,7 +50,22 @@ export function generateMap(seed: string, o: GenOpts): MapData {
     n.y = 1 - (n.row + 0.5) / (MAP_ROWS + 1);
     n.next.sort((a, b) => a - b);
   }
+  if (!(o.tutorial && o.act === 1)) markFated(seedRng(`${seed}:fated`), rows);
   return { act: o.act, rows, boss: null, width: MAP_COLS, height: MAP_ROWS };
+}
+
+/** 命劫: one elite per act (rows 6+) becomes the fated one; its own rng keeps every other roll of the map unchanged */
+function markFated(rng: RngState, rows: MapNode[][]) {
+  const nodes = rows.flat().filter((n) => n.row >= 6 && n.row !== 8 && n.row < MAP_ROWS - 1);
+  let cands = nodes.filter((n) => n.type === 'elite');
+  if (!cands.length) {
+    const combat = nodes.filter((n) => n.type === 'combat');
+    if (!combat.length) return;
+    const n = combat[randInt(rng, 0, combat.length - 1)]!;
+    n.type = 'elite';
+    cands = [n];
+  }
+  cands[randInt(rng, 0, cands.length - 1)]!.fated = true;
 }
 
 function parentsOf(grid: (MapNode | null)[][], n: MapNode): MapNode[] {

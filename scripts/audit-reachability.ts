@@ -199,6 +199,7 @@ for (let iter = 0; changed && iter < 50; iter++) {
     const en = c.enemies.get(id)!;
     applyEffects(en, `enemy ${id}`);
     for (const cid of en.deck ?? []) cardRef(cid, `enemy deck ${id}`);
+    for (const v of en.variants ?? []) add(reach.enemies, v, `variant of ${id}`);
   }
   // events
   for (const ev of c.events.values()) {
@@ -240,7 +241,7 @@ if (hiddenEnc) add(reach.encounters, hiddenEnc, 'hidden boss (hiddenChoice)');
 for (let iter = 0; changed && iter < 20; iter++) {
   changed = false;
   for (const id of [...reach.encounters.keys()]) for (const x of c.encounters.get(id)!.enemies) add(reach.enemies, x.id, `encounter ${id}`);
-  for (const id of [...reach.enemies.keys()]) { const en = c.enemies.get(id)!; applyEffects(en, `enemy ${id}`); for (const cid of en.deck ?? []) cardRef(cid, `enemy deck ${id}`); }
+  for (const id of [...reach.enemies.keys()]) { const en = c.enemies.get(id)!; applyEffects(en, `enemy ${id}`); for (const cid of en.deck ?? []) cardRef(cid, `enemy deck ${id}`); for (const v of en.variants ?? []) add(reach.enemies, v, `variant of ${id}`); }
   for (const id of [...reach.cards.keys()]) applyEffects(c.cards.get(id), `card ${id}`);
 }
 
@@ -400,7 +401,7 @@ for (const k of keys) {
 const codex = 'src/game/scenes/codex.ts';
 for (const lore of ['world', 'rules']) { const f = path.join(DATA_DIR, 'lore', `${lore}.json`); const n = fs.existsSync(f) ? (JSON.parse(fs.readFileSync(f, 'utf8')) as unknown[]).length : 0; report('10 settings/codex', n ? 'INFO' : 'ERROR', `codex tab '${lore}': ${n} entries (${rel(f)})`); }
 const codexCards = [...c.cards.values()].filter((x) => x.pool !== false && !['token', 'special', 'basic'].includes(x.rarity) && x.type !== 'status' && x.type !== 'curse');
-const codexBad = { cards: codexCards.filter((x) => !reach.cards.has(x.id)).map((x) => x.id), relics: [...c.relics.values()].filter((x) => !reach.relics.has(x.id)).map((x) => x.id), enemies: [...c.enemies.values()].filter((e) => e.tier !== 'minion' && !e.id.startsWith('sandbox') && !reach.enemies.has(e.id)).map((e) => e.id) };
+const codexBad = { cards: codexCards.filter((x) => !reach.cards.has(x.id)).map((x) => x.id), relics: [...c.relics.values()].filter((x) => !reach.relics.has(x.id)).map((x) => x.id), enemies: [...c.enemies.values()].filter((e) => e.tier !== 'minion' && !e.variantOf && !e.id.startsWith('sandbox') && !reach.enemies.has(e.id)).map((e) => e.id) };
 for (const [k, v] of Object.entries(codexBad)) report('10 settings/codex', v.length ? 'ERROR' : 'INFO', `codex '${k}': ${v.length ? `${v.length} entries can never be discovered → 100% impossible: ${v.join(', ')}` : 'all entries discoverable'} (${at(codex, `case '${k}'`)})`);
 {
   const nonMinionCodex = [...c.enemies.values()].filter((e) => e.tier === 'minion' && reach.enemies.has(e.id)).length;

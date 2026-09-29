@@ -35,6 +35,116 @@
       "enemy": "e4_siming",
       "flag": "bookseller_last_page",
       "text": "……这一页，是我那个抄书吏的笔迹。他抄错了一个字，我找了三百年。原来那个字，一直走在你身上。"
+    },
+    {
+      "enemy": "e1_boss_rust_general",
+      "commander": "r_huojin",
+      "text": "焚阳宗的刀？三百年前，断焰军也是提着这样的刀进的殷都。你是来接他们回去的，还是来陪他们的？"
+    },
+    {
+      "enemy": "e1_boss_rust_general",
+      "commander": "b_shiyun",
+      "text": "山崩身死……命书上写你的那四个字，我在碑上见过。来，看看今天崩的是山，还是你。"
+    },
+    {
+      "enemy": "e1_boss_blank_stele",
+      "commander": "g_acang",
+      "text": "山鬼……你的碑我这里有很多块。每一块都刻着你，每一块都被风吹没了字。"
+    },
+    {
+      "enemy": "e1_boss_fox_mother",
+      "commander": "p_liuxu",
+      "text": "换脸的小丫头！你偷走的那些名字，本该是姐姐的点心。"
+    },
+    {
+      "enemy": "e1_boss_rubbing_ghost",
+      "commander": "r_huojin",
+      "text": "断焰刀谱，我拓过一份。断在第七式——和你的刀一样。"
+    },
+    {
+      "enemy": "e1_boss_rubbing_ghost",
+      "commander": "y_xuanji",
+      "text": "司天监的人，写字工整。你的每一笔，我都拓得下来。"
+    },
+    {
+      "enemy": "e1_boss_paper_king",
+      "commander": "p_liuxu",
+      "text": "千面客，你那三百张脸里，有好几张是本王亲手扎的。"
+    },
+    {
+      "enemy": "e1_boss_paper_king",
+      "commander": "r_liyuan",
+      "text": "朱雀祭司？好，好。烧纸的人来了，本王的车马仆从，就指望你了。"
+    },
+    {
+      "enemy": "e2_boss_drowned_king",
+      "commander": "p_yetan",
+      "text": "蛊窟里的孩子……你小时候往湖里扔石子，砸过寡人的冠冕。"
+    },
+    {
+      "enemy": "e2_boss_drowned_king",
+      "commander": "y_xuanji",
+      "text": "司天监的人。三百年前，你们的前辈没回答寡人的问题。你来答吗？"
+    },
+    {
+      "enemy": "e2_boss_drowned_king",
+      "commander": "b_suxian",
+      "text": "冰面下断掉的那一声琴……原来是你。弹完它，寡人就放你过去。"
+    },
+    {
+      "enemy": "e2_boss_twin_judges",
+      "commander": "y_yanwujiu",
+      "text": "卜者？你的卦我们判过——隔一夜才准，是因为我们在复核。"
+    },
+    {
+      "enemy": "e2_boss_chancellor",
+      "commander": "y_xuanji",
+      "text": "司天监？好。三百年前那份奏报，是本相亲手压下来的。"
+    },
+    {
+      "enemy": "e2_boss_chancellor",
+      "commander": "b_suxian",
+      "text": "琴师，给本相奏一曲。奏完了，再议你的罪。"
+    },
+    {
+      "enemy": "e2_boss_puppeteer",
+      "commander": "g_qingsi",
+      "text": "灵母的根须，比我的丝线还多。可惜，根须是会断的。"
+    },
+    {
+      "enemy": "e3_brush_child",
+      "commander": "g_qingsi",
+      "text": "先生说，建木是书页上长出来的错字。姐姐，你也是错字吗？"
+    },
+    {
+      "enemy": "e3_sunbird_shadow",
+      "commander": "r_liyuan",
+      "text": "朱雀祠的祭司。你献出去的火，有一半落在了我这里。"
+    },
+    {
+      "enemy": "e3_eclipse_tengu",
+      "commander": "y_yanwujiu",
+      "text": "你的卦说月亮会回来。它没有。它在我肚子里。"
+    },
+    {
+      "enemy": "e3_boss_bookworm",
+      "commander": "y_yanwujiu",
+      "text": "（巨虫的触须在你的卦书上停了停。）……卜者的卦书最好吃，字字都是还没应验的。"
+    },
+    {
+      "enemy": "e3_boss_bookworm",
+      "commander": "y_xuanji",
+      "text": "（巨虫吐出半张星图，上面是你的笔迹。）……司天监的字，嚼起来有铜锈味。"
+    },
+    {
+      "enemy": "e3_boss_armillary",
+      "commander": "y_xuanji",
+      "text": "（铜环停了一瞬，环上刻着一行小字——那是你三十年前刻下的名字。）"
+    },
+    {
+      "enemy": "e3_boss_armillary",
+      "commander": "p_yetan",
+      "text": "（浑天仪转向你，星图上没有你的星——被写成“早夭”的人，天上是不留位置的。）"
     }
   ]
 }

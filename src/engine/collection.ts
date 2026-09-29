@@ -6,7 +6,7 @@ export function codexTotals(): { cards: string[]; enemies: string[]; relics: str
   const c = content();
   return {
     cards: [...c.cards.values()].filter((d) => d.pool !== false && !['token', 'special', 'basic'].includes(d.rarity) && d.type !== 'status' && d.type !== 'curse').map((d) => d.id),
-    enemies: [...c.enemies.values()].filter((e) => e.tier !== 'minion' && !e.id.startsWith('sandbox')).map((e) => e.id),
+    enemies: [...c.enemies.values()].filter((e) => e.tier !== 'minion' && !e.variantOf && !e.id.startsWith('sandbox')).map((e) => e.id),
     relics: [...c.relics.values()].map((r) => r.id),
   };
 }

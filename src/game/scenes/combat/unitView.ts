@@ -1,5 +1,5 @@
 /** Unit / commander views on the battle line (UI研究笔记 §4.3, §8.3). */
-import { Container, Sprite, Text } from 'pixi.js';
+import { Container, Rectangle, Sprite, Text } from 'pixi.js';
 import { unchanged, clearChildren } from '../../ui/memo';
 import type { Unit, CombatState } from '../../../engine/combat/state';
 import { atkOf, maxHpOf, keywordsOf, canAttack } from '../../../engine/combat/board';
@@ -9,6 +9,7 @@ import { KEYWORDS, STATUSES } from '../../../engine/glossary';
 import type { Keyword, StatusId } from '../../../engine/defs';
 import { assets, K } from '../../assets';
 import { FONT_NUM, FONT_TITLE } from '../../ui/theme';
+import { fs, isPhone } from '../../ui/profile';
 import { iconSprite } from '../../ui/draw';
 import { WB, Bar, uiSprite, uiCover, nine, frame, tag, icon, maskPoly } from '../../ui/skin';
 import { statBadge } from '../../ui/card';
@@ -39,6 +40,8 @@ export class UnitView extends Container {
   private highlight = new Container();
   private stealthFx = new Container();
   private frozenFx = new Container();
+  /** 精英词缀: a red tag under the unit naming its affixes */
+  private affixTag: Container | null = null;
   readonly bw: number;
   readonly bh: number;
   shown = { hp: 0, maxHp: 0, atk: 0, armor: 0 };
@@ -59,6 +62,8 @@ export class UnitView extends Container {
     this.scale.set(UNIT_SCALE); // phone profile draws the whole unit (badges, intents, statuses) larger
     this.eventMode = 'static';
     this.cursor = 'pointer';
+    // the whole slot is the tap target, not just the painted figure (thin figures were hard to tap on phones)
+    if (this.mode === 'figure' || this.mode === 'token') this.hitArea = new Rectangle(-this.bw / 2, this.topY - 10, this.bw, this.bottomY - this.topY + 20);
   }
 
   private buildBody(u: Unit) {
@@ -90,7 +95,7 @@ export class UnitView extends Container {
       this.frame.addChild(fr);
     } else {
       const isBoss = this.mode === 'boss';
-      const key = u.origin === 'enemy' ? K.enemy(u.def, c.enemies.get(u.def)?.tier === 'boss') : K.hero(u.def);
+      const key = u.origin === 'enemy' ? K.enemyArt(u.def) : K.hero(u.def);
       // figures must fit the 146px slot pitch so stacked enemies don't overlap
       const targetH = this.mode === 'figure' ? 138 : isBoss ? 330 : 300;
       // placeholder until the figure art exists: a framed print block, bottom-anchored like the art
@@ -112,6 +117,8 @@ export class UnitView extends Container {
         s.scale.set(k);
         if (u.side === 'player') s.scale.x = -Math.abs(s.scale.x) * 0 + Math.abs(s.scale.x); // commanders face right already
         if (u.side === 'enemy' && this.mode === 'figure') s.scale.x = -Math.abs(s.scale.x); // enemies face left
+        // 迷途执命者: a commander's portrait turned to face you, drained of colour like a rubbing
+        if (u.side === 'enemy' && u.origin === 'enemy' && c.enemies.get(u.def)?.commander) { s.scale.x = -Math.abs(s.scale.x); s.tint = 0xa8a4bc; }
         this.body.addChild(s);
         ph.visible = false;
         this.bodySprite = s;
@@ -141,7 +148,9 @@ export class UnitView extends Container {
     }
     this.readyLine.visible = ready;
     const dim = u.side === 'player' && u.kind === 'unit' && s.active === 'player' && !ready;
-    if (this.bodySprite) this.bodySprite.tint = dim ? 0xa8a8a8 : 0xffffff;
+    // 迷途执命者's portrait keeps its drained tint
+    const baseTint = u.side === 'enemy' && u.origin === 'enemy' && content().enemies.get(u.def)?.commander ? 0xa8a4bc : 0xffffff;
+    if (this.bodySprite) this.bodySprite.tint = dim ? 0xa8a8a8 : baseTint;
     const hBody = this.bottomY - this.topY;
     if (!this.stealthFx.children.length) {
       const sm = uiSprite('smoke_overlay', this.bw * 1.2, hBody * 1.1, { alpha: 0.8 });
@@ -156,7 +165,22 @@ export class UnitView extends Container {
     }
     this.frozenFx.visible = (u.statuses.freeze ?? 0) > 0;
     if (u.side === 'enemy' && u.origin === 'enemy') this.setIntent(s, u);
+    if (u.affixes?.length && !this.affixTag) this.buildAffixTag(u.affixes);
     this.alpha = u.dead ? 0.4 : 1;
+  }
+
+  private buildAffixTag(ids: string[]) {
+    const names = ids.map((id) => content().affixes.get(id)?.name ?? id).join('·');
+    const t = new Text({ text: names, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(18), fill: WB.white, stroke: { color: WB.ink, width: 4 } } });
+    t.anchor.set(0.5);
+    const w = t.width + 34, h = t.height + 12;
+    const bg = tag('red', w, h);
+    bg.position.set(-w / 2, -h / 2);
+    const c = new Container();
+    c.addChild(bg, t);
+    c.position.set(0, this.bottomY + (this.mode === 'figure' || this.mode === 'token' ? 22 : 52));
+    this.affixTag = c;
+    this.addChild(c);
   }
 
   setNumbers(hp: number, max: number, atk: number, armor: number, u?: Unit) {
@@ -193,14 +217,21 @@ export class UnitView extends Container {
     }
   }
 
+  private wardCount: Text | null = null;
   setWard(n: number) {
     if (!this.wardFx.children.length) {
       const hB = this.bottomY - this.topY;
       const wd = uiSprite('ward_bubble', this.bw * 1.35, hB * 1.25, { alpha: 0.9 });
       wd.y = this.topY + hB / 2;
       this.wardFx.addChild(wd);
+      // several layers (纸扎王, 结界): show how many hits it still stops
+      this.wardCount = new Text({ text: '', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: 0xf5e6a8, stroke: { color: WB.ink, width: 5 } } });
+      this.wardCount.anchor.set(0.5);
+      this.wardCount.position.set(0, this.topY + 14);
+      this.wardFx.addChild(this.wardCount);
     }
     this.wardFx.visible = n > 0;
+    if (this.wardCount) this.wardCount.text = n > 1 ? `灵障×${n}` : '';
   }
 
   setStatuses(st: Partial<Record<StatusId, number>>) {
@@ -222,7 +253,9 @@ export class UnitView extends Container {
       this.statusCol.addChild(c);
     });
     const small = this.mode === 'token' || this.mode === 'figure';
-    this.statusCol.position.set(small ? this.bw / 2 + 16 : 130, small ? this.topY + 20 : -120);
+    // phone: a boss stands at the right edge — its statuses go on its left, under the intent
+    const bossLeft = this.mode === 'boss' && isPhone();
+    this.statusCol.position.set(small ? this.bw / 2 + 16 : bossLeft ? -this.bw / 2 - 30 : 130, small ? this.topY + 20 : bossLeft ? -40 : -120);
   }
 
   setKeywords(kws: Keyword[]) {
@@ -286,7 +319,9 @@ export class UnitView extends Container {
       this.intentBox.addChild(c);
     });
     const w = types.length * 58;
-    if (this.mode === 'boss') this.intentBox.position.set(-w / 2 + 29, -250);
+    // phone: above the boss is the top bar, so its intent sits on its left like a figure's
+    if (this.mode === 'boss' && isPhone()) this.intentBox.position.set(-this.bw / 2 - 30, -150 - (types.length - 1) * 25);
+    else if (this.mode === 'boss') this.intentBox.position.set(-w / 2 + 29, -250);
     else if (this.mode === 'figure' || this.mode === 'token') this.intentBox.position.set(-this.bw / 2 - 28, (this.topY + this.bottomY) / 2 - (types.length - 1) * 25);
     else this.intentBox.position.set(-w / 2 + 29, this.topY - 40);
     (this.intentBox as Container & { preview?: typeof pv }).preview = pv;

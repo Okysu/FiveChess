@@ -2431,5 +2431,702 @@
     "art": {
       "subject": "an elegant fox-woman in layered silk robes reclining on a broken tomb, nine translucent tails fanning behind her, glowing name-characters dissolving into her mouth under blue fox-fire"
     }
+  },
+  {
+    "id": "e1_boss_rubbing_ghost",
+    "name": "拓碑鬼·千拓",
+    "act": 1,
+    "tier": "boss",
+    "hp": [
+      235,
+      235
+    ],
+    "atk": 8,
+    "row": "commander",
+    "passives": [
+      {
+        "on": "cardPlayed",
+        "who": "enemy",
+        "effects": [
+          {
+            "op": "script",
+            "id": "rubRecord"
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "slap": {
+        "name": "碑拍",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 14
+          }
+        ]
+      },
+      "rub": {
+        "name": "拓印「{rub}」",
+        "intent": [
+          "cast"
+        ],
+        "effects": [
+          {
+            "op": "script",
+            "id": "rubCast",
+            "args": {
+              "fallback": [
+                {
+                  "op": "damage",
+                  "amount": 9,
+                  "target": "enemyCommander",
+                  "attack": true
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "ink": {
+        "name": "泼墨",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 8
+          },
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 2,
+            "target": "target"
+          }
+        ]
+      },
+      "press": {
+        "name": "覆纸",
+        "intent": [
+          "debuff"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "create",
+            "card": "st_dazed",
+            "n": 2,
+            "to": "draw"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "slap"
+      ],
+      "then": {
+        "type": "cycle",
+        "sequence": [
+          "rub",
+          "ink",
+          "rub",
+          "slap",
+          "press"
+        ]
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "千拓千面",
+        "text": "你写一笔，我拓两笔。",
+        "atk": 10,
+        "moves": {
+          "rub": {
+            "name": "复拓「{rub}」",
+            "intent": [
+              "cast"
+            ],
+            "effects": [
+              {
+                "op": "script",
+                "id": "rubCast",
+                "args": {
+                  "times": 2,
+                  "fallback": [
+                    {
+                      "op": "damage",
+                      "amount": 9,
+                      "target": "enemyCommander",
+                      "attack": true,
+                      "times": 2
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "ai": {
+          "type": "cycle",
+          "sequence": [
+            "rub",
+            "slap",
+            "rub",
+            "ink"
+          ]
+        }
+      }
+    ],
+    "lore": "碑林里每一块碑倒下之前，都被它拓过一遍。千拓不会写字，只会照着拓——你在它面前打出的最后一张牌，下一回合就会原样拓回你身上。所以在它面前，最后出手的那一张要想清楚。",
+    "dialogue": {
+      "intro": "别动……让我拓下来。你的每一笔，我都拓得下来。",
+      "phase": "拓一遍不够，再拓一遍！",
+      "defeat": "拓本……终究不是原碑……"
+    },
+    "art": {
+      "subject": "a gaunt ghost whose body is layered rice-paper rubbings of stone inscriptions, reversed carved characters all over it, holding a huge round ink pad and a rubbing brush, standing before a toppled stele"
+    }
+  },
+  {
+    "id": "e1_boss_paper_king",
+    "name": "纸扎王",
+    "act": 1,
+    "tier": "boss",
+    "hp": [
+      205,
+      205
+    ],
+    "atk": 7,
+    "row": "commander",
+    "passives": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "script",
+            "id": "paperWard",
+            "args": {
+              "cap": 4
+            }
+          }
+        ]
+      },
+      {
+        "on": "opponentTurnStart",
+        "effects": [
+          {
+            "op": "script",
+            "id": "paperWard",
+            "args": {
+              "cap": 4
+            }
+          }
+        ]
+      },
+      {
+        "on": "unitDied",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "script",
+            "id": "paperWard",
+            "args": {
+              "mode": "sync"
+            }
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "fold": {
+        "name": "扎纸",
+        "intent": [
+          "summon"
+        ],
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e1m_paper_guard",
+            "n": 2
+          }
+        ]
+      },
+      "wail": {
+        "name": "哭丧",
+        "intent": [
+          "debuff"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 2,
+            "target": "enemyCommander"
+          },
+          {
+            "op": "create",
+            "card": "st_dread",
+            "to": "draw"
+          }
+        ]
+      },
+      "money": {
+        "name": "纸钱漫天",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 4,
+            "times": 3,
+            "target": "enemyCommander",
+            "attack": true
+          }
+        ]
+      },
+      "coffin": {
+        "name": "起棺",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target",
+            "amount": 15
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "script",
+      "first": [
+        "money"
+      ],
+      "rules": [
+        {
+          "if": {
+            "eq": [
+              {
+                "count": "units",
+                "side": "friendly"
+              },
+              0
+            ]
+          },
+          "move": "fold"
+        }
+      ],
+      "then": {
+        "type": "weighted",
+        "weights": {
+          "money": 3,
+          "coffin": 2,
+          "wail": 2,
+          "fold": 2
+        },
+        "noRepeat": 1
+      }
+    },
+    "phases": [
+      {
+        "hpBelow": 0.5,
+        "name": "纸马开道",
+        "text": "起灵——！",
+        "atk": 9,
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "e1m_paper_guard",
+            "n": 2
+          },
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "self"
+          }
+        ],
+        "ai": {
+          "type": "script",
+          "rules": [
+            {
+              "if": {
+                "eq": [
+                  {
+                    "count": "units",
+                    "side": "friendly"
+                  },
+                  0
+                ]
+              },
+              "move": "fold"
+            }
+          ],
+          "then": {
+            "type": "weighted",
+            "weights": {
+              "money": 3,
+              "coffin": 3,
+              "wail": 1,
+              "fold": 2
+            },
+            "noRepeat": 1
+          }
+        }
+      }
+    ],
+    "lore": "送葬班的班主，一辈子给别人扎纸人，死后把自己也扎成了王。每一个站着的纸家丁都替他挡下一次伤害（[灵障]，回合开始时按纸家丁数补足）。纸遇火即燃；连击与群伤能一次撕开好几层灵障。",
+    "dialogue": {
+      "intro": "吉时已到——纸扎王送你上路，童男童女、车马仆从，一样不少。",
+      "phase": "纸马，开道！",
+      "defeat": "烧……烧给我……多烧一点……"
+    },
+    "art": {
+      "subject": "a portly funeral king made entirely of painted paper and bamboo ribs, wearing a paper crown and robes of joss paper, paper coins swirling around him, a red-dotted grin"
+    }
+  },
+  {
+    "id": "e1m_paper_guard",
+    "name": "纸家丁",
+    "act": 1,
+    "tier": "minion",
+    "hp": [
+      11,
+      13
+    ],
+    "atk": 4,
+    "row": "front",
+    "modifiers": [
+      {
+        "stat": "burnDamage",
+        "amount": 2,
+        "who": "self"
+      }
+    ],
+    "moves": {
+      "poke": {
+        "name": "纸枪",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "stand": {
+        "name": "护主",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 4,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "poke",
+        "stand"
+      ],
+      "start": "random"
+    },
+    "lore": "点了睛的纸家丁，护着纸扎王走在送葬队伍最前面。纸糊的身子，火一碰就着——受到的[灼烧]伤害+2。",
+    "art": {
+      "subject": "a paper effigy house servant holding a paper spear, painted rosy cheeks and a blank stare, bamboo frame showing through torn paper"
+    }
+  },
+  {
+    "id": "e1_life_thief",
+    "name": "偷命贼",
+    "act": 1,
+    "tier": "elite",
+    "hp": [
+      70,
+      70
+    ],
+    "atk": 6,
+    "row": "commander",
+    "passives": [
+      {
+        "on": "death",
+        "effects": [
+          {
+            "op": "script",
+            "id": "returnLoot",
+            "args": {
+              "bonus": 20
+            }
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "snatch": {
+        "name": "顺手牵羊",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "script",
+            "id": "steal",
+            "args": {
+              "n": 12
+            }
+          }
+        ]
+      },
+      "smoke": {
+        "name": "烟遁",
+        "intent": [
+          "defend"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 10,
+            "target": "self"
+          },
+          {
+            "op": "addKeyword",
+            "target": "self",
+            "keyword": "stealth"
+          }
+        ]
+      },
+      "flee": {
+        "name": "溜之大吉",
+        "intent": [
+          "escape"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "script",
+            "id": "flee"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "snatch",
+        "snatch",
+        "smoke",
+        "snatch",
+        "flee"
+      ]
+    },
+    "lore": "专在碑林里偷死人的名字，偶尔也偷活人的钱袋。每次得手都偷走 12 金；第五回合它会带着赃物逃走。在那之前打倒它，赃物全数奉还，再多掉 20 金。",
+    "dialogue": {
+      "intro": "嘿嘿，借点盘缠——不还的那种。",
+      "defeat": "别打了别打了，钱都在这儿！"
+    },
+    "art": {
+      "subject": "a wiry grinning thief in patched black clothes with a bulging coin sack over his shoulder, crouched on a gravestone, one hand already reaching toward the viewer"
+    }
+  },
+  {
+    "id": "e1_hound_left",
+    "name": "守墓犬·左首",
+    "act": 1,
+    "tier": "elite",
+    "hp": [
+      50,
+      50
+    ],
+    "atk": 7,
+    "row": "front",
+    "passives": [
+      {
+        "on": "unitDied",
+        "who": "friendly",
+        "limit": "combat",
+        "effects": [
+          {
+            "op": "script",
+            "id": "say",
+            "args": {
+              "text": "另一个头发狂了！"
+            }
+          },
+          {
+            "op": "buff",
+            "target": "self",
+            "atk": 4
+          },
+          {
+            "op": "heal",
+            "amount": 15,
+            "target": "self"
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "bite": {
+        "name": "撕咬",
+        "intent": [
+          "attack"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ]
+      },
+      "howl": {
+        "name": "长嚎",
+        "intent": [
+          "buff"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 1,
+            "target": "self"
+          },
+          {
+            "op": "armor",
+            "amount": 6,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "bite",
+        "howl",
+        "bite"
+      ]
+    },
+    "lore": "一身两首的守墓犬，左首咬人，右首撕人。两个头各自为战——可只要一个头倒下，另一个头就会发狂（攻击力+4，回复 15 生命）。最好让它们差不多同时倒下。",
+    "art": {
+      "subject": "the left head and shoulders of a huge two-headed black tomb hound, snarling with bared fangs, iron chain collar, tomb lanterns behind"
+    }
+  },
+  {
+    "id": "e1_hound_right",
+    "name": "守墓犬·右首",
+    "act": 1,
+    "tier": "elite",
+    "hp": [
+      50,
+      50
+    ],
+    "atk": 7,
+    "row": "front",
+    "passives": [
+      {
+        "on": "unitDied",
+        "who": "friendly",
+        "limit": "combat",
+        "effects": [
+          {
+            "op": "script",
+            "id": "say",
+            "args": {
+              "text": "另一个头发狂了！"
+            }
+          },
+          {
+            "op": "buff",
+            "target": "self",
+            "atk": 4
+          },
+          {
+            "op": "heal",
+            "amount": 15,
+            "target": "self"
+          }
+        ]
+      }
+    ],
+    "moves": {
+      "maul": {
+        "name": "扑撕",
+        "intent": [
+          "attack",
+          "debuff"
+        ],
+        "effects": [
+          {
+            "op": "attack",
+            "target": "target"
+          },
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 1,
+            "target": "target"
+          }
+        ]
+      },
+      "howl": {
+        "name": "长嚎",
+        "intent": [
+          "buff"
+        ],
+        "target": "none",
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 1,
+            "target": "self"
+          },
+          {
+            "op": "armor",
+            "amount": 6,
+            "target": "self"
+          }
+        ]
+      }
+    },
+    "ai": {
+      "type": "cycle",
+      "sequence": [
+        "howl",
+        "maul",
+        "maul"
+      ]
+    },
+    "lore": "一身两首的守墓犬的右首。它比左首更记仇，谁先伤了左首，它就先扑谁。",
+    "art": {
+      "subject": "the right head and shoulders of a huge two-headed black tomb hound, lunging with glowing eyes and slavering jaws, iron chain collar, grave mist"
+    }
   }
 ]

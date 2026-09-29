@@ -73,6 +73,10 @@ export interface Unit {
   pendingPhase?: number;
   /** statuses applied during the owner's own turn skip their first end-of-turn decay */
   fresh?: Partial<Record<StatusId, boolean>>;
+  /** 精英词缀 (affixes.json) carried by this enemy */
+  affixes?: string[];
+  /** per-enemy scratch memory for boss scripts (bossScripts.ts): the rubbed card, damage this turn … */
+  mem?: Record<string, number | string>;
 }
 
 export interface EquipInst { uid: number; card: string; up: boolean; durability: number; atkBonus: number; rangeBonus: number; ts: number }
@@ -92,6 +96,8 @@ export interface SideState {
   deck: CardInst[];
   energy: number;
   signs: FateCard[];
+  /** cards an enemy took out of the player's piles (蠹鱼王 swallows them; they come back when it is hurt) */
+  belly?: CardInst[];
 }
 
 export interface Source { color: Color; ready: boolean; temp?: boolean }
@@ -147,7 +153,7 @@ export type Task =
   | { k: 'chain'; stage: 'window' | 'resolve' | 'after'; links: ChainLink[]; passes: number; origin: Side; resolvedBase?: ChainLink };
 
 export type PhaseName =
-  | 'combatStart' | 'playerTurnStart' | 'playerDraw' | 'playerTurnEnd' | 'playerCleanup' | 'enemyTurnStart' | 'enemyActions' | 'enemyTurnEnd';
+  | 'combatStart' | 'playerTurnStart' | 'playerDraw' | 'playerTurnEnd' | 'playerCleanup' | 'enemyTurnStart' | 'enemyActions' | 'enemyTurnEnd' | 'enemyIntents';
 
 export interface PendingTrigger { effects: Effect[]; ctx: Ctx; side: Side; ts: number; label: string }
 
@@ -174,6 +180,8 @@ export interface CombatConfig {
   extraStartSources?: Color[];
   /** 精通 「另一面」: the commander's alt skill replaces the one it names */
   altSkill?: boolean;
+  /** 精英词缀 rolled for this fight (applied to its elite-tier enemies) */
+  affixes?: string[];
   /** first-act tutorial gating */
   tutorial?: { noResponse?: boolean; noJudge?: boolean };
 }
@@ -305,7 +313,13 @@ export type CEvent =
   | { t: 'frozen'; uid: number }
   | { t: 'log'; text: string }
   | { t: 'end'; result: 'win' | 'lose' }
-  | { t: 'potion'; slot: number; id: string };
+  | { t: 'potion'; slot: number; id: string }
+  /** an enemy sealed / released one of the player's relics */
+  | { t: 'relicSeal'; id: string; sealed: boolean }
+  /** an enemy calls out (edict broken, bell cracked …): shown as a banner */
+  | { t: 'shout'; uid: number | null; text: string }
+  /** cards swallowed by an enemy (total now in its belly) */
+  | { t: 'belly'; uid: number; n: number; total: number };
 
 export type ResolvedCard = CardDef;
 export type { Effect };

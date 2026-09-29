@@ -6,6 +6,11 @@
 import { content } from './content';
 import type { RunState } from './run/run';
 import { checkAchievements } from './achievements';
+import pagesData from '../data/lore/pages.json';
+
+/** 命书残页: one per boss, kept the first time it falls */
+export interface PageDef { id: string; boss: string; title: string; text: string }
+export const PAGES = pagesData as PageDef[];
 
 export interface RunSummary {
   seed: string; commander: string; lieutenant: string | null; ascension: number; result: 'win' | 'lose' | 'abandon';
@@ -37,6 +42,8 @@ export interface Profile {
   achievements?: string[];
   /** 兑换码 already used (engine/redeem.ts redeemKey) */
   redeemed?: string[];
+  /** 命书残页 collected (src/data/lore/pages.json) */
+  pages?: string[];
 }
 
 /** unlock track: thresholds in 命数 (xp) */
@@ -190,6 +197,12 @@ export function recordRun(p: Profile, r: RunState, summary: RunSummary): string[
   }
   st.bestFloor = Math.max(st.bestFloor, summary.floor);
   for (const k of ['cards', 'enemies', 'relics'] as const) for (const id of r.discovered[k]) if (!p.discovered[k].includes(id)) p.discovered[k].push(id);
+  // 命书残页: the first time a boss falls, its page is kept
+  for (const pg of PAGES) {
+    if ((p.pages ??= []).includes(pg.id) || !r.flags?.includes(`beat:${pg.boss}`)) continue;
+    p.pages.push(pg.id);
+    unlocked.push(`命书残页「${pg.title}」（图鉴 · 残卷）`);
+  }
   // 命途: before the unlock track, so their 命数 can open an unlock this run
   unlocked.push(...checkAchievements(p, r, summary));
   for (const label of applyUnlockTrack(p, before, p.runs === 1)) if (!unlocked.includes(label)) unlocked.push(label);

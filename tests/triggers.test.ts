@@ -95,6 +95,21 @@ function whoOf(t: Trigger) {
   return 'friendly';
 }
 
+/**
+ * Boss mechanics whose effect depends on a board the generic scenarios never build (cards already swallowed,
+ * rings to turn, a relic already sealed …). Each is verified by its own test in tests/bosses.test.ts.
+ */
+const STATEFUL: Record<string, string> = {
+  'field:ec_edict_units@player#0': 'needs a unit card played (bosses.test.ts 宰辅)',
+  'field:ec_edict_units@enemy#0': 'needs a unit card played (bosses.test.ts 宰辅)',
+  'enemy:e1_boss_paper_king@enemy#2': 'syncs 灵障 already granted by paper servants (bosses.test.ts 纸扎王)',
+  'enemy:e2_sunken_bell@enemy#0': 'needs 30 damage while the toll is intended (bosses.test.ts 沉钟)',
+  'enemy:e2_sunken_bell@enemy#1': 'clears per-turn memory (bosses.test.ts 沉钟)',
+  'enemy:e3_boss_bookworm@enemy#1': 'needs swallowed cards (bosses.test.ts 蠹鱼王)',
+  'enemy:e3_boss_armillary@enemy#0': 'needs its rings on the board (bosses.test.ts 浑天仪)',
+  'enemy:e3_faceless_scribe@enemy#0': 'needs a sealed relic (bosses.test.ts 无面书吏)',
+};
+
 /** events that only the player side can produce */
 const PLAYER_ONLY: TriggerOn[] = ['cardSacrificed', 'cardDrawn', 'cardDiscarded', 'cardExhausted', 'cardCreated', 'responsePlayed', 'sourceGained', 'shuffled'];
 
@@ -498,6 +513,8 @@ describe('every trigger fires and has an observable effect', () => {
     describe(kind, () => {
       for (const k of list) {
         it(k.label, () => {
+          const stateful = STATEFUL[k.label.split(' ')[0]!];
+          if (stateful) { untestable.push(`${k.label}: ${stateful}`); return; }
           const o = evaluateCase(k);
           if (o.skip) { untestable.push(`${k.label}: ${o.skip}`); return; }
           expect(o.fired, `${k.label} never fired`).toBeGreaterThan(0);

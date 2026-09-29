@@ -168,7 +168,7 @@ export async function runUiTour(o: { events?: 'all' | number } = {}): Promise<To
   await page('credits', pages, () => (G.scene as unknown as { credits(): void }).credits(), 2500);
   closeModals();
   await page('select', pages, () => scene(async () => new (await import('../scenes/select')).SelectScene()));
-  for (const tab of ['cards', 'enemies', 'relics', 'commanders', 'fate', 'world', 'rules', 'history', 'stats', 'achievements'] as const) {
+  for (const tab of ['cards', 'enemies', 'relics', 'commanders', 'fate', 'world', 'pages', 'rules', 'history', 'stats', 'achievements'] as const) {
     await page(`codex_${tab}`, pages, async () => {
       if (!(G.scene?.constructor.name === 'CodexScene')) await scene(async () => new (await import('../scenes/codex')).CodexScene());
       const panel = walk(G.sceneLayer).find((x) => x.constructor.name === 'CodexPanel') as unknown as { tab: string; render(): void } | undefined;
@@ -213,6 +213,18 @@ export async function runUiTour(o: { events?: 'all' | number } = {}): Promise<To
   await set('recruit', { k: 'recruit', options: rollLieutenants(r), done: false });
   await set('stargaze', { k: 'stargaze', done: false });
   await set('chest', { k: 'chest', relic: [...c.relics.keys()][0]!, gold: 30, opened: true });
+  // 1.1 fights: every new boss and elite, one elite with two affixes (命劫)
+  const fights: [string, 'elite' | 'boss', string[]?][] = [
+    ['enc1_boss_rubbing_ghost', 'boss'], ['enc1_boss_paper_king', 'boss'], ['enc2_boss_chancellor', 'boss'], ['enc2_boss_lost_seeker', 'boss'],
+    ['enc3_boss_bookworm', 'boss'], ['enc3_boss_armillary', 'boss'], ['enc1_elite_twin_hound', 'elite', ['af_tough', 'af_backlash']],
+    ['enc2_elite_sunken_bell', 'elite', ['af_warded']], ['enc3_elite_faceless_scribe', 'elite'],
+  ];
+  for (const [encounter, tier, affixes] of fights) {
+    r.screen = { k: 'combat', encounter, tier, seed: `tour:${encounter}`, reward: tier, ...(affixes ? { affixes, fated: affixes.length > 1 } : {}) };
+    session.combat = null;
+    await page(`fight_${encounter}`, pages, route, 6500);
+    closeModals();
+  }
   await set('pick', { k: 'pick', kind: 'upgrade', n: 1, optional: false, source: 'camp' });
   const evs = [...c.events.values()];
   const evList = o.events === 'all' ? evs : evs.slice(0, typeof o.events === 'number' ? o.events : 6);

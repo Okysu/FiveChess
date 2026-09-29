@@ -15,7 +15,7 @@ import { act, attackOptions, noActionsLeft, playableInfo, potionTargets, skillUs
 import type { CEvent, CombatState, PlayerAction, Unit, CardInst, FateCard } from '../../../engine/combat/state';
 import { alive, attackTargets, canAttack, commanderOf, unit, unitsOf, atkOf, emptySlots } from '../../../engine/combat/board';
 import { cardDef, cardTargets, responseOptions, isResponse, calcDamage, planPayment, effectiveCost, isRangedAttacker } from '../../../engine/combat/core';
-import { intentPreview } from '../../../engine/combat/intents';
+import { intentPreview, moveName } from '../../../engine/combat/intents';
 import { skillDef } from '../../../engine/combat/skills';
 import { autoAnswer } from '../../../engine/combat/autoplay';
 import { content } from '../../../engine/content';
@@ -190,7 +190,7 @@ export class CombatScene extends Scene {
     const c = content();
     const keys: string[] = [K.bg(`battle_${Math.min(4, session.run!.act)}`), K.hero(s.cfg.commander)];
     for (const u of Object.values(s.units)) {
-      if (u.origin === 'enemy') keys.push(K.enemy(u.def, c.enemies.get(u.def)?.tier === 'boss'));
+      if (u.origin === 'enemy') keys.push(K.enemyArt(u.def));
       else if (u.origin === 'card' || u.origin === 'token') keys.push(K.card(c.card(u.def).faction, u.def));
     }
     for (const card of [...s.draw, ...s.hand, ...s.discard]) keys.push(K.card(c.card(card.id).faction, card.id));
@@ -828,6 +828,11 @@ export class CombatScene extends Scene {
         const tgt = unit(this.s, pv.target);
         lines.push({ title: `意图：${pv.name}`, body: `${pv.damage !== undefined ? `造成 ${pv.damage}${(pv.hits ?? 1) > 1 ? `×${pv.hits}` : ''} 点伤害` : ''}${pv.armor ? ` 获得 ${pv.armor} 护甲` : ''}${pv.statuses.length ? ` 施加 ${pv.statuses.map((x) => `${STATUSES[x.status as keyof typeof STATUSES]?.name ?? x.status}${x.amount}`).join('、')}` : ''}${tgt ? `\n目标：${tgt.name}` : ''}` || '行动' });
       }
+      for (const a of u.affixes ?? []) { const ad = content().affixes.get(a); if (ad) lines.push({ title: `词缀：${ad.name}`, body: fillVars(ad.text, {}), color: 0xff8a6a }); }
+      const belly = this.s.sides.enemy.belly?.length ?? 0;
+      if (belly && u.kind === 'commander') lines.push({ title: `腹中：${belly} 张牌`, body: '受到伤害时会吐回你手里。', color: 0xf0d27a });
+      const sealed = String(u.mem?.sealed ?? '').split(',').filter(Boolean);
+      if (sealed.length) lines.push({ title: '被抹去的遗物', body: sealed.map((id) => content().relics.get(id)?.name ?? id).join('、') + '（击败它后恢复）', color: 0xf0d27a });
       const kws = def.keywords ?? [];
       lines.push(...glossLines(kws.map((k) => (content().enemies.get(u.def), k)).map((k) => keywordName(k))));
       if (def.passives?.length || def.lore) lines.push({ body: def.lore, color: C.textDim });
@@ -1229,6 +1234,22 @@ export class CombatScene extends Scene {
       case 'stunned': { const v = this.units.get(e.uid); if (v) floatText(this.numLayer, '眩晕！', v.x, v.y + v.topY, { color: 0xf5e16a }); sfx('stun'); await wait(fast ? 50 : 350); break; }
       case 'frozen': { const v = this.units.get(e.uid); if (v) floatText(this.numLayer, '冰封！', v.x, v.y + v.topY, { color: 0x9ad8ff }); sfx('freeze'); await wait(fast ? 50 : 350); break; }
       case 'log': this.addLog(e.text); this.actionBanner(e.text); break;
+      case 'shout': {
+        this.addLog(e.text);
+        this.declareBanner(e.text);
+        const v = e.uid != null ? this.units.get(e.uid) : undefined;
+        if (v) void (async () => { await tweens.to(v.scale, { x: 1.08, y: 1.08 }, 120); await tweens.to(v.scale, { x: 1, y: 1 }, 200); })();
+        await wait(fast ? 60 : 500);
+        break;
+      }
+      case 'belly': {
+        const v = this.units.get(e.uid);
+        if (v) floatText(this.numLayer, e.n > 0 ? `吞下 ${e.n} 张 · 腹中 ${e.total}` : `吐出 ${-e.n} 张`, v.x, v.y + v.topY, { color: e.n > 0 ? 0xff9a6a : 0x9adfa8, size: 28 });
+        this.drawPile.set(s.draw.length); this.discardPile.set(s.discard.length);
+        await wait(fast ? 40 : 300);
+        break;
+      }
+      case 'relicSeal': this.top.setRelicSealed(e.id, e.sealed); if (e.sealed) sfx('deny'); else sfx('relic'); break;
       case 'potion': this.top.refresh(); sfx('heal'); break;
       case 'end': break;
     }
@@ -1300,7 +1321,7 @@ export class CombatScene extends Scene {
     const pv = intentPreview(s, u);
     sfx('declare');
     void (async () => { await tweens.to(a.intentBox.scale, { x: 1.3, y: 1.3 }, 120); await tweens.to(a.intentBox.scale, { x: 1, y: 1 }, 200); })();
-    const txt = `【${u.name}】${mv?.name ?? ''}${tgt ? ` → ${tgt.name}` : ''}${pv?.damage !== undefined ? ` · ${pv.damage}${(pv.hits ?? 1) > 1 ? `×${pv.hits}` : ''} 伤害` : ''}`;
+    const txt = `【${u.name}】${mv ? moveName(u, mv) : ''}${tgt ? ` → ${tgt.name}` : ''}${pv?.damage !== undefined ? ` · ${pv.damage}${(pv.hits ?? 1) > 1 ? `×${pv.hits}` : ''} 伤害` : ''}`;
     this.addLog(txt);
     this.declareBanner(txt);
     if (tgt) { const tv = this.units.get(tgt.uid); tv?.setHighlight('danger'); }
@@ -1319,12 +1340,15 @@ export class CombatScene extends Scene {
       sfx('bossIntro');
       const ov = new Container();
       ov.addChild(screenDim(0.8));
-      const tex = assets.get(K.enemy(boss.def, true));
+      const tex = assets.get(K.enemyArt(boss.def));
       if (tex) { const sp = new Sprite(tex); sp.anchor.set(0.5, 1); sp.scale.set(Math.min(900 / tex.height, 1)); sp.position.set(1300, 1040); sp.alpha = 0; ov.addChild(sp); void tweens.to(sp, { alpha: 1, x: 1250 }, 700); }
       const nm = title(def.name, 110);
       nm.anchor.set(0.5); nm.position.set(620, 420);
       // a boss can greet you differently if an earlier event set a flag (lore/epilogues.json bossIntro)
-      const alt = (epilogues as { bossIntro: { enemy: string; flag: string; text: string }[] }).bossIntro.find((b) => b.enemy === def.id && session.run?.flags.includes(b.flag));
+      // … or recognise the commander in front of it (首领认人)
+      const run = session.run;
+      const alt = (epilogues as { bossIntro: { enemy: string; flag?: string; commander?: string; text: string }[] }).bossIntro
+        .find((b) => b.enemy === def.id && (!b.flag || !!run?.flags.includes(b.flag)) && (!b.commander || b.commander === run?.commander));
       const line = new Text({ text: alt?.text ?? def.dialogue?.intro ?? '', style: { fontFamily: FONT_BODY, fontSize: fs(30), fill: C.text, wordWrap: true, wordWrapWidth: 900, lineHeight: 46, stroke: { color: 0, width: 4 }, breakWords: true } });
       line.anchor.set(0.5, 0); line.position.set(620, 540);
       ov.addChild(nm, line);
@@ -1336,7 +1360,8 @@ export class CombatScene extends Scene {
       await tweens.to(ov, { alpha: 0 }, 400);
       ov.destroy({ children: true });
     } else {
-      await this.turnBanner(enc?.tier === 'elite' ? '精 英 来 袭' : '遭 遇 敌 人', enc?.tier === 'elite' ? 0xff7a5a : 0xffd27a);
+      const fated = session.run?.screen.k === 'combat' && session.run.screen.fated;
+      await this.turnBanner(fated ? '命 劫 临 身' : enc?.tier === 'elite' ? '精 英 来 袭' : '遭 遇 敌 人', fated ? 0xff4a3a : enc?.tier === 'elite' ? 0xff7a5a : 0xffd27a);
     }
     if (session.run?.tutorial && session.settings.tutorialHints) this.tutorialHints();
     // one-time tips for systems met after the tutorial: 破甲 at the first boss, weapons when the commander has none

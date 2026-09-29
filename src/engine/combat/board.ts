@@ -155,6 +155,7 @@ export function allModifiers(s: CombatState): ModSrc[] {
       if (u.silenced) continue;
       if (u.origin === 'enemy') {
         for (const m of c.enemy(u.def).modifiers ?? []) out.push({ mod: m, ownerSide: side, owner: u });
+        for (const a of u.affixes ?? []) for (const m of c.affixes.get(a)?.modifiers ?? []) out.push({ mod: m, ownerSide: side, owner: u });
       } else if (u.origin === 'card' || u.origin === 'token') {
         const ud = c.card(u.def, u.up).unit;
         for (const m of ud?.modifiers ?? []) out.push({ mod: m, ownerSide: side, owner: u });

@@ -5,9 +5,11 @@
 import path from 'node:path';
 import { z } from 'zod';
 import { readBundle } from './load-content';
-import { zBlessing, zCard, zCommander, zEnemy, zEncounter, zEvent, zLieutenant, zPotion, zRelic } from '../src/engine/schema';
+import { zAffix, zBlessing, zCard, zCommander, zEnemy, zEncounter, zEvent, zLieutenant, zPotion, zRelic } from '../src/engine/schema';
 import { TERM_NAMES } from '../src/engine/glossary';
 import type { Effect, RunEffect, Trigger, JudgeBranches } from '../src/engine/defs';
+// scripts registered in src/engine/combat/enemycast.ts and bossScripts.ts
+const BOSS_SCRIPTS = ['bossCast', 'rubRecord', 'rubCast', 'paperWard', 'devour', 'spit', 'bellyHit', 'ringTurn', 'lockTop', 'bellHit', 'memReset', 'sealRelic', 'unsealAll', 'steal', 'returnLoot', 'flee', 'say'];
 
 const errors: string[] = [];
 const warn: string[] = [];
@@ -27,6 +29,7 @@ for (const [file, data] of Object.entries(files)) {
   else if (p.endsWith('/potions.json')) schema = zPotion;
   else if (p.includes('/events')) schema = zEvent;
   else if (p.endsWith('/blessings.json')) schema = zBlessing;
+  else if (p.endsWith('/affixes.json')) schema = zAffix;
   else if (p.endsWith('/changelog.json')) continue; // checked by scripts/changelog.ts
   if (!schema) { warn.push(`unrecognised data file ${path.basename(file)}`); continue; }
   if (!Array.isArray(data)) { errors.push(`${file}: top level must be an array`); continue; }
@@ -83,7 +86,7 @@ function walkEffects(where: string, effs: Effect[] | undefined, vars: Record<str
       case 'counter': walkEffects(where, e.then, vars, allowVars); break;
       case 'judge': walkBranches(where, e.branches, vars, allowVars); break;
       case 'discard': case 'exhaustCards': walkEffects(where, e.each, vars, allowVars); break;
-      case 'script': if (!['bossCast'].includes(e.id)) warn.push(`${where}: script ${e.id} must be registered in code`); break;
+      case 'script': if (!BOSS_SCRIPTS.includes(e.id)) warn.push(`${where}: script ${e.id} must be registered in code`); break;
     }
   }
 }

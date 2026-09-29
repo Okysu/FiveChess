@@ -171,7 +171,8 @@ function unitTriggers(u: Unit): Trigger[] | undefined {
   const c = content();
   if (u.origin === 'enemy') {
     const e = c.enemy(u.def);
-    return e.passives;
+    if (!u.affixes?.length) return e.passives;
+    return [...(e.passives ?? []), ...u.affixes.flatMap((a) => c.affixes.get(a)?.passives ?? [])];
   }
   if (u.origin === 'card' || u.origin === 'token') return c.card(u.def, u.up).unit?.triggers;
   return undefined;
@@ -459,7 +460,7 @@ function middleFirst(slots: number[], size: number) {
   return [...slots].sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid) || a - b)[0]!;
 }
 
-function removeFromBoard(s: CombatState, u: Unit) {
+export function removeFromBoard(s: CombatState, u: Unit) {
   const sd = s.sides[u.side];
   if (u.row === 'front' && sd.front[u.slot] === u.uid) sd.front[u.slot] = null;
   if (u.row === 'back' && sd.back[u.slot] === u.uid) sd.back[u.slot] = null;
@@ -1571,9 +1572,14 @@ function stepPhase(s: CombatState, name: import('./state').PhaseName) {
     }
     case 'enemyTurnEnd': {
       s.tasks.push({ k: 'phase', name: 'playerTurnStart' });
+      // intents are rolled after the turn-end triggers resolve (浑天仪 turns its rings first)
+      s.tasks.push({ k: 'phase', name: 'enemyIntents' });
       endOfTurn(s, 'enemy');
       for (const src of s.sources) src.ready = false;
       for (const c of [...s.hand]) if (c.held) { c.held = undefined; discardCard(s, c, true); }
+      return;
+    }
+    case 'enemyIntents': {
       for (const u of unitsOf(s, 'enemy', true)) rollIntent(s, u);
       return;
     }

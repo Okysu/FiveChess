@@ -30,7 +30,7 @@ export type PickKind = 'remove' | 'upgrade' | 'transform' | 'duplicate';
 
 export type Screen =
   | { k: 'map' }
-  | { k: 'combat'; encounter: string; tier: 'normal' | 'elite' | 'boss'; seed: string; reward: 'normal' | 'elite' | 'boss' | 'none'; tutorial?: 'response' | 'judge' }
+  | { k: 'combat'; encounter: string; tier: 'normal' | 'elite' | 'boss'; seed: string; reward: 'normal' | 'elite' | 'boss' | 'none'; tutorial?: 'response' | 'judge'; affixes?: string[]; fated?: boolean }
   | { k: 'reward'; items: RewardItem[]; elite?: boolean }
   | { k: 'bossRelic'; options: string[] }
   | { k: 'shop'; shop: ShopState }
@@ -216,7 +216,17 @@ export function combatConfig(r: RunState): CombatConfig {
     deck: r.deck.map((d) => ({ id: d.id, up: d.up })), relics: r.relics.map((x) => ({ ...x })), potions: [...r.potions],
     fateDeck: r.fateDeck.map((f) => ({ ...f })), encounter: sc.encounter, ascension: r.ascension, seed: sc.seed,
     emberCapBonus: r.emberCapBonus, extraStartSources: [...r.extraStartSources], altSkill: !!r.altSkill,
+    affixes: sc.affixes ? [...sc.affixes] : undefined,
   };
+}
+
+/** 精英词缀 for an elite node: none in act 1, one from act 2, two on a 命劫 node (deterministic per node) */
+export function nodeAffixes(r: RunState, n: MapNode): string[] {
+  if (n.type !== 'elite') return [];
+  const count = n.fated ? 2 : r.act >= 2 ? 1 : 0;
+  if (!count) return [];
+  const all = [...content().affixes.keys()].sort();
+  return sample(rngFor(r, `affix:${r.act}:${n.row}:${n.col}`), all, count);
 }
 
 function enterCombat(r: RunState, encounter: string, tier: 'normal' | 'elite' | 'boss', reward: 'normal' | 'elite' | 'boss' | 'none') {
@@ -269,7 +279,8 @@ export function applyCombatResult(r: RunState, a: Extract<RunAction, { t: 'comba
   if (a.result === 'win' && a.hp >= r.hp) { st.flawless = (st.flawless ?? 0) + 1; if (sc.tier === 'boss') st.flawlessBoss = (st.flawlessBoss ?? 0) + 1; }
   r.hp = Math.max(0, a.hp);
   r.potions = [...a.potions];
-  r.relics = a.relics.map((x) => ({ ...x }));
+  // a relic sealed in the fight (无面书吏) is never sealed outside it
+  r.relics = a.relics.map(({ disabled: _sealed, ...x }) => ({ ...x }));
   for (const e of a.enemies) if (!r.discovered.enemies.includes(e)) r.discovered.enemies.push(e);
   if (a.result === 'lose' || r.hp <= 0) {
     // the hidden boss is an optional epilogue after a completed run: falling there still counts as a win
@@ -281,6 +292,11 @@ export function applyCombatResult(r: RunState, a: Extract<RunAction, { t: 'comba
   }
   r.stats.combats++;
   if (sc.tier === 'elite') r.stats.elites++;
+  // 命书残页: every boss beaten this run (its base id — 迷途执命者's shadows count as it)
+  if (sc.tier === 'boss') {
+    const bossId = content().encounters.get(sc.encounter)?.enemies.map((e) => content().enemies.get(e.id)).find((e) => e?.tier === 'boss')?.id;
+    if (bossId && !r.flags.includes(`beat:${bossId}`)) r.flags.push(`beat:${bossId}`);
+  }
   if (sc.tutorial === 'response') r.flags.push('tut_response');
   let gold = a.gold;
   const items: RewardItem[] = [];
@@ -289,14 +305,20 @@ export function applyCombatResult(r: RunState, a: Extract<RunAction, { t: 'comba
     const base = sc.reward === 'boss' ? randInt(rng, 95, 105) : sc.reward === 'elite' ? randInt(rng, 25, 35) : randInt(rng, 10, 20);
     gold += base;
   }
+  // 精英词缀: every affix the elite carried pays 25 more
+  gold += 25 * (sc.affixes?.length ?? 0);
   const bonus = hasRule(r, 'goldBonus').reduce((s, x) => s + (x.pct ?? 0), 0);
   gold = Math.round(gold * (1 + bonus / 100));
   if (gold > 0) items.push({ k: 'gold', n: gold });
+  // an enemy made off with more than the fight paid (偷命贼): the difference comes out of your purse
+  else if (gold < 0) r.gold = Math.max(0, r.gold + gold);
   if (sc.reward !== 'none') {
     items.push({ k: 'cards', options: rollCardReward(r, rng, sc.reward) });
     if (sc.reward === 'elite') {
       items.push({ k: 'relic', id: rollRelic(r, rng, rollRelicTier(rng)) });
       if (hasRule(r, 'eliteRelicExtra').length) items.push({ k: 'relic', id: rollRelic(r, rng, rollRelicTier(rng)) });
+      // 命劫: a boss relic on top
+      if (sc.fated) items.push({ k: 'relic', id: rollRelic(r, rng, 'boss') });
     }
     if (randInt(rng, 1, 100) <= r.potionChance) { const p = rollPotion(r, rng); if (p) items.push({ k: 'potion', id: p }); r.potionChance = Math.max(10, r.potionChance - 10); }
     else r.potionChance = Math.min(90, r.potionChance + 10);
@@ -629,7 +651,14 @@ function enterNode(r: RunState, n: MapNode) {
   const detail: string[] = [];
   switch (n.type) {
     case 'combat': { const e = pickEncounter(r, n, 'normal'); detail.push(e); enterCombat(r, e, 'normal', 'normal'); break; }
-    case 'elite': { const e = pickEncounter(r, n, 'elite'); detail.push(e); enterCombat(r, e, 'elite', 'elite'); break; }
+    case 'elite': {
+      const e = pickEncounter(r, n, 'elite');
+      detail.push(e);
+      enterCombat(r, e, 'elite', 'elite');
+      const affixes = nodeAffixes(r, n);
+      if (r.screen.k === 'combat' && (affixes.length || n.fated)) Object.assign(r.screen, { affixes, fated: !!n.fated || undefined });
+      break;
+    }
     case 'boss': { const e = r.bosses[r.act]!; detail.push(e); enterCombat(r, e, 'boss', 'boss'); break; }
     case 'event': {
       const ev = pickEvent(r, n);

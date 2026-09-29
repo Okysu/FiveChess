@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-27T02:16:05.935Z",
+ "generated": "2026-09-29T08:17:53.263Z",
  "assets": [
   {
    "id": "amb_fire",
@@ -2109,6 +2109,32 @@
    "qa": "ok"
   },
   {
+   "id": "e1_boss_paper_king",
+   "path": "bosses/e1_boss_paper_king.webp",
+   "category": "boss",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet boss/1#mumee0zq-0 cell 2] a portly funeral king made entirely of painted paper and bamboo ribs, wearing a paper crown and robes of joss paper, paper coins swirling around him, a red-dotted grin",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤1100px, webp",
+   "hash": "b25575c7e269",
+   "qa": "ok"
+  },
+  {
+   "id": "e1_boss_rubbing_ghost",
+   "path": "bosses/e1_boss_rubbing_ghost.webp",
+   "category": "boss",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet boss/1#mumee0zq-0 cell 1] a gaunt ghost whose body is layered rice-paper rubbings of stone inscriptions, reversed carved characters all over it, holding a huge round ink pad and a rubbing brush, standing before a toppled stele",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤1100px, webp",
+   "hash": "85893ffe11a2",
+   "qa": "ok"
+  },
+  {
    "id": "e1_boss_rust_general",
    "path": "bosses/e1_boss_rust_general.webp",
    "category": "boss",
@@ -2122,6 +2148,19 @@
    "qa": "ok"
   },
   {
+   "id": "e2_boss_chancellor",
+   "path": "bosses/e2_boss_chancellor.webp",
+   "category": "boss",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet boss/2#mumee0zq-1 cell 1] a drowned prime minister in soaked crimson court robes and a winged official hat, holding an unrolled imperial edict and a vermilion brush, water dripping from his long sleeves, sunken palace hall",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤1100px, webp",
+   "hash": "f301455b8ed4",
+   "qa": "ok"
+  },
+  {
    "id": "e2_boss_drowned_king",
    "path": "bosses/e2_boss_drowned_king.webp",
    "category": "boss",
@@ -2132,6 +2171,19 @@
    "reference": "art-src/style_refs/wb_enemy.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤1100px, webp",
    "hash": "d06df56024ac",
+   "qa": "ok"
+  },
+  {
+   "id": "e2_boss_lost_seeker",
+   "path": "bosses/e2_boss_lost_seeker.webp",
+   "category": "boss",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet boss/2#mumee0zq-1 cell 2] a hooded wanderer whose face is an empty page, cloak made of torn fate-book pages, holding a lantern with a guttering flame in a flooded alley",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤1100px, webp",
+   "hash": "f8fcf97d11fc",
    "qa": "ok"
   },
   {
@@ -2158,6 +2210,58 @@
    "reference": "art-src/style_refs/wb_enemy.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤1100px, webp",
    "hash": "9360f9d58925",
+   "qa": "ok"
+  },
+  {
+   "id": "e3_boss_armillary_p2",
+   "path": "bosses/e3_boss_armillary_p2.webp",
+   "category": "boss",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet boss/3#mumee0zq-3 cell 1] a shattered bronze armillary sphere whose core blazes like a small star, broken rings orbiting erratically, one golden sun ring reforming, star-lit hall",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤1100px, webp",
+   "hash": "aa663bcebf11",
+   "qa": "ok"
+  },
+  {
+   "id": "e3_boss_armillary",
+   "path": "bosses/e3_boss_armillary.webp",
+   "category": "boss",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet boss/3#mumee0zq-2 cell 3] a towering bronze armillary sphere construct with three great concentric rings of sun, moon and stars orbiting a glowing core, star charts etched on every ring, star-lit observatory hall",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤1100px, webp",
+   "hash": "89cfce8c5a71",
+   "qa": "ok"
+  },
+  {
+   "id": "e3_boss_bookworm_p2",
+   "path": "bosses/e3_boss_bookworm_p2.webp",
+   "category": "boss",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet boss/3#mumee0zq-2 cell 2] a colossal silverfish king swollen to bursting, its segmented belly translucent and stuffed with half-digested scrolls and cards, maw gaping wide, paper shreds raining in a star-lit library",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤1100px, webp",
+   "hash": "b0d15dffffa9",
+   "qa": "ok"
+  },
+  {
+   "id": "e3_boss_bookworm",
+   "path": "bosses/e3_boss_bookworm.webp",
+   "category": "boss",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet boss/3#mumee0zq-2 cell 1] a colossal silver-scaled silverfish king coiled around towering bookshelves, long antennae and many legs, chewed scrolls hanging from its mandibles, star-lit library",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤1100px, webp",
+   "hash": "c98a8a2a742b",
    "qa": "ok"
   },
   {
@@ -4823,6 +4927,58 @@
    "reference": "art-src/style_refs/wb_card.png",
    "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
    "hash": "8fc3430a3196",
+   "qa": "ok"
+  },
+  {
+   "id": "ec_edict_diligent",
+   "path": "cards/N/ec_edict_diligent.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/N#mumee0zq-7 cell 3] an imperial yellow edict scroll beside a burning incense stick and a court water clock, ghostly officials bowing in rows",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "feaabd93b775",
+   "qa": "ok"
+  },
+  {
+   "id": "ec_edict_offer",
+   "path": "cards/N/ec_edict_offer.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/N#mumee0zq-7 cell 1] an imperial yellow edict scroll unrolled over a bronze sacrificial altar, a red seal stamped across the altar, sunken palace hall",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "afd2c3306269",
+   "qa": "ok"
+  },
+  {
+   "id": "ec_edict_three",
+   "path": "cards/N/ec_edict_three.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/N#mumee0zq-7 cell 2] an imperial yellow edict scroll with three vermilion strokes, three playing cards pinned under a jade paperweight, drowned throne room",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "ae82e6982b20",
+   "qa": "ok"
+  },
+  {
+   "id": "ec_edict_units",
+   "path": "cards/N/ec_edict_units.webp",
+   "category": "card",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet card/N#mumee0zq-7 cell 4] an imperial yellow edict scroll nailed to a palace gate, spears and halberds laid down in a heap before it, water flowing over the steps",
+   "reference": "art-src/style_refs/wb_card.png",
+   "postprocess": "sprite sheet slice (gutter detection), resized≤640px, webp",
+   "hash": "ed6eb8b2e31e",
    "qa": "ok"
   },
   {
@@ -7648,6 +7804,32 @@
    "qa": "ok"
   },
   {
+   "id": "e1_hound_left",
+   "path": "enemies/e1_hound_left.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet enemy/1#mumee0zq-4 cell 3] the left head and shoulders of a huge two-headed black tomb hound, snarling with bared fangs, iron chain collar, tomb lanterns behind",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
+   "hash": "ba40d8b5ad0a",
+   "qa": "ok"
+  },
+  {
+   "id": "e1_hound_right",
+   "path": "enemies/e1_hound_right.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet enemy/1#mumee0zq-4 cell 4] the right head and shoulders of a huge two-headed black tomb hound, lunging with glowing eyes and slavering jaws, iron chain collar, grave mist",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
+   "hash": "ca151e956d7d",
+   "qa": "ok"
+  },
+  {
    "id": "e1_incense_ghost",
    "path": "enemies/e1_incense_ghost.webp",
    "category": "enemy",
@@ -7671,6 +7853,19 @@
    "reference": "art-src/style_refs/wb_enemy.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
    "hash": "141f4c2faee0",
+   "qa": "ok"
+  },
+  {
+   "id": "e1_life_thief",
+   "path": "enemies/e1_life_thief.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet enemy/1#mumee0zq-4 cell 2] a wiry grinning thief in patched black clothes with a bulging coin sack over his shoulder, crouched on a gravestone, one hand already reaching toward the viewer",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
+   "hash": "52b25d9d5930",
    "qa": "ok"
   },
   {
@@ -7827,6 +8022,19 @@
    "reference": "art-src/style_refs/wb_enemy.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
    "hash": "37a867d3154b",
+   "qa": "ok"
+  },
+  {
+   "id": "e1m_paper_guard",
+   "path": "enemies/e1m_paper_guard.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet enemy/1#mumee0zq-4 cell 1] a paper effigy house servant holding a paper spear, painted rosy cheeks and a blank stare, bamboo frame showing through torn paper",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
+   "hash": "19530dd9723a",
    "qa": "ok"
   },
   {
@@ -7999,6 +8207,19 @@
    "qa": "ok"
   },
   {
+   "id": "e2_iron_warden",
+   "path": "enemies/e2_iron_warden.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet enemy/2#mumee0zq-5 cell 1] a hulking drowned jailer wrapped in rusted iron chains, a ring of huge corroded keys at his belt, dragging a chain through knee-deep water in a flooded dungeon",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
+   "hash": "77a0138332b3",
+   "qa": "ok"
+  },
+  {
    "id": "e2_lantern_fish",
    "path": "enemies/e2_lantern_fish.webp",
    "category": "enemy",
@@ -8048,6 +8269,19 @@
    "reference": "art-src/style_refs/wb_enemy.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
    "hash": "c00a94f4ee6a",
+   "qa": "ok"
+  },
+  {
+   "id": "e2_sunken_bell",
+   "path": "enemies/e2_sunken_bell.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet enemy/2#mumee0zq-5 cell 2] a giant cracked bronze temple bell covered in barnacles and water weeds, hanging from a broken beam under dark water, ghostly sound ripples spreading from it",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
+   "hash": "eec5feeb9b2d",
    "qa": "ok"
   },
   {
@@ -8298,6 +8532,19 @@
    "qa": "ok"
   },
   {
+   "id": "e3_faceless_scribe",
+   "path": "enemies/e3_faceless_scribe.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet enemy/3#mumee0zq-6 cell 4] a tall faceless scribe in grey official robes whose face is a blank sheet of paper, holding a dripping brush and an eraser-stone, scrolls floating around, star-lit archive",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
+   "hash": "0f640d353d02",
+   "qa": "ok"
+  },
+  {
    "id": "e3_fallen_lamp",
    "path": "enemies/e3_fallen_lamp.webp",
    "category": "enemy",
@@ -8493,6 +8740,19 @@
    "qa": "ok"
   },
   {
+   "id": "e3_star_envoy",
+   "path": "enemies/e3_star_envoy.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "Full body: a serene star envoy in flowing midnight-blue robes holding a long pole lantern, seven stars of the Big Dipper glowing above one by one, standing on an observatory terrace Setting: a celestial star palace library, patterned star clouds, fallen stars as lamps; night blue and ochre gold with black. Single subject isolated on a fully transparent background, the whole figure visible and not cropped, no ground, no background scenery. Made as a Chinese woodblock print in the traditional New Year print (nianhua) style: bold carved black outlines of even weight, flat saturated mineral colors (vermilion, malachite green, azurite blue, ochre, lamp black, paper white), visible rice-paper grain, slight color misregistration between print layers, decorative flat composition with patterned clouds, flames and waves, no shading gradients, no airbrush, no 3D rendering, no photorealism, no Western fantasy armor or architecture — Chinese costume and motifs only. Absolutely no text, no letters, no numbers, no calligraphy, no seals, no watermark, no signature.",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "trimmed, resized≤640px, webp",
+   "hash": "6a05949b2b07",
+   "qa": "ok"
+  },
+  {
    "id": "e3_star_judge",
    "path": "enemies/e3_star_judge.webp",
    "category": "enemy",
@@ -8568,6 +8828,45 @@
    "reference": "art-src/style_refs/wb_enemy.png",
    "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
    "hash": "72336880b18f",
+   "qa": "ok"
+  },
+  {
+   "id": "e3m_ring_moon",
+   "path": "enemies/e3m_ring_moon.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet enemy/3#mumee0zq-6 cell 2] a great bronze ring engraved with a moon rabbit and phases of the moon, spinning slowly with cold silver light",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
+   "hash": "788f048a90b5",
+   "qa": "ok"
+  },
+  {
+   "id": "e3m_ring_star",
+   "path": "enemies/e3m_ring_star.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet enemy/3#mumee0zq-6 cell 3] a great bronze ring studded with the twenty-eight lunar mansions as glowing gems, spinning fast and shedding sparks",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
+   "hash": "ae5f1b4d05b4",
+   "qa": "ok"
+  },
+  {
+   "id": "e3m_ring_sun",
+   "path": "enemies/e3m_ring_sun.webp",
+   "category": "enemy",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet enemy/3#mumee0zq-6 cell 1] a great bronze ring engraved with a blazing three-legged sun crow, spinning on its axis and radiating heat",
+   "reference": "art-src/style_refs/wb_enemy.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤640px, webp",
+   "hash": "7ad41a781a8c",
    "qa": "ok"
   },
   {
@@ -10174,6 +10473,19 @@
    "reference": "art-src/style_refs/ref_icon.png",
    "postprocess": "trimmed, resized≤192px, webp",
    "hash": "48cf76c7a5c8",
+   "qa": "ok"
+  },
+  {
+   "id": "node_fated",
+   "path": "ui/icons/node_fated.webp",
+   "category": "icon",
+   "source_type": "ai_generated",
+   "source": "gpt-image-2 via hjmai.yby.zone (project key)",
+   "license": "Generated for this project; no third-party material",
+   "prompt": "[sprite sheet icon/-#mumee0zq-8 cell 1] round medallion, symbol: a cracked red fate talisman wrapped around a horned demon mask, with a jagged lightning crack through it in blood red",
+   "reference": "art-src/style_refs/ref_icon.png",
+   "postprocess": "sprite sheet slice (alpha components), resized≤192px, webp",
+   "hash": "d0c7df7cb36b",
    "qa": "ok"
   },
   {

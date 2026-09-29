@@ -553,5 +553,79 @@
         "row": "commander"
       }
     ]
+  },
+  {
+    "id": "enc1_boss_rubbing_ghost",
+    "act": 1,
+    "tier": "boss",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_boss_rubbing_ghost",
+        "row": "commander"
+      }
+    ]
+  },
+  {
+    "id": "enc1_boss_paper_king",
+    "act": 1,
+    "tier": "boss",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_boss_paper_king",
+        "row": "commander"
+      },
+      {
+        "id": "e1m_paper_guard",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1m_paper_guard",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc1_elite_life_thief",
+    "act": 1,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_life_thief",
+        "row": "commander"
+      },
+      {
+        "id": "e1_grave_robber",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_wild_dog",
+        "row": "front",
+        "slot": 2
+      }
+    ]
+  },
+  {
+    "id": "enc1_elite_twin_hound",
+    "act": 1,
+    "tier": "elite",
+    "weight": 1,
+    "enemies": [
+      {
+        "id": "e1_hound_left",
+        "row": "front",
+        "slot": 1
+      },
+      {
+        "id": "e1_hound_right",
+        "row": "front",
+        "slot": 2
+      }
+    ]
   }
 ]

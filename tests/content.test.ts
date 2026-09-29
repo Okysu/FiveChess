@@ -120,7 +120,9 @@ describe.skipIf(!hasContent)('encounters run', () => {
         fateDeck: fate, encounter: en.id, ascension: 15, seed: `enc:${en.id}`,
       });
       for (let t = 0; t < 6 && !s.over; t++) drive(s, { type: 'endTurn' });
-      expect(s.over).not.toBe('win');
+      // an enemy that flees (偷命贼) ends the fight on its own — the player keeps the win but loses the loot
+      const flees = en.enemies.some((x) => Object.values(c.enemy(x.id).moves).some((m) => m.intent.includes('escape')));
+      if (!flees) expect(s.over).not.toBe('win');
     });
   }
 });

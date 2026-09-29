@@ -1,5 +1,5 @@
 import type {
-  BlessingDef, CardDef, CommanderDef, EncounterDef, EnemyDef, EventDef, LieutenantDef, PotionDef, RelicDef, CardFilter, Color,
+  AffixDef, BlessingDef, CardDef, CommanderDef, EncounterDef, EnemyDef, EventDef, LieutenantDef, PotionDef, RelicDef, CardFilter, Color,
 } from './defs';
 
 export interface ContentBundle {
@@ -12,6 +12,7 @@ export interface ContentBundle {
   potions: PotionDef[];
   events: EventDef[];
   blessings: BlessingDef[];
+  affixes?: AffixDef[];
 }
 
 export class Content {
@@ -24,6 +25,7 @@ export class Content {
   readonly potions = new Map<string, PotionDef>();
   readonly events = new Map<string, EventDef>();
   readonly blessings = new Map<string, BlessingDef>();
+  readonly affixes = new Map<string, AffixDef>();
   private upCache = new Map<string, CardDef>();
 
   constructor(b: ContentBundle) {
@@ -36,6 +38,7 @@ export class Content {
     for (const c of b.potions) this.potions.set(c.id, c);
     for (const c of b.events) this.events.set(c.id, c);
     for (const c of b.blessings ?? []) this.blessings.set(c.id, c);
+    for (const c of b.affixes ?? []) this.affixes.set(c.id, c);
   }
 
   card(id: string, up = false): CardDef {
