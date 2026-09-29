@@ -11,6 +11,7 @@ import { runScore } from '../../engine/meta';
 import { Button, Modal, title } from '../ui/widgets';
 import { ScrollBox } from '../ui/scroll';
 import { hintOnce } from '../ui/hints';
+import { fitText } from '../ui/textwrap';
 import { C, FONT_BODY, FONT_TITLE } from '../ui/theme';
 import { tweens } from '../core/tween';
 import { audio, sfx } from '../audio/audio';
@@ -27,6 +28,7 @@ export class RunEndScene extends Scene {
     const r = session.run!;
     const sc = r.screen;
     if (sc.k === 'hiddenChoice') { await this.hidden(); return; }
+    if (sc.k === 'finalChoice') { await this.finalPage(); return; }
     const win = sc.k === 'victory';
     await assets.load(K.bg(win ? 'victory' : 'defeat'));
     G.setBackdrop(assets.get(K.bg(win ? 'victory' : 'defeat')));
@@ -42,15 +44,26 @@ export class RunEndScene extends Scene {
     const lore = intro as { victory: string; defeat: string[] };
     // story choices made during the run (event flags) each add a closing passage
     const epi = win ? (epilogues as { victory: { flag: string; text: string }[] }).victory.filter((e) => r.flags.includes(e.flag)).map((e) => e.text) : [];
-    const body = win ? [lore.victory, cmd.ending, ...epi].join('\n\n') : lore.defeat[r.act % lore.defeat.length] ?? '';
+    // 主帅命途: the last choice of the commander's story adds its own paragraph to the ending
+    const paths = (epilogues as { paths?: Record<string, { a: string; b: string }> }).paths?.[cmd.id];
+    const pathText = paths ? (r.flags.includes(`path_${cmd.id}_a`) ? paths.a : r.flags.includes(`path_${cmd.id}_b`) ? paths.b : '') : '';
+    const body = win ? [lore.victory, cmd.ending, pathText, ...epi].filter(Boolean).join('\n\n') : lore.defeat[r.act % lore.defeat.length] ?? '';
     const panel = uiPanel(1100, 480, 'dark');
     panel.position.set(410, 280);
     this.addChild(panel);
     const bt = new Text({ text: body, style: { fontFamily: FONT_BODY, fontSize: fs(24), fill: C.text, wordWrap: true, wordWrapWidth: 1100 - INSET.dark.x * 2, lineHeight: 40, breakWords: true } });
-    bt.position.set(410 + INSET.dark.x, 280 + INSET.dark.y);
     const maxH = 480 - INSET.dark.y * 2;
-    if (bt.height > maxH) bt.scale.set(maxH / bt.height);
-    this.addChild(bt);
+    if (bt.height > maxH) {
+      // a long ending (commander ending + 命途 + story passages) scrolls instead of shrinking to nothing on phones
+      const box = new ScrollBox(1100 - INSET.dark.x * 2, maxH);
+      box.position.set(410 + INSET.dark.x, 280 + INSET.dark.y);
+      box.content.addChild(bt);
+      box.refresh();
+      this.addChild(box);
+    } else {
+      bt.position.set(410 + INSET.dark.x, 280 + INSET.dark.y);
+      this.addChild(bt);
+    }
     const stats = `${cmd.name} · 逆命 ${r.ascension} · 第${r.act}幕 第${r.floor}层 · 精英 ${r.stats.elites} · 首领 ${r.stats.bosses} · 最高单场伤害 ${r.stats.maxDamage} · 命数 +${runScore(r)}`;
     const st = new Text({ text: stats, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(24), fill: C.goldLight, stroke: { color: 0, width: 4 } } });
     st.anchor.set(0.5); st.position.set(960, 800);
@@ -97,6 +110,26 @@ export class RunEndScene extends Scene {
 
   /** first 精通 level-up: explain what 精通 gives */
   override shown() { if (session.lastUnlocks.some((u) => / 精通 \d/.test(u))) hintOnce('mastery'); }
+
+  /** 真结局: the last line of the book — close it, or leave it open */
+  private async finalPage() {
+    await assets.load(K.bg('battle_4'));
+    G.setBackdrop(assets.get(K.bg('battle_4')));
+    audio.playMusic('map4');
+    this.addChild(dim(G.view.width, G.view.height, 0.7, G.view.left, G.view.top));
+    const t = title('最 后 一 页', 90);
+    t.anchor.set(0.5); t.position.set(960, 220);
+    const text = '司命把笔放进你手里，翻到命书的最后一页。页上只有一行字，是三百年前被抄错的那一句：「此书未终」。那个“未”字的墨，到今天还没有干。\n\n你拼回了十五页残卷，知道了那一夜的全部：王的一问，宰辅的一道矫诏，一场不在军令里的火，和一个抄书吏手抖写下的错字。\n\n你可以把它改回原样——命书合上，众生的命数重新写定，命阙随之崩塌，执命者也将从书中消失；也可以让这个字，就这样错下去。';
+    const body = new Text({ text, style: { fontFamily: FONT_BODY, fontSize: fs(26), fill: C.text, wordWrap: true, wordWrapWidth: 1200, align: 'left', lineHeight: Math.round(fs(26) * 1.6), breakWords: true } });
+    fitText(body, 700 - 330);
+    body.anchor.set(0.5, 0); body.position.set(960, 320);
+    this.addChild(t, body);
+    const a = new Button('写下「此书终」', { width: 360, height: 84, fontSize: fs(30), onClick: () => void act({ t: 'final', close: true }) });
+    a.position.set(560, 800);
+    const b = new Button('留下「此书未终」', { width: 360, height: 84, fontSize: fs(30), kind: 'primary', onClick: () => void act({ t: 'final', close: false }) });
+    b.position.set(1000, 800);
+    this.addChild(a, b);
+  }
 
   private async hidden() {
     await assets.load(K.bg('battle_4'));

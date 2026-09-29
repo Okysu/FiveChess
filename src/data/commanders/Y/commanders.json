@@ -252,7 +252,7 @@
     "name": "卫朔",
     "title": "历官",
     "faction": "Y",
-    "hp": 78,
+    "hp": 70,
     "sources": [
       "Y",
       "Y",
@@ -276,27 +276,17 @@
         "id": "sk_y_weishuo_1",
         "name": "历法",
         "type": "passive",
-        "text": "每当一次判定结果为{sun}{thunder}阳纹，获得3点[护甲]；为{moon}{mountain}阴纹，对随机敌人造成3点伤害。",
+        "text": "每回合第一次判定结果为{sun}{thunder}阳纹时，获得3点[护甲]。",
         "triggers": [
           {
             "on": "judged",
             "suit": "yang",
+            "limit": "turn",
             "effects": [
               {
                 "op": "armor",
                 "amount": 3,
                 "target": "commander"
-              }
-            ]
-          },
-          {
-            "on": "judged",
-            "suit": "yin",
-            "effects": [
-              {
-                "op": "damage",
-                "amount": 3,
-                "target": "randomEnemy"
               }
             ]
           }
@@ -306,7 +296,7 @@
         "id": "sk_y_weishuo_2",
         "name": "颁历",
         "type": "active",
-        "text": "每回合一次，支付1枚[源]：[判定]：{sun}日纹，造成8点伤害；{thunder}雷纹，对所有敌人造成3点伤害；{moon}月纹，恢复6点生命；{mountain}山纹，获得8点[护甲]。",
+        "text": "每回合一次，支付1枚[源]：[判定]：{sun}日纹，造成5点伤害；{thunder}雷纹，对所有敌人造成2点伤害；{moon}月纹，恢复2点生命；{mountain}山纹，获得3点[护甲]。",
         "cost": {
           "g": 1
         },
@@ -318,28 +308,28 @@
               "sun": [
                 {
                   "op": "damage",
-                  "amount": 8,
+                  "amount": 5,
                   "target": "target"
                 }
               ],
               "thunder": [
                 {
                   "op": "damage",
-                  "amount": 3,
+                  "amount": 2,
                   "target": "allEnemies"
                 }
               ],
               "moon": [
                 {
                   "op": "heal",
-                  "amount": 6,
+                  "amount": 2,
                   "target": "commander"
                 }
               ],
               "mountain": [
                 {
                   "op": "armor",
-                  "amount": 8,
+                  "amount": 3,
                   "target": "commander"
                 }
               ]

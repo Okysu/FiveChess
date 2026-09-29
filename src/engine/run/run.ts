@@ -45,6 +45,8 @@ export type Screen =
   | { k: 'blessing'; options: string[] }
   | { k: 'victory' }
   | { k: 'hiddenChoice' }
+  /** 真结局: after 司命, with every act 1–3 命书残页 collected */
+  | { k: 'finalChoice' }
   | { k: 'defeat' };
 
 export interface RunOpts {
@@ -54,6 +56,8 @@ export interface RunOpts {
   tutorial?: boolean;
   locked?: { cards?: string[]; relics?: string[]; events?: string[]; lieutenants?: string[] };
   unlockedHidden?: boolean;
+  /** 真结局 available this run (all act 1–3 命书残页 collected before it started) */
+  trueEnding?: boolean;
   /** 开局祈命: the unlocked 命签 and how many to offer (none → the run starts straight away) */
   blessings?: { pool: string[]; count: number };
   /** 精通 loadout: the second starter relic / 「另一面」 instead of the originals */
@@ -95,6 +99,7 @@ export interface RunState {
   nextUid: number;
   locked: NonNullable<RunOpts['locked']>;
   unlockedHidden: boolean;
+  trueEnding?: boolean;
   stats: {
     floors: number; combats: number; elites: number; bosses: number; goldEarned: number; damageTaken: number; cardsPlayed: number; turns: number; maxDamage: number;
     /** 1.0.2 (命途), optional for runs saved by 1.0.1 */
@@ -128,6 +133,7 @@ export type RunAction =
   | { t: 'discardPotion'; slot: number }
   | { t: 'mapPotion'; slot: number }
   | { t: 'hidden'; go: boolean }
+  | { t: 'final'; close: boolean }
   | { t: 'blessing'; i: number | null }
   | { t: 'combatResult'; result: 'win' | 'lose'; hp: number; gold: number; potions: (string | null)[]; relics: RelicState[]; stats: CombatState['stats']; enemies: string[] };
 
@@ -152,13 +158,14 @@ export function newRun(o: RunOpts): RunState {
     fateDeck: fullFateDeck(), act: 1, floor: 0, map: { act: 1, rows: [], boss: null, width: 7, height: 15 }, pos: null, bosses: {},
     screen: { k: 'actStart', act: 1 }, stack: [], pending: [], flags: [], emberCapBonus: 0, extraStartSources: [],
     seenEvents: [], seenRelics: [starter], relicBags: {}, previews: {}, rarityOffset: -5, potionChance: 40, nextUid: 1,
-    locked: o.locked ?? {}, unlockedHidden: !!o.unlockedHidden,
+    locked: o.locked ?? {}, unlockedHidden: !!o.unlockedHidden, trueEnding: !!o.trueEnding,
     stats: { floors: 0, combats: 0, elites: 0, bosses: 0, goldEarned: 0, damageTaken: 0, cardsPlayed: 0, turns: 0, maxDamage: 0 },
     history: [], discovered: { cards: [], enemies: [], relics: [starter] }, log: [], result: null,
     altSkill: !!(o.altSkill && cmd.alt),
   };
   for (const id of cmd.deck) addCardToDeck(r, id, false);
   if (o.ascension >= 10 && c.cards.has('cu_suye')) addCardToDeck(r, 'cu_suye', false);
+  if (o.trueEnding) r.flags.push('true_end_ready');
   if (o.ascension >= 13) for (let i = 0; i < 4; i++) r.fateDeck.push({ suit: 'thunder', rank: 13, omen: true });
   const rel = c.relic(starter);
   if (rel.onPickup) r.pending.push(...rel.onPickup);
@@ -872,6 +879,14 @@ function applyRun(r: RunState, a: RunAction): string | null {
       r.pending.push(...def.outOfCombat);
       return null;
     }
+    case 'final': {
+      if (sc.k !== 'finalChoice') return 'no choice';
+      r.flags.push(a.close ? 'true_end_close' : 'true_end_open');
+      if (r.unlockedHidden) { r.screen = { k: 'hiddenChoice' }; return null; }
+      r.result = 'win';
+      r.screen = { k: 'victory' };
+      return null;
+    }
     case 'hidden': {
       if (sc.k !== 'hiddenChoice') return 'no choice';
       if (!a.go) { r.result = 'win'; r.screen = { k: 'victory' }; return null; }
@@ -892,6 +907,8 @@ function lastWasBoss(r: RunState): boolean {
 
 function advanceAct(r: RunState) {
   r.flags.push(`bossdone:${r.act}`);
+  // 真结局: the last page of the book, before the hidden fight / the end
+  if (r.act === 4 && r.trueEnding && !r.flags.includes('hidden_boss') && !r.flags.includes('true_end_close') && !r.flags.includes('true_end_open')) { r.screen = { k: 'finalChoice' }; return; }
   if (r.act >= 4 || r.flags.includes('hidden_boss')) {
     if (r.act === 4 && r.unlockedHidden && !r.flags.includes('hidden_boss')) { r.screen = { k: 'hiddenChoice' }; return; }
     r.result = 'win';

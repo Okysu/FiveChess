@@ -4,15 +4,19 @@
     "name": "方相面",
     "tier": "starter",
     "faction": "W",
-    "text": "战斗开始时，戴上怒面。",
+    "text": "每场战斗第一次戴上[面具]后，抽2张牌。",
     "flavor": "黄金四目，玄衣朱裳。",
     "triggers": [
       {
-        "on": "combatStart",
+        "on": "fieldSet",
+        "if": {
+          "field": "mask"
+        },
+        "limit": "combat",
         "effects": [
           {
-            "op": "mask",
-            "card": "w_mask_nu"
+            "op": "draw",
+            "n": 2
           }
         ]
       }
@@ -49,15 +53,16 @@
     "name": "戏箱",
     "tier": "starter",
     "faction": "W",
-    "text": "战斗开始时，戴上喜面。",
+    "text": "每场战斗第一次[揭面]后，抽2张牌。",
     "flavor": "箱子一开，就是一台戏。",
     "triggers": [
       {
-        "on": "combatStart",
+        "on": "unmasked",
+        "limit": "combat",
         "effects": [
           {
-            "op": "mask",
-            "card": "w_mask_xi"
+            "op": "draw",
+            "n": 2
           }
         ]
       }

@@ -4,7 +4,7 @@
     "name": "松烟墨",
     "tier": "starter",
     "faction": "K",
-    "text": "战斗开始时，获得3层[墨迹]。",
+    "text": "战斗开始时，获得4层[墨迹]。每回合打出第一张牌后，[题字]一张随机手牌。",
     "flavor": "松烟入墨，千年不褪。",
     "triggers": [
       {
@@ -13,8 +13,19 @@
           {
             "op": "status",
             "status": "ink",
-            "amount": 3,
+            "amount": 4,
             "target": "commander"
+          }
+        ]
+      },
+      {
+        "on": "cardPlayed",
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "inscribe",
+            "n": 1,
+            "mode": "random"
           }
         ]
       }
@@ -87,7 +98,7 @@
     "name": "碑帖",
     "tier": "starter",
     "faction": "K",
-    "text": "战斗开始时，获得4层[墨迹]。",
+    "text": "战斗开始时，获得5层[墨迹]。",
     "flavor": "一本拓了三十年的碑帖，每一页都比原碑清楚。",
     "triggers": [
       {
@@ -96,7 +107,7 @@
           {
             "op": "status",
             "status": "ink",
-            "amount": 4,
+            "amount": 5,
             "target": "commander"
           }
         ]

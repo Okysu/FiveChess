@@ -4,7 +4,7 @@
     "name": "方相",
     "title": "驱傩师",
     "faction": "W",
-    "hp": 80,
+    "hp": 70,
     "sources": [
       "W",
       "W",
@@ -28,17 +28,18 @@
         "id": "sk_w_fangxiang_1",
         "name": "换面",
         "type": "passive",
-        "text": "每当你戴上[面具]，获得3点[护甲]。",
+        "text": "每回合第一次戴上[面具]时，获得2点[护甲]。",
         "triggers": [
           {
             "on": "fieldSet",
             "if": {
               "field": "mask"
             },
+            "limit": "turn",
             "effects": [
               {
                 "op": "armor",
-                "amount": 3,
+                "amount": 2,
                 "target": "commander"
               }
             ]
@@ -97,7 +98,7 @@
     "name": "绛娘",
     "title": "傩戏花旦",
     "faction": "W",
-    "hp": 76,
+    "hp": 70,
     "sources": [
       "W",
       "W",
@@ -121,14 +122,14 @@
         "id": "sk_w_jiangniang_1",
         "name": "谢幕",
         "type": "passive",
-        "text": "每当你[揭面]，对所有敌人造成4点伤害。",
+        "text": "每当你[揭面]，对所有敌人造成2点伤害。",
         "triggers": [
           {
             "on": "unmasked",
             "effects": [
               {
                 "op": "damage",
-                "amount": 4,
+                "amount": 2,
                 "target": "allEnemies"
               }
             ]

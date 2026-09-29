@@ -207,6 +207,7 @@ export function step(r: RunState, io: SimIO = defaultIO, hooks: SimHooks = {}): 
     case 'stargaze': if (sc.done) { A({ t: 'proceed' }); return true; } A(sc.mode ? { t: 'fate', op: sc.mode, idx: 0, suit: 'sun' } : { t: 'fate', op: 'preview' }); return true;
     case 'chest': A(sc.opened ? { t: 'proceed' } : { t: 'open' }); return true;
     case 'hiddenChoice': A({ t: 'hidden', go: false }); return true;
+    case 'finalChoice': A({ t: 'final', close: false }); return true;
     case 'victory': case 'defeat': return false;
   }
 }

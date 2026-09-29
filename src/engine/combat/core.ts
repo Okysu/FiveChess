@@ -304,6 +304,10 @@ export function gainArmor(s: CombatState, tgtUid: number, base: number, srcUid: 
   fire(s, 'armorGained', { subject: t.uid, side: t.side, source: srcUid, amount: amt });
 }
 
+/** 墨迹 that spills over (翰墨书院) */
+export const INK_SPILL = 8;
+export const INK_SPILL_DAMAGE = 10;
+
 const DEBUFFS: StatusId[] = ['burn', 'poison', 'freeze', 'stun', 'vulnerable', 'weak', 'silence'];
 const BUFFS: StatusId[] = ['might', 'tenacity', 'regen'];
 
@@ -330,6 +334,14 @@ export function applyStatus(s: CombatState, tgtUid: number, st: StatusId, amount
   if (amount > 0 && s.active === t.side && s.acted && (st === 'freeze' || st === 'vulnerable' || st === 'weak')) (t.fresh ??= {})[st] = true;
   emit(s, { t: 'status', target: t.uid, status: st, delta: total - before, total });
   if (amount > 0) fire(s, 'statusApplied', { subject: t.uid, side: t.side, source: srcUid, amount, status: st });
+  // 墨满则溢: at 10 墨迹 a commander's ink spills — lose 10, deal 10 to every enemy
+  if (st === 'ink' && t.kind === 'commander' && total >= INK_SPILL) {
+    t.statuses.ink = total - INK_SPILL;
+    if (!t.statuses.ink) delete t.statuses.ink;
+    emit(s, { t: 'status', target: t.uid, status: 'ink', delta: -INK_SPILL, total: t.statuses.ink ?? 0 });
+    emit(s, { t: 'shout', uid: t.uid, text: '墨满则溢！' });
+    for (const e of unitsOf(s, other(t.side), true)) dealDamage(s, t.uid, e.uid, INK_SPILL_DAMAGE, 'effect');
+  }
 }
 
 function silence(s: CombatState, u: Unit) {

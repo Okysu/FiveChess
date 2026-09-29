@@ -37,7 +37,7 @@ export async function go(force = false) {
     case 'stargaze': next = new (await import('./scenes/stargaze')).StargazeScene(); break;
     case 'chest': next = new (await import('./scenes/chest')).ChestScene(); break;
     case 'pick': case 'cardChoice': next = new (await import('./scenes/pick')).PickScene(); break;
-    case 'victory': case 'defeat': case 'hiddenChoice': next = new (await import('./scenes/runEnd')).RunEndScene(); break;
+    case 'victory': case 'defeat': case 'hiddenChoice': case 'finalChoice': next = new (await import('./scenes/runEnd')).RunEndScene(); break;
     default: next = new (await import('./scenes/map')).MapScene();
   }
   await G.go(next);

@@ -1,5 +1,5 @@
 /** Global game session: profile, settings, current run & combat, persistence and scene routing. */
-import { catchUpUnlocks, newProfile, lockedContent, recordRun, runScore, blessingPool, blessingCount, effectiveLoadout, type Profile, type RunSummary } from '../engine/meta';
+import { catchUpUnlocks, trueEndingReady, newProfile, lockedContent, recordRun, runScore, blessingPool, blessingCount, effectiveLoadout, type Profile, type RunSummary } from '../engine/meta';
 import { newRun, runAct, combatConfig, type RunState, type RunAction } from '../engine/run/run';
 import { content } from '../engine/content';
 import { createCombat } from '../engine/combat/api';
@@ -76,7 +76,7 @@ class Session {
     const tutorial = !this.profile.tutorialDone;
     const loadout = effectiveLoadout(this.profile, commander);
     this.run = newRun({
-      seed: s, commander, ascension, tutorial, locked: lockedContent(this.profile), unlockedHidden: this.profile.hiddenUnlocked,
+      seed: s, commander, ascension, tutorial, locked: lockedContent(this.profile), unlockedHidden: this.profile.hiddenUnlocked, trueEnding: trueEndingReady(this.profile),
       blessings: { pool: blessingPool(this.profile), count: blessingCount(this.profile, commander, ascension) },
       altRelic: loadout.altRelic, altSkill: loadout.altSkill,
     });

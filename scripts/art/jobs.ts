@@ -82,6 +82,7 @@ export const ICONS: ArtJob[] = [
   icon('kw_resonance', 'two tuning forks vibrating', 'aquamarine'),
   // statuses
   icon('st_burn', 'a flame', 'orange red'),
+  icon('st_ink', 'a swirling drop of calligraphy ink with a brush tip', 'ink black'),
   icon('st_poison', 'a dripping venom drop with bubbles', 'toxic green'),
   icon('st_freeze', 'a six-pointed ice crystal', 'ice blue'),
   icon('st_stun', 'three spinning stars circling', 'yellow'),
@@ -151,7 +152,7 @@ const TEX_STYLE = 'Photographic scan of a real material surface, filling the ent
 const tex = (id: string, prompt: string, px: number): ArtJob => ({ id, category: 'ui', out: `ui/${id}`, size: '1024x1024', transparent: false, prompt: `${prompt} ${TEX_STYLE}`, px, quality: 'medium' });
 
 const PAPER = 'The empty center is a completely flat plain paper-beige area with no pattern, no marks and no text.';
-const FACTION_PIGMENT: Record<string, string> = { R: 'vermilion red', B: 'azurite blue', G: 'malachite green', Y: 'ochre gold', P: 'plum purple', N: 'paper beige and grey-green' };
+const FACTION_PIGMENT: Record<string, string> = { R: 'vermilion red', B: 'azurite blue', G: 'malachite green', Y: 'ochre gold', P: 'plum purple', K: 'deep charcoal ink-black (the band itself is black-grey, not red; tiny vermilion seal dots only)', W: 'pale silver-grey and pearl white (the band itself is silver-white, not red; small cinnabar accents only)', N: 'paper beige and grey-green' };
 
 export const UI_MATERIALS: ArtJob[] = [
   // 9-slice panels: ornament concentrated at the border, uniform border width
@@ -161,8 +162,8 @@ export const UI_MATERIALS: ArtJob[] = [
   ui('button_green', 'A single horizontal oblong button plate with auspicious cloud scroll ends, flat malachite green face, thick black outline, thin ochre-gold inner border. The face is completely empty.', true, 768, '1536x1024'),
   ui('button_blue', 'A single horizontal oblong button plate with auspicious cloud scroll ends, flat azurite blue face, thick black outline, thin ochre-gold inner border. The face is completely empty.', true, 768, '1536x1024'),
   ui('button_grey', 'A single horizontal oblong button plate with auspicious cloud scroll ends, flat faded grey-brown face, thick black outline, dull inner border. The face is completely empty.', true, 768, '1536x1024'),
-  ...(['R', 'B', 'G', 'Y', 'P', 'N'] as const).map((f) => ui(`card_frame_${f}`, `A vertical playing-card border frame only: a decorative border of even thickness in ${FACTION_PIGMENT[f]} with black carved outlines, small auspicious cloud ornaments at the four corners and a meander band. The whole inner area inside the border is fully transparent and empty.`, true, 600, '1024x1536')),
-  ...(['R', 'B', 'G', 'Y', 'P', 'N'] as const).map((f) => ui(`ribbon_${f}`, `A single long horizontal name banner ribbon with folded cloud-scroll ends, flat ${FACTION_PIGMENT[f]} face, thick black outline, thin ochre-gold edge. The face is completely empty.`, true, 640, '1536x1024')),
+  ...(['R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N'] as const).map((f) => ui(`card_frame_${f}`, `A vertical playing-card border frame only: a decorative border of even thickness in ${FACTION_PIGMENT[f]} with black carved outlines, small auspicious cloud ornaments at the four corners and a meander band. The whole inner area inside the border is fully transparent and empty.`, true, 600, '1024x1536')),
+  ...(['R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N'] as const).map((f) => ui(`ribbon_${f}`, `A single long horizontal name banner ribbon with folded cloud-scroll ends, flat ${FACTION_PIGMENT[f]} face, thick black outline, thin ochre-gold edge. The face is completely empty.`, true, 640, '1536x1024')),
   ui('cost_disc', 'A single round medallion coin: flat dark indigo face surrounded by a thick ochre-gold ring with a black outline and eight small cloud nubs. The face is completely empty.', true, 192),
   ui('stat_atk', 'A single small shield-shaped badge pointing downward like a blade, flat ochre-gold face with black outline. The face is completely empty.', true, 160),
   ui('stat_hp', 'A single small peach-shaped badge (longevity peach), flat vermilion red face with black outline and one green leaf. The face is completely empty.', true, 160),
@@ -196,6 +197,8 @@ export const UI_MATERIALS: ArtJob[] = [
   ui('pip_Y', 'A single small star-shaped resource token: flat ochre gold five-pointed star, black carved outline.', true, 96),
   ui('pip_P', 'A single small crescent-shaped resource token: flat plum purple crescent moon, black carved outline.', true, 96),
   ui('pip_N', 'A single small round resource token: flat paper-beige ring with a hole in the middle like an ancient coin, black carved outline.', true, 96),
+  ui('pip_K', 'A single small resource token shaped like a drop of ink: glossy lamp-black teardrop with a tiny vermilion seal dot, black carved outline.', true, 96),
+  ui('pip_W', 'A single small resource token shaped like a tiny oval mask: flat pale silver-white face with two eye holes and a cinnabar forehead mark, black carved outline.', true, 96),
   ui('suit_sun', 'A single fate-suit emblem: a flat ochre-orange sun disc with eight short rays, black carved outline.', true, 128),
   ui('suit_thunder', 'A single fate-suit emblem: a flat violet zigzag lightning bolt, black carved outline.', true, 128),
   ui('suit_moon', 'A single fate-suit emblem: a flat pale ice-blue crescent moon, black carved outline.', true, 128),
@@ -250,7 +253,7 @@ export const EFFECTS: ArtJob[] = [
   fx('rune', 'A single glowing golden magic circle with abstract geometric star patterns (no characters).'),
 ];
 
-export const FACTION_EMBLEMS: ArtJob[] = (['R', 'B', 'G', 'Y', 'P', 'N'] as const).map((f) => ({
+export const FACTION_EMBLEMS: ArtJob[] = (['R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N'] as const).map((f) => ({
   id: `emblem_${f}`, category: 'icon' as const, out: `frames/emblem_${f}`, size: '1024x1024' as const, transparent: true, px: 256, quality: 'medium' as const,
-  prompt: iconPrompt({ R: 'a sun-crow bird wreathed in flame', B: 'a mountain above ice waves', G: 'a great tree with spreading roots', Y: 'an armillary sphere with a star', P: 'a masked face behind a silk veil with dice', N: 'a plain jade bi disc' }[f], { R: 'vermilion', B: 'indigo', G: 'jade green', Y: 'gold', P: 'violet', N: 'ivory' }[f]) + ` ${FACTION_TONE[f]}`,
+  prompt: iconPrompt({ R: 'a sun-crow bird wreathed in flame', B: 'a mountain above ice waves', G: 'a great tree with spreading roots', Y: 'an armillary sphere with a star', P: 'a masked face behind a silk veil with dice', K: 'a calligraphy brush crossed over an inkstone with a red seal', W: 'a Chinese nuo opera exorcism mask with four eyes, a golden face and small horns, red ritual ribbons (not a fox, not Japanese)', N: 'a plain jade bi disc' }[f], { R: 'vermilion', B: 'indigo', G: 'jade green', Y: 'gold', P: 'violet', K: 'ink black', W: 'silver white', N: 'ivory' }[f]) + ` ${FACTION_TONE[f]}`,
 }));

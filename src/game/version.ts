@@ -6,7 +6,7 @@ export const APP_VERSION: string = typeof __APP_VERSION__ === 'string' ? __APP_V
 
 export interface ChangeEntry { text: string; platforms?: ('web' | 'pc' | 'android')[] }
 export interface VersionLog { version: string; date: string; title: string; sections: Record<string, ChangeEntry[]> }
-export const CHANGELOG: VersionLog[] = (changelog as { versions: VersionLog[] }).versions;
+export const CHANGELOG: VersionLog[] = (changelog as unknown as { versions: VersionLog[] }).versions;
 
 /** -1 / 0 / 1 for dotted numeric versions */
 export function compareVersions(a: string, b: string): number {

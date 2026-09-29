@@ -43,7 +43,7 @@ export const STATUSES: Record<StatusId, GlossEntry & { debuff: boolean }> = {
   might: { name: '锋锐', text: '攻击伤害+X。', icon: 'st_might', tint: 0xff5a4a, debuff: false },
   tenacity: { name: '坚韧', text: '获得护甲时额外+X。', icon: 'st_tenacity', tint: 0x6aa8e8, debuff: false },
   regen: { name: '再生', text: '回合结束时恢复X点生命，然后层数-1。', icon: 'st_regen', tint: 0x6fe08a, debuff: false },
-  ink: { name: '墨迹', text: '翰墨书院积攒的笔墨，由[落款]等牌一次用尽。不会自行消失。', icon: 'st_ink', tint: 0xb8b8c8, debuff: false },
+  ink: { name: '墨迹', text: '翰墨书院积攒的笔墨，不会自行消失，可由[落款]等牌一次用尽。墨满则溢：达到8层时失去8层，对所有敌人造成10点伤害。', icon: 'st_ink', tint: 0xb8b8c8, debuff: false },
 };
 
 export const SUIT_INFO: Record<Suit, { name: string; yang: boolean; color: number; shape: string }> = {

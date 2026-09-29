@@ -1,0 +1,2842 @@
+[
+  {
+    "id": "ev_path_r_huojin_1",
+    "title": "霍烬·断焰营火",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "r_huojin"
+    },
+    "text": "碑林边缘有一堆不灭的营火，火旁插着一面烧剩半截的军旗——断焰军的旗。旗面上密密写着名字，你数到第三百个时停了下来：都是你当年带出去的人。营火噼啪作响，像有人在火堆另一边低声点卯。",
+    "options": [
+      {
+        "text": "在旗下守一夜",
+        "requires": {
+          "hpAbove": 5
+        },
+        "hint": "失去 5 生命 · 升级 2 张牌",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -5
+          },
+          {
+            "op": "upgradeCard",
+            "n": 2,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_huojin_1"
+          }
+        ],
+        "outcome": "你坐到天亮，火一直没灭。天亮时旗面上的名字淡了一些，像有人终于肯去睡了。"
+      },
+      {
+        "text": "把军旗拔下来带走",
+        "hint": "获得 50 金",
+        "effects": [
+          {
+            "op": "gold",
+            "n": 50
+          },
+          {
+            "op": "flag",
+            "key": "path_r_huojin_1"
+          }
+        ],
+        "outcome": "旗杆比你记得的轻。旗角扫过营火，火苗跟着你走了几步，才不甘心地落回原处。"
+      }
+    ],
+    "art": {
+      "subject": "a lone campfire burning at the edge of a misty graveyard, a half-burnt crimson war banner planted beside it covered in rows of names, a scarred general standing before it"
+    }
+  },
+  {
+    "id": "ev_path_r_huojin_2",
+    "title": "霍烬·渊城刀市",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_r_huojin_1"
+    },
+    "text": "沉渊城的水底有一条刀市，摊上卖的全是断刀。一个溺死的老兵守着一截仍在发烫的刀尖——不是你的，是另一柄断焰刀的。他认出了你，把刀尖往前推了推：“将军，那一夜，你为什么没回头？”",
+    "options": [
+      {
+        "text": "坐下，听他把那一夜讲完",
+        "hint": "最大生命 +6",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 6
+          },
+          {
+            "op": "flag",
+            "key": "path_r_huojin_2"
+          }
+        ],
+        "outcome": "他讲得很慢，讲到你转身的那一刻停住了。“后来呢？”他问。你答不上来。他叹了口气，把刀尖塞进你手里。"
+      },
+      {
+        "text": "拔刀，与他比一场",
+        "requires": {
+          "hpAbove": 8
+        },
+        "hint": "失去 8 生命 · 升级 2 张牌",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -8
+          },
+          {
+            "op": "upgradeCard",
+            "n": 2,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_huojin_2"
+          }
+        ],
+        "outcome": "水里的刀很慢，你们都砍得很认真。最后他笑了：“还是这个手法。”他把刀尖留给了你。"
+      }
+    ],
+    "art": {
+      "subject": "an underwater market street of a drowned city lined with stalls of broken swords, a drowned old soldier offering a glowing sword tip to a general"
+    }
+  },
+  {
+    "id": "ev_path_r_huojin_3",
+    "title": "霍烬·三百刀冢",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_r_huojin_2"
+    },
+    "text": "星殿的回廊尽头是一座刀冢。三百柄断刀插成一个圆，刀刀向内，中间空着一个位置，正好是你那柄刀的宽度。每柄刀的刀柄上都系着一根褪色的红绳。",
+    "options": [
+      {
+        "text": "把自己的断刀插进空位",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_huojin_a"
+          }
+        ],
+        "outcome": "刀插进去时发出很轻的一声，像三百个人同时松了口气。"
+      },
+      {
+        "text": "把三百柄断刀一一拔出，带他们走",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_huojin_b"
+          }
+        ],
+        "outcome": "刀很沉，你拔了很久。红绳缠在你的手腕上，一圈又一圈。"
+      }
+    ],
+    "art": {
+      "subject": "a circle of three hundred broken swords planted in the floor of a starlit palace corridor, faded red cords on each hilt, an empty space in the center"
+    }
+  },
+  {
+    "id": "ev_path_r_liyuan_1",
+    "title": "离鸢·三百年的香",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "r_liyuan"
+    },
+    "text": "碑林里有一座塌了一半的小祠，供桌上一炷香燃了三百年还没燃尽，香灰积成了一座小丘。香的味道你认得——朱雀祠的香，只有祭司才能点。",
+    "options": [
+      {
+        "text": "续上一炷",
+        "requires": {
+          "hpAbove": 4
+        },
+        "hint": "失去 4 生命 · 获得 1 瓶丹药",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -4
+          },
+          {
+            "op": "addPotion"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_liyuan_1"
+          }
+        ],
+        "outcome": "你的香和那炷香一起燃着，烟缠在一起往上走。你忽然想起，祠里的老祭司说过：香是给活人点的。"
+      },
+      {
+        "text": "掐灭它",
+        "hint": "移除牌组中 1 张牌",
+        "effects": [
+          {
+            "op": "removeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_liyuan_1"
+          }
+        ],
+        "outcome": "香灭了，灰丘塌下来。三百年没人敢做的事，你做了，心里却没有想象的那样沉。"
+      }
+    ],
+    "art": {
+      "subject": "a half-collapsed tiny shrine in a graveyard forest, a single incense stick still burning above a small mound of ash on the altar, a red-robed priestess kneeling"
+    }
+  },
+  {
+    "id": "ev_path_r_liyuan_2",
+    "title": "离鸢·献祭名册",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_r_liyuan_1"
+    },
+    "text": "沉渊城的神庙里供着一本名册，记着朱雀祠历代祭司献出的东西：血、发、名字、寿数。你一页页翻到最后，看见了自己的名字，名字后面是一片空白，等着你写下这一次要献什么。",
+    "options": [
+      {
+        "text": "在空白处写下“火”",
+        "requires": {
+          "hpAbove": 8
+        },
+        "hint": "失去 8 生命 · 升级 2 张牌",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -8
+          },
+          {
+            "op": "upgradeCard",
+            "n": 2,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_liyuan_2"
+          }
+        ],
+        "outcome": "字写完，册子烫得握不住。你献出了身上的一部分火，换来一身更利的焰。"
+      },
+      {
+        "text": "把这一页撕下来",
+        "hint": "获得 50 金",
+        "effects": [
+          {
+            "op": "gold",
+            "n": 50
+          },
+          {
+            "op": "flag",
+            "key": "path_r_liyuan_2"
+          }
+        ],
+        "outcome": "撕下的那一页在你手里化成了灰，神庙的烛火晃了晃，没有熄。你突然觉得，神并没有生气。"
+      }
+    ],
+    "art": {
+      "subject": "a flooded temple interior with a huge open ledger on an altar, pages listing offerings, a priestess holding a brush above an empty line"
+    }
+  },
+  {
+    "id": "ev_path_r_liyuan_3",
+    "title": "离鸢·羽落",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_r_liyuan_2"
+    },
+    "text": "星殿长廊的铜灯里都收着坠落的星辰，只有一盏里燃着一根朱雀翎。它和你袖中的那根一模一样，只是更亮。你走近时，两根翎一起颤了起来。",
+    "options": [
+      {
+        "text": "把袖中的翎放进灯里，与它合二为一",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_liyuan_a"
+          }
+        ],
+        "outcome": "两根翎合成一根，灯火高了一寸。你空着手站了很久，却第一次觉得不必再献什么。"
+      },
+      {
+        "text": "把灯里的火取出来，带回祠里",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_liyuan_b"
+          }
+        ],
+        "outcome": "火在你掌心不烫，像一只刚孵出的雏鸟。"
+      }
+    ],
+    "art": {
+      "subject": "a long starlit corridor of bronze lamps holding fallen stars, one lamp burning with a single vermilion phoenix feather, a priestess reaching toward it"
+    }
+  },
+  {
+    "id": "ev_path_r_zhuyan_1",
+    "title": "祝炎·掌灯人的碑",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "r_zhuyan"
+    },
+    "text": "碑林里有一排祝家的碑，从第一代掌灯人到你的父亲，每一块都刻着同一句话：“焚城者之后”。排在最后的那块碑是空的，碑脚放着一把凿子，像是早就知道你会来。",
+    "options": [
+      {
+        "text": "在空碑上刻“掌灯人”",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_zhuyan_1"
+          }
+        ],
+        "outcome": "凿子很钝，你刻得很慢。刻完最后一笔，旁边那些碑上的字，好像淡了一点。"
+      },
+      {
+        "text": "把这一排碑都砸了",
+        "requires": {
+          "hpAbove": 5
+        },
+        "hint": "失去 5 生命 · 从 3 张本色稀有牌中选 1 张",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -5
+          },
+          {
+            "op": "addCard",
+            "pool": {
+              "rarity": "rare",
+              "faction": "own"
+            },
+            "choose": 3
+          },
+          {
+            "op": "flag",
+            "key": "path_r_zhuyan_1"
+          }
+        ],
+        "outcome": "碎石溅了你一身。砸到父亲那块碑时你停了停，还是落了锤。碑里掉出一张没烧完的纸。"
+      }
+    ],
+    "art": {
+      "subject": "a row of weathered family steles in a misty graveyard, each carved with the same line, the last one blank with a chisel at its foot, a young man with a lantern before it"
+    }
+  },
+  {
+    "id": "ev_path_r_zhuyan_2",
+    "title": "祝炎·宰辅府的灯",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_r_zhuyan_1"
+    },
+    "text": "沉渊城的宰辅府里，一盏宫灯三百年没有熄过。灯罩上的纹样你一眼就认出来了——祝家的家纹。原来那一夜，祝家的灯被人从殷都的街上摘走，挂进了这里。",
+    "options": [
+      {
+        "text": "熄了它",
+        "hint": "获得 1 件普通遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "common"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_zhuyan_2"
+          }
+        ],
+        "outcome": "灯灭的一瞬间，府里所有的影子都转过头来看你。你没有躲。"
+      },
+      {
+        "text": "把它提走",
+        "hint": "最大生命 +6",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 6
+          },
+          {
+            "op": "flag",
+            "key": "path_r_zhuyan_2"
+          }
+        ],
+        "outcome": "灯比你想的轻，火苗在罩子里轻轻跳着，像终于认出了主人。"
+      }
+    ],
+    "art": {
+      "subject": "a dark flooded ministerial mansion hall with a single ornate palace lantern still glowing, a family crest painted on its shade, a young man staring up at it"
+    }
+  },
+  {
+    "id": "ev_path_r_zhuyan_3",
+    "title": "祝炎·焦页",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_r_zhuyan_2"
+    },
+    "text": "星殿的书架下落着一页烧焦的命书残片，写着殷都那一夜的事。满页的字都烧没了，只剩一个名字完好无损——不是“祝”，是另一个人的名字。",
+    "options": [
+      {
+        "text": "把那个名字念出来",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_zhuyan_a"
+          }
+        ],
+        "outcome": "你念出了那个名字。书架间响起一阵很远的叹息，像有人等这一声等了三百年。"
+      },
+      {
+        "text": "把残页连同那个名字一起烧了",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_r_zhuyan_b"
+          }
+        ],
+        "outcome": "火苗舔过纸边，这一次，是你自己点的火。"
+      }
+    ],
+    "art": {
+      "subject": "a charred page of a fate book lying beneath towering starlit bookshelves, one name glowing intact amid the blackened text, a lantern held above it"
+    }
+  },
+  {
+    "id": "ev_path_b_shiyun_1",
+    "title": "石韫·压坟石",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "b_shiyun"
+    },
+    "text": "碑林里一块巨石压在一座坟上，石下隐约有人在喊：“好重……好重……”石头上刻着镇岳门的山纹，像是有人故意压上去的。",
+    "options": [
+      {
+        "text": "把石头搬开",
+        "requires": {
+          "hpAbove": 6
+        },
+        "hint": "失去 6 生命 · 最大生命 +5",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -6
+          },
+          {
+            "op": "maxHp",
+            "n": 5
+          },
+          {
+            "op": "flag",
+            "key": "path_b_shiyun_1"
+          }
+        ],
+        "outcome": "石头比山还沉。你搬开时，石下那人叹了一口很长的气，然后就不喊了。"
+      },
+      {
+        "text": "在石头上坐下，陪他说说话",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_shiyun_1"
+          }
+        ],
+        "outcome": "你们说了很久。他说他也被人写过“山崩”，于是找了块石头压住自己，免得崩了。"
+      }
+    ],
+    "art": {
+      "subject": "a massive carved boulder pressing down on a grave in a foggy graveyard, faint ghostly hands reaching from beneath it, a heavily built man standing beside"
+    }
+  },
+  {
+    "id": "ev_path_b_shiyun_2",
+    "title": "石韫·沉山",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_b_shiyun_1"
+    },
+    "text": "沉渊城的湖里沉着一座山，只有山顶还露在水面上。山顶插着一柄剑，剑身刻着镇岳门第一代门主的名号。湖水正一寸寸往上涨。",
+    "options": [
+      {
+        "text": "拔出那柄剑",
+        "hint": "获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_shiyun_2"
+          }
+        ],
+        "outcome": "剑出鞘的时候，整座山轻轻晃了一下，又稳住了。原来它一直在等有人来接这把剑。"
+      },
+      {
+        "text": "用自己的身子替山挡住湖水",
+        "requires": {
+          "hpAbove": 6
+        },
+        "hint": "失去 6 生命 · 最大生命 +8",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -6
+          },
+          {
+            "op": "maxHp",
+            "n": 8
+          },
+          {
+            "op": "flag",
+            "key": "path_b_shiyun_2"
+          }
+        ],
+        "outcome": "水很冷，你站了一夜。天亮时湖水退了一尺。"
+      }
+    ],
+    "art": {
+      "subject": "a mountain peak barely rising above a dark lake, an ancient sword planted at its summit, water lapping at its base, a lone figure wading toward it"
+    }
+  },
+  {
+    "id": "ev_path_b_shiyun_3",
+    "title": "石韫·四个字",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_b_shiyun_2"
+    },
+    "text": "星殿深处立着一面新碑，碑上只刻着四个字：山崩身死。刻痕还是新的，石粉落在碑脚，像是刚刚才刻好，在等你来看。",
+    "options": [
+      {
+        "text": "一拳打碎它",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_shiyun_a"
+          }
+        ],
+        "outcome": "碑碎了，你的拳头也裂了。血顺着指缝往下滴，你第一次觉得疼是一件好事。"
+      },
+      {
+        "text": "在碑旁另刻一行：“山崩，人不死”",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_shiyun_b"
+          }
+        ],
+        "outcome": "你刻得很深，比那四个字还深。"
+      }
+    ],
+    "art": {
+      "subject": "a freshly carved stone stele in a starlit hall bearing four large characters, stone dust still at its base, a massive armored man clenching his fist before it"
+    }
+  },
+  {
+    "id": "ev_path_b_suxian_1",
+    "title": "素弦·无弦琴",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "b_suxian"
+    },
+    "text": "碑林的一座墓前，有人抱着一把没有弦的琴在弹。他弹得很认真，指头在空空的琴面上起落，却一点声音也没有。他听见你走近，停下来说：“你听见了吗？”",
+    "options": [
+      {
+        "text": "为他和一曲",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_suxian_1"
+          }
+        ],
+        "outcome": "你弹的是你听见的那首。他听完哭了：“对，就是这首。”"
+      },
+      {
+        "text": "从自己的琴上拆一根弦送他",
+        "hint": "移除牌组中 1 张牌",
+        "effects": [
+          {
+            "op": "removeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_suxian_1"
+          }
+        ],
+        "outcome": "他摸着那根弦，像摸一件很久以前丢的东西。你的琴从此只剩六弦，却一点也不难听。"
+      }
+    ],
+    "art": {
+      "subject": "a ghostly musician seated before a grave playing a stringless zither, fingers moving over the empty board, fog curling around, a woman with a seven-string qin watching"
+    }
+  },
+  {
+    "id": "ev_path_b_suxian_2",
+    "title": "素弦·冰下的琴",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_b_suxian_1"
+    },
+    "text": "沉渊城外的湖面结着冰，冰下困着一把七弦琴。琴声从冰下传上来，总在同一处断掉——那是一首你小时候学过、却从没弹完过的曲子。",
+    "options": [
+      {
+        "text": "破冰取琴",
+        "requires": {
+          "hpAbove": 6
+        },
+        "hint": "失去 6 生命 · 获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -6
+          },
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_suxian_2"
+          }
+        ],
+        "outcome": "冰很厚，你的手指冻裂了。琴取出来时，那一句终于接了下去。"
+      },
+      {
+        "text": "在冰上把断掉的那一句弹完",
+        "hint": "最大生命 +5",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 5
+          },
+          {
+            "op": "flag",
+            "key": "path_b_suxian_2"
+          }
+        ],
+        "outcome": "冰下的琴沉默了片刻，然后跟着你，一起弹到了最后。"
+      }
+    ],
+    "art": {
+      "subject": "a frozen lake at night with a seven-string zither trapped beneath clear ice, faint musical ripples rising through the ice, a woman kneeling on the surface"
+    }
+  },
+  {
+    "id": "ev_path_b_suxian_3",
+    "title": "素弦·第一声",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_b_suxian_2"
+    },
+    "text": "星殿里摆着一张琴桌，琴已经调好了弦，却没有人坐。你站了很久，四周一点声音也没有——没有人出手，没有人开口，这一次，没有什么需要你去应和。",
+    "options": [
+      {
+        "text": "坐下，先弹第一声",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_suxian_a"
+          }
+        ],
+        "outcome": "那一声很轻，却传得很远。"
+      },
+      {
+        "text": "仍然等",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_suxian_b"
+          }
+        ],
+        "outcome": "你等了很久，最后星殿自己响了一声，像是在向你问好。你笑着答了它。"
+      }
+    ],
+    "art": {
+      "subject": "an empty zither table in a vast silent starlit hall, a tuned qin waiting on it, a woman standing a few steps away with her hands folded"
+    }
+  },
+  {
+    "id": "ev_path_b_guanshanyue_1",
+    "title": "关山月·无人关",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "b_guanshanyue"
+    },
+    "text": "碑林的尽头有一座小小的关隘，关门大开着。门边坐着一具守卒的骨头，手里仍握着枪，枪尖指着门外。门外什么也没有，只有雾。",
+    "options": [
+      {
+        "text": "替他把门关上",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_guanshanyue_1"
+          }
+        ],
+        "outcome": "门轴锈了，你用了很大的力气。门关上的那一刻，骨头的手松开了枪。"
+      },
+      {
+        "text": "取下他的枪，替他守下去",
+        "hint": "从 3 张本色稀有牌中选 1 张",
+        "effects": [
+          {
+            "op": "addCard",
+            "pool": {
+              "rarity": "rare",
+              "faction": "own"
+            },
+            "choose": 3
+          },
+          {
+            "op": "flag",
+            "key": "path_b_guanshanyue_1"
+          }
+        ],
+        "outcome": "枪很旧，握着却很顺手，像是专门为你留的。"
+      }
+    ],
+    "art": {
+      "subject": "a small abandoned mountain pass gate standing wide open in fog, a skeleton soldier seated beside it still gripping a spear, a grizzled gatekeeper approaching"
+    }
+  },
+  {
+    "id": "ev_path_b_guanshanyue_2",
+    "title": "关山月·水关",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_b_guanshanyue_1"
+    },
+    "text": "沉渊城的水门坏了，门闸卡在半空，湖水一直往城里灌。城里的溺鬼们都坐在屋顶上，看着水一点点涨上来，谁也不去修。",
+    "options": [
+      {
+        "text": "下水修好门闸",
+        "requires": {
+          "hpAbove": 8
+        },
+        "hint": "失去 8 生命 · 最大生命 +8",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -8
+          },
+          {
+            "op": "maxHp",
+            "n": 8
+          },
+          {
+            "op": "flag",
+            "key": "path_b_guanshanyue_2"
+          }
+        ],
+        "outcome": "水很冷，闸很沉。你修到半夜，水终于停了。屋顶上的溺鬼们一个个下来，向你作揖。"
+      },
+      {
+        "text": "在闸边立一块牌子：此路不通",
+        "hint": "获得 1 件普通遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "common"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_guanshanyue_2"
+          }
+        ],
+        "outcome": "牌子立起来，水竟真的绕开了。原来水也是认规矩的。"
+      }
+    ],
+    "art": {
+      "subject": "a broken water gate of a drowned city with its sluice jammed halfway, water pouring through, ghostly townsfolk sitting on rooftops watching"
+    }
+  },
+  {
+    "id": "ev_path_b_guanshanyue_3",
+    "title": "关山月·门外",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_b_guanshanyue_2"
+    },
+    "text": "星殿的尽头有一道门。门外站着许多执命者，有人想进来，有人想出去，都在等一个守门的人开口。门上没有闩，你腰间的关钥却在发烫。",
+    "options": [
+      {
+        "text": "让开，放所有人过去",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_guanshanyue_a"
+          }
+        ],
+        "outcome": "人潮从你身边经过，没有一个人回头。你第一次发现，守关不一定要拦。"
+      },
+      {
+        "text": "一个一个问过来意，再放行",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_b_guanshanyue_b"
+          }
+        ],
+        "outcome": "你问了很久，每个人都答得很认真。"
+      }
+    ],
+    "art": {
+      "subject": "a tall doorway at the end of a starlit hall with many travelers gathered on both sides, a gatekeeper with a glowing iron key at his belt standing at the threshold"
+    }
+  },
+  {
+    "id": "ev_path_g_qingsi_1",
+    "title": "青姒·风里的叶子",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "g_qingsi"
+    },
+    "text": "碑林的风里卷着一片巨大的叶子，叶脉是金色的——建木的叶子。它落在你脚边，叶脉里隐约写着一个字，你看不清。",
+    "options": [
+      {
+        "text": "把它收进袖子里",
+        "hint": "获得 1 瓶丹药",
+        "effects": [
+          {
+            "op": "addPotion"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qingsi_1"
+          }
+        ],
+        "outcome": "叶子在你袖中慢慢化成了一滴露水。"
+      },
+      {
+        "text": "把它种下",
+        "hint": "最大生命 +5",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 5
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qingsi_1"
+          }
+        ],
+        "outcome": "你把叶子埋进土里。它没有发芽，但那一片土地的草，一夜之间全绿了。"
+      }
+    ],
+    "art": {
+      "subject": "a huge golden-veined leaf drifting down through a misty graveyard, landing at the feet of a woman in green robes, faint characters glowing in its veins"
+    }
+  },
+  {
+    "id": "ev_path_g_qingsi_2",
+    "title": "青姒·水下的根",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_g_qingsi_1"
+    },
+    "text": "沉渊城的湖底，一截巨大的根须横穿了整座城，比城墙还粗。根须上长满了苔藓，却还活着——你能感觉到它的脉搏，很慢，很弱。",
+    "options": [
+      {
+        "text": "顺着根往下走",
+        "requires": {
+          "hpAbove": 6
+        },
+        "hint": "失去 6 生命 · 升级 2 张牌",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -6
+          },
+          {
+            "op": "upgradeCard",
+            "n": 2,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qingsi_2"
+          }
+        ],
+        "outcome": "根的尽头很深，深到湖水都变成了黑色。你看见了建木，它还在，只是睡着了。"
+      },
+      {
+        "text": "在根上系一根红绳做记号",
+        "hint": "获得 50 金",
+        "effects": [
+          {
+            "op": "gold",
+            "n": 50
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qingsi_2"
+          }
+        ],
+        "outcome": "红绳系上的那一刻，根须轻轻动了一下，像一个睡着的人翻了个身。"
+      }
+    ],
+    "art": {
+      "subject": "an enormous ancient tree root passing through the flooded streets of a sunken city, moss-covered but faintly glowing, a woman touching it with her palm"
+    }
+  },
+  {
+    "id": "ev_path_g_qingsi_3",
+    "title": "青姒·建木之种",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_g_qingsi_2"
+    },
+    "text": "星殿里那株顶破穹顶的古木下，一粒种子落在你脚边。它很小，却比整座星殿还重。你知道这是建木的种子——是它留给这一代灵母的。",
+    "options": [
+      {
+        "text": "把它种在命书旁边",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qingsi_a"
+          }
+        ],
+        "outcome": "种子钻进纸缝，一眨眼就不见了。"
+      },
+      {
+        "text": "把它带回万木庭",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qingsi_b"
+          }
+        ],
+        "outcome": "你把种子握在手心，一路都能感觉到它在跳，像一颗小小的心脏。"
+      }
+    ],
+    "art": {
+      "subject": "a tiny glowing seed resting on the floor beneath a colossal tree that pierces a starlit dome, a woman in green kneeling to pick it up"
+    }
+  },
+  {
+    "id": "ev_path_g_acang_1",
+    "title": "阿苍·第一座坟",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "g_acang"
+    },
+    "text": "碑林里有一座很老的坟，碑上刻着“阿苍”两个字，日期是几百年前。碑前放着一束已经风干的薜荔，是你惯用的那种。",
+    "options": [
+      {
+        "text": "挖开看看",
+        "requires": {
+          "hpAbove": 5
+        },
+        "hint": "失去 5 生命 · 从 3 张本色稀有牌中选 1 张",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -5
+          },
+          {
+            "op": "addCard",
+            "pool": {
+              "rarity": "rare",
+              "faction": "own"
+            },
+            "choose": 3
+          },
+          {
+            "op": "flag",
+            "key": "path_g_acang_1"
+          }
+        ],
+        "outcome": "坟里什么也没有，只有一张写满字的纸，纸上是你第一次死之前写下的东西。"
+      },
+      {
+        "text": "给自己上一炷香",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_acang_1"
+          }
+        ],
+        "outcome": "香烟升起来，你突然想起了一个名字，很快又忘了。"
+      }
+    ],
+    "art": {
+      "subject": "an ancient moss-covered grave with a weathered stone bearing a name, a withered bundle of climbing fig vines at its base, a wild mountain spirit in vines and leopard skin kneeling"
+    }
+  },
+  {
+    "id": "ev_path_g_acang_2",
+    "title": "阿苍·赤豹",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_g_acang_1"
+    },
+    "text": "沉渊城的集市上，有人牵着一头瘦骨嶙峋的赤豹在卖。它的毛色已经褪成了灰红，却在看见你的一瞬间站了起来，喉咙里发出一声很低的呜咽。",
+    "options": [
+      {
+        "text": "买下它",
+        "requires": {
+          "gold": 50
+        },
+        "hint": "失去 50 金 · 获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "gold",
+            "n": -50
+          },
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_acang_2"
+          }
+        ],
+        "outcome": "它不肯走在你身后，一定要走在你前面，像很多年前那样。"
+      },
+      {
+        "text": "解开链子，放它走",
+        "hint": "最大生命 +5",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 5
+          },
+          {
+            "op": "flag",
+            "key": "path_g_acang_2"
+          }
+        ],
+        "outcome": "它走了几步，回头看你。你挥了挥手，它这才消失在雾里。"
+      }
+    ],
+    "art": {
+      "subject": "a gaunt faded red leopard on a chain at a gloomy underwater market, rising to its feet as a wild mountain spirit approaches, a shadowy seller holding the chain"
+    }
+  },
+  {
+    "id": "ev_path_g_acang_3",
+    "title": "阿苍·写满复生的一页",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_g_acang_2"
+    },
+    "text": "星殿里摊着一页纸，上面密密麻麻写满了“复生”，一行压着一行，墨迹新旧不一。最下面还空着一行，笔就放在旁边。",
+    "options": [
+      {
+        "text": "在最后一行写下“自愿”",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_acang_a"
+          }
+        ],
+        "outcome": "笔很轻。你写完，整页的“复生”都安静了下来，像是终于有人问过它们的意思。"
+      },
+      {
+        "text": "把这页纸折成一只纸鸟放走",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_acang_b"
+          }
+        ],
+        "outcome": "纸鸟飞得很慢，一路掉着字，飞出了星殿。"
+      }
+    ],
+    "art": {
+      "subject": "a page crowded with the same character written hundreds of times in different inks, lying open in a starlit library, a brush resting beside an empty last line"
+    }
+  },
+  {
+    "id": "ev_path_g_qiuchan_1",
+    "title": "秋蝉·蝉蜕风铃",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "g_qiuchan"
+    },
+    "text": "碑林的一棵枯树上挂着一串风铃，是用蝉蜕串成的，一共九十九只。风一吹，每只壳里都传出一段很轻的声音——是你忘掉的那些过去。",
+    "options": [
+      {
+        "text": "摘下一只听听",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qiuchan_1"
+          }
+        ],
+        "outcome": "那一只里是一场雨。你想不起是哪一年的雨了，却记得那天很快乐。"
+      },
+      {
+        "text": "把整串风铃取下带走",
+        "hint": "获得 1 瓶丹药",
+        "effects": [
+          {
+            "op": "addPotion"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qiuchan_1"
+          }
+        ],
+        "outcome": "风铃在你怀里叮当作响，像一群吵闹的孩子。"
+      }
+    ],
+    "art": {
+      "subject": "a dead tree in a misty graveyard hung with a wind chime of ninety-nine amber cicada shells, each shell glowing faintly, a winged forest spirit listening"
+    }
+  },
+  {
+    "id": "ev_path_g_qiuchan_2",
+    "title": "秋蝉·卡在壳里的蝉",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_g_qiuchan_1"
+    },
+    "text": "沉渊城的湖底淤泥里，一只正在蜕皮的蝉卡在壳里出不来，半边翅膀已经展开，半边还困在旧壳里。它拼命挣扎，壳却越裂越慢。",
+    "options": [
+      {
+        "text": "帮它把壳剥开",
+        "requires": {
+          "hpAbove": 5
+        },
+        "hint": "失去 5 生命 · 最大生命 +6",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -5
+          },
+          {
+            "op": "maxHp",
+            "n": 6
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qiuchan_2"
+          }
+        ],
+        "outcome": "壳剥开的时候，你的手指被划破了。蝉飞了起来，在你头顶绕了三圈才走。"
+      },
+      {
+        "text": "等它自己出来",
+        "hint": "获得 1 件普通遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "common"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qiuchan_2"
+          }
+        ],
+        "outcome": "你等了很久。它终于挣了出来，翅膀比别的蝉都结实。"
+      }
+    ],
+    "art": {
+      "subject": "a cicada half-emerged from its shell stuck in the silt of a dark lakebed, one wing unfolded, a forest spirit crouching to help"
+    }
+  },
+  {
+    "id": "ev_path_g_qiuchan_3",
+    "title": "秋蝉·第一个夏天",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_g_qiuchan_2"
+    },
+    "text": "星殿里悬着一只琥珀色的壳，比所有的壳都旧。壳里封着一个完整的夏天：满山蝉鸣，建木还没有枯，命书还没有撕。那是你第一次破土的那一年。",
+    "options": [
+      {
+        "text": "打开它",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qiuchan_a"
+          }
+        ],
+        "outcome": "蝉鸣涌出来，灌满了星殿。你站在那个夏天里，终于想起了自己的第一个名字。"
+      },
+      {
+        "text": "让它就这样封着",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_g_qiuchan_b"
+          }
+        ],
+        "outcome": "有些夏天，封着比打开更好。"
+      }
+    ],
+    "art": {
+      "subject": "an ancient amber cicada shell floating in a starlit hall, inside it a tiny glowing summer landscape with a great tree and singing cicadas"
+    }
+  },
+  {
+    "id": "ev_path_y_xuanji_1",
+    "title": "玄机子·旧观星台",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "y_xuanji"
+    },
+    "text": "碑林的高处是司天监旧观星台的遗址，一架圭表倒在地上，表身刻着历代司天监的名字。最后一个名字刻得很浅，是你的。",
+    "options": [
+      {
+        "text": "把圭表扶起来",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_xuanji_1"
+          }
+        ],
+        "outcome": "圭表立起来的那一刻，它的影子落在地上，正好指向命阙的方向。"
+      },
+      {
+        "text": "取下表上的铜尺",
+        "hint": "获得 40 金",
+        "effects": [
+          {
+            "op": "gold",
+            "n": 40
+          },
+          {
+            "op": "flag",
+            "key": "path_y_xuanji_1"
+          }
+        ],
+        "outcome": "铜尺上的刻度比你记得的多了一格。"
+      }
+    ],
+    "art": {
+      "subject": "ruins of an old observatory terrace on a misty hilltop, a toppled bronze gnomon engraved with names, an elderly astronomer kneeling beside it"
+    }
+  },
+  {
+    "id": "ev_path_y_xuanji_2",
+    "title": "玄机子·倒影星图",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_y_xuanji_1"
+    },
+    "text": "沉渊城的湖面上倒映着一片你从未见过的星图——星辰全部倒悬，二十八宿都指向地面。那是三百年前命书撕裂那一夜的天象。",
+    "options": [
+      {
+        "text": "把星图抄下来",
+        "hint": "获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_xuanji_2"
+          }
+        ],
+        "outcome": "你抄了一整夜。抄到最后一颗星时，湖面上的星图也跟着消失了。"
+      },
+      {
+        "text": "投一块石子，打碎倒影",
+        "hint": "最大生命 +5",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 5
+          },
+          {
+            "op": "flag",
+            "key": "path_y_xuanji_2"
+          }
+        ],
+        "outcome": "星图碎成一湖的光。你看着它慢慢重新拼好，只是这一次，星辰是正的。"
+      }
+    ],
+    "art": {
+      "subject": "a still dark lake reflecting an inverted star chart with constellations pointing downward, an elderly astronomer with a brush and scroll at the shore"
+    }
+  },
+  {
+    "id": "ev_path_y_xuanji_3",
+    "title": "玄机子·朱笔圈星",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_y_xuanji_2"
+    },
+    "text": "星殿里摊着一张星图，上面用朱笔圈着一颗星，旁边写着你的名字和一个日期。你算了三十年，从没算错过——那个日期，就是明天。",
+    "options": [
+      {
+        "text": "把朱圈擦掉",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_xuanji_a"
+          }
+        ],
+        "outcome": "圈擦掉了，星还在。你看着那颗星看了很久，它眨了一下。"
+      },
+      {
+        "text": "在旁边补注“待验”",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_xuanji_b"
+          }
+        ],
+        "outcome": "写完这两个字，你觉得三十年的观测，都在等这一笔。"
+      }
+    ],
+    "art": {
+      "subject": "a vast star chart spread on a table in a starlit hall, one star circled in vermilion ink with a date beside it, an old astronomer holding a brush"
+    }
+  },
+  {
+    "id": "ev_path_y_yanwujiu_1",
+    "title": "燕无咎·空卦摊",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "y_yanwujiu"
+    },
+    "text": "碑林的路口摆着一个空卦摊，布幡上写着一个“燕”字，三枚铜钱排在桌上，像是摊主刚走开。桌角压着一张卦签，墨迹还没干。",
+    "options": [
+      {
+        "text": "坐下，替路过的人算一卦",
+        "hint": "获得 40 金",
+        "effects": [
+          {
+            "op": "gold",
+            "n": 40
+          },
+          {
+            "op": "flag",
+            "key": "path_y_yanwujiu_1"
+          }
+        ],
+        "outcome": "来了一个没有影子的人。你给他算了一卦，他付的钱是真的。"
+      },
+      {
+        "text": "收起布幡，带走",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_yanwujiu_1"
+          }
+        ],
+        "outcome": "布幡卷起来，里面掉出一枚铜钱，是你丢了很多年的那一枚。"
+      }
+    ],
+    "art": {
+      "subject": "an empty fortune-telling stall at a misty graveyard crossroads with a cloth banner bearing a single character and three copper coins on the table, a wandering diviner approaching"
+    }
+  },
+  {
+    "id": "ev_path_y_yanwujiu_2",
+    "title": "燕无咎·三百年前的卦签",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_y_yanwujiu_1"
+    },
+    "text": "沉渊城里，一个老人拿着一张卦签四处找卦师退钱。签上是你的字迹，落款日期是三百年前。他说：“这卦说我会活到城沉的那一天。它应验了——我现在还活着。”",
+    "options": [
+      {
+        "text": "把钱退给他",
+        "requires": {
+          "gold": 30
+        },
+        "hint": "失去 30 金 · 最大生命 +6",
+        "effects": [
+          {
+            "op": "gold",
+            "n": -30
+          },
+          {
+            "op": "maxHp",
+            "n": 6
+          },
+          {
+            "op": "flag",
+            "key": "path_y_yanwujiu_2"
+          }
+        ],
+        "outcome": "他接过钱，终于笑了：“其实我不是来退钱的，就是想再见见算卦的人。”"
+      },
+      {
+        "text": "再替他算一卦",
+        "requires": {
+          "hpAbove": 5
+        },
+        "hint": "失去 5 生命 · 获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -5
+          },
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_yanwujiu_2"
+          }
+        ],
+        "outcome": "这一卦说他明天会走。他听了，很满意地点了点头。"
+      }
+    ],
+    "art": {
+      "subject": "an old drowned man in a flooded street holding out a divination slip to a startled wandering diviner, lanterns glowing underwater"
+    }
+  },
+  {
+    "id": "ev_path_y_yanwujiu_3",
+    "title": "燕无咎·倒塔之卦",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_y_yanwujiu_2"
+    },
+    "text": "星殿里，三枚铜钱悬在半空，缓缓旋转，等人来掷。你算了一辈子别人的卦，这是第一次，卦在等你——算你从哪里来。",
+    "options": [
+      {
+        "text": "伸手接住铜钱，掷下去",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_yanwujiu_a"
+          }
+        ],
+        "outcome": "铜钱落地，是一个你从没见过的卦象。你看懂了，没有告诉任何人。"
+      },
+      {
+        "text": "把铜钱收起来，不掷了",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_yanwujiu_b"
+          }
+        ],
+        "outcome": "不知道从哪里来，也不妨碍往哪里去。"
+      }
+    ],
+    "art": {
+      "subject": "three copper coins spinning in midair in a vast starlit hall, a wandering diviner with a cloth banner looking up at them"
+    }
+  },
+  {
+    "id": "ev_path_y_weishuo_1",
+    "title": "卫朔·乱节",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "y_weishuo"
+    },
+    "text": "碑林里的草木乱了节令：同一棵树上，有的枝条在开花，有的在结果，有的在落叶。树下一块石碑，刻着“某年某月”，日子却是空的。",
+    "options": [
+      {
+        "text": "在碑上刻下今天的日子",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_weishuo_1"
+          }
+        ],
+        "outcome": "日子刻下去，那棵树的花谢了，果熟了，叶子一片也没有再落。"
+      },
+      {
+        "text": "采一枝不合时令的花",
+        "hint": "获得 1 瓶丹药",
+        "effects": [
+          {
+            "op": "addPotion"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_weishuo_1"
+          }
+        ],
+        "outcome": "花在你手里开了很久都没谢。"
+      }
+    ],
+    "art": {
+      "subject": "a single tree in a misty graveyard blooming, fruiting and shedding leaves all at once on different branches, a calendar official studying it"
+    }
+  },
+  {
+    "id": "ev_path_y_weishuo_2",
+    "title": "卫朔·倒流的漏刻",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_y_weishuo_1"
+    },
+    "text": "沉渊城里有一座水漏，漏壶里的水在往上流。城里的人都说，这座城的时辰是倒着走的，所以谁也老不了，谁也走不掉。",
+    "options": [
+      {
+        "text": "把它修正过来",
+        "requires": {
+          "hpAbove": 5
+        },
+        "hint": "失去 5 生命 · 获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -5
+          },
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_weishuo_2"
+          }
+        ],
+        "outcome": "水往下流的那一刻，城里响起了第一声更鼓。三百年来的第一声。"
+      },
+      {
+        "text": "记下它倒流的时辰",
+        "hint": "最大生命 +5",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 5
+          },
+          {
+            "op": "flag",
+            "key": "path_y_weishuo_2"
+          }
+        ],
+        "outcome": "你记了一整页。回头看时，这页上的字也是倒着写的。"
+      }
+    ],
+    "art": {
+      "subject": "a tall bronze water clock in a flooded city square with water flowing upward through its tiers, drowned citizens gathered around, a calendar official examining it"
+    }
+  },
+  {
+    "id": "ev_path_y_weishuo_3",
+    "title": "卫朔·第二十五个节气",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_y_weishuo_2"
+    },
+    "text": "星殿的丝线上旋转着二十四片历页，还有第二十五片——上面写着一个从没有过的节气，名字是空的。你知道，这是命书原本要写、却来不及写的那一个。",
+    "options": [
+      {
+        "text": "为它取一个名字",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_weishuo_a"
+          }
+        ],
+        "outcome": "你想了很久，写下两个字。历页亮了一下，从此有了自己的节令。"
+      },
+      {
+        "text": "让它空着",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_y_weishuo_b"
+          }
+        ],
+        "outcome": "有些日子，该留给以后的人去命名。"
+      }
+    ],
+    "art": {
+      "subject": "twenty-four floating calendar pages orbiting a thread in a starlit hall, a twenty-fifth blank page glowing among them, a calendar official reaching up"
+    }
+  },
+  {
+    "id": "ev_path_p_yetan_1",
+    "title": "夜昙·小坟",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "p_yetan"
+    },
+    "text": "碑林的角落里有一座很小的坟，碑上只刻着两个字：“早夭”。没有名字，没有日子。坟前的土是新翻的，像是有人刚来过。",
+    "options": [
+      {
+        "text": "替她刻上名字",
+        "requires": {
+          "hpAbove": 4
+        },
+        "hint": "失去 4 生命 · 升级 2 张牌",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -4
+          },
+          {
+            "op": "upgradeCard",
+            "n": 2,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yetan_1"
+          }
+        ],
+        "outcome": "你刻得很慢，刻完最后一笔时，你的手在抖。十四岁以后，你的手从没抖过。"
+      },
+      {
+        "text": "在坟前放一朵昙花",
+        "hint": "最大生命 +5",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 5
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yetan_1"
+          }
+        ],
+        "outcome": "花开了一瞬，就谢了。你知道她看见了。"
+      }
+    ],
+    "art": {
+      "subject": "a tiny grave in a shadowy corner of a graveyard with a small stone bearing two characters, freshly turned earth, a female assassin in dark purple kneeling with a night-blooming flower"
+    }
+  },
+  {
+    "id": "ev_path_p_yetan_2",
+    "title": "夜昙·蛊窟",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_p_yetan_1"
+    },
+    "text": "沉渊城下就是你出生的蛊窟。百虫还在，它们认得你，一只只爬出来，在你脚边围成一个圈。窟底的母蛊抬起头，像是在问你要不要回来。",
+    "options": [
+      {
+        "text": "带走母蛊",
+        "hint": "获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yetan_2"
+          }
+        ],
+        "outcome": "母蛊爬上你的手腕，缩成一只手镯。它的毒比你所有的针都温柔。"
+      },
+      {
+        "text": "放它们都出去",
+        "hint": "移除牌组中 1 张牌",
+        "effects": [
+          {
+            "op": "removeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yetan_2"
+          }
+        ],
+        "outcome": "虫群涌出蛊窟，消失在湖水里。窟里只剩你一个人，你第一次觉得这里不像家了。"
+      }
+    ],
+    "art": {
+      "subject": "a dark cavern beneath a sunken city crawling with glowing insects forming a circle around a female assassin, a huge mother gu insect rising from the depths"
+    }
+  },
+  {
+    "id": "ev_path_p_yetan_3",
+    "title": "夜昙·妹妹的那一页",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_p_yetan_2"
+    },
+    "text": "星殿里，你找到了写着妹妹名字的那一页。“早夭”两个字还在，墨迹褪得很淡。你手里有针，也有笔。",
+    "options": [
+      {
+        "text": "替她写下新的命",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yetan_a"
+          }
+        ],
+        "outcome": "你写得很认真，写了很长。写完才发现，写的全是你想和她一起做的事。"
+      },
+      {
+        "text": "只在上面扎一个针孔",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yetan_b"
+          }
+        ],
+        "outcome": "针孔很小，风从里面吹过去，像一声轻轻的呼吸。"
+      }
+    ],
+    "art": {
+      "subject": "a single page in a starlit library with a faded name and two characters, a female assassin holding a poison needle in one hand and a brush in the other"
+    }
+  },
+  {
+    "id": "ev_path_p_liuxu_1",
+    "title": "柳絮·无脸石像",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "p_liuxu"
+    },
+    "text": "碑林里有一尊石像，脸被人凿平了，只剩一片光滑的石面。石像的手里捧着一面铜镜，镜子里照出的，是你今天戴着的这张脸。",
+    "options": [
+      {
+        "text": "替它刻一张脸",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_liuxu_1"
+          }
+        ],
+        "outcome": "你刻了一张很普通的脸。石像好像很满意，镜子里的倒影也变了。"
+      },
+      {
+        "text": "把自己的一张面皮送给它",
+        "hint": "获得 1 瓶丹药",
+        "effects": [
+          {
+            "op": "addPotion"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_liuxu_1"
+          }
+        ],
+        "outcome": "面皮贴上去，石像笑了——是你的笑。"
+      }
+    ],
+    "art": {
+      "subject": "a stone statue in a misty graveyard with its face chiseled smooth, holding a bronze mirror that reflects a masked woman standing before it"
+    }
+  },
+  {
+    "id": "ev_path_p_liuxu_2",
+    "title": "柳絮·讨债人",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_p_liuxu_1"
+    },
+    "text": "沉渊城里，一个人拦住了你。“你借走了我命书上的一行字，”他说，“我替你活了三年，现在该还了。”他递过来一张借据，落款是你的笔迹。",
+    "options": [
+      {
+        "text": "把那一行还给他",
+        "hint": "移除牌组中 1 张牌 · 最大生命 +5",
+        "effects": [
+          {
+            "op": "removeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "maxHp",
+            "n": 5
+          },
+          {
+            "op": "flag",
+            "key": "path_p_liuxu_2"
+          }
+        ],
+        "outcome": "你把那一行命数从袖子里抽出来还给他。他接过去，脸上的水渍一下子干了。"
+      },
+      {
+        "text": "再向他借一行",
+        "hint": "获得 1 件罕见遗物 · 获得诅咒「宿业」",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "addCard",
+            "card": "cu_suye"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_liuxu_2"
+          }
+        ],
+        "outcome": "他犹豫了很久，还是借了。你知道这一行，迟早也要还。"
+      }
+    ],
+    "art": {
+      "subject": "a drowned man in a flooded alley holding out an old IOU slip to a smiling masked woman, lanterns reflected in the water"
+    }
+  },
+  {
+    "id": "ev_path_p_liuxu_3",
+    "title": "柳絮·三百张脸",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_p_liuxu_2"
+    },
+    "text": "星殿的长廊里挂着三百张面皮，全是你这些年借来的脸。每一张都在低声说话，说它原来的主人在哪里，过得好不好。",
+    "options": [
+      {
+        "text": "把三百张脸全部还回去",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_liuxu_a"
+          }
+        ],
+        "outcome": "最后一张还出去时，你摸了摸自己的脸，是空的，却很轻。"
+      },
+      {
+        "text": "留下一张",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_liuxu_b"
+          }
+        ],
+        "outcome": "你留下的那一张，是一个你从没见过的、很普通的女人的脸。你决定就用它了。"
+      }
+    ],
+    "art": {
+      "subject": "a long starlit corridor hung with three hundred masks of different faces, all whispering, a masked woman walking between them"
+    }
+  },
+  {
+    "id": "ev_path_p_yiqiu_1",
+    "title": "弈秋·碑林残局",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "p_yiqiu"
+    },
+    "text": "碑林的一块石桌上刻着一张棋盘，盘上是一局没有下完的棋。黑白子都已经被风雨磨得发亮，轮到白棋落子。你认得这一局——三百年前那一夜，你正在下的就是它。",
+    "options": [
+      {
+        "text": "落一子",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yiqiu_1"
+          }
+        ],
+        "outcome": "子落下去，石桌轻轻一震，像是对面有人叹了口气。"
+      },
+      {
+        "text": "把棋子收进袖里",
+        "hint": "获得 40 金",
+        "effects": [
+          {
+            "op": "gold",
+            "n": 40
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yiqiu_1"
+          }
+        ],
+        "outcome": "棋子凉得像冰。你收了一百多颗，一颗也没有少。"
+      }
+    ],
+    "art": {
+      "subject": "a stone go board carved into a table in a misty graveyard with an unfinished game of weathered stones, a woman in plum robes studying it"
+    }
+  },
+  {
+    "id": "ev_path_p_yiqiu_2",
+    "title": "弈秋·三百年的对手",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_p_yiqiu_1"
+    },
+    "text": "沉渊城的茶楼里坐着一个溺死的棋客，面前摆着棋盘，已经等了三百年。他说那一夜对面的人没下完就走了——他等的，就是你。",
+    "options": [
+      {
+        "text": "与他把这一局下完",
+        "requires": {
+          "hpAbove": 5
+        },
+        "hint": "失去 5 生命 · 获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -5
+          },
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yiqiu_2"
+          }
+        ],
+        "outcome": "你们下了三天三夜。最后一手，你赢了半目。他站起来，向你深深作揖，然后散成了水。"
+      },
+      {
+        "text": "推枰认输",
+        "hint": "最大生命 +5",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 5
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yiqiu_2"
+          }
+        ],
+        "outcome": "他愣住了，然后大笑起来：“原来你也会输。”"
+      }
+    ],
+    "art": {
+      "subject": "a drowned go player seated in a flooded teahouse with a board before him, water drifting like mist, a woman in plum robes sitting down across from him"
+    }
+  },
+  {
+    "id": "ev_path_p_yiqiu_3",
+    "title": "弈秋·棋盘之外",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_p_yiqiu_2"
+    },
+    "text": "星殿里摆着那张棋盘。司命坐在一边，另一边空着，棋局停在三百年前的那一手。你看得很清楚：这局棋，无论怎么下，结局都已写定。",
+    "options": [
+      {
+        "text": "把子落在棋盘之内",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yiqiu_a"
+          }
+        ],
+        "outcome": "你下了一手最合棋理的棋。司命点了点头：“好棋。”他也落了一子，这一局终于往下走了。"
+      },
+      {
+        "text": "把子落在棋盘之外",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_p_yiqiu_b"
+          }
+        ],
+        "outcome": "子落在棋盘外面，发出一声很轻的响。"
+      }
+    ],
+    "art": {
+      "subject": "a go board on a table in a vast starlit hall, a shadowy old scribe seated on one side, an empty seat on the other, a woman in plum robes holding a single stone"
+    }
+  },
+  {
+    "id": "ev_path_k_yanqiu_1",
+    "title": "砚秋·风化的碑文",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "k_yanqiu"
+    },
+    "text": "碑林里一块碑上的字正在风化，笔画一道道变浅，像有人在一点点擦掉它。碑上写的是一个你不认识的人的一生，只剩最后几行还看得清。",
+    "options": [
+      {
+        "text": "提笔把碑文补全",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_k_yanqiu_1"
+          }
+        ],
+        "outcome": "你补到最后一行时，碑上的字不再变浅了。你在碑脚落了一个小小的款。"
+      },
+      {
+        "text": "先把它拓下来",
+        "hint": "获得 1 瓶丹药",
+        "effects": [
+          {
+            "op": "addPotion"
+          },
+          {
+            "op": "flag",
+            "key": "path_k_yanqiu_1"
+          }
+        ],
+        "outcome": "拓本上的字比碑上还清楚。你把它夹进了随身的书里。"
+      }
+    ],
+    "art": {
+      "subject": "a weathered stone stele in a misty graveyard with its inscription fading stroke by stroke, a woman scholar with a brush and inkstone standing before it"
+    }
+  },
+  {
+    "id": "ev_path_k_yanqiu_2",
+    "title": "砚秋·沉书楼",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_k_yanqiu_1"
+    },
+    "text": "沉渊城的湖底沉着一座藏书楼，书页在水里一张张散开，像一群白色的鱼。你认出了楼上的匾额——那是翰墨书院三百年前的分院。",
+    "options": [
+      {
+        "text": "下水去抢救",
+        "requires": {
+          "hpAbove": 6
+        },
+        "hint": "失去 6 生命 · 获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -6
+          },
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_k_yanqiu_2"
+          }
+        ],
+        "outcome": "你抢回来一卷，水泡得字都晕开了，却还能读。卷首写着：命书抄本，第一卷。"
+      },
+      {
+        "text": "把书名一一记下来",
+        "hint": "最大生命 +5",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 5
+          },
+          {
+            "op": "flag",
+            "key": "path_k_yanqiu_2"
+          }
+        ],
+        "outcome": "你记了一整夜。书没能救回来，但书院的目录上，从此又多了三百个名字。"
+      }
+    ],
+    "art": {
+      "subject": "a sunken library tower underwater with countless book pages drifting out of its windows like a school of white fish, a woman scholar swimming toward it"
+    }
+  },
+  {
+    "id": "ev_path_k_yanqiu_3",
+    "title": "砚秋·半个未字",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_k_yanqiu_2"
+    },
+    "text": "星殿的丝线上挂着半个字，是一个被撕开的“未”。另一半在翰墨书院的抄本上，你天天看着它，却一直不知道它为什么只有一半。",
+    "options": [
+      {
+        "text": "把它补全",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_k_yanqiu_a"
+          }
+        ],
+        "outcome": "两半合在一起，字亮了一下。你忽然明白，这个字是有人拼了命才抄错的。"
+      },
+      {
+        "text": "在它旁边题第二个字",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_k_yanqiu_b"
+          }
+        ],
+        "outcome": "你没有补全它，而是在旁边写了一个新字。两个字挨在一起，读起来像一句还没说完的话。"
+      }
+    ],
+    "art": {
+      "subject": "half of a torn ink character hanging on a glowing thread in a starlit hall, a woman scholar holding an open book with the matching half"
+    }
+  },
+  {
+    "id": "ev_path_k_shentuo_1",
+    "title": "沈拓·正在消失的名字",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "k_shentuo"
+    },
+    "text": "碑林里一块碑上的名字正在一个个消失，像被风吹走的沙。碑上原本有上百个名字，现在只剩二十几个了。你背上的宣纸在沙沙作响。",
+    "options": [
+      {
+        "text": "把剩下的名字全部拓下来",
+        "requires": {
+          "hpAbove": 5
+        },
+        "hint": "失去 5 生命 · 升级 2 张牌",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -5
+          },
+          {
+            "op": "upgradeCard",
+            "n": 2,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_k_shentuo_1"
+          }
+        ],
+        "outcome": "你拓得很快，手臂都酸了。最后一个名字在你拓完的那一刻消失了——还好，它在纸上。"
+      },
+      {
+        "text": "只拓最后那一个",
+        "hint": "获得 40 金",
+        "effects": [
+          {
+            "op": "gold",
+            "n": 40
+          },
+          {
+            "op": "flag",
+            "key": "path_k_shentuo_1"
+          }
+        ],
+        "outcome": "你挑了最淡的那一个。拓完的时候，碑上别的名字好像都松了口气。"
+      }
+    ],
+    "art": {
+      "subject": "a tall stele in a graveyard with names vanishing from it like blowing sand, a man in grey travel robes hurriedly pressing paper against it with an ink pad"
+    }
+  },
+  {
+    "id": "ev_path_k_shentuo_2",
+    "title": "沈拓·没有名字的人",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_k_shentuo_1"
+    },
+    "text": "沉渊城里一群没有名字的人排着长队，队伍的尽头什么也没有。他们说，听说有个拓碑人会来，能给他们每人拓一个名字。",
+    "options": [
+      {
+        "text": "替他们一个个拓名字",
+        "hint": "最大生命 +6",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 6
+          },
+          {
+            "op": "flag",
+            "key": "path_k_shentuo_2"
+          }
+        ],
+        "outcome": "你拓到天亮，队伍一点也没短。可每个拿到名字的人，走的时候都在笑。"
+      },
+      {
+        "text": "把宣纸分给他们，让他们自己拓",
+        "hint": "获得 1 件普通遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "common"
+          },
+          {
+            "op": "flag",
+            "key": "path_k_shentuo_2"
+          }
+        ],
+        "outcome": "他们拿着纸，互相替对方拓。你站在旁边看着，觉得这样也好。"
+      }
+    ],
+    "art": {
+      "subject": "a long queue of faceless ghostly people in a flooded city street waiting patiently, a man with rice paper and an ink pad arriving at its head"
+    }
+  },
+  {
+    "id": "ev_path_k_shentuo_3",
+    "title": "沈拓·拓碑人的名字",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_k_shentuo_2"
+    },
+    "text": "星殿里有一张空白的拓纸，边上用小字写着：“拓碑人”。你替天下的人拓了一辈子名字，这一张，是留给你自己的。",
+    "options": [
+      {
+        "text": "给自己拓一个名字",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_k_shentuo_a"
+          }
+        ],
+        "outcome": "你第一次拓自己的名字，手却比拓任何人的都慢。"
+      },
+      {
+        "text": "让它空着",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_k_shentuo_b"
+          }
+        ],
+        "outcome": "空着也好，这样就还能继续替别人拓下去。"
+      }
+    ],
+    "art": {
+      "subject": "a single blank sheet of rubbing paper on a stone slab in a starlit hall with a small note at its edge, a weathered man holding his ink pad above it"
+    }
+  },
+  {
+    "id": "ev_path_w_fangxiang_1",
+    "title": "方相·疫村",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "w_fangxiang"
+    },
+    "text": "碑林外有一座村子，家家门上的桃符都褪了色，疫鬼在村口徘徊，不敢进，也不肯走。村里的人躲在门后，听见傩鼓声，悄悄把门缝推开了一点。",
+    "options": [
+      {
+        "text": "跳一场傩",
+        "requires": {
+          "hpAbove": 4
+        },
+        "hint": "失去 4 生命 · 升级 2 张牌",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -4
+          },
+          {
+            "op": "upgradeCard",
+            "n": 2,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_w_fangxiang_1"
+          }
+        ],
+        "outcome": "你跳到鼓破，疫鬼才退。村里的孩子跟在你后面，学你踩步子。"
+      },
+      {
+        "text": "给每家换上新的桃符",
+        "hint": "获得 1 瓶丹药",
+        "effects": [
+          {
+            "op": "addPotion"
+          },
+          {
+            "op": "flag",
+            "key": "path_w_fangxiang_1"
+          }
+        ],
+        "outcome": "新桃符贴上门，疫鬼在村口转了三圈，终于走了。"
+      }
+    ],
+    "art": {
+      "subject": "a small village at the edge of a misty graveyard with faded talismans on every door, shadowy plague ghosts lingering at the entrance, a masked exorcist with a drum approaching"
+    }
+  },
+  {
+    "id": "ev_path_w_fangxiang_2",
+    "title": "方相·水鬼",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_w_fangxiang_1"
+    },
+    "text": "沉渊城的水鬼在找替身，一个孩子被它拖着往水底去。孩子拼命挣扎，手里还攥着一张小小的傩面。",
+    "options": [
+      {
+        "text": "替孩子挡下",
+        "requires": {
+          "hpAbove": 8
+        },
+        "hint": "失去 8 生命 · 获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -8
+          },
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_w_fangxiang_2"
+          }
+        ],
+        "outcome": "水鬼抓住了你，你没有挣。它愣了很久，最后松开手，自己沉了下去。"
+      },
+      {
+        "text": "跳一段送鬼的傩，把它送走",
+        "hint": "移除牌组中 1 张牌",
+        "effects": [
+          {
+            "op": "removeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_w_fangxiang_2"
+          }
+        ],
+        "outcome": "水鬼听完了整段傩，向你鞠了一躬，化成了一串气泡。"
+      }
+    ],
+    "art": {
+      "subject": "a pale water ghost dragging a struggling child down into dark water in a sunken city, the child clutching a small mask, a masked exorcist diving after them"
+    }
+  },
+  {
+    "id": "ev_path_w_fangxiang_3",
+    "title": "方相·面具底下",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_w_fangxiang_2"
+    },
+    "text": "星殿里有一面铜镜，镜面照不出人，只照得出面具底下的东西。你站在镜前，镜子里是你戴着黄金四目面具的样子——面具底下，一片模糊。",
+    "options": [
+      {
+        "text": "揭下面具去看",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_w_fangxiang_a"
+          }
+        ],
+        "outcome": "你看见了那张脸。你没有惊讶——你早就猜到了。"
+      },
+      {
+        "text": "不揭",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_w_fangxiang_b"
+          }
+        ],
+        "outcome": "有些东西，不必看见。"
+      }
+    ],
+    "art": {
+      "subject": "a tall bronze mirror in a starlit hall reflecting only a golden four-eyed mask with a blurred void behind it, a masked exorcist standing before it"
+    }
+  },
+  {
+    "id": "ev_path_w_jiangniang_1",
+    "title": "绛娘·荒戏台",
+    "acts": [
+      1
+    ],
+    "requires": {
+      "commander": "w_jiangniang"
+    },
+    "text": "碑林里有一座荒废的戏台，台柱已经朽了，台上却还有一个影子在唱。它唱的是一出你演过无数次的戏，唱到你最拿手的那一段，忽然停了下来，像在等你接。",
+    "options": [
+      {
+        "text": "上台与它对唱",
+        "hint": "升级 1 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_w_jiangniang_1"
+          }
+        ],
+        "outcome": "你们唱到了最后。它向你行了个礼，化成了一片戏服的碎布。"
+      },
+      {
+        "text": "替它谢幕",
+        "hint": "获得 40 金",
+        "effects": [
+          {
+            "op": "gold",
+            "n": 40
+          },
+          {
+            "op": "flag",
+            "key": "path_w_jiangniang_1"
+          }
+        ],
+        "outcome": "你向空无一人的台下深深一揖。影子也跟着你一起弯下了腰。"
+      }
+    ],
+    "art": {
+      "subject": "a crumbling open-air stage in a misty graveyard with rotted pillars, a ghostly shadow performer singing on it, an opera actress in silver robes watching from below"
+    }
+  },
+  {
+    "id": "ev_path_w_jiangniang_2",
+    "title": "绛娘·溺死的看客",
+    "acts": [
+      2
+    ],
+    "requires": {
+      "flag": "path_w_jiangniang_1"
+    },
+    "text": "沉渊城的戏园里坐满了溺死的看客，他们等了三百年，就等一场戏开场。台上只有一张面具，是给你留的。",
+    "options": [
+      {
+        "text": "为他们唱一出",
+        "hint": "最大生命 +6",
+        "effects": [
+          {
+            "op": "maxHp",
+            "n": 6
+          },
+          {
+            "op": "flag",
+            "key": "path_w_jiangniang_2"
+          }
+        ],
+        "outcome": "你唱了一出他们没听过的戏。散场时，看客们一个个起身，走进了水面上的月光里。"
+      },
+      {
+        "text": "演一场只给自己看的戏",
+        "requires": {
+          "hpAbove": 5
+        },
+        "hint": "失去 5 生命 · 获得 1 件罕见遗物",
+        "effects": [
+          {
+            "op": "hp",
+            "n": -5
+          },
+          {
+            "op": "addRelic",
+            "tier": "uncommon"
+          },
+          {
+            "op": "flag",
+            "key": "path_w_jiangniang_2"
+          }
+        ],
+        "outcome": "你没有戴那张面具，演了一场谁也没看懂的戏。可你自己，演得很开心。"
+      }
+    ],
+    "art": {
+      "subject": "a flooded theater filled with rows of drowned ghostly spectators facing an empty stage with a single mask waiting on it, an actress stepping onto the stage"
+    }
+  },
+  {
+    "id": "ev_path_w_jiangniang_3",
+    "title": "绛娘·素面",
+    "acts": [
+      3
+    ],
+    "requires": {
+      "flag": "path_w_jiangniang_2"
+    },
+    "text": "星殿里摊着一页纸，纸上画着一张素净的脸，平凡，安静，不像任何一张面具。你知道，这就是命书上写着的、你本来的样子。",
+    "options": [
+      {
+        "text": "在那张脸上添一笔胭脂",
+        "hint": "获得 1 件稀有遗物",
+        "effects": [
+          {
+            "op": "addRelic",
+            "tier": "rare"
+          },
+          {
+            "op": "flag",
+            "key": "path_w_jiangniang_a"
+          }
+        ],
+        "outcome": "胭脂落下去，纸上的脸笑了。"
+      },
+      {
+        "text": "什么也不添",
+        "hint": "升级 3 张牌",
+        "effects": [
+          {
+            "op": "upgradeCard",
+            "n": 3,
+            "mode": "choose"
+          },
+          {
+            "op": "flag",
+            "key": "path_w_jiangniang_b"
+          }
+        ],
+        "outcome": "你看着那张脸，记住了它。"
+      }
+    ],
+    "art": {
+      "subject": "a single page in a starlit hall bearing a simple unadorned painted face, an opera actress holding a rouge brush hovering over it"
+    }
+  }
+]

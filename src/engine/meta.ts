@@ -11,6 +11,11 @@ import pagesData from '../data/lore/pages.json';
 /** 命书残页: one per boss, kept the first time it falls */
 export interface PageDef { id: string; boss: string; title: string; text: string }
 export const PAGES = pagesData as PageDef[];
+/** 真结局 needs every act 1–3 boss page (司命's and the hidden boss's pages drop in the final act itself) */
+export function trueEndingReady(p: { pages?: string[] }): boolean {
+  const need = PAGES.filter((pg) => !pg.boss.startsWith('e4_'));
+  return need.every((pg) => p.pages?.includes(pg.id));
+}
 
 export interface RunSummary {
   seed: string; commander: string; lieutenant: string | null; ascension: number; result: 'win' | 'lose' | 'abandon';

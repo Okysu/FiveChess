@@ -312,8 +312,11 @@ for (const ev of c.events.values()) {
 }
 for (const f of listJson()) lines(f).forEach((l, i) => { if (/"op":\s*"loseRelic",\s*"mode":\s*"choose"/.test(l)) report('6 events', 'WARN', `loseRelic mode "choose" is implemented as random (${at(RUN, "case 'loseRelic'")}); PickKind 'loseRelic' never pushed (${rel(f)}:${i + 1})`); if (/"op":\s*"removeCard"[^}]*"filter"/.test(l) && !/pickCandidates\(r, kind, filter\)/.test(text(RUN))) report('6 events', 'WARN', `removeCard.filter ignored by applyRunEffect (${rel(f)}:${i + 1})`); });
 const epilogueFlags = fs.existsSync(path.join(DATA_DIR, 'lore', 'epilogues.json')) ? fs.readFileSync(path.join(DATA_DIR, 'lore', 'epilogues.json'), 'utf8') : '';
-for (const [flag, a] of reach.flags) if (!flagsRead.has(flag) && !epilogueFlags.includes('"' + flag + '"') && !engineAndGame.some((f) => text(f).includes(`'${flag}'`) || text(f).includes('`' + flag.split(':')[0]))) report('6 events', 'WARN', `flag '${flag}' set (act ${a}) but never read by any requires/code (${at(listJson().map(rel).find((f) => text(f).includes(`"key": "${flag}"`)) ?? RUN, flag)})`);
-for (const flag of flagsRead) if (!reach.flags.has(flag)) report('6 events', 'ERROR', `flag '${flag}' required but never set`);
+// 主帅命途 endings are read as `path_${cmd.id}_a` (runEnd.ts)
+const pathFlagRead = (flag: string) => /^path_.+_[ab]$/.test(flag) && engineAndGame.some((f) => text(f).includes('`path_${'));
+for (const [flag, a] of reach.flags) if (!flagsRead.has(flag) && !pathFlagRead(flag) && !epilogueFlags.includes('"' + flag + '"') && !engineAndGame.some((f) => text(f).includes(`'${flag}'`) || text(f).includes('`' + flag.split(':')[0]))) report('6 events', 'WARN', `flag '${flag}' set (act ${a}) but never read by any requires/code (${at(listJson().map(rel).find((f) => text(f).includes(`"key": "${flag}"`)) ?? RUN, flag)})`);
+// flags the engine sets itself (e.g. 真结局 'true_end_close' in run.ts) count as set
+for (const flag of flagsRead) if (!reach.flags.has(flag) && !engineAndGame.some((f) => text(f).includes(`'${flag}'`))) report('6 events', 'ERROR', `flag '${flag}' required but never set`);
 for (const d of dangling) report('6 events', 'ERROR', `dangling reference ${d}`);
 
 // ═════════════ 7. commanders / lieutenants ═════════════

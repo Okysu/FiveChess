@@ -218,7 +218,7 @@
     "name": "弈秋",
     "title": "棋魁",
     "faction": "P",
-    "hp": 76,
+    "hp": 80,
     "sources": [
       "P",
       "P",
@@ -242,7 +242,7 @@
         "id": "sk_p_yiqiu_1",
         "name": "落子",
         "type": "passive",
-        "text": "每回合打出第4张牌后，抽2张牌。",
+        "text": "每回合打出第3张牌后，抽2张牌。",
         "triggers": [
           {
             "on": "cardPlayed",
@@ -251,7 +251,7 @@
                 {
                   "count": "cardsPlayed"
                 },
-                4
+                3
               ]
             },
             "effects": [

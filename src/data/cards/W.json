@@ -9,20 +9,20 @@
     "cost": {
       "g": 0
     },
-    "text": "[面具]：你的攻击伤害+2。\n[揭面]：对随机敌人造成12点伤害。",
+    "text": "[面具]：你的攻击伤害+1。\n[揭面]：对随机敌人造成10点伤害。",
     "field": {
       "mask": true,
       "modifiers": [
         {
           "stat": "attackDamage",
-          "amount": 2,
+          "amount": 1,
           "who": "friendly"
         }
       ],
       "reveal": [
         {
           "op": "damage",
-          "amount": 12,
+          "amount": 10,
           "target": "randomEnemy"
         }
       ]
@@ -43,7 +43,7 @@
     "cost": {
       "g": 0
     },
-    "text": "[面具]：你的回合结束时，获得4点[护甲]。\n[揭面]：获得12点[护甲]。",
+    "text": "[面具]：你的回合结束时，获得2点[护甲]。\n[揭面]：获得10点[护甲]。",
     "field": {
       "mask": true,
       "triggers": [
@@ -52,7 +52,7 @@
           "effects": [
             {
               "op": "armor",
-              "amount": 4,
+              "amount": 2,
               "target": "commander"
             }
           ]
@@ -61,7 +61,7 @@
       "reveal": [
         {
           "op": "armor",
-          "amount": 12,
+          "amount": 10,
           "target": "commander"
         }
       ]
@@ -82,19 +82,22 @@
     "cost": {
       "g": 0
     },
-    "text": "[面具]：你的回合开始时，恢复2点生命。\n[揭面]：抽2张牌，恢复5点生命。",
+    "text": "[面具]：每回合你打出的第一张牌费用-1。\n[揭面]：抽2张牌，恢复3点生命。",
     "field": {
       "mask": true,
-      "triggers": [
+      "modifiers": [
         {
-          "on": "turnStart",
-          "effects": [
-            {
-              "op": "heal",
-              "amount": 2,
-              "target": "commander"
-            }
-          ]
+          "stat": "cost",
+          "amount": -1,
+          "who": "friendly",
+          "if": {
+            "eq": [
+              {
+                "count": "cardsPlayed"
+              },
+              0
+            ]
+          }
         }
       ],
       "reveal": [
@@ -104,7 +107,7 @@
         },
         {
           "op": "heal",
-          "amount": 5,
+          "amount": 3,
           "target": "commander"
         }
       ]
@@ -125,7 +128,7 @@
     "cost": {
       "g": 0
     },
-    "text": "[面具]：敌人受到的伤害+1。\n[揭面]：对所有敌人施加2层[易伤]与2层[虚弱]。",
+    "text": "[面具]：敌人受到的伤害+1。\n[揭面]：对所有敌人施加2层[易伤]与1层[虚弱]。",
     "field": {
       "mask": true,
       "modifiers": [
@@ -149,7 +152,7 @@
             {
               "op": "status",
               "status": "weak",
-              "amount": 2,
+              "amount": 1,
               "target": "it"
             }
           ]
@@ -478,7 +481,7 @@
     },
     "text": "戴上怒面，造成{d}点伤害。",
     "vars": {
-      "d": 5
+      "d": 4
     },
     "varKinds": {
       "d": "attack"
@@ -498,7 +501,7 @@
     ],
     "upgrade": {
       "vars": {
-        "d": 7
+        "d": 6
       }
     },
     "flavor": "请神容易，送神难。",
@@ -520,7 +523,7 @@
     },
     "text": "戴上悲面，获得{a}点[护甲]。",
     "vars": {
-      "a": 6
+      "a": 4
     },
     "varKinds": {
       "a": "armor"
@@ -539,7 +542,7 @@
     ],
     "upgrade": {
       "vars": {
-        "a": 9
+        "a": 7
       }
     },
     "flavor": "这一面，是替死去的人戴的。",
@@ -812,8 +815,8 @@
       "d": "damage"
     },
     "unit": {
-      "atk": 4,
-      "hp": 6,
+      "atk": 3,
+      "hp": 5,
       "triggers": [
         {
           "on": "unmasked",
@@ -1001,7 +1004,7 @@
     "type": "tactic",
     "rarity": "epic",
     "cost": {
-      "g": 3,
+      "g": 4,
       "c": [
         "W",
         "W"
@@ -1041,7 +1044,7 @@
     ],
     "upgrade": {
       "cost": {
-        "g": 2,
+        "g": 3,
         "c": [
           "W",
           "W"
@@ -1060,7 +1063,7 @@
     "type": "unit",
     "rarity": "epic",
     "cost": {
-      "g": 2,
+      "g": 3,
       "c": [
         "W"
       ]
@@ -1208,8 +1211,8 @@
       "taunt"
     ],
     "unit": {
-      "atk": 6,
-      "hp": 8,
+      "atk": 5,
+      "hp": 7,
       "keywords": [
         "taunt"
       ],
@@ -1228,8 +1231,8 @@
     "effects": [],
     "upgrade": {
       "unit": {
-        "atk": 8,
-        "hp": 10
+        "atk": 6,
+        "hp": 9
       }
     },
     "flavor": "傩神没有脸。它有四张。",

@@ -4,7 +4,7 @@
  */
 import { content } from './content';
 import { codexProgress } from './collection';
-import { masteryLevel, MASTERY_MAX, type Profile, type RunSummary } from './meta';
+import { masteryLevel, MASTERY_MAX, PAGES, type Profile, type RunSummary } from './meta';
 import type { RunState } from './run/run';
 
 export interface AchCtx { p: Profile; r: RunState; s: RunSummary }
@@ -27,6 +27,8 @@ const winsWith = (p: Profile, id: string) => p.commanderStats[id]?.wins ?? 0;
 const COMMANDER_ACH: [string, string][] = [
   ['r_huojin', '断刀重铸'], ['b_shiyun', '山崩不死'], ['g_qingsi', '建木逢春'], ['p_yetan', '昙花夜放'], ['r_liyuan', '朱雀涅槃'],
   ['b_suxian', '寒川一曲'], ['g_acang', '枯木逢荣'], ['y_xuanji', '窥破天机'], ['y_yanwujiu', '一卦成谶'], ['p_liuxu', '柳絮随风'],
+  ['r_zhuyan', '焚尽旧名'], ['b_guanshanyue', '雄关不闭'], ['g_qiuchan', '百蜕归一'], ['y_weishuo', '天时已定'], ['p_yiqiu', '棋外一子'],
+  ['k_yanqiu', '一笔续书'], ['k_shentuo', '拓尽天下'], ['w_fangxiang', '百鬼退散'], ['w_jiangniang', '素面谢幕'],
 ];
 
 let cache: Achievement[] | null = null;
@@ -42,6 +44,9 @@ function build(): Achievement[] {
   { id: 'ach_first_win', name: '逆命而行', text: '首次通关。', reward: 200, group: '征途', done: win },
   { id: 'ach_runs_20', name: '百折不回', text: '累计出征 20 局。', reward: 150, group: '征途', done: (c) => c.p.runs >= 20, progress: (p) => [p.runs, 20] },
   { id: 'ach_wins_5', name: '五度逆命', text: '累计通关 5 次。', reward: 300, group: '征途', done: (c) => c.p.wins >= 5, progress: (p) => [p.wins, 5] },
+  { id: 'ach_pages', name: '残卷重订', text: '集齐全部命书残页。', reward: 300, group: '收藏', done: (c) => PAGES.every((pg) => c.p.pages?.includes(pg.id)), progress: (p) => [PAGES.filter((pg) => p.pages?.includes(pg.id)).length, PAGES.length] },
+  { id: 'ach_true_close', name: '合卷', text: '在命书的最后一页写下「此书终」。', reward: 500, group: '征途', done: (c) => win(c) && c.r.flags.includes('true_end_close') },
+  { id: 'ach_true_open', name: '续章', text: '在命书的最后一页留下「此书未终」。', reward: 500, group: '征途', done: (c) => win(c) && c.r.flags.includes('true_end_open') },
   { id: 'ach_hidden', name: '无名之名', text: '击败命书深处的无名者。', reward: 300, group: '征途', done: (c) => win(c) && c.r.flags.includes('hidden_boss') && !c.r.flags.includes('hidden_boss_lost') },
   { id: 'ach_act1_boss', name: '第一幕落', text: '击败第一幕首领。', reward: 60, group: '征途', done: (c) => st(c).bosses >= 1 },
   // 主帅

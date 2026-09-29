@@ -6,6 +6,7 @@ import { G, Scene } from '../core/app';
 import { assets, K } from '../assets';
 import { Box } from '../core/layout';
 import { Button, Tooltip, glossLines, hideTip, label, showTip, title } from '../ui/widgets';
+import { fitWidth } from '../ui/textwrap';
 import { C, FONT_BODY, FONT_NUM, FONT_TITLE, factionColor } from '../ui/theme';
 import { content } from '../../engine/content';
 import type { CommanderDef, Color } from '../../engine/defs';
@@ -66,10 +67,11 @@ export class SelectScene extends Scene {
     this.startBtn = new Button('启　程', { width: 260, height: 80, fontSize: fs(36), kind: 'primary', onClick: () => this.start() });
     bottom.add(this.startBtn, { width: 260, height: 80 });
     bottom.layout();
-    bottom.position.set(1860 - bottom.w, 836);
+    // clear of the 19-commander roster below (its school labels start at ~920)
+    bottom.position.set(1860 - bottom.w, 812);
     this.addChild(bottom);
     this.ascDesc = new Text({ text: '', style: { fontFamily: FONT_BODY, fontSize: fs(20), fill: C.textDim, stroke: { color: 0, width: 3 } } });
-    this.ascDesc.position.set(1860 - bottom.w, 836 + 70);
+    this.ascDesc.position.set(1860 - bottom.w, 812 + 64);
     this.ascDesc.eventMode = 'static';
     this.ascDesc.on('pointerover', (e) => { const l = (this.ascDesc as Text & { lines?: string[] }).lines ?? []; if (l.length) showTip(new Tooltip([{ title: `逆命 ${this.asc} 生效的修正`, body: l.map((x, i) => `${i + 1}. ${x}`).join('\n') }], 420), e.global.x, 520, 'above'); });
     this.ascDesc.on('pointerout', hideTip);
@@ -89,35 +91,42 @@ export class SelectScene extends Scene {
 
   private buildList() {
     this.list.removeChildren();
-    const groups: Color[] = ['R', 'B', 'G', 'Y', 'P'];
-    let x = 30;
+    // seven schools, 19 commanders: compact tiles, the school name above each group, the row centred
+    const groups: Color[] = ['R', 'B', 'G', 'Y', 'P', 'K', 'W'];
+    const TW = 76, TH = 120, PITCH = 82, GAP = 22;
+    const byGroup = groups.map((f) => [...content().commanders.values()].filter((c) => c.faction === f));
+    const total = byGroup.reduce((a, g) => a + g.length * PITCH, 0) + GAP * (groups.length - 1);
+    let x = Math.max(20, (1920 - total) / 2);
     const unlocked = session.profile.unlocked.commanders;
-    for (const f of groups) {
-      const cmds = [...content().commanders.values()].filter((c) => c.faction === f);
-      const tag = new Text({ text: COLOR_INFO[f].name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(30), fill: factionColor(f), stroke: { color: 0, width: 4 } } });
-      tag.position.set(x, 960);
+    groups.forEach((f, gi) => {
+      const cmds = byGroup[gi]!;
+      if (!cmds.length) return;
+      const tag = new Text({ text: `${COLOR_INFO[f].name}·${COLOR_INFO[f].school}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(20), fill: factionColor(f), stroke: { color: 0, width: 4 } } });
+      tag.anchor.set(0.5, 1);
+      tag.position.set(x + (cmds.length * PITCH - (PITCH - TW)) / 2, 952);
+      fitWidth(tag, cmds.length * PITCH - 6);
       this.list.addChild(tag);
-      x += 40;
       for (const c of cmds) {
         const locked = !unlocked.includes(c.id);
         const card = new Container();
-        card.position.set(x, 928);
-        const bg = uiPanel(104, 142, 'tile');
+        card.position.set(x, 955);
+        const bg = uiPanel(TW, TH, 'tile');
         card.addChild(bg);
-        const m = maskRect(12, 12, 80, 118, 4);
+        const m = maskRect(9, 9, TW - 18, TH - 18, 4);
         assets.with(K.hero(c.id), (t) => {
           const s = new Sprite(t);
-          const k = 142 / (t.height * 0.45);
+          const k = TH / (t.height * 0.45);
           s.scale.set(k);
-          s.position.set(52 - (t.width * k) / 2, -6);
+          s.position.set(TW / 2 - (t.width * k) / 2, -6);
           card.addChild(m);
           s.mask = m;
           if (locked) { s.tint = 0x000000; s.alpha = 0.7; }
           if (!card.destroyed) card.addChildAt(s, Math.min(1, card.children.length));
         });
-        const nm = new Text({ text: locked ? '？？？' : c.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: C.text, stroke: { color: 0, width: 4 } } });
+        const nm = new Text({ text: locked ? '？？？' : c.name, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(20), fill: C.text, stroke: { color: 0, width: 4 } } });
         nm.anchor.set(0.5, 1);
-        nm.position.set(52, 124);
+        nm.position.set(TW / 2, TH - 6);
+        fitWidth(nm, TW - 6);
         card.addChild(nm);
         card.eventMode = 'static';
         card.cursor = 'pointer';
@@ -131,14 +140,18 @@ export class SelectScene extends Scene {
         });
         if (locked) {
           const step = UNLOCK_TRACK.find((s) => s.commanders?.includes(c.id));
-          card.on('pointerover', (e) => showTip(new Tooltip([{ title: '未解锁', body: step ? `累计命数达到 ${step.xp} 后解锁（当前 ${session.profile.xp}）。` : '继续冒险以解锁。' }]), e.global.x, 700, 'above'));
+          const pages = session.profile.pages?.length ?? 0;
+          const body = !step ? '继续冒险以解锁。'
+            : step.pages !== undefined ? `累计命数达到 ${step.xp}（当前 ${session.profile.xp}），或集齐 ${step.pages} 页命书残页（当前 ${pages}）后解锁。`
+              : `累计命数达到 ${step.xp} 后解锁（当前 ${session.profile.xp}）。`;
+          card.on('pointerover', (e) => showTip(new Tooltip([{ title: '未解锁', body }]), e.global.x, 700, 'above'));
           card.on('pointerout', hideTip);
         }
         this.list.addChild(card);
-        x += 116;
+        x += PITCH;
       }
-      x += 20;
-    }
+      x += GAP - (PITCH - TW);
+    });
   }
 
   private showCommander(c: CommanderDef) {
