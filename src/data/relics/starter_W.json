@@ -1,0 +1,92 @@
+[
+  {
+    "id": "rl_start_fangxiang",
+    "name": "方相面",
+    "tier": "starter",
+    "faction": "W",
+    "text": "战斗开始时，戴上怒面。",
+    "flavor": "黄金四目，玄衣朱裳。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "mask",
+            "card": "w_mask_nu"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "an ancient golden four-eyed exorcist mask with a bear-skin crown, glowing faintly"
+    }
+  },
+  {
+    "id": "rl_start_fangxiang_b",
+    "name": "桃木剑",
+    "tier": "starter",
+    "faction": "W",
+    "text": "每当你[揭面]，对随机敌人造成5点伤害。",
+    "flavor": "桃木辟邪，比铁剑好使。",
+    "triggers": [
+      {
+        "on": "unmasked",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 5,
+            "target": "randomEnemy"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a peach-wood sword carved with talismans and tied with red tassels"
+    }
+  },
+  {
+    "id": "rl_start_jiangniang",
+    "name": "戏箱",
+    "tier": "starter",
+    "faction": "W",
+    "text": "战斗开始时，戴上喜面。",
+    "flavor": "箱子一开，就是一台戏。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "mask",
+            "card": "w_mask_xi"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a red lacquered costume trunk with brass corners, its lid ajar and masks and silks spilling out"
+    }
+  },
+  {
+    "id": "rl_start_jiangniang_b",
+    "name": "胭脂",
+    "tier": "starter",
+    "faction": "W",
+    "text": "每当你[揭面]，恢复4点生命。",
+    "flavor": "面具底下的妆，从来不花。",
+    "triggers": [
+      {
+        "on": "unmasked",
+        "effects": [
+          {
+            "op": "heal",
+            "amount": 4,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a small porcelain pot of rouge with a cherry-blossom lid and a tiny silver spoon"
+    }
+  }
+]

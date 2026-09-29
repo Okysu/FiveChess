@@ -246,5 +246,146 @@
     "art": {
       "subject": "a lanky wandering fortune teller in a faded blue-grey robe and bamboo hat, a cloth banner on a pole over his shoulder, three bronze coins spinning above his open palm, talismans fluttering around him"
     }
+  },
+  {
+    "id": "y_weishuo",
+    "name": "卫朔",
+    "title": "历官",
+    "faction": "Y",
+    "hp": 78,
+    "sources": [
+      "Y",
+      "Y",
+      "N"
+    ],
+    "deck": [
+      "y_basic_strike",
+      "y_basic_strike",
+      "y_basic_strike",
+      "y_basic_strike",
+      "y_basic_guard",
+      "y_basic_guard",
+      "y_basic_guard",
+      "y_basic_guard",
+      "y_ws_sig_almanac",
+      "y_ws_sig_time"
+    ],
+    "relic": "rl_start_weishuo",
+    "skills": [
+      {
+        "id": "sk_y_weishuo_1",
+        "name": "历法",
+        "type": "passive",
+        "text": "每当一次判定结果为{sun}{thunder}阳纹，获得3点[护甲]；为{moon}{mountain}阴纹，对随机敌人造成3点伤害。",
+        "triggers": [
+          {
+            "on": "judged",
+            "suit": "yang",
+            "effects": [
+              {
+                "op": "armor",
+                "amount": 3,
+                "target": "commander"
+              }
+            ]
+          },
+          {
+            "on": "judged",
+            "suit": "yin",
+            "effects": [
+              {
+                "op": "damage",
+                "amount": 3,
+                "target": "randomEnemy"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sk_y_weishuo_2",
+        "name": "颁历",
+        "type": "active",
+        "text": "每回合一次，支付1枚[源]：[判定]：{sun}日纹，造成8点伤害；{thunder}雷纹，对所有敌人造成3点伤害；{moon}月纹，恢复6点生命；{mountain}山纹，获得8点[护甲]。",
+        "cost": {
+          "g": 1
+        },
+        "target": "enemy",
+        "effects": [
+          {
+            "op": "judge",
+            "branches": {
+              "sun": [
+                {
+                  "op": "damage",
+                  "amount": 8,
+                  "target": "target"
+                }
+              ],
+              "thunder": [
+                {
+                  "op": "damage",
+                  "amount": 3,
+                  "target": "allEnemies"
+                }
+              ],
+              "moon": [
+                {
+                  "op": "heal",
+                  "amount": 6,
+                  "target": "commander"
+                }
+              ],
+              "mountain": [
+                {
+                  "op": "armor",
+                  "amount": 8,
+                  "target": "commander"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "alt": {
+      "relic": "rl_start_weishuo_b",
+      "replaces": "sk_y_weishuo_1",
+      "skill": {
+        "id": "sk_y_weishuo_alt",
+        "name": "朔望",
+        "type": "passive",
+        "text": "每回合第一次判定结果为{thunder}雷纹时，抽1张牌；第一次为{sun}日纹时，获得1张[命签]。",
+        "triggers": [
+          {
+            "on": "judged",
+            "suit": "thunder",
+            "limit": "turn",
+            "effects": [
+              {
+                "op": "draw",
+                "n": 1
+              }
+            ]
+          },
+          {
+            "on": "judged",
+            "suit": "sun",
+            "limit": "turn",
+            "effects": [
+              {
+                "op": "sign",
+                "n": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lore": "观星阁掌管历法的历官。命书撕裂后四季乱了套，一年里下过三场雪、开过两次桃花，天下的农人不知道该何时播种。卫朔用了二十年，重新排出一部能用的历——可他知道，这部历只是在猜。他走进命阙，要找到命书里写着四季的那一页，把天时真正排定。",
+    "ending": "命书之心里，写着四季的那一页已经碎成二十四片，片片都在丝线上缓缓旋转。卫朔一片一片地拼，拼到最后一片时停了手——那片上写着的，是一个从来没有过的节气。司命说，那是命书原本要写的第二十五个节气，还没来得及写下，书就撕了。卫朔把它留在了原处。他回到人间，在新历的最后一页空着一格，旁边写了一行小字：“待定。”",
+    "art": {
+      "subject": "a meticulous court calendar official in ochre and gold robes with a scholar's cap, holding an unrolled calendar scroll and a bronze gnomon, sun and moon symbols glowing behind him"
+    }
   }
 ]

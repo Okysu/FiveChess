@@ -16,6 +16,8 @@ export interface CardInst {
   free?: boolean;
   /** response card kept in hand through the enemy turn */
   held?: boolean;
+  /** 题字: times inscribed this combat — each makes it cost 1 less; any counts for "若此牌被题字过" */
+  inked?: number;
 }
 
 export interface FateCard { suit: Suit; rank: number; id: number; omen?: boolean }
@@ -159,7 +161,7 @@ export interface PendingTrigger { effects: Effect[]; ctx: Ctx; side: Side; ts: n
 
 export type Decision =
   | { kind: 'response'; actor: number | null; target: number | null; options: number[]; timer: number }
-  | { kind: 'chooseCards'; from: 'hand' | 'draw' | 'discard' | 'exhaust' | 'offer'; cards: CardInst[]; min: number; max: number; purpose: 'discard' | 'exhaust' | 'fetch' | 'discover'; offer?: CardInst[] }
+  | { kind: 'chooseCards'; from: 'hand' | 'draw' | 'discard' | 'exhaust' | 'offer'; cards: CardInst[]; min: number; max: number; purpose: 'discard' | 'exhaust' | 'fetch' | 'discover' | 'inscribe' | 'copy'; offer?: CardInst[] }
   | { kind: 'chooseOption'; options: string[] }
   | { kind: 'stargaze'; cards: FateCard[] }
   | { kind: 'rejudge'; card: FateCard; signs: FateCard[] };
@@ -235,6 +237,8 @@ export interface CombatState {
     discards?: number;
     judges?: number;
     cmdAttacks?: number;
+    /** 1.1: 揭面 count (傩面班) */
+    unmasks?: number;
   };
   goldGained: number;
   events: CEvent[];
@@ -316,6 +320,8 @@ export type CEvent =
   | { t: 'potion'; slot: number; id: string }
   /** an enemy sealed / released one of the player's relics */
   | { t: 'relicSeal'; id: string; sealed: boolean }
+  /** 题字: a card in hand was inscribed */
+  | { t: 'inscribe'; card: CardInst }
   /** an enemy calls out (edict broken, bell cracked …): shown as a banner */
   | { t: 'shout'; uid: number | null; text: string }
   /** cards swallowed by an enemy (total now in its belly) */

@@ -1,0 +1,159 @@
+[
+  {
+    "id": "lt_k_zuibi",
+    "name": "醉笔",
+    "title": "狂草客",
+    "faction": "K",
+    "skill": {
+      "id": "sk_lt_k_zuibi",
+      "type": "passive",
+      "name": "狂草",
+      "text": "每回合第一次打出被题字过的牌后，抽1张牌。",
+      "triggers": [
+        {
+          "on": "cardPlayed",
+          "if": {
+            "inked": true
+          },
+          "limit": "turn",
+          "effects": [
+            {
+              "op": "draw",
+              "n": 1
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "书院里最好的草书写在酒后。他说字要醉着写，人要醒着活——可惜他总是反过来。",
+    "art": {
+      "subject": "a disheveled drunk calligrapher laughing as he writes wild cursive on a wall with a brush dipped in a wine jug"
+    }
+  },
+  {
+    "id": "lt_k_keyin",
+    "name": "刻印",
+    "title": "治印师",
+    "faction": "K",
+    "skill": {
+      "id": "sk_lt_k_keyin",
+      "type": "passive",
+      "name": "方寸",
+      "text": "战斗开始时，获得2层[墨迹]；回合结束时，若你有[墨迹]，对随机敌人造成等同于[墨迹]层数一半的伤害。",
+      "triggers": [
+        {
+          "on": "combatStart",
+          "effects": [
+            {
+              "op": "status",
+              "status": "ink",
+              "amount": 2,
+              "target": "commander"
+            }
+          ]
+        },
+        {
+          "on": "turnEnd",
+          "if": {
+            "gt": [
+              {
+                "count": "status",
+                "status": "ink",
+                "of": "commander"
+              },
+              1
+            ]
+          },
+          "effects": [
+            {
+              "op": "damage",
+              "amount": {
+                "div": [
+                  {
+                    "count": "status",
+                    "status": "ink",
+                    "of": "commander"
+                  },
+                  2
+                ]
+              },
+              "target": "randomEnemy"
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "方寸之间，刻得下一座江山。她给人刻印，只收一个字作为报酬。",
+    "art": {
+      "subject": "a focused woman seal carver with a fine knife, a tiny stone seal in her palm showing an entire landscape"
+    }
+  },
+  {
+    "id": "lt_k_chaoshu",
+    "name": "小抄",
+    "title": "抄书童",
+    "faction": "K",
+    "skill": {
+      "id": "sk_lt_k_chaoshu",
+      "type": "passive",
+      "name": "誊写",
+      "text": "每当你打出一张[浮光]牌，获得2点[护甲]。",
+      "triggers": [
+        {
+          "on": "cardPlayed",
+          "if": {
+            "fleeting": true
+          },
+          "effects": [
+            {
+              "op": "armor",
+              "amount": 2,
+              "target": "commander"
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "书院里跑腿的孩子，抄书抄得比先生还快，就是不认得几个字。",
+    "art": {
+      "subject": "a small boy clutching a stack of copied pages taller than he is, ink smudged on his nose"
+    }
+  },
+  {
+    "id": "lt_k_bianxiu",
+    "name": "编修",
+    "title": "校书郎",
+    "faction": "K",
+    "skill": {
+      "id": "sk_lt_k_bianxiu",
+      "type": "passive",
+      "name": "校雠",
+      "text": "每回合打出第3张牌后，[拓印]弃牌堆中随机一张牌。",
+      "triggers": [
+        {
+          "on": "cardPlayed",
+          "if": {
+            "eq": [
+              {
+                "count": "cardsPlayed"
+              },
+              3
+            ]
+          },
+          "effects": [
+            {
+              "op": "copyCard",
+              "from": "discard",
+              "mode": "random",
+              "n": 1
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "他校过的书，错字比原稿还少。命书撕裂后，他想校的第一本，就是命书。",
+    "art": {
+      "subject": "a meticulous middle-aged editor with spectacles comparing two scrolls under lamplight, red corrections in the margins"
+    }
+  }
+]

@@ -6,8 +6,20 @@
     "faction": "R",
     "text": "战斗开始时，装备一把断焰刀（攻击力3，距离1，耐久6）。",
     "flavor": "刀断了，鞘还留着那一截的形状。",
-    "triggers": [{ "on": "combatStart", "effects": [{ "op": "equip", "card": "tk_r_duanyan" }] }],
-    "art": { "subject": "a battered crimson leather scabbard wrapped in iron bands, lying open with a faint orange glow leaking from its mouth" }
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "equip",
+            "card": "tk_r_duanyan"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a battered crimson leather scabbard wrapped in iron bands, lying open with a faint orange glow leaking from its mouth"
+    }
   },
   {
     "id": "rl_start_liyuan",
@@ -16,8 +28,21 @@
     "faction": "R",
     "text": "战斗开始时，将一张火种置入手牌。",
     "flavor": "祭司把它插在发间，它便每天替她落下一粒火。",
-    "triggers": [{ "on": "combatStart", "effects": [{ "op": "create", "card": "tk_r_spark", "to": "hand" }] }],
-    "art": { "subject": "a single long vermilion tail feather floating upright in darkness, its tip smoldering and shedding one glowing ember" }
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "create",
+            "card": "tk_r_spark",
+            "to": "hand"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a single long vermilion tail feather floating upright in darkness, its tip smoldering and shedding one glowing ember"
+    }
   },
   {
     "id": "rl_start_huojin_b",
@@ -64,6 +89,54 @@
     ],
     "art": {
       "subject": "a single long vermilion tail feather with golden eyes along its vane, faint flames flickering at its tip, floating over ash"
+    }
+  },
+  {
+    "id": "rl_start_zhuyan",
+    "name": "焚城火种",
+    "tier": "starter",
+    "faction": "R",
+    "text": "战斗开始时，对所有敌人施加3层[灼烧]。",
+    "flavor": "殷都那场火，他家留下了一星。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "forEach",
+            "sel": "allEnemies",
+            "effects": [
+              {
+                "op": "status",
+                "status": "burn",
+                "amount": 3,
+                "target": "it"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a small iron lantern holding a single ancient ember that never goes out, soot-blackened, tied with a red cord"
+    }
+  },
+  {
+    "id": "rl_start_zhuyan_b",
+    "name": "殷都余灰",
+    "tier": "starter",
+    "faction": "R",
+    "text": "敌人受到的[灼烧]伤害+1。",
+    "flavor": "一把灰，三百年都没凉透。",
+    "modifiers": [
+      {
+        "stat": "burnDamage",
+        "amount": 1,
+        "who": "enemy"
+      }
+    ],
+    "art": {
+      "subject": "a lacquered box of grey ash with glowing embers still buried inside, a palace roof tile fragment on top"
     }
   }
 ]

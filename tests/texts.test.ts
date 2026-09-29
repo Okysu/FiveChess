@@ -10,7 +10,7 @@ import { fillVars, plainRules } from '../src/engine/glossary';
 
 loadContent();
 const c = content();
-const ICON = new Set(['R', 'B', 'G', 'Y', 'P', 'N', 'sun', 'thunder', 'moon', 'mountain', 'X', 'x']);
+const ICON = new Set(['R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N', 'sun', 'thunder', 'moon', 'mountain', 'X', 'x']);
 const leftovers = (t: string) => [...t.matchAll(/\{(\w+)\}/g)].map((m) => m[1]!).filter((k) => !ICON.has(k));
 
 describe('fillVars', () => {

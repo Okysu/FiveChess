@@ -1,0 +1,193 @@
+[
+  {
+    "id": "k_yanqiu",
+    "name": "砚秋",
+    "title": "掌书",
+    "faction": "K",
+    "hp": 74,
+    "sources": [
+      "K",
+      "K",
+      "N"
+    ],
+    "deck": [
+      "k_basic_strike",
+      "k_basic_strike",
+      "k_basic_strike",
+      "k_basic_strike",
+      "k_basic_guard",
+      "k_basic_guard",
+      "k_basic_guard",
+      "k_basic_guard",
+      "k_yq_sig_brush",
+      "k_yq_sig_title"
+    ],
+    "relic": "rl_start_yanqiu",
+    "skills": [
+      {
+        "id": "sk_k_yanqiu_1",
+        "name": "润笔",
+        "type": "passive",
+        "text": "每当你打出一张被题字过的牌，获得2层[墨迹]。",
+        "triggers": [
+          {
+            "on": "cardPlayed",
+            "if": {
+              "inked": true
+            },
+            "effects": [
+              {
+                "op": "status",
+                "status": "ink",
+                "amount": 2,
+                "target": "commander"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sk_k_yanqiu_2",
+        "name": "题字",
+        "type": "active",
+        "text": "每回合一次，支付1枚[源]：[题字]一张手牌。",
+        "cost": {
+          "g": 1
+        },
+        "effects": [
+          {
+            "op": "inscribe",
+            "n": 1,
+            "mode": "choose"
+          }
+        ]
+      }
+    ],
+    "alt": {
+      "relic": "rl_start_yanqiu_b",
+      "replaces": "sk_k_yanqiu_1",
+      "skill": {
+        "id": "sk_k_yanqiu_alt",
+        "name": "一字千金",
+        "type": "passive",
+        "text": "每当你打出一张被题字过的牌，对随机敌人造成4点伤害。",
+        "triggers": [
+          {
+            "on": "cardPlayed",
+            "if": {
+              "inked": true
+            },
+            "effects": [
+              {
+                "op": "damage",
+                "amount": 4,
+                "target": "randomEnemy"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lore": "翰墨书院的掌书，管着书院的三万卷藏书，也管着书院最大的秘密：书院藏着一部命书的抄本。抄本上的字会自己淡去，砚秋每天都要题补一遍。她说命书不是写死的，只要有人肯一笔一笔地抄，就永远抄得完。三百年来书院的掌书都这样抄着——直到抄本上出现了一行没人写过的字，墨迹未干。",
+    "ending": "命书之心里，砚秋见到了那一行字的来处：一个被撕碎的“未”字，一半在书院的抄本上，一半在命书的装订线上。司命说，只要她肯把书院的抄本烧了，命书就能补回一页。砚秋没有烧。她研了一方墨，在“未”字旁边题了第二个字，然后把笔递给了司命。“一起抄吧，”她说，“三百年了，先生总该有个帮手。”",
+    "art": {
+      "subject": "a composed woman scholar in layered grey and black robes with a vermilion sash, holding a large calligraphy brush and an open book whose characters rise off the page as ink, three-quarter view"
+    }
+  },
+  {
+    "id": "k_shentuo",
+    "name": "沈拓",
+    "title": "拓碑人",
+    "faction": "K",
+    "hp": 78,
+    "sources": [
+      "K",
+      "K",
+      "N"
+    ],
+    "deck": [
+      "k_basic_strike",
+      "k_basic_strike",
+      "k_basic_strike",
+      "k_basic_strike",
+      "k_basic_guard",
+      "k_basic_guard",
+      "k_basic_guard",
+      "k_basic_guard",
+      "k_st_sig_rub",
+      "k_st_sig_stamp"
+    ],
+    "relic": "rl_start_shentuo",
+    "skills": [
+      {
+        "id": "sk_k_shentuo_1",
+        "name": "拓本",
+        "type": "passive",
+        "text": "每当你打出一张[浮光]牌，获得1层[墨迹]。",
+        "triggers": [
+          {
+            "on": "cardPlayed",
+            "if": {
+              "fleeting": true
+            },
+            "effects": [
+              {
+                "op": "status",
+                "status": "ink",
+                "amount": 1,
+                "target": "commander"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sk_k_shentuo_2",
+        "name": "拓印",
+        "type": "active",
+        "text": "每回合一次，支付1枚[源]：[拓印]弃牌堆中的一张牌。",
+        "cost": {
+          "g": 1
+        },
+        "effects": [
+          {
+            "op": "copyCard",
+            "from": "discard",
+            "mode": "choose",
+            "n": 1
+          }
+        ]
+      }
+    ],
+    "alt": {
+      "relic": "rl_start_shentuo_b",
+      "replaces": "sk_k_shentuo_1",
+      "skill": {
+        "id": "sk_k_shentuo_alt",
+        "name": "碑林",
+        "type": "passive",
+        "text": "每当你打出一张[浮光]牌，对随机敌人造成2点伤害。",
+        "triggers": [
+          {
+            "on": "cardPlayed",
+            "if": {
+              "fleeting": true
+            },
+            "effects": [
+              {
+                "op": "damage",
+                "amount": 2,
+                "target": "randomEnemy"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lore": "人们说，名字从碑上风化掉的人，就从世上彻底消失了——除非有个拓碑人路过，把它重新拓下来。沈拓就是那个拓碑人。他背着宣纸和拓包走遍天下的墓园，把快要消失的名字一个个拓下来，装订成册。命阙开启后，碑林里的名字消失得越来越快，他便追着那些名字，走进了裂缝。",
+    "ending": "命书之心的丝线上缠着无数拓本，全是沈拓这些年拓下的名字。司命说，这些人本该被忘掉，他替命书记着，其实是在违抗命书。沈拓把最厚的一册拓本摊开，最后一页是空的，边上有一行小字：“拓碑人，沈拓”——他从没给自己拓过名字。司命替他拓了一张，然后说：“这下，你也不会消失了。”沈拓收起拓本，回到碑林，继续往下拓。",
+    "art": {
+      "subject": "a weathered middle-aged man in dark grey travel robes with a bundle of rice paper on his back and an ink pad in hand, standing before a tall stele covered in fading names, three-quarter view"
+    }
+  }
+]

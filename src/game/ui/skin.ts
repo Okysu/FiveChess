@@ -28,7 +28,7 @@ export const WB = {
 export const UI_TEXTURES = [
   'panel_light', 'panel_dark', 'panel_row', 'panel_tile', 'menu_panel', 'topbar', 'banner_band', 'rules_box',
   'button_red', 'button_green', 'button_blue', 'button_grey',
-  ...['R', 'B', 'G', 'Y', 'P', 'N'].flatMap((f) => [`card_frame_${f}`, `ribbon_${f}`, `pip_${f}`]),
+  ...['R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N'].flatMap((f) => [`card_frame_${f}`, `ribbon_${f}`, `pip_${f}`]),
   'cost_disc', 'stat_atk', 'stat_hp', 'stat_dur', 'stat_turns', 'gem_common', 'gem_rare', 'gem_epic', 'gem_legendary',
   'suit_sun', 'suit_thunder', 'suit_moon', 'suit_mountain', 'bar_frame', 'bar_fill_red', 'bar_fill_blue', 'bar_fill_gold',
   'frame_gold', 'frame_red', 'frame_blue', 'ring_gold', 'ring_red', 'token_frame', 'tag_red', 'tag_gold',
@@ -235,7 +235,7 @@ export function gem(rarity: string, size: number): Container {
 /** 色觉模式: sources and suits also carry their name glyph, so nothing depends on hue alone */
 let glyphs = false;
 export function setColorGlyphs(on: boolean) { glyphs = on; }
-const PIP_GLYPH: Record<Color, string> = { R: '赤', B: '玄', G: '青', Y: '金', P: '紫', N: '素' };
+const PIP_GLYPH: Record<Color, string> = { R: '赤', B: '玄', G: '青', Y: '金', P: '紫', K: '墨', W: '银', N: '素' };
 const SUIT_GLYPH: Record<Suit, string> = { sun: '日', thunder: '雷', moon: '月', mountain: '山' };
 function withGlyph(c: Container, ch: string, size: number): Container {
   if (!glyphs || size < 18) return c;

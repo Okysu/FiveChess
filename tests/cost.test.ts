@@ -12,7 +12,7 @@ import { setTuning } from '../src/engine/combat/tuning';
 
 const c = loadContent();
 const fate = SUITS.flatMap((suit) => Array.from({ length: 13 }, (_, i) => ({ suit, rank: i + 1 })));
-const COLORS: Color[] = ['R', 'B', 'G', 'Y', 'P', 'N'];
+const COLORS: Color[] = ['R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N'];
 /** effects that hand sources back, so "ready before − ready after" is not the price */
 const refunds = (id: string, up: boolean) => /"op":"(refresh|energy|gainSource)"/.test(JSON.stringify(c.card(id, up).effects ?? []));
 

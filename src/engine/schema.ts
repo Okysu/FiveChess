@@ -8,7 +8,7 @@ import type {
   CardDef, CommanderDef, Condition, Effect, EncounterDef, EnemyAI, EnemyDef, EventDef, LieutenantDef,
   Modifier, PotionDef, RelicDef, RunCondition, RunEffect, Selector, Trigger, Value, SkillDef, JudgeBranches, AffixDef } from './defs';
 
-export const zColor = z.enum(['R', 'B', 'G', 'Y', 'P', 'N']);
+export const zColor = z.enum(['R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N']);
 export const zSuit = z.enum(['sun', 'thunder', 'moon', 'mountain']);
 export const zSuitX = z.enum(['sun', 'thunder', 'moon', 'mountain', 'yang', 'yin']);
 export const zKeyword = z.enum([
@@ -16,7 +16,7 @@ export const zKeyword = z.enum([
   'battlecry', 'deathrattle', 'growth', 'aura', 'stealth', 'response', 'judge', 'delay', 'omen',
   'exhaust', 'innate', 'retain', 'ethereal', 'combo', 'offering', 'resonance',
 ]);
-export const zStatus = z.enum(['burn', 'poison', 'freeze', 'stun', 'vulnerable', 'weak', 'silence', 'might', 'tenacity', 'regen']);
+export const zStatus = z.enum(['burn', 'poison', 'freeze', 'stun', 'vulnerable', 'weak', 'silence', 'might', 'tenacity', 'regen', 'ink']);
 export const zCardType = z.enum(['unit', 'tactic', 'response', 'equip', 'delay', 'field', 'status', 'curse']);
 export const zRarity = z.enum(['basic', 'common', 'rare', 'epic', 'legendary', 'token', 'special']);
 export const zIntent = z.enum(['attack', 'defend', 'buff', 'debuff', 'summon', 'judge', 'cast', 'unknown', 'escape', 'sleep', 'heal']);
@@ -42,6 +42,7 @@ export const zValue: z.ZodType<Value> = z.lazy(() => z.union([
       'hand', 'drawPile', 'discardPile', 'exhaustPile', 'sources', 'readySources', 'embers', 'units', 'cardsPlayed',
       'status', 'armor', 'atk', 'hp', 'missingHp', 'maxHp', 'signs', 'judgeRank', 'x', 'lastDamage', 'turn', 'sacrificed',
       'eventAmount', 'judgesThisTurn', 'equipped', 'delays', 'counter', 'deadThisCombat', 'responsesThisCombat', 'weaponAtk', 'selected',
+      'unmasks',
     ]),
     color: zColor.optional(), side: z.enum(['friendly', 'enemy']).optional(), row: zRow.optional(),
     status: zStatus.optional(), of: zSelector.optional(), suit: zSuitX.optional(),
@@ -93,6 +94,9 @@ export const zCondition: z.ZodType<Condition> = z.lazy(() => z.union([
   z.object({ declared: zIntent }).strict(),
   z.object({ myTurn: z.boolean() }).strict(),
   z.object({ eventCard: zCardFilter }).strict(),
+  z.object({ inked: z.boolean() }).strict(),
+  z.object({ fleeting: z.boolean() }).strict(),
+  z.object({ field: z.string() }).strict(),
   z.object({ hasEquip: zEquipSlot }).strict(),
   z.object({ emptySlot: z.object({ side: z.enum(['friendly', 'enemy']), row: zRow.optional() }).strict() }).strict(),
 ])) as z.ZodType<Condition>;
@@ -155,6 +159,10 @@ export const zEffect: z.ZodType<Effect> = z.lazy(() => z.discriminatedUnion('op'
   o('store', { key: z.string(), value: zValue }),
   o('counter', { amount: zValue, max: z.number().int().optional(), then: effs().optional() }),
   o('gold', { n: zValue }),
+  o('inscribe', { n: zValue, mode: z.enum(['choose', 'random', 'all']) }),
+  o('copyCard', { from: z.enum(['discard', 'exhaust', 'hand']), mode: z.enum(['choose', 'random']), n: zValue, fleeting: z.boolean().optional() }),
+  o('mask', { card: z.string().optional(), next: z.boolean().optional(), again: z.boolean().optional() }),
+  o('unmask', {}),
   o('script', { id: z.string(), args: z.record(z.unknown()).optional() }),
 ])) as z.ZodType<Effect>;
 
@@ -162,7 +170,7 @@ export const zTriggerOn = z.enum([
   'combatStart', 'combatEnd', 'turnStart', 'turnEnd', 'opponentTurnStart', 'opponentTurnEnd', 'enter', 'death',
   'cardPlayed', 'cardSacrificed', 'cardDrawn', 'cardDiscarded', 'cardExhausted', 'cardCreated', 'unitSummoned', 'unitDied',
   'damaged', 'dealtDamage', 'attacked', 'attacking', 'healed', 'armorGained', 'armorBroken', 'statusApplied', 'judged',
-  'rejudged', 'responsePlayed', 'actionDeclared', 'equipped', 'sourceGained', 'shuffled',
+  'rejudged', 'responsePlayed', 'actionDeclared', 'equipped', 'sourceGained', 'shuffled', 'fieldSet', 'unmasked',
 ]);
 
 export const zTrigger: z.ZodType<Trigger> = z.object({
@@ -203,7 +211,7 @@ const zEquipStats = z.object({
   mount: z.enum(['offense', 'defense']).optional(), triggers: z.array(zTrigger).optional(), modifiers: z.array(zModifier).optional(),
 }).strict();
 const zDelayStats = z.object({ turns: z.number().int().min(1), on: z.enum(['enemy', 'friendly', 'any']), branches: zJudgeBranches }).strict();
-const zFieldStats = z.object({ duration: z.number().int().optional(), triggers: z.array(zTrigger).optional(), modifiers: z.array(zModifier).optional() }).strict();
+const zFieldStats = z.object({ mask: z.boolean().optional(), reveal: z.array(z.lazy(() => zEffect)).optional(), duration: z.number().int().optional(), triggers: z.array(zTrigger).optional(), modifiers: z.array(zModifier).optional() }).strict();
 
 const zVarKind = z.enum(['attack', 'damage', 'armor', 'heal', 'burn', 'poison', 'other']);
 

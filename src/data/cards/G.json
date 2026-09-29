@@ -2307,9 +2307,567 @@
       "subject": "overgrown ruins of an ancient palace swallowed by eternal green forest, glowing spirits rising from fallen leaves in the collapsed halls, shafts of warm light"
     }
   },
-  {"id":"g_thorn_whip","name":"荆棘鞭","faction":"G","type":"equip","rarity":"common","cost":{"g":1,"c":["G"]},"text":"武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击后，随机一个友方单位获得+1/+1。","vars":{"w":1,"r":2,"u":4},"varKinds":{"w":"attack"},"equip":{"slot":"weapon","atk":1,"range":2,"durability":4,"triggers":[{"on":"attacking","effects":[{"op":"buff","target":"randomFriendlyUnit","atk":1,"hp":1}]}]},"upgrade":{"vars":{"w":2},"equip":{"atk":2}},"flavor":"鞭子上长着刺，也长着叶子。","art":{"subject":"a coiled whip made of a living thorny vine with small green leaves and tiny blossoms, lying on moss, dew drops on the thorns"}},
-  {"id":"g_beast_horn","name":"兽王号","faction":"G","type":"tactic","rarity":"common","cost":{"g":1,"c":["G"]},"text":"本回合所有友方单位+{a}攻击。","vars":{"a":2},"effects":[{"op":"buff","target":"friendlyUnits","atk":"$a","until":"turn"}],"upgrade":{"vars":{"a":3}},"flavor":"号角一响，林子里的东西都抬起了头。","art":{"subject":"a curved horn carved from a great beast, a hunter blowing it in a misty forest, spectral animal shapes rising from the sound"}},
-  {"id":"g_seed_arrow","name":"种矢","faction":"G","type":"tactic","rarity":"common","cost":{"g":1,"c":["G"]},"text":"造成{d}点伤害。召唤{n}个「灵苗」。","vars":{"d":4,"n":1},"varKinds":{"d":"attack"},"target":"enemy","effects":[{"op":"damage","amount":"$d","target":"target","attack":true},{"op":"summon","unit":"tk_g_sprout","n":"$n"}],"upgrade":{"vars":{"d":6}},"flavor":"箭落下的地方，第二天会长出一棵树。","art":{"subject":"a wooden arrow striking the ground and sprouting a small glowing sapling at its point, roots spreading, forest light"}},
-  {"id":"g_wood_warden","name":"木灵卫","faction":"G","type":"unit","rarity":"rare","cost":{"g":2,"c":["G"]},"text":"[坚守]。主帅攻击后，此单位恢复{h}点生命并获得+1攻击。","vars":{"h":2},"varKinds":{"h":"heal"},"unit":{"atk":2,"hp":5,"keywords":["taunt"],"triggers":[{"on":"attacking","who":"friendly","if":{"isCommander":"eventSource"},"effects":[{"op":"heal","amount":"$h","target":"self"},{"op":"buff","target":"self","atk":1}]}]},"upgrade":{"unit":{"hp":7}},"flavor":"老树变成的卫士，听见刀声就长。","art":{"subject":"a towering guardian made of living wood and bark with a spear of branches, glowing green eyes, leaves growing on its shoulders"}},
-  {"id":"g_ancient_bark","name":"古树皮甲","faction":"G","type":"equip","rarity":"epic","cost":{"g":2,"c":["G"]},"text":"防具：装备时，获得{a}点[护甲]。每当友方单位入场，你的主帅获得{b}点[护甲]。","vars":{"a":5,"b":2},"varKinds":{"a":"armor","b":"armor"},"equip":{"slot":"armor","triggers":[{"on":"unitSummoned","who":"friendly","effects":[{"op":"armor","amount":"$b","target":"commander"}]}]},"effects":[{"op":"armor","amount":"$a","target":"commander"}],"upgrade":{"vars":{"b":3}},"flavor":"一层树皮，就是一圈年轮的守护。","art":{"subject":"a suit of armor made from overlapping plates of ancient bark and moss, small shoots growing between the plates, on a wooden stand"}}
+  {
+    "id": "g_thorn_whip",
+    "name": "荆棘鞭",
+    "faction": "G",
+    "type": "equip",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击后，随机一个友方单位获得+1/+1。",
+    "vars": {
+      "w": 1,
+      "r": 2,
+      "u": 4
+    },
+    "varKinds": {
+      "w": "attack"
+    },
+    "equip": {
+      "slot": "weapon",
+      "atk": 1,
+      "range": 2,
+      "durability": 4,
+      "triggers": [
+        {
+          "on": "attacking",
+          "effects": [
+            {
+              "op": "buff",
+              "target": "randomFriendlyUnit",
+              "atk": 1,
+              "hp": 1
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "w": 2
+      },
+      "equip": {
+        "atk": 2
+      }
+    },
+    "flavor": "鞭子上长着刺，也长着叶子。",
+    "art": {
+      "subject": "a coiled whip made of a living thorny vine with small green leaves and tiny blossoms, lying on moss, dew drops on the thorns"
+    }
+  },
+  {
+    "id": "g_beast_horn",
+    "name": "兽王号",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "本回合所有友方单位+{a}攻击。",
+    "vars": {
+      "a": 2
+    },
+    "effects": [
+      {
+        "op": "buff",
+        "target": "friendlyUnits",
+        "atk": "$a",
+        "until": "turn"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 3
+      }
+    },
+    "flavor": "号角一响，林子里的东西都抬起了头。",
+    "art": {
+      "subject": "a curved horn carved from a great beast, a hunter blowing it in a misty forest, spectral animal shapes rising from the sound"
+    }
+  },
+  {
+    "id": "g_seed_arrow",
+    "name": "种矢",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "造成{d}点伤害。召唤{n}个「灵苗」。",
+    "vars": {
+      "d": 4,
+      "n": 1
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      },
+      {
+        "op": "summon",
+        "unit": "tk_g_sprout",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 6
+      }
+    },
+    "flavor": "箭落下的地方，第二天会长出一棵树。",
+    "art": {
+      "subject": "a wooden arrow striking the ground and sprouting a small glowing sapling at its point, roots spreading, forest light"
+    }
+  },
+  {
+    "id": "g_wood_warden",
+    "name": "木灵卫",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[坚守]。主帅攻击后，此单位恢复{h}点生命并获得+1攻击。",
+    "vars": {
+      "h": 2
+    },
+    "varKinds": {
+      "h": "heal"
+    },
+    "unit": {
+      "atk": 2,
+      "hp": 5,
+      "keywords": [
+        "taunt"
+      ],
+      "triggers": [
+        {
+          "on": "attacking",
+          "who": "friendly",
+          "if": {
+            "isCommander": "eventSource"
+          },
+          "effects": [
+            {
+              "op": "heal",
+              "amount": "$h",
+              "target": "self"
+            },
+            {
+              "op": "buff",
+              "target": "self",
+              "atk": 1
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "unit": {
+        "hp": 7
+      }
+    },
+    "flavor": "老树变成的卫士，听见刀声就长。",
+    "art": {
+      "subject": "a towering guardian made of living wood and bark with a spear of branches, glowing green eyes, leaves growing on its shoulders"
+    }
+  },
+  {
+    "id": "g_ancient_bark",
+    "name": "古树皮甲",
+    "faction": "G",
+    "type": "equip",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "防具：装备时，获得{a}点[护甲]。每当友方单位入场，你的主帅获得{b}点[护甲]。",
+    "vars": {
+      "a": 5,
+      "b": 2
+    },
+    "varKinds": {
+      "a": "armor",
+      "b": "armor"
+    },
+    "equip": {
+      "slot": "armor",
+      "triggers": [
+        {
+          "on": "unitSummoned",
+          "who": "friendly",
+          "effects": [
+            {
+              "op": "armor",
+              "amount": "$b",
+              "target": "commander"
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "b": 3
+      }
+    },
+    "flavor": "一层树皮，就是一圈年轮的守护。",
+    "art": {
+      "subject": "a suit of armor made from overlapping plates of ancient bark and moss, small shoots growing between the plates, on a wooden stand"
+    }
+  },
+  {
+    "id": "g_qc_sig_husk",
+    "name": "蝉蜕",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[遗志]：召唤{n}个「灵苗」。",
+    "vars": {
+      "n": 2
+    },
+    "keywords": [
+      "deathrattle"
+    ],
+    "unit": {
+      "atk": 2,
+      "hp": 2,
+      "triggers": [
+        {
+          "on": "death",
+          "effects": [
+            {
+              "op": "summon",
+              "unit": "tk_g_sprout",
+              "n": "$n"
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [],
+    "upgrade": {
+      "vars": {
+        "n": 3
+      }
+    },
+    "flavor": "空壳还挂在枝头，蝉已经在别处叫了。",
+    "art": {
+      "subject": "a translucent amber cicada husk clinging to a branch, split down the back, tiny green sprout spirits climbing out of the split"
+    }
+  },
+  {
+    "id": "g_qc_sig_offer",
+    "name": "舍身",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "消灭一个友方单位，抽{n}张牌并获得{a}点[护甲]。",
+    "vars": {
+      "n": 2,
+      "a": 4
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "target": "friendlyUnit",
+    "effects": [
+      {
+        "op": "kill",
+        "target": "target"
+      },
+      {
+        "op": "draw",
+        "n": "$n"
+      },
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 2,
+        "a": 7
+      }
+    },
+    "flavor": "叶子落下去，是为了让树活过冬天。",
+    "art": {
+      "subject": "a small leaf spirit dissolving into green light that flows into a kneeling figure, autumn leaves swirling"
+    }
+  },
+  {
+    "id": "g_qc_chorus",
+    "name": "蝉鸣",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "召唤{n}个「灵苗」，本回合所有友方单位+{a}攻击。",
+    "vars": {
+      "n": 2,
+      "a": 1
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "summon",
+        "unit": "tk_g_sprout",
+        "n": "$n"
+      },
+      {
+        "op": "buff",
+        "target": "friendlyUnits",
+        "atk": "$a",
+        "until": "turn"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 3,
+        "a": 1
+      }
+    },
+    "flavor": "一只蝉叫，满山的蝉都跟着叫。",
+    "art": {
+      "subject": "a summer forest vibrating with sound waves drawn as rippling lines, dozens of cicadas singing on every trunk"
+    }
+  },
+  {
+    "id": "g_qc_seventeen",
+    "name": "十七年蝉",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "[滋长]2。\n[遗志]：召唤{n}个「灵苗」。",
+    "vars": {
+      "n": 2
+    },
+    "keywords": [
+      "growth",
+      "deathrattle"
+    ],
+    "unit": {
+      "atk": 2,
+      "hp": 4,
+      "growth": 2,
+      "triggers": [
+        {
+          "on": "death",
+          "effects": [
+            {
+              "op": "summon",
+              "unit": "tk_g_sprout",
+              "n": "$n"
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [],
+    "upgrade": {
+      "vars": {
+        "n": 3
+      }
+    },
+    "flavor": "在土里等了十七年，只为了一个夏天。",
+    "art": {
+      "subject": "a large cicada nymph emerging from dark soil beneath an ancient tree, roots coiled around it, its shell glowing green"
+    }
+  },
+  {
+    "id": "g_qc_samsara",
+    "name": "轮回",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "召唤{n}个「灵苗」，然后所有友方单位获得+{a}/+{a}。",
+    "vars": {
+      "n": 2,
+      "a": 1
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "summon",
+        "unit": "tk_g_sprout",
+        "n": "$n"
+      },
+      {
+        "op": "buff",
+        "target": "friendlyUnits",
+        "atk": "$a",
+        "hp": "$a"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 2,
+        "a": 2
+      }
+    },
+    "flavor": "死去的会回来，只是换了一张脸。",
+    "art": {
+      "subject": "a great wheel of vines turning slowly, small spirits riding it down into the earth and climbing back up as new sprouts"
+    }
+  },
+  {
+    "id": "g_qc_ascend",
+    "name": "羽化",
+    "faction": "G",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": {
+      "g": 1,
+      "c": [
+        "G"
+      ]
+    },
+    "text": "消灭所有友方单位，每消灭一个，对所有敌人造成{d}点伤害。",
+    "vars": {
+      "d": 4
+    },
+    "varKinds": {
+      "d": "damage"
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "forEach",
+        "sel": "friendlyUnits",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "allEnemies"
+          },
+          {
+            "op": "kill",
+            "target": "it"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 6
+      }
+    },
+    "flavor": "蜕到最后，连影子也不要了。",
+    "art": {
+      "subject": "a crowd of small forest spirits bursting into shimmering wings of light that sweep across the battlefield like a storm of cicada wings"
+    }
+  },
+  {
+    "id": "g_qc_xuan_cicada",
+    "name": "玄蝉",
+    "faction": "G",
+    "type": "unit",
+    "rarity": "legendary",
+    "cost": {
+      "g": 3,
+      "c": [
+        "G",
+        "G"
+      ]
+    },
+    "text": "每当另一个友方单位死亡，对所有敌人造成{d}点伤害。",
+    "vars": {
+      "d": 3
+    },
+    "varKinds": {
+      "d": "damage"
+    },
+    "unit": {
+      "atk": 4,
+      "hp": 6,
+      "triggers": [
+        {
+          "on": "unitDied",
+          "effects": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "allEnemies"
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [],
+    "upgrade": {
+      "vars": {
+        "d": 4
+      }
+    },
+    "flavor": "它记得每一个替它死去的影子。",
+    "art": {
+      "subject": "a huge black-and-jade cicada with wings like carved obsidian, perched on a moonlit tree, faint ghost shells of smaller cicadas around it"
+    }
+  }
 ]

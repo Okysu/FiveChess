@@ -47,7 +47,11 @@ export interface Profile {
 }
 
 /** unlock track: thresholds in 命数 (xp) */
-export const UNLOCK_TRACK: { xp: number; commanders?: string[]; cardPack?: boolean; relicPack?: boolean; eventPack?: boolean; blessingPack?: boolean; lieutenants?: boolean; label: string }[] = [
+export const UNLOCK_TRACK: {
+  xp: number; commanders?: string[]; cardPack?: boolean; relicPack?: boolean; eventPack?: boolean; blessingPack?: boolean; lieutenants?: boolean; label: string;
+  /** 1.1: also opened by collecting this many 命书残页, whichever comes first */
+  pages?: number;
+}[] = [
   { xp: 0, commanders: ['r_huojin'], label: '初入命阙' },
   { xp: 1, commanders: ['b_shiyun', 'g_qingsi'], lieutenants: true, label: '石韫、青姒 加入' },
   { xp: 400, commanders: ['y_xuanji'], cardPack: true, label: '玄机子 加入 · 新卡牌' },
@@ -59,10 +63,33 @@ export const UNLOCK_TRACK: { xp: number; commanders?: string[]; cardPack?: boole
   { xp: 4300, commanders: ['p_liuxu'], cardPack: true, eventPack: true, label: '柳絮 加入 · 全部内容' },
   // 1.0.1: the track goes on with 开局祈命 packs (the "pack" field in src/data/blessings.json)
   { xp: 5000, blessingPack: true, label: '新命签：奇遇、余烬常燃、点化' },
+  // 1.1 众生相: the third commander of each school, then two new schools (also opened by 命书残页)
+  { xp: 5500, commanders: ['r_zhuyan', 'g_qiuchan'], label: '祝炎、秋蝉 加入' },
+  { xp: 6500, commanders: ['b_guanshanyue', 'y_weishuo'], label: '关山月、卫朔 加入' },
   { xp: 7000, blessingPack: true, label: '新命签：多源、贵人、轻装' },
+  { xp: 8000, commanders: ['p_yiqiu'], label: '弈秋 加入' },
   { xp: 9500, blessingPack: true, label: '新命签：藏珍、改命、孤注一掷' },
-  { xp: 12000, label: '命书圆满（全部命签已解锁）' },
+  { xp: 10500, pages: 6, commanders: ['k_yanqiu', 'k_shentuo'], label: '翰墨书院：砚秋、沈拓 加入' },
+  { xp: 12000, label: '全部命签已解锁' },
+  { xp: 14000, pages: 12, commanders: ['w_fangxiang', 'w_jiangniang'], label: '傩面班：方相、绛娘 加入 · 命书圆满' },
 ];
+
+/**
+ * Commanders whose step is already reached (by 命数 or 命书残页) but missing from the profile — a profile from an
+ * older version that passed a threshold before the step existed, or a page count reached this run.
+ */
+export function catchUpUnlocks(p: Profile): string[] {
+  const out: string[] = [];
+  const pages = p.pages?.length ?? 0;
+  for (const step of UNLOCK_TRACK) {
+    if (!step.commanders || !(step.xp <= p.xp || (step.pages !== undefined && pages >= step.pages))) continue;
+    const missing = step.commanders.filter((c) => !p.unlocked.commanders.includes(c));
+    if (!missing.length) continue;
+    p.unlocked.commanders.push(...missing);
+    out.push(step.label);
+  }
+  return out;
+}
 
 export function newProfile(): Profile {
   return {
@@ -206,6 +233,8 @@ export function recordRun(p: Profile, r: RunState, summary: RunSummary): string[
   // 命途: before the unlock track, so their 命数 can open an unlock this run
   unlocked.push(...checkAchievements(p, r, summary));
   for (const label of applyUnlockTrack(p, before, p.runs === 1)) if (!unlocked.includes(label)) unlocked.push(label);
+  // steps opened by 命书残页 rather than 命数
+  for (const label of catchUpUnlocks(p)) if (!unlocked.includes(label)) unlocked.push(label);
   p.history.unshift(summary);
   p.history = p.history.slice(0, 60);
   return unlocked;

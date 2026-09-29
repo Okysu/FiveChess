@@ -1,0 +1,181 @@
+[
+  {
+    "id": "w_fangxiang",
+    "name": "方相",
+    "title": "驱傩师",
+    "faction": "W",
+    "hp": 80,
+    "sources": [
+      "W",
+      "W",
+      "N"
+    ],
+    "deck": [
+      "w_basic_strike",
+      "w_basic_strike",
+      "w_basic_strike",
+      "w_basic_strike",
+      "w_basic_guard",
+      "w_basic_guard",
+      "w_basic_guard",
+      "w_basic_guard",
+      "w_fx_sig_wear",
+      "w_fx_sig_dance"
+    ],
+    "relic": "rl_start_fangxiang",
+    "skills": [
+      {
+        "id": "sk_w_fangxiang_1",
+        "name": "换面",
+        "type": "passive",
+        "text": "每当你戴上[面具]，获得3点[护甲]。",
+        "triggers": [
+          {
+            "on": "fieldSet",
+            "if": {
+              "field": "mask"
+            },
+            "effects": [
+              {
+                "op": "armor",
+                "amount": 3,
+                "target": "commander"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sk_w_fangxiang_2",
+        "name": "驱傩",
+        "type": "active",
+        "text": "每回合一次，支付1枚[源]：戴上下一张[面具]（怒→悲→喜→鬼）。",
+        "cost": {
+          "g": 1
+        },
+        "effects": [
+          {
+            "op": "mask",
+            "next": true
+          }
+        ]
+      }
+    ],
+    "alt": {
+      "relic": "rl_start_fangxiang_b",
+      "replaces": "sk_w_fangxiang_1",
+      "skill": {
+        "id": "sk_w_fangxiang_alt",
+        "name": "四相",
+        "type": "passive",
+        "text": "每回合第一次戴上[面具]后，抽1张牌。",
+        "triggers": [
+          {
+            "on": "fieldSet",
+            "if": {
+              "field": "mask"
+            },
+            "limit": "turn",
+            "effects": [
+              {
+                "op": "draw",
+                "n": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lore": "傩面班的班主，戴着一张传了不知多少代的黄金四目面具，自称方相氏——那是上古驱疫之神的名字。岁末大傩，他领着班子挨村驱赶疫鬼。命书撕裂之后，天下最大的疫不在人间，而在命阙：被扭曲的命数一层层堆积，发酵成了百鬼。方相说，傩班走不到的地方，鬼就会越来越多，于是他把傩坛搬进了命阙。",
+    "ending": "命书之心里没有鬼，只有司命一个人坐着缝书。方相摘下了黄金四目面具——面具底下，是一张与司命一模一样的脸。司命说，方相氏本是命书里写来驱鬼的一行字，驱到最后，驱的就是写他的人自己。方相把面具放在司命手边，说：“那这一次，换你戴。”他走出命阙时第一次没有戴面具，傩班的人都没认出他来。",
+    "art": {
+      "subject": "an imposing exorcist in silver-white and black ritual robes with a bearskin cloak, wearing a golden four-eyed mask and holding a halberd and a shield, three-quarter view"
+    }
+  },
+  {
+    "id": "w_jiangniang",
+    "name": "绛娘",
+    "title": "傩戏花旦",
+    "faction": "W",
+    "hp": 76,
+    "sources": [
+      "W",
+      "W",
+      "N"
+    ],
+    "deck": [
+      "w_basic_strike",
+      "w_basic_strike",
+      "w_basic_strike",
+      "w_basic_strike",
+      "w_basic_guard",
+      "w_basic_guard",
+      "w_basic_guard",
+      "w_basic_guard",
+      "w_jn_sig_reveal",
+      "w_jn_sig_encore"
+    ],
+    "relic": "rl_start_jiangniang",
+    "skills": [
+      {
+        "id": "sk_w_jiangniang_1",
+        "name": "谢幕",
+        "type": "passive",
+        "text": "每当你[揭面]，对所有敌人造成4点伤害。",
+        "triggers": [
+          {
+            "on": "unmasked",
+            "effects": [
+              {
+                "op": "damage",
+                "amount": 4,
+                "target": "allEnemies"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sk_w_jiangniang_2",
+        "name": "亮相",
+        "type": "active",
+        "text": "每回合一次，支付1枚[源]：[揭面]。",
+        "cost": {
+          "g": 1
+        },
+        "effects": [
+          {
+            "op": "unmask"
+          }
+        ]
+      }
+    ],
+    "alt": {
+      "relic": "rl_start_jiangniang_b",
+      "replaces": "sk_w_jiangniang_1",
+      "skill": {
+        "id": "sk_w_jiangniang_alt",
+        "name": "返场",
+        "type": "passive",
+        "text": "每回合第一次[揭面]后，重新戴上同一张[面具]。",
+        "triggers": [
+          {
+            "on": "unmasked",
+            "limit": "turn",
+            "effects": [
+              {
+                "op": "mask",
+                "again": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lore": "傩面班的当家花旦，一台戏换四张面具，每一张都演得像是她自己。台下的人为她哭、为她笑，却没人见过她不戴面具的样子——连她自己也快忘了。命书上她那一行只写着一个字：“角”。她说她要找到命书里写着她真面目的那一页，哪怕那一页上写的，也只是另一张面具。",
+    "ending": "命书之心里，绛娘翻到了自己的那一页。纸上画着一张脸，素净、平凡，不像任何一张面具。司命说，这就是她本来的样子，只要她愿意，从此可以不再演。绛娘看了很久，然后在那张脸上添了一笔胭脂。“戏总要有人唱，”她说，“可唱什么，从今往后我自己挑。”那年岁末的大傩上，台下的人第一次看见她揭下面具，谢幕时笑得比任何一张喜面都好看。",
+    "art": {
+      "subject": "a graceful opera actress in silver-white and crimson stage robes with long water sleeves, holding a half-lifted golden mask away from a painted face, other masks hanging from ribbons around her, three-quarter view"
+    }
+  }
+]

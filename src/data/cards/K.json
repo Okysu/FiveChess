@@ -1,0 +1,1155 @@
+[
+  {
+    "id": "k_basic_strike",
+    "name": "点墨",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "text": "造成{d}点伤害。",
+    "vars": {
+      "d": 6
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 9
+      }
+    },
+    "flavor": "书院入门第一课：落笔要重。",
+    "art": {
+      "subject": "a young scholar in grey robes stabbing forward with a huge brush like a spear, a thick splash of ink flying from its tip"
+    }
+  },
+  {
+    "id": "k_basic_guard",
+    "name": "研墨",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "text": "获得{a}点[护甲]。",
+    "vars": {
+      "a": 5
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "effects": [
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 8
+      }
+    },
+    "flavor": "磨墨时心要静，静了，刀就砍不进来。",
+    "art": {
+      "subject": "a calm scholar grinding an ink stick on a stone slab, a swirl of black ink rising around him like a protective curtain"
+    }
+  },
+  {
+    "id": "k_yq_sig_brush",
+    "name": "挥毫",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "造成{d}点伤害，获得1层[墨迹]。若此牌被题字过，改为造成{e}点伤害。",
+    "vars": {
+      "d": 5,
+      "e": 9
+    },
+    "varKinds": {
+      "d": "attack",
+      "e": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "if",
+        "cond": {
+          "inked": true
+        },
+        "then": [
+          {
+            "op": "damage",
+            "amount": "$e",
+            "target": "target",
+            "attack": true
+          }
+        ],
+        "else": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target",
+            "attack": true
+          }
+        ]
+      },
+      {
+        "op": "status",
+        "status": "ink",
+        "amount": 1,
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 7,
+        "e": 12
+      }
+    },
+    "flavor": "一笔下去，纸背都透了。",
+    "art": {
+      "subject": "a woman scholar sweeping a giant brush in a wide arc, a single powerful ink stroke slicing across the air like a blade"
+    }
+  },
+  {
+    "id": "k_yq_sig_title",
+    "name": "题签",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[题字]一张手牌，获得{i}层[墨迹]。",
+    "vars": {
+      "i": 2
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "inscribe",
+        "n": 1,
+        "mode": "choose"
+      },
+      {
+        "op": "status",
+        "status": "ink",
+        "amount": "$i",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "i": 3
+      }
+    },
+    "flavor": "书签上写一个字，这本书便认了主。",
+    "art": {
+      "subject": "a slender hand writing a single glowing character on a bamboo book slip, red seal ink beside it"
+    }
+  },
+  {
+    "id": "k_st_sig_rub",
+    "name": "拓碑",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[拓印]弃牌堆中的一张牌，获得1层[墨迹]。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "copyCard",
+        "from": "discard",
+        "mode": "choose",
+        "n": 1
+      },
+      {
+        "op": "status",
+        "status": "ink",
+        "amount": 1,
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 0,
+        "c": [
+          "K"
+        ]
+      }
+    },
+    "flavor": "碑会倒，字会风化，拓本不会。",
+    "art": {
+      "subject": "a man pressing damp paper against a weathered stone stele and tapping it with an ink pad, the characters appearing white on black"
+    }
+  },
+  {
+    "id": "k_st_sig_stamp",
+    "name": "钤印",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "造成{d}点伤害，每有1层[墨迹]，伤害+1。",
+    "vars": {
+      "d": 3
+    },
+    "varKinds": {
+      "d": "damage"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": {
+          "add": [
+            "$d",
+            {
+              "count": "status",
+              "status": "ink",
+              "of": "commander"
+            }
+          ]
+        },
+        "target": "target"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 6
+      }
+    },
+    "flavor": "印一落下，这张纸就是你的了。",
+    "art": {
+      "subject": "a heavy square seal slamming down onto paper, a burst of vermilion ink radiating out like a shockwave"
+    }
+  },
+  {
+    "id": "k_splash",
+    "name": "泼墨",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "对所有敌人造成{d}点伤害，获得1层[墨迹]。",
+    "vars": {
+      "d": 4
+    },
+    "varKinds": {
+      "d": "damage"
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "allEnemies"
+      },
+      {
+        "op": "status",
+        "status": "ink",
+        "amount": 1,
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 6
+      }
+    },
+    "flavor": "画山不用笔，一盆墨泼上去，山就在了。",
+    "art": {
+      "subject": "a painter flinging a whole basin of ink across a long scroll, the splash forming jagged mountains that crash onto silhouetted enemies"
+    }
+  },
+  {
+    "id": "k_grind",
+    "name": "研磨",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 0,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "获得{i}层[墨迹]。",
+    "vars": {
+      "i": 3
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "status",
+        "status": "ink",
+        "amount": "$i",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "i": 4
+      }
+    },
+    "flavor": "磨得越久，墨越浓。",
+    "art": {
+      "subject": "close view of an ink stick grinding in slow circles on a dragon-carved inkstone, the ink pooling deep black and glossy"
+    }
+  },
+  {
+    "id": "k_brush_array",
+    "name": "笔阵",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "获得{a}点[护甲]，每有1层[墨迹]再多1点（至多{m}点）。",
+    "vars": {
+      "a": 5,
+      "m": 6
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "armor",
+        "amount": {
+          "add": [
+            "$a",
+            {
+              "min": [
+                {
+                  "count": "status",
+                  "status": "ink",
+                  "of": "commander"
+                },
+                "$m"
+              ]
+            }
+          ]
+        },
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 7,
+        "m": 8
+      }
+    },
+    "flavor": "笔也能列阵，一支一支，立如长枪。",
+    "art": {
+      "subject": "dozens of calligraphy brushes standing upright in formation like a palisade of spears around a scholar"
+    }
+  },
+  {
+    "id": "k_quick_note",
+    "name": "速记",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "抽{n}张牌，然后[题字]一张手牌。",
+    "vars": {
+      "n": 2
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "draw",
+        "n": "$n"
+      },
+      {
+        "op": "inscribe",
+        "n": 1,
+        "mode": "choose"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 3
+      }
+    },
+    "flavor": "先生讲得快，记得更快。",
+    "art": {
+      "subject": "a student scribbling notes at lightning speed, pages flying off the desk, the brush a blur"
+    }
+  },
+  {
+    "id": "k_copyist",
+    "name": "抄书生",
+    "faction": "K",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[起势]：[拓印]弃牌堆中的一张牌。",
+    "keywords": [
+      "battlecry"
+    ],
+    "unit": {
+      "atk": 2,
+      "hp": 3
+    },
+    "effects": [
+      {
+        "op": "copyCard",
+        "from": "discard",
+        "mode": "choose",
+        "n": 1
+      }
+    ],
+    "upgrade": {
+      "unit": {
+        "atk": 2,
+        "hp": 5
+      }
+    },
+    "flavor": "抄了一辈子别人的书，自己的名字一次也没写过。",
+    "art": {
+      "subject": "a thin young copyist hunched over a desk copying a book, a stack of finished copies taller than himself"
+    }
+  },
+  {
+    "id": "k_blot",
+    "name": "墨渍",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "造成{d}点伤害，施加{w}层[虚弱]。",
+    "vars": {
+      "d": 7,
+      "w": 1
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      },
+      {
+        "op": "status",
+        "status": "weak",
+        "amount": "$w",
+        "target": "target"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 9,
+        "w": 2
+      }
+    },
+    "flavor": "溅上一点墨，洗一辈子也洗不掉。",
+    "art": {
+      "subject": "a spreading blot of black ink splattering over an armored warrior, weighing down his arms like tar"
+    }
+  },
+  {
+    "id": "k_reprint",
+    "name": "翻拓",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 0,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[拓印]燃尽堆中的一张牌。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "copyCard",
+        "from": "exhaust",
+        "mode": "choose",
+        "n": 1
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "[拓印]燃尽堆中的一张牌，这张拓本不带[浮光]。",
+      "effects": [
+        {
+          "op": "copyCard",
+          "from": "exhaust",
+          "mode": "choose",
+          "n": 1,
+          "fleeting": false
+        }
+      ]
+    },
+    "flavor": "烧掉的书，拓本还在。",
+    "art": {
+      "subject": "charred book pages drifting from a brazier, a hand pressing paper against them and lifting away a clean copy"
+    }
+  },
+  {
+    "id": "k_seal_script",
+    "name": "篆刻",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[题字]两张手牌。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "inscribe",
+        "n": 2,
+        "mode": "choose"
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 0,
+        "c": [
+          "K"
+        ]
+      }
+    },
+    "flavor": "刀在石上走，字在石里生。",
+    "art": {
+      "subject": "a seal carver cutting ancient seal-script characters into a stone chop, fine stone dust drifting in lamplight"
+    }
+  },
+  {
+    "id": "k_signature",
+    "name": "落款",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[落款]：每层[墨迹]造成{d}点伤害。",
+    "vars": {
+      "d": 3
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": {
+          "mul": [
+            {
+              "count": "status",
+              "status": "ink",
+              "of": "commander"
+            },
+            "$d"
+          ]
+        },
+        "target": "target"
+      },
+      {
+        "op": "status",
+        "status": "ink",
+        "amount": {
+          "mul": [
+            {
+              "count": "status",
+              "status": "ink",
+              "of": "commander"
+            },
+            -1
+          ]
+        },
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 4
+      }
+    },
+    "flavor": "整幅字写完，最后才落款。落了款，就再也改不得了。",
+    "art": {
+      "subject": "a scholar signing the corner of a long finished scroll with a flourish, the whole scroll erupting into a storm of black ink strokes"
+    }
+  },
+  {
+    "id": "k_ink_wash",
+    "name": "水墨",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "获得{a}点[护甲]，再加上等同于[墨迹]层数的[护甲]。",
+    "vars": {
+      "a": 2
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "armor",
+        "amount": {
+          "add": [
+            "$a",
+            {
+              "count": "status",
+              "status": "ink",
+              "of": "commander"
+            }
+          ]
+        },
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 6
+      }
+    },
+    "flavor": "浓淡之间，是一层看不见的墙。",
+    "art": {
+      "subject": "soft layered ink-wash mountains flowing around a figure like mist, forming a translucent shield"
+    }
+  },
+  {
+    "id": "k_scroll_spirit",
+    "name": "卷灵",
+    "faction": "K",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "每当你打出一张被题字过的牌，此单位获得+1/+1。",
+    "unit": {
+      "atk": 3,
+      "hp": 4,
+      "triggers": [
+        {
+          "on": "cardPlayed",
+          "if": {
+            "inked": true
+          },
+          "effects": [
+            {
+              "op": "buff",
+              "target": "self",
+              "atk": 1,
+              "hp": 1
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [],
+    "upgrade": {
+      "unit": {
+        "atk": 4,
+        "hp": 5
+      }
+    },
+    "flavor": "一卷书在书院里放久了，也会自己醒过来。",
+    "art": {
+      "subject": "a living scroll spirit unrolling into a serpent-like body of paper with glowing characters for scales"
+    }
+  },
+  {
+    "id": "k_trace",
+    "name": "临摹",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[拓印]一张手牌。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "copyCard",
+        "from": "hand",
+        "mode": "choose",
+        "n": 1
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 0,
+        "c": [
+          "K"
+        ]
+      }
+    },
+    "flavor": "先生的字，他临了三年，连先生都分不出真假。",
+    "art": {
+      "subject": "two identical calligraphy sheets side by side, a student's brush hovering over the copy, every stroke matching"
+    }
+  },
+  {
+    "id": "k_ink_prison",
+    "name": "墨牢",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[燃尽]。使一个敌人[眩晕]。",
+    "keywords": [
+      "exhaust"
+    ],
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "status",
+        "status": "stun",
+        "amount": 1,
+        "target": "target"
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 1,
+        "c": [
+          "K"
+        ]
+      }
+    },
+    "flavor": "写一个“囚”字，把人框在里面。",
+    "art": {
+      "subject": "a giant ink character for prison drawn around a struggling monster, its strokes forming the bars of a cage"
+    }
+  },
+  {
+    "id": "k_mirror",
+    "name": "反书",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[拓印]弃牌堆中的两张牌。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "copyCard",
+        "from": "discard",
+        "mode": "choose",
+        "n": 2
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 0,
+        "c": [
+          "K"
+        ]
+      }
+    },
+    "flavor": "字反过来写，拓出来就是正的。",
+    "art": {
+      "subject": "mirror-reversed characters carved on a woodblock, and beside it the printed page reading correctly"
+    }
+  },
+  {
+    "id": "k_thousand",
+    "name": "千字文",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[题字]手中所有牌。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "inscribe",
+        "n": 99,
+        "mode": "all"
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 1,
+        "c": [
+          "K"
+        ]
+      }
+    },
+    "flavor": "一千个字，没有一个重复。",
+    "art": {
+      "subject": "a thousand distinct characters swirling up from an open book in a spiral galaxy of ink"
+    }
+  },
+  {
+    "id": "k_dragon_brush",
+    "name": "笔走龙蛇",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": {
+      "g": 1,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "造成{d}点伤害X次，X等于[墨迹]层数（至多8次），然后失去一半[墨迹]。",
+    "vars": {
+      "d": 3
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "repeat",
+        "times": {
+          "min": [
+            {
+              "count": "status",
+              "status": "ink",
+              "of": "commander"
+            },
+            8
+          ]
+        },
+        "effects": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target",
+            "attack": true
+          }
+        ]
+      },
+      {
+        "op": "status",
+        "status": "ink",
+        "amount": {
+          "mul": [
+            {
+              "div": [
+                {
+                  "count": "status",
+                  "status": "ink",
+                  "of": "commander"
+                },
+                2
+              ]
+            },
+            -1
+          ]
+        },
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 4
+      }
+    },
+    "flavor": "草书写到兴头上，笔就不是笔了。",
+    "art": {
+      "subject": "a wild cursive ink stroke coiling through the air like a dragon and a snake intertwined, lashing at a foe again and again"
+    }
+  },
+  {
+    "id": "k_ink_dragon",
+    "name": "墨龙",
+    "faction": "K",
+    "type": "unit",
+    "rarity": "epic",
+    "cost": {
+      "g": 3,
+      "c": [
+        "K",
+        "K"
+      ]
+    },
+    "text": "[起势]：[落款]：每层[墨迹]使此单位获得+1/+1。",
+    "keywords": [
+      "battlecry"
+    ],
+    "unit": {
+      "atk": 4,
+      "hp": 4
+    },
+    "effects": [
+      {
+        "op": "buff",
+        "target": "self",
+        "atk": {
+          "count": "status",
+          "status": "ink",
+          "of": "commander"
+        },
+        "hp": {
+          "count": "status",
+          "status": "ink",
+          "of": "commander"
+        }
+      },
+      {
+        "op": "status",
+        "status": "ink",
+        "amount": {
+          "mul": [
+            {
+              "count": "status",
+              "status": "ink",
+              "of": "commander"
+            },
+            -1
+          ]
+        },
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "unit": {
+        "atk": 6,
+        "hp": 6
+      }
+    },
+    "flavor": "点睛之前，它只是一团墨。",
+    "art": {
+      "subject": "a great black ink dragon rising from an inkstone pool, its body still dripping, eyes not yet painted"
+    }
+  },
+  {
+    "id": "k_stele_forest",
+    "name": "碑林",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[拓印]弃牌堆中随机{n}张牌。",
+    "vars": {
+      "n": 3
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "copyCard",
+        "from": "discard",
+        "mode": "random",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 4
+      }
+    },
+    "flavor": "一座碑林，就是一座倒下来的书院。",
+    "art": {
+      "subject": "a forest of tall stone steles in mist, sheets of rubbing paper fluttering from each like banners"
+    }
+  },
+  {
+    "id": "k_eye_dot",
+    "name": "点睛",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "legendary",
+    "cost": {
+      "g": 3,
+      "c": [
+        "K",
+        "K"
+      ]
+    },
+    "text": "[落款]：每层[墨迹]对所有敌人造成{d}点伤害。",
+    "vars": {
+      "d": 4
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": {
+          "mul": [
+            {
+              "count": "status",
+              "status": "ink",
+              "of": "commander"
+            },
+            "$d"
+          ]
+        },
+        "target": "allEnemies"
+      },
+      {
+        "op": "status",
+        "status": "ink",
+        "amount": {
+          "mul": [
+            {
+              "count": "status",
+              "status": "ink",
+              "of": "commander"
+            },
+            -1
+          ]
+        },
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 5
+      }
+    },
+    "flavor": "最后一点落下，龙就飞了。",
+    "art": {
+      "subject": "a brush dotting the eye of a painted dragon on a wall, the dragon bursting out of the plaster in a torrent of ink"
+    }
+  },
+  {
+    "id": "k_lanting",
+    "name": "兰亭序",
+    "faction": "K",
+    "type": "tactic",
+    "rarity": "legendary",
+    "cost": {
+      "g": 2,
+      "c": [
+        "K"
+      ]
+    },
+    "text": "[题字]手中所有牌，获得{i}层[墨迹]。",
+    "vars": {
+      "i": 5
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "inscribe",
+        "n": 99,
+        "mode": "all"
+      },
+      {
+        "op": "status",
+        "status": "ink",
+        "amount": "$i",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "i": 8
+      }
+    },
+    "flavor": "真迹早就不在了，天下的字却都还在临它。",
+    "art": {
+      "subject": "scholars gathered by a winding stream in a bamboo grove, wine cups floating, one of them writing a masterpiece scroll"
+    }
+  }
+]

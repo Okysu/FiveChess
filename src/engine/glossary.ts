@@ -43,6 +43,7 @@ export const STATUSES: Record<StatusId, GlossEntry & { debuff: boolean }> = {
   might: { name: '锋锐', text: '攻击伤害+X。', icon: 'st_might', tint: 0xff5a4a, debuff: false },
   tenacity: { name: '坚韧', text: '获得护甲时额外+X。', icon: 'st_tenacity', tint: 0x6aa8e8, debuff: false },
   regen: { name: '再生', text: '回合结束时恢复X点生命，然后层数-1。', icon: 'st_regen', tint: 0x6fe08a, debuff: false },
+  ink: { name: '墨迹', text: '翰墨书院积攒的笔墨，由[落款]等牌一次用尽。不会自行消失。', icon: 'st_ink', tint: 0xb8b8c8, debuff: false },
 };
 
 export const SUIT_INFO: Record<Suit, { name: string; yang: boolean; color: number; shape: string }> = {
@@ -58,6 +59,8 @@ export const COLOR_INFO: Record<Color, { name: string; school: string; hex: numb
   G: { name: '青', school: '万木庭', hex: 0x2f8a5f, dark: 0x143a26, light: 0x7ac89a },
   Y: { name: '金', school: '观星阁', hex: 0xd9a23a, dark: 0x6a4a10, light: 0xf5d68a },
   P: { name: '紫', school: '幽弈坊', hex: 0x6e3a78, dark: 0x2e1236, light: 0xb88ac8 },
+  K: { name: '墨', school: '翰墨书院', hex: 0x6e6e7e, dark: 0x1e1e26, light: 0xb4b4c6 },
+  W: { name: '银', school: '傩面班', hex: 0xc4ccd8, dark: 0x4e5462, light: 0xf0f4fa },
   N: { name: '素', school: '中立', hex: 0xa89a80, dark: 0x4a4234, light: 0xe8dcc0 },
 };
 
@@ -75,6 +78,11 @@ export const TERM_NAMES: Record<string, { kind: 'keyword' | 'status'; id: string
   m['改判'] = { kind: 'keyword', id: 'rejudge' };
   m['弃置'] = { kind: 'keyword', id: 'discard' };
   m['手牌上限'] = { kind: 'keyword', id: 'handLimit' };
+  m['题字'] = { kind: 'keyword', id: 'inscribe' };
+  m['拓印'] = { kind: 'keyword', id: 'rubbing' };
+  m['落款'] = { kind: 'keyword', id: 'signature' };
+  m['面具'] = { kind: 'keyword', id: 'mask' };
+  m['揭面'] = { kind: 'keyword', id: 'unmask' };
   return m;
 })();
 
@@ -87,6 +95,11 @@ export const EXTRA_TERMS: Record<string, string> = {
   观星: '查看天命牌堆顶若干张，任意重排或置底。',
   改判: '判定牌翻开后，打出一张命签替换它。',
   手牌上限: '手牌最多 10 张（部分遗物与阵地会改变，战斗中显示在源的下方）。手牌已满时无法再抽牌，新得到的牌直接放入弃牌堆。',
+  题字: '选择手牌题字：该牌本场战斗费用-1，并算作「被题字过」。同一张牌可以题字多次。',
+  拓印: '复制一张牌放入手牌。复制品带[浮光]：回合结束时若还在手中便会燃尽。',
+  落款: '用尽你的全部[墨迹]，按层数结算效果。',
+  面具: '傩面班的阵地：怒面、悲面、喜面、鬼面各有常驻效果，一次只能戴一张。戴上新面具时旧的消失（面具不会进入弃牌堆）。',
+  揭面: '摘下正戴着的面具，触发它的揭面效果。没有戴面具时无事发生。',
   弃置: '因牌或技能的效果，把手牌放入弃牌堆。打出的牌、回合结束时剩下的手牌都不算弃置（写明「包括回合结束时的弃牌」的除外）。',
 };
 
@@ -98,5 +111,5 @@ export function fillVars(text: string, vars?: Record<string, number>): string {
 
 /** rules text for plain Text (no rich renderer): values filled, [term] brackets and suit/pip tokens removed */
 export function plainRules(text: string, vars?: Record<string, number>): string {
-  return fillVars(text, vars).replace(/\{(sun|thunder|moon|mountain|R|B|G|Y|P|N)\}/g, '').replace(/\[|\]/g, '');
+  return fillVars(text, vars).replace(/\{(sun|thunder|moon|mountain|R|B|G|Y|P|K|W|N)\}/g, '').replace(/\[|\]/g, '');
 }

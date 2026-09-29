@@ -5,11 +5,22 @@
     "title": "断焰将军",
     "faction": "R",
     "hp": 84,
-    "sources": ["R", "R", "N"],
+    "sources": [
+      "R",
+      "R",
+      "N"
+    ],
     "deck": [
-      "r_basic_strike", "r_basic_strike", "r_basic_strike", "r_basic_strike",
-      "r_basic_guard", "r_basic_guard", "r_basic_guard", "r_basic_guard",
-      "r_sig_flame_ridge", "r_sig_quench"
+      "r_basic_strike",
+      "r_basic_strike",
+      "r_basic_strike",
+      "r_basic_strike",
+      "r_basic_guard",
+      "r_basic_guard",
+      "r_basic_guard",
+      "r_basic_guard",
+      "r_sig_flame_ridge",
+      "r_sig_quench"
     ],
     "relic": "rl_start_huojin",
     "skills": [
@@ -18,18 +29,48 @@
         "name": "焰随刀走",
         "type": "passive",
         "text": "主帅每次攻击后，对目标施加3层[灼烧]。",
-        "triggers": [{ "on": "attacking", "effects": [{ "op": "status", "status": "burn", "amount": 3, "target": "eventTarget" }] }]
+        "triggers": [
+          {
+            "on": "attacking",
+            "effects": [
+              {
+                "op": "status",
+                "status": "burn",
+                "amount": 3,
+                "target": "eventTarget"
+              }
+            ]
+          }
+        ]
       },
       {
         "id": "sk_r_huojin_2",
         "name": "引焰入锋",
         "type": "active",
         "text": "每回合一次，支付1枚[源]：对一个敌人造成等同于主帅攻击力与其[灼烧]层数之和的攻击伤害（不消耗攻击次数与武器耐久）。",
-        "cost": { "g": 1 },
+        "cost": {
+          "g": 1
+        },
         "target": "enemy",
         "effects": [
-          { "op": "damage", "target": "target", "attack": true,
-            "amount": { "add": [{ "count": "atk", "of": "commander" }, { "count": "status", "status": "burn", "of": "target" }] } }
+          {
+            "op": "damage",
+            "target": "target",
+            "attack": true,
+            "amount": {
+              "add": [
+                {
+                  "count": "atk",
+                  "of": "commander"
+                },
+                {
+                  "count": "status",
+                  "status": "burn",
+                  "of": "target"
+                }
+              ]
+            }
+          }
         ]
       }
     ],
@@ -73,7 +114,9 @@
     },
     "lore": "焚阳宗前任执刀，曾一刀斩断北境叛军的火龙阵，刀也随之齐腰而断。宗门要他换刀，他不肯；要他退隐，他也不肯。他说那半截刀尖落进了命阙，刀要找回另一半，人也要找回那一夜没能护住的部下。",
     "ending": "命阙最深处，霍烬终于见到了那截刀尖。它插在命书的装订线上，把一页写满名字的残篇钉在原处——那是当年随他出征、没能回来的三百人。司命说，只要拔出刀尖，他便能改写那一夜，却也会抹去此后自己走过的每一步。霍烬看了很久，最后只是把断刀与刀尖并在一起，用自己的火重新熔成一柄完整的刀，然后把它留在那里，替那三百人守着那一页。他走出命阙时两手空空，北境的人说，那年冬天边关的烽火一夜都没有熄过。",
-    "art": { "subject": "a tall scarred general in battered crimson lamellar armor holding a broken broadsword whose sheared edge glows molten, standing in drifting embers, three-quarter view" }
+    "art": {
+      "subject": "a tall scarred general in battered crimson lamellar armor holding a broken broadsword whose sheared edge glows molten, standing in drifting embers, three-quarter view"
+    }
   },
   {
     "id": "r_liyuan",
@@ -81,11 +124,22 @@
     "title": "朱雀祭司",
     "faction": "R",
     "hp": 74,
-    "sources": ["R", "R", "N"],
+    "sources": [
+      "R",
+      "R",
+      "N"
+    ],
     "deck": [
-      "r_basic_strike", "r_basic_strike", "r_basic_strike", "r_basic_strike",
-      "r_basic_guard", "r_basic_guard", "r_basic_guard", "r_basic_guard",
-      "r_sig_vermilion_plume", "r_sig_pyre_hymn"
+      "r_basic_strike",
+      "r_basic_strike",
+      "r_basic_strike",
+      "r_basic_strike",
+      "r_basic_guard",
+      "r_basic_guard",
+      "r_basic_guard",
+      "r_basic_guard",
+      "r_sig_vermilion_plume",
+      "r_sig_pyre_hymn"
     ],
     "relic": "rl_start_liyuan",
     "skills": [
@@ -94,7 +148,18 @@
         "name": "燎羽",
         "type": "passive",
         "text": "每当你献出一张牌，对随机敌人造成4点伤害。",
-        "triggers": [{ "on": "cardSacrificed", "effects": [{ "op": "damage", "amount": 4, "target": "randomEnemy" }] }]
+        "triggers": [
+          {
+            "on": "cardSacrificed",
+            "effects": [
+              {
+                "op": "damage",
+                "amount": 4,
+                "target": "randomEnemy"
+              }
+            ]
+          }
+        ]
       },
       {
         "id": "sk_r_liyuan_2",
@@ -103,13 +168,31 @@
         "text": "觉醒：本场战斗第5次献牌后，恢复8点生命，并在本场剩余时间内每回合可多献牌1次。",
         "awaken": {
           "on": "cardSacrificed",
-          "if": { "gte": [{ "count": "sacrificed" }, 5] },
-          "effects": [{ "op": "heal", "amount": 8, "target": "commander" }],
+          "if": {
+            "gte": [
+              {
+                "count": "sacrificed"
+              },
+              5
+            ]
+          },
+          "effects": [
+            {
+              "op": "heal",
+              "amount": 8,
+              "target": "commander"
+            }
+          ],
           "becomes": {
             "name": "涅槃·不烬",
             "type": "passive",
             "text": "每回合可多献牌1次。",
-            "modifiers": [{ "stat": "sacrifices", "amount": 1 }]
+            "modifiers": [
+              {
+                "stat": "sacrifices",
+                "amount": 1
+              }
+            ]
           }
         }
       }
@@ -138,6 +221,122 @@
     },
     "lore": "朱雀祠最后一任祭司。命书撕裂那年，南方神鸟的火种坠入命阙，祠中香火一夜全灭。离鸢自幼被教导：祭品献得越多，神便离人越近。她带着祠里仅剩的一根朱雀翎走进倒塔，要把火种讨回来——哪怕献出的是她自己。",
     "ending": "离鸢在星殿的尽头找到了朱雀。它没有被囚禁，只是蜷在命书的灰烬里睡着了，羽毛黯淡得像一堆旧炭。她这才明白，神鸟从不需要祭品；是人们一代代献上的东西太多，把它压得飞不起来。她没有再献出什么，而是把那根随身的朱雀翎还给了它，然后转身，把一路献出的源一枚一枚点亮，照着来路。朱雀醒来时，看见的是一条通往人间的火光。后来南方再建朱雀祠，祠中不设供案，只挂一盏长明灯。据说灯下常有一名红衣女子扫地，从不自称祭司。",
-    "art": { "subject": "a young priestess in flowing vermilion robes with feather-trimmed sleeves, a long red plume in her hair, holding a small flame at her chest, embers rising like feathers around her" }
+    "art": {
+      "subject": "a young priestess in flowing vermilion robes with feather-trimmed sleeves, a long red plume in her hair, holding a small flame at her chest, embers rising like feathers around her"
+    }
+  },
+  {
+    "id": "r_zhuyan",
+    "name": "祝炎",
+    "title": "焚城客",
+    "faction": "R",
+    "hp": 80,
+    "sources": [
+      "R",
+      "R",
+      "N"
+    ],
+    "deck": [
+      "r_basic_strike",
+      "r_basic_strike",
+      "r_basic_strike",
+      "r_basic_strike",
+      "r_basic_guard",
+      "r_basic_guard",
+      "r_basic_guard",
+      "r_basic_guard",
+      "r_zy_sig_fuse",
+      "r_zy_sig_blast"
+    ],
+    "relic": "rl_start_zhuyan",
+    "skills": [
+      {
+        "id": "sk_r_zhuyan_1",
+        "name": "焚城",
+        "type": "passive",
+        "text": "每回合第一次对敌人施加[灼烧]时，额外施加2层。",
+        "triggers": [
+          {
+            "on": "statusApplied",
+            "who": "enemy",
+            "status": "burn",
+            "limit": "turn",
+            "effects": [
+              {
+                "op": "status",
+                "status": "burn",
+                "amount": 2,
+                "target": "eventTarget"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sk_r_zhuyan_2",
+        "name": "引爆",
+        "type": "active",
+        "text": "每回合一次，支付1枚[源]：造成等同于目标[灼烧]层数两倍的伤害，然后移除其[灼烧]。",
+        "cost": {
+          "g": 1
+        },
+        "target": "enemy",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": {
+              "mul": [
+                {
+                  "count": "status",
+                  "status": "burn",
+                  "of": "target"
+                },
+                2
+              ]
+            },
+            "target": "target"
+          },
+          {
+            "op": "cleanse",
+            "target": "target",
+            "what": "burn"
+          }
+        ]
+      }
+    ],
+    "alt": {
+      "relic": "rl_start_zhuyan_b",
+      "replaces": "sk_r_zhuyan_1",
+      "skill": {
+        "id": "sk_r_zhuyan_alt",
+        "name": "余烬",
+        "type": "passive",
+        "text": "我方回合开始时，对所有敌人施加1层[灼烧]。",
+        "triggers": [
+          {
+            "on": "turnStart",
+            "effects": [
+              {
+                "op": "forEach",
+                "sel": "allEnemies",
+                "effects": [
+                  {
+                    "op": "status",
+                    "status": "burn",
+                    "amount": 1,
+                    "target": "it"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lore": "祝家世代是殷都的掌灯人，三百年前那一夜，城里第一盏被推倒的灯是祝家的。从此族谱上每一代都写着同一句话：“焚城者之后”。祝炎不信这句话，也不信命——他只信火。他走进命阙，要亲眼看看那场火是谁点的，也要看看，一个被写成纵火者的家族，能不能烧掉写它的那一页。",
+    "ending": "命书之心里，祝炎找到了殷都那一页。字迹被烧得焦黑，唯独“祝”字完好无损——原来那一夜真正点火的人，名字早被抹去，只留下掌灯人替他背了三百年。司命问他要不要把这一页也烧了。祝炎摇头，他把自己的火种放在焦页旁边，照亮了那个被抹去的名字：宰辅·沈。然后他走出命阙，在殷都的废墟上重新点起了一盏灯。",
+    "art": {
+      "subject": "a lean young man in soot-stained crimson robes with rolled sleeves, holding an old iron lantern whose flame spills upward into the shape of a burning city, embers in his hair, three-quarter view"
+    }
   }
 ]

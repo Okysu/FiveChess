@@ -7,8 +7,16 @@
     "ruleChanging": true,
     "text": "敌方角色身上的[灼烧]不再衰减。",
     "flavor": "焚阳宗的祖炉从未熄过。被它点着的，也不会。",
-    "modifiers": [{ "stat": "burnKeep", "amount": 1, "who": "enemy" }],
-    "art": { "subject": "a pulsing molten core inside a cracked black iron furnace heart, rivers of fire flowing from its seams" }
+    "modifiers": [
+      {
+        "stat": "burnKeep",
+        "amount": 1,
+        "who": "enemy"
+      }
+    ],
+    "art": {
+      "subject": "a pulsing molten core inside a cracked black iron furnace heart, rivers of fire flowing from its seams"
+    }
   },
   {
     "id": "rl_tortoise_shell",
@@ -18,8 +26,15 @@
     "ruleChanging": true,
     "text": "我方角色的[护甲]在回合开始时不再清零。",
     "flavor": "玄武驮着北方的山。它从不卸下什么。",
-    "modifiers": [{ "stat": "armorKeep", "amount": 999 }],
-    "art": { "subject": "a massive dark tortoise shell plate carved with constellations of the north, a coiled serpent motif around its rim, cold light" }
+    "modifiers": [
+      {
+        "stat": "armorKeep",
+        "amount": 999
+      }
+    ],
+    "art": {
+      "subject": "a massive dark tortoise shell plate carved with constellations of the north, a coiled serpent motif around its rim, cold light"
+    }
   },
   {
     "id": "rl_returning_roots",
@@ -29,8 +44,22 @@
     "ruleChanging": true,
     "text": "我方后阵单位具有[远射]。",
     "flavor": "根扎得越深，枝伸得越远。",
-    "modifiers": [{ "stat": "keyword", "keyword": "ranged", "who": "friendlyUnits", "if": { "inRow": { "of": "target", "row": "back" } } }],
-    "art": { "subject": "an ancient tree root knot glowing green from within, its tendrils reaching outward like drawn bows, forest dusk" }
+    "modifiers": [
+      {
+        "stat": "keyword",
+        "keyword": "ranged",
+        "who": "friendlyUnits",
+        "if": {
+          "inRow": {
+            "of": "target",
+            "row": "back"
+          }
+        }
+      }
+    ],
+    "art": {
+      "subject": "an ancient tree root knot glowing green from within, its tendrils reaching outward like drawn bows, forest dusk"
+    }
   },
   {
     "id": "rl_heavenly_astrolabe",
@@ -40,11 +69,34 @@
     "ruleChanging": true,
     "text": "你的延时牌费用-1。每当你打出延时牌，[观星]2。",
     "flavor": "它不预言何时发生，只安排发生的次序。",
-    "modifiers": [{ "stat": "cost", "amount": -1, "filter": { "type": "delay" } }],
-    "triggers": [
-      { "on": "cardPlayed", "if": { "eventCard": { "type": "delay" } }, "effects": [{ "op": "stargaze", "n": 2 }] }
+    "modifiers": [
+      {
+        "stat": "cost",
+        "amount": -1,
+        "filter": {
+          "type": "delay"
+        }
+      }
     ],
-    "art": { "subject": "an intricate golden armillary sphere with rotating rings of stars, a tiny comet orbiting inside, deep night sky" }
+    "triggers": [
+      {
+        "on": "cardPlayed",
+        "if": {
+          "eventCard": {
+            "type": "delay"
+          }
+        },
+        "effects": [
+          {
+            "op": "stargaze",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "an intricate golden armillary sphere with rotating rings of stars, a tiny comet orbiting inside, deep night sky"
+    }
   },
   {
     "id": "rl_venom_fan",
@@ -53,11 +105,29 @@
     "faction": "P",
     "text": "敌方受到的[中毒]伤害+1。每回合开始时，对随机敌人施加2层[中毒]。",
     "flavor": "扇一下是风，扇两下是命。",
-    "modifiers": [{ "stat": "poisonDamage", "amount": 1, "who": "enemy" }],
-    "triggers": [
-      { "on": "turnStart", "effects": [{ "op": "status", "status": "poison", "amount": 2, "target": "randomEnemy" }] }
+    "modifiers": [
+      {
+        "stat": "poisonDamage",
+        "amount": 1,
+        "who": "enemy"
+      }
     ],
-    "art": { "subject": "a folding fan made of dark violet poison-bird feathers, green droplets beading on the tips, held half open" }
+    "triggers": [
+      {
+        "on": "turnStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": 2,
+            "target": "randomEnemy"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a folding fan made of dark violet poison-bird feathers, green droplets beading on the tips, held half open"
+    }
   },
   {
     "id": "rl_twin_eared_cauldron",
@@ -66,8 +136,15 @@
     "ruleChanging": true,
     "text": "每回合可以献牌为源2次。",
     "flavor": "一耳敬天，一耳敬己。",
-    "modifiers": [{ "stat": "sacrifices", "amount": 1 }],
-    "art": { "subject": "a heavy bronze ritual cauldron with two upright handles, two thin streams of offering smoke rising and glowing" }
+    "modifiers": [
+      {
+        "stat": "sacrifices",
+        "amount": 1
+      }
+    ],
+    "art": {
+      "subject": "a heavy bronze ritual cauldron with two upright handles, two thin streams of offering smoke rising and glowing"
+    }
   },
   {
     "id": "rl_twin_blade_case",
@@ -76,8 +153,16 @@
     "ruleChanging": true,
     "text": "你的主帅具有[连斩]（每回合可以武器攻击两次）。",
     "flavor": "匣中两剑，一剑问，一剑答。",
-    "modifiers": [{ "stat": "keyword", "keyword": "twinStrike", "who": "commander" }],
-    "art": { "subject": "an open lacquered black sword case holding two identical slender swords side by side, their edges catching red light" }
+    "modifiers": [
+      {
+        "stat": "keyword",
+        "keyword": "twinStrike",
+        "who": "commander"
+      }
+    ],
+    "art": {
+      "subject": "an open lacquered black sword case holding two identical slender swords side by side, their edges catching red light"
+    }
   },
   {
     "id": "rl_thunder_drum",
@@ -86,8 +171,16 @@
     "ruleChanging": true,
     "text": "友方单位具有[疾行]。",
     "flavor": "鼓一响，没有人等得及。",
-    "modifiers": [{ "stat": "keyword", "keyword": "haste", "who": "friendlyUnits" }],
-    "art": { "subject": "a large bronze war drum with frog figures on its rim, shockwaves of lightning rippling out from the drumhead" }
+    "modifiers": [
+      {
+        "stat": "keyword",
+        "keyword": "haste",
+        "who": "friendlyUnits"
+      }
+    ],
+    "art": {
+      "subject": "a large bronze war drum with frog figures on its rim, shockwaves of lightning rippling out from the drumhead"
+    }
   },
   {
     "id": "rl_soul_parting_lamp",
@@ -97,9 +190,21 @@
     "text": "每当友方单位入场，使其获得[隐匿]。",
     "flavor": "灯照不到的地方，才是它们的来处。",
     "triggers": [
-      { "on": "unitSummoned", "who": "friendly", "effects": [{ "op": "addKeyword", "target": "eventTarget", "keyword": "stealth" }] }
+      {
+        "on": "unitSummoned",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "addKeyword",
+            "target": "eventTarget",
+            "keyword": "stealth"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a paper lantern with a cold violet flame, casting no light, faint translucent figures stepping out of its shadow" }
+    "art": {
+      "subject": "a paper lantern with a cold violet flame, casting no light, faint translucent figures stepping out of its shadow"
+    }
   },
   {
     "id": "rl_final_page",
@@ -108,9 +213,21 @@
     "text": "每回合你打出的第一张牌费用-1。",
     "flavor": "终卷只有一句：先落笔者，定其势。",
     "triggers": [
-      { "on": "turnStart", "effects": [{ "op": "costMod", "scope": "nextCard", "amount": -1, "until": "turn" }] }
+      {
+        "on": "turnStart",
+        "effects": [
+          {
+            "op": "costMod",
+            "scope": "nextCard",
+            "amount": -1,
+            "until": "turn"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "the last torn page of a celestial book, blank except for a single brush stroke glowing gold, floating above an ink stone" }
+    "art": {
+      "subject": "the last torn page of a celestial book, blank except for a single brush stroke glowing gold, floating above an ink stone"
+    }
   },
   {
     "id": "rl_buzhou_stone",
@@ -118,8 +235,16 @@
     "tier": "rare",
     "text": "你的主帅受到的伤害-1。",
     "flavor": "撑过天的石头，挡一刀不算什么。",
-    "modifiers": [{ "stat": "damageTaken", "amount": -1, "who": "commander" }],
-    "art": { "subject": "a fist-sized fragment of a broken celestial pillar, dense grey stone veined with faint starlight, resting on silk" }
+    "modifiers": [
+      {
+        "stat": "damageTaken",
+        "amount": -1,
+        "who": "commander"
+      }
+    ],
+    "art": {
+      "subject": "a fist-sized fragment of a broken celestial pillar, dense grey stone veined with faint starlight, resting on silk"
+    }
   },
   {
     "id": "rl_golden_crow_sun",
@@ -129,9 +254,21 @@
     "text": "战斗开始时，将一张{sun}日纹13置于天命牌堆顶（仅本场战斗）。",
     "flavor": "第一缕光，是它叼来的。",
     "triggers": [
-      { "on": "combatStart", "effects": [{ "op": "fateAdd", "suit": "sun", "rank": 13, "where": "top" }] }
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "fateAdd",
+            "suit": "sun",
+            "rank": 13,
+            "where": "top"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a small three-legged golden crow carved in gold, holding a blazing sun disc in its beak, radiant rays" }
+    "art": {
+      "subject": "a small three-legged golden crow carved in gold, holding a blazing sun disc in its beak, radiant rays"
+    }
   },
   {
     "id": "rl_echo_chime",
@@ -140,9 +277,20 @@
     "text": "每回合你第一次在敌方回合打出[应]牌后，重置1枚已用的[源]（可继续作为[余烬]使用）。",
     "flavor": "敲一下，响两声。第二声是留给自己的。",
     "triggers": [
-      { "on": "responsePlayed", "limit": "turn", "effects": [{ "op": "refresh", "n": 1 }] }
+      {
+        "on": "responsePlayed",
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "refresh",
+            "n": 1
+          }
+        ]
+      }
     ],
-    "art": { "subject": "an L-shaped black stone chime hanging from a wooden frame, visible sound ripples echoing twice around it" }
+    "art": {
+      "subject": "an L-shaped black stone chime hanging from a wooden frame, visible sound ripples echoing twice around it"
+    }
   },
   {
     "id": "rl_underground_tally",
@@ -150,8 +298,16 @@
     "tier": "rare",
     "text": "友方单位+1攻击力。",
     "flavor": "半枚在你手里，另半枚在地下的某位王手里。兵只认符。",
-    "modifiers": [{ "stat": "atk", "amount": 1, "who": "friendlyUnits" }],
-    "art": { "subject": "half of a bronze tiger-shaped military tally inlaid with gold script, the split edge glowing faintly" }
+    "modifiers": [
+      {
+        "stat": "atk",
+        "amount": 1,
+        "who": "friendlyUnits"
+      }
+    ],
+    "art": {
+      "subject": "half of a bronze tiger-shaped military tally inlaid with gold script, the split edge glowing faintly"
+    }
   },
   {
     "id": "rl_drowned_crown",
@@ -160,14 +316,136 @@
     "text": "战斗开始时，对所有敌人施加2层[虚弱]和2层[易伤]。",
     "flavor": "戴上它，敌人会看见城沉下去的那一夜。",
     "triggers": [
-      { "on": "combatStart", "effects": [
-        { "op": "status", "status": "weak", "amount": 2, "target": "allEnemies" },
-        { "op": "status", "status": "vulnerable", "amount": 2, "target": "allEnemies" }
-      ] }
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "weak",
+            "amount": 2,
+            "target": "allEnemies"
+          },
+          {
+            "op": "status",
+            "status": "vulnerable",
+            "amount": 2,
+            "target": "allEnemies"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a waterlogged royal pearl crown dripping water, strands of pearls tangled with river weed, dark green depths" }
+    "art": {
+      "subject": "a waterlogged royal pearl crown dripping water, strands of pearls tangled with river weed, dark green depths"
+    }
   },
-  {"id":"rl_sword_manual","name":"剑谱残页","tier":"rare","text":"你的主帅获得[连斩]（每回合可攻击两次）。","flavor":"只剩半页，写的是第二剑。","modifiers":[{"stat":"keyword","keyword":"twinStrike","who":"commander"}],"art":{"subject":"a torn yellowed page of a sword manual with ink drawings of a swordsman in two poses, brush annotations, slightly burnt edges"}},
-  {"id":"rl_star_pendant","name":"星坠","tier":"rare","text":"每回合你第一次进行[判定]后，获得1枚本回合的[源]。","flavor":"坠子是一小块星石，判一次，亮一次。","triggers":[{"on":"judged","who":"friendly","limit":"turn","effects":[{"op":"energy","n":1}]}],"art":{"subject":"a pendant holding a small fragment of star stone glowing gold, hanging from a fine chain, tiny constellations reflected on it"}},
-  {"id":"rl_frost_scabbard","name":"霜鞘","tier":"rare","faction":"B","text":"主帅每次攻击后，获得3点[护甲]。","flavor":"刀收回鞘里的时候，鞘上结了一层霜。","triggers":[{"on":"attacking","effects":[{"op":"armor","amount":3,"target":"commander"}]}],"art":{"subject":"a dark scabbard coated in frost with blue cord bindings, a blade half drawn from it showing an icy gleam, snow flakes"}}
+  {
+    "id": "rl_sword_manual",
+    "name": "剑谱残页",
+    "tier": "rare",
+    "text": "你的主帅获得[连斩]（每回合可攻击两次）。",
+    "flavor": "只剩半页，写的是第二剑。",
+    "modifiers": [
+      {
+        "stat": "keyword",
+        "keyword": "twinStrike",
+        "who": "commander"
+      }
+    ],
+    "art": {
+      "subject": "a torn yellowed page of a sword manual with ink drawings of a swordsman in two poses, brush annotations, slightly burnt edges"
+    }
+  },
+  {
+    "id": "rl_star_pendant",
+    "name": "星坠",
+    "tier": "rare",
+    "text": "每回合你第一次进行[判定]后，获得1枚本回合的[源]。",
+    "flavor": "坠子是一小块星石，判一次，亮一次。",
+    "triggers": [
+      {
+        "on": "judged",
+        "who": "friendly",
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "energy",
+            "n": 1
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a pendant holding a small fragment of star stone glowing gold, hanging from a fine chain, tiny constellations reflected on it"
+    }
+  },
+  {
+    "id": "rl_frost_scabbard",
+    "name": "霜鞘",
+    "tier": "rare",
+    "faction": "B",
+    "text": "主帅每次攻击后，获得3点[护甲]。",
+    "flavor": "刀收回鞘里的时候，鞘上结了一层霜。",
+    "triggers": [
+      {
+        "on": "attacking",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 3,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a dark scabbard coated in frost with blue cord bindings, a blade half drawn from it showing an icy gleam, snow flakes"
+    }
+  },
+  {
+    "id": "rl_k_ink_field",
+    "name": "砚田",
+    "tier": "rare",
+    "faction": "K",
+    "text": "我方回合开始时，获得1层[墨迹]。",
+    "flavor": "读书人没有田，砚台就是他的田。",
+    "triggers": [
+      {
+        "on": "turnStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "ink",
+            "amount": 1,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a large inkstone carved as terraced rice fields, ink flowing down its terraces like water"
+    }
+  },
+  {
+    "id": "rl_w_ancestor_mask",
+    "name": "祖面",
+    "tier": "rare",
+    "faction": "W",
+    "text": "每场战斗第一次[揭面]后，重新戴上同一张[面具]。",
+    "flavor": "传了七代的面具，揭下来还会自己回到脸上。",
+    "triggers": [
+      {
+        "on": "unmasked",
+        "limit": "combat",
+        "effects": [
+          {
+            "op": "mask",
+            "again": true
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "an ancient cracked wooden mask with faded gold paint, bound with old red cords and talismans"
+    }
+  }
 ]

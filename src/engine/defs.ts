@@ -3,8 +3,9 @@
  * validated by the zod schemas in ./schema.ts.
  */
 
-export type Color = 'R' | 'B' | 'G' | 'Y' | 'P' | 'N';
-export const COLORS: readonly Color[] = ['R', 'B', 'G', 'Y', 'P'];
+/** 赤 玄 青 金 紫 · 墨 (K, 翰墨书院) 银 (W, 傩面班) · 素 (N, neutral) */
+export type Color = 'R' | 'B' | 'G' | 'Y' | 'P' | 'K' | 'W' | 'N';
+export const COLORS: readonly Color[] = ['R', 'B', 'G', 'Y', 'P', 'K', 'W'];
 export type Suit = 'sun' | 'thunder' | 'moon' | 'mountain';
 export const SUITS: readonly Suit[] = ['sun', 'thunder', 'moon', 'mountain'];
 export const YANG: readonly Suit[] = ['sun', 'thunder'];
@@ -20,7 +21,9 @@ export type Keyword =
 
 export type StatusId =
   | 'burn' | 'poison' | 'freeze' | 'stun' | 'vulnerable' | 'weak' | 'silence'
-  | 'might' | 'tenacity' | 'regen';
+  | 'might' | 'tenacity' | 'regen'
+  /** 墨迹 (翰墨书院): gathered by writing, spent by 落款 */
+  | 'ink';
 
 // ───────────── values ─────────────
 export type CountKind =
@@ -29,7 +32,9 @@ export type CountKind =
   | 'units' | 'cardsPlayed' | 'status' | 'armor' | 'atk' | 'hp' | 'missingHp' | 'maxHp'
   | 'signs' | 'judgeRank' | 'x' | 'lastDamage' | 'turn' | 'sacrificed' | 'eventAmount'
   | 'judgesThisTurn' | 'equipped' | 'delays' | 'counter' | 'deadThisCombat' | 'responsesThisCombat'
-  | 'weaponAtk' | 'selected';
+  | 'weaponAtk' | 'selected'
+  /** 揭面 this combat (傩面班) */
+  | 'unmasks';
 
 export type Value =
   | number
@@ -80,6 +85,12 @@ export type Condition =
   | { declared: IntentType }
   | { myTurn: boolean }
   | { eventCard: CardFilter }
+  /** 题字: the card being played (or the event's card) was inscribed */
+  | { inked: boolean }
+  /** the event's card is 浮光 (keyword or a fleeting copy) */
+  | { fleeting: boolean }
+  /** the side's field: a card id, 'mask' (any 傩 mask) or 'any' */
+  | { field: string }
   | { hasEquip: EquipSlot }
   | { emptySlot: { side: 'friendly' | 'enemy'; row?: 'front' | 'back' } };
 
@@ -154,6 +165,14 @@ export type Effect =
   | { op: 'store'; key: string; value: Value }
   | { op: 'counter'; amount: Value; max?: number; then?: Effect[] }
   | { op: 'gold'; n: Value }
+  /** 题字: chosen hand cards cost 1 less for the rest of the combat and count as inscribed */
+  | { op: 'inscribe'; n: Value; mode: 'choose' | 'random' | 'all' }
+  /** 拓印: copies of cards from a pile go to your hand (fleeting unless told otherwise) */
+  | { op: 'copyCard'; from: 'discard' | 'exhaust' | 'hand'; mode: 'choose' | 'random'; n: Value; fleeting?: boolean }
+  /** 戴面: put on a 傩 mask (a field card) — a given one, the next in the cycle, or the one just taken off */
+  | { op: 'mask'; card?: string; next?: boolean; again?: boolean }
+  /** 揭面: take off the worn mask and resolve its reveal effects */
+  | { op: 'unmask' }
   | { op: 'script'; id: string; args?: Record<string, unknown> };
 
 // ───────────── triggers & modifiers ─────────────
@@ -164,7 +183,9 @@ export type TriggerOn =
   | 'unitSummoned' | 'unitDied'
   | 'damaged' | 'dealtDamage' | 'attacked' | 'attacking' | 'healed' | 'armorGained' | 'armorBroken'
   | 'statusApplied' | 'judged' | 'rejudged' | 'responsePlayed' | 'actionDeclared' | 'equipped'
-  | 'sourceGained' | 'shuffled';
+  | 'sourceGained' | 'shuffled'
+  /** a field (or 傩 mask) was put down / a mask was taken off */
+  | 'fieldSet' | 'unmasked';
 
 export interface Trigger {
   on: TriggerOn;
@@ -231,6 +252,10 @@ export interface DelayStats {
 }
 
 export interface FieldStats {
+  /** 傩面班 mask: never goes to the discard pile; one worn at a time */
+  mask?: boolean;
+  /** effects of 揭面 for a mask */
+  reveal?: Effect[];
   duration?: number;
   triggers?: Trigger[];
   modifiers?: Modifier[];

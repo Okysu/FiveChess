@@ -19,7 +19,7 @@ import { intentPreview, moveName } from '../../../engine/combat/intents';
 import { skillDef } from '../../../engine/combat/skills';
 import { autoAnswer } from '../../../engine/combat/autoplay';
 import { content } from '../../../engine/content';
-import { STATUSES, SUIT_INFO, fillVars } from '../../../engine/glossary';
+import { COLOR_INFO, STATUSES, SUIT_INFO, fillVars } from '../../../engine/glossary';
 import { TopBar, openDeck, inspectCard, pickCards, termsOf, sortCards } from '../../ui/hud';
 import { Button, Modal, Tooltip, glossLines, hideTip, label, showTip, title, toast } from '../../ui/widgets';
 import { CardView, CARD_H, costExplain } from '../../ui/card';
@@ -482,7 +482,7 @@ export class CombatScene extends Scene {
     if (info.reason === 'cost') {
       const need = effectiveCost(this.s, card);
       const ready = this.s.sources.filter((x) => x.ready).length;
-      toast(live.missing?.length ? `缺少 ${live.missing.map((c) => ({ R: '赤', B: '玄', G: '青', Y: '金', P: '紫', N: '素' })[c]).join('')} 源` : `源不足（需 ${need.g + need.c.length}，余 ${ready}）`, 0xff9a8a, 760);
+      toast(live.missing?.length ? `缺少 ${live.missing.map((c) => COLOR_INFO[c].name).join('')} 源` : `源不足（需 ${need.g + need.c.length}，余 ${ready}）`, 0xff9a8a, 760);
     } else if (info.reason === 'window') toast('此牌只能在应对窗口中打出', 0xff9a8a, 760);
     else if (info.reason === 'target') toast('没有合法目标', 0xff9a8a, 760);
     else if (info.reason === 'slot') toast('阵地已满', 0xff9a8a, 760);
@@ -1249,6 +1249,7 @@ export class CombatScene extends Scene {
         await wait(fast ? 40 : 300);
         break;
       }
+      case 'inscribe': this.hand.reconcile(s.hand, (c) => liveCard(s, c)); sfx('relic'); await wait(fast ? 20 : 160); break;
       case 'relicSeal': this.top.setRelicSealed(e.id, e.sealed); if (e.sealed) sfx('deny'); else sfx('relic'); break;
       case 'potion': this.top.refresh(); sfx('heal'); break;
       case 'end': break;
@@ -1544,7 +1545,7 @@ export class CombatScene extends Scene {
         return;
       }
       case 'chooseCards': {
-        const purpose = { discard: '选择要弃置的牌', exhaust: '选择要燃尽的牌', fetch: '选择要取回的牌', discover: '发现：选择一张加入手牌' }[d.purpose];
+        const purpose = { discard: '选择要弃置的牌', exhaust: '选择要燃尽的牌', fetch: '选择要取回的牌', discover: '发现：选择一张加入手牌', inscribe: '题字：选择手牌（本场费用-1）', copy: '拓印：选择要复制的牌' }[d.purpose];
         const cards = (d.offer ?? d.cards).map((c) => ({ id: c.id, up: c.up, uid: c.uid }));
         if (d.purpose === 'discover') { this.discoverUi(cards); return; }
         pickCards(cards, { title: purpose, n: d.max, min: d.min, confirm: '确定', onDone: (uids) => void this.send({ type: 'choose', picks: uids }) });

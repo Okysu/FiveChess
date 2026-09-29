@@ -1,19 +1,49 @@
 [
   {
-    "id": "rl_start_shiyun", "name": "山君石心", "tier": "starter", "faction": "B",
+    "id": "rl_start_shiyun",
+    "name": "山君石心",
+    "tier": "starter",
+    "faction": "B",
     "text": "战斗开始时，获得3点[护甲]。",
     "flavor": "从护山大阵阵眼里取出的一块石头，摸上去是温的。",
-    "triggers": [ { "on": "combatStart", "effects": [
-      { "op": "armor", "amount": 3, "target": "commander" }
-    ] } ],
-    "art": { "subject": "a fist-sized grey stone shaped like a heart with a faint mountain vein pattern glowing warm blue inside, resting on a folded dark cloth" }
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 3,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a fist-sized grey stone shaped like a heart with a faint mountain vein pattern glowing warm blue inside, resting on a folded dark cloth"
+    }
   },
   {
-    "id": "rl_start_suxian", "name": "冰蚕弦", "tier": "starter", "faction": "B",
+    "id": "rl_start_suxian",
+    "name": "冰蚕弦",
+    "tier": "starter",
+    "faction": "B",
     "text": "每当你在应对中打出牌，获得3点[护甲]。",
     "flavor": "冰蚕吐的丝，弹一声，寒三分。",
-    "triggers": [ { "on": "responsePlayed", "effects": [ { "op": "armor", "amount": 3, "target": "commander" } ] } ],
-    "art": { "subject": "a coil of translucent silk string spun by an ice silkworm, glittering with frost, the small pale silkworm resting on the coil, close-up on dark wood" }
+    "triggers": [
+      {
+        "on": "responsePlayed",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 3,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a coil of translucent silk string spun by an ice silkworm, glittering with frost, the small pale silkworm resting on the coil, close-up on dark wood"
+    }
   },
   {
     "id": "rl_start_shiyun_b",
@@ -66,6 +96,52 @@
     ],
     "art": {
       "subject": "a snapped zither string coiled in the air like a silver whip, frost crystals along its broken end, dark wood background"
+    }
+  },
+  {
+    "id": "rl_start_guanshanyue",
+    "name": "关城钥",
+    "tier": "starter",
+    "faction": "B",
+    "text": "每场战斗第一次在应对中打出牌后，抽2张牌。",
+    "flavor": "钥匙只有一把，门从来没开过。",
+    "triggers": [
+      {
+        "on": "responsePlayed",
+        "limit": "combat",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a huge iron fortress key with frost on its teeth, hung on a thick blue cord"
+    }
+  },
+  {
+    "id": "rl_start_guanshanyue_b",
+    "name": "烽燧",
+    "tier": "starter",
+    "faction": "B",
+    "text": "敌方回合开始时，获得3点[护甲]。",
+    "flavor": "烟一起，关上的人就醒了。",
+    "triggers": [
+      {
+        "on": "opponentTurnStart",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 3,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a small stone beacon tower model with a curl of smoke rising from its top"
     }
   }
 ]

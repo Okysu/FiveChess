@@ -6,12 +6,29 @@
     "faction": "G",
     "text": "你的回合开始时，若你拥有至少3个友方单位，抽1张牌。",
     "flavor": "囊里的种子会自己数人头，人够了，就吐一粒出来。",
-    "triggers": [{
-      "on": "turnStart",
-      "if": { "gte": [{ "count": "units", "side": "friendly" }, 3] },
-      "effects": [{ "op": "draw", "n": 1 }]
-    }],
-    "art": { "subject": "a small embroidered pouch of green silk bulging with glowing seeds, a few tiny sprouts poking out of its drawstring mouth, resting on moss" }
+    "triggers": [
+      {
+        "on": "turnStart",
+        "if": {
+          "gte": [
+            {
+              "count": "units",
+              "side": "friendly"
+            },
+            3
+          ]
+        },
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a small embroidered pouch of green silk bulging with glowing seeds, a few tiny sprouts poking out of its drawstring mouth, resting on moss"
+    }
   },
   {
     "id": "rl_start_acang",
@@ -21,10 +38,30 @@
     "text": "战斗开始时，召唤一个「山魅」。每回合第一次有友方单位死亡时，抽1张牌。",
     "flavor": "吹的是山里死去的风，唤回的是山里没走远的魂。",
     "triggers": [
-      { "on": "combatStart", "effects": [{ "op": "summon", "unit": "tk_g_mountain_wraith" }] },
-      { "on": "unitDied", "who": "friendly", "limit": "turn", "effects": [{ "op": "draw", "n": 1 }] }
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "tk_g_mountain_wraith"
+          }
+        ]
+      },
+      {
+        "on": "unitDied",
+        "who": "friendly",
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a bone flute carved from a deer antler, wrapped with a strand of red cord and dried fig leaves, pale green mist curling from its finger holes" }
+    "art": {
+      "subject": "a bone flute carved from a deer antler, wrapped with a strand of red cord and dried fig leaves, pale green mist curling from its finger holes"
+    }
   },
   {
     "id": "rl_start_qingsi_b",
@@ -71,6 +108,52 @@
     ],
     "art": {
       "subject": "a small hand drum covered with dried autumn leaves instead of hide, bound with vines, a pale ghostly wisp rising from it"
+    }
+  },
+  {
+    "id": "rl_start_qiuchan",
+    "name": "旧蜕",
+    "tier": "starter",
+    "faction": "G",
+    "text": "战斗开始时，召唤2个「灵苗」。",
+    "flavor": "他每蜕一次皮，就留下一只空壳。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "summon",
+            "unit": "tk_g_sprout",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a pair of amber cicada shells wrapped in a leaf, tiny sprouts growing from their backs"
+    }
+  },
+  {
+    "id": "rl_start_qiuchan_b",
+    "name": "轮回印",
+    "tier": "starter",
+    "faction": "G",
+    "text": "每当一个友方单位死亡，对随机敌人造成2点伤害。",
+    "flavor": "印面刻着一个圆，没有开头也没有结尾。",
+    "triggers": [
+      {
+        "on": "unitDied",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 2,
+            "target": "randomEnemy"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a jade seal carved with an endless ring of vines and a cicada in the center"
     }
   }
 ]

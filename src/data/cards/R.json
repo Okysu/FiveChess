@@ -6,15 +6,34 @@
     "type": "tactic",
     "rarity": "basic",
     "pool": false,
-    "cost": { "g": 1 },
+    "cost": {
+      "g": 1
+    },
     "text": "造成{d}点伤害。",
-    "vars": { "d": 6 },
-    "varKinds": { "d": "attack" },
+    "vars": {
+      "d": 6
+    },
+    "varKinds": {
+      "d": "attack"
+    },
     "target": "enemy",
-    "effects": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true }],
-    "upgrade": { "vars": { "d": 9 } },
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 9
+      }
+    },
     "flavor": "焚阳宗入门第一式：刀未至，热先至。",
-    "art": { "subject": "a young swordsman in crimson training robes slashing diagonally, the blade leaving a bright arc of heat shimmer and sparks" }
+    "art": {
+      "subject": "a young swordsman in crimson training robes slashing diagonally, the blade leaving a bright arc of heat shimmer and sparks"
+    }
   },
   {
     "id": "r_basic_guard",
@@ -23,16 +42,33 @@
     "type": "tactic",
     "rarity": "basic",
     "pool": false,
-    "cost": { "g": 1 },
+    "cost": {
+      "g": 1
+    },
     "text": "获得{a}点[护甲]。",
-    "vars": { "a": 5 },
-    "varKinds": { "a": "armor" },
-    "effects": [{ "op": "armor", "amount": "$a", "target": "commander" }],
-    "upgrade": { "vars": { "a": 8 } },
+    "vars": {
+      "a": 5
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "effects": [
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 8
+      }
+    },
     "flavor": "以火为衣，寒刃难近。",
-    "art": { "subject": "a crimson-robed martial artist crossing forearms as a translucent shell of orange flame wraps around the body, embers swirling" }
+    "art": {
+      "subject": "a crimson-robed martial artist crossing forearms as a translucent shell of orange flame wraps around the body, embers swirling"
+    }
   },
-
   {
     "id": "r_sig_flame_ridge",
     "name": "焰脊斩",
@@ -40,20 +76,60 @@
     "type": "tactic",
     "rarity": "basic",
     "pool": false,
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "若你装备着武器，主帅攻击目标；否则造成{d}点伤害。然后对目标施加{b}层[灼烧]。",
-    "vars": { "d": 7, "b": 2 },
-    "varKinds": { "d": "attack", "b": "burn" },
+    "vars": {
+      "d": 7,
+      "b": 2
+    },
+    "varKinds": {
+      "d": "attack",
+      "b": "burn"
+    },
     "target": "enemy",
     "effects": [
-      { "op": "if", "cond": { "hasEquip": "weapon" },
-        "then": [{ "op": "attack", "target": "target" }],
-        "else": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true }] },
-      { "op": "status", "status": "burn", "amount": "$b", "target": "target" }
+      {
+        "op": "if",
+        "cond": {
+          "hasEquip": "weapon"
+        },
+        "then": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ],
+        "else": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target",
+            "attack": true
+          }
+        ]
+      },
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "target"
+      }
     ],
-    "upgrade": { "vars": { "d": 10, "b": 4 } },
+    "upgrade": {
+      "vars": {
+        "d": 10,
+        "b": 4
+      }
+    },
     "flavor": "霍烬的刀背上有一道焰脊，斩落时整条火线一起落下。",
-    "art": { "subject": "a scarred general bringing a heavy broadsword down in an overhead chop, a ridge of fire running along the spine of the blade, sparks exploding at impact" }
+    "art": {
+      "subject": "a scarred general bringing a heavy broadsword down in an overhead chop, a ridge of fire running along the spine of the blade, sparks exploding at impact"
+    }
   },
   {
     "id": "r_sig_quench",
@@ -62,18 +138,51 @@
     "type": "tactic",
     "rarity": "basic",
     "pool": false,
-    "cost": { "g": 0, "c": ["R"] },
+    "cost": {
+      "g": 0,
+      "c": [
+        "R"
+      ]
+    },
     "text": "若你装备着武器，武器攻击力+{a}、耐久+{u}；否则装备一把断焰刀。",
-    "vars": { "a": 1, "u": 2 },
-    "varKinds": { "a": "attack" },
+    "vars": {
+      "a": 1,
+      "u": 2
+    },
+    "varKinds": {
+      "a": "attack"
+    },
     "effects": [
-      { "op": "if", "cond": { "hasEquip": "weapon" },
-        "then": [{ "op": "weapon", "atk": "$a", "durability": "$u" }],
-        "else": [{ "op": "equip", "card": "tk_r_duanyan" }] }
+      {
+        "op": "if",
+        "cond": {
+          "hasEquip": "weapon"
+        },
+        "then": [
+          {
+            "op": "weapon",
+            "atk": "$a",
+            "durability": "$u"
+          }
+        ],
+        "else": [
+          {
+            "op": "equip",
+            "card": "tk_r_duanyan"
+          }
+        ]
+      }
     ],
-    "upgrade": { "vars": { "a": 2, "u": 3 } },
+    "upgrade": {
+      "vars": {
+        "a": 2,
+        "u": 3
+      }
+    },
     "flavor": "刀在火里睡一夜，醒来就忘了自己断过。",
-    "art": { "subject": "a general plunging a glowing red blade into a trough of water beside a forge, a great burst of steam rising, lit from below by coals" }
+    "art": {
+      "subject": "a general plunging a glowing red blade into a trough of water beside a forge, a great burst of steam rising, lit from below by coals"
+    }
   },
   {
     "id": "r_sig_vermilion_plume",
@@ -82,17 +191,48 @@
     "type": "tactic",
     "rarity": "basic",
     "pool": false,
-    "cost": { "g": 1 },
-    "keywords": ["offering"],
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "offering"
+    ],
     "text": "造成{d}点伤害。\n[献]：对所有敌人施加{b}层[灼烧]。",
-    "vars": { "d": 6, "b": 2 },
-    "varKinds": { "d": "attack", "b": "burn" },
+    "vars": {
+      "d": 6,
+      "b": 2
+    },
+    "varKinds": {
+      "d": "attack",
+      "b": "burn"
+    },
     "target": "enemy",
-    "effects": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true }],
-    "onSacrifice": [{ "op": "status", "status": "burn", "amount": "$b", "target": "allEnemies" }],
-    "upgrade": { "vars": { "d": 8, "b": 3 } },
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "onSacrifice": [
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "allEnemies"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 8,
+        "b": 3
+      }
+    },
     "flavor": "一根朱羽，可以是一支箭，也可以是一场祭。",
-    "art": { "subject": "a priestess releasing a single vermilion feather that ignites mid-air and streaks forward like an arrow of flame, her sleeves billowing" }
+    "art": {
+      "subject": "a priestess releasing a single vermilion feather that ignites mid-air and streaks forward like an arrow of flame, her sleeves billowing"
+    }
   },
   {
     "id": "r_sig_pyre_hymn",
@@ -101,22 +241,70 @@
     "type": "tactic",
     "rarity": "basic",
     "pool": false,
-    "cost": { "g": 0, "c": ["R"] },
+    "cost": {
+      "g": 0,
+      "c": [
+        "R"
+      ]
+    },
     "text": "对一个敌人造成{d}点伤害；本场战斗你每献出过一张牌，伤害+{k}。",
-    "vars": { "d": 3, "k": 2 },
-    "varKinds": { "d": "damage", "k": "damage" },
+    "vars": {
+      "d": 3,
+      "k": 2
+    },
+    "varKinds": {
+      "d": "damage",
+      "k": "damage"
+    },
     "target": "enemy",
-    "effects": [{ "op": "damage", "amount": { "add": ["$d", { "mul": [{ "count": "sacrificed" }, "$k"] }] }, "target": "target" }],
+    "effects": [
+      {
+        "op": "damage",
+        "amount": {
+          "add": [
+            "$d",
+            {
+              "mul": [
+                {
+                  "count": "sacrificed"
+                },
+                "$k"
+              ]
+            }
+          ]
+        },
+        "target": "target"
+      }
+    ],
     "upgrade": {
       "qualitative": true,
       "text": "对所有敌人造成{d}点伤害；本场战斗你每献出过一张牌，伤害+{k}。",
       "target": "none",
-      "effects": [{ "op": "damage", "amount": { "add": ["$d", { "mul": [{ "count": "sacrificed" }, "$k"] }] }, "target": "allEnemies" }]
+      "effects": [
+        {
+          "op": "damage",
+          "amount": {
+            "add": [
+              "$d",
+              {
+                "mul": [
+                  {
+                    "count": "sacrificed"
+                  },
+                  "$k"
+                ]
+              }
+            ]
+          },
+          "target": "allEnemies"
+        }
+      ]
     },
     "flavor": "每献出一物，颂词便长一句；颂到最后，满天皆火。",
-    "art": { "subject": "a priestess singing before a tall pyre of stacked paper offerings, flames spiraling upward in the shape of wings, night sky behind" }
+    "art": {
+      "subject": "a priestess singing before a tall pyre of stacked paper offerings, flames spiraling upward in the shape of wings, night sky behind"
+    }
   },
-
   {
     "id": "tk_r_spark",
     "name": "火种",
@@ -124,16 +312,44 @@
     "type": "tactic",
     "rarity": "token",
     "pool": false,
-    "cost": { "g": 0 },
-    "keywords": ["offering", "exhaust"],
+    "cost": {
+      "g": 0
+    },
+    "keywords": [
+      "offering",
+      "exhaust"
+    ],
     "text": "对随机敌人施加{b}层[灼烧]。[燃尽]。\n[献]：抽{n}张牌。",
-    "vars": { "b": 2, "n": 1 },
-    "varKinds": { "b": "burn" },
-    "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "randomEnemy" }],
-    "onSacrifice": [{ "op": "draw", "n": "$n" }],
-    "upgrade": { "vars": { "b": 3 } },
+    "vars": {
+      "b": 2,
+      "n": 1
+    },
+    "varKinds": {
+      "b": "burn"
+    },
+    "effects": [
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "randomEnemy"
+      }
+    ],
+    "onSacrifice": [
+      {
+        "op": "draw",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "b": 3
+      }
+    },
     "flavor": "借一点火去，还一片光来。",
-    "art": { "subject": "a single ember cupped in two open palms, glowing brightly in darkness, tiny sparks lifting from it" }
+    "art": {
+      "subject": "a single ember cupped in two open palms, glowing brightly in darkness, tiny sparks lifting from it"
+    }
   },
   {
     "id": "tk_r_duanyan",
@@ -142,33 +358,89 @@
     "type": "equip",
     "rarity": "token",
     "pool": false,
-    "cost": { "g": 1 },
+    "cost": {
+      "g": 1
+    },
     "text": "武器：攻击力{w}，距离{r}，耐久{u}。",
-    "vars": { "w": 3, "r": 1, "u": 6 },
-    "varKinds": { "w": "attack" },
-    "equip": { "slot": "weapon", "atk": 3, "range": 1, "durability": 6 },
-    "upgrade": { "vars": { "w": 4 }, "equip": { "atk": 4 } },
+    "vars": {
+      "w": 3,
+      "r": 1,
+      "u": 6
+    },
+    "varKinds": {
+      "w": "attack"
+    },
+    "equip": {
+      "slot": "weapon",
+      "atk": 3,
+      "range": 1,
+      "durability": 6
+    },
+    "upgrade": {
+      "vars": {
+        "w": 4
+      },
+      "equip": {
+        "atk": 4
+      }
+    },
     "flavor": "刀身齐腰而断，断口至今不冷。",
-    "art": { "subject": "a broken-tipped broadsword lying on scorched stone, the sheared edge glowing molten orange, thin smoke curling from it" }
+    "art": {
+      "subject": "a broken-tipped broadsword lying on scorched stone, the sheared edge glowing molten orange, thin smoke curling from it"
+    }
   },
-
   {
     "id": "r_crimson_fox",
     "name": "赤尾狐",
     "faction": "R",
     "type": "unit",
     "rarity": "common",
-    "cost": { "g": 1, "c": ["R"] },
-    "text": "[远射]。此单位造成伤害后，对受伤者施加{b}层[灼烧]。",
-    "vars": { "b": 2 },
-    "varKinds": { "b": "burn" },
-    "unit": {
-      "atk": 2, "hp": 3, "keywords": ["ranged"], "prefersBack": true,
-      "triggers": [{ "on": "dealtDamage", "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "eventTarget" }] }]
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
     },
-    "upgrade": { "vars": { "b": 3 }, "unit": { "atk": 3 } },
+    "text": "[远射]。此单位造成伤害后，对受伤者施加{b}层[灼烧]。",
+    "vars": {
+      "b": 2
+    },
+    "varKinds": {
+      "b": "burn"
+    },
+    "unit": {
+      "atk": 2,
+      "hp": 3,
+      "keywords": [
+        "ranged"
+      ],
+      "prefersBack": true,
+      "triggers": [
+        {
+          "on": "dealtDamage",
+          "effects": [
+            {
+              "op": "status",
+              "status": "burn",
+              "amount": "$b",
+              "target": "eventTarget"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "b": 3
+      },
+      "unit": {
+        "atk": 3
+      }
+    },
     "flavor": "它的尾巴扫过哪片草，哪片草就记住了火。",
-    "art": { "subject": "a slender fox with a long tail made of living flame, crouched on a rock and spitting a bolt of fire, full body side view" }
+    "art": {
+      "subject": "a slender fox with a long tail made of living flame, crouched on a rock and spitting a bolt of fire, full body side view"
+    }
   },
   {
     "id": "r_blade_guard",
@@ -176,19 +448,53 @@
     "faction": "R",
     "type": "unit",
     "rarity": "common",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "[起势]：若你装备着武器，武器攻击力+{w}；否则此单位获得+{w}攻击力。",
-    "vars": { "w": 1 },
-    "varKinds": { "w": "attack" },
-    "unit": { "atk": 3, "hp": 3 },
+    "vars": {
+      "w": 1
+    },
+    "varKinds": {
+      "w": "attack"
+    },
+    "unit": {
+      "atk": 3,
+      "hp": 3
+    },
     "effects": [
-      { "op": "if", "cond": { "hasEquip": "weapon" },
-        "then": [{ "op": "weapon", "atk": "$w" }],
-        "else": [{ "op": "buff", "target": "self", "atk": "$w" }] }
+      {
+        "op": "if",
+        "cond": {
+          "hasEquip": "weapon"
+        },
+        "then": [
+          {
+            "op": "weapon",
+            "atk": "$w"
+          }
+        ],
+        "else": [
+          {
+            "op": "buff",
+            "target": "self",
+            "atk": "$w"
+          }
+        ]
+      }
     ],
-    "upgrade": { "vars": { "w": 2 } },
+    "upgrade": {
+      "vars": {
+        "w": 2
+      }
+    },
     "flavor": "刀卫不求名，只求替将军多磨一寸刃。",
-    "art": { "subject": "a stern guard in red lacquered armor kneeling to run a whetstone along a general's sword, sparks falling on the ground, half body" }
+    "art": {
+      "subject": "a stern guard in red lacquered armor kneeling to run a whetstone along a general's sword, sparks falling on the ground, half body"
+    }
   },
   {
     "id": "r_pyre_acolyte",
@@ -196,17 +502,44 @@
     "faction": "R",
     "type": "unit",
     "rarity": "common",
-    "cost": { "g": 1 },
+    "cost": {
+      "g": 1
+    },
     "text": "[起势]：将一张火种置入手牌。",
-    "unit": { "atk": 1, "hp": 3, "prefersBack": true },
-    "effects": [{ "op": "create", "card": "tk_r_spark", "to": "hand" }],
+    "unit": {
+      "atk": 1,
+      "hp": 3,
+      "prefersBack": true
+    },
+    "effects": [
+      {
+        "op": "create",
+        "card": "tk_r_spark",
+        "to": "hand"
+      }
+    ],
     "upgrade": {
       "qualitative": true,
       "text": "[起势]：将一张火种置入手牌。\n[遗志]：将一张火种置入手牌。",
-      "unit": { "triggers": [{ "on": "death", "effects": [{ "op": "create", "card": "tk_r_spark", "to": "hand" }] }] }
+      "unit": {
+        "triggers": [
+          {
+            "on": "death",
+            "effects": [
+              {
+                "op": "create",
+                "card": "tk_r_spark",
+                "to": "hand"
+              }
+            ]
+          }
+        ]
+      }
     },
     "flavor": "“师父，这一粒火该给谁？”“给最冷的那个人。”",
-    "art": { "subject": "a small child acolyte in oversized red robes carrying a bronze lantern with a single flame, walking carefully, full body" }
+    "art": {
+      "subject": "a small child acolyte in oversized red robes carrying a bronze lantern with a single flame, walking carefully, full body"
+    }
   },
   {
     "id": "r_ember_moth",
@@ -214,19 +547,56 @@
     "faction": "R",
     "type": "unit",
     "rarity": "common",
-    "cost": { "g": 0, "c": ["R"] },
-    "keywords": ["offering"],
-    "text": "[遗志]：对随机敌人施加{b}层[灼烧]。\n[献]：对随机敌人施加{b}层[灼烧]。",
-    "vars": { "b": 3 },
-    "varKinds": { "b": "burn" },
-    "unit": {
-      "atk": 1, "hp": 2,
-      "triggers": [{ "on": "death", "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "randomEnemy" }] }]
+    "cost": {
+      "g": 0,
+      "c": [
+        "R"
+      ]
     },
-    "onSacrifice": [{ "op": "status", "status": "burn", "amount": "$b", "target": "randomEnemy" }],
-    "upgrade": { "vars": { "b": 5 } },
+    "keywords": [
+      "offering"
+    ],
+    "text": "[遗志]：对随机敌人施加{b}层[灼烧]。\n[献]：对随机敌人施加{b}层[灼烧]。",
+    "vars": {
+      "b": 3
+    },
+    "varKinds": {
+      "b": "burn"
+    },
+    "unit": {
+      "atk": 1,
+      "hp": 2,
+      "triggers": [
+        {
+          "on": "death",
+          "effects": [
+            {
+              "op": "status",
+              "status": "burn",
+              "amount": "$b",
+              "target": "randomEnemy"
+            }
+          ]
+        }
+      ]
+    },
+    "onSacrifice": [
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "randomEnemy"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "b": 5
+      }
+    },
     "flavor": "扑火者，自己就是火。",
-    "art": { "subject": "a large moth with ember-veined wings of glowing ash, hovering, flakes of burning dust drifting off its wings" }
+    "art": {
+      "subject": "a large moth with ember-veined wings of glowing ash, hovering, flakes of burning dust drifting off its wings"
+    }
   },
   {
     "id": "r_vanguard",
@@ -234,20 +604,50 @@
     "faction": "R",
     "type": "unit",
     "rarity": "common",
-    "cost": { "g": 1, "c": ["R"] },
-    "keywords": ["offering"],
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "keywords": [
+      "offering"
+    ],
     "text": "[疾行]。\n[献]：对随机敌人造成{d}点伤害。",
-    "vars": { "d": 5 },
-    "varKinds": { "d": "damage" },
-    "unit": { "atk": 3, "hp": 3, "keywords": ["haste"] },
-    "onSacrifice": [{ "op": "damage", "amount": "$d", "target": "randomEnemy" }],
+    "vars": {
+      "d": 5
+    },
+    "varKinds": {
+      "d": "damage"
+    },
+    "unit": {
+      "atk": 3,
+      "hp": 3,
+      "keywords": [
+        "haste"
+      ]
+    },
+    "onSacrifice": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "randomEnemy"
+      }
+    ],
     "upgrade": {
       "qualitative": true,
       "text": "[疾行]。[连斩]。\n[献]：对随机敌人造成{d}点伤害。",
-      "unit": { "keywords": ["haste", "twinStrike"] }
+      "unit": {
+        "keywords": [
+          "haste",
+          "twinStrike"
+        ]
+      }
     },
     "flavor": "冲在最前面的人，从不回头看有没有人跟上。",
-    "art": { "subject": "a lean soldier in red scale armor sprinting forward with a curved saber held low, a trail of embers behind, dynamic full body" }
+    "art": {
+      "subject": "a lean soldier in red scale armor sprinting forward with a curved saber held low, a trail of embers behind, dynamic full body"
+    }
   },
   {
     "id": "r_sword_attendant",
@@ -255,20 +655,46 @@
     "faction": "R",
     "type": "unit",
     "rarity": "rare",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "主帅攻击后，此单位也攻击同一目标。",
     "unit": {
-      "atk": 2, "hp": 3,
-      "triggers": [{ "on": "attacking", "who": "friendly", "if": { "isCommander": "eventSource" },
-        "effects": [{ "op": "attack", "attacker": "self", "target": "eventTarget" }] }]
+      "atk": 2,
+      "hp": 3,
+      "triggers": [
+        {
+          "on": "attacking",
+          "who": "friendly",
+          "if": {
+            "isCommander": "eventSource"
+          },
+          "effects": [
+            {
+              "op": "attack",
+              "attacker": "self",
+              "target": "eventTarget"
+            }
+          ]
+        }
+      ]
     },
     "upgrade": {
       "qualitative": true,
       "text": "[远射]。主帅攻击后，此单位也攻击同一目标。",
-      "unit": { "keywords": ["ranged"] }
+      "unit": {
+        "keywords": [
+          "ranged"
+        ]
+      }
     },
     "flavor": "将军的刀往哪里落，她的剑就往哪里去，从不迟半拍。",
-    "art": { "subject": "a young swordswoman in red and black following just behind a larger armored figure, both striking in the same direction, mirrored poses" }
+    "art": {
+      "subject": "a young swordswoman in red and black following just behind a larger armored figure, both striking in the same direction, mirrored poses"
+    }
   },
   {
     "id": "r_burn_sage",
@@ -276,17 +702,49 @@
     "faction": "R",
     "type": "unit",
     "rarity": "rare",
-    "cost": { "g": 2, "c": ["R"] },
-    "text": "敌人受到的[灼烧]伤害+{k}。",
-    "vars": { "k": 2 },
-    "varKinds": { "k": "burn" },
-    "unit": {
-      "atk": 1, "hp": 5, "prefersBack": true,
-      "modifiers": [{ "stat": "burnDamage", "amount": 2, "who": "enemy" }]
+    "cost": {
+      "g": 2,
+      "c": [
+        "R"
+      ]
     },
-    "upgrade": { "vars": { "k": 3 }, "unit": { "modifiers": [{ "stat": "burnDamage", "amount": 3, "who": "enemy" }] } },
+    "text": "敌人受到的[灼烧]伤害+{k}。",
+    "vars": {
+      "k": 2
+    },
+    "varKinds": {
+      "k": "burn"
+    },
+    "unit": {
+      "atk": 1,
+      "hp": 5,
+      "prefersBack": true,
+      "modifiers": [
+        {
+          "stat": "burnDamage",
+          "amount": 2,
+          "who": "enemy"
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "k": 3
+      },
+      "unit": {
+        "modifiers": [
+          {
+            "stat": "burnDamage",
+            "amount": 3,
+            "who": "enemy"
+          }
+        ]
+      }
+    },
     "flavor": "他不点火，他只让火记得往里烧。",
-    "art": { "subject": "an elderly sorcerer seated cross-legged, holding a small flame over an open palm that burns inward into itself, eyes glowing orange" }
+    "art": {
+      "subject": "an elderly sorcerer seated cross-legged, holding a small flame over an open palm that burns inward into itself, eyes glowing orange"
+    }
   },
   {
     "id": "r_phoenix_chick",
@@ -294,25 +752,63 @@
     "faction": "R",
     "type": "unit",
     "rarity": "rare",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "每当你献出一张牌，此单位获得+{g}/+{g}。",
-    "vars": { "g": 1 },
+    "vars": {
+      "g": 1
+    },
     "unit": {
-      "atk": 2, "hp": 2,
-      "triggers": [{ "on": "cardSacrificed", "effects": [{ "op": "buff", "target": "self", "atk": "$g", "hp": "$g" }] }]
+      "atk": 2,
+      "hp": 2,
+      "triggers": [
+        {
+          "on": "cardSacrificed",
+          "effects": [
+            {
+              "op": "buff",
+              "target": "self",
+              "atk": "$g",
+              "hp": "$g"
+            }
+          ]
+        }
+      ]
     },
     "upgrade": {
       "qualitative": true,
       "text": "每当你献出一张牌，此单位获得+{g}/+{g}，然后对随机敌人造成等同于其攻击力的伤害。",
       "unit": {
-        "triggers": [{ "on": "cardSacrificed", "effects": [
-          { "op": "buff", "target": "self", "atk": "$g", "hp": "$g" },
-          { "op": "damage", "amount": { "count": "atk" }, "target": "randomEnemy" }
-        ] }]
+        "triggers": [
+          {
+            "on": "cardSacrificed",
+            "effects": [
+              {
+                "op": "buff",
+                "target": "self",
+                "atk": "$g",
+                "hp": "$g"
+              },
+              {
+                "op": "damage",
+                "amount": {
+                  "count": "atk"
+                },
+                "target": "randomEnemy"
+              }
+            ]
+          }
+        ]
       }
     },
     "flavor": "它吃的不是谷，是人们放下的东西。",
-    "art": { "subject": "a small fledgling bird of vermilion flame perched in a nest of smoldering twigs, wings half-spread, looking upward" }
+    "art": {
+      "subject": "a small fledgling bird of vermilion flame perched in a nest of smoldering twigs, wings half-spread, looking upward"
+    }
   },
   {
     "id": "r_ash_berserker",
@@ -320,20 +816,55 @@
     "faction": "R",
     "type": "unit",
     "rarity": "rare",
-    "cost": { "g": 2, "c": ["R"] },
+    "cost": {
+      "g": 2,
+      "c": [
+        "R"
+      ]
+    },
     "text": "[起势]：本场战斗你每献出过一张牌，此单位获得+{g}/+{g}。",
-    "vars": { "g": 1 },
-    "unit": { "atk": 3, "hp": 3 },
-    "effects": [{ "op": "buff", "target": "self",
-      "atk": { "mul": [{ "count": "sacrificed" }, "$g"] },
-      "hp": { "mul": [{ "count": "sacrificed" }, "$g"] } }],
+    "vars": {
+      "g": 1
+    },
+    "unit": {
+      "atk": 3,
+      "hp": 3
+    },
+    "effects": [
+      {
+        "op": "buff",
+        "target": "self",
+        "atk": {
+          "mul": [
+            {
+              "count": "sacrificed"
+            },
+            "$g"
+          ]
+        },
+        "hp": {
+          "mul": [
+            {
+              "count": "sacrificed"
+            },
+            "$g"
+          ]
+        }
+      }
+    ],
     "upgrade": {
       "qualitative": true,
       "text": "[疾行]。[起势]：本场战斗你每献出过一张牌，此单位获得+{g}/+{g}。",
-      "unit": { "keywords": ["haste"] }
+      "unit": {
+        "keywords": [
+          "haste"
+        ]
+      }
     },
     "flavor": "他身上的灰，是别人烧剩下的；他心里的火，是自己留下的。",
-    "art": { "subject": "a hulking bare-chested warrior covered in grey ash, cracks of orange fire glowing through the ash on his skin, roaring with two axes raised" }
+    "art": {
+      "subject": "a hulking bare-chested warrior covered in grey ash, cracks of orange fire glowing through the ash on his skin, roaring with two axes raised"
+    }
   },
   {
     "id": "r_sunforge_smith",
@@ -341,21 +872,60 @@
     "faction": "R",
     "type": "unit",
     "rarity": "epic",
-    "cost": { "g": 2, "c": ["R"] },
-    "text": "我方回合开始时：若你装备着武器，武器攻击力+{a}、耐久+{u}；否则装备一把赤铜环刀。",
-    "vars": { "a": 1, "u": 1 },
-    "varKinds": { "a": "attack" },
-    "unit": {
-      "atk": 1, "hp": 5, "prefersBack": true,
-      "triggers": [{ "on": "turnStart", "effects": [
-        { "op": "if", "cond": { "hasEquip": "weapon" },
-          "then": [{ "op": "weapon", "atk": "$a", "durability": "$u" }],
-          "else": [{ "op": "equip", "card": "r_bronze_saber" }] }
-      ] }]
+    "cost": {
+      "g": 2,
+      "c": [
+        "R"
+      ]
     },
-    "upgrade": { "vars": { "a": 2 } },
+    "text": "我方回合开始时：若你装备着武器，武器攻击力+{a}、耐久+{u}；否则装备一把赤铜环刀。",
+    "vars": {
+      "a": 1,
+      "u": 1
+    },
+    "varKinds": {
+      "a": "attack"
+    },
+    "unit": {
+      "atk": 1,
+      "hp": 5,
+      "prefersBack": true,
+      "triggers": [
+        {
+          "on": "turnStart",
+          "effects": [
+            {
+              "op": "if",
+              "cond": {
+                "hasEquip": "weapon"
+              },
+              "then": [
+                {
+                  "op": "weapon",
+                  "atk": "$a",
+                  "durability": "$u"
+                }
+              ],
+              "else": [
+                {
+                  "op": "equip",
+                  "card": "r_bronze_saber"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "a": 2
+      }
+    },
     "flavor": "他的炉子烧的是一小块落下来的太阳，所以从不熄。",
-    "art": { "subject": "a burly blacksmith with a leather apron hammering a glowing blade on an anvil beside a furnace containing a miniature sun, sparks raining, half body" }
+    "art": {
+      "subject": "a burly blacksmith with a leather apron hammering a glowing blade on an anvil beside a furnace containing a miniature sun, sparks raining, half body"
+    }
   },
   {
     "id": "r_fire_crow",
@@ -363,26 +933,78 @@
     "faction": "R",
     "type": "unit",
     "rarity": "epic",
-    "cost": { "g": 2, "c": ["R"] },
+    "cost": {
+      "g": 2,
+      "c": [
+        "R"
+      ]
+    },
     "text": "[远射]。我方回合结束时，对每个带有[灼烧]的敌人施加{b}层[灼烧]。",
-    "vars": { "b": 2 },
-    "varKinds": { "b": "burn" },
+    "vars": {
+      "b": 2
+    },
+    "varKinds": {
+      "b": "burn"
+    },
     "unit": {
-      "atk": 2, "hp": 3, "keywords": ["ranged"], "prefersBack": true,
-      "triggers": [{ "on": "turnEnd", "effects": [
-        { "op": "forEach", "sel": { "side": "enemy", "kind": "character", "where": { "hasStatus": { "of": "it", "status": "burn" } } },
-          "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "it" }] }
-      ] }]
+      "atk": 2,
+      "hp": 3,
+      "keywords": [
+        "ranged"
+      ],
+      "prefersBack": true,
+      "triggers": [
+        {
+          "on": "turnEnd",
+          "effects": [
+            {
+              "op": "forEach",
+              "sel": {
+                "side": "enemy",
+                "kind": "character",
+                "where": {
+                  "hasStatus": {
+                    "of": "it",
+                    "status": "burn"
+                  }
+                }
+              },
+              "effects": [
+                {
+                  "op": "status",
+                  "status": "burn",
+                  "amount": "$b",
+                  "target": "it"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     "upgrade": {
       "qualitative": true,
       "text": "[远射]。我方回合结束时，对所有敌人施加{b}层[灼烧]。",
       "unit": {
-        "triggers": [{ "on": "turnEnd", "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "allEnemies" }] }]
+        "triggers": [
+          {
+            "on": "turnEnd",
+            "effects": [
+              {
+                "op": "status",
+                "status": "burn",
+                "amount": "$b",
+                "target": "allEnemies"
+              }
+            ]
+          }
+        ]
       }
     },
     "flavor": "一只鸦衔一粒火，三只鸦便是一片原。",
-    "art": { "subject": "a three-legged crow with smoldering black feathers carrying a burning coal in its beak, wings spread wide over a burning grassland" }
+    "art": {
+      "subject": "a three-legged crow with smoldering black feathers carrying a burning coal in its beak, wings spread wide over a burning grassland"
+    }
   },
   {
     "id": "r_vermilion_phoenix",
@@ -390,54 +1012,153 @@
     "faction": "R",
     "type": "unit",
     "rarity": "legendary",
-    "cost": { "g": 3, "c": ["R", "R"] },
+    "cost": {
+      "g": 3,
+      "c": [
+        "R",
+        "R"
+      ]
+    },
     "text": "[远射]。此单位在场时，你每回合可多献牌{s}次；每当你献出一张牌，对所有敌人造成{d}点伤害。\n[遗志]：若本场你已献出至少{n}张牌，将一张朱雀·焚羽置入手牌。",
-    "vars": { "s": 1, "d": 3, "n": 5 },
-    "varKinds": { "d": "damage" },
+    "vars": {
+      "s": 1,
+      "d": 3,
+      "n": 5
+    },
+    "varKinds": {
+      "d": "damage"
+    },
     "unit": {
-      "atk": 5, "hp": 5, "keywords": ["ranged"], "prefersBack": true,
-      "modifiers": [{ "stat": "sacrifices", "amount": 1 }],
+      "atk": 5,
+      "hp": 5,
+      "keywords": [
+        "ranged"
+      ],
+      "prefersBack": true,
+      "modifiers": [
+        {
+          "stat": "sacrifices",
+          "amount": 1
+        }
+      ],
       "triggers": [
-        { "on": "cardSacrificed", "effects": [{ "op": "damage", "amount": "$d", "target": "allEnemies" }] },
-        { "on": "death", "effects": [
-          { "op": "if", "cond": { "gte": [{ "count": "sacrificed" }, "$n"] },
-            "then": [{ "op": "create", "card": "r_vermilion_phoenix", "to": "hand" }] }
-        ] }
+        {
+          "on": "cardSacrificed",
+          "effects": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "allEnemies"
+            }
+          ]
+        },
+        {
+          "on": "death",
+          "effects": [
+            {
+              "op": "if",
+              "cond": {
+                "gte": [
+                  {
+                    "count": "sacrificed"
+                  },
+                  "$n"
+                ]
+              },
+              "then": [
+                {
+                  "op": "create",
+                  "card": "r_vermilion_phoenix",
+                  "to": "hand"
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
     "upgrade": {
       "qualitative": true,
-      "vars": { "d": 4 },
+      "vars": {
+        "d": 4
+      },
       "text": "[远射]。此单位在场时，你每回合可多献牌{s}次；每当你献出一张牌，对所有敌人造成{d}点伤害。\n[遗志]：将一张升级过的朱雀·焚羽置入手牌。",
       "unit": {
         "triggers": [
-          { "on": "cardSacrificed", "effects": [{ "op": "damage", "amount": "$d", "target": "allEnemies" }] },
-          { "on": "death", "effects": [{ "op": "create", "card": "r_vermilion_phoenix", "to": "hand", "upgraded": true }] }
+          {
+            "on": "cardSacrificed",
+            "effects": [
+              {
+                "op": "damage",
+                "amount": "$d",
+                "target": "allEnemies"
+              }
+            ]
+          },
+          {
+            "on": "death",
+            "effects": [
+              {
+                "op": "create",
+                "card": "r_vermilion_phoenix",
+                "to": "hand",
+                "upgraded": true
+              }
+            ]
+          }
         ]
       }
     },
     "flavor": "南方之神不死，只是一次次把自己交给火。",
-    "art": { "subject": "a magnificent vermilion phoenix with long trailing flame plumes rising from a pyre, wings fully spread, radiant light bursting behind it" }
+    "art": {
+      "subject": "a magnificent vermilion phoenix with long trailing flame plumes rising from a pyre, wings fully spread, radiant light bursting behind it"
+    }
   },
-
   {
     "id": "r_kindle",
     "name": "引火",
     "faction": "R",
     "type": "tactic",
     "rarity": "common",
-    "cost": { "g": 0, "c": ["R"] },
+    "cost": {
+      "g": 0,
+      "c": [
+        "R"
+      ]
+    },
     "text": "造成{d}点伤害，施加{b}层[灼烧]。",
-    "vars": { "d": 4, "b": 3 },
-    "varKinds": { "d": "damage", "b": "burn" },
+    "vars": {
+      "d": 4,
+      "b": 3
+    },
+    "varKinds": {
+      "d": "damage",
+      "b": "burn"
+    },
     "target": "enemy",
     "effects": [
-      { "op": "damage", "amount": "$d", "target": "target" },
-      { "op": "status", "status": "burn", "amount": "$b", "target": "target" }
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target"
+      },
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "target"
+      }
     ],
-    "upgrade": { "vars": { "d": 5, "b": 4 } },
+    "upgrade": {
+      "vars": {
+        "d": 5,
+        "b": 4
+      }
+    },
     "flavor": "一指点去，衣襟先着。",
-    "art": { "subject": "a disciple flicking two fingers toward an enemy, a thin line of fire leaping across and catching the target's robes alight" }
+    "art": {
+      "subject": "a disciple flicking two fingers toward an enemy, a thin line of fire leaping across and catching the target's robes alight"
+    }
   },
   {
     "id": "r_wildfire",
@@ -445,14 +1166,36 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "common",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "对所有敌人施加{b}层[灼烧]。",
-    "vars": { "b": 3 },
-    "varKinds": { "b": "burn" },
-    "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "allEnemies" }],
-    "upgrade": { "vars": { "b": 5 } },
+    "vars": {
+      "b": 3
+    },
+    "varKinds": {
+      "b": "burn"
+    },
+    "effects": [
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "allEnemies"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "b": 5
+      }
+    },
     "flavor": "野火不认得敌我，所以焚阳宗只在风向对时放它。",
-    "art": { "subject": "a wall of wildfire sweeping across a dry plain toward a line of shadowy figures, a lone figure in red standing upwind with arm outstretched" }
+    "art": {
+      "subject": "a wall of wildfire sweeping across a dry plain toward a line of shadowy figures, a lone figure in red standing upwind with arm outstretched"
+    }
   },
   {
     "id": "r_hone",
@@ -460,18 +1203,55 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "common",
-    "cost": { "g": 0, "c": ["R"] },
+    "cost": {
+      "g": 0,
+      "c": [
+        "R"
+      ]
+    },
     "text": "若你装备着武器，武器攻击力+{a}、耐久+{u}；否则获得{m}层[锋锐]。",
-    "vars": { "a": 2, "u": 1, "m": 1 },
-    "varKinds": { "a": "attack" },
+    "vars": {
+      "a": 2,
+      "u": 1,
+      "m": 1
+    },
+    "varKinds": {
+      "a": "attack"
+    },
     "effects": [
-      { "op": "if", "cond": { "hasEquip": "weapon" },
-        "then": [{ "op": "weapon", "atk": "$a", "durability": "$u" }],
-        "else": [{ "op": "status", "status": "might", "amount": "$m", "target": "commander" }] }
+      {
+        "op": "if",
+        "cond": {
+          "hasEquip": "weapon"
+        },
+        "then": [
+          {
+            "op": "weapon",
+            "atk": "$a",
+            "durability": "$u"
+          }
+        ],
+        "else": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": "$m",
+            "target": "commander"
+          }
+        ]
+      }
     ],
-    "upgrade": { "vars": { "a": 3, "u": 2, "m": 2 } },
+    "upgrade": {
+      "vars": {
+        "a": 3,
+        "u": 2,
+        "m": 2
+      }
+    },
     "flavor": "刃是磨出来的，脾气也是。",
-    "art": { "subject": "close view of hands drawing a blade across a red whetstone, a shower of bright sparks, dim workshop lit only by the sparks" }
+    "art": {
+      "subject": "close view of hands drawing a blade across a red whetstone, a shower of bright sparks, dim workshop lit only by the sparks"
+    }
   },
   {
     "id": "r_crosscut",
@@ -479,20 +1259,59 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "common",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "获得{a}点[护甲]。然后若你装备着武器，主帅攻击目标；否则造成{d}点伤害。",
-    "vars": { "a": 5, "d": 7 },
-    "varKinds": { "a": "armor", "d": "attack" },
+    "vars": {
+      "a": 5,
+      "d": 7
+    },
+    "varKinds": {
+      "a": "armor",
+      "d": "attack"
+    },
     "target": "enemy",
     "effects": [
-      { "op": "armor", "amount": "$a", "target": "commander" },
-      { "op": "if", "cond": { "hasEquip": "weapon" },
-        "then": [{ "op": "attack", "target": "target" }],
-        "else": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true }] }
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      },
+      {
+        "op": "if",
+        "cond": {
+          "hasEquip": "weapon"
+        },
+        "then": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ],
+        "else": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target",
+            "attack": true
+          }
+        ]
+      }
     ],
-    "upgrade": { "vars": { "a": 8, "d": 10 } },
+    "upgrade": {
+      "vars": {
+        "a": 8,
+        "d": 10
+      }
+    },
     "flavor": "刀横于胸，既是盾，也是门。",
-    "art": { "subject": "an armored warrior holding a broadsword horizontally across the chest to block, then pivoting into a sweeping cut, flame trailing the edge" }
+    "art": {
+      "subject": "an armored warrior holding a broadsword horizontally across the chest to block, then pivoting into a sweeping cut, flame trailing the edge"
+    }
   },
   {
     "id": "r_stoke",
@@ -500,19 +1319,46 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "common",
-    "cost": { "g": 0, "c": ["R"] },
-    "keywords": ["exhaust", "offering"],
+    "cost": {
+      "g": 0,
+      "c": [
+        "R"
+      ]
+    },
+    "keywords": [
+      "exhaust",
+      "offering"
+    ],
     "text": "本回合获得{e}枚临时{R}源。[燃尽]。\n[献]：本回合获得{s}枚临时{R}源。",
-    "vars": { "e": 2, "s": 1 },
-    "effects": [{ "op": "energy", "n": "$e", "color": "R" }],
-    "onSacrifice": [{ "op": "energy", "n": "$s", "color": "R" }],
+    "vars": {
+      "e": 2,
+      "s": 1
+    },
+    "effects": [
+      {
+        "op": "energy",
+        "n": "$e",
+        "color": "R"
+      }
+    ],
+    "onSacrifice": [
+      {
+        "op": "energy",
+        "n": "$s",
+        "color": "R"
+      }
+    ],
     "upgrade": {
       "qualitative": true,
-      "keywords": ["offering"],
+      "keywords": [
+        "offering"
+      ],
       "text": "本回合获得{e}枚临时{R}源。\n[献]：本回合获得{s}枚临时{R}源。"
     },
     "flavor": "添一把柴，火便高一尺；添的是自己，火便高一丈。",
-    "art": { "subject": "hands feeding split logs into a roaring brazier, the flames surging up taller than the person, sparks spiraling into the dark" }
+    "art": {
+      "subject": "hands feeding split logs into a roaring brazier, the flames surging up taller than the person, sparks spiraling into the dark"
+    }
   },
   {
     "id": "r_source_slash",
@@ -520,20 +1366,74 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "common",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "造成{d}点伤害；你每拥有一枚赤色[源]，伤害+{k}。",
-    "vars": { "d": 4, "k": 1 },
-    "varKinds": { "d": "attack", "k": "attack" },
+    "vars": {
+      "d": 4,
+      "k": 1
+    },
+    "varKinds": {
+      "d": "attack",
+      "k": "attack"
+    },
     "target": "enemy",
-    "effects": [{ "op": "damage", "amount": { "add": ["$d", { "mul": [{ "count": "sources", "color": "R" }, "$k"] }] }, "target": "target", "attack": true }],
+    "effects": [
+      {
+        "op": "damage",
+        "amount": {
+          "add": [
+            "$d",
+            {
+              "mul": [
+                {
+                  "count": "sources",
+                  "color": "R"
+                },
+                "$k"
+              ]
+            }
+          ]
+        },
+        "target": "target",
+        "attack": true
+      }
+    ],
     "upgrade": {
       "qualitative": true,
-      "vars": { "d": 5 },
+      "vars": {
+        "d": 5
+      },
       "text": "造成{d}点伤害；你每拥有一枚[源]（任意颜色），伤害+{k}。",
-      "effects": [{ "op": "damage", "amount": { "add": ["$d", { "mul": [{ "count": "sources" }, "$k"] }] }, "target": "target", "attack": true }]
+      "effects": [
+        {
+          "op": "damage",
+          "amount": {
+            "add": [
+              "$d",
+              {
+                "mul": [
+                  {
+                    "count": "sources"
+                  },
+                  "$k"
+                ]
+              }
+            ]
+          },
+          "target": "target",
+          "attack": true
+        }
+      ]
     },
     "flavor": "源越多，刀越烫。",
-    "art": { "subject": "a swordsman with several small orbs of red fire orbiting him, all streaming into his blade as he lunges forward in a thrust" }
+    "art": {
+      "subject": "a swordsman with several small orbs of red fire orbiting him, all streaming into his blade as he lunges forward in a thrust"
+    }
   },
   {
     "id": "r_pass_flame",
@@ -541,18 +1441,45 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "common",
-    "cost": { "g": 1 },
-    "keywords": ["offering"],
-    "text": "抽{n}张牌，将一张火种置入手牌。\n[献]：将{m}张火种置入手牌。",
-    "vars": { "n": 1, "m": 2 },
-    "effects": [
-      { "op": "draw", "n": "$n" },
-      { "op": "create", "card": "tk_r_spark", "to": "hand" }
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "offering"
     ],
-    "onSacrifice": [{ "op": "create", "card": "tk_r_spark", "n": "$m", "to": "hand" }],
-    "upgrade": { "vars": { "n": 2 } },
+    "text": "抽{n}张牌，将一张火种置入手牌。\n[献]：将{m}张火种置入手牌。",
+    "vars": {
+      "n": 1,
+      "m": 2
+    },
+    "effects": [
+      {
+        "op": "draw",
+        "n": "$n"
+      },
+      {
+        "op": "create",
+        "card": "tk_r_spark",
+        "to": "hand"
+      }
+    ],
+    "onSacrifice": [
+      {
+        "op": "create",
+        "card": "tk_r_spark",
+        "n": "$m",
+        "to": "hand"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 2
+      }
+    },
     "flavor": "薪尽，火传也。",
-    "art": { "subject": "an old master passing a lit taper to a young disciple, both faces lit warmly by the small flame between them, temple interior" }
+    "art": {
+      "subject": "an old master passing a lit taper to a young disciple, both faces lit warmly by the small flame between them, temple interior"
+    }
   },
   {
     "id": "r_bone_burn",
@@ -560,25 +1487,95 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "rare",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "造成等同于目标[灼烧]层数{k}倍的伤害，然后移除其所有[灼烧]。",
-    "vars": { "k": 2 },
-    "varKinds": { "k": "damage" },
+    "vars": {
+      "k": 2
+    },
+    "varKinds": {
+      "k": "damage"
+    },
     "target": "enemy",
     "effects": [
-      { "op": "damage", "amount": { "mul": [{ "count": "status", "status": "burn", "of": "target" }, "$k"] }, "target": "target" },
-      { "op": "status", "status": "burn", "amount": { "mul": [{ "count": "status", "status": "burn", "of": "target" }, -1] }, "target": "target" }
+      {
+        "op": "damage",
+        "amount": {
+          "mul": [
+            {
+              "count": "status",
+              "status": "burn",
+              "of": "target"
+            },
+            "$k"
+          ]
+        },
+        "target": "target"
+      },
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": {
+          "mul": [
+            {
+              "count": "status",
+              "status": "burn",
+              "of": "target"
+            },
+            -1
+          ]
+        },
+        "target": "target"
+      }
     ],
     "upgrade": {
       "qualitative": true,
       "text": "造成等同于目标[灼烧]层数{k}倍的伤害，然后其[灼烧]层数减半。",
       "effects": [
-        { "op": "damage", "amount": { "mul": [{ "count": "status", "status": "burn", "of": "target" }, "$k"] }, "target": "target" },
-        { "op": "status", "status": "burn", "amount": { "mul": [{ "div": [{ "count": "status", "status": "burn", "of": "target" }, 2] }, -1] }, "target": "target" }
+        {
+          "op": "damage",
+          "amount": {
+            "mul": [
+              {
+                "count": "status",
+                "status": "burn",
+                "of": "target"
+              },
+              "$k"
+            ]
+          },
+          "target": "target"
+        },
+        {
+          "op": "status",
+          "status": "burn",
+          "amount": {
+            "mul": [
+              {
+                "div": [
+                  {
+                    "count": "status",
+                    "status": "burn",
+                    "of": "target"
+                  },
+                  2
+                ]
+              },
+              -1
+            ]
+          },
+          "target": "target"
+        }
       ]
     },
     "flavor": "皮肉上的火只是开始，骨头里的火才是结局。",
-    "art": { "subject": "a monstrous figure lit from within, its skeleton glowing white-hot through its skin as it staggers, a red-robed figure closing a fist in the foreground" }
+    "art": {
+      "subject": "a monstrous figure lit from within, its skeleton glowing white-hot through its skin as it staggers, a red-robed figure closing a fist in the foreground"
+    }
   },
   {
     "id": "r_flame_surge",
@@ -586,28 +1583,71 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "rare",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "施加{b}层[灼烧]，然后使目标的[灼烧]层数翻倍。",
-    "vars": { "b": 2 },
-    "varKinds": { "b": "burn" },
+    "vars": {
+      "b": 2
+    },
+    "varKinds": {
+      "b": "burn"
+    },
     "target": "enemy",
     "effects": [
-      { "op": "status", "status": "burn", "amount": "$b", "target": "target" },
-      { "op": "status", "status": "burn", "amount": { "count": "status", "status": "burn", "of": "target" }, "target": "target" }
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "target"
+      },
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": {
+          "count": "status",
+          "status": "burn",
+          "of": "target"
+        },
+        "target": "target"
+      }
     ],
     "upgrade": {
       "qualitative": true,
       "text": "对所有敌人施加{b}层[灼烧]，然后使每个敌人的[灼烧]层数翻倍。",
       "target": "none",
       "effects": [
-        { "op": "forEach", "sel": "allEnemies", "effects": [
-          { "op": "status", "status": "burn", "amount": "$b", "target": "it" },
-          { "op": "status", "status": "burn", "amount": { "count": "status", "status": "burn", "of": "it" }, "target": "it" }
-        ] }
+        {
+          "op": "forEach",
+          "sel": "allEnemies",
+          "effects": [
+            {
+              "op": "status",
+              "status": "burn",
+              "amount": "$b",
+              "target": "it"
+            },
+            {
+              "op": "status",
+              "status": "burn",
+              "amount": {
+                "count": "status",
+                "status": "burn",
+                "of": "it"
+              },
+              "target": "it"
+            }
+          ]
+        }
       ]
     },
     "flavor": "火势一旦找到了路，就不再需要人。",
-    "art": { "subject": "a pillar of fire surging upward and doubling back on itself like a breaking wave, engulfing a silhouetted beast" }
+    "art": {
+      "subject": "a pillar of fire surging upward and doubling back on itself like a breaking wave, engulfing a silhouetted beast"
+    }
   },
   {
     "id": "r_blade_dance",
@@ -615,19 +1655,54 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "rare",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "若你装备着武器，主帅攻击目标并连击{n}次（只消耗一点耐久）；否则造成{d}点伤害{n}次。",
-    "vars": { "n": 2, "d": 5 },
-    "varKinds": { "d": "attack" },
+    "vars": {
+      "n": 2,
+      "d": 5
+    },
+    "varKinds": {
+      "d": "attack"
+    },
     "target": "enemy",
     "effects": [
-      { "op": "if", "cond": { "hasEquip": "weapon" },
-        "then": [{ "op": "attack", "target": "target", "times": "$n" }],
-        "else": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true, "times": "$n" }] }
+      {
+        "op": "if",
+        "cond": {
+          "hasEquip": "weapon"
+        },
+        "then": [
+          {
+            "op": "attack",
+            "target": "target",
+            "times": "$n"
+          }
+        ],
+        "else": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target",
+            "attack": true,
+            "times": "$n"
+          }
+        ]
+      }
     ],
-    "upgrade": { "vars": { "n": 3 } },
+    "upgrade": {
+      "vars": {
+        "n": 3
+      }
+    },
     "flavor": "一刀是斩，两刀是舞，三刀便是焚阳宗的礼。",
-    "art": { "subject": "a warrior spinning mid-air with a blade, multiple afterimage arcs of flame overlapping around the body, dust kicked up below" }
+    "art": {
+      "subject": "a warrior spinning mid-air with a blade, multiple afterimage arcs of flame overlapping around the body, dust kicked up below"
+    }
   },
   {
     "id": "r_self_immolate",
@@ -635,14 +1710,46 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "rare",
-    "cost": { "g": 1, "c": ["R"] },
-    "keywords": ["exhaust"],
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "keywords": [
+      "exhaust"
+    ],
     "text": "燃尽{n}张手牌；每燃尽一张，获得{g}枚赤色[源]（本场永久）。[燃尽]。",
-    "vars": { "n": 2, "g": 1 },
-    "effects": [{ "op": "exhaustCards", "n": "$n", "mode": "choose", "each": [{ "op": "gainSource", "n": "$g", "color": "R" }] }],
-    "upgrade": { "cost": { "g": 0, "c": ["R"] } },
+    "vars": {
+      "n": 2,
+      "g": 1
+    },
+    "effects": [
+      {
+        "op": "exhaustCards",
+        "n": "$n",
+        "mode": "choose",
+        "each": [
+          {
+            "op": "gainSource",
+            "n": "$g",
+            "color": "R"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 0,
+        "c": [
+          "R"
+        ]
+      }
+    },
     "flavor": "烧掉的不会回来，但火会记得。",
-    "art": { "subject": "a kneeling figure holding paper talismans that burn away into floating red orbs of light, which drift up to join a ring above the head" }
+    "art": {
+      "subject": "a kneeling figure holding paper talismans that burn away into floating red orbs of light, which drift up to join a ring above the head"
+    }
   },
   {
     "id": "r_sunfall",
@@ -650,19 +1757,63 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "epic",
-    "cost": { "g": 2, "c": ["R", "R"] },
-    "keywords": ["judge"],
-    "text": "对所有敌人造成{d}点伤害并施加{b}层[灼烧]。[判定]：{sun}{thunder}阳纹——再对所有敌人施加{j}层[灼烧]。",
-    "vars": { "d": 7, "b": 3, "j": 3 },
-    "varKinds": { "d": "damage", "b": "burn", "j": "burn" },
-    "effects": [
-      { "op": "damage", "amount": "$d", "target": "allEnemies" },
-      { "op": "status", "status": "burn", "amount": "$b", "target": "allEnemies" },
-      { "op": "judge", "branches": { "yang": [{ "op": "status", "status": "burn", "amount": "$j", "target": "allEnemies" }] } }
+    "cost": {
+      "g": 2,
+      "c": [
+        "R",
+        "R"
+      ]
+    },
+    "keywords": [
+      "judge"
     ],
-    "upgrade": { "vars": { "d": 10, "j": 5 } },
+    "text": "对所有敌人造成{d}点伤害并施加{b}层[灼烧]。[判定]：{sun}{thunder}阳纹——再对所有敌人施加{j}层[灼烧]。",
+    "vars": {
+      "d": 7,
+      "b": 3,
+      "j": 3
+    },
+    "varKinds": {
+      "d": "damage",
+      "b": "burn",
+      "j": "burn"
+    },
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "allEnemies"
+      },
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "allEnemies"
+      },
+      {
+        "op": "judge",
+        "branches": {
+          "yang": [
+            {
+              "op": "status",
+              "status": "burn",
+              "amount": "$j",
+              "target": "allEnemies"
+            }
+          ]
+        }
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 10,
+        "j": 5
+      }
+    },
     "flavor": "命书上写着：此日，天有二阳，其一坠地。",
-    "art": { "subject": "a blazing sun plummeting from the sky toward a battlefield, a crimson-robed caster below with both arms raised, shockwave of fire spreading outward" }
+    "art": {
+      "subject": "a blazing sun plummeting from the sky toward a battlefield, a crimson-robed caster below with both arms raised, shockwave of fire spreading outward"
+    }
   },
   {
     "id": "r_myriad_lamps",
@@ -670,36 +1821,89 @@
     "faction": "R",
     "type": "tactic",
     "rarity": "epic",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "对所有敌人造成等同于你[源]数量的伤害。",
-    "effects": [{ "op": "damage", "amount": { "count": "sources" }, "target": "allEnemies" }],
+    "effects": [
+      {
+        "op": "damage",
+        "amount": {
+          "count": "sources"
+        },
+        "target": "allEnemies"
+      }
+    ],
     "upgrade": {
       "qualitative": true,
-      "keywords": ["retain"],
+      "keywords": [
+        "retain"
+      ],
       "text": "[藏锋]。对所有敌人造成等同于你[源]数量的伤害。"
     },
     "flavor": "万盏灯是万个人献出的，归成一盏时，照得见命书。",
-    "art": { "subject": "thousands of floating paper lanterns converging into a single enormous sphere of light above a temple, beams lancing down onto enemies" }
+    "art": {
+      "subject": "thousands of floating paper lanterns converging into a single enormous sphere of light above a temple, beams lancing down onto enemies"
+    }
   },
-
   {
     "id": "r_ember_veil",
     "name": "燎幕",
     "faction": "R",
     "type": "response",
     "rarity": "common",
-    "cost": { "g": 0, "c": ["R"] },
-    "keywords": ["response"],
-    "text": "[应]：获得{a}点[护甲]。若在应对窗口中打出，对宣告行动的敌人施加{b}层[灼烧]。",
-    "vars": { "a": 5, "b": 3 },
-    "varKinds": { "a": "armor", "b": "burn" },
-    "effects": [
-      { "op": "armor", "amount": "$a", "target": "commander" },
-      { "op": "if", "cond": { "inWindow": true }, "then": [{ "op": "status", "status": "burn", "amount": "$b", "target": "declaredActor" }] }
+    "cost": {
+      "g": 0,
+      "c": [
+        "R"
+      ]
+    },
+    "keywords": [
+      "response"
     ],
-    "upgrade": { "vars": { "a": 7, "b": 4 } },
+    "text": "[应]：获得{a}点[护甲]。若在应对窗口中打出，对宣告行动的敌人施加{b}层[灼烧]。",
+    "vars": {
+      "a": 5,
+      "b": 3
+    },
+    "varKinds": {
+      "a": "armor",
+      "b": "burn"
+    },
+    "effects": [
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      },
+      {
+        "op": "if",
+        "cond": {
+          "inWindow": true
+        },
+        "then": [
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": "$b",
+            "target": "declaredActor"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 7,
+        "b": 4
+      }
+    },
     "flavor": "伸手来抓的，先抓到一把火。",
-    "art": { "subject": "a curtain of flame erupting upward between a defender and a lunging clawed enemy, the enemy's arm catching fire as it pushes through" }
+    "art": {
+      "subject": "a curtain of flame erupting upward between a defender and a lunging clawed enemy, the enemy's arm catching fire as it pushes through"
+    }
   },
   {
     "id": "r_meet_blade",
@@ -707,20 +1911,54 @@
     "faction": "R",
     "type": "response",
     "rarity": "common",
-    "cost": { "g": 1 },
-    "keywords": ["response"],
+    "cost": {
+      "g": 1
+    },
+    "keywords": [
+      "response"
+    ],
     "text": "[应]：若你装备着武器，主帅攻击一个敌人；否则对其造成{d}点伤害。",
-    "vars": { "d": 5 },
-    "varKinds": { "d": "attack" },
+    "vars": {
+      "d": 5
+    },
+    "varKinds": {
+      "d": "attack"
+    },
     "target": "enemy",
     "effects": [
-      { "op": "if", "cond": { "hasEquip": "weapon" },
-        "then": [{ "op": "attack", "target": "target" }],
-        "else": [{ "op": "damage", "amount": "$d", "target": "target", "attack": true }] }
+      {
+        "op": "if",
+        "cond": {
+          "hasEquip": "weapon"
+        },
+        "then": [
+          {
+            "op": "attack",
+            "target": "target"
+          }
+        ],
+        "else": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target",
+            "attack": true
+          }
+        ]
+      }
     ],
-    "upgrade": { "cost": { "g": 0 }, "vars": { "d": 6 } },
+    "upgrade": {
+      "cost": {
+        "g": 0
+      },
+      "vars": {
+        "d": 6
+      }
+    },
     "flavor": "你冲过来的那一步，正好是我的刀长。",
-    "art": { "subject": "a general stepping into a charging enemy and meeting it with a rising sword cut, flames bursting at the point of contact" }
+    "art": {
+      "subject": "a general stepping into a charging enemy and meeting it with a rising sword cut, flames bursting at the point of contact"
+    }
   },
   {
     "id": "r_backfire",
@@ -728,20 +1966,56 @@
     "faction": "R",
     "type": "response",
     "rarity": "rare",
-    "cost": { "g": 1, "c": ["R"] },
-    "keywords": ["response"],
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "keywords": [
+      "response"
+    ],
     "windowOnly": true,
     "text": "[应]：只能在应对窗口中打出。对宣告行动的敌人施加{b}层[灼烧]；若该行动是攻击，改为以一个随机敌方角色为目标（可能是其自身）。",
-    "vars": { "b": 3 },
-    "varKinds": { "b": "burn" },
+    "vars": {
+      "b": 3
+    },
+    "varKinds": {
+      "b": "burn"
+    },
     "effects": [
-      { "op": "status", "status": "burn", "amount": "$b", "target": "declaredActor" },
-      { "op": "if", "cond": { "declared": "attack" },
-        "then": [{ "op": "redirect", "to": { "side": "enemy", "kind": "character", "pick": "random" } }] }
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "declaredActor"
+      },
+      {
+        "op": "if",
+        "cond": {
+          "declared": "attack"
+        },
+        "then": [
+          {
+            "op": "redirect",
+            "to": {
+              "side": "enemy",
+              "kind": "character",
+              "pick": "random"
+            }
+          }
+        ]
+      }
     ],
-    "upgrade": { "vars": { "b": 6 } },
+    "upgrade": {
+      "vars": {
+        "b": 6
+      }
+    },
     "flavor": "风一转，火就回家了。",
-    "art": { "subject": "a gust of fire curling back on the beast that breathed it, the beast recoiling while its own allies are caught in the backlash" }
+    "art": {
+      "subject": "a gust of fire curling back on the beast that breathed it, the beast recoiling while its own allies are caught in the backlash"
+    }
   },
   {
     "id": "r_solar_mirror",
@@ -749,44 +2023,104 @@
     "faction": "R",
     "type": "response",
     "rarity": "epic",
-    "cost": { "g": 1, "c": ["R"] },
-    "keywords": ["response", "exhaust"],
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "keywords": [
+      "response",
+      "exhaust"
+    ],
     "windowOnly": true,
     "text": "[应]：只能在应对窗口中打出。取消该行动，并对宣告行动的敌人造成等同于其攻击力{k}倍的伤害。[燃尽]。",
-    "vars": { "k": 2 },
-    "varKinds": { "k": "damage" },
+    "vars": {
+      "k": 2
+    },
+    "varKinds": {
+      "k": "damage"
+    },
     "effects": [
-      { "op": "cancel" },
-      { "op": "damage", "amount": { "mul": [{ "count": "atk", "of": "declaredActor" }, "$k"] }, "target": "declaredActor" }
+      {
+        "op": "cancel"
+      },
+      {
+        "op": "damage",
+        "amount": {
+          "mul": [
+            {
+              "count": "atk",
+              "of": "declaredActor"
+            },
+            "$k"
+          ]
+        },
+        "target": "declaredActor"
+      }
     ],
     "upgrade": {
       "qualitative": true,
-      "keywords": ["response"],
+      "keywords": [
+        "response"
+      ],
       "text": "[应]：只能在应对窗口中打出。取消该行动，并对宣告行动的敌人造成等同于其攻击力{k}倍的伤害。"
     },
     "flavor": "镜中有一轮日，照见谁，谁便被自己的力道烧穿。",
-    "art": { "subject": "a bronze mirror held up by a priestess reflecting a beam of sunlight back into a charging warlord, the warlord's own weapon melting" }
+    "art": {
+      "subject": "a bronze mirror held up by a priestess reflecting a beam of sunlight back into a charging warlord, the warlord's own weapon melting"
+    }
   },
-
   {
     "id": "r_bronze_saber",
     "name": "赤铜环刀",
     "faction": "R",
     "type": "equip",
     "rarity": "common",
-    "cost": { "g": 1 },
+    "cost": {
+      "g": 1
+    },
     "text": "武器：攻击力{w}，距离{r}，耐久{u}。",
-    "vars": { "w": 3, "r": 1, "u": 3 },
-    "varKinds": { "w": "attack" },
-    "equip": { "slot": "weapon", "atk": 3, "range": 1, "durability": 3 },
+    "vars": {
+      "w": 3,
+      "r": 1,
+      "u": 3
+    },
+    "varKinds": {
+      "w": "attack"
+    },
+    "equip": {
+      "slot": "weapon",
+      "atk": 3,
+      "range": 1,
+      "durability": 3
+    },
     "upgrade": {
       "qualitative": true,
       "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击后，对目标施加{b}层[灼烧]。",
-      "vars": { "b": 2 },
-      "equip": { "triggers": [{ "on": "attacking", "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "eventTarget" }] }] }
+      "vars": {
+        "b": 2
+      },
+      "equip": {
+        "triggers": [
+          {
+            "on": "attacking",
+            "effects": [
+              {
+                "op": "status",
+                "status": "burn",
+                "amount": "$b",
+                "target": "eventTarget"
+              }
+            ]
+          }
+        ]
+      }
     },
     "flavor": "刀背九环，一环一响，九响之后，敌已倒。",
-    "art": { "subject": "a heavy red-bronze saber with nine iron rings threaded along its spine, resting on a weapon rack, warm forge light" }
+    "art": {
+      "subject": "a heavy red-bronze saber with nine iron rings threaded along its spine, resting on a weapon rack, warm forge light"
+    }
   },
   {
     "id": "r_sun_halberd",
@@ -794,17 +2128,55 @@
     "faction": "R",
     "type": "equip",
     "rarity": "rare",
-    "cost": { "g": 1, "c": ["R"] },
-    "text": "武器：攻击力{w}，距离{r}，耐久{u}（距离至少为2的攻击不受反击）。主帅攻击后，对目标施加{b}层[灼烧]。",
-    "vars": { "w": 3, "r": 2, "u": 3, "b": 2 },
-    "varKinds": { "w": "attack", "b": "burn" },
-    "equip": {
-      "slot": "weapon", "atk": 3, "range": 2, "durability": 3,
-      "triggers": [{ "on": "attacking", "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "eventTarget" }] }]
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
     },
-    "upgrade": { "vars": { "w": 4, "b": 3 }, "equip": { "atk": 4 } },
+    "text": "武器：攻击力{w}，距离{r}，耐久{u}（距离至少为2的攻击不受反击）。主帅攻击后，对目标施加{b}层[灼烧]。",
+    "vars": {
+      "w": 3,
+      "r": 2,
+      "u": 3,
+      "b": 2
+    },
+    "varKinds": {
+      "w": "attack",
+      "b": "burn"
+    },
+    "equip": {
+      "slot": "weapon",
+      "atk": 3,
+      "range": 2,
+      "durability": 3,
+      "triggers": [
+        {
+          "on": "attacking",
+          "effects": [
+            {
+              "op": "status",
+              "status": "burn",
+              "amount": "$b",
+              "target": "eventTarget"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "w": 4,
+        "b": 3
+      },
+      "equip": {
+        "atk": 4
+      }
+    },
     "flavor": "戟尖挑着一缕日光，够得着后排的人，也够得着天。",
-    "art": { "subject": "a long crescent-bladed halberd with a sun disc at the joint of the blades, the blade glowing, held diagonally by an armored figure" }
+    "art": {
+      "subject": "a long crescent-bladed halberd with a sun disc at the joint of the blades, the blade glowing, held diagonally by an armored figure"
+    }
   },
   {
     "id": "r_duanyue",
@@ -812,46 +2184,120 @@
     "faction": "R",
     "type": "equip",
     "rarity": "legendary",
-    "cost": { "g": 3, "c": ["R"] },
+    "cost": {
+      "g": 3,
+      "c": [
+        "R"
+      ]
+    },
     "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅获得[连斩]。主帅每次攻击后，此武器攻击力+{g}。",
-    "vars": { "w": 4, "r": 1, "u": 5, "g": 1 },
-    "varKinds": { "w": "attack", "g": "attack" },
+    "vars": {
+      "w": 4,
+      "r": 1,
+      "u": 5,
+      "g": 1
+    },
+    "varKinds": {
+      "w": "attack",
+      "g": "attack"
+    },
     "equip": {
-      "slot": "weapon", "atk": 4, "range": 1, "durability": 5,
-      "modifiers": [{ "stat": "keyword", "keyword": "twinStrike", "who": "commander" }],
-      "triggers": [{ "on": "attacking", "effects": [{ "op": "weapon", "atk": "$g" }] }]
+      "slot": "weapon",
+      "atk": 4,
+      "range": 1,
+      "durability": 5,
+      "modifiers": [
+        {
+          "stat": "keyword",
+          "keyword": "twinStrike",
+          "who": "commander"
+        }
+      ],
+      "triggers": [
+        {
+          "on": "attacking",
+          "effects": [
+            {
+              "op": "weapon",
+              "atk": "$g"
+            }
+          ]
+        }
+      ]
     },
     "upgrade": {
       "qualitative": true,
-      "vars": { "r": 2 },
+      "vars": {
+        "r": 2
+      },
       "text": "武器：攻击力{w}，距离{r}，耐久{u}（不受反击）。主帅获得[连斩]。主帅每次攻击后，此武器攻击力+{g}。",
-      "equip": { "range": 2 }
+      "equip": {
+        "range": 2
+      }
     },
     "flavor": "焚阳宗开山祖师以此刀斩断一座山，那山至今还在烧。",
-    "art": { "subject": "a colossal two-handed greatsword with a blade of dark iron veined with molten fire, planted in a split mountain whose cleft glows like lava" }
+    "art": {
+      "subject": "a colossal two-handed greatsword with a blade of dark iron veined with molten fire, planted in a split mountain whose cleft glows like lava"
+    }
   },
-
   {
     "id": "r_fire_omen",
     "name": "炎兆",
     "faction": "R",
     "type": "delay",
     "rarity": "common",
-    "cost": { "g": 0, "c": ["R"] },
-    "keywords": ["delay", "judge"],
+    "cost": {
+      "g": 0,
+      "c": [
+        "R"
+      ]
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
     "text": "[延时]{t}。[判定]：{sun}{thunder}阳纹——施加{y}层[灼烧]；{moon}{mountain}阴纹——施加{n}层[灼烧]。",
-    "vars": { "t": 1, "y": 6, "n": 3 },
-    "varKinds": { "y": "burn", "n": "burn" },
+    "vars": {
+      "t": 1,
+      "y": 6,
+      "n": 3
+    },
+    "varKinds": {
+      "y": "burn",
+      "n": "burn"
+    },
     "delay": {
-      "turns": 1, "on": "enemy",
+      "turns": 1,
+      "on": "enemy",
       "branches": {
-        "yang": [{ "op": "status", "status": "burn", "amount": "$y", "target": "target" }],
-        "yin": [{ "op": "status", "status": "burn", "amount": "$n", "target": "target" }]
+        "yang": [
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": "$y",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": "$n",
+            "target": "target"
+          }
+        ]
       }
     },
-    "upgrade": { "vars": { "y": 8, "n": 4 } },
+    "upgrade": {
+      "vars": {
+        "y": 8,
+        "n": 4
+      }
+    },
     "flavor": "眉心发烫的人，明天便要着火。",
-    "art": { "subject": "a glowing sun-shaped sigil hovering above a sleeping creature's head, faint flames beginning to lick at its fur" }
+    "art": {
+      "subject": "a glowing sun-shaped sigil hovering above a sleeping creature's head, faint flames beginning to lick at its fur"
+    }
   },
   {
     "id": "r_falling_star",
@@ -859,55 +2305,144 @@
     "faction": "R",
     "type": "delay",
     "rarity": "rare",
-    "cost": { "g": 1, "c": ["R"] },
-    "keywords": ["delay", "judge"],
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "keywords": [
+      "delay",
+      "judge"
+    ],
     "text": "[延时]{t}。[判定]：{sun}日纹——造成{ds}点伤害；{thunder}雷纹——造成{dt}点伤害；{moon}{mountain}阴纹——施加{b}层[灼烧]。",
-    "vars": { "t": 2, "ds": 20, "dt": 12, "b": 5 },
-    "varKinds": { "ds": "damage", "dt": "damage", "b": "burn" },
+    "vars": {
+      "t": 2,
+      "ds": 20,
+      "dt": 12,
+      "b": 5
+    },
+    "varKinds": {
+      "ds": "damage",
+      "dt": "damage",
+      "b": "burn"
+    },
     "delay": {
-      "turns": 2, "on": "enemy",
+      "turns": 2,
+      "on": "enemy",
       "branches": {
-        "sun": [{ "op": "damage", "amount": "$ds", "target": "target" }],
-        "thunder": [{ "op": "damage", "amount": "$dt", "target": "target" }],
-        "yin": [{ "op": "status", "status": "burn", "amount": "$b", "target": "target" }]
+        "sun": [
+          {
+            "op": "damage",
+            "amount": "$ds",
+            "target": "target"
+          }
+        ],
+        "thunder": [
+          {
+            "op": "damage",
+            "amount": "$dt",
+            "target": "target"
+          }
+        ],
+        "yin": [
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": "$b",
+            "target": "target"
+          }
+        ]
       }
     },
     "upgrade": {
       "qualitative": true,
-      "vars": { "t": 1 },
-      "delay": { "turns": 1 }
+      "vars": {
+        "t": 1
+      },
+      "delay": {
+        "turns": 1
+      }
     },
     "flavor": "星落之前，总有人先看见它在天上变红。",
-    "art": { "subject": "a burning meteor streaking down through a night sky toward a lone monster on a hill, the monster looking up, sky turning red" }
+    "art": {
+      "subject": "a burning meteor streaking down through a night sky toward a lone monster on a hill, the monster looking up, sky turning red"
+    }
   },
-
   {
     "id": "r_hundred_forge",
     "name": "百炼炉场",
     "faction": "R",
     "type": "field",
     "rarity": "epic",
-    "cost": { "g": 1, "c": ["R"] },
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
     "text": "阵地：主帅攻击力+{k}。我方回合开始时，武器耐久+{u}。",
-    "vars": { "k": 2, "u": 1 },
-    "varKinds": { "k": "attack" },
+    "vars": {
+      "k": 2,
+      "u": 1
+    },
+    "varKinds": {
+      "k": "attack"
+    },
     "field": {
-      "modifiers": [{ "stat": "atk", "amount": 2, "who": "commander" }],
-      "triggers": [{ "on": "turnStart", "effects": [{ "op": "weapon", "durability": "$u" }] }]
+      "modifiers": [
+        {
+          "stat": "atk",
+          "amount": 2,
+          "who": "commander"
+        }
+      ],
+      "triggers": [
+        {
+          "on": "turnStart",
+          "effects": [
+            {
+              "op": "weapon",
+              "durability": "$u"
+            }
+          ]
+        }
+      ]
     },
     "upgrade": {
       "qualitative": true,
-      "vars": { "a": 3 },
+      "vars": {
+        "a": 3
+      },
       "text": "阵地：主帅攻击力+{k}。我方回合开始时，武器耐久+{u}。主帅每次攻击后，获得{a}点[护甲]。",
       "field": {
         "triggers": [
-          { "on": "turnStart", "effects": [{ "op": "weapon", "durability": "$u" }] },
-          { "on": "attacking", "effects": [{ "op": "armor", "amount": "$a", "target": "commander" }] }
+          {
+            "on": "turnStart",
+            "effects": [
+              {
+                "op": "weapon",
+                "durability": "$u"
+              }
+            ]
+          },
+          {
+            "on": "attacking",
+            "effects": [
+              {
+                "op": "armor",
+                "amount": "$a",
+                "target": "commander"
+              }
+            ]
+          }
         ]
       }
     },
     "flavor": "百座炉，一个火种；千把刀，一个主人。",
-    "art": { "subject": "a vast open-air forge terrace with rows of glowing furnaces and anvils, smiths hammering in unison, a war banner with a sun emblem above" }
+    "art": {
+      "subject": "a vast open-air forge terrace with rows of glowing furnaces and anvils, smiths hammering in unison, a war banner with a sun emblem above"
+    }
   },
   {
     "id": "r_eternal_blaze",
@@ -915,26 +2450,726 @@
     "faction": "R",
     "type": "field",
     "rarity": "legendary",
-    "cost": { "g": 2, "c": ["R", "R"] },
+    "cost": {
+      "g": 2,
+      "c": [
+        "R",
+        "R"
+      ]
+    },
     "text": "阵地：敌人的[灼烧]不再减半。我方回合结束时，对所有敌人施加{b}层[灼烧]。",
-    "vars": { "b": 1 },
-    "varKinds": { "b": "burn" },
+    "vars": {
+      "b": 1
+    },
+    "varKinds": {
+      "b": "burn"
+    },
     "field": {
-      "modifiers": [{ "stat": "burnKeep", "amount": 1, "who": "enemy" }],
-      "triggers": [{ "on": "turnEnd", "effects": [{ "op": "status", "status": "burn", "amount": "$b", "target": "allEnemies" }] }]
+      "modifiers": [
+        {
+          "stat": "burnKeep",
+          "amount": 1,
+          "who": "enemy"
+        }
+      ],
+      "triggers": [
+        {
+          "on": "turnEnd",
+          "effects": [
+            {
+              "op": "status",
+              "status": "burn",
+              "amount": "$b",
+              "target": "allEnemies"
+            }
+          ]
+        }
+      ]
     },
     "upgrade": {
       "qualitative": true,
-      "vars": { "p": 3 },
+      "vars": {
+        "p": 3
+      },
       "text": "阵地：打出时，对所有敌人施加{p}层[灼烧]。敌人的[灼烧]不再减半。我方回合结束时，对所有敌人施加{b}层[灼烧]。",
-      "effects": [{ "op": "status", "status": "burn", "amount": "$p", "target": "allEnemies" }]
+      "effects": [
+        {
+          "op": "status",
+          "status": "burn",
+          "amount": "$p",
+          "target": "allEnemies"
+        }
+      ]
     },
     "flavor": "焚阳宗山门前的那片原野，三百年来没有一天不在烧。",
-    "art": { "subject": "an endless plain of low eternal flames under a dusky sky, a stone gate of a mountain sect standing at the edge, figures silhouetted in the fire" }
+    "art": {
+      "subject": "an endless plain of low eternal flames under a dusky sky, a stone gate of a mountain sect standing at the edge, figures silhouetted in the fire"
+    }
   },
-  {"id":"r_ember_blade","name":"余烬刀","faction":"R","type":"equip","rarity":"common","cost":{"g":1,"c":["R"]},"text":"武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击带有[灼烧]的目标后，抽1张牌。","vars":{"w":2,"r":1,"u":3},"varKinds":{"w":"attack"},"equip":{"slot":"weapon","atk":2,"range":1,"durability":3,"triggers":[{"on":"attacking","if":{"hasStatus":{"of":"eventTarget","status":"burn"}},"effects":[{"op":"draw","n":1}]}]},"upgrade":{"vars":{"w":3},"equip":{"atk":3}},"flavor":"刀身里埋着没熄的炭，一碰到火就醒。","art":{"subject":"a short single-edged saber whose blade glows with embers along a cracked dark surface, smoke curling off it, resting on charred wood"}},
-  {"id":"r_tempered_edge","name":"回火","faction":"R","type":"tactic","rarity":"common","cost":{"g":1,"c":["R"]},"text":"造成等同于武器攻击力×2的伤害（没有武器则为{d}点）。施加{b}层[灼烧]。","vars":{"d":5,"b":2},"varKinds":{"d":"attack","b":"burn"},"target":"enemy","effects":[{"op":"if","cond":{"hasEquip":"weapon"},"then":[{"op":"damage","amount":{"mul":[{"count":"weaponAtk"},2]},"target":"target","attack":true}],"else":[{"op":"damage","amount":"$d","target":"target","attack":true}]},{"op":"status","status":"burn","amount":"$b","target":"target"}],"upgrade":{"vars":{"d":7,"b":3}},"flavor":"刀要回一次火，才知道自己有多硬。","art":{"subject":"a glowing red blade plunged into a barrel of water, a violent burst of steam and sparks, a gauntleted hand gripping the hilt"}},
-  {"id":"r_forge_fire","name":"炉火纯青","faction":"R","type":"tactic","rarity":"common","cost":{"g":1,"c":["R"]},"text":"若你装备着武器，武器攻击力+{a}、耐久+{u}，并获得等同于武器攻击力的[护甲]；否则装备一把「断焰刀」。","vars":{"a":1,"u":1},"effects":[{"op":"if","cond":{"hasEquip":"weapon"},"then":[{"op":"weapon","atk":"$a","durability":"$u"},{"op":"armor","amount":{"count":"weaponAtk"},"target":"commander"}],"else":[{"op":"equip","card":"tk_r_duanyan"}]}],"upgrade":{"vars":{"a":2,"u":2}},"flavor":"炉火转青的时候，铁就听话了。","art":{"subject":"a forge fire burning with clean blue-green flame at its heart, a blade laid across the coals turning bright, bellows in the background"}},
-  {"id":"r_blazing_charge","name":"燎原冲阵","faction":"R","type":"tactic","rarity":"rare","cost":{"g":2,"c":["R"]},"text":"若你装备着武器，主帅依次攻击每个敌方前阵单位；否则对所有敌人造成{d}点伤害。然后对所有敌人施加{b}层[灼烧]。","vars":{"d":5,"b":2},"varKinds":{"d":"damage","b":"burn"},"effects":[{"op":"if","cond":{"hasEquip":"weapon"},"then":[{"op":"forEach","sel":"enemyFront","effects":[{"op":"attack","target":"it"}]}],"else":[{"op":"damage","amount":"$d","target":"allEnemies"}]},{"op":"status","status":"burn","amount":"$b","target":"allEnemies"}],"upgrade":{"vars":{"d":7,"b":3}},"flavor":"一骑冲阵，身后是一线火。","art":{"subject":"an armored rider charging through an enemy line with a blazing saber, a trail of fire left along the ground behind the horse"}},
-  {"id":"r_sun_bannerman","name":"焚阳旗手","faction":"R","type":"unit","rarity":"epic","cost":{"g":2,"c":["R"]},"text":"主帅每次攻击后，此单位获得+{a}攻击，并对目标施加{b}层[灼烧]。","vars":{"a":1,"b":1},"varKinds":{"b":"burn"},"unit":{"atk":2,"hp":5,"triggers":[{"on":"attacking","who":"friendly","if":{"isCommander":"eventSource"},"effects":[{"op":"buff","target":"self","atk":"$a"},{"op":"status","status":"burn","amount":"$b","target":"eventTarget"}]}]},"upgrade":{"vars":{"b":2},"unit":{"hp":6}},"flavor":"旗倒了，火就灭了；所以他从不让旗倒。","art":{"subject":"a young standard bearer in red armor holding a tall flaming sun banner, flames streaming from the cloth, determined face, full body"}}
+  {
+    "id": "r_ember_blade",
+    "name": "余烬刀",
+    "faction": "R",
+    "type": "equip",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "text": "武器：攻击力{w}，距离{r}，耐久{u}。主帅攻击带有[灼烧]的目标后，抽1张牌。",
+    "vars": {
+      "w": 2,
+      "r": 1,
+      "u": 3
+    },
+    "varKinds": {
+      "w": "attack"
+    },
+    "equip": {
+      "slot": "weapon",
+      "atk": 2,
+      "range": 1,
+      "durability": 3,
+      "triggers": [
+        {
+          "on": "attacking",
+          "if": {
+            "hasStatus": {
+              "of": "eventTarget",
+              "status": "burn"
+            }
+          },
+          "effects": [
+            {
+              "op": "draw",
+              "n": 1
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "w": 3
+      },
+      "equip": {
+        "atk": 3
+      }
+    },
+    "flavor": "刀身里埋着没熄的炭，一碰到火就醒。",
+    "art": {
+      "subject": "a short single-edged saber whose blade glows with embers along a cracked dark surface, smoke curling off it, resting on charred wood"
+    }
+  },
+  {
+    "id": "r_tempered_edge",
+    "name": "回火",
+    "faction": "R",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "text": "造成等同于武器攻击力×2的伤害（没有武器则为{d}点）。施加{b}层[灼烧]。",
+    "vars": {
+      "d": 5,
+      "b": 2
+    },
+    "varKinds": {
+      "d": "attack",
+      "b": "burn"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "if",
+        "cond": {
+          "hasEquip": "weapon"
+        },
+        "then": [
+          {
+            "op": "damage",
+            "amount": {
+              "mul": [
+                {
+                  "count": "weaponAtk"
+                },
+                2
+              ]
+            },
+            "target": "target",
+            "attack": true
+          }
+        ],
+        "else": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target",
+            "attack": true
+          }
+        ]
+      },
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "target"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 7,
+        "b": 3
+      }
+    },
+    "flavor": "刀要回一次火，才知道自己有多硬。",
+    "art": {
+      "subject": "a glowing red blade plunged into a barrel of water, a violent burst of steam and sparks, a gauntleted hand gripping the hilt"
+    }
+  },
+  {
+    "id": "r_forge_fire",
+    "name": "炉火纯青",
+    "faction": "R",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "text": "若你装备着武器，武器攻击力+{a}、耐久+{u}，并获得等同于武器攻击力的[护甲]；否则装备一把「断焰刀」。",
+    "vars": {
+      "a": 1,
+      "u": 1
+    },
+    "effects": [
+      {
+        "op": "if",
+        "cond": {
+          "hasEquip": "weapon"
+        },
+        "then": [
+          {
+            "op": "weapon",
+            "atk": "$a",
+            "durability": "$u"
+          },
+          {
+            "op": "armor",
+            "amount": {
+              "count": "weaponAtk"
+            },
+            "target": "commander"
+          }
+        ],
+        "else": [
+          {
+            "op": "equip",
+            "card": "tk_r_duanyan"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 2,
+        "u": 2
+      }
+    },
+    "flavor": "炉火转青的时候，铁就听话了。",
+    "art": {
+      "subject": "a forge fire burning with clean blue-green flame at its heart, a blade laid across the coals turning bright, bellows in the background"
+    }
+  },
+  {
+    "id": "r_blazing_charge",
+    "name": "燎原冲阵",
+    "faction": "R",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "R"
+      ]
+    },
+    "text": "若你装备着武器，主帅依次攻击每个敌方前阵单位；否则对所有敌人造成{d}点伤害。然后对所有敌人施加{b}层[灼烧]。",
+    "vars": {
+      "d": 5,
+      "b": 2
+    },
+    "varKinds": {
+      "d": "damage",
+      "b": "burn"
+    },
+    "effects": [
+      {
+        "op": "if",
+        "cond": {
+          "hasEquip": "weapon"
+        },
+        "then": [
+          {
+            "op": "forEach",
+            "sel": "enemyFront",
+            "effects": [
+              {
+                "op": "attack",
+                "target": "it"
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "allEnemies"
+          }
+        ]
+      },
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "allEnemies"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 7,
+        "b": 3
+      }
+    },
+    "flavor": "一骑冲阵，身后是一线火。",
+    "art": {
+      "subject": "an armored rider charging through an enemy line with a blazing saber, a trail of fire left along the ground behind the horse"
+    }
+  },
+  {
+    "id": "r_sun_bannerman",
+    "name": "焚阳旗手",
+    "faction": "R",
+    "type": "unit",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "R"
+      ]
+    },
+    "text": "主帅每次攻击后，此单位获得+{a}攻击，并对目标施加{b}层[灼烧]。",
+    "vars": {
+      "a": 1,
+      "b": 1
+    },
+    "varKinds": {
+      "b": "burn"
+    },
+    "unit": {
+      "atk": 2,
+      "hp": 5,
+      "triggers": [
+        {
+          "on": "attacking",
+          "who": "friendly",
+          "if": {
+            "isCommander": "eventSource"
+          },
+          "effects": [
+            {
+              "op": "buff",
+              "target": "self",
+              "atk": "$a"
+            },
+            {
+              "op": "status",
+              "status": "burn",
+              "amount": "$b",
+              "target": "eventTarget"
+            }
+          ]
+        }
+      ]
+    },
+    "upgrade": {
+      "vars": {
+        "b": 2
+      },
+      "unit": {
+        "hp": 6
+      }
+    },
+    "flavor": "旗倒了，火就灭了；所以他从不让旗倒。",
+    "art": {
+      "subject": "a young standard bearer in red armor holding a tall flaming sun banner, flames streaming from the cloth, determined face, full body"
+    }
+  },
+  {
+    "id": "r_zy_sig_fuse",
+    "name": "引信",
+    "faction": "R",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "text": "施加{b}层[灼烧]，抽{n}张牌。",
+    "vars": {
+      "b": 3,
+      "n": 1
+    },
+    "varKinds": {
+      "b": "burn"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "target"
+      },
+      {
+        "op": "draw",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "b": 5,
+        "n": 1
+      }
+    },
+    "flavor": "火不急着烧，先把路铺好。",
+    "art": {
+      "subject": "a hooded arsonist laying a long glowing fuse cord across old flagstones toward a dark gate, a single ember crawling along it"
+    }
+  },
+  {
+    "id": "r_zy_sig_blast",
+    "name": "爆燃",
+    "faction": "R",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "text": "造成等同于目标[灼烧]层数+{d}的伤害。",
+    "vars": {
+      "d": 2
+    },
+    "varKinds": {
+      "d": "damage"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": {
+          "add": [
+            {
+              "count": "status",
+              "status": "burn",
+              "of": "target"
+            },
+            "$d"
+          ]
+        },
+        "target": "target"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 5
+      }
+    },
+    "flavor": "积了多少火，就炸多大的声。",
+    "art": {
+      "subject": "a burning figure bursting outward in a ring of flame and flying embers, a clenched fist at the center of the blast"
+    }
+  },
+  {
+    "id": "r_zy_long_street",
+    "name": "火引长街",
+    "faction": "R",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "text": "对所有敌人施加{b}层[灼烧]；已有[灼烧]的敌人再多{e}层。",
+    "vars": {
+      "b": 2,
+      "e": 1
+    },
+    "varKinds": {
+      "b": "burn",
+      "e": "burn"
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "forEach",
+        "sel": "allEnemies",
+        "effects": [
+          {
+            "op": "if",
+            "cond": {
+              "hasStatus": {
+                "of": "it",
+                "status": "burn"
+              }
+            },
+            "then": [
+              {
+                "op": "status",
+                "status": "burn",
+                "amount": {
+                  "add": [
+                    "$b",
+                    "$e"
+                  ]
+                },
+                "target": "it"
+              }
+            ],
+            "else": [
+              {
+                "op": "status",
+                "status": "burn",
+                "amount": "$b",
+                "target": "it"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "b": 3,
+        "e": 2
+      }
+    },
+    "flavor": "一条街，一根火绳，从东头烧到西头。",
+    "art": {
+      "subject": "a long narrow street of wooden houses at night with a line of fire racing down the middle, lanterns bursting one after another"
+    }
+  },
+  {
+    "id": "r_zy_city_ablaze",
+    "name": "满城火",
+    "faction": "R",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "R"
+      ]
+    },
+    "text": "使每个敌人的[灼烧]层数翻倍。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "forEach",
+        "sel": "allEnemies",
+        "effects": [
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": {
+              "count": "status",
+              "status": "burn",
+              "of": "it"
+            },
+            "target": "it"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 1,
+        "c": [
+          "R"
+        ]
+      }
+    },
+    "flavor": "殷都那一夜，火是自己长大的。",
+    "art": {
+      "subject": "an ancient walled capital seen from a hill, every roof on fire, the flames doubling into a second city of fire reflected in the sky"
+    }
+  },
+  {
+    "id": "r_zy_ash_rain",
+    "name": "灰烬雨",
+    "faction": "R",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "R"
+      ]
+    },
+    "text": "对每个带有[灼烧]的敌人造成{d}点伤害。",
+    "vars": {
+      "d": 7
+    },
+    "varKinds": {
+      "d": "damage"
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "forEach",
+        "sel": {
+          "side": "enemy",
+          "kind": "character",
+          "where": {
+            "hasStatus": {
+              "of": "it",
+              "status": "burn"
+            }
+          }
+        },
+        "effects": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "it"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 10
+      }
+    },
+    "flavor": "火熄了，灰还在往下落。",
+    "art": {
+      "subject": "a grey sky raining glowing ash flakes onto a scorched courtyard, burning silhouettes shielding their heads"
+    }
+  },
+  {
+    "id": "r_zy_heart_fire",
+    "name": "焚心",
+    "faction": "R",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "R",
+        "R"
+      ]
+    },
+    "text": "施加{b}层[灼烧]，然后造成等同于其[灼烧]层数的伤害。",
+    "vars": {
+      "b": 8
+    },
+    "varKinds": {
+      "b": "burn"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "status",
+        "status": "burn",
+        "amount": "$b",
+        "target": "target"
+      },
+      {
+        "op": "damage",
+        "amount": {
+          "count": "status",
+          "status": "burn",
+          "of": "target"
+        },
+        "target": "target"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "b": 11
+      }
+    },
+    "flavor": "火从心口烧起来的时候，人是感觉不到烫的。",
+    "art": {
+      "subject": "a figure clutching its chest as a lotus of fire blooms from inside the ribs, light streaming through the gaps between fingers"
+    }
+  },
+  {
+    "id": "r_zy_decree",
+    "name": "焚城令",
+    "faction": "R",
+    "type": "tactic",
+    "rarity": "legendary",
+    "cost": {
+      "g": 3,
+      "c": [
+        "R",
+        "R"
+      ]
+    },
+    "text": "对每个敌人造成等同于其[灼烧]层数两倍的伤害。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "forEach",
+        "sel": "allEnemies",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": {
+              "mul": [
+                {
+                  "count": "status",
+                  "status": "burn",
+                  "of": "it"
+                },
+                2
+              ]
+            },
+            "target": "it"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 2,
+        "c": [
+          "R",
+          "R"
+        ]
+      }
+    },
+    "flavor": "令上只有四个字，盖的却是宰辅的印。",
+    "art": {
+      "subject": "a burning scroll decree with four huge characters and a red seal, held aloft over a city skyline engulfed in flames"
+    }
+  }
 ]

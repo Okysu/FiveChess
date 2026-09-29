@@ -78,7 +78,7 @@ const permLocked = lockedContent(full);
 const reachCmd = new Set(full.unlocked.commanders);
 
 // ───────────── reachability fixpoint ─────────────
-const COLORS_ALL: Color[] = ['R', 'B', 'G', 'Y', 'P', 'N'];
+const COLORS_ALL: Color[] = ['R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N'];
 const reach = {
   cards: new Map<string, string>(), relics: new Map<string, string>(), potions: new Map<string, string>(),
   enemies: new Map<string, string>(), encounters: new Map<string, string>(), events: new Map<string, string>(),

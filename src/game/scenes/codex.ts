@@ -57,7 +57,7 @@ class CodexPanel extends Container {
     const d = this.disc();
     switch (this.tab) {
       case 'cards': {
-        const colors: (Color | 'all')[] = ['all', 'R', 'B', 'G', 'Y', 'P', 'N'];
+        const colors: (Color | 'all')[] = ['all', 'R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N'];
         colors.forEach((c, i) => {
           const b = new Button(c === 'all' ? '全部' : COLOR_INFO[c].name, { width: 100, height: 44, fontSize: fs(20), kind: this.filter === c ? 'primary' : 'ghost', onClick: () => { this.filter = c; this.render(); } });
           b.position.set(20 + i * 110, 0);

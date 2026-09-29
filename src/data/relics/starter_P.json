@@ -6,8 +6,16 @@
     "faction": "P",
     "text": "敌人受到的[中毒]伤害+1。",
     "flavor": "香囊里装的不是花，是花谢之后剩下的东西。",
-    "modifiers": [{ "stat": "poisonDamage", "amount": 1, "who": "enemy" }],
-    "art": { "subject": "a small embroidered violet sachet tied with black cord, a withered white night flower peeking out, faint green vapor seeping from the seams" }
+    "modifiers": [
+      {
+        "stat": "poisonDamage",
+        "amount": 1,
+        "who": "enemy"
+      }
+    ],
+    "art": {
+      "subject": "a small embroidered violet sachet tied with black cord, a withered white night flower peeking out, faint green vapor seeping from the seams"
+    }
   },
   {
     "id": "rl_start_liuxu",
@@ -16,9 +24,26 @@
     "faction": "P",
     "text": "你的[手牌上限]+2。战斗开始时，抽2张牌。",
     "flavor": "扇面上的人，每次打开都不一样。",
-    "modifiers": [{ "stat": "handLimit", "amount": 2 }],
-    "triggers": [{ "on": "combatStart", "effects": [{ "op": "draw", "n": 2 }] }],
-    "art": { "subject": "a half-open folding fan painted with a faceless woman beneath willow branches, catkins seeming to drift off the paper, soft lamplight" }
+    "modifiers": [
+      {
+        "stat": "handLimit",
+        "amount": 2
+      }
+    ],
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a half-open folding fan painted with a faceless woman beneath willow branches, catkins seeming to drift off the paper, soft lamplight"
+    }
   },
   {
     "id": "rl_start_yetan_b",
@@ -67,6 +92,61 @@
     ],
     "art": {
       "subject": "a small silk pouch stuffed with drifting white willow catkins, some floating out of its mouth, pale violet ribbon"
+    }
+  },
+  {
+    "id": "rl_start_yiqiu",
+    "name": "残局谱",
+    "tier": "starter",
+    "faction": "P",
+    "text": "每回合打出第一张牌后，将一张[浮光]的「棋子」加入手牌。",
+    "flavor": "谱上的局，他下了一辈子也没下完。",
+    "triggers": [
+      {
+        "on": "cardPlayed",
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "create",
+            "card": "tk_p_stone",
+            "to": "hand",
+            "fleeting": true
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "an old silk scroll of an unfinished go game, a few stones tucked into its folds"
+    }
+  },
+  {
+    "id": "rl_start_yiqiu_b",
+    "name": "棋枰",
+    "tier": "starter",
+    "faction": "P",
+    "text": "每回合打出第3张牌后，获得1枚临时[源]。",
+    "flavor": "木纹里嵌着十九道金线。",
+    "triggers": [
+      {
+        "on": "cardPlayed",
+        "if": {
+          "eq": [
+            {
+              "count": "cardsPlayed"
+            },
+            3
+          ]
+        },
+        "effects": [
+          {
+            "op": "energy",
+            "n": 1
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a thick wooden go board with gold-inlaid grid lines and purple stone bowls"
     }
   }
 ]

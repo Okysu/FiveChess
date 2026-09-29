@@ -1,0 +1,109 @@
+[
+  {
+    "id": "rl_start_yanqiu",
+    "name": "松烟墨",
+    "tier": "starter",
+    "faction": "K",
+    "text": "战斗开始时，获得3层[墨迹]。",
+    "flavor": "松烟入墨，千年不褪。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "ink",
+            "amount": 3,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a black ink stick molded with a pine tree relief, wrapped in a strip of gold paper"
+    }
+  },
+  {
+    "id": "rl_start_yanqiu_b",
+    "name": "端砚",
+    "tier": "starter",
+    "faction": "K",
+    "text": "回合结束时，若你有至少5层[墨迹]，获得6点[护甲]。",
+    "flavor": "砚台比刀沉。",
+    "triggers": [
+      {
+        "on": "turnEnd",
+        "if": {
+          "gte": [
+            {
+              "count": "status",
+              "status": "ink",
+              "of": "commander"
+            },
+            5
+          ]
+        },
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 6,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a heavy purple-black inkstone carved with a dragon and clouds, a pool of ink in its well"
+    }
+  },
+  {
+    "id": "rl_start_shentuo",
+    "name": "宣纸",
+    "tier": "starter",
+    "faction": "K",
+    "text": "每回合你打出第一张[浮光]牌后，抽1张牌。",
+    "flavor": "薄如蝉翼，拓得下一整座碑。",
+    "triggers": [
+      {
+        "on": "cardPlayed",
+        "if": {
+          "fleeting": true
+        },
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a neat stack of thin translucent rice paper tied with twine, one sheet lifting in a breeze"
+    }
+  },
+  {
+    "id": "rl_start_shentuo_b",
+    "name": "碑帖",
+    "tier": "starter",
+    "faction": "K",
+    "text": "战斗开始时，获得4层[墨迹]。",
+    "flavor": "一本拓了三十年的碑帖，每一页都比原碑清楚。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "ink",
+            "amount": 4,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "an accordion-folded book of black-and-white stele rubbings, worn at the edges"
+    }
+  }
+]

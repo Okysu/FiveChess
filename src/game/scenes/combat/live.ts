@@ -32,7 +32,7 @@ export function liveCard(s: CombatState, card: CardInst, inWindow = false): Card
     vars[k] = { value, base };
   }
   void inWindow;
-  return { cost: { g: need.g, c: need.c, x: need.x }, payable: !!plan, missing, vars };
+  return { cost: { g: need.g, c: need.c, x: need.x }, payable: !!plan, missing, vars, inked: card.inked };
 }
 
 type LiveKind = 'attack' | 'armor' | 'heal';

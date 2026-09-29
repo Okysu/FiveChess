@@ -5,11 +5,23 @@
     "title": "影罗刹",
     "faction": "P",
     "hp": 78,
-    "sources": ["P", "P", "N"],
+    "sources": [
+      "P",
+      "P",
+      "N"
+    ],
     "deck": [
-      "p_basic_strike", "p_basic_strike", "p_basic_strike", "p_basic_strike",
-      "p_basic_guard", "p_basic_guard", "p_basic_guard", "p_basic_guard",
-      "p_sig_yetan_thorn", "p_sig_yetan_thorn", "p_sig_yetan_bloom"
+      "p_basic_strike",
+      "p_basic_strike",
+      "p_basic_strike",
+      "p_basic_strike",
+      "p_basic_guard",
+      "p_basic_guard",
+      "p_basic_guard",
+      "p_basic_guard",
+      "p_sig_yetan_thorn",
+      "p_sig_yetan_thorn",
+      "p_sig_yetan_bloom"
     ],
     "relic": "rl_start_yetan",
     "skills": [
@@ -18,20 +30,51 @@
         "name": "昙影",
         "type": "passive",
         "text": "每回合你打出第3张牌后，对一名随机敌人施加4层[中毒]。",
-        "triggers": [{
-          "on": "cardPlayed",
-          "if": { "eq": [{ "count": "cardsPlayed" }, 3] },
-          "effects": [{ "op": "status", "status": "poison", "amount": 4, "target": "randomEnemy" }]
-        }]
+        "triggers": [
+          {
+            "on": "cardPlayed",
+            "if": {
+              "eq": [
+                {
+                  "count": "cardsPlayed"
+                },
+                3
+              ]
+            },
+            "effects": [
+              {
+                "op": "status",
+                "status": "poison",
+                "amount": 4,
+                "target": "randomEnemy"
+              }
+            ]
+          }
+        ]
       },
       {
         "id": "sk_p_yetan_rakshasa",
         "name": "罗刹引",
         "type": "active",
         "text": "每回合一次，支付1+{P}：对一名敌人造成等同于其[中毒]层数的伤害。",
-        "cost": { "g": 1, "c": ["P"] },
+        "cost": {
+          "g": 1,
+          "c": [
+            "P"
+          ]
+        },
         "target": "enemy",
-        "effects": [{ "op": "damage", "amount": { "count": "status", "status": "poison", "of": "target" }, "target": "target" }]
+        "effects": [
+          {
+            "op": "damage",
+            "amount": {
+              "count": "status",
+              "status": "poison",
+              "of": "target"
+            },
+            "target": "target"
+          }
+        ]
       }
     ],
     "alt": {
@@ -67,7 +110,9 @@
     },
     "lore": "幽弈坊的头牌刺客，人称影罗刹。她生在沉渊城下的蛊窟，自幼与百虫同眠，十四岁那年一夜毒杀满堂宾客，只为替被写成“早夭”的妹妹讨一句公道。命书上她的名字只有一行：昙花一现。她不信，便提着针走进了命阙。",
     "ending": "命书之心的装订线在她指间断开时，夜昙闻到了昙花的香气。她翻到写着妹妹名字的那一页——“早夭”二字早已褪色，墨迹里爬出一只小小的紫蛊，咬掉了那两个字。她没有替妹妹写下新的命，只在空白处留了一枚针孔。“命该由她自己去写，我只负责把碍事的人扎死。”回到幽弈坊那夜，坊主问她赢了什么。她把一朵昙花插进棋盒：“赢了一夜。够了，花本来就只开一夜。”此后坊中每逢月晦，总有人看见一个提灯的少女，在棋盘边等她下完这一局。",
-    "art": { "subject": "a slender woman in dark violet layered robes with a veil over her lower face, holding a long silver needle between two fingers, a night-blooming flower pinned in her hair, moonlit rooftop with drifting green mist" }
+    "art": {
+      "subject": "a slender woman in dark violet layered robes with a veil over her lower face, holding a long silver needle between two fingers, a night-blooming flower pinned in her hair, moonlit rooftop with drifting green mist"
+    }
   },
   {
     "id": "p_liuxu",
@@ -75,11 +120,22 @@
     "title": "千面客",
     "faction": "P",
     "hp": 86,
-    "sources": ["P", "P", "N"],
+    "sources": [
+      "P",
+      "P",
+      "N"
+    ],
     "deck": [
-      "p_basic_strike", "p_basic_strike", "p_basic_strike", "p_basic_strike",
-      "p_basic_guard", "p_basic_guard", "p_basic_guard", "p_basic_guard",
-      "p_sig_liuxu_mask", "p_sig_liuxu_needle"
+      "p_basic_strike",
+      "p_basic_strike",
+      "p_basic_strike",
+      "p_basic_strike",
+      "p_basic_guard",
+      "p_basic_guard",
+      "p_basic_guard",
+      "p_basic_guard",
+      "p_sig_liuxu_mask",
+      "p_sig_liuxu_needle"
     ],
     "relic": "rl_start_liuxu",
     "skills": [
@@ -88,22 +144,42 @@
         "name": "絮影",
         "type": "passive",
         "text": "每回合你第一次[弃置]牌后，将一张[浮光]的「絮影」加入手牌。",
-        "triggers": [{
-          "on": "cardDiscarded",
-          "limit": "turn",
-          "effects": [{ "op": "create", "card": "tk_p_willow_shade", "to": "hand", "fleeting": true }]
-        }]
+        "triggers": [
+          {
+            "on": "cardDiscarded",
+            "limit": "turn",
+            "effects": [
+              {
+                "op": "create",
+                "card": "tk_p_willow_shade",
+                "to": "hand",
+                "fleeting": true
+              }
+            ]
+          }
+        ]
       },
       {
         "id": "sk_p_liuxu_facechange",
         "name": "换面",
         "type": "active",
         "text": "每回合一次：[弃置]1张牌，然后从3张随机幽弈坊牌中选择1张加入手牌。",
-        "cost": { "g": 0 },
+        "cost": {
+          "g": 0
+        },
         "target": "none",
         "effects": [
-          { "op": "discard", "n": 1, "mode": "choose" },
-          { "op": "discover", "pool": { "faction": "P" } }
+          {
+            "op": "discard",
+            "n": 1,
+            "mode": "choose"
+          },
+          {
+            "op": "discover",
+            "pool": {
+              "faction": "P"
+            }
+          }
         ]
       }
     ],
@@ -133,6 +209,113 @@
     },
     "lore": "没人见过柳絮的真面目，连幽弈坊主也只认得她的笑声。她替人换脸、替人顶罪、替人活一段不属于自己的日子，收的价钱是对方命书上的一行字。攒了三百张面皮之后，她发现自己已经想不起原来的脸，于是走进命阙，去找命书上写着“柳絮”的那一页。",
     "ending": "命书之心里，她终于找到了那一页，可上面只写着两个字：柳絮。没有生辰，没有来处，没有容貌，风一吹，墨迹就散成了细白的绒。柳絮笑了很久。原来她本就没有一张非找回不可的脸——命书写不住的人，才能戴上千张面孔。她把那三百行别人的命数一行行还了回去，只留下最后一张空白面皮，贴在自己脸上。回到人间的那天是暮春，满城飞絮。有人说在渡口看见一个陌生女子，替船夫补网，替孩童折柳，谁也说不清她长什么样子，只记得她走时回头一笑，像是认识每一个人。",
-    "art": { "subject": "a playful young woman in willow-green and violet robes holding a porcelain mask half over her face, several other masks orbiting her on silk threads, willow catkins drifting in soft spring light" }
+    "art": {
+      "subject": "a playful young woman in willow-green and violet robes holding a porcelain mask half over her face, several other masks orbiting her on silk threads, willow catkins drifting in soft spring light"
+    }
+  },
+  {
+    "id": "p_yiqiu",
+    "name": "弈秋",
+    "title": "棋魁",
+    "faction": "P",
+    "hp": 76,
+    "sources": [
+      "P",
+      "P",
+      "N"
+    ],
+    "deck": [
+      "p_basic_strike",
+      "p_basic_strike",
+      "p_basic_strike",
+      "p_basic_strike",
+      "p_basic_guard",
+      "p_basic_guard",
+      "p_basic_guard",
+      "p_basic_guard",
+      "p_yq_sig_open",
+      "p_yq_sig_chase"
+    ],
+    "relic": "rl_start_yiqiu",
+    "skills": [
+      {
+        "id": "sk_p_yiqiu_1",
+        "name": "落子",
+        "type": "passive",
+        "text": "每回合打出第4张牌后，抽2张牌。",
+        "triggers": [
+          {
+            "on": "cardPlayed",
+            "if": {
+              "eq": [
+                {
+                  "count": "cardsPlayed"
+                },
+                4
+              ]
+            },
+            "effects": [
+              {
+                "op": "draw",
+                "n": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sk_p_yiqiu_2",
+        "name": "布局",
+        "type": "active",
+        "text": "每回合一次，支付1枚[源]：将2张[浮光]的「棋子」加入手牌。",
+        "cost": {
+          "g": 1
+        },
+        "effects": [
+          {
+            "op": "create",
+            "card": "tk_p_stone",
+            "to": "hand",
+            "fleeting": true,
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "alt": {
+      "relic": "rl_start_yiqiu_b",
+      "replaces": "sk_p_yiqiu_1",
+      "skill": {
+        "id": "sk_p_yiqiu_alt",
+        "name": "围杀",
+        "type": "passive",
+        "text": "每回合打出第5张牌后，对所有敌人造成6点伤害。",
+        "triggers": [
+          {
+            "on": "cardPlayed",
+            "if": {
+              "eq": [
+                {
+                  "count": "cardsPlayed"
+                },
+                5
+              ]
+            },
+            "effects": [
+              {
+                "op": "damage",
+                "amount": 6,
+                "target": "allEnemies"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lore": "幽弈坊以棋为名，坊主的位子上坐着的，就是弈秋。传说她从未输过一局，因为她从不和人下完——她总在对手认输之前收子，说一句“这局我看到头了”。命书撕裂那夜，她正与人对弈，棋盘上的子一颗接一颗地消失。她说那不是命运，是有人在另一张棋盘上落子。她走进命阙，是要找那个人下完这盘棋。",
+    "ending": "命书之心里摆着一张棋盘，一边坐着司命，另一边空着。棋局停在三百年前的那一手。弈秋坐下来，看了很久，发现这盘棋无论怎么下，结局都已写定——除非有人肯下一手不合棋理的子。她拈起一颗子，没有放在棋盘上，而是放在了棋盘之外。司命愣住了，然后第一次笑了。“这局，”弈秋起身说，“你我都不算输。”",
+    "art": {
+      "subject": "an elegant woman in layered plum-purple silk robes and a wide gauze hat, holding a single black go stone between two fingers, a go board floating beside her with stones rising off it like smoke"
+    }
   }
 ]

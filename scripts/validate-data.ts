@@ -101,7 +101,7 @@ function walkTriggers(where: string, ts: Trigger[] | undefined, vars?: Record<st
 
 const TEXT_TERM = /\[([^\]]+)\]/g;
 const TEXT_VAR = /\{([a-zA-Z0-9_]+)\}/g;
-const ICONS = new Set(['R', 'B', 'G', 'Y', 'P', 'N', 'sun', 'moon', 'thunder', 'mountain', 'x', 'X']);
+const ICONS = new Set(['R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N', 'sun', 'moon', 'thunder', 'mountain', 'x', 'X']);
 function checkText(where: string, text: string, vars?: Record<string, number>) {
   for (const m of text.matchAll(TEXT_TERM)) if (!TERM_NAMES[m[1]!]) errors.push(`${where}: unknown term [${m[1]}]`);
   for (const m of text.matchAll(TEXT_VAR)) {

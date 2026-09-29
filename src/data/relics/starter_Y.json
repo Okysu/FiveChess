@@ -105,5 +105,44 @@
     "art": {
       "subject": "three old bronze divination coins tied on a red cord, one of them shining bright gold, hanging against a night sky"
     }
+  },
+  {
+    "id": "rl_start_weishuo",
+    "name": "历书",
+    "tier": "starter",
+    "faction": "Y",
+    "text": "战斗开始时，获得1张[命签]。",
+    "flavor": "他编的历书，比天还准一刻。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "sign",
+            "n": 1
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a thick thread-bound almanac with gold-edged pages and a bamboo bookmark shaped like a sun"
+    }
+  },
+  {
+    "id": "rl_start_weishuo_b",
+    "name": "圭表",
+    "tier": "starter",
+    "faction": "Y",
+    "text": "你的判定牌点数+1。",
+    "flavor": "影子长一寸，天就变一分。",
+    "modifiers": [
+      {
+        "stat": "judgeRank",
+        "amount": 1
+      }
+    ],
+    "art": {
+      "subject": "a bronze gnomon and measuring scale casting a precise long shadow across engraved marks"
+    }
   }
 ]

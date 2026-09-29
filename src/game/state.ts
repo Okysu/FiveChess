@@ -1,5 +1,5 @@
 /** Global game session: profile, settings, current run & combat, persistence and scene routing. */
-import { newProfile, lockedContent, recordRun, runScore, blessingPool, blessingCount, effectiveLoadout, type Profile, type RunSummary } from '../engine/meta';
+import { catchUpUnlocks, newProfile, lockedContent, recordRun, runScore, blessingPool, blessingCount, effectiveLoadout, type Profile, type RunSummary } from '../engine/meta';
 import { newRun, runAct, combatConfig, type RunState, type RunAction } from '../engine/run/run';
 import { content } from '../engine/content';
 import { createCombat } from '../engine/combat/api';
@@ -49,6 +49,8 @@ class Session {
 
   async load() {
     this.profile = (await load<Profile>('profile')) ?? newProfile();
+    // commanders added to the 命数 track after this profile passed their threshold
+    if (catchUpUnlocks(this.profile).length) void this.saveProfile();
     this.settings = { ...defaultSettings(), ...((await load<Settings>('settings')) ?? {}) };
     const rs = await load<RunSave>('run');
     if (rs && rs.run && !rs.run.result) { this.run = rs.run; this.combat = rs.combat; }

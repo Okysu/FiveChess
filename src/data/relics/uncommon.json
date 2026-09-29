@@ -7,8 +7,18 @@
     "ruleChanging": true,
     "text": "你的[应]牌费用-1。",
     "flavor": "镜中人总比你快半步出手。",
-    "modifiers": [{ "stat": "cost", "amount": -1, "filter": { "keyword": "response" } }],
-    "art": { "subject": "a round bronze mirror with a coiled dragon back, its surface showing a hand already raised to block, dim blue light" }
+    "modifiers": [
+      {
+        "stat": "cost",
+        "amount": -1,
+        "filter": {
+          "keyword": "response"
+        }
+      }
+    ],
+    "art": {
+      "subject": "a round bronze mirror with a coiled dragon back, its surface showing a hand already raised to block, dim blue light"
+    }
   },
   {
     "id": "rl_star_abacus",
@@ -18,8 +28,15 @@
     "ruleChanging": true,
     "text": "你方[判定]的点数+2（至多13，用于高低与点数段结算）。以敌方为对象的判定不受影响。",
     "flavor": "观星阁的算筹多刻了两道。多出来的，是人意。",
-    "modifiers": [{ "stat": "judgeRank", "amount": 2 }],
-    "art": { "subject": "a bundle of golden counting rods engraved with star orbits, laid in a pattern on a dark star chart, gentle gold glow" }
+    "modifiers": [
+      {
+        "stat": "judgeRank",
+        "amount": 2
+      }
+    ],
+    "art": {
+      "subject": "a bundle of golden counting rods engraved with star orbits, laid in a pattern on a dark star chart, gentle gold glow"
+    }
   },
   {
     "id": "rl_sign_tube",
@@ -28,11 +45,27 @@
     "ruleChanging": true,
     "text": "[命签]上限+1。每当你[改判]，抽1张牌。",
     "flavor": "签筒摇三下，落出来的那支，替你把天意换掉。",
-    "modifiers": [{ "stat": "signCap", "amount": 1 }],
-    "triggers": [
-      { "on": "rejudged", "who": "friendly", "effects": [{ "op": "draw", "n": 1 }] }
+    "modifiers": [
+      {
+        "stat": "signCap",
+        "amount": 1
+      }
     ],
-    "art": { "subject": "a gilded bamboo fortune-stick cylinder tilted mid-shake, one stick leaping out glowing with starlight" }
+    "triggers": [
+      {
+        "on": "rejudged",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a gilded bamboo fortune-stick cylinder tilted mid-shake, one stick leaping out glowing with starlight"
+    }
   },
   {
     "id": "rl_sunblade_tassel",
@@ -42,8 +75,16 @@
     "ruleChanging": true,
     "text": "你的主帅具有[奇袭]（武器攻击无视深度与[坚守]）。",
     "flavor": "刀穗一扬，火从阵缝里钻进去。",
-    "modifiers": [{ "stat": "keyword", "keyword": "leap", "who": "commander" }],
-    "art": { "subject": "a long crimson silk sword tassel with a flame-shaped jade bead, whipping through the air trailing sparks" }
+    "modifiers": [
+      {
+        "stat": "keyword",
+        "keyword": "leap",
+        "who": "commander"
+      }
+    ],
+    "art": {
+      "subject": "a long crimson silk sword tassel with a flame-shaped jade bead, whipping through the air trailing sparks"
+    }
   },
   {
     "id": "rl_mountain_banner",
@@ -52,8 +93,22 @@
     "ruleChanging": true,
     "text": "我方前阵单位具有[坚守]。",
     "flavor": "旗插在哪里，哪里就是山门。",
-    "modifiers": [{ "stat": "keyword", "keyword": "taunt", "who": "friendlyUnits", "if": { "inRow": { "of": "target", "row": "front" } } }],
-    "art": { "subject": "a tattered dark blue war banner embroidered with a mountain emblem planted in rocky ground, wind whipping it" }
+    "modifiers": [
+      {
+        "stat": "keyword",
+        "keyword": "taunt",
+        "who": "friendlyUnits",
+        "if": {
+          "inRow": {
+            "of": "target",
+            "row": "front"
+          }
+        }
+      }
+    ],
+    "art": {
+      "subject": "a tattered dark blue war banner embroidered with a mountain emblem planted in rocky ground, wind whipping it"
+    }
   },
   {
     "id": "rl_rebirth_seedbag",
@@ -63,9 +118,22 @@
     "text": "每当友方单位死亡，随机一个友方单位获得+2/+1。",
     "flavor": "落叶不是死，是把力气交给下一棵。",
     "triggers": [
-      { "on": "unitDied", "who": "friendly", "effects": [{ "op": "buff", "target": "randomFriendlyUnit", "atk": 2, "hp": 1 }] }
+      {
+        "on": "unitDied",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "buff",
+            "target": "randomFriendlyUnit",
+            "atk": 2,
+            "hp": 1
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a small linen seed pouch spilling glowing green seeds onto dark soil where tiny sprouts are rising" }
+    "art": {
+      "subject": "a small linen seed pouch spilling glowing green seeds onto dark soil where tiny sprouts are rising"
+    }
   },
   {
     "id": "rl_broken_blade_manual",
@@ -74,9 +142,22 @@
     "text": "每当你装备一件装备，获得1层[锋锐]。",
     "flavor": "谱上只剩起手式。够了。",
     "triggers": [
-      { "on": "equipped", "who": "friendly", "effects": [{ "op": "status", "status": "might", "amount": 1, "target": "commander" }] }
+      {
+        "on": "equipped",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 1,
+            "target": "commander"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a torn martial arts manual with ink drawings of sword stances, a broken blade tip lying on its open pages" }
+    "art": {
+      "subject": "a torn martial arts manual with ink drawings of sword stances, a broken blade tip lying on its open pages"
+    }
   },
   {
     "id": "rl_endgame_board",
@@ -86,9 +167,22 @@
     "text": "每当你[弃置]一张牌（包括回合结束时的弃牌），对随机敌人施加1层[中毒]。",
     "flavor": "弃子不是输，是把毒藏进对方的棋路。",
     "triggers": [
-      { "on": "cardDiscarded", "endOfTurn": true, "effects": [{ "op": "status", "status": "poison", "amount": 1, "target": "randomEnemy" }] }
+      {
+        "on": "cardDiscarded",
+        "endOfTurn": true,
+        "effects": [
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": 1,
+            "target": "randomEnemy"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a go board mid-game with violet and black stones, faint green venom seeping from the captured stones, candlelit" }
+    "art": {
+      "subject": "a go board mid-game with violet and black stones, faint green venom seeping from the captured stones, candlelit"
+    }
   },
   {
     "id": "rl_linked_buckle",
@@ -97,9 +191,27 @@
     "text": "每回合你打出第5张牌时，获得1枚本回合的[源]并抽1张牌。",
     "flavor": "五个环扣在一起，才解得开。",
     "triggers": [
-      { "on": "cardPlayed", "if": { "combo": 5 }, "limit": "turn", "effects": [{ "op": "energy", "n": 1 }, { "op": "draw", "n": 1 }] }
+      {
+        "on": "cardPlayed",
+        "if": {
+          "combo": 5
+        },
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "energy",
+            "n": 1
+          },
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
     ],
-    "art": { "subject": "five interlocking silver rings forming a chain puzzle, glowing faintly where they link, on a dark velvet cloth" }
+    "art": {
+      "subject": "five interlocking silver rings forming a chain puzzle, glowing faintly where they link, on a dark velvet cloth"
+    }
   },
   {
     "id": "rl_frost_cicada",
@@ -108,9 +220,21 @@
     "text": "每当你的主帅[护甲]被击破，对造成伤害者施加1层[冰冻]。",
     "flavor": "玉蝉含在口中，寒气便从伤口里反扑出去。",
     "triggers": [
-      { "on": "armorBroken", "effects": [{ "op": "status", "status": "freeze", "amount": 1, "target": "eventSource" }] }
+      {
+        "on": "armorBroken",
+        "effects": [
+          {
+            "op": "status",
+            "status": "freeze",
+            "amount": 1,
+            "target": "eventSource"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a translucent pale jade cicada carving covered in frost crystals, cold vapor rising from its wings" }
+    "art": {
+      "subject": "a translucent pale jade cicada carving covered in frost crystals, cold vapor rising from its wings"
+    }
   },
   {
     "id": "rl_abyss_stairs",
@@ -119,8 +243,14 @@
     "ruleChanging": true,
     "text": "揭示地图上的所有节点。",
     "flavor": "向下的台阶，每一级都刻着下一级的名字。",
-    "run": [{ "rule": "mapReveal" }],
-    "art": { "subject": "a single carved stone stair step engraved with a tiny map of descending floors, lit from below by faint gold" }
+    "run": [
+      {
+        "rule": "mapReveal"
+      }
+    ],
+    "art": {
+      "subject": "a single carved stone stair step engraved with a tiny map of descending floors, lit from below by faint gold"
+    }
   },
   {
     "id": "rl_dynasty_seal",
@@ -129,8 +259,15 @@
     "ruleChanging": true,
     "text": "卡牌奖励多提供1个选项。",
     "flavor": "盖了印的诏书，总会多给一条出路。",
-    "run": [{ "rule": "extraCardChoice", "n": 1 }],
-    "art": { "subject": "a cracked imperial jade seal with a coiled beast handle, a corner broken off, red cinnabar on its base" }
+    "run": [
+      {
+        "rule": "extraCardChoice",
+        "n": 1
+      }
+    ],
+    "art": {
+      "subject": "a cracked imperial jade seal with a coiled beast handle, a corner broken off, red cinnabar on its base"
+    }
   },
   {
     "id": "rl_blood_jade_ring",
@@ -139,9 +276,20 @@
     "text": "每当你的主帅发动攻击，恢复2点生命。",
     "flavor": "扳指勒进指节，每拉一次弓，就还你一口血。",
     "triggers": [
-      { "on": "attacking", "effects": [{ "op": "heal", "amount": 2, "target": "commander" }] }
+      {
+        "on": "attacking",
+        "effects": [
+          {
+            "op": "heal",
+            "amount": 2,
+            "target": "commander"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a deep red blood jade archer's thumb ring with swirling veins, on a gloved thumb drawing a bowstring" }
+    "art": {
+      "subject": "a deep red blood jade archer's thumb ring with swirling veins, on a gloved thumb drawing a bowstring"
+    }
   },
   {
     "id": "rl_tomb_beast_horn",
@@ -150,9 +298,20 @@
     "text": "每当你的主帅受到攻击，对攻击者造成3点伤害。",
     "flavor": "它守过一座王陵。现在它守着你。",
     "triggers": [
-      { "on": "attacked", "effects": [{ "op": "damage", "amount": 3, "target": "eventSource" }] }
+      {
+        "on": "attacked",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 3,
+            "target": "eventSource"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a single curved horn broken from a stone tomb guardian beast, carved with snarling patterns, dust and dim torchlight" }
+    "art": {
+      "subject": "a single curved horn broken from a stone tomb guardian beast, carved with snarling patterns, dust and dim torchlight"
+    }
   },
   {
     "id": "rl_abyss_pearl",
@@ -161,9 +320,19 @@
     "text": "每当你的弃牌堆洗入抽牌堆，获得1枚本回合的[源]。",
     "flavor": "沉渊城的珠子，越是转回原处，越亮。",
     "triggers": [
-      { "on": "shuffled", "effects": [{ "op": "energy", "n": 1 }] }
+      {
+        "on": "shuffled",
+        "effects": [
+          {
+            "op": "energy",
+            "n": 1
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a luminous pearl glowing pale blue at the bottom of dark water, drowned palace ruins faint behind it" }
+    "art": {
+      "subject": "a luminous pearl glowing pale blue at the bottom of dark water, drowned palace ruins faint behind it"
+    }
   },
   {
     "id": "rl_bronze_fate_dial",
@@ -172,9 +341,19 @@
     "text": "每回合开始时，[观星]2。",
     "flavor": "盘上的指针不是指向天，是指向下一张牌。",
     "triggers": [
-      { "on": "turnStart", "effects": [{ "op": "stargaze", "n": 2 }] }
+      {
+        "on": "turnStart",
+        "effects": [
+          {
+            "op": "stargaze",
+            "n": 2
+          }
+        ]
+      }
     ],
-    "art": { "subject": "an ancient bronze divination disc with concentric rings of star symbols and a spoon-shaped pointer, lit by candle" }
+    "art": {
+      "subject": "an ancient bronze divination disc with concentric rings of star symbols and a spoon-shaped pointer, lit by candle"
+    }
   },
   {
     "id": "rl_ledger_of_depths",
@@ -182,8 +361,15 @@
     "tier": "uncommon",
     "text": "获得的金币+25%。",
     "flavor": "地下王国的账，一笔都没算错过。",
-    "run": [{ "rule": "goldBonus", "pct": 25 }],
-    "art": { "subject": "a thick mildewed account book open to pages of neat columns, a brass abacus beside it, lantern light underground" }
+    "run": [
+      {
+        "rule": "goldBonus",
+        "pct": 25
+      }
+    ],
+    "art": {
+      "subject": "a thick mildewed account book open to pages of neat columns, a brass abacus beside it, lantern light underground"
+    }
   },
   {
     "id": "rl_cold_pool_whetstone",
@@ -192,9 +378,21 @@
     "text": "战斗开始时，获得2层[锋锐]。",
     "flavor": "石头在潭底泡了三百年，磨出的刃不沾血。",
     "triggers": [
-      { "on": "combatStart", "effects": [{ "op": "status", "status": "might", "amount": 2, "target": "commander" }] }
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "might",
+            "amount": 2,
+            "target": "commander"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a smooth dark whetstone half submerged in an icy pool, a sword edge gleaming as it is drawn across it" }
+    "art": {
+      "subject": "a smooth dark whetstone half submerged in an icy pool, a sword edge gleaming as it is drawn across it"
+    }
   },
   {
     "id": "rl_spring_jade_pot",
@@ -203,9 +401,27 @@
     "text": "敌方回合开始时，你每有1枚[余烬]，获得2点[护甲]。",
     "flavor": "壶里的水不多，留着的都是救命的。",
     "triggers": [
-      { "on": "opponentTurnStart", "effects": [{ "op": "armor", "amount": { "mul": [{ "count": "embers" }, 2] }, "target": "commander" }] }
+      {
+        "on": "opponentTurnStart",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": {
+              "mul": [
+                {
+                  "count": "embers"
+                },
+                2
+              ]
+            },
+            "target": "commander"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a small white jade teapot with spring water glowing inside, steam rising, a few glowing ember-like coals beside it" }
+    "art": {
+      "subject": "a small white jade teapot with spring water glowing inside, steam rising, a few glowing ember-like coals beside it"
+    }
   },
   {
     "id": "rl_mendicant_bowl",
@@ -213,10 +429,195 @@
     "tier": "uncommon",
     "text": "拾取时，从牌组中移除2张牌。",
     "flavor": "行脚僧的钵里只装一顿饭。多余的，都得放下。",
-    "onPickup": [{ "op": "removeCard", "n": 2, "mode": "choose" }],
-    "art": { "subject": "a battered copper alms bowl held in weathered hands, empty, on a dusty mountain road at dusk" }
+    "onPickup": [
+      {
+        "op": "removeCard",
+        "n": 2,
+        "mode": "choose"
+      }
+    ],
+    "art": {
+      "subject": "a battered copper alms bowl held in weathered hands, empty, on a dusty mountain road at dusk"
+    }
   },
-  {"id":"rl_weapon_rack","name":"兵器架","tier":"uncommon","text":"你的主帅攻击力+1（主帅需要武器才能攻击）。","flavor":"兵器摆整齐了，拿起来才顺手。","modifiers":[{"stat":"atk","amount":1,"who":"commander"}],"art":{"subject":"a lacquered wooden weapon rack holding a spear, a saber and a halberd upright, red cloth draped over its top rail"}},
-  {"id":"rl_vine_knot","name":"青藤结","tier":"uncommon","faction":"G","text":"每当友方单位入场，你的主帅获得1点[护甲]。","flavor":"藤结打得越多，林子越密。","triggers":[{"on":"unitSummoned","who":"friendly","effects":[{"op":"armor","amount":1,"target":"commander"}]}],"art":{"subject":"an intricate knot tied from living green vine with a few leaves and a small white flower, resting on moss"}},
-  {"id":"rl_poison_ring","name":"碧磷戒","tier":"uncommon","faction":"P","text":"每回合你第一次对敌人施加[中毒]后，再对其施加1层。","flavor":"戒面下藏着一粒碧磷，指一动，就落了。","triggers":[{"on":"statusApplied","who":"enemy","status":"poison","limit":"turn","effects":[{"op":"status","status":"poison","amount":1,"target":"eventTarget"}]}],"art":{"subject":"a silver ring set with a glowing green phosphor stone, a hidden compartment open under the stone, violet velvet"}}
+  {
+    "id": "rl_weapon_rack",
+    "name": "兵器架",
+    "tier": "uncommon",
+    "text": "你的主帅攻击力+1（主帅需要武器才能攻击）。",
+    "flavor": "兵器摆整齐了，拿起来才顺手。",
+    "modifiers": [
+      {
+        "stat": "atk",
+        "amount": 1,
+        "who": "commander"
+      }
+    ],
+    "art": {
+      "subject": "a lacquered wooden weapon rack holding a spear, a saber and a halberd upright, red cloth draped over its top rail"
+    }
+  },
+  {
+    "id": "rl_vine_knot",
+    "name": "青藤结",
+    "tier": "uncommon",
+    "faction": "G",
+    "text": "每当友方单位入场，你的主帅获得1点[护甲]。",
+    "flavor": "藤结打得越多，林子越密。",
+    "triggers": [
+      {
+        "on": "unitSummoned",
+        "who": "friendly",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 1,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "an intricate knot tied from living green vine with a few leaves and a small white flower, resting on moss"
+    }
+  },
+  {
+    "id": "rl_poison_ring",
+    "name": "碧磷戒",
+    "tier": "uncommon",
+    "faction": "P",
+    "text": "每回合你第一次对敌人施加[中毒]后，再对其施加1层。",
+    "flavor": "戒面下藏着一粒碧磷，指一动，就落了。",
+    "triggers": [
+      {
+        "on": "statusApplied",
+        "who": "enemy",
+        "status": "poison",
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": 1,
+            "target": "eventTarget"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a silver ring set with a glowing green phosphor stone, a hidden compartment open under the stone, violet velvet"
+    }
+  },
+  {
+    "id": "rl_k_brush_rest",
+    "name": "笔架",
+    "tier": "uncommon",
+    "faction": "K",
+    "text": "每当你打出一张被题字过的牌，获得1层[墨迹]。",
+    "flavor": "笔架山形，笔搁在山间。",
+    "triggers": [
+      {
+        "on": "cardPlayed",
+        "if": {
+          "inked": true
+        },
+        "effects": [
+          {
+            "op": "status",
+            "status": "ink",
+            "amount": 1,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a porcelain brush rest shaped like five mountain peaks, brushes laid across the valleys"
+    }
+  },
+  {
+    "id": "rl_k_seal_box",
+    "name": "印泥盒",
+    "tier": "uncommon",
+    "faction": "K",
+    "text": "回合结束时，若你有至少6层[墨迹]，对所有敌人造成3点伤害。",
+    "flavor": "朱砂印泥，一按一个红印。",
+    "triggers": [
+      {
+        "on": "turnEnd",
+        "if": {
+          "gte": [
+            {
+              "count": "status",
+              "status": "ink",
+              "of": "commander"
+            },
+            6
+          ]
+        },
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 3,
+            "target": "allEnemies"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a round celadon box of vermilion seal paste, a carved seal stamped in it"
+    }
+  },
+  {
+    "id": "rl_w_red_silk",
+    "name": "红绸",
+    "tier": "uncommon",
+    "faction": "W",
+    "text": "每当你戴上[面具]，获得2点[护甲]。",
+    "flavor": "一抖红绸，满台生风。",
+    "triggers": [
+      {
+        "on": "fieldSet",
+        "if": {
+          "field": "mask"
+        },
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 2,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a long swirl of red silk ribbon frozen mid-flourish in the air"
+    }
+  },
+  {
+    "id": "rl_w_ritual_bell",
+    "name": "法铃",
+    "tier": "uncommon",
+    "faction": "W",
+    "text": "回合结束时，若你戴着[面具]，对随机敌人造成3点伤害。",
+    "flavor": "铃声一响，鬼就知道傩班来了。",
+    "triggers": [
+      {
+        "on": "turnEnd",
+        "if": {
+          "field": "mask"
+        },
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 3,
+            "target": "randomEnemy"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a bronze ritual hand bell with a vajra handle and ribbons, sound rings drawn around it"
+    }
+  }
 ]

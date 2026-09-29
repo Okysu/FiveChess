@@ -67,6 +67,7 @@ export function evalValue(s: CombatState, v: Value, ctx: Ctx): number {
       return w ? (content().card(w.card, w.up).equip?.atk ?? 0) + w.atkBonus : 0;
     }
     case 'selected': return ctx.selected ?? 0;
+    case 'unmasks': return s.stats.unmasks ?? 0;
   }
 }
 
@@ -184,6 +185,19 @@ export function evalCond(s: CombatState, c: Condition, ctx: Ctx): boolean {
     return matchCard(content().card(card.id, card.up), c.eventCard);
   }
   if ('hasEquip' in c) return !!s.sides[ctx.side].equip[c.hasEquip];
+  if ('inked' in c) return ((ctx.event?.card ?? ctx.card)?.inked ?? 0) > 0 === c.inked;
+  if ('fleeting' in c) {
+    const card = ctx.event?.card ?? ctx.card;
+    const fl = !!card && (!!card.fleeting || (content().card(card.id, card.up).keywords ?? []).includes('ethereal'));
+    return fl === c.fleeting;
+  }
+  if ('field' in c) {
+    const f = s.sides[ctx.side].field;
+    if (!f) return false;
+    if (c.field === 'any') return true;
+    if (c.field === 'mask') return !!content().card(f.card).field?.mask;
+    return f.card === c.field;
+  }
   if ('emptySlot' in c) {
     const sd = s.sides[c.emptySlot.side === 'friendly' ? ctx.side : other(ctx.side)];
     const rows = c.emptySlot.row ? [c.emptySlot.row] : (['front', 'back'] as const);

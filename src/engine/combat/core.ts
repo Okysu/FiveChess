@@ -622,6 +622,7 @@ export function effectiveCost(s: CombatState, card: CardInst): CostNeed {
   const x = def.cost.g === 'X';
   let g = x ? 0 : (def.cost.g as number);
   g += card.costMod ?? 0;
+  g -= card.inked ?? 0;
   g += s.nextCardCostMod;
   g += sumMods(s, 'cost', 'player', null, card);
   return { g: Math.max(0, g), c: [...(def.cost.c ?? [])], x };
@@ -1022,6 +1023,47 @@ function execEffect(s: CombatState, task: FxTask, eff: AnyEffect) {
       return;
     }
     case 'gold': s.goldGained += V(eff.n); return;
+    case 'inscribe': {
+      const cands = s.hand.filter((c) => c.uid !== ctx.card?.uid && !cardDef(c).unplayable);
+      if (eff.mode === 'all') { inscribeCards(s, cands); return; }
+      const n = Math.min(V(eff.n), cands.length);
+      if (n <= 0) return;
+      if (eff.mode === 'choose') { setPending(s, task, { kind: 'chooseCards', from: 'hand', cards: cands, min: n, max: n, purpose: 'inscribe' }, eff); return; }
+      inscribeCards(s, sample(s.rng, cands, n));
+      return;
+    }
+    case 'copyCard': {
+      const pile = eff.from === 'discard' ? s.discard : eff.from === 'exhaust' ? s.exhaust : s.hand.filter((c) => c.uid !== ctx.card?.uid);
+      const cands = pile.filter((c) => { const d = cardDef(c); return d.type !== 'status' && d.type !== 'curse' && !d.unplayable; });
+      const n = Math.min(V(eff.n), cands.length);
+      if (n <= 0) return;
+      if (eff.mode === 'choose') { setPending(s, task, { kind: 'chooseCards', from: eff.from, cards: cands, min: n, max: n, purpose: 'copy' }, eff); return; }
+      for (const c of sample(s.rng, cands, n)) copyIntoHand(s, c, eff.fleeting !== false);
+      return;
+    }
+    case 'mask': {
+      const sd = s.sides[ctx.side];
+      let id = eff.card;
+      if (eff.next) id = MASKS[(MASKS.indexOf(sd.field?.card ?? '') + 1) % MASKS.length];
+      if (eff.again) id = ctx.event?.card?.id;
+      if (!id || !content().cards.has(id)) return;
+      setField(s, ctx.side, { uid: newUid(s), id, up: false });
+      return;
+    }
+    case 'unmask': {
+      const sd = s.sides[ctx.side];
+      const f = sd.field;
+      if (!f) return;
+      const def = content().card(f.card, f.up);
+      if (!def.field?.mask) return;
+      sd.field = null;
+      emit(s, { t: 'field', side: ctx.side, card: null });
+      if (ctx.side === 'player') s.stats.unmasks = (s.stats.unmasks ?? 0) + 1;
+      const card: CardInst = { uid: f.uid, id: f.card, up: f.up };
+      pushFx(s, def.field.reveal ?? [], { ...baseCtx(s, ctx.side, 'field'), vars: { ...(def.vars ?? {}) }, card });
+      fire(s, 'unmasked', { side: ctx.side, card });
+      return;
+    }
     case 'script': runScript(s, task, eff.id, eff.args ?? {}); return;
     // ── internal ──
     case '__it': ctx.it = eff.uid; return;
@@ -1087,7 +1129,7 @@ function enemyResourceOp(s: CombatState, eff: AnyEffect, V: (v: Parameters<typeo
       return true;
     }
     case 'energy': case 'gainSource': sd.energy += V(eff.n); return true;
-    case 'discard': case 'exhaustCards': case 'fetch': case 'discover': case 'refresh': case 'costMod': case 'emberCap': case 'gold': case 'peek':
+    case 'discard': case 'exhaustCards': case 'fetch': case 'discover': case 'refresh': case 'costMod': case 'emberCap': case 'gold': case 'peek': case 'inscribe': case 'copyCard':
       return true;
   }
   return false;
@@ -1144,10 +1186,27 @@ export function equipCard(s: CombatState, side: Side, card: CardInst) {
 
 function setField(s: CombatState, side: Side, card: CardInst) {
   const sd = s.sides[side];
-  if (sd.field && side === 'player') s.discard.push({ uid: sd.field.uid, id: sd.field.card, up: sd.field.up });
+  // a 傩 mask is not a card of the deck: taking it off (or covering it) makes it vanish
+  if (sd.field && side === 'player' && !content().card(sd.field.card).field?.mask) s.discard.push({ uid: sd.field.uid, id: sd.field.card, up: sd.field.up });
   const def = cardDef(card);
   sd.field = { uid: card.uid, card: card.id, up: card.up, turns: def.field?.duration ?? null, ts: newTs(s) };
   emit(s, { t: 'field', side, card: card.id });
+  fire(s, 'fieldSet', { side, card });
+}
+
+/** 傩面班 masks in their cycle order (戴面: next) */
+export const MASKS = ['w_mask_nu', 'w_mask_bei', 'w_mask_xi', 'w_mask_gui'];
+
+function inscribeCards(s: CombatState, cards: CardInst[]) {
+  for (const c of cards) {
+    c.inked = (c.inked ?? 0) + 1;
+    emit(s, { t: 'inscribe', card: c });
+  }
+}
+
+/** 拓印: a copy of the card into your hand */
+function copyIntoHand(s: CombatState, c: CardInst, fleeting: boolean) {
+  createCard(s, c.id, 'hand', c.up, fleeting);
 }
 
 function finishCard(s: CombatState, ctx: Ctx, forceExhaust: boolean) {
@@ -1174,6 +1233,7 @@ function finishCard(s: CombatState, ctx: Ctx, forceExhaust: boolean) {
 function stripTemp(c: CardInst): CardInst {
   const out: CardInst = { uid: c.uid, id: c.id, up: c.up };
   if (c.costModUntil === 'combat') { out.costMod = c.costMod; out.costModUntil = 'combat'; }
+  if (c.inked) out.inked = c.inked;
   return out;
 }
 
@@ -1297,6 +1357,11 @@ export function answerDecision(s: CombatState, a: import('./state').PlayerAction
         const e = eff as Extract<Effect, { op: 'fetch' }>;
         const pile = e.from === 'draw' ? s.draw : e.from === 'discard' ? s.discard : s.exhaust;
         for (const c of picks) moveToHand(s, pile, c);
+      } else if (d.purpose === 'inscribe') {
+        inscribeCards(s, picks);
+      } else if (d.purpose === 'copy') {
+        const e = eff as Extract<Effect, { op: 'copyCard' }>;
+        for (const c of picks) copyIntoHand(s, c, e.fleeting !== false);
       } else {
         finishHandPick(s, task, eff as Extract<Effect, { op: 'discard' | 'exhaustCards' }>, picks);
       }

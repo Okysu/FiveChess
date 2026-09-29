@@ -113,10 +113,10 @@ const STATEFUL: Record<string, string> = {
 /** events that only the player side can produce */
 const PLAYER_ONLY: TriggerOn[] = ['cardSacrificed', 'cardDrawn', 'cardDiscarded', 'cardExhausted', 'cardCreated', 'responsePlayed', 'sourceGained', 'shuffled'];
 
-interface Variant { rich?: boolean; useUnit?: boolean; targetUnit?: boolean; delayCard?: boolean; combo?: number; big?: boolean }
+interface Variant { rich?: boolean; useUnit?: boolean; targetUnit?: boolean; delayCard?: boolean; combo?: number; big?: boolean; inked?: boolean; fleeting?: boolean; masked?: boolean }
 const VARIANTS: Variant[] = [
   {}, { rich: true }, { rich: true, useUnit: true }, { rich: true, targetUnit: true }, { rich: true, useUnit: true, targetUnit: true },
-  { rich: true, delayCard: true }, { rich: true, combo: 3 }, { rich: true, combo: 4 }, { rich: true, combo: 5 }, { rich: true, big: true }, { useUnit: true }, { targetUnit: true },
+  { rich: true, delayCard: true }, { rich: true, inked: true }, { rich: true, fleeting: true }, { rich: true, masked: true }, { rich: true, combo: 3 }, { rich: true, combo: 4 }, { rich: true, combo: 5 }, { rich: true, big: true }, { useUnit: true }, { targetUnit: true },
 ];
 
 interface Sc { s: CombatState; log: string[]; owner: Unit | null }
@@ -285,6 +285,8 @@ function build(k: Case, v: Variant, seed: string): Sc | string {
     s.stats.judgesThisTurn = { sun: 1, moon: 1, thunder: 1 };
     const oc = commanderOf(s, owner)!;
     oc.hp = Math.floor(oc.baseMaxHp * 0.4);
+    // 翰墨书院: enough 墨迹 for "若你有至少N层墨迹"
+    oc.statuses.ink = 8;
     // sturdy units on both sides (one taunts), so "friendly units ≥ 3", "highest-atk enemy", "taunt allies"… hold
     for (const side of ['player', 'enemy'] as Side[]) {
       for (let i = 0; i < 3; i++) if (unitsOf(s, side).length < 6) spawn(sc, side, 60);
@@ -303,6 +305,8 @@ function build(k: Case, v: Variant, seed: string): Sc | string {
   // enemy hand/deck so enemy-side "draw" has something to draw
   s.sides.enemy.deck = Array.from({ length: 5 }, () => ({ uid: newUid(s), id: 'ec_a_shield_wall', up: false }));
   if (v.combo !== undefined) s.cardsPlayedThisTurn = v.combo;
+  // 傩面班: a mask worn on the owner's side (for "若你戴着面具")
+  if (v.masked) s.sides[owner].field = { uid: newUid(s), card: 'w_mask_xi', up: false, turns: null, ts: newTs(s) };
   // damaged units / commanders so heals are visible
   commanderOf(s, 'enemy')!.hp -= 20;
   // ward would swallow the single forcing hit (and with it every damage trigger)
@@ -369,14 +373,14 @@ function force(sc: Sc, k: Case, v: Variant): ForceResult | string {
     case 'cardPlayed': {
       if (E === 'player') {
         const id = v.delayCard ? delayCardId : playCardId;
-        const card = { uid: newUid(s), id, up: false };
+        const card = { uid: newUid(s), id, up: false, ...(v.inked ? { inked: 1 } : {}), ...(v.fleeting ? { fleeting: true } : {}) };
         s.hand.push(card);
         const def = cardDef(card);
         const target = def.type === 'delay' ? commanderOf(s, 'enemy')!.uid : null;
         const r = doAct(sc, { type: 'play', card: card.uid, target });
         if (!r.ok) return `could not play ${id}: ${r.error}`;
       } else {
-        const card = { uid: newUid(s), id: 'ec_a_shield_wall', up: false };
+        const card = { uid: newUid(s), id: 'ec_a_shield_wall', up: false, ...(v.inked ? { inked: 1 } : {}), ...(v.fleeting ? { fleeting: true } : {}) };
         s.limbo.push(card);
         s.tasks.push({ k: 'chain', stage: 'window', links: [{ kind: 'card', side: 'enemy', card, target: null, slot: null, x: 0 }], passes: 0, origin: 'enemy' });
         settle(sc);

@@ -44,6 +44,8 @@ export const FACTION_TONE: Record<Color, string> = {
   G: 'Dominant pigments: malachite green with ochre and lamp black; patterned leaves, vines and roots.',
   Y: 'Dominant pigments: ochre gold and warm yellow with azurite night blue accents; patterned stars and auspicious clouds.',
   P: 'Dominant pigments: plum purple and indigo with small malachite accents and lamp black; patterned smoke, silk and lanterns.',
+  K: 'Dominant pigments: lamp-black ink in layered washes on warm paper white, with a single vermilion seal-red accent; patterned brush strokes, scrolls and ink splashes.',
+  W: 'Dominant pigments: pale silver-white and lead white with cinnabar red and lamp black accents; patterned masks, ritual ribbons and exorcism talismans.',
   N: 'Dominant pigments: muted ochre, paper beige and grey-green with lamp black; restrained.',
 };
 

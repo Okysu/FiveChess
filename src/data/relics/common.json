@@ -6,9 +6,22 @@
     "text": "每当你方的[判定]结果为{sun}日纹，对随机敌人造成3点伤害。",
     "flavor": "日卷记征伐。纸边焦黑，仍烫手。",
     "triggers": [
-      { "on": "judged", "who": "friendly", "suit": "sun", "effects": [{ "op": "damage", "amount": 3, "target": "randomEnemy" }] }
+      {
+        "on": "judged",
+        "who": "friendly",
+        "suit": "sun",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 3,
+            "target": "randomEnemy"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a torn scorched page of an ancient scroll floating in the air, a golden sun sigil glowing on it, embers curling from its burnt edge" }
+    "art": {
+      "subject": "a torn scorched page of an ancient scroll floating in the air, a golden sun sigil glowing on it, embers curling from its burnt edge"
+    }
   },
   {
     "id": "rl_page_moon",
@@ -17,9 +30,21 @@
     "text": "每当你方的[判定]结果为{moon}月纹，抽1张牌。",
     "flavor": "月卷记归藏。读它的人，总会多想起一件事。",
     "triggers": [
-      { "on": "judged", "who": "friendly", "suit": "moon", "effects": [{ "op": "draw", "n": 1 }] }
+      {
+        "on": "judged",
+        "who": "friendly",
+        "suit": "moon",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a torn silver-edged scroll page drifting in darkness, a pale crescent moon sigil shining on it, faint mist around" }
+    "art": {
+      "subject": "a torn silver-edged scroll page drifting in darkness, a pale crescent moon sigil shining on it, faint mist around"
+    }
   },
   {
     "id": "rl_page_thunder",
@@ -28,9 +53,22 @@
     "text": "每当你方的[判定]结果为{thunder}雷纹，对所有敌人造成2点伤害。",
     "flavor": "雷卷记天罚。撕下它时，天上响了一声。",
     "triggers": [
-      { "on": "judged", "who": "friendly", "suit": "thunder", "effects": [{ "op": "damage", "amount": 2, "target": "allEnemies" }] }
+      {
+        "on": "judged",
+        "who": "friendly",
+        "suit": "thunder",
+        "effects": [
+          {
+            "op": "damage",
+            "amount": 2,
+            "target": "allEnemies"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a torn violet scroll page crackling with small lightning arcs, a thunderbolt sigil at its center, storm clouds behind" }
+    "art": {
+      "subject": "a torn violet scroll page crackling with small lightning arcs, a thunderbolt sigil at its center, storm clouds behind"
+    }
   },
   {
     "id": "rl_page_mountain",
@@ -39,9 +77,22 @@
     "text": "每当你方的[判定]结果为{mountain}山纹，获得4点[护甲]。",
     "flavor": "山卷记长久。它比别的残页都重。",
     "triggers": [
-      { "on": "judged", "who": "friendly", "suit": "mountain", "effects": [{ "op": "armor", "amount": 4, "target": "commander" }] }
+      {
+        "on": "judged",
+        "who": "friendly",
+        "suit": "mountain",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 4,
+            "target": "commander"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a heavy torn scroll page resting on a stone ledge, a green triangular mountain sigil etched into it, dust motes in soft light" }
+    "art": {
+      "subject": "a heavy torn scroll page resting on a stone ledge, a green triangular mountain sigil etched into it, dust motes in soft light"
+    }
   },
   {
     "id": "rl_broken_zither_peg",
@@ -50,9 +101,26 @@
     "text": "每打出6张牌，抽2张牌。",
     "flavor": "弦断了，轸还在拧。拧满六圈，便有一声余响。",
     "triggers": [
-      { "on": "cardPlayed", "effects": [{ "op": "counter", "amount": 1, "max": 6, "then": [{ "op": "draw", "n": 2 }] }] }
+      {
+        "on": "cardPlayed",
+        "effects": [
+          {
+            "op": "counter",
+            "amount": 1,
+            "max": 6,
+            "then": [
+              {
+                "op": "draw",
+                "n": 2
+              }
+            ]
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a carved rosewood tuning peg of an old zither with a snapped silk string wound around it, lying on dark lacquered wood" }
+    "art": {
+      "subject": "a carved rosewood tuning peg of an old zither with a snapped silk string wound around it, lying on dark lacquered wood"
+    }
   },
   {
     "id": "rl_rusted_mirror",
@@ -61,9 +129,21 @@
     "text": "每场战斗的第一回合开始时，获得8点[护甲]。",
     "flavor": "锈甲将军的旧部，把它挂在碑上，等一个还会冲锋的人。",
     "triggers": [
-      { "on": "turnStart", "limit": "combat", "effects": [{ "op": "armor", "amount": 8, "target": "commander" }] }
+      {
+        "on": "turnStart",
+        "limit": "combat",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 8,
+            "target": "commander"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a round rusted iron breastplate mirror hanging from a leather cord, dented at the center, reflecting cold light" }
+    "art": {
+      "subject": "a round rusted iron breastplate mirror hanging from a leather cord, dented at the center, reflecting cold light"
+    }
   },
   {
     "id": "rl_graveside_wine",
@@ -72,9 +152,20 @@
     "text": "战斗胜利后，恢复6点生命。",
     "flavor": "敬亡者一杯，自己也喝一杯。",
     "triggers": [
-      { "on": "combatEnd", "effects": [{ "op": "heal", "amount": 6, "target": "commander" }] }
+      {
+        "on": "combatEnd",
+        "effects": [
+          {
+            "op": "heal",
+            "amount": 6,
+            "target": "commander"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a small cracked clay wine jar and cup placed before a weathered gravestone, cold mist, a single paper lantern" }
+    "art": {
+      "subject": "a small cracked clay wine jar and cup placed before a weathered gravestone, cold mist, a single paper lantern"
+    }
   },
   {
     "id": "rl_longevity_tablet",
@@ -82,8 +173,15 @@
     "tier": "common",
     "text": "拾取时，最大生命+10。",
     "flavor": "牌上写着一个陌生人的名字，和一个很长的寿数。",
-    "onPickup": [{ "op": "maxHp", "n": 10 }],
-    "art": { "subject": "an old wooden memorial tablet painted with faded red characters, tied with a green ribbon, soft candlelight" }
+    "onPickup": [
+      {
+        "op": "maxHp",
+        "n": 10
+      }
+    ],
+    "art": {
+      "subject": "an old wooden memorial tablet painted with faded red characters, tied with a green ribbon, soft candlelight"
+    }
   },
   {
     "id": "rl_underground_coins",
@@ -92,9 +190,19 @@
     "text": "战斗胜利后，额外获得10金。",
     "flavor": "地下王国的钱，在地上也还算钱。",
     "triggers": [
-      { "on": "combatEnd", "effects": [{ "op": "gold", "n": 10 }] }
+      {
+        "on": "combatEnd",
+        "effects": [
+          {
+            "op": "gold",
+            "n": 10
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a string of green-patinated square-holed bronze coins coiled on a stone floor, faint torchlight glinting" }
+    "art": {
+      "subject": "a string of green-patinated square-holed bronze coins coiled on a stone floor, faint torchlight glinting"
+    }
   },
   {
     "id": "rl_bone_flute",
@@ -103,9 +211,20 @@
     "text": "每当一个敌方单位死亡，抽1张牌。",
     "flavor": "吹响它的不是风，是刚散的魂。",
     "triggers": [
-      { "on": "unitDied", "who": "enemy", "effects": [{ "op": "draw", "n": 1 }] }
+      {
+        "on": "unitDied",
+        "who": "enemy",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a pale bone flute with seven holes, a wisp of ghostly blue smoke drifting out of it, lying on black silk" }
+    "art": {
+      "subject": "a pale bone flute with seven holes, a wisp of ghostly blue smoke drifting out of it, lying on black silk"
+    }
   },
   {
     "id": "rl_bronze_tsuba",
@@ -114,8 +233,15 @@
     "ruleChanging": true,
     "text": "你的主帅攻击距离+1（需装备武器）。",
     "flavor": "护手宽一分，刀就长一寸。",
-    "modifiers": [{ "stat": "range", "amount": 1 }],
-    "art": { "subject": "an ornate red-bronze sword guard shaped like coiled flames, resting on a whetstone, warm forge light" }
+    "modifiers": [
+      {
+        "stat": "range",
+        "amount": 1
+      }
+    ],
+    "art": {
+      "subject": "an ornate red-bronze sword guard shaped like coiled flames, resting on a whetstone, warm forge light"
+    }
   },
   {
     "id": "rl_black_iron_scale",
@@ -125,8 +251,15 @@
     "ruleChanging": true,
     "text": "回合开始时，我方每个角色至多保留8点[护甲]，不再全部清零。",
     "flavor": "镇岳门的甲片，一片压一片，像山的年轮。",
-    "modifiers": [{ "stat": "armorKeep", "amount": 8 }],
-    "art": { "subject": "a single overlapping dark iron armor scale engraved with mountain patterns, frost on its edge, cold blue light" }
+    "modifiers": [
+      {
+        "stat": "armorKeep",
+        "amount": 8
+      }
+    ],
+    "art": {
+      "subject": "a single overlapping dark iron armor scale engraved with mountain patterns, frost on its edge, cold blue light"
+    }
   },
   {
     "id": "rl_soul_wick",
@@ -136,9 +269,21 @@
     "text": "每回合第一次有友方单位死亡时，抽1张牌。",
     "flavor": "万木庭的灯芯是草籽捻成的。灯灭了，种子就落地。",
     "triggers": [
-      { "on": "unitDied", "who": "friendly", "limit": "turn", "effects": [{ "op": "draw", "n": 1 }] }
+      {
+        "on": "unitDied",
+        "who": "friendly",
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a twisted lamp wick made of green grass seeds burning with a soft jade flame, tiny seeds falling from it" }
+    "art": {
+      "subject": "a twisted lamp wick made of green grass seeds burning with a soft jade flame, tiny seeds falling from it"
+    }
   },
   {
     "id": "rl_star_lot",
@@ -149,9 +294,19 @@
     "text": "战斗开始时，获得1张[命签]。",
     "flavor": "阁中弟子人手一支。抽中什么，便信什么。",
     "triggers": [
-      { "on": "combatStart", "effects": [{ "op": "sign", "n": 1 }] }
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "sign",
+            "n": 1
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a thin gilded bronze divination lot engraved with star charts, standing in a bamboo cup, golden starlight above" }
+    "art": {
+      "subject": "a thin gilded bronze divination lot engraved with star charts, standing in a bamboo cup, golden starlight above"
+    }
   },
   {
     "id": "rl_gambler_dice",
@@ -161,9 +316,25 @@
     "text": "每回合你打出第3张牌时，对随机敌人施加3层[中毒]。",
     "flavor": "坊里的骰子只有一面是空的。你永远掷不到它。",
     "triggers": [
-      { "on": "cardPlayed", "if": { "combo": 3 }, "limit": "turn", "effects": [{ "op": "status", "status": "poison", "amount": 3, "target": "randomEnemy" }] }
+      {
+        "on": "cardPlayed",
+        "if": {
+          "combo": 3
+        },
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "status",
+            "status": "poison",
+            "amount": 3,
+            "target": "randomEnemy"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a violet bone die with green venom dripping from its pips, rolling across a dark gambling table in candlelight" }
+    "art": {
+      "subject": "a violet bone die with green venom dripping from its pips, rolling across a dark gambling table in candlelight"
+    }
   },
   {
     "id": "rl_ember_brazier",
@@ -172,8 +343,15 @@
     "ruleChanging": true,
     "text": "[余烬]上限+1。",
     "flavor": "炉灰里总埋着一点红，留给夜里的人。",
-    "modifiers": [{ "stat": "emberCap", "amount": 1 }],
-    "art": { "subject": "a small three-legged bronze brazier filled with grey ash, a few glowing red embers buried inside, night darkness" }
+    "modifiers": [
+      {
+        "stat": "emberCap",
+        "amount": 1
+      }
+    ],
+    "art": {
+      "subject": "a small three-legged bronze brazier filled with grey ash, a few glowing red embers buried inside, night darkness"
+    }
   },
   {
     "id": "rl_pill_pouch",
@@ -181,8 +359,15 @@
     "tier": "common",
     "text": "丹药栏位+1。",
     "flavor": "多一个口袋，就多一条命。",
-    "run": [{ "rule": "potionSlots", "n": 1 }],
-    "art": { "subject": "an embroidered cloth pouch with several small porcelain pill bottles peeking out, tied with a red cord" }
+    "run": [
+      {
+        "rule": "potionSlots",
+        "n": 1
+      }
+    ],
+    "art": {
+      "subject": "an embroidered cloth pouch with several small porcelain pill bottles peeking out, tied with a red cord"
+    }
   },
   {
     "id": "rl_herb_basket",
@@ -190,8 +375,17 @@
     "tier": "common",
     "text": "拾取时，获得2瓶随机丹药。",
     "flavor": "采药人没有回来，篓子却一直在路边等着。",
-    "onPickup": [{ "op": "addPotion" }, { "op": "addPotion" }],
-    "art": { "subject": "a woven bamboo herb basket overflowing with glowing mushrooms and roots, abandoned beside a mossy stone path" }
+    "onPickup": [
+      {
+        "op": "addPotion"
+      },
+      {
+        "op": "addPotion"
+      }
+    ],
+    "art": {
+      "subject": "a woven bamboo herb basket overflowing with glowing mushrooms and roots, abandoned beside a mossy stone path"
+    }
   },
   {
     "id": "rl_stele_rubbing",
@@ -203,11 +397,33 @@
       {
         "on": "damaged",
         "limit": "combat",
-        "if": { "lt": [{ "count": "hp" }, { "div": [{ "count": "maxHp" }, 2] }] },
-        "effects": [{ "op": "heal", "amount": 12, "target": "commander" }]
+        "if": {
+          "lt": [
+            {
+              "count": "hp"
+            },
+            {
+              "div": [
+                {
+                  "count": "maxHp"
+                },
+                2
+              ]
+            }
+          ]
+        },
+        "effects": [
+          {
+            "op": "heal",
+            "amount": 12,
+            "target": "commander"
+          }
+        ]
       }
     ],
-    "art": { "subject": "a paper rubbing of a broken stele with faint black ink characters, fluttering in wind, pinned by a small stone" }
+    "art": {
+      "subject": "a paper rubbing of a broken stele with faint black ink characters, fluttering in wind, pinned by a small stone"
+    }
   },
   {
     "id": "rl_dawn_bell_shard",
@@ -216,9 +432,19 @@
     "text": "战斗开始时，抽2张牌。",
     "flavor": "钟碎了，敲它还是会醒。",
     "triggers": [
-      { "on": "combatStart", "effects": [{ "op": "draw", "n": 2 }] }
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 2
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a curved shard of a bronze temple bell with engraved clouds, lit by pale dawn light through fog" }
+    "art": {
+      "subject": "a curved shard of a bronze temple bell with engraved clouds, lit by pale dawn light through fog"
+    }
   },
   {
     "id": "rl_temple_cushion",
@@ -226,8 +452,15 @@
     "tier": "common",
     "text": "在营地休息时，额外恢复10点生命。",
     "flavor": "庙塌了一半，蒲团还是暖的。",
-    "run": [{ "rule": "restHealBonus", "amount": 10 }],
-    "art": { "subject": "a worn round straw meditation cushion in a half-collapsed temple, moonlight through the broken roof" }
+    "run": [
+      {
+        "rule": "restHealBonus",
+        "amount": 10
+      }
+    ],
+    "art": {
+      "subject": "a worn round straw meditation cushion in a half-collapsed temple, moonlight through the broken roof"
+    }
   },
   {
     "id": "rl_sunfire_striker",
@@ -237,9 +470,21 @@
     "text": "战斗开始时，对所有敌人施加3层[灼烧]。",
     "flavor": "焚阳宗入门第一课：先学会怎样点着别人。",
     "triggers": [
-      { "on": "combatStart", "effects": [{ "op": "status", "status": "burn", "amount": 3, "target": "allEnemies" }] }
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": 3,
+            "target": "allEnemies"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a curved steel fire striker with a crimson tassel striking sparks off a flint, bright orange sparks flying" }
+    "art": {
+      "subject": "a curved steel fire striker with a crimson tassel striking sparks off a flint, bright orange sparks flying"
+    }
   },
   {
     "id": "rl_ink_line",
@@ -248,9 +493,20 @@
     "text": "每当你献牌为源，获得3点[护甲]。",
     "flavor": "木匠弹一道墨线，梁就正了；你献一张牌，命就稳了。",
     "triggers": [
-      { "on": "cardSacrificed", "effects": [{ "op": "armor", "amount": 3, "target": "commander" }] }
+      {
+        "on": "cardSacrificed",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 3,
+            "target": "commander"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a carpenter's ink line reel shaped like a small wooden boat, a taut black ink-soaked thread stretched across a beam" }
+    "art": {
+      "subject": "a carpenter's ink line reel shaped like a small wooden boat, a taut black ink-soaked thread stretched across a beam"
+    }
   },
   {
     "id": "rl_paper_effigy",
@@ -259,9 +515,20 @@
     "text": "战斗开始时，获得1层[灵障]。",
     "flavor": "它替你挨第一下。它从不抱怨。",
     "triggers": [
-      { "on": "combatStart", "effects": [{ "op": "ward", "amount": 1, "target": "commander" }] }
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "ward",
+            "amount": 1,
+            "target": "commander"
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a small white paper effigy of a person with a red talisman stamp on its chest, standing upright on a table, faint glow" }
+    "art": {
+      "subject": "a small white paper effigy of a person with a red talisman stamp on its chest, standing upright on a table, faint glow"
+    }
   },
   {
     "id": "rl_bronze_bell",
@@ -270,12 +537,210 @@
     "text": "每回合你第一次在敌方回合打出[应]牌时，抽1张牌。",
     "flavor": "铃响在刀落之前。",
     "triggers": [
-      { "on": "responsePlayed", "limit": "turn", "effects": [{ "op": "draw", "n": 1 }] }
+      {
+        "on": "responsePlayed",
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
     ],
-    "art": { "subject": "a small bronze wind bell with a jade clapper swaying on a red string, motion blur, sharp wind" }
+    "art": {
+      "subject": "a small bronze wind bell with a jade clapper swaying on a red string, motion blur, sharp wind"
+    }
   },
-  {"id":"rl_blade_oil","name":"刀油布","tier":"common","text":"每当你装备任意装备后，若你装备着武器，武器耐久+2。","flavor":"擦一遍，刀就能多挨几回。","triggers":[{"on":"equipped","if":{"hasEquip":"weapon"},"effects":[{"op":"weapon","durability":2}]}],"art":{"subject":"a folded square of oiled cloth with a small clay oil pot, a blade edge gleaming beside it, warm lamplight"}},
-  {"id":"rl_small_drum","name":"行军小鼓","tier":"common","text":"每场战斗中主帅第一次攻击后，抽1张牌。","flavor":"鼓点一响，第二刀就跟上了。","triggers":[{"on":"attacking","limit":"combat","effects":[{"op":"draw","n":1}]}],"art":{"subject":"a small hand drum with a red lacquered frame and a strap, two short drumsticks crossed over it, dust in the air"}},
-  {"id":"rl_fire_striker","name":"火折子","tier":"common","text":"战斗开始时，对一名随机敌人施加2层[灼烧]。","flavor":"吹一口，火就来了。","triggers":[{"on":"combatStart","effects":[{"op":"status","status":"burn","amount":2,"target":"randomEnemy"}]}],"art":{"subject":"a bamboo fire-starter tube with its cap off, a glowing ember at its tip and a thin curl of smoke, dark background"}},
-  {"id":"rl_bare_hand_pendant","name":"无锋佩","tier":"common","text":"战斗开始时，若你没有装备武器，获得6点[护甲]。","flavor":"不带刀的人，要把自己当成盾。","triggers":[{"on":"combatStart","if":{"not":{"hasEquip":"weapon"}},"effects":[{"op":"armor","amount":6,"target":"commander"}]}],"art":{"subject":"a smooth round jade pendant without any blade motif, a plain cord, a faint protective glow around it, on grey stone"}}
+  {
+    "id": "rl_blade_oil",
+    "name": "刀油布",
+    "tier": "common",
+    "text": "每当你装备任意装备后，若你装备着武器，武器耐久+2。",
+    "flavor": "擦一遍，刀就能多挨几回。",
+    "triggers": [
+      {
+        "on": "equipped",
+        "if": {
+          "hasEquip": "weapon"
+        },
+        "effects": [
+          {
+            "op": "weapon",
+            "durability": 2
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a folded square of oiled cloth with a small clay oil pot, a blade edge gleaming beside it, warm lamplight"
+    }
+  },
+  {
+    "id": "rl_small_drum",
+    "name": "行军小鼓",
+    "tier": "common",
+    "text": "每场战斗中主帅第一次攻击后，抽1张牌。",
+    "flavor": "鼓点一响，第二刀就跟上了。",
+    "triggers": [
+      {
+        "on": "attacking",
+        "limit": "combat",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a small hand drum with a red lacquered frame and a strap, two short drumsticks crossed over it, dust in the air"
+    }
+  },
+  {
+    "id": "rl_fire_striker",
+    "name": "火折子",
+    "tier": "common",
+    "text": "战斗开始时，对一名随机敌人施加2层[灼烧]。",
+    "flavor": "吹一口，火就来了。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "burn",
+            "amount": 2,
+            "target": "randomEnemy"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a bamboo fire-starter tube with its cap off, a glowing ember at its tip and a thin curl of smoke, dark background"
+    }
+  },
+  {
+    "id": "rl_bare_hand_pendant",
+    "name": "无锋佩",
+    "tier": "common",
+    "text": "战斗开始时，若你没有装备武器，获得6点[护甲]。",
+    "flavor": "不带刀的人，要把自己当成盾。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "if": {
+          "not": {
+            "hasEquip": "weapon"
+          }
+        },
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 6,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a smooth round jade pendant without any blade motif, a plain cord, a faint protective glow around it, on grey stone"
+    }
+  },
+  {
+    "id": "rl_k_inkstone",
+    "name": "石砚",
+    "tier": "common",
+    "faction": "K",
+    "text": "战斗开始时，获得2层[墨迹]。",
+    "flavor": "书院里每张案上都有一方。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "status",
+            "status": "ink",
+            "amount": 2,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a plain grey stone inkstone with a shallow well of ink and a brush resting across it"
+    }
+  },
+  {
+    "id": "rl_k_rice_paper",
+    "name": "生宣",
+    "tier": "common",
+    "faction": "K",
+    "text": "每回合你打出第一张[浮光]牌后，获得3点[护甲]。",
+    "flavor": "生宣吃墨，一笔下去就洇开。",
+    "triggers": [
+      {
+        "on": "cardPlayed",
+        "if": {
+          "fleeting": true
+        },
+        "limit": "turn",
+        "effects": [
+          {
+            "op": "armor",
+            "amount": 3,
+            "target": "commander"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a roll of raw rice paper partially unrolled, ink blooming softly across its fibers"
+    }
+  },
+  {
+    "id": "rl_w_peach_charm",
+    "name": "桃符",
+    "tier": "common",
+    "faction": "W",
+    "text": "战斗开始时，戴上鬼面。",
+    "flavor": "门上一对桃符，鬼就不敢进门。",
+    "triggers": [
+      {
+        "on": "combatStart",
+        "effects": [
+          {
+            "op": "mask",
+            "card": "w_mask_gui"
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "a pair of peach-wood talisman boards painted with door gods, hung with red cords"
+    }
+  },
+  {
+    "id": "rl_w_mask_chest",
+    "name": "面具箱",
+    "tier": "common",
+    "faction": "W",
+    "text": "每当你[揭面]，抽1张牌。",
+    "flavor": "箱子里的面具，比班子里的人还多。",
+    "triggers": [
+      {
+        "on": "unmasked",
+        "effects": [
+          {
+            "op": "draw",
+            "n": 1
+          }
+        ]
+      }
+    ],
+    "art": {
+      "subject": "an open wooden chest packed with carved masks of every expression, stacked face-up"
+    }
+  }
 ]

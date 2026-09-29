@@ -1,0 +1,119 @@
+[
+  {
+    "id": "lt_w_yinmian",
+    "name": "引面",
+    "title": "傩童",
+    "faction": "W",
+    "skill": {
+      "id": "sk_lt_w_yinmian",
+      "type": "passive",
+      "name": "捧面",
+      "text": "每回合第一次戴上[面具]后，抽1张牌。",
+      "triggers": [
+        {
+          "on": "fieldSet",
+          "if": {
+            "field": "mask"
+          },
+          "limit": "turn",
+          "effects": [
+            {
+              "op": "draw",
+              "n": 1
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "傩班里捧面具的孩子。她从不戴面具，因为她说，面具认得她的脸会哭。",
+    "art": {
+      "subject": "a little girl in silver robes carrying a tray of masks held high above her head, walking carefully"
+    }
+  },
+  {
+    "id": "lt_w_gushou",
+    "name": "鼓手",
+    "title": "傩鼓师",
+    "faction": "W",
+    "skill": {
+      "id": "sk_lt_w_gushou",
+      "type": "passive",
+      "name": "擂鼓",
+      "text": "每当你[揭面]，获得4点[护甲]。",
+      "triggers": [
+        {
+          "on": "unmasked",
+          "effects": [
+            {
+              "op": "armor",
+              "amount": 4,
+              "target": "commander"
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "傩班的鼓点由他定。他说鬼听不懂人话，只听得懂鼓。",
+    "art": {
+      "subject": "a muscular drummer with bare arms beating a large red ritual drum, drumsticks blurred with motion"
+    }
+  },
+  {
+    "id": "lt_w_shengong",
+    "name": "神公",
+    "title": "掌坛师",
+    "faction": "W",
+    "skill": {
+      "id": "sk_lt_w_shengong",
+      "type": "passive",
+      "name": "开坛",
+      "text": "战斗开始时，戴上悲面。",
+      "triggers": [
+        {
+          "on": "combatStart",
+          "effects": [
+            {
+              "op": "mask",
+              "card": "w_mask_bei"
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "主持傩坛的老法师，一辈子送走过无数疫鬼，也送走过无数亲人。",
+    "art": {
+      "subject": "an old ritual master in silver-white robes and a tall hat, raising a bell and a talisman before an altar"
+    }
+  },
+  {
+    "id": "lt_w_kehun",
+    "name": "科诨",
+    "title": "丑角",
+    "faction": "W",
+    "skill": {
+      "id": "sk_lt_w_kehun",
+      "type": "passive",
+      "name": "插科",
+      "text": "每当你戴上[面具]，对随机敌人造成3点伤害。",
+      "triggers": [
+        {
+          "on": "fieldSet",
+          "if": {
+            "field": "mask"
+          },
+          "effects": [
+            {
+              "op": "damage",
+              "amount": 3,
+              "target": "randomEnemy"
+            }
+          ]
+        }
+      ]
+    },
+    "lore": "戏里的丑角，专在最吓人的时候出来打诨。鬼被他逗笑了，就忘了害人。",
+    "art": {
+      "subject": "a grinning clown actor with a white patch painted on his nose, tumbling mid-somersault with a mask in hand"
+    }
+  }
+]

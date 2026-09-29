@@ -10,7 +10,7 @@ import { assets, K } from '../assets';
 import { FONT_NUM, FONT_TITLE } from './theme';
 import { richTexture, type VarInfo } from './richtext';
 import { COLOR_INFO } from '../../engine/glossary';
-import { WB, uiCover, uiFill, uiSprite, nine, gem, pip, frame, maskPoly, maskRect } from './skin';
+import { WB, uiCover, uiFill, uiSprite, nine, gem, pip, frame, maskPoly, maskRect, tag } from './skin';
 
 export const CARD_W = 300;
 export const CARD_H = 420;
@@ -26,6 +26,8 @@ export interface CardLive {
   vars?: Record<string, VarInfo>;
   atk?: number;
   hp?: number;
+  /** 题字 count (翰墨书院): a red seal on the card */
+  inked?: number;
 }
 
 /** polygon approximating the art-window shape for each card type (used as an invisible mask) */
@@ -155,7 +157,7 @@ export class CardView extends Container {
     const d = this.def;
     const cost = live.cost ?? { g: d.cost.g === 'X' ? 0 : d.cost.g, c: d.cost.c ?? [], x: d.cost.g === 'X' };
     const baseG = d.cost.g === 'X' ? 0 : d.cost.g;
-    const costKey = JSON.stringify([cost, live.payable, live.missing]);
+    const costKey = JSON.stringify([cost, live.payable, live.missing, live.inked]);
     if (costKey !== this.lastCost) {
       this.lastCost = costKey;
       this.costLayer.removeChildren().forEach((c) => c.destroy({ children: true }));
@@ -179,6 +181,16 @@ export class CardView extends Container {
         p.position.set(40, 94 + i * 32);
         this.costLayer.addChild(p);
       });
+      if (live.inked) {
+        // 题字 seal, top-right corner
+        const t = new Text({ text: live.inked > 1 ? `题×${live.inked}` : '题', style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: 24, fill: WB.white, stroke: { color: WB.ink, width: 4 } } });
+        t.anchor.set(0.5);
+        const w = t.width + 22, h = t.height + 8;
+        const bg = tag('red', w, h);
+        bg.position.set(CARD_W - 34 - w / 2, 24 - h / 2);
+        t.position.set(CARD_W - 34, 24);
+        this.costLayer.addChild(bg, t);
+      }
     }
     const vars: Record<string, VarInfo> = {};
     for (const [k, v] of Object.entries(d.vars ?? {})) vars[k] = live.vars?.[k] ?? { value: v, base: v };

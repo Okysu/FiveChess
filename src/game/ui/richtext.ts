@@ -45,7 +45,7 @@ type Tok =
   | { k: 'suit'; s: Suit }
   | { k: 'br' };
 
-const PIPS = new Set(['R', 'B', 'G', 'Y', 'P', 'N']);
+const PIPS = new Set(['R', 'B', 'G', 'Y', 'P', 'K', 'W', 'N']);
 const SUITS = new Set(['sun', 'moon', 'thunder', 'mountain']);
 const NO_START = new Set('，。、；：！？）」』》〉,.;:!?)]】…”’—·～%'.split(''));
 const NO_END = new Set('（「『《〈([【“‘'.split(''));

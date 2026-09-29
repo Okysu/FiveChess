@@ -279,5 +279,109 @@
     "art": {
       "subject": "a slender woman in layered white and ice-blue robes seated on a snowy riverbank with a seven-string zither across her knees, one hand hovering over the strings, frozen river behind her, soft falling snow"
     }
+  },
+  {
+    "id": "b_guanshanyue",
+    "name": "关山月",
+    "title": "守关人",
+    "faction": "B",
+    "hp": 82,
+    "sources": [
+      "B",
+      "B",
+      "N"
+    ],
+    "deck": [
+      "b_basic_strike",
+      "b_basic_strike",
+      "b_basic_strike",
+      "b_basic_strike",
+      "b_basic_guard",
+      "b_basic_guard",
+      "b_basic_guard",
+      "b_basic_guard",
+      "b_gsy_sig_hold",
+      "b_gsy_sig_spear"
+    ],
+    "relic": "rl_start_guanshanyue",
+    "skills": [
+      {
+        "id": "sk_b_guanshanyue_1",
+        "name": "后发",
+        "type": "passive",
+        "text": "每当你在应对中打出一张牌，对随机敌人造成3点伤害，并获得3点[护甲]。",
+        "triggers": [
+          {
+            "on": "responsePlayed",
+            "effects": [
+              {
+                "op": "damage",
+                "amount": 3,
+                "target": "randomEnemy"
+              },
+              {
+                "op": "armor",
+                "amount": 3,
+                "target": "commander"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sk_b_guanshanyue_2",
+        "name": "回防",
+        "type": "active",
+        "text": "每回合一次，支付1枚[源]：从弃牌堆选择一张[应]牌置入手牌。",
+        "cost": {
+          "g": 1
+        },
+        "effects": [
+          {
+            "op": "fetch",
+            "from": "discard",
+            "mode": "choose",
+            "n": 1,
+            "filter": {
+              "keyword": "response"
+            }
+          }
+        ]
+      }
+    ],
+    "alt": {
+      "relic": "rl_start_guanshanyue_b",
+      "replaces": "sk_b_guanshanyue_1",
+      "skill": {
+        "id": "sk_b_guanshanyue_alt",
+        "name": "以逸待劳",
+        "type": "passive",
+        "text": "回合结束时，每有1枚未使用的[源]，获得2点[护甲]。",
+        "triggers": [
+          {
+            "on": "turnEnd",
+            "effects": [
+              {
+                "op": "armor",
+                "amount": {
+                  "mul": [
+                    {
+                      "count": "readySources"
+                    },
+                    2
+                  ]
+                },
+                "target": "commander"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lore": "镇岳门守关一脉，世代驻守北岳下的一道关隘。关山月十六岁接下关钥，三十年没有离开过关城一步，也没有让一个敌人过去。命书撕裂那年，关外的路忽然通到了命阙里，从地底走上来的东西越来越多。他说关是守不完的，可总得有人守着——于是他把关钥挂在腰间，自己走了下去，要把那道裂缝也当成一道关。",
+    "ending": "命书之心的门前，关山月看见了另一道关。关上无人，门也无闩，只有无数执命者进进出出。司命说，这道门本不该有人守，因为命运从来不该被拦在门外。关山月想了很久，把关钥插进了门上的锁孔，却没有转动。他在门边坐下来，说：“那我不拦，我只看着。”从此命阙最深处多了一个看门人，他不问来者是谁，只在有人回头时，替他们指一指出去的路。",
+    "art": {
+      "subject": "a grizzled armored gatekeeper in deep blue lamellar and a snow-dusted cloak, a huge iron key at his belt and a long spear planted beside him, standing before a mountain pass gate under a pale moon"
+    }
   }
 ]

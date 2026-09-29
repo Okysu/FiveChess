@@ -1,0 +1,1240 @@
+[
+  {
+    "id": "w_mask_nu",
+    "name": "怒面",
+    "faction": "W",
+    "type": "field",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[面具]：你的攻击伤害+2。\n[揭面]：对随机敌人造成12点伤害。",
+    "field": {
+      "mask": true,
+      "modifiers": [
+        {
+          "stat": "attackDamage",
+          "amount": 2,
+          "who": "friendly"
+        }
+      ],
+      "reveal": [
+        {
+          "op": "damage",
+          "amount": 12,
+          "target": "randomEnemy"
+        }
+      ]
+    },
+    "effects": [],
+    "flavor": "怒目金刚，驱鬼不问来由。",
+    "art": {
+      "subject": "a fierce red lacquered exorcism mask with bulging golden eyes, flaring nostrils and tusks, flames painted on the brow"
+    }
+  },
+  {
+    "id": "w_mask_bei",
+    "name": "悲面",
+    "faction": "W",
+    "type": "field",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[面具]：你的回合结束时，获得4点[护甲]。\n[揭面]：获得12点[护甲]。",
+    "field": {
+      "mask": true,
+      "triggers": [
+        {
+          "on": "turnEnd",
+          "effects": [
+            {
+              "op": "armor",
+              "amount": 4,
+              "target": "commander"
+            }
+          ]
+        }
+      ],
+      "reveal": [
+        {
+          "op": "armor",
+          "amount": 12,
+          "target": "commander"
+        }
+      ]
+    },
+    "effects": [],
+    "flavor": "哭着的人，刀也不忍心砍下去。",
+    "art": {
+      "subject": "a pale silver-blue mourning mask with downturned brows and painted tears, strands of white hair hanging from its edges"
+    }
+  },
+  {
+    "id": "w_mask_xi",
+    "name": "喜面",
+    "faction": "W",
+    "type": "field",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[面具]：你的回合开始时，恢复2点生命。\n[揭面]：抽2张牌，恢复5点生命。",
+    "field": {
+      "mask": true,
+      "triggers": [
+        {
+          "on": "turnStart",
+          "effects": [
+            {
+              "op": "heal",
+              "amount": 2,
+              "target": "commander"
+            }
+          ]
+        }
+      ],
+      "reveal": [
+        {
+          "op": "draw",
+          "n": 2
+        },
+        {
+          "op": "heal",
+          "amount": 5,
+          "target": "commander"
+        }
+      ]
+    },
+    "effects": [],
+    "flavor": "笑着的面具底下，是一张更疲惫的脸。",
+    "art": {
+      "subject": "a round smiling golden mask with rosy cheeks and crescent eyes, auspicious clouds painted around it"
+    }
+  },
+  {
+    "id": "w_mask_gui",
+    "name": "鬼面",
+    "faction": "W",
+    "type": "field",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 0
+    },
+    "text": "[面具]：敌人受到的伤害+1。\n[揭面]：对所有敌人施加2层[易伤]与2层[虚弱]。",
+    "field": {
+      "mask": true,
+      "modifiers": [
+        {
+          "stat": "damageTaken",
+          "amount": 1,
+          "who": "enemy"
+        }
+      ],
+      "reveal": [
+        {
+          "op": "forEach",
+          "sel": "allEnemies",
+          "effects": [
+            {
+              "op": "status",
+              "status": "vulnerable",
+              "amount": 2,
+              "target": "it"
+            },
+            {
+              "op": "status",
+              "status": "weak",
+              "amount": 2,
+              "target": "it"
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [],
+    "flavor": "以鬼驱鬼。",
+    "art": {
+      "subject": "a black-and-white ghost mask with four eyes and a jagged grin, ritual talismans pasted on its cheeks"
+    }
+  },
+  {
+    "id": "w_tk_mask_child",
+    "name": "面具童",
+    "faction": "W",
+    "type": "unit",
+    "rarity": "token",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "text": "",
+    "unit": {
+      "atk": 2,
+      "hp": 2
+    },
+    "effects": [],
+    "flavor": "傩班里最小的孩子，面具比脸还大。",
+    "art": {
+      "subject": "a small child in a huge carved wooden mask and red ribbons, holding a tiny drum, dancing"
+    }
+  },
+  {
+    "id": "w_basic_strike",
+    "name": "傩舞",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "text": "造成{d}点伤害。",
+    "vars": {
+      "d": 6
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 9
+      }
+    },
+    "flavor": "舞到第三步，刀便出了鞘。",
+    "art": {
+      "subject": "a masked dancer in silver ritual robes spinning with a curved blade, ribbons trailing in a circle"
+    }
+  },
+  {
+    "id": "w_basic_guard",
+    "name": "傩衣",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1
+    },
+    "text": "获得{a}点[护甲]。",
+    "vars": {
+      "a": 5
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "effects": [
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 8
+      }
+    },
+    "flavor": "戏服上缝满了符，比铁甲还结实。",
+    "art": {
+      "subject": "layered silver-white ritual robes embroidered with protective talismans, spreading out like a shield around a crouching performer"
+    }
+  },
+  {
+    "id": "w_fx_sig_wear",
+    "name": "戴面",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "戴上下一张[面具]（怒→悲→喜→鬼），获得{a}点[护甲]。",
+    "vars": {
+      "a": 4
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "mask",
+        "next": true
+      },
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 7
+      }
+    },
+    "flavor": "面具一扣上，人就不是原来的人了。",
+    "art": {
+      "subject": "hands lowering a carved exorcism mask onto a face, silver ribbons fluttering, a ring of four masks hovering behind"
+    }
+  },
+  {
+    "id": "w_fx_sig_dance",
+    "name": "跳傩",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "造成{d}点伤害。若你戴着[面具]，再造成{e}点伤害。",
+    "vars": {
+      "d": 6,
+      "e": 3
+    },
+    "varKinds": {
+      "d": "attack",
+      "e": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      },
+      {
+        "op": "if",
+        "cond": {
+          "field": "mask"
+        },
+        "then": [
+          {
+            "op": "damage",
+            "amount": "$e",
+            "target": "target",
+            "attack": true
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 8,
+        "e": 4
+      }
+    },
+    "flavor": "傩舞的步子，是踩在鬼的影子上的。",
+    "art": {
+      "subject": "a masked exorcist leaping mid-dance with a spear, stamping on a shadowy demon on the ground"
+    }
+  },
+  {
+    "id": "w_jn_sig_reveal",
+    "name": "揭面",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "[揭面]。若你没有戴[面具]，改为戴上怒面。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "if",
+        "cond": {
+          "field": "mask"
+        },
+        "then": [
+          {
+            "op": "unmask"
+          }
+        ],
+        "else": [
+          {
+            "op": "mask",
+            "card": "w_mask_nu"
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 0,
+        "c": [
+          "W"
+        ]
+      }
+    },
+    "flavor": "面具揭开的那一刻，台下总会有人惊叫。",
+    "art": {
+      "subject": "an opera actress snatching off a demon mask with a flourish, revealing a painted face underneath, a burst of silver light"
+    }
+  },
+  {
+    "id": "w_jn_sig_encore",
+    "name": "开场",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "basic",
+    "pool": false,
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "[判定]：{sun}日纹戴上怒面；{thunder}雷纹戴上鬼面；{moon}月纹戴上喜面；{mountain}山纹戴上悲面。然后抽{n}张牌。",
+    "vars": {
+      "n": 1
+    },
+    "keywords": [
+      "judge"
+    ],
+    "target": "none",
+    "effects": [
+      {
+        "op": "judge",
+        "branches": {
+          "sun": [
+            {
+              "op": "mask",
+              "card": "w_mask_nu"
+            }
+          ],
+          "thunder": [
+            {
+              "op": "mask",
+              "card": "w_mask_gui"
+            }
+          ],
+          "moon": [
+            {
+              "op": "mask",
+              "card": "w_mask_xi"
+            }
+          ],
+          "mountain": [
+            {
+              "op": "mask",
+              "card": "w_mask_bei"
+            }
+          ]
+        }
+      },
+      {
+        "op": "draw",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 2
+      }
+    },
+    "flavor": "锣一响，今天唱哪一出，由天定。",
+    "art": {
+      "subject": "a stage curtain parting with a gong strike, four masks spinning in the air above an actress, one about to fall into her hands"
+    }
+  },
+  {
+    "id": "w_call_anger",
+    "name": "请怒面",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "戴上怒面，造成{d}点伤害。",
+    "vars": {
+      "d": 5
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "mask",
+        "card": "w_mask_nu"
+      },
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 7
+      }
+    },
+    "flavor": "请神容易，送神难。",
+    "art": {
+      "subject": "a performer bowing before an altar as the red anger mask floats down onto his face, fire flaring behind"
+    }
+  },
+  {
+    "id": "w_call_sorrow",
+    "name": "请悲面",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "戴上悲面，获得{a}点[护甲]。",
+    "vars": {
+      "a": 6
+    },
+    "varKinds": {
+      "a": "armor"
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "mask",
+        "card": "w_mask_bei"
+      },
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 9
+      }
+    },
+    "flavor": "这一面，是替死去的人戴的。",
+    "art": {
+      "subject": "a kneeling performer putting on the pale weeping mask while white paper flowers fall around him"
+    }
+  },
+  {
+    "id": "w_call_joy",
+    "name": "请喜面",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "戴上喜面，抽{n}张牌。",
+    "vars": {
+      "n": 1
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "mask",
+        "card": "w_mask_xi"
+      },
+      {
+        "op": "draw",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 2
+      }
+    },
+    "flavor": "年关的傩戏，总要以喜面收场。",
+    "art": {
+      "subject": "a cheerful dancer tossing up the golden smiling mask amid firecrackers and red lanterns"
+    }
+  },
+  {
+    "id": "w_call_ghost",
+    "name": "请鬼面",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "戴上鬼面，对目标施加{v}层[易伤]。",
+    "vars": {
+      "v": 1
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "mask",
+        "card": "w_mask_gui"
+      },
+      {
+        "op": "status",
+        "status": "vulnerable",
+        "amount": "$v",
+        "target": "target"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "v": 2
+      }
+    },
+    "flavor": "鬼最怕的，是比它更像鬼的东西。",
+    "art": {
+      "subject": "a figure turning around wearing the four-eyed ghost mask, a demon recoiling in terror"
+    }
+  },
+  {
+    "id": "w_drum",
+    "name": "傩鼓",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "造成{d}点伤害两次。",
+    "vars": {
+      "d": 4
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      },
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 5
+      }
+    },
+    "flavor": "咚、咚——第三声，鬼就该走了。",
+    "art": {
+      "subject": "a masked drummer striking a huge ritual drum, sound waves drawn as rings knocking back a ghost"
+    }
+  },
+  {
+    "id": "w_procession",
+    "name": "游傩",
+    "faction": "W",
+    "type": "unit",
+    "rarity": "common",
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "[起势]：若你戴着[面具]，此单位获得+2/+2。",
+    "keywords": [
+      "battlecry"
+    ],
+    "unit": {
+      "atk": 2,
+      "hp": 3
+    },
+    "effects": [
+      {
+        "op": "if",
+        "cond": {
+          "field": "mask"
+        },
+        "then": [
+          {
+            "op": "buff",
+            "target": "self",
+            "atk": 2,
+            "hp": 2
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "unit": {
+        "atk": 2,
+        "hp": 4
+      }
+    },
+    "flavor": "游傩的队伍走过的街，这一年都不闹鬼。",
+    "art": {
+      "subject": "a procession of masked villagers winding through a lantern-lit street with torches and banners"
+    }
+  },
+  {
+    "id": "w_quick_change",
+    "name": "变脸",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 0,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "戴上下一张[面具]。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "mask",
+        "next": true
+      }
+    ],
+    "upgrade": {
+      "qualitative": true,
+      "text": "戴上下一张[面具]，抽1张牌。",
+      "effects": [
+        {
+          "op": "mask",
+          "next": true
+        },
+        {
+          "op": "draw",
+          "n": 1
+        }
+      ]
+    },
+    "flavor": "一扇扇子，一张脸。",
+    "art": {
+      "subject": "an opera performer flicking a fan across his face, three different masks visible mid-change in a blur"
+    }
+  },
+  {
+    "id": "w_double_reveal",
+    "name": "连揭",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "[揭面]，然后戴上下一张[面具]并再次[揭面]。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "unmask"
+      },
+      {
+        "op": "mask",
+        "next": true
+      },
+      {
+        "op": "unmask"
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 1,
+        "c": [
+          "W"
+        ]
+      }
+    },
+    "flavor": "揭了一张，底下还有一张。",
+    "art": {
+      "subject": "a performer tearing off one mask to reveal another mask beneath, and another beneath that"
+    }
+  },
+  {
+    "id": "w_zhongkui",
+    "name": "钟馗",
+    "faction": "W",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": {
+      "g": 3,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "每当你[揭面]，此单位对随机敌人造成{d}点伤害。",
+    "vars": {
+      "d": 5
+    },
+    "varKinds": {
+      "d": "damage"
+    },
+    "unit": {
+      "atk": 4,
+      "hp": 6,
+      "triggers": [
+        {
+          "on": "unmasked",
+          "effects": [
+            {
+              "op": "damage",
+              "amount": "$d",
+              "target": "randomEnemy"
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [],
+    "upgrade": {
+      "vars": {
+        "d": 7
+      }
+    },
+    "flavor": "捉鬼的人，长得比鬼还凶。",
+    "art": {
+      "subject": "the fearsome demon queller in red robes and a black scholar hat with a bristling beard, sword raised, a small demon under his boot"
+    }
+  },
+  {
+    "id": "w_troupe",
+    "name": "傩班",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 2,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "召唤{n}个「面具童」。",
+    "vars": {
+      "n": 2
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "summon",
+        "unit": "w_tk_mask_child",
+        "n": "$n"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "n": 3
+      }
+    },
+    "flavor": "一个班子，老少三代，面具一代传一代。",
+    "art": {
+      "subject": "a traveling nuo troupe arriving in a village, children in oversized masks running ahead with drums"
+    }
+  },
+  {
+    "id": "w_exorcise",
+    "name": "驱疫",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "移除你主帅的所有负面状态，获得{a}点[护甲]。若你戴着鬼面，对所有敌人施加{p}层[中毒]。",
+    "vars": {
+      "a": 6,
+      "p": 3
+    },
+    "varKinds": {
+      "a": "armor",
+      "p": "poison"
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "cleanse",
+        "target": "commander",
+        "what": "debuffs"
+      },
+      {
+        "op": "armor",
+        "amount": "$a",
+        "target": "commander"
+      },
+      {
+        "op": "if",
+        "cond": {
+          "field": "w_mask_gui"
+        },
+        "then": [
+          {
+            "op": "forEach",
+            "sel": "allEnemies",
+            "effects": [
+              {
+                "op": "status",
+                "status": "poison",
+                "amount": "$p",
+                "target": "it"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "a": 9,
+        "p": 4
+      }
+    },
+    "flavor": "疫鬼跟着人走，傩班就跟着疫鬼走。",
+    "art": {
+      "subject": "a masked exorcist sweeping a peach-wood branch, dark sickly vapors fleeing from a village gate"
+    }
+  },
+  {
+    "id": "w_fire_breath",
+    "name": "喷火",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "rare",
+    "cost": {
+      "g": 1,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "造成{d}点伤害。若你戴着怒面，改为造成{e}点伤害。",
+    "vars": {
+      "d": 8,
+      "e": 13
+    },
+    "varKinds": {
+      "d": "attack",
+      "e": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "if",
+        "cond": {
+          "field": "w_mask_nu"
+        },
+        "then": [
+          {
+            "op": "damage",
+            "amount": "$e",
+            "target": "target",
+            "attack": true
+          }
+        ],
+        "else": [
+          {
+            "op": "damage",
+            "amount": "$d",
+            "target": "target",
+            "attack": true
+          }
+        ]
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 10,
+        "e": 16
+      }
+    },
+    "flavor": "含一口酒，对着火把一喷，满台都是火。",
+    "art": {
+      "subject": "a masked performer spraying a great plume of fire from his mouth across a torch, the stage lit orange"
+    }
+  },
+  {
+    "id": "w_thousand_faces",
+    "name": "千面傩",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": {
+      "g": 3,
+      "c": [
+        "W",
+        "W"
+      ]
+    },
+    "text": "依次戴上怒面、悲面、喜面、鬼面，每戴上一张便[揭面]一次。",
+    "target": "none",
+    "effects": [
+      {
+        "op": "mask",
+        "card": "w_mask_nu"
+      },
+      {
+        "op": "unmask"
+      },
+      {
+        "op": "mask",
+        "card": "w_mask_bei"
+      },
+      {
+        "op": "unmask"
+      },
+      {
+        "op": "mask",
+        "card": "w_mask_xi"
+      },
+      {
+        "op": "unmask"
+      },
+      {
+        "op": "mask",
+        "card": "w_mask_gui"
+      },
+      {
+        "op": "unmask"
+      }
+    ],
+    "upgrade": {
+      "cost": {
+        "g": 2,
+        "c": [
+          "W",
+          "W"
+        ]
+      }
+    },
+    "flavor": "一出戏，四张脸，演完就是一生。",
+    "art": {
+      "subject": "a whirling performer surrounded by four masks orbiting her head — red anger, pale sorrow, golden joy, black ghost"
+    }
+  },
+  {
+    "id": "w_mask_maker",
+    "name": "面具匠",
+    "faction": "W",
+    "type": "unit",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "我方回合结束时，戴上下一张[面具]。",
+    "unit": {
+      "atk": 2,
+      "hp": 4,
+      "triggers": [
+        {
+          "on": "turnEnd",
+          "effects": [
+            {
+              "op": "mask",
+              "next": true
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [],
+    "upgrade": {
+      "unit": {
+        "atk": 3,
+        "hp": 6
+      }
+    },
+    "flavor": "他刻的面具，戴上就摘不下来——除非你想揭开。",
+    "art": {
+      "subject": "an old mask carver in a workshop full of hanging masks, chiseling a new mask whose eyes are already glowing"
+    }
+  },
+  {
+    "id": "w_finale",
+    "name": "终场",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "epic",
+    "cost": {
+      "g": 2,
+      "c": [
+        "W"
+      ]
+    },
+    "text": "造成{d}点伤害，本场战斗你每[揭面]过一次，伤害+{e}。",
+    "vars": {
+      "d": 6,
+      "e": 5
+    },
+    "varKinds": {
+      "d": "attack"
+    },
+    "target": "enemy",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": {
+          "add": [
+            "$d",
+            {
+              "mul": [
+                {
+                  "count": "unmasks"
+                },
+                "$e"
+              ]
+            }
+          ]
+        },
+        "target": "target",
+        "attack": true
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 6,
+        "e": 7
+      }
+    },
+    "flavor": "最后一场，所有的面具都要摘下来。",
+    "art": {
+      "subject": "a performer standing alone on a stage strewn with discarded masks, bowing as a single spotlight falls"
+    }
+  },
+  {
+    "id": "w_great_nuo",
+    "name": "大傩",
+    "faction": "W",
+    "type": "tactic",
+    "rarity": "legendary",
+    "cost": {
+      "g": 3,
+      "c": [
+        "W",
+        "W"
+      ]
+    },
+    "text": "对所有敌人造成{d}点伤害，戴上鬼面，然后[揭面]。",
+    "vars": {
+      "d": 10
+    },
+    "varKinds": {
+      "d": "damage"
+    },
+    "target": "none",
+    "effects": [
+      {
+        "op": "damage",
+        "amount": "$d",
+        "target": "allEnemies"
+      },
+      {
+        "op": "mask",
+        "card": "w_mask_gui"
+      },
+      {
+        "op": "unmask"
+      }
+    ],
+    "upgrade": {
+      "vars": {
+        "d": 14
+      }
+    },
+    "flavor": "岁末大傩，百鬼退散。",
+    "art": {
+      "subject": "a grand year-end exorcism ritual, a giant four-eyed golden mask leading a torchlit procession as ghosts scatter into the night"
+    }
+  },
+  {
+    "id": "w_nuo_god",
+    "name": "傩神",
+    "faction": "W",
+    "type": "unit",
+    "rarity": "legendary",
+    "cost": {
+      "g": 4,
+      "c": [
+        "W",
+        "W"
+      ]
+    },
+    "text": "[坚守]。我方回合开始时，戴上下一张[面具]。",
+    "keywords": [
+      "taunt"
+    ],
+    "unit": {
+      "atk": 6,
+      "hp": 8,
+      "keywords": [
+        "taunt"
+      ],
+      "triggers": [
+        {
+          "on": "turnStart",
+          "effects": [
+            {
+              "op": "mask",
+              "next": true
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [],
+    "upgrade": {
+      "unit": {
+        "atk": 8,
+        "hp": 10
+      }
+    },
+    "flavor": "傩神没有脸。它有四张。",
+    "art": {
+      "subject": "a towering deity with four faces — anger, sorrow, joy and ghost — one on each side of its head, silver robes and a halberd"
+    }
+  }
+]
