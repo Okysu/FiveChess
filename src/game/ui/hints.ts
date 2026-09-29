@@ -5,6 +5,7 @@
 import { Text } from 'pixi.js';
 import { fs } from './profile';
 import { Modal } from './widgets';
+import { fitText } from './textwrap';
 import { C, FONT_BODY } from './theme';
 import { session } from '../state';
 
@@ -32,10 +33,16 @@ export function hintOnce(key: HintKey): boolean {
   if (p.seenHints.includes(key)) return false;
   p.seenHints.push(key);
   void session.saveProfile();
+  showHint(key);
+  return true;
+}
+
+/** the tip card itself (the UI tour opens every one) */
+export function showHint(key: HintKey) {
   const h = HINTS[key];
-  const m = new Modal(1000, 440, { title: h.title });
-  const t = new Text({ text: h.text, style: { fontFamily: FONT_BODY, fontSize: fs(25), fill: C.text, lineHeight: 44, wordWrap: true, wordWrapWidth: 900, breakWords: true } });
+  const t = new Text({ text: h.text, style: { fontFamily: FONT_BODY, fontSize: fs(25), fill: C.text, lineHeight: Math.round(fs(25) * 1.6), wordWrap: true, wordWrapWidth: 900, breakWords: true } });
+  fitText(t, 1000 - 170);
+  const m = new Modal(1000, Math.max(440, Math.ceil(t.height) + 170), { title: h.title });
   t.position.set(50, 110);
   m.body.addChild(t);
-  return true;
 }

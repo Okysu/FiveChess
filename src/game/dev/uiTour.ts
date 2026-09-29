@@ -9,7 +9,7 @@
  *   scroll       a scroll box whose content extends past what it can scroll to
  *   error        console errors / exceptions raised while the page was shown
  */
-import { Container, Rectangle, Text, type ContainerChild } from 'pixi.js';
+import { Container, NineSliceSprite, Rectangle, Text, type ContainerChild } from 'pixi.js';
 import { G, type Scene } from '../core/app';
 import { session } from '../state';
 import { go } from '../router';
@@ -17,6 +17,7 @@ import { content } from '../../engine/content';
 import { availableNodes, makeShop, rollLieutenants, runAct } from '../../engine/run/run';
 import { ScrollBox } from '../ui/scroll';
 import { richWarnings } from '../ui/richtext';
+import { HINTS, showHint, type HintKey } from '../ui/hints';
 
 export interface TourIssue { kind: 'offscreen' | 'unfilled' | 'overlap' | 'blocked' | 'scroll' | 'error' | 'tooltip' | 'english' | 'spill'; detail: string }
 export interface TourPage { name: string; issues: TourIssue[] }
@@ -80,6 +81,9 @@ function checkPage(): TourIssue[] {
     const box = panelOf(t);
     if (!box) continue;
     const b = dBounds(t), pb = dBounds(box);
+    // a text only belongs to a panel it (mostly) sits in; siblings drawn beside a panel are not its content
+    const cx = b.x + b.width / 2, cy = b.y + b.height / 2;
+    if (cx < pb.x || cx > pb.right || cy < pb.y || cy > pb.bottom) continue;
     const tol = 6;
     if (b.x < pb.x - tol || b.y < pb.y - tol || b.right > pb.right + tol || b.bottom > pb.bottom + tol) issues.push({ kind: 'spill', detail: `${label(t)} spills out of its panel (${b.x | 0},${b.y | 0} ${b.width | 0}×${b.height | 0} vs ${pb.x | 0},${pb.y | 0} ${pb.width | 0}×${pb.height | 0})` });
   }
@@ -130,7 +134,7 @@ function checkPage(): TourIssue[] {
 /** the 9-slice background sharing a parent with this text (or an ancestor's), if any */
 function panelOf(t: Text): Container | null {
   for (let p: Container | null = t.parent; p && p !== G.sceneLayer && p !== G.modalLayer; p = p.parent) {
-    const bg = p.children.find((c) => c !== t && c instanceof Container && c.children.some((k) => k.constructor.name.startsWith('NineSliceSprite')));
+    const bg = p.children.find((c) => c !== t && c instanceof Container && c.children.some((k) => k instanceof NineSliceSprite));
     if (bg) return bg as Container;
   }
   return null;
@@ -189,6 +193,11 @@ export async function runUiTour(o: { events?: 'all' | number } = {}): Promise<To
   await page('combat', pages, route, 6000);
   closeModals();
   const hud = await import('../ui/hud');
+  for (const k of ['basic', 'response', 'judge'] as const) {
+    await page(`tutorial_${k}`, pages, () => (G.scene as unknown as { showTutorial(k: string): void }).showTutorial(k), 600);
+    closeModals();
+  }
+  for (const k of Object.keys(HINTS) as HintKey[]) { await page(`hint_${k}`, pages, () => showHint(k), 600); closeModals(); }
   await page('combat_hover', pages, () => { const cs = G.scene as unknown as { hand: { views: unknown[]; setHover(v: unknown): void } }; cs.hand.setHover(cs.hand.views[cs.hand.views.length - 1]); }, 800);
   pages.push({ name: 'combat_tooltips', issues: await hoverAll() });
   await page('inspect_card', pages, () => hud.inspectCard('g_heartwood_pendant', false));

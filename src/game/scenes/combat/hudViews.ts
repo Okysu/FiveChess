@@ -11,6 +11,7 @@ import { skillUsable } from '../../../engine/combat/api';
 import { C, FONT_NUM, FONT_TITLE, FONT_BODY } from '../../ui/theme';
 import { WB, uiSprite, uiFill, nine, panel, pip, ring, frame, icon } from '../../ui/skin';
 import { Tooltip, hideTip, showTip, glossLines } from '../../ui/widgets';
+import { fitWidth } from '../../ui/textwrap';
 import { CardView } from '../../ui/card';
 import { termsOf } from '../../ui/hud';
 import { SOURCES, ALTAR } from './layout';
@@ -87,7 +88,10 @@ export class SourceTray extends Container {
       this.embers.addChild(e);
     }
     const lbl = new Text({ text: '余烬·仅应', style: { fontFamily: FONT_BODY, fontWeight: '700', fontSize: fs(15), fill: C.textDim } });
-    lbl.position.set(SOURCES.x + 20 + cap * 36, SOURCES.y + 102);
+    // centred on the ember row and kept inside the panel (phones enlarge the text)
+    lbl.anchor.set(0, 0.5);
+    lbl.position.set(SOURCES.x + 6 + cap * 36, SOURCES.y + 112);
+    fitWidth(lbl, SOURCES.x - 14 + 262 - 16 - lbl.x);
     this.embers.addChild(lbl);
     const permCount = s.sources.filter((x) => !x.temp).length;
     this.countText.text = `源 ${permCount}/${maxSources(s)} · 可用 ${ready}`;

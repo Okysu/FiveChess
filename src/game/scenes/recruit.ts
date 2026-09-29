@@ -8,6 +8,7 @@ import { act } from '../router';
 import { content } from '../../engine/content';
 import { COLOR_INFO } from '../../engine/glossary';
 import { Button, Modal, Tooltip, glossLines, hideTip, showTip } from '../ui/widgets';
+import { fitText, fitWidth } from '../ui/textwrap';
 import { C, FONT_BODY, FONT_TITLE, factionColor } from '../ui/theme';
 import { assets, K } from '../assets';
 import { tweens } from '../core/tween';
@@ -46,13 +47,15 @@ export class RecruitScene extends RunScreen {
       nm.position.set(50, 284);
       const tt = new Text({ text: `「${lt.title}」 ${COLOR_INFO[lt.faction].school}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(22), fill: factionColor(lt.faction), stroke: { color: 0, width: 4 } } });
       tt.position.set(50, 336);
+      fitWidth(nm, 260); fitWidth(tt, 260);
       const sk = new Text({ text: `【${SKILL_TYPE[lt.skill.type]}】${lt.skill.name}`, style: { fontFamily: FONT_TITLE, fontWeight: '900', fontSize: fs(26), fill: 0xffc88a } });
       sk.position.set(50, 374);
       const { texture } = richTexture(lt.skill.text, { width: 260, height: 150, fontSize: fs(20), minFontSize: 14, color: 0xeadfc8, align: 'left', vAlign: 'top' });
       const st = new Sprite(texture);
       st.position.set(50, 412);
-      const extra = new Text({ text: `招募后：1 枚素源变为${COLOR_INFO[lt.faction].name}源\n奖励卡池加入${COLOR_INFO[lt.faction].name}色（${COLOR_INFO[cmdColor].name}${COLOR_INFO[lt.faction].name}双色）`, style: { fontFamily: FONT_BODY, fontSize: fs(18), fill: C.textDim, lineHeight: 26 } });
-      extra.position.set(50, 576);
+      const extra = new Text({ text: `招募后：1 枚素源变为${COLOR_INFO[lt.faction].name}源\n奖励卡池加入${COLOR_INFO[lt.faction].name}色（${COLOR_INFO[cmdColor].name}${COLOR_INFO[lt.faction].name}双色）`, style: { fontFamily: FONT_BODY, fontSize: fs(18), fill: C.textDim, lineHeight: Math.round(fs(18) * 1.4), wordWrap: true, wordWrapWidth: 260, breakWords: true } });
+      extra.position.set(50, 570);
+      fitText(extra, 690 - 52 - 570);
       c.addChild(nm, tt, sk, st, extra);
       c.eventMode = 'static';
       c.cursor = 'pointer';
@@ -67,6 +70,7 @@ export class RecruitScene extends RunScreen {
           style: { fontFamily: FONT_BODY, fontSize: fs(24), fill: C.text, lineHeight: 40, wordWrap: true, wordWrapWidth: 900 - 140, breakWords: true },
         });
         t.position.set(70, 110);
+        fitText(t, 560 - 110 - 130);
         const ok = new Button('知道了', { width: 240, height: 72, fontSize: fs(28), kind: 'primary', onClick: () => { m.close(); void act({ t: 'recruit', i }); } });
         ok.position.set(330, 450);
         m.body.addChild(t, ok);

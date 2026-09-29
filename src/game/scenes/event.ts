@@ -76,15 +76,16 @@ export class EventScene extends RunScreen {
     const RW = 920 - INSET.dark.x * 2 + 20;
     const PADX = 96; // the row plate's scroll ends are wide: text starts past them
     const txt = new Text({ text: `${o.text}`, style: { fontFamily: FONT_BODY, fontSize: fs(24), fill: ok ? C.text : C.textDim, wordWrap: true, wordWrapWidth: RW - PADX * 2, breakWords: true, lineHeight: 32 } });
-    txt.position.set(PADX, 14);
-    let h = 14 + txt.height;
+    // the plate's carved border is thick: keep text clear of it
+    txt.position.set(PADX, 18);
+    let h = 18 + txt.height;
     let hintText: Text | null = null;
     if (o.hint || !ok) {
       hintText = new Text({ text: !ok ? `（条件不足）${o.hint ?? ''}` : o.hint!, style: { fontFamily: FONT_BODY, fontSize: fs(19), fill: !ok ? 0xa08070 : hintColor(o.hint!), wordWrap: true, wordWrapWidth: RW - PADX * 2, breakWords: true } });
       hintText.position.set(PADX, h + 4);
       h += 4 + hintText.height;
     }
-    h = Math.max(74, h + 14);
+    h = Math.max(74, h + 20);
     if (!hintText) txt.y = (h - txt.height) / 2;
     const bg = uiPanel(RW, h, 'row');
     const draw = (hover: boolean) => { bg.alpha = ok ? (hover ? 1 : 0.92) : 0.5; };

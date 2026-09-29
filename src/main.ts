@@ -9,12 +9,14 @@ import { go } from './game/router';
 import { preloadFx } from './game/fx/fx';
 import { preloadUi, setColorGlyphs } from './game/ui/skin';
 import { isNativeApp, onBackButton } from './game/platform';
+import { installCjkWrap } from './game/ui/textwrap';
 
 const bar = document.getElementById('bootbar');
 const msg = document.getElementById('bootmsg');
 const progress = (k: number, text?: string) => { if (bar) bar.style.width = `${Math.round(k * 100)}%`; if (text && msg) msg.textContent = text; };
 
 async function boot() {
+  installCjkWrap();
   progress(0.05, '展开命书……');
   setContent(new Content(loadBrowserBundle()));
   await assets.init();

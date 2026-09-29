@@ -2,7 +2,7 @@
  * Enforces the art rule: no procedurally drawn UI. Every visible element must be a generated
  * woodblock texture rendered through src/game/ui/skin.ts. Fails (exit 1) on any violation.
  *   - Graphics may only be created inside skin.ts (invisible masks / hit areas / sector masks).
- *   - 2D-canvas drawing is only allowed in richtext.ts, and only for text + drawImage of textures.
+ *   - 2D-canvas drawing is only allowed in richtext.ts, and only for text + drawImage of textures (textwrap.ts only measures).
  *   - No gradients anywhere.
  */
 import fs from 'node:fs';
@@ -17,7 +17,7 @@ const RULES: { re: RegExp; msg: string; allow?: string[] }[] = [
   { re: /new Graphics\(/, msg: 'Graphics outside skin.ts', allow: ['skin.ts'] },
   { re: /\.(fill|stroke)\(\{?\s*(color|fill|width)|\.(fill|stroke)\((0x|'#|"#)/, msg: 'shape fill/stroke', allow: ['skin.ts'] },
   { re: /\.(roundRect|circle|ellipse|poly|moveTo|bezierCurveTo|quadraticCurveTo)\(/, msg: 'shape path', allow: ['skin.ts'] },
-  { re: /getContext\(['"]2d['"]\)/, msg: 'canvas 2D drawing', allow: ['richtext.ts'] },
+  { re: /getContext\(['"]2d['"]\)/, msg: 'canvas 2D drawing', allow: ['richtext.ts', 'textwrap.ts'] },
   { re: /\b(fillRect|strokeRect|createLinearGradient|createRadialGradient|beginPath)\b/, msg: 'canvas shape drawing' },
   { re: /FillGradient|vgrad|hgrad|rgrad/, msg: 'gradient' },
   { re: /from ['"][./]*canvasIcons['"]/, msg: 'procedural canvas icons' },

@@ -47,8 +47,8 @@ type Tok =
 
 const PIPS = new Set(['R', 'B', 'G', 'Y', 'P', 'N']);
 const SUITS = new Set(['sun', 'moon', 'thunder', 'mountain']);
-const NO_START = new Set('，。、；：！？）」』》〉,.;:!?)]】…'.split(''));
-const NO_END = new Set('（「『《〈([【'.split(''));
+const NO_START = new Set('，。、；：！？）」』》〉,.;:!?)]】…”’—·～%'.split(''));
+const NO_END = new Set('（「『《〈([【“‘'.split(''));
 
 function termColor(name: string, fallback: string): string {
   const t = TERM_NAMES[name];

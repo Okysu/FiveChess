@@ -35,6 +35,7 @@ import { FateArea, FateCardView } from './fateView';
 import { SourceTray, Pile, EquipRow, SkillRow, FieldSlot } from './hudViews';
 import { liveCard, predictCardDamage } from './live';
 import { hintOnce } from '../../ui/hints';
+import { fitText } from '../../ui/textwrap';
 import { slotPos, PLAY_LINE_Y, STAGE, PILES, ALTAR, END_BTN, FATE, X, CMD_Y, UNIT_SCALE, HUD, BOTTOM, LEFT, RIGHT } from './layout';
 
 type Targeting =
@@ -1347,14 +1348,20 @@ export class CombatScene extends Scene {
     const s = this.s;
     const enc = content().encounters.get(s.cfg.encounter);
     const key = enc?.tutorial ?? (session.run!.floor <= 1 ? 'basic' : null);
-    if (!key) return;
+    if (key) this.showTutorial(key);
+  }
+
+  /** the tutorial card for one topic (also opened by the UI tour) */
+  showTutorial(key: 'basic' | 'response' | 'judge') {
     const text = key === 'basic'
       ? '• 拖动手牌到战场打出；随从拖到空格子。\n• 每回合可把一张手牌拖到左下「献」台，化为永久的【源】——每张牌既是资源也是出牌。\n• 敌人头顶的图标就是它下回合要做的事，数字已计算完毕。\n• 近战单位只能在前阵攻击，且只能打到对方最前排。'
       : key === 'response'
         ? '• 回合结束时，未用完的源会留下至多 2 枚【余烬】。\n• 带朱红「应」印的牌可以在敌人宣告行动后打出——应对窗口会自动打开。'
         : '• 【判定】会翻开共享的天命牌堆顶：日纹、雷纹为阳，月纹、山纹为阴。\n• 首领会把【延时】牌挂在你身上。持有【命签】时可以改判。';
-    const m = new Modal(980, 420, { title: key === 'basic' ? '初入命阙' : key === 'response' ? '应对窗口' : '天命判定' });
-    const t = new Text({ text, style: { fontFamily: FONT_BODY, fontSize: fs(26), fill: C.text, lineHeight: 46, wordWrap: true, wordWrapWidth: 880, breakWords: true } });
+    const t = new Text({ text, style: { fontFamily: FONT_BODY, fontSize: fs(26), fill: C.text, lineHeight: Math.round(fs(26) * 1.6), wordWrap: true, wordWrapWidth: 880, breakWords: true } });
+    // phones enlarge the text: the box grows with it (up to the screen), then the text shrinks to fit
+    fitText(t, 1000 - 170);
+    const m = new Modal(980, Math.max(420, Math.ceil(t.height) + 170), { title: key === 'basic' ? '初入命阙' : key === 'response' ? '应对窗口' : '天命判定' });
     t.position.set(50, 110);
     m.body.addChild(t);
   }
