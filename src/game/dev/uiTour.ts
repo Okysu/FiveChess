@@ -149,8 +149,16 @@ async function page(name: string, pages: TourPage[], show: () => Promise<unknown
   try { issues = checkPage(); } catch (e) { issues = [{ kind: 'error', detail: `checker crashed: ${(e as Error).message}` }]; }
   pages.push({ name, issues });
 }
-async function scene(make: () => Promise<Scene>) { const s = await make(); const p = G.go(s); await pump(1200); await p; }
-async function route() { const p = go(true); await pump(1200); await p; }
+/** pumps the ticker until the scene switch settles — a slow asset load can start the fade-out after a fixed pump ends, and rAF may be paused */
+async function settle(p: Promise<unknown>) {
+  let done = false;
+  void p.finally(() => { done = true; });
+  await pump(1200);
+  for (let i = 0; !done && i < 150; i++) await pump(200);
+  await p;
+}
+async function scene(make: () => Promise<Scene>) { const s = await make(); await settle(G.go(s)); }
+async function route() { await settle(go(true)); }
 function closeModals() { for (const m of [...G.modalLayer.children]) (m as Container & { close?: () => void }).close?.(); G.modalLayer.removeChildren(); G.tipLayer.removeChildren(); }
 
 export async function runUiTour(o: { events?: 'all' | number } = {}): Promise<TourPage[]> {

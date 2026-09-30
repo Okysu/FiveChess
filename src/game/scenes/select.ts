@@ -162,7 +162,8 @@ export class SelectScene extends Scene {
       const s = new Sprite(tex);
       s.anchor.set(0.5, 1);
       // hero on the left third, lore panel beside it — the panel never covers the face
-      const k = Math.min(780 / tex.height, 440 / tex.width);
+      // height decides the size (every commander stands as tall); a wide robe or weapon may reach under the lore panel
+      const k = Math.min(780 / tex.height, 600 / tex.width);
       s.scale.set(k);
       s.position.set(250, 900);
       s.alpha = 0;

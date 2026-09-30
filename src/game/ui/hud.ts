@@ -60,7 +60,8 @@ export class TopBar extends Container {
     portrait.addChild(ringS);
     assets.with(K.hero(cmd.id), (t) => {
       const s = new Sprite(t);
-      const k = 64 / (t.width * 0.55);
+      // by height, so a portrait with a wide robe or weapon shows the head as large as the others
+      const k = 64 / (t.height * 0.29);
       s.scale.set(k);
       s.position.set(32 - (t.width * k) / 2, 32 - t.height * k * 0.12 - 8);
       portrait.addChild(pm);
